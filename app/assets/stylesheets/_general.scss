@@ -1,7 +1,7 @@
 body, html {
 	background: $white;
-	font-family: "Roboto", sans-serif;
 	color: $black;
+	font-family: "Lato", sans-serif;
 }
 
 body {
@@ -9,15 +9,16 @@ body {
 }
 
 h1, h2, h3, h4, h5 {
-	font-family: 'Roboto Condensed', sans-serif;
+	font-family: "Lato", sans-serif;
 	font-weight: bold;
-	letter-spacing: -0.02em;
+	letter-spacing: 0.025em;
 	margin-top: 1em;
 	color: $black;
 }
 
 p, li, blockquote {
-	font-family: "Roboto", sans-serif;
+	font-family: "Lato", sans-serif;
+	letter-spacing: 0.025em;
 }
 
 a {
@@ -127,7 +128,7 @@ footer {
 
 
 .label {
-	font-family: "Roboto Condensed", sans-serif;
+	font-family: "Lato", sans-serif;
 	text-transform: uppercase;
 	font-weight: bold;
 	border-radius: 3px;
