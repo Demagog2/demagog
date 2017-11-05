@@ -1,141 +1,141 @@
 body, html {
-	background: $white;
-	color: $black;
-	font-family: "Lato", sans-serif;
+  background: $white;
+  color: $black;
+  font-family: "Lato", sans-serif;
 }
 
 body {
-	
+  
 }
 
 h1, h2, h3, h4, h5 {
-	font-family: "Lato", sans-serif;
-	font-weight: bold;
-	letter-spacing: 0.025em;
-	margin-top: 1em;
-	color: $black;
+  font-family: "Lato", sans-serif;
+  font-weight: bold;
+  letter-spacing: 0.025em;
+  margin-top: 1em;
+  color: $black;
 }
 
 p, li, blockquote {
-	font-family: "Lato", sans-serif;
-	letter-spacing: 0.025em;
+  font-family: "Lato", sans-serif;
+  letter-spacing: 0.025em;
 }
 
 a {
-	color: $blue;
+  color: $blue;
 
-	&:hover {
-		color: $unverifiable;
-	}
+  &:hover {
+    color: $unverifiable;
+  }
 }
 
 img {
-	border-radius: 3px;
+  border-radius: 3px;
 }
 
 header.page-header h1 {
-	display: none;
+  display: none;
 }
 
 nav.top-bar {
-	.name {
-		visibility: hidden;
-		.alt { display: none; }
-		img { height: 40px; margin: 8px 0 0 0; }
-	}
-	.dropdown {
-		border-left: 3px solid $untrue;
-	}
+  .name {
+    visibility: hidden;
+    .alt { display: none; }
+    img { height: 40px; margin: 8px 0 0 0; }
+  }
+  .dropdown {
+    border-left: 3px solid $untrue;
+  }
 }
 .fixed nav.top-bar {
-	box-shadow: 0 0 5px rgba(0, 0, 0, .3);
-	.name { visibility: visible; }
+  box-shadow: 0 0 5px rgba(0, 0, 0, .3);
+  .name { visibility: visible; }
 }
 
 .social {
-	padding: 100px 0;
-	margin-bottom: -100px;
-	background: $blue;
+  padding: 100px 0;
+  margin-bottom: -100px;
+  background: $blue;
 }
 
 footer {
-	margin-top: 100px;
-	padding: 100px 0;
-	
-	h2 { margin: 0; }
-	
-	p, .partners { margin: 40px 0; }
+  margin-top: 100px;
+  padding: 100px 0;
+  
+  h2 { margin: 0; }
+  
+  p, .partners { margin: 40px 0; }
 
-	.partners img {
-		max-height: 100px;
-		margin: 0px 30px 50px 0;
-	}
+  .partners img {
+    max-height: 100px;
+    margin: 0px 30px 50px 0;
+  }
 }
 
 
 
 .pagination {
-	font-size: 28px;
-	margin: 50px 0;
+  font-size: 28px;
+  margin: 50px 0;
 
-	a {
-		padding: 0 10px;
-	}
+  a {
+    padding: 0 10px;
+  }
 
-	.current-page {
-		background-color: $black;
-		color: $white;
-	}
+  .current-page {
+    background-color: $black;
+    color: $white;
+  }
 }
 
 .references {
-	background: $black;
-	padding-top: 20px;
-	margin-top: 40px;
+  background: $black;
+  padding-top: 20px;
+  margin-top: 40px;
 
-	a { color: $misleading; }
-	p { color: $white; }
+  a { color: $misleading; }
+  p { color: $white; }
 
-	.photo-wrapper {
-		float: left;
-		margin-right: 10px;
-	}
+  .photo-wrapper {
+    float: left;
+    margin-right: 10px;
+  }
 
-	h4 {
-		margin-bottom: 0;
-	}
+  h4 {
+    margin-bottom: 0;
+  }
 
-	.position {
-		font-size: 12px;
-		height: 50px;
-	}
+  .position {
+    font-size: 12px;
+    height: 50px;
+  }
 }
 
 .discussion {
-	div.uvod, div.uvod * {
-		line-height: 25px;
-	}
+  div.uvod, div.uvod * {
+    line-height: 25px;
+  }
 }
 
 .related {
-	border-top: 1px solid #aaa;
+  border-top: 1px solid #aaa;
 
-	div > ul > li {
-		list-style-type: none;
-	}
+  div > ul > li {
+    list-style-type: none;
+  }
 }
 
 
 
 .label {
-	font-family: "Lato", sans-serif;
-	text-transform: uppercase;
-	font-weight: bold;
-	border-radius: 3px;
-	
-	vertical-align: text-top;
-	padding: 0.25rem 0.5rem 0.15rem;
-	
-	&.factcheck { background-color: $true; }
-	&.editorial { background-color: $untrue; } 
+  font-family: "Lato", sans-serif;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-radius: 3px;
+  
+  vertical-align: text-top;
+  padding: 0.25rem 0.5rem 0.15rem;
+  
+  &.factcheck { background-color: $true; }
+  &.editorial { background-color: $untrue; } 
 }

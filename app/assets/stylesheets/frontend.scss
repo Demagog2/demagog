@@ -27,55 +27,55 @@ $faded: #fff;
 // identify & remove
 
 .omgFuckedUpContent, .omgFuckedUpContent font, .omgFuckedUpContent div, .omgFuckedUpContent span {
-	font-size: 1em !important; line-height: 1.6em !important;
+  font-size: 1em !important; line-height: 1.6em !important;
 }
 
 .politik_statistika {
 
-	height:160px;width:100%;position:relative;margin-top:10px;overflow:hidden;
-	/*background:url(../images/politik_statistika_background.png);*/
-	border-bottom:1px solid #eee;
-	.photo-wrapper {
-		margin: 10px 0;
-		width: 137px;
-		height: 137px;
-	}
+  height:160px;width:100%;position:relative;margin-top:10px;overflow:hidden;
+  /*background:url(../images/politik_statistika_background.png);*/
+  border-bottom:1px solid #eee;
+  .photo-wrapper {
+    margin: 10px 0;
+    width: 137px;
+    height: 137px;
+  }
 
-	.politik_statistika_whitebox {background:#fff;width:125px;position:absolute;left:0;top:0;height:160px;overflow:hidden;}
-	.politik_statistika .fotografia {position:absolute;left:10px;top:10px;width:135px;padding-right:10px;}
+  .politik_statistika_whitebox {background:#fff;width:125px;position:absolute;left:0;top:0;height:160px;overflow:hidden;}
+  .politik_statistika .fotografia {position:absolute;left:10px;top:10px;width:135px;padding-right:10px;}
 
-	.politik_statistika_meno {position:absolute;
-		font-size:19px;top:18px;right:0px;
-	}
-	.politik_statistika_tvrdeni {position:absolute;
-		font-size:16px;top:38px;right:0px;
-		color:#666;
-	}
-	.politik_statistika_legenda {position:absolute;bottom:15px;right:20px;}
-	.bar {position:absolute;width:23.3%;background:#000;bottom:0;}
+  .politik_statistika_meno {position:absolute;
+    font-size:19px;top:18px;right:0px;
+  }
+  .politik_statistika_tvrdeni {position:absolute;
+    font-size:16px;top:38px;right:0px;
+    color:#666;
+  }
+  .politik_statistika_legenda {position:absolute;bottom:15px;right:20px;}
+  .bar {position:absolute;width:23.3%;background:#000;bottom:0;}
 
-	.bar_1 {left:0.0%; background:$true}
-	.bar_2 {left:26.7%; background:$untrue}
-	.bar_3 {left:51.7%;background:$misleading}
-	.bar_4 {left:76.6%;background:$unverifiable}
+  .bar_1 {left:0.0%; background:$true}
+  .bar_2 {left:26.7%; background:$untrue}
+  .bar_3 {left:51.7%;background:$misleading}
+  .bar_4 {left:76.6%;background:$unverifiable}
 
-	.percentage   {position:absolute;width:23.3%;bottom:0;z-index:2;text-align:center;font-size:19px;}
-	.percentage_1 {left:0.0%;}
-	.percentage_2 {left:26.7%;}
-	.percentage_3 {left:51.7%;}
-	.percentage_4 {left:76.6%;}
+  .percentage   {position:absolute;width:23.3%;bottom:0;z-index:2;text-align:center;font-size:19px;}
+  .percentage_1 {left:0.0%;}
+  .percentage_2 {left:26.7%;}
+  .percentage_3 {left:51.7%;}
+  .percentage_4 {left:76.6%;}
 
-	.assertion {
-		position:absolute;
-		right:0px;
-		font-size:11px;
-		line-height: 10px;
-		top:80px;
-	}
-	.assertion1 {top:82px; padding-right: 5px; border-right: 10px solid $true; }
-	.assertion2 {top:99px; padding-right: 5px; border-right: 10px solid $untrue; }
-	.assertion3 {top:115px; padding-right: 5px; border-right: 10px solid $misleading; }
-	.assertion4 {top:132px; padding-right: 5px; border-right: 10px solid $unverifiable; }
+  .assertion {
+    position:absolute;
+    right:0px;
+    font-size:11px;
+    line-height: 10px;
+    top:80px;
+  }
+  .assertion1 {top:82px; padding-right: 5px; border-right: 10px solid $true; }
+  .assertion2 {top:99px; padding-right: 5px; border-right: 10px solid $untrue; }
+  .assertion3 {top:115px; padding-right: 5px; border-right: 10px solid $misleading; }
+  .assertion4 {top:132px; padding-right: 5px; border-right: 10px solid $unverifiable; }
 
 }
 

@@ -1,31 +1,31 @@
 .internal-banner {
-	margin-top: 30px; margin-bottom: 30px;
-	padding-top: 3px; padding-bottom: 5px;
-	display: block;
-	background: $black;
-	border: solid $misleading;
-	border-width: 0 .9375em;
+  margin-top: 30px; margin-bottom: 30px;
+  padding-top: 3px; padding-bottom: 5px;
+  display: block;
+  background: $black;
+  border: solid $misleading;
+  border-width: 0 .9375em;
 
-	p {
-		color: white;
-		margin: 0;
+  p {
+    color: white;
+    margin: 0;
 
-		u {
-			color: $misleading + #222;
-		}
-	}
+    u {
+      color: $misleading + #222;
+    }
+  }
 
-	&:hover {
-		background: $misleading;
+  &:hover {
+    background: $misleading;
 
-		p, p u {
-			color: $black;
-		}
-	}
+    p, p u {
+      color: $black;
+    }
+  }
 
-	.glyphiconsExtra i::before {
-		top: .1em;
-		font-size: 1.3em;
-		line-height: 1em;
-	}
+  .glyphiconsExtra i::before {
+    top: .1em;
+    font-size: 1.3em;
+    line-height: 1em;
+  }
 }
