@@ -2,8 +2,6 @@
 
 <%= render partial: "interesting_statements" %>
 
-<%= render partial: "internal_banner" %>
-
 <% @articles.each do |article| %>
   <%= render partial: "article/preview", object: article, as: :article %>
 <% end %>
