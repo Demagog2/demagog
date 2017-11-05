@@ -45,16 +45,16 @@ article.preview {
     text-align: left;
   }
   .speakers { 
-    overflow: hidden; padding: 3px; 
+    overflow: hidden; padding: 3px 13px 13px 3px; 
     float: right;
-    max-width: 40%;
+    max-width: 45%;
     margin-bottom: -1rem;
   }
   .speaker { margin-bottom: 10px; }
   .photo-wrapper {
     width: 70px;
     height: 70px;
-    margin: 0 10px 10px 0;
+    margin: 0 -5px 10px 0;
     display: block;
     float: right;
   }

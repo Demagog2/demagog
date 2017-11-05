@@ -1,37 +1,6 @@
-.veracityNumber {
-  font-size: 24px;
-  display: inline-block;
-}
-
-.true.glyphicons, .true.glyphicons i:before { color: $true; content: "\e194"; }
-.untrue.glyphicons, .untrue.glyphicons i:before { color: $untrue; content: "\e193"; }
-.misleading.glyphicons, .misleading.glyphicons i:before { color: $misleading; content: "\e197"; }
-.unverifiable.glyphicons, .unverifiable.glyphicons i:before { color: $unverifiable; content: "\e195"; }
-.notyet.glyphicons, .notyet.glyphicons i:before { color: $black; }
-
 .statement .veracity {
-  color: $white !important;
-  background-color: $black;
-  font-weight: bold;
-  margin: 6px 5px 0 0;
-  padding: 4px 10px 6px;
-
-  .glyphicons {
-    color: $white;
-
-    i:before {
-      font-size: 20px;
-      line-height: 17px;
-      color: $white;
-    }
-  }
-
-  &.true { background-color: $true }
-  &.untrue { background-color: $untrue; }
-  &.misleading { background-color: $misleading; }
-  &.unverifiable { background-color: $unverifiable; }
+  @include veracity;
 }
-
 
 .color-legend {
   -webkit-box-shadow: 0 0 1px 1px #eee;
@@ -41,9 +10,6 @@
 
   line-height: 32px;
   margin-bottom: 32px;
-
-  .glyphicons i:before { font-size: 20px; line-height: 32px; }
-
 }
 
 .row.statement {
@@ -104,9 +70,11 @@
     }
 
     .veracity {
+      font-size: 140%;
+      font-weight: bold;
       float: left;
       margin-right: 12px;
-      padding: 5px 10px 7px;
+      padding: 9px 0px 7px 0;
     }
 
     table {
@@ -164,5 +132,10 @@
       font-style: normal;
       text-transform: uppercase;
     }
+  }
+
+  .veracity {
+    @include veracity;
+    white-space: nowrap;
   }
 }

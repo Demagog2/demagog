@@ -60,25 +60,24 @@
   }
   
   .stats {
-    margin: -10px 0 0 80px;
+    margin: -8px 0 2em 80px;
     font-size: 1.21875rem;
     font-weight: bold;
     
     li {
+      list-style: none;
       margin-right: 10px;
-    }
-    
-    .glyphicons {
-      white-space: nowrap;
+      float: left;      
 
-      i:before {
-        position: relative; 
-        top: 0.15em;
-      }
+      @include veracity;
     }
-    
-    .none, .none i:before {
+
+    .none {
       color: #ddd !important;
+    }
+
+    .none::before {
+      background-color: #ddd !important;
     }
   }
 }
@@ -115,11 +114,6 @@
     float: left;
   }
   
-  .veracity {
-    display: inline-block;
-    font-size: 200%;
-  }
-  
   p {
     margin: 0;
   }
@@ -141,16 +135,5 @@
     padding-bottom: 0;
     margin-bottom: 0;
     font-size: 24px;
-
-    .glyphicons {
-      display: inline-block;
-      margin-right: 1em;
-      white-space: nowrap;
-
-      i:before {
-        position: static;
-        font-size: 20px;
-      }
-    }
   }
 }

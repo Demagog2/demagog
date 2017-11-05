@@ -1,0 +1,58 @@
+@mixin veracity($size: 1) {
+  &::before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    top: $size * -0.1em;
+    width: $size * 1.3em;
+    height: $size * 1.3em;
+    border-radius: $size * 1.3em;
+    background-color: red;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 0.7em 0.7em;
+  }
+
+  &.true {
+    color: $true;
+
+    &::before {
+      background-color: $true;
+      background-image: image-url('true-symbol.svg');
+      background-position: 48% 55%;
+      background-size: 0.7em 0.7em;
+    }
+  }
+
+  &.untrue {
+    color: $untrue;
+      
+    &::before {
+      background-color: $untrue;
+      background-image: image-url('untrue-symbol.svg');
+      background-position: 50% 55%;
+      background-size: 0.6em 0.6em;
+    }
+  }
+
+  &.misleading {
+    color: $misleading;
+
+    &::before {
+      background-color: $misleading;
+      background-image: image-url('misleading-symbol.svg');
+    }
+  }
+
+  &.unverifiable {
+    color: $unverifiable;
+
+    &::before {
+      background-color: $unverifiable;
+      background-position: 55% 50%;
+      background-image: image-url('unverifiable-symbol.svg');
+    }
+  }
+
+}
