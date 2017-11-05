@@ -1,12 +1,18 @@
 @charset "UTF-8";
 
-$red: #ec4f2f;
-$orange: #ec912f;
-$blue: #227594;
-$green: #22ab55;
-$gray: #585859;
-$black: #111;
-$white: #fafafa;
+
+
+$blue: #0060ff;
+$black: #3c325c;
+$white: #f4f9fd;
+$orange: #f26538;
+
+$true: $blue;
+$untrue: $orange;
+$misleading: #ffba00;
+$unverifiable: #9dbaeb;
+
+// remove / ivert colors
 $faded: #fff;
 
 @import "settings";
@@ -48,10 +54,10 @@ $faded: #fff;
 	.politik_statistika_legenda {position:absolute;bottom:15px;right:20px;}
 	.bar {position:absolute;width:23.3%;background:#000;bottom:0;}
 
-	.bar_1 {left:0.0%; background:$green}
-	.bar_2 {left:26.7%; background:$red}
-	.bar_3 {left:51.7%;background:$orange}
-	.bar_4 {left:76.6%;background:$blue}
+	.bar_1 {left:0.0%; background:$true}
+	.bar_2 {left:26.7%; background:$untrue}
+	.bar_3 {left:51.7%;background:$misleading}
+	.bar_4 {left:76.6%;background:$unverifiable}
 
 	.percentage   {position:absolute;width:23.3%;bottom:0;z-index:2;text-align:center;font-size:19px;}
 	.percentage_1 {left:0.0%;}
@@ -66,10 +72,10 @@ $faded: #fff;
 		line-height: 10px;
 		top:80px;
 	}
-	.assertion1 {top:82px; padding-right: 5px; border-right: 10px solid $green; }
-	.assertion2 {top:99px; padding-right: 5px; border-right: 10px solid $red; }
-	.assertion3 {top:115px; padding-right: 5px; border-right: 10px solid $orange; }
-	.assertion4 {top:132px; padding-right: 5px; border-right: 10px solid $blue; }
+	.assertion1 {top:82px; padding-right: 5px; border-right: 10px solid $true; }
+	.assertion2 {top:99px; padding-right: 5px; border-right: 10px solid $untrue; }
+	.assertion3 {top:115px; padding-right: 5px; border-right: 10px solid $misleading; }
+	.assertion4 {top:132px; padding-right: 5px; border-right: 10px solid $unverifiable; }
 
 }
 

@@ -31,11 +31,11 @@
 	}
 	
 	a {
-		color: $gray;
+		color: $black;
 		display: block;
 
 		&:hover {
-			color: $red;
+			color: $untrue;
 		}
 	}
 }

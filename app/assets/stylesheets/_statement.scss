@@ -3,15 +3,15 @@
 	display: inline-block;
 }
 
-.true.glyphicons, .true.glyphicons i:before { color: $green; content: "\e194"; }
-.untrue.glyphicons, .untrue.glyphicons i:before { color: $red; content: "\e193"; }
-.misleading.glyphicons, .misleading.glyphicons i:before { color: $orange; content: "\e197"; }
-.unverifiable.glyphicons, .unverifiable.glyphicons i:before { color: $blue; content: "\e195"; }
-.notyet.glyphicons, .notyet.glyphicons i:before { color: $gray; }
+.true.glyphicons, .true.glyphicons i:before { color: $true; content: "\e194"; }
+.untrue.glyphicons, .untrue.glyphicons i:before { color: $untrue; content: "\e193"; }
+.misleading.glyphicons, .misleading.glyphicons i:before { color: $misleading; content: "\e197"; }
+.unverifiable.glyphicons, .unverifiable.glyphicons i:before { color: $unverifiable; content: "\e195"; }
+.notyet.glyphicons, .notyet.glyphicons i:before { color: $black; }
 
 .statement .veracity {
 	color: $white !important;
-	background-color: $gray;
+	background-color: $black;
 	font-weight: bold;
 	margin: 6px 5px 0 0;
 	padding: 4px 10px 6px;
@@ -26,10 +26,10 @@
 		}
 	}
 
-	&.true { background-color: $green }
-	&.untrue { background-color: $red; }
-	&.misleading { background-color: $orange; }
-	&.unverifiable { background-color: $blue; }
+	&.true { background-color: $true }
+	&.untrue { background-color: $untrue; }
+	&.misleading { background-color: $misleading; }
+	&.unverifiable { background-color: $unverifiable; }
 }
 
 

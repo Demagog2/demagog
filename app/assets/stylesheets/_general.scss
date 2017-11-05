@@ -1,6 +1,7 @@
 body, html {
 	background: $white;
 	font-family: "Roboto", sans-serif;
+	color: $black;
 }
 
 body {
@@ -12,7 +13,7 @@ h1, h2, h3, h4, h5 {
 	font-weight: bold;
 	letter-spacing: -0.02em;
 	margin-top: 1em;
-	color: $gray;
+	color: $black;
 }
 
 p, li, blockquote {
@@ -20,10 +21,10 @@ p, li, blockquote {
 }
 
 a {
-	color: $red;
+	color: $blue;
 
 	&:hover {
-		color: $blue;
+		color: $unverifiable;
 	}
 }
 
@@ -42,7 +43,7 @@ nav.top-bar {
 		img { height: 40px; margin: 8px 0 0 0; }
 	}
 	.dropdown {
-		border-left: 3px solid $red;
+		border-left: 3px solid $untrue;
 	}
 }
 .fixed nav.top-bar {
@@ -53,11 +54,10 @@ nav.top-bar {
 .social {
 	padding: 100px 0;
 	margin-bottom: -100px;
-	background: $orange;
+	background: $blue;
 }
 
 footer {
-	background: $faded;
 	margin-top: 100px;
 	padding: 100px 0;
 	
@@ -82,17 +82,17 @@ footer {
 	}
 
 	.current-page {
-		background-color: $gray;
+		background-color: $black;
 		color: $white;
 	}
 }
 
 .references {
-	background: $gray;
+	background: $black;
 	padding-top: 20px;
 	margin-top: 40px;
 
-	a { color: $orange; }
+	a { color: $misleading; }
 	p { color: $white; }
 
 	.photo-wrapper {
@@ -135,6 +135,6 @@ footer {
 	vertical-align: text-top;
 	padding: 0.25rem 0.5rem 0.15rem;
 	
-	&.factcheck { background-color: $green; }
-	&.editorial { background-color: $red; } 
+	&.factcheck { background-color: $true; }
+	&.editorial { background-color: $untrue; } 
 }

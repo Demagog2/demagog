@@ -2,8 +2,8 @@
 	margin-top: 30px; margin-bottom: 30px;
 	padding-top: 3px; padding-bottom: 5px;
 	display: block;
-	background: $gray;
-	border: solid $orange;
+	background: $black;
+	border: solid $misleading;
 	border-width: 0 .9375em;
 
 	p {
@@ -11,12 +11,12 @@
 		margin: 0;
 
 		u {
-			color: $orange + #222;
+			color: $misleading + #222;
 		}
 	}
 
 	&:hover {
-		background: $orange;
+		background: $misleading;
 
 		p, p u {
 			color: $black;
