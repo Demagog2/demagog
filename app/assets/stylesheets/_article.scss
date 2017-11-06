@@ -62,8 +62,13 @@ article.preview {
     margin-top: 0;
   }
   .label {
-    &.default { background-color: $blue; }
-    &.static { background-color: $orange; }
+    padding: 0;
+    font-size: inherit;
+    vertical-align: inherit;
+    background-color: transparent;
+
+    &.default {  color: $blue; }
+    &.static { color: $orange; }
   }
 }
 
