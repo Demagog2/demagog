@@ -1,7 +1,7 @@
 <div class="row">
     <div class="columns">
         <h1><%= @article.title %></h1>
-        <p>Publikováno <%= @article.published_at %></p>
+        <p>Publikováno <%= @article.published_at.strftime("%-d. %-m. %Y") %></p>
     </div>
     <div class="large-7 columns">
         <p class="lead"><%= raw(@article.perex) %></p>

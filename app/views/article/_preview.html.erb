@@ -4,7 +4,7 @@
             <h1><a class="title" href="<%= article_path(article.id) %>">Komentář: <%= article.title %></a></h1>
 
             <p class="clickthrough">
-                <span class="label editorial">Komentář</span> <i><%= article.published_at.strftime('d.m.Y') %></i> &mdash; <%= article.perex %>
+                <span class="label editorial">Komentář</span> <i><%= raw(article.published_at.strftime("%-d.&nbsp;%-m.&nbsp;%Y")) %></i> &mdash; <%= article.perex %>
                 <a href="<%= article_path(article.id) %>">
                     <span>Číst&nbsp;dál&nbsp;&rarr;</span>
                 </a>
@@ -58,7 +58,7 @@
                     <i><%= article.source.medium.name %></i>,
                 <% end %>
 
-                <i><%= article.published_at %></i>
+                <i><%= raw(article.published_at.strftime("%-d.&nbsp;%-m.&nbsp;%Y")) %></i>
 
                 &mdash;
 
