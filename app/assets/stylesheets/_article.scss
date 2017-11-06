@@ -7,7 +7,6 @@ article {
     color: #585859;
     font-weight: 300;
     margin: 0 0 1em;
-    font-size: 1.4375em;
   }
 }
 
@@ -17,7 +16,6 @@ article {
     border: 1px solid #ccc;
     padding: 10px;
     background: 97% 50% no-repeat url('../images/select.png') white;
-    font-size: 14px;
     -webkit-appearance: none;
     border-radius: 0;
     width: 25%;
@@ -25,6 +23,10 @@ article {
 }
 
 .cover-story {
+  img {
+    width: 100%;
+  }
+
   .lead {
     padding: .75em 1.25em;
     background-color: white;
@@ -40,7 +42,7 @@ article.preview {
   margin-top: 40px;
 
   h1 {
-    font-size: emCalc(37px);
+    font-size: rem-calc(28);
     margin: -9px 0 10px;
     text-align: left;
   }

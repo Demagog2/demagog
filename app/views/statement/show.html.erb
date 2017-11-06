@@ -8,7 +8,7 @@
 
     <blockquote>
       <b><%= @statement.speaker.full_name %>:</b> <%= raw(@statement.content) %>
-      <cite><%= @statement.source.medium.name %>, <%= @statement.source.released_at %></cite>
+      <cite><%= @statement.source.medium.name %>, <%= raw(@statement.source.released_at.strftime("%-d.&nbsp;%-m.&nbsp;%Y")) %></cite>
     </blockquote>
   </div>
 </div>

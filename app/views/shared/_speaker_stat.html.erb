@@ -1,16 +1,17 @@
 <div class="speaker-stats">
-  <figure class="speaker">
-    <% if speaker.portrait %>
-      <div class="photo-wrapper">
-        <% if local_assigns[:lazy_load_images] == false %>
-          <img class="lazy-load" data-src="<%= speaker_portrait(speaker.portrait) %>" alt="<%= speaker.full_name %>">
-        <% else %>
-          <%= image_tag(speaker_portrait(speaker.portrait), alt: speaker.full_name) %>
-        <% end %>
-      </div>
-    <% end %>
-    <p class="name"><a href="<%= speaker_path(speaker.id) %>"><%= speaker.full_name %></a></p>
-  </figure>
+  <a href="<%= speaker_path(speaker.id) %>">
+    <figure class="speaker">
+      <% if speaker.portrait %>
+        <div class="photo-wrapper">
+          <% if local_assigns[:lazy_load_images] == false %>
+            <img class="lazy-load" data-src="<%= speaker_portrait(speaker.portrait) %>" alt="<%= speaker.full_name %>">
+          <% else %>
+            <%= image_tag(speaker_portrait(speaker.portrait), alt: speaker.full_name) %>
+          <% end %>
+        </div>
+      <% end %>
+      <p class="name"><%= speaker.full_name %></p>
+    </figure>
     <ul class="stats">
       <li title="Pravda" class="true <%= "none" if stats[:true].zero? %>">
         <%= stats[:true] %>
@@ -25,5 +26,6 @@
         <%= stats[:unverifiable] %>
       </li>
     </ul>
+  </a>
 </div>
 

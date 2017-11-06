@@ -220,12 +220,12 @@ $font-weight-bold: bold;
 // $header-text-rendering: optimizeLegibility;
 
 // We use these to control header font sizes
-// $h1-font-size: rem-calc(44);
-// $h2-font-size: rem-calc(37);
-// $h3-font-size: rem-calc(27);
-// $h4-font-size: rem-calc(23);
-// $h5-font-size: rem-calc(18);
-// $h6-font-size: 1rem;
+$h1-font-size: rem-calc(32);
+$h2-font-size: rem-calc(28);
+$h3-font-size: rem-calc(24);
+$h4-font-size: rem-calc(18);
+$h5-font-size: rem-calc(14);
+$h6-font-size: 1rem;
 
 // We use these to control header size reduction on small screens
 // $h1-font-reduction: rem-calc(10);
@@ -294,12 +294,12 @@ $font-weight-bold: bold;
 // $definition-list-margin-bottom: rem-calc(12);
 
 // We use these to style blockquotes
-// $blockquote-font-color: scale-color($header-font-color, $lightness: 35%);
-// $blockquote-padding: rem-calc(9 20 0 19);
-// $blockquote-border: 1px solid $gainsboro;
-// $blockquote-cite-font-size: rem-calc(13);
-// $blockquote-cite-font-color: scale-color($header-font-color, $lightness: 23%);
-// $blockquote-cite-link-color: $blockquote-cite-font-color;
+$blockquote-font-color: inherit;
+$blockquote-padding: 0;
+$blockquote-border: none;
+$blockquote-cite-font-size: inherit;
+$blockquote-cite-font-color: $black;
+$blockquote-cite-link-color: $black;
 $blockquote-cite-font-size: inherit;
 
 // Acronym styles
@@ -1434,15 +1434,15 @@ $topbar-bg: $topbar-bg-color;
 // $topbar-link-dropdown-padding: rem-calc(20);
 // $topbar-button-font-size: .75rem;
 // $topbar-button-top: 7px;
-$topbar-link-color: $orange;
-$topbar-link-color-hover: $orange;
-$topbar-link-color-active: $orange;
-$topbar-link-color-active-hover: $orange;
+$topbar-link-color: $black;
+$topbar-link-color-hover: $black;
+$topbar-link-color-active: $black;
+$topbar-link-color-active-hover: $black;
 $topbar-link-bg: $topbar-bg;
 $topbar-link-bg-hover: $faded;
-$topbar-link-bg-color-hover: $orange;
-$topbar-link-bg-active: $orange;
-$topbar-link-bg-active-hover: scale-color($orange, $lightness: -14%);
+$topbar-link-bg-color-hover: $black;
+$topbar-link-bg-active: $black;
+$topbar-link-bg-active-hover: scale-color($black, $lightness: -14%);
 $topbar-title-font-size: rem-calc(17);
 $topbar-link-font-size: rem-calc(17);
 $topbar-button-font-size: rem-calc(17);
@@ -1464,7 +1464,7 @@ $topbar-dropdown-link-color-hover: $topbar-link-color-hover;
 $topbar-dropdown-link-bg: $faded;
 $topbar-dropdown-link-bg-hover: $faded;
 $topbar-dropdown-link-weight: $font-weight-normal;
-$topbar-dropdown-toggle-color: $orange;
+$topbar-dropdown-toggle-color: $black;
 $topbar-dropdown-toggle-alpha: 1;
 
 
@@ -1475,7 +1475,7 @@ $topbar-dropdown-toggle-alpha: 1;
 // $topbar-dropdown-label-font-weight: $font-weight-bold;
 // $topbar-dropdown-label-font-size: rem-calc(10);
 // $topbar-dropdown-label-bg: $oil;
-$topbar-dropdown-label-color: $orange;
+$topbar-dropdown-label-color: $black;
 $topbar-dropdown-label-bg: $faded;
 
 
@@ -1488,8 +1488,8 @@ $topbar-dropdown-label-bg: $faded;
 // $topbar-menu-link-color-toggled: $jumbo;
 // $topbar-menu-icon-color-toggled: $jumbo;
 // $topbar-menu-icon-position: $opposite-direction; // Change to $default-float for a left menu icon
-$topbar-menu-link-color: $orange;
-$topbar-menu-icon-color: $orange;
+$topbar-menu-link-color: $black;
+$topbar-menu-icon-color: $black;
 $topbar-menu-link-color-toggled: $black;
 $topbar-menu-icon-color-toggled: $black;
 

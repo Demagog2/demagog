@@ -13,10 +13,11 @@ h1, h2, h3, h4, h5 {
   font-weight: bold;
   letter-spacing: 0.025em;
   margin-top: 1em;
+  margin-bottom: 0.5em;
   color: $black;
 }
 
-p, li, blockquote {
+p, li, blockquote, div {
   font-family: "Lato", sans-serif;
   letter-spacing: 0.025em;
 }
@@ -86,10 +87,10 @@ footer {
 
 
 .pagination {
-  font-size: 28px;
-  margin: 50px 0;
+  font-size: rem-calc(18);
+  margin: 50px -10px;
 
-  a {
+  span {
     padding: 0 10px;
   }
 
