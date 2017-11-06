@@ -11,17 +11,17 @@
         <h1 class="s-speaker-name"><%= @speaker.full_name %> (<%= @speaker.party.short_name %>)</h1>
 
         <p class="politicianStats">
-            <span title="Pravda" class="numberOfStatements true glyphicons circle_ok">
-                <i></i> <span class="veracityNumber"><%= @stats[:true] %> </span> Pravda
+            <span title="Pravda" class="veracity true">
+                <span><%= @stats[:true] %></span>
             </span>
-            <span title="Nepravda" class="numberOfStatements untrue glyphicons circle_remove">
-                <i></i> <span class="veracityNumber"><%= @stats[:untrue] %> </span> Nepravda
+            <span title="Nepravda" class="veracity untrue">
+                <span><%= @stats[:untrue] %></span>
             </span>
-            <span title="Zavádějící" class="numberOfStatements misleading glyphicons circle_exclamation_mark">
-                <i></i> <span class="veracityNumber"><%= @stats[:misleading] %> </span> Zavádějící
+            <span title="Zavádějící" class="veracity misleading">
+                <span><%= @stats[:misleading] %></span>
             </span>
-            <span title="Neověřitelné" class="numberOfStatements unverifiable glyphicons circle_question_mark">
-                <i></i> <span class="veracityNumber"><%= @stats[:unverifiable] %> </span> Neověřitelné
+            <span title="Neověřitelné" class="veracity unverifiable">
+                <span><%= @stats[:unverifiable] %></span>
             </span>
         </p>
     </div>

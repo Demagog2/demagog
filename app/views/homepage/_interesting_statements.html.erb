@@ -1,28 +1,30 @@
-<section class="row interesting-statements show-for-medium-up">
+<section class="interesting-statements show-for-medium-up">
+  <div class="row">
     <div class="large-8 columns">
-        <h2>Vybrané výroky z posledních debat</h2>
+      <h2>Vybrané výroky z posledních debat</h2>
 
-        <div class="row">
-          <% @interesting_statements.each_with_index do |statement, index| %>
-            <div class="large-6 columns">
-              <%= render(partial: "statement/small", object: statement, as: :statement) %>
-            </div>
-            <% if index == 1 %></div><div class="row"><% end %>
-          <% end %>
-        </div>
+      <div class="row">
+        <% @interesting_statements.each_with_index do |statement, index| %>
+          <div class="large-6 columns">
+            <%= render(partial: "statement/small", object: statement, as: :statement) %>
+          </div>
+          <% if index == 1 %></div><div class="row"><% end %>
+        <% end %>
+      </div>
     </div>
     <div class="large-4 columns">
-        <h2>&nbsp;</h2>
-        <div data-darujme-widget-token="cal3h1ohu4dkri5u">&nbsp;</div>
-        <script type="text/javascript">
-          +function(w, d, s, u, a, b) {
-            w['DarujmeObject'] = u;
-            w[u] = w[u] || function () { (w[u].q = w[u].q || []).push(arguments) };
-            a = d.createElement(s); b = d.getElementsByTagName(s)[0];
-            a.async = 1; a.src = "https:\/\/www.darujme.cz\/assets\/scripts\/widget.js";
-            b.parentNode.insertBefore(a, b);
-          }(window, document, 'script', 'Darujme');
-          Darujme(1, "cal3h1ohu4dkri5u", 'render', "https:\/\/www.darujme.cz\/widget?token=cal3h1ohu4dkri5u", "370px");
-        </script>
+      <h2 style="margin:0">&nbsp;</h2>
+      <div data-darujme-widget-token="cal3h1ohu4dkri5u">&nbsp;</div>
+      <script type="text/javascript">
+        +function(w, d, s, u, a, b) {
+          w['DarujmeObject'] = u;
+          w[u] = w[u] || function () { (w[u].q = w[u].q || []).push(arguments) };
+          a = d.createElement(s); b = d.getElementsByTagName(s)[0];
+          a.async = 1; a.src = "https:\/\/www.darujme.cz\/assets\/scripts\/widget.js";
+          b.parentNode.insertBefore(a, b);
+        }(window, document, 'script', 'Darujme');
+        Darujme(1, "cal3h1ohu4dkri5u", 'render', "https:\/\/www.darujme.cz\/widget?token=cal3h1ohu4dkri5u", "370px");
+      </script>
     </div>
+  </div>
 </section>

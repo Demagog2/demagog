@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="large-9 columns statement-detail">
+  <div class="columns statement-detail">
     <h1>Tento výrok byl ověřen jako
       <span class="veracity glyphicons <%= @statement.correct_assessment.veracity.default_name %>">
         <i></i> <%= @statement.correct_assessment.veracity.name.downcase %>
@@ -13,13 +13,12 @@
   </div>
 </div>
 <div class="row">
-  <div class="large-7 columns">
+  <div class="large-6 columns">
     <h2>Odůvodnění</h2>
     <div class="reasons"><%= raw(@statement.correct_assessment.explanation) %></div>
   </div>
 
-  <div class="large-5 columns">
-    <h2>Řečník</h2>
+  <div class="large-5 push-1 columns">
     <%=
       render(
         partial: "shared/speaker_stat",

@@ -1,20 +1,20 @@
 <div class="statement preview">
+  <span class="veracity <%= statement.correct_assessment.veracity.default_name %>"></span>
+  
+  <div class="photo-wrapper">
+    <img class="lazy-load" data-src="<%= speaker_portrait(statement.speaker.portrait) %>" alt="<%= statement.speaker.full_name %>">
+  </div>
+
   <figure class="speaker">
     <p class="name">
       <a href="<%= speaker_path(statement.speaker.id) %>">
         <%= statement.speaker.full_name %>
       </a>
-      <span title="untrue" class="untrue glyphicons">
-      <i></i>
     </p>
   </figure>
 
-  <div class="photo-wrapper">
-    <img class="lazy-load" data-src="<%= speaker_portrait(statement.speaker.portrait) %>" alt="<%= statement.speaker.full_name %>">
-  </div>
-
   <p>
-    „<%= statement.content.truncate(250) %>“
+    <span class="quote">„<%= statement.content.truncate(250) %>“</span>
     <a href="<%= statement_path(statement.id) %>">odůvodnění&nbsp;&rarr;</a>
   </p>
 </div>

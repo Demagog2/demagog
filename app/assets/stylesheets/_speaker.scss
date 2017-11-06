@@ -8,7 +8,7 @@
   height: 100px;
   overflow: hidden;
   margin: 3px;
-  box-shadow: 0 0 0px 2px $black;
+  box-shadow: 0 0 0px 2px #ddd;
 
   img {
     width: 100%;
@@ -24,19 +24,9 @@
 
   .name {
     margin-top: 0;
-    clear: right;
     font-family: "Lato", sans-serif;
     font-size: 24px;
     font-weight: bold;
-  }
-  
-  a {
-    color: $black;
-    display: block;
-
-    &:hover {
-      color: $untrue;
-    }
   }
 }
 .speakers .speaker:last-child {
@@ -49,7 +39,9 @@
   
   .speaker {
     .name {
-      margin: 0 0 0 80px;
+      margin: 0 0 0 75px;
+      padding-top: 2px;
+      font-size: rem-calc(20);
     }
     
     .photo-wrapper {
@@ -60,9 +52,9 @@
   }
   
   .stats {
-    margin: -8px 0 2em 80px;
-    font-size: 1.21875rem;
+    margin: -2px 0 2.5em 75px;
     font-weight: bold;
+    font-size: rem-calc(20);
     
     li {
       list-style: none;
@@ -111,29 +103,40 @@
     width: 60px;
     height: 60px;
     margin-right: 15px;
-    float: left;
   }
   
   p {
     margin: 0;
   }
+
+  .veracity {
+    font-size: 200%;
+    float: right;
+    margin-top: 35px;
+    margin-left: -100%;
+  }
   
 }
 
 .politician {
+  margin-top: 3em;
+
   .photo-wrapper {
     width: 137px;
     height: 137px;
   }
 
   h1 {
-    text-align: left;
-    margin: 25px 0 5px;
+    margin-top: 0;
   }
 
   .politicianStats {
-    padding-bottom: 0;
-    margin-bottom: 0;
     font-size: 24px;
+
+    .veracity {
+      @include veracity;
+      margin-right: 1em;
+      white-space: nowrap;
+    }
   }
 }

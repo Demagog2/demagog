@@ -11,17 +11,19 @@
     <% end %>
     <p class="name"><a href="<%= speaker_path(speaker.id) %>"><%= speaker.full_name %></a></p>
   </figure>
-  <ul class="stats">
-    <li title="Pravda" class="glyphicons true <%= "none" if stats[:true].zero? %>">
-      <i></i> <%= stats[:true] %>
-    </li>
-    <li title="Nepravda" class="glyphicons untrue <%= "none" if stats[:untrue].zero? %>">
-      <i></i> <%= stats[:untrue] %>
-    </li>
-    <li title="Zavádějící" class="glyphicons misleading <%= "none" if stats[:misleading].zero? %>">
-      <i></i> <%= stats[:misleading] %>
-    </li>
-    <li title="Neověřitelné" class="glyphicons unverifiable <%= "none" if stats[:unverifiable].zero? %>"> <i></i> <%= stats[:unverifiable] %> </li>
-  </ul>
+    <ul class="stats">
+      <li title="Pravda" class="true <%= "none" if stats[:true].zero? %>">
+        <%= stats[:true] %>
+      </li>
+      <li title="Nepravda" class="untrue <%= "none" if stats[:untrue].zero? %>">
+        <%= stats[:untrue] %>
+      </li>
+      <li title="Zavádějící" class="misleading <%= "none" if stats[:misleading].zero? %>">
+        <%= stats[:misleading] %>
+      </li>
+      <li title="Neověřitelné" class="unverifiable <%= "none" if stats[:unverifiable].zero? %>">
+        <%= stats[:unverifiable] %>
+      </li>
+    </ul>
 </div>
 
