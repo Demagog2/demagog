@@ -66,7 +66,7 @@ nav.top-bar {
 
 .social {
   padding: 40px 0;
-  background: $blue;
+  @include inverted;
 }
 
 footer {
@@ -100,11 +100,8 @@ footer {
 }
 
 .references {
-  background: $blue;
+  @include inverted;
   padding-bottom: 40px;
-
-  a { color: $white; }
-  p { color: $white; }
 
   .photo-wrapper {
     width: 80px;

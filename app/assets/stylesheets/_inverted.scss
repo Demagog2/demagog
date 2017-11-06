@@ -1,0 +1,15 @@
+@mixin inverted {
+  background: $black;
+  
+  &, p, h1, h2, h3, li {
+    color: $white;
+  }
+
+  a {
+    color: $orange;
+
+    &:hover {
+      color: $blue;
+    }
+  }
+}
