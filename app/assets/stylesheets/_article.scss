@@ -62,8 +62,8 @@ article.preview {
     margin-top: 0;
   }
   .label {
-    &.default { background-color: $untrue; }
-    &.static { background-color: $unverifiable; }
+    &.default { background-color: $blue; }
+    &.static { background-color: $orange; }
   }
 }
 

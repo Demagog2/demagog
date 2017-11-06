@@ -8,7 +8,7 @@ $white: #f4f9fd;
 $orange: #f26538;
 
 $true: $blue;
-$untrue: $orange;
+$untrue: #eb1d2b;
 $misleading: #ffba00;
 $unverifiable: #9dbaeb;
 
@@ -25,9 +25,15 @@ $faded: #fff;
 @import "speaker";
 
 // identify & remove
+.explanation {
+  clear: left;
 
-.omgFuckedUpContent, .omgFuckedUpContent font, .omgFuckedUpContent div, .omgFuckedUpContent span {
-  font-size: 1em !important; line-height: 1.6em !important;
+  &, & font, & div, & span {
+    font-size: 1em !important; line-height: 1.6em !important;
+  }
+
+  br { display: none; }
+  div { margin-top: 1em; }
 }
 
 .politik_statistika {

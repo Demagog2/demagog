@@ -1434,15 +1434,15 @@ $topbar-bg: $topbar-bg-color;
 // $topbar-link-dropdown-padding: rem-calc(20);
 // $topbar-button-font-size: .75rem;
 // $topbar-button-top: 7px;
-$topbar-link-color: $untrue;
-$topbar-link-color-hover: $untrue;
-$topbar-link-color-active: $untrue;
-$topbar-link-color-active-hover: $untrue;
+$topbar-link-color: $orange;
+$topbar-link-color-hover: $orange;
+$topbar-link-color-active: $orange;
+$topbar-link-color-active-hover: $orange;
 $topbar-link-bg: $topbar-bg;
 $topbar-link-bg-hover: $faded;
-$topbar-link-bg-color-hover: $untrue;
-$topbar-link-bg-active: $untrue;
-$topbar-link-bg-active-hover: scale-color($untrue, $lightness: -14%);
+$topbar-link-bg-color-hover: $orange;
+$topbar-link-bg-active: $orange;
+$topbar-link-bg-active-hover: scale-color($orange, $lightness: -14%);
 $topbar-title-font-size: rem-calc(17);
 $topbar-link-font-size: rem-calc(17);
 $topbar-button-font-size: rem-calc(17);
@@ -1464,7 +1464,7 @@ $topbar-dropdown-link-color-hover: $topbar-link-color-hover;
 $topbar-dropdown-link-bg: $faded;
 $topbar-dropdown-link-bg-hover: $faded;
 $topbar-dropdown-link-weight: $font-weight-normal;
-$topbar-dropdown-toggle-color: $untrue;
+$topbar-dropdown-toggle-color: $orange;
 $topbar-dropdown-toggle-alpha: 1;
 
 
@@ -1475,7 +1475,7 @@ $topbar-dropdown-toggle-alpha: 1;
 // $topbar-dropdown-label-font-weight: $font-weight-bold;
 // $topbar-dropdown-label-font-size: rem-calc(10);
 // $topbar-dropdown-label-bg: $oil;
-$topbar-dropdown-label-color: $untrue;
+$topbar-dropdown-label-color: $orange;
 $topbar-dropdown-label-bg: $faded;
 
 
@@ -1488,8 +1488,8 @@ $topbar-dropdown-label-bg: $faded;
 // $topbar-menu-link-color-toggled: $jumbo;
 // $topbar-menu-icon-color-toggled: $jumbo;
 // $topbar-menu-icon-position: $opposite-direction; // Change to $default-float for a left menu icon
-$topbar-menu-link-color: $untrue;
-$topbar-menu-icon-color: $untrue;
+$topbar-menu-link-color: $orange;
+$topbar-menu-icon-color: $orange;
 $topbar-menu-link-color-toggled: $black;
 $topbar-menu-icon-color-toggled: $black;
 

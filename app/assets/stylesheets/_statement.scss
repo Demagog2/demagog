@@ -34,7 +34,7 @@
 
   .quote {
     font-size: 120%;
-    font-style: italic;
+    letter-spacing: 0.1em;
     margin-bottom: 0;
     
     b {
@@ -46,7 +46,9 @@
   
   .permalink {
     color: #666;
-    padding-left: 10px;
+    margin-top: 5px;
+    padding: 6px 5px 7px;
+    display: inline-block
   }
 
   .show-reasons {

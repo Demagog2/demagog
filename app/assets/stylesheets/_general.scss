@@ -5,7 +5,7 @@ body, html {
 }
 
 body {
-  
+  padding-top: 4em;
 }
 
 h1, h2, h3, h4, h5 {
@@ -21,11 +21,15 @@ p, li, blockquote {
   letter-spacing: 0.025em;
 }
 
+blockquote {
+  letter-spacing: 0.05em; 
+}
+
 a {
-  color: $blue;
+  color: $orange;
 
   &:hover {
-    color: $unverifiable;
+    color: $blue;
   }
 }
 
@@ -38,14 +42,18 @@ header.page-header h1 {
 }
 
 nav.top-bar {
+  ul.right li {
+    float: right;
+  }
   .name {
     visibility: hidden;
     .alt { display: none; }
     img { height: 40px; margin: 8px 0 0 0; }
   }
   .dropdown {
-    border-left: 3px solid $untrue;
+    border-left: 3px solid $orange;
   }
+
 }
 .fixed nav.top-bar {
   box-shadow: 0 0 5px rgba(0, 0, 0, .3);
@@ -53,14 +61,13 @@ nav.top-bar {
 }
 
 .social {
-  padding: 100px 0;
-  margin-bottom: -100px;
+  padding: 40px 0;
   background: $blue;
 }
 
 footer {
-  margin-top: 100px;
-  padding: 100px 0;
+  margin-top: 40px;
+  padding: 40px 0;
   
   h2 { margin: 0; }
   
@@ -89,25 +96,29 @@ footer {
 }
 
 .references {
-  background: $black;
-  padding-top: 20px;
-  margin-top: 40px;
+  background: $blue;
+  padding-bottom: 40px;
 
-  a { color: $misleading; }
+  a { color: $white; }
   p { color: $white; }
 
   .photo-wrapper {
-    float: left;
+    width: 80px;
+    height: 80px;
+    float: right;
     margin-right: 10px;
+
+    box-shadow: 0 0 0 3px $white;
   }
 
   h4 {
+    margin-top: 0em;
     margin-bottom: 0;
   }
 
   .position {
     font-size: 12px;
-    height: 50px;
+    margin-bottom: 1em;
   }
 }
 
@@ -137,5 +148,9 @@ footer {
   padding: 0.25rem 0.5rem 0.15rem;
   
   &.factcheck { background-color: $true; }
-  &.editorial { background-color: $untrue; } 
+  &.editorial { background-color: $orange; } 
+}
+
+input[type="text"] {
+  border: 0.5px solid $orange;
 }
