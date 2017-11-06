@@ -1,7 +1,7 @@
-<div class="sticky"><nav class="top-bar" data-topbar role="navigation">
+<div class="sticky row"><nav class="top-bar" data-topbar role="navigation">
     <ul class="title-area">
         <li class="name">
-          <h1><a href="<%= root_url %>"><span class="alt">Demagog.cz </span><%= image_tag("demagog-logo.svg", alt: "Demagog.cz") %></a></h1>
+          <h1><a href="<%= root_url %>"><span class="alt">Demagog.cz </span><%= image_tag("demagog-logo-sub.svg", alt: "Demagog.cz") %></a></h1>
         </li>
         <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
     </ul>
@@ -10,7 +10,7 @@
         <ul class="right">
             <li class="has-dropdown">
                 <a href="<%# statistiky %>">Přehledy</a>
-                <ul class="dropdown">
+                <ul class="dropdown" data-dropdown-menu>
                   <!-- <li><a href="{# statistiky #}">Výroky</a></li> -->
                   <li><a href="<%= speaker_index_path() %>">Řečníci</a></li>
                 </ul>
@@ -24,7 +24,7 @@
               </ul>
             </li>
 
-            <li class="has-dropdown">
+            <li class="has-dropdown" data-dropdown-menu>
               <a href="<%= article_path(406) %>">O nás</a>
               <ul class="dropdown">
                 <li><a href="<%= article_path(406) %>">O Demagog.cz</a></li>
@@ -50,7 +50,7 @@
                             <input id="searchQuery" type="text" placeholder="">
                         </div>
                         <div class="large-4 small-3 columns">
-                            <a href="#" class="alert button expand" onclick="searchFn(); return false;">Hledat</a>
+                            <a href="#" class="button expand" onclick="searchFn(); return false;">Hledat</a>
                         </div>
                     </div>
                 </form>
@@ -58,12 +58,3 @@
         </ul>
     </section>
 </nav></div>
-
-<header class="row page-header">
-    <div class="medium-5 columns">
-        <a href="<%= root_url %>">
-          <h1>Demagog.cz</h1>
-          <%= image_tag("demagog-logo.svg", alt: "Demagog.cz") %>
-        </a>
-    </div>
-</header>

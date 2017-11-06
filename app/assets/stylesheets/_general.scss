@@ -5,7 +5,7 @@ body, html {
 }
 
 body {
-  padding-top: 4em;
+  padding-top: 2em;
 }
 
 h1, h2, h3, h4, h5 {
@@ -42,18 +42,22 @@ header.page-header h1 {
 }
 
 nav.top-bar {
-  ul.right li {
-    float: right;
-  }
+  margin: 2em 0;
+
   .name {
-    visibility: hidden;
+    margin-left: -2px;
     .alt { display: none; }
-    img { height: 40px; margin: 8px 0 0 0; }
+    img { height: 48px; }
   }
   .dropdown {
     border-left: 3px solid $orange;
   }
-
+  .button {
+    font-family: "Lato", sans-serif;
+    background: $black;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
 }
 .fixed nav.top-bar {
   box-shadow: 0 0 5px rgba(0, 0, 0, .3);
@@ -152,5 +156,7 @@ footer {
 }
 
 input[type="text"] {
-  border: 0.5px solid $orange;
+  border: 0.5px solid $black;
 }
+
+
