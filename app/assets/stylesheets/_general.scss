@@ -50,19 +50,22 @@ nav.top-bar {
     .alt { display: none; }
     img { height: 48px; }
   }
-  .dropdown {
-    border-left: 3px solid $orange;
-  }
   .button {
     font-family: "Lato", sans-serif;
     background: $black;
     padding-top: 5px;
     padding-bottom: 5px;
   }
+  .has-dropdown a:hover {
+    background-color: $orange !important;
+  }
 }
 .fixed nav.top-bar {
+  margin: 0;
   box-shadow: 0 0 5px rgba(0, 0, 0, .3);
-  .name { visibility: visible; }
+  .name { visibility: visible; 
+    img { height: 32px; }
+  }
 }
 
 .social {

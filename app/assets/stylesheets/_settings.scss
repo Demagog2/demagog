@@ -123,6 +123,19 @@ $font-weight-bold: bold;
 // $warning-color: #f08a24;
 // $info-color: #a0d3e8;
 
+$blue: #0060ff;
+$black: #3c325c;
+$white: #f4f9fd;
+$orange: #f26538;
+
+$true: $blue;
+$untrue: #eb1d2b;
+$misleading: #ffba00;
+$unverifiable: #9dbaeb;
+
+// remove / ivert colors
+$faded: #fff;
+
 // We use these to control various global styles
 // $body-bg: $white;
 // $body-font-color: $jet;
@@ -274,10 +287,10 @@ $h6-font-size: 1rem;
 // $anchor-font-color-hover: scale-color($anchor-font-color, $lightness: -14%);
 
 // We use these to style the <hr> element
-// $hr-border-width: 1px;
-// $hr-border-style: solid;
-// $hr-border-color: $gainsboro;
-// $hr-margin: rem-calc(20);
+$hr-border-width: 1px;
+$hr-border-style: solid;
+$hr-border-color: rgba(255, 255, 255, .3);
+$hr-margin: rem-calc(20);
 
 // We use these to style lists
 // $list-font-family: $paragraph-font-family;
@@ -1435,11 +1448,11 @@ $topbar-bg: $topbar-bg-color;
 // $topbar-button-font-size: .75rem;
 // $topbar-button-top: 7px;
 $topbar-link-color: $black;
-$topbar-link-color-hover: $black;
+$topbar-link-color-hover: $white;
 $topbar-link-color-active: $black;
 $topbar-link-color-active-hover: $black;
 $topbar-link-bg: $topbar-bg;
-$topbar-link-bg-hover: $faded;
+$topbar-link-bg-hover: $black;
 $topbar-link-bg-color-hover: $black;
 $topbar-link-bg-active: $black;
 $topbar-link-bg-active-hover: scale-color($black, $lightness: -14%);
@@ -1458,11 +1471,11 @@ $topbar-button-font-size: rem-calc(17);
 // $topbar-dropdown-toggle-size: 5px;
 // $topbar-dropdown-toggle-color: $white;
 // $topbar-dropdown-toggle-alpha: .4;
-$topbar-dropdown-bg: $faded;
-$topbar-dropdown-link-color: $black;
+$topbar-dropdown-bg: $black;
+$topbar-dropdown-link-color: $white;
 $topbar-dropdown-link-color-hover: $topbar-link-color-hover;
-$topbar-dropdown-link-bg: $faded;
-$topbar-dropdown-link-bg-hover: $faded;
+$topbar-dropdown-link-bg: $black;
+$topbar-dropdown-link-bg-hover: $orange;
 $topbar-dropdown-link-weight: $font-weight-normal;
 $topbar-dropdown-toggle-color: $black;
 $topbar-dropdown-toggle-alpha: 1;
