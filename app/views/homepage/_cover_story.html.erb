@@ -10,8 +10,8 @@
         <div class="perex large-5 columns">
           <p>
             <%= strip_tags(@cover_story.perex) %>
-            <a href="/article/<%= @cover_story.id %>">
-              Prohlédnout&nbsp;diskusi
+            <a href="<%= article_path(@cover_story) %>">
+              <span>Číst&nbsp;dál&nbsp;&rarr;</span>
             </a>
           </p>
 
