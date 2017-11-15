@@ -61,7 +61,7 @@ nav.top-bar {
   }
   
 
-  @media #{$small-only} {
+  @media (max-width: $medium-breakpoint) {
     margin: 0 0 2em;
 
     .name img {
