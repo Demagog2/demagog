@@ -2,7 +2,7 @@
 
 one:
   title: Fact checking article
-  slug: MyString
+  slug: factcheck
   perex: MyText
   article_type: default
   illustration: cover_photo
@@ -12,7 +12,7 @@ one:
 
 two:
   title: Static article
-  slug: MyString
+  slug: static
   perex: MyText
   illustration: cover_photo
   article_type: static

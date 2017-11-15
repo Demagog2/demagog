@@ -4,7 +4,12 @@ require "test_helper"
 
 class SpeakerControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
-    get speaker_index_url()
+    get speakers_url()
+    assert_response :success
+  end
+
+  test "should get index with party id" do
+    get speakers_url(parties(:party_a))
     assert_response :success
   end
 

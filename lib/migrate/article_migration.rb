@@ -95,6 +95,7 @@ class ArticleMigration
 
       article = Article.new(
         title: old_article["nazov"],
+        slug: old_article["alias"],
         perex: old_article["excerpt"],
         published_at: old_article["timestamp"],
         published: old_article["status"] == 1,
