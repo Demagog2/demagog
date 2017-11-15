@@ -3,7 +3,7 @@
         <h1><%= @article.title %></h1>
         <p>Publikováno <%= raw(l(@article.published_at, format: :long)) %></p>
     </div>
-    <div class="large-7 columns">
+    <div class="large-7 columns editorial">
         <p class="lead"><%= raw(@article.perex) %></p>
         <% @article.segments.each do |segment| %>
           <% if segment.is_text? %>
