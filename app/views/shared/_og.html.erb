@@ -1,0 +1,5 @@
+<meta property="og:url" content="<%= url_for(:only_path => false) %>" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : 'Factcheck politických diskuzí' %>" />
+<meta property="og:description" content="<%= defined?(@article) ? strip_tags(@article.perex).truncate(230) : 'Politici operují s informacemi, které jsou zkreslené, účelově vytrhávané z původních kontextů, neúplné anebo přímo lživé. Moderátor o tom často nevědí, protože jim chybějí informace a nedokážou efektivně a jednoznačně oponovat. Projekt Demagog.cz má za cíl kontrolu těchto tvrzení.'%>" />
+<meta property="og:image" content="<%= defined?(@article) ? article_illustration(@article.illustration, @article.article_type.name) : asset_path("apple-touch-icon.png") %>" />
