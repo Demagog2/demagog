@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get "vyrok/:id" => "statement#show", as: "statement"
   get "diskuze/:id" => "article#index", as: "article"
   get "vypis-recniku(/:id)" => "speaker#index", as: "speakers"
-  get "politici/:id" => "speaker#show", as: "speaker", concerns: :paginatable
+  get "politici/:id(/*name)" => "speaker#show", as: "speaker", concerns: :paginatable
   get "archiv" => "archive#index", as: "archive", concerns: :paginatable
 
 
