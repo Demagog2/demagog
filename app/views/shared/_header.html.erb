@@ -10,17 +10,17 @@
     <section class="top-bar-section">
         <ul class="right">
             <li class="has-dropdown">
-                <a href="<%# statistiky %>">Přehledy</a>
+                <a href="<%= speakers_path() %>">Přehledy</a>
                 <ul class="dropdown" data-dropdown-menu>
                   <!-- <li><a href="{# statistiky #}">Výroky</a></li> -->
-                  <li><a href="<%= speakers_path() %>">Řečníci</a></li>
+                  <li><a href="<%= speakers_path() %>">Politici</a></li>
                 </ul>
             </li>
 
             <li class="has-dropdown">
               <a>Speciály</a>
               <ul class="dropdown">
-                <li><a href="https://extra.demagog.cz/sliby-milose-zemana/">Vládní sliby 2014—17</a></li>
+                <li><a href="https://extra.demagog.cz/vladni-sliby/">Vládní sliby 2014—17</a></li>
                 <li><a href="https://extra.demagog.cz/sliby-milose-zemana/">Sliby Miloše Zemana</a></li>
               </ul>
             </li>
@@ -29,12 +29,12 @@
               <a href="<%= article_path("o-nas") %>">O nás</a>
               <ul class="dropdown">
                 <li><a href="<%= article_path("o-nas") %>">O Demagog.cz</a></li>
-                <li><a href="<%= article_path(406) %>">Jak hodnotíme?</a></li>
-                <li><a href="<%= article_path(406) %>">Etický kodex</a></li>
-                <li><a href="<%= article_path(406) %>">Nabízíme workshopy</a></li>
+                <li><a href="<%= article_path("jak-hodnotime") %>">Jak hodnotíme?</a></li>
+                <li><a href="<%= article_path("eticky-kodex") %>">Etický kodex</a></li>
+                <li><a href="<%= article_path("nabizime-workshopy") %>">Nabízíme workshopy</a></li>
                 <li><hr></li>
-                <li><a href="<%= article_path(406) %>">Financování</a></li>
-                <li><a href="<%= article_path(406) %>">Czech this out!</a></li>
+                <!-- <li><a href="<%= article_path("financovani") %>">Financování</a></li> -->
+                <li><a href="<%= article_path("czech-this-out") %>">Czech this out!</a></li>
               </ul>
             </li>
 
