@@ -44,18 +44,18 @@ cs:
       short: "%d %b"
     month_names:
     -
-    - leden
-    - únor
-    - březen
-    - duben
-    - květen
-    - červen
-    - červenec
-    - srpen
+    - ledna
+    - února
+    - března
+    - dubna
+    - května
+    - června
+    - července
+    - srpna
     - září
-    - říjen
-    - listopad
-    - prosinec
+    - října
+    - listopadu
+    - prosince
     order:
     - :day
     - :month
@@ -210,7 +210,7 @@ cs:
     am: am
     formats:
       default: "%a %d. %B %Y %H:%M %z"
-      long: "%-d.&nbsp;%B.&nbsp;%Y"
+      long: "%-d.&nbsp;%B&nbsp;%Y"
       short: "%d. %m. %H:%M"
     pm: pm
   views:
