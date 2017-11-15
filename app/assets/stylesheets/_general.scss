@@ -59,6 +59,21 @@ nav.top-bar {
   .has-dropdown a:hover {
     background-color: $orange !important;
   }
+  
+
+  @media #{$small-only} {
+    margin: 0 0 2em;
+
+    .name img {
+      height: 36px;
+    }
+
+    .top-bar-section {
+      ul li > a, .dropdown li.parent-link a, .dropdown li.title h5 a {
+        color: $white;
+      }
+    }
+  }
 }
 .fixed nav.top-bar {
   margin: 0;
