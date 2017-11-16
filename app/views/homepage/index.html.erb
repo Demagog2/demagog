@@ -2,7 +2,7 @@
 
 <%= render partial: "interesting_statements" %>
 
-<% @articles.each do |article| %>
+<% @articles.drop(1).each do |article| %>
   <%= render partial: "article/preview", object: article, as: :article %>
 <% end %>
 
