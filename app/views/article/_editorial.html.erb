@@ -18,3 +18,14 @@
     </div>
     <div class="columns"></div>
 </div>
+
+<% if @users %>
+  <div class="row">
+    <div class="large-7 columns">
+      <% @users.each do |user| %>
+        <p><%= user.full_name %></p>
+        <p><%= user.bio %></p>
+      <% end %>
+    </div>
+  </div>
+<% end %>

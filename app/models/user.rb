@@ -5,4 +5,8 @@ class User < ApplicationRecord
   has_many :comments
   has_many :assessments
   belongs_to :portrait, class_name: "Attachment", optional: true
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
 end

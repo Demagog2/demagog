@@ -8,7 +8,7 @@ class UserMigration
   end
 
   def perform
-    old_users = self.connection.query("SELECT user.*, usertype.usertype, usertype_name
+    old_users = self.connection.query("SELECT user.*, usertype.usertype, usertype.rank, usertype_name
       FROM user LEFT JOIN usertype ON user.id_usertype = usertype.id")
 
     old_users.each do |old_user|
@@ -21,6 +21,7 @@ class UserMigration
         registered_at: old_user["ts_registered"],
         active: old_user["status"] == 1,
         position_description: old_user["usertype_name"],
+        rank: old_user["rank"]
       )
 
       user.roles << Role.find_by(name: old_user["usertype"])
