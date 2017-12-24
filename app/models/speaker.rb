@@ -2,7 +2,7 @@
 
 class Speaker < ApplicationRecord
   has_many :memberships
-  has_many :parties, through: :memberships
+  has_many :groups, through: :memberships
   has_many :statements
   has_many :assessments, through: :statements
   belongs_to :attachment
@@ -29,8 +29,8 @@ class Speaker < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
-  def party
-    memberships.current.party
+  def group
+    memberships.current.group
   end
 
   def stats_for_debate(source)
