@@ -9,7 +9,7 @@ class SpeakerControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index with party id" do
-    get speakers_url(parties(:party_a))
+    get speakers_url(groups(:group_a))
     assert_response :success
   end
 
