@@ -1,0 +1,79 @@
+# Ruby CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/ruby:2.4.1-node
+        environment:
+          DB_HOST: 127.0.0.1
+          RAILS_ENV: test
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+      - image: circleci/mysql:5.7.18
+        env:
+         - MYSQL_ALLOW_EMPTY_PASSWORD=true
+         - MYSQL_HOST=127.0.0.1
+         - MYSQL_ROOT_HOST=%
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "Gemfile.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+
+      - run:
+          name: Yarn Install
+          command: yarn install
+
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
+
+      # Database setup
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
+
+      # Webpack setup
+      - run: bundle exec bin/webpack
+
+      # run rubocop
+      - run:
+          name: Run rubocop
+          command: bundle exec rubocop
+
+      # run tests!
+      - run:
+          name: run tests
+          command: |
+            bundle exec rake test
+
+      # collect reports
+      # - store_test_results:
+      #     path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results

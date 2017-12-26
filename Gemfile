@@ -52,7 +52,7 @@ gem "jbuilder", "~> 2.5"
 gem "friendly_id", "~> 5.1.0"
 
 # Add skylight profiler
-gem "skylight"
+# gem "skylight"
 
 # Use Capistrano for deployment
 group :development do
