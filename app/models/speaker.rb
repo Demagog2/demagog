@@ -30,7 +30,13 @@ class Speaker < ApplicationRecord
   end
 
   def party
-    memberships.current.party
+    current = memberships.current
+
+    if current.respond_to?(:party)
+      current.party
+    else
+      nil
+    end
   end
 
   def stats_for_debate(source)

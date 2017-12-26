@@ -18,3 +18,13 @@ two:
   bio: MyText
   website_url: MyString
   status: false
+
+speaker_with_no_party:
+  before_name: MyString
+  first_name: Jim
+  last_name: Doe
+  after_name: MyString
+  bio: MyText
+  website_url: MyString
+  status: false
+
