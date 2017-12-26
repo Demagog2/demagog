@@ -31,3 +31,13 @@ three:
   published: false
   count_in_statistics: false
 
+statement_with_no_veracity:
+  content: Statement with no veracity
+  questionables: false
+  speaker: one
+  source: one
+  excerpted_at: 2017-09-17 17:59:14
+  important: false
+  published: true
+  count_in_statistics: false
+

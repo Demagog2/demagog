@@ -3,7 +3,11 @@
 require "test_helper"
 
 class StatementTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "#published" do
+    statements = Statement.published
+
+    statements.each do |statement|
+      assert_not_nil statement.correct_assessment.veracity
+    end
+  end
 end
