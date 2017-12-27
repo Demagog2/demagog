@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class PartyTest < ActiveSupport::TestCase
+class BodyTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

@@ -15,10 +15,10 @@ class SpeakerTest < ActiveSupport::TestCase
     assert_same(speaker.attachment, speaker.portrait)
   end
 
-  test "#party" do
+  test "#body" do
     speaker = speakers(:one)
 
-    assert_equal(speaker.party, parties(:party_a))
+    assert_equal(speaker.body, bodies(:body_a))
   end
 
   test "#stats" do

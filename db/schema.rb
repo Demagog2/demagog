@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171212234242) do
+ActiveRecord::Schema.define(version: 20171223154132) do
 
   create_table "article_has_segments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "order"
@@ -80,6 +80,17 @@ ActiveRecord::Schema.define(version: 20171212234242) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "bodies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
+    t.string "short_name"
+    t.text "description", limit: 4294967295
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "attachment_id"
+    t.boolean "is_party"
+    t.index ["attachment_id"], name: "index_bodies_on_attachment_id"
+  end
+
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "content"
     t.bigint "user_id"
@@ -130,24 +141,14 @@ ActiveRecord::Schema.define(version: 20171212234242) do
   end
 
   create_table "memberships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.bigint "party_id"
+    t.bigint "body_id"
     t.bigint "speaker_id"
     t.datetime "since"
     t.datetime "until"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["party_id"], name: "index_memberships_on_party_id"
+    t.index ["body_id"], name: "index_memberships_on_body_id"
     t.index ["speaker_id"], name: "index_memberships_on_speaker_id"
-  end
-
-  create_table "parties", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "name"
-    t.string "short_name"
-    t.text "description", limit: 4294967295
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "attachment_id"
-    t.index ["attachment_id"], name: "index_parties_on_attachment_id"
   end
 
   create_table "roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

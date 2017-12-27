@@ -1,11 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-party_a:
+body_a:
   name: Party A
   short_name: pa
   description: Description of Party A
+  is_party: true
 
-party_b:
+body_b:
   name: Party B
   short_name: pb
   description: Description of Party B
+  is_party: true

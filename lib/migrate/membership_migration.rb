@@ -14,7 +14,7 @@ class MembershipMigration
   def perform
     old_memberships = self.connection.query("SELECT * FROM politik_strana")
 
-    Membership.bulk_insert(:speaker_id, :party_id, :since, :until, :created_at, :updated_at) do |worker|
+    Membership.bulk_insert(:speaker_id, :body_id, :since, :until, :created_at, :updated_at) do |worker|
       old_memberships.each do |old_membership|
         since_date = old_membership["rok_od"] != 0 ? beginning_of_the_year(old_membership["rok_od"]) : nil
         until_date = old_membership["rok_do"] != 0 ? beginning_of_the_year(old_membership["rok_do"]) : nil

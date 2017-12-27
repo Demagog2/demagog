@@ -2,7 +2,7 @@
 
 class Speaker < ApplicationRecord
   has_many :memberships
-  has_many :parties, through: :memberships
+  has_many :bodies, through: :memberships
   has_many :statements
   has_many :assessments, through: :statements
   belongs_to :attachment
@@ -29,11 +29,11 @@ class Speaker < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
-  def party
+  def body
     current = memberships.current
 
-    if current.respond_to?(:party)
-      current.party
+    if current.respond_to?(:body)
+      current.body
     else
       nil
     end
