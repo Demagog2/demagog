@@ -23,3 +23,18 @@ two:
   evaluation_status: correct
   evaluated_at: 2017-09-18 09:35:56
   disputed: false
+
+assessment_with_no_veracity:
+  statement: statement_with_no_veracity
+  explanation: Correct explanantion but without any veracity
+  evaluation_status: correct
+  evaluated_at: 2017-09-18 09:35:56
+  disputed: false
+
+assessment_of_fake_statement:
+  statement: fake_statement
+  explanation: Correct explanantion of fake statement
+  veracity: one
+  evaluation_status: correct
+  evaluated_at: 2017-09-18 09:35:56
+  disputed: false

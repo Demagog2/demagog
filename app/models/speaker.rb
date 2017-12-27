@@ -40,11 +40,11 @@ class Speaker < ApplicationRecord
   end
 
   def stats_for_debate(source)
-    build_stats statements.published.where(source_id: source.id)
+    build_stats statements.relevant_for_statistics.where(source_id: source.id)
   end
 
   def stats
-    build_stats statements.published
+    build_stats statements.relevant_for_statistics
   end
 
   def statements_by_veracity(veracity_id)

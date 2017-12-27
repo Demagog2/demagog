@@ -12,7 +12,22 @@ class Statement < ApplicationRecord
   has_many :assessments
   has_many :veracities, through: :assessments
 
-  scope :published, -> { where(published: true).order(excerpted_at: :desc) }
+  scope :published, -> {
+    where(published: true)
+      .order(excerpted_at: :desc)
+      .joins(:assessments)
+      .where.not(assessments: {
+        veracity_id: nil
+      })
+      .where(assessments: {
+        evaluation_status: Assessment::STATUS_CORRECT
+      })
+  }
+
+  scope :relevant_for_statistics, -> {
+    published
+      .where(count_in_statistics: true)
+  }
 
   def self.interesting_statements
     limit(4)
