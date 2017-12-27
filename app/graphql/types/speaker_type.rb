@@ -40,5 +40,13 @@ Types::SpeakerType = GraphQL::ObjectType.define do
     }
   end
 
-  field :party, Types::PartyType
+  field :body, Types::BodyType
+
+  field :party, Types::PartyType do
+    deprecation_reason "Replaced by 'body', as not all speakers must be members of a political party"
+
+    resolve ->(obj, args, ctx) {
+      obj.body
+    }
+  end
 end

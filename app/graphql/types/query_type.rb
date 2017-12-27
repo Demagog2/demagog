@@ -17,15 +17,16 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :limit, types.Int, default_value: 10
     argument :offset, types.Int, default_value: 0
     argument :party, types.Int
+    argument :body, types.Int
 
     resolve -> (obj, args, ctx) {
       speakers = Speaker.offset(args[:offset]).limit(args[:limit])
 
-      if args[:party]
+      if args[:party] || args[:body]
         speakers
           .joins(:memberships)
           .where(memberships: {
-            party_id: args[:party],
+            body_id: args[:party] || args[:body],
             until: nil
           })
       else
@@ -61,8 +62,18 @@ Types::QueryType = GraphQL::ObjectType.define do
   field :party, Types::PartyType do
     argument :id, !types.Int
 
+    deprecation_reason "Replaced by 'body', as not all speakers must be members of a political party"
+
     resolve -> (obj, args, ctx) {
-      Party.find(args[:id])
+      Body.find(args[:id])
+    }
+  end
+
+  field :body, Types::BodyType do
+    argument :id, !types.Int
+
+    resolve -> (obj, args, ctx) {
+      Body.find(args[:id])
     }
   end
 
@@ -70,8 +81,24 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :limit, types.Int, default_value: 10
     argument :offset, types.Int, default_value: 0
 
+    deprecation_reason "Replaced by 'bodies', as not all speakers must be members a political party"
+
     resolve -> (obj, args, ctx) {
-      Party.offset(args[:offset]).limit(args[:limit])
+      Body.offset(args[:offset]).limit(args[:limit])
+    }
+  end
+
+  field :bodies, types[Types::BodyType] do
+    argument :limit, types.Int, default_value: 10
+    argument :offset, types.Int, default_value: 0
+    argument :is_party, types.Boolean, default_value: nil
+
+    resolve -> (obj, args, ctx) {
+      bodies = Body.offset(args[:offset]).limit(args[:limit])
+
+      bodies = bodies.where(is_party: args[:is_party]) unless args[:is_party].nil?
+
+      bodies
     }
   end
 
