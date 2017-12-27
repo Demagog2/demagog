@@ -8,7 +8,7 @@ one:
   excerpted_at: 2017-09-17 17:59:14
   important: false
   published: true
-  count_in_statistics: false
+  count_in_statistics: true
 
 
 two:
@@ -19,7 +19,7 @@ two:
   excerpted_at: 2017-09-17 17:59:14
   important: false
   published: true
-  count_in_statistics: false
+  count_in_statistics: true
 
 three:
   content: Not published statement
@@ -41,3 +41,12 @@ statement_with_no_veracity:
   published: true
   count_in_statistics: false
 
+fake_statement:
+  content: Statement that will not be included in stats
+  questionables: false
+  speaker: one
+  source: one
+  excerpted_at: 2017-09-17 17:59:14
+  important: false
+  published: true
+  count_in_statistics: false

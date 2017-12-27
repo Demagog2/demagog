@@ -10,4 +10,12 @@ class StatementTest < ActiveSupport::TestCase
       assert_not_nil statement.correct_assessment.veracity
     end
   end
+
+  test "#relevant_for_statistics" do
+    statements = Statement.relevant_for_statistics
+
+    statements.each do |statement|
+      assert statement.count_in_statistics?
+    end
+  end
 end

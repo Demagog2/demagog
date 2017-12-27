@@ -24,6 +24,11 @@ class Statement < ApplicationRecord
       })
   }
 
+  scope :relevant_for_statistics, -> {
+    published
+      .where(count_in_statistics: true)
+  }
+
   def self.interesting_statements
     limit(4)
       .published

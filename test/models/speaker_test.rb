@@ -37,7 +37,7 @@ class SpeakerTest < ActiveSupport::TestCase
   test "#statements_by_veracity" do
     speaker = speakers(:one)
 
-    assert_equal([statements(:one)], speaker.statements_by_veracity(veracities(:one)).to_a)
+    assert_equal([statements(:one), statements(:fake_statement)], speaker.statements_by_veracity(veracities(:one)).to_a)
     assert_equal([statements(:two)], speaker.statements_by_veracity(veracities(:two)).to_a)
   end
 end
