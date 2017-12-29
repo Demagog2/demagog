@@ -49,4 +49,6 @@ Types::SpeakerType = GraphQL::ObjectType.define do
       obj.body
     }
   end
+
+  field :stats, Types::StatsType
 end
