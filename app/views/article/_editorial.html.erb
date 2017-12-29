@@ -21,11 +21,27 @@
 
 <% if @users %>
   <div class="row">
-    <div class="large-7 columns">
-      <% @users.each do |user| %>
-        <p><%= user.full_name %></p>
-        <p><%= user.bio %></p>
-      <% end %>
+    <div class="columns">
+      <h2>Kdo připravuje demagog.cz?</h2>
     </div>
   </div>
+
+  <% @users.each do |user| %>
+    <div class="row" style="margin-bottom: 50px; clear: both;">
+      <div class="large-3 pull-3 columns">
+        <div class="photo-wrapper">
+          <%= image_tag(user_portrait(user.portrait), class: 'vyrok_fotografia') %>
+        </div>
+      </div>
+
+      <div class="large-9 pull-3 columns">
+        <h3 style="text-align: left; margin-bottom: 0;"><%= user.full_name %></h3>
+        <p style="margin: 0; font-style: italic"><%= user.position_description %></p>
+
+        <p style="font-size: 85%; text-align: left;">
+          <%= user.bio %>
+        </p>
+      </div>
+    </div>
+  <% end %>
 <% end %>

@@ -4,7 +4,7 @@ class ArticleController < ApplicationController
   def index
     @article = Article.friendly.find(params[:id])
 
-    @users = User.where(active: true).order(rank: :asc) if params[:id] == "o-nas"
+    @users = User.where(active: true).order(rank: :asc, last_name: :asc) if params[:id] == "o-nas"
 
     return unless Rails.env.production?
 

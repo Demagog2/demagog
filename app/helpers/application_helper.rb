@@ -11,6 +11,14 @@ module ApplicationHelper
     "#{server}/data/#{folder}/s/#{attachment.file}"
   end
 
+  def user_portrait(attachment)
+    if attachment.file.empty?
+      "#{server}/data/users/default.png"
+    else
+      "#{server}/data/users/s/#{attachment.file}"
+    end
+  end
+
   private
     def server
       ENV["DEMAGOG_IMAGE_SERVICE_URL"]
