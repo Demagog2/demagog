@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+SpeakerStats = Struct.new(:speaker, :stats)
+
 Types::ArticleType = GraphQL::ObjectType.define do
   name "Article"
 
@@ -19,6 +21,14 @@ Types::ArticleType = GraphQL::ObjectType.define do
   field :speakers, types[Types::SpeakerType] do
     resolve -> (obj, args, ctx) {
       obj.unique_speakers
+    }
+  end
+
+  field :debate_stats, types[Types::ArticleSpeakerStatsType] do
+    resolve -> (obj, args, ctx) {
+      obj.unique_speakers.map do |speaker|
+        SpeakerStats.new(speaker, speaker.stats_for_debate(obj))
+      end
     }
   end
 
