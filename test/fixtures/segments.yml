@@ -1,9 +1,4 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  segment_type:
-  text: MyText
-
-two:
-  segment_type:
-  text: MyText
+  segment_type: statements_set

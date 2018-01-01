@@ -1,13 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  transcript: Interview with the guy
+  transcript: Interview with John and Jane
   medium: discussion_show
-  source_url: MyString
+  source_url: http://interview.example.com
   media_personality: one
-  released_at: 2017-09-17 18:14:51
-
-two:
-  transcript: MyText
-  source_url: MyString
   released_at: 2017-09-17 18:14:51

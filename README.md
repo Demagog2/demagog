@@ -30,6 +30,22 @@ MIGRATION_DATABASE_URL=mysql2://username:password@server/database
 
 ### Services (job queues, cache servers, search engines, etc.)
 
+#### Redis server
+
+Redis server is not essential for running https://demagog.cz, but it helps to improve performance
+
+It's used to cache:
+
+* speaker statistics
+* speaker statistics for debate (article)
+
+Assuming we use docker for
+```sh
+docker pull redis:alpine
+
+docker run --name redis -p 6379:6379 -d redis
+```
+
 #### Server for requesting static assets from legacy server
 
 HTTP server that upon request downloads an image from the legacy server and caches it locally.

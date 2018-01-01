@@ -51,6 +51,12 @@ gem "jbuilder", "~> 2.5"
 # Use friendly to generate slugs
 gem "friendly_id", "~> 5.1.0"
 
+# Enables env. specific configuration
+gem "config"
+
+# Use redis for store layer
+gem "redis", "~> 4.0", ">= 4.0.1"
+
 # Add skylight profiler
 # gem "skylight"
 

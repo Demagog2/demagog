@@ -36,6 +36,7 @@ class Statement < ApplicationRecord
       .where(important: true)
   end
 
+  # @return [Assessment]
   def correct_assessment
     Assessment.find_by(
       statement: self,

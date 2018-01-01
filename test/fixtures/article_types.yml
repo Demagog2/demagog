@@ -2,8 +2,8 @@
 
 default:
   name: default
-  template: MyText
+  template:
 
 static:
   name: static
-  template: MyText
+  template:

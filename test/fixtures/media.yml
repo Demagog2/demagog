@@ -1,11 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 discussion_show:
-  kind: MyString
-  name: MyString
-  description: MyText
-
-two:
-  kind: MyString
-  name: MyString
-  description: MyText
+  kind:
+  name: Political debate
+  description: Political debate is a show where politics discuss various topics.

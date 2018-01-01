@@ -50,5 +50,9 @@ Types::SpeakerType = GraphQL::ObjectType.define do
     }
   end
 
-  field :stats, Types::StatsType
+  field :stats, Types::StatsType do
+    resolve ->(obj, args, ctx) {
+      Stats::Speaker::StatsBuilderFactory.new.create(Settings).build(obj)
+    }
+  end
 end

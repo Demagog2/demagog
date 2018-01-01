@@ -27,7 +27,8 @@ Types::ArticleType = GraphQL::ObjectType.define do
   field :debate_stats, types[Types::ArticleSpeakerStatsType] do
     resolve -> (obj, args, ctx) {
       obj.unique_speakers.map do |speaker|
-        SpeakerStats.new(speaker, speaker.stats_for_debate(obj))
+        stats = Stats::Source::StatsBuilderFactory.new.create(Settings).build(obj.source, speaker)
+        SpeakerStats.new(speaker, stats)
       end
     }
   end

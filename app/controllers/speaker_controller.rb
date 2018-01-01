@@ -13,7 +13,8 @@ class SpeakerController < ApplicationController
 
     @statements = get_speaker_statements(@speaker)
 
-    @stats = @speaker.stats
+    @stats = speaker_stats.build(@speaker)
+
     @veracities = Veracity.all
   end
 

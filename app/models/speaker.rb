@@ -39,14 +39,6 @@ class Speaker < ApplicationRecord
     end
   end
 
-  def stats_for_debate(source)
-    build_stats statements.relevant_for_statistics.where(source_id: source.id)
-  end
-
-  def stats
-    build_stats statements.relevant_for_statistics
-  end
-
   def statements_by_veracity(veracity_id)
     statements
       .published
@@ -56,24 +48,4 @@ class Speaker < ApplicationRecord
         veracity_id: veracity_id
       })
   end
-
-  private
-    def build_stats(statements)
-      correct_assessments = Assessment
-        .includes(:veracity)
-        .where(statement: statements)
-        .where(evaluation_status: Assessment::STATUS_CORRECT)
-
-      correct_assessments.reduce(empty_stats) do |acc, assessment|
-        acc[assessment.veracity.key.to_sym] += 1
-        acc
-      end
-    end
-
-    def empty_stats
-      Veracity.all.reduce({}) do |acc, veracity|
-        acc[veracity.key.to_sym] = 0
-        acc
-      end
-    end
 end

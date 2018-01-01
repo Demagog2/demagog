@@ -1,11 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  kind: MyString
-  name: MyString
-  description: MyText
-
-two:
-  kind: MyString
-  name: MyString
-  description: MyText
+  kind:
+  name: Michael Media
+  description: Michael Media works for the Television One

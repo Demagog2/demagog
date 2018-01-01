@@ -20,7 +20,7 @@
               partial: "shared/speaker_stat",
               locals: {
                 speaker: speaker,
-                stats: speaker.stats_for_debate(@cover_story.source),
+                stats: controller.source_stats.build(@cover_story.source, speaker),
                 lazy_load_images: false
               })
             %>
@@ -62,7 +62,7 @@
               partial: "shared/speaker_stat",
               locals: {
                 speaker: speaker,
-                stats: speaker.stats_for_debate(@cover_story.source),
+                stats: controller.source_stats.build(@cover_story.source, speaker),
                 lazy_load_images: false
               })
             %>

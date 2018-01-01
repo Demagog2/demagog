@@ -3,7 +3,7 @@
 one:
   title: Fact checking article
   slug: factcheck
-  perex: MyText
+  perex: Perex of fact checking article from political debate
   article_type: default
   illustration: cover_photo
   source: one
@@ -13,7 +13,7 @@ one:
 two:
   title: Static article
   slug: static
-  perex: MyText
+  perex: Static article about various issues in our country
   illustration: cover_photo
   article_type: static
   published_at: 2017-09-18 09:04:39

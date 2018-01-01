@@ -21,19 +21,6 @@ class SpeakerTest < ActiveSupport::TestCase
     assert_equal(speaker.body, bodies(:body_a))
   end
 
-  test "#stats" do
-    speaker = speakers(:one)
-
-    assert_equal({ true: 1, untrue: 1, misleading: 0, unverifiable: 0 }, speaker.stats)
-  end
-
-  test "#stats_for_debate" do
-    speaker = speakers(:one)
-
-    assert_equal({ true: 1, untrue: 0, misleading: 0, unverifiable: 0 },
-      speaker.stats_for_debate(sources(:one)))
-  end
-
   test "#statements_by_veracity" do
     speaker = speakers(:one)
 

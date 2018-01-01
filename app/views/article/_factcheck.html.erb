@@ -23,7 +23,7 @@
                   partial: "shared/speaker_stat",
                   locals: {
                     speaker: speaker,
-                    stats: speaker.stats_for_debate(@article.source)
+                    stats: controller.source_stats.build(@article.source, speaker)
                   }
                 )
               %>
