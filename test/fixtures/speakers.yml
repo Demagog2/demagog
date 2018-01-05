@@ -19,6 +19,15 @@ two:
   website_url: http://example.com/b
   status: false
 
+three:
+  before_name:
+  first_name: Jack
+  last_name: Doe
+  after_name:
+  bio: Jane Doe is a politician. He's a former member of Party A.
+  website_url: http://example.com/c
+  status: false
+
 speaker_with_no_party:
   before_name:
   first_name: Jim
