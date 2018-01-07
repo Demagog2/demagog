@@ -18,4 +18,3 @@ class SpeakerStatsBuilderTest < ActiveSupport::TestCase
     assert_equal(expected_stats, stats_builder.build(speaker))
   end
 end
-
