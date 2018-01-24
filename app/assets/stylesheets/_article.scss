@@ -41,8 +41,8 @@ article {
 article.preview {
   margin-top: 40px;
 
-  h1 {
-    margin: -9px 0 10px;
+  h2 {
+    margin: 0 0 10px;
     text-align: left;
   }
   .speakers {
@@ -70,6 +70,11 @@ article.preview {
 
     &.default {  color: $blue; }
     &.static { color: $orange; }
+  }
+
+  .show-for-medium-up img {
+    width: calc(100% + #{$column-gutter / 2});
+    max-width: calc(100% + #{$column-gutter / 2});
   }
 }
 
