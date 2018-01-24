@@ -54,15 +54,30 @@ nav.top-bar {
     .alt { display: none; }
     img { height: 48px; }
   }
-  .button {
-    font-family: "Lato", sans-serif;
-    background: $black;
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
   .has-dropdown a:hover {
     background-color: $orange !important;
   }
+
+  input, .button {
+    height: 2rem;
+    line-height: 2rem;
+    padding: 0;
+    top: 16px;
+
+    border: 1px solid $aluminum;
+    background: $white;
+    
+    color: $jumbo;
+    font-family: "Lato", sans-serif;
+    text-transform: uppercase;
+  }
+
+  input { 
+    border-right: 0; 
+    color: $steel;
+    padding: 0 0.5rem;
+  }
+  .button { background: $silver; }
 
 
   @media (max-width: $medium-breakpoint) {
