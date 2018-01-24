@@ -109,7 +109,7 @@ nav.top-bar {
 
 footer {
   margin-top: 40px;
-  padding: 40px 0;
+  padding: 40px 0 0;
 
   h2 { margin: 0; }
 
@@ -119,6 +119,10 @@ footer {
     max-width: 115px;
     max-height: 60px;
     margin: 0px 30px 50px 0;
+  }
+
+  .attribution {
+    @include inverted;
   }
 }
 
