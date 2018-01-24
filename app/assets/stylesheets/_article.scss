@@ -73,4 +73,9 @@ article.preview {
   }
 }
 
+p.lead {
+  font-size: $paragraph-font-size + rem-calc(0.5);
+  line-height: inherit;
+}
+
 
