@@ -79,9 +79,14 @@ nav.top-bar {
   }
   .button { background: $silver; }
 
+  @media (min-width: $medium-breakpoint) {
+    transition: transform 0.2s ease-in-out;
+    transform: translate(0, 0);
+  }
 
   @media (max-width: $medium-breakpoint) {
     margin: 0 0 2em;
+    transform: translate(0, 0);
 
     .name img {
       height: 36px;
@@ -99,6 +104,11 @@ nav.top-bar {
   box-shadow: 0 0 5px rgba(0, 0, 0, .3);
   .name { visibility: visible;
     img { height: 32px; }
+  }
+
+  @media (min-width: $medium-breakpoint) {
+    margin-top: -80px;
+    transform: translate(0, 80px);
   }
 }
 
@@ -197,6 +207,10 @@ footer {
 
 input[type="text"] {
   border: 0.5px solid $dark;
+
+  &:focus {
+    border-color: $violet;
+  }
 }
 
 
