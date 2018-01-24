@@ -1,6 +1,6 @@
 body, html {
   background: $white;
-  color: $black;
+  color: $dark;
   font-family: "Lato", sans-serif;
 }
 
@@ -18,7 +18,7 @@ h1, h2, h3, h4, h5 {
   letter-spacing: 0.025em;
   margin-top: 1em;
   margin-bottom: 0.5em;
-  color: $black;
+  color: $violet;
 }
 
 p, li, blockquote, div {
@@ -118,7 +118,7 @@ footer {
   }
 
   .current-page {
-    background-color: $black;
+    background-color: $violet;
     color: $white;
   }
 }
@@ -177,7 +177,7 @@ footer {
 }
 
 input[type="text"] {
-  border: 0.5px solid $black;
+  border: 0.5px solid $dark;
 }
 
 

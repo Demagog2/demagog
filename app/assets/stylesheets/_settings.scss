@@ -100,15 +100,15 @@ $font-weight-bold: bold;
 // $snow        : #F9F9F9;
 // $vapor       : #F6F6F6;
 // $white-smoke : #F5F5F5;
-// $silver      : #EFEFEF;
+$silver      : #EFEFEF;
 // $smoke       : #EEEEEE;
 // $gainsboro   : #DDDDDD;
 // $iron        : #CCCCCC;
 // $base        : #AAAAAA;
-// $aluminum    : #999999;
-// $jumbo       : #888888;
+$aluminum    : #999999;
+$jumbo       : #888888;
 // $monsoon     : #777777;
-// $steel       : #666666;
+$steel       : #666666;
 // $charcoal    : #555555;
 // $tuatara     : #444444;
 // $oil         : #333333;
@@ -124,9 +124,11 @@ $font-weight-bold: bold;
 // $info-color: #a0d3e8;
 
 $blue: #0060ff;
-$black: #3c325c;
+$violet: #3c325c;
 $white: #f4f9fd;
 $orange: #f26538;
+$light: #d0d3e8;
+$dark: #282828; //#3c323c;
 
 $true: $blue;
 $untrue: #eb1d2b;
@@ -311,8 +313,8 @@ $blockquote-font-color: inherit;
 $blockquote-padding: 0;
 $blockquote-border: none;
 $blockquote-cite-font-size: inherit;
-$blockquote-cite-font-color: $black;
-$blockquote-cite-link-color: $black;
+$blockquote-cite-font-color: $violet;
+$blockquote-cite-link-color: $violet;
 $blockquote-cite-font-size: inherit;
 
 // Acronym styles
@@ -1448,15 +1450,15 @@ $topbar-height: rem-calc(65);
 // $topbar-link-dropdown-padding: rem-calc(20);
 // $topbar-button-font-size: .75rem;
 // $topbar-button-top: 7px;
-$topbar-link-color: $black;
+$topbar-link-color: $violet;
 $topbar-link-color-hover: $white;
-$topbar-link-color-active: $black;
-$topbar-link-color-active-hover: $black;
+$topbar-link-color-active: $violet;
+$topbar-link-color-active-hover: $violet;
 $topbar-link-bg: $topbar-bg;
-$topbar-link-bg-hover: $black;
-$topbar-link-bg-color-hover: $black;
-$topbar-link-bg-active: $black;
-$topbar-link-bg-active-hover: scale-color($black, $lightness: -14%);
+$topbar-link-bg-hover: $violet;
+$topbar-link-bg-color-hover: $violet;
+$topbar-link-bg-active: $violet;
+$topbar-link-bg-active-hover: scale-color($violet, $lightness: -14%);
 $topbar-title-font-size: rem-calc(17);
 $topbar-link-font-size: rem-calc(17);
 $topbar-button-font-size: rem-calc(17);
@@ -1472,13 +1474,13 @@ $topbar-button-font-size: rem-calc(17);
 // $topbar-dropdown-toggle-size: 5px;
 // $topbar-dropdown-toggle-color: $white;
 // $topbar-dropdown-toggle-alpha: .4;
-$topbar-dropdown-bg: $black;
+$topbar-dropdown-bg: $violet;
 $topbar-dropdown-link-color: $white;
 $topbar-dropdown-link-color-hover: $topbar-link-color-hover;
-$topbar-dropdown-link-bg: $black;
+$topbar-dropdown-link-bg: $violet;
 $topbar-dropdown-link-bg-hover: $orange;
 $topbar-dropdown-link-weight: $font-weight-normal;
-$topbar-dropdown-toggle-color: $black;
+$topbar-dropdown-toggle-color: $violet;
 $topbar-dropdown-toggle-alpha: 1;
 
 
@@ -1489,7 +1491,7 @@ $topbar-dropdown-toggle-alpha: 1;
 // $topbar-dropdown-label-font-weight: $font-weight-bold;
 // $topbar-dropdown-label-font-size: rem-calc(10);
 // $topbar-dropdown-label-bg: $oil;
-$topbar-dropdown-label-color: $black;
+$topbar-dropdown-label-color: $violet;
 $topbar-dropdown-label-bg: $faded;
 
 
@@ -1502,10 +1504,10 @@ $topbar-dropdown-label-bg: $faded;
 // $topbar-menu-link-color-toggled: $jumbo;
 // $topbar-menu-icon-color-toggled: $jumbo;
 // $topbar-menu-icon-position: $opposite-direction; // Change to $default-float for a left menu icon
-$topbar-menu-link-color: $black;
-$topbar-menu-icon-color: $black;
-$topbar-menu-link-color-toggled: $black;
-$topbar-menu-icon-color-toggled: $black;
+$topbar-menu-link-color: $violet;
+$topbar-menu-icon-color: $violet;
+$topbar-menu-link-color-toggled: $violet;
+$topbar-menu-icon-color-toggled: $violet;
 
 
 // Transitions and breakpoint styles
