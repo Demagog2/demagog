@@ -43,8 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
     event.stopPropagation();
   }
 
-  document
-    .querySelectorAll('.show-reasons')
+  [].slice.call(document.querySelectorAll('.show-reasons'))
     .forEach(function (elem) {
       elem.addEventListener('click', showAssessment)
     });
@@ -63,8 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var io = new IntersectionObserver(renderIntersectingImages);
 
-  document
-    .querySelectorAll('img.lazy-load')
+  [].slice.call(document.querySelectorAll('img.lazy-load'))
     .forEach(io.observe.bind(io));
 
   jQuery(document).foundation();

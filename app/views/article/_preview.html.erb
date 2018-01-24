@@ -1,7 +1,7 @@
 <% if local_assigns[:type] == "column" %>
     <article class="row preview">
         <div class="large-8 columns">
-            <h1><a class="title" href="<%= article_path(article) %>">Komentář: <%= article.title %></a></h1>
+            <h2><a class="title" href="<%= article_path(article) %>">Komentář: <%= article.title %></a></h2>
 
             <p class="clickthrough">
                 <span class="label editorial">Komentář</span> <i><%= raw(l(article.published_at, format: :long)) %></i> &mdash; <%= article.perex %>
@@ -42,7 +42,7 @@
                 <% end %>
             </div>
 
-            <h1><%= link_to(article.title, article_path(article), class: "title") %></h1>
+            <h2><%= link_to(article.title, article_path(article), class: "title") %></h2>
 
             <p class="clickthrough">
                 <span class="label <%= article.article_type.name %>">
