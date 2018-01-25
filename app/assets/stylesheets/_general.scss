@@ -58,12 +58,17 @@ nav.top-bar {
   .has-dropdown a:hover {
     background-color: $orange !important;
   }
+  .top-bar-section .has-dropdown:hover > a:after {
+    border-color: $white transparent transparent transparent;
+  }
 
   input, .button {
     height: 2rem;
     line-height: 2rem;
     padding: 0;
-    top: 16px;
+
+    @media (max-width: $medium-breakpoint) { top: 0px; }
+    @media (min-width: $medium-breakpoint) { top: 16px; }
 
     border: 1px solid $aluminum;
     background: $white;
@@ -96,6 +101,9 @@ nav.top-bar {
     .top-bar-section {
       ul li > a, .dropdown li.parent-link a, .dropdown li.title h5 a {
         color: $white;
+      }
+      .dropdown li {
+        overflow: hidden;
       }
     }
   }
