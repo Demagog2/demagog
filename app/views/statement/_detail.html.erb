@@ -25,7 +25,7 @@
       <p class="veracity <%= statement.correct_assessment.veracity.default_name %>">
         <%= statement.correct_assessment.veracity.name %></p>
       <a class="show-reasons" href="#">zobrazit odůvodnění</a>
-      <a class="permalink" href="<%= statement_path(statement.id) %>">sdílet výrok</a>
+      <a class="permalink" href="<%= statement_path(statement.id) %>">trvalý odkaz</a>
       <div class="explanation"><%= raw(statement.correct_assessment.explanation) %></div>
     </div>
   </div>
