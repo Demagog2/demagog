@@ -109,7 +109,6 @@
 }
 
 
-
 .interesting-statements {
   @include inverted;
   padding: 40px 0 30px;
@@ -123,19 +122,26 @@
       @include veracity(0.8);
       margin-left: 0.1em;
     }
+
+    figure, &.preview p {
+      margin: 0 0 0 60px;
+    }
   }
   .name a {
     display: inline;
   }
   p {
     font-size: rem-calc(14);
-    margin: 0;
   }
   .photo-wrapper {
-    float: right;
-    margin-right: 0;
+    float: left;
+    margin-left: -20px;
     width: 70px;
     height: 70px;
+  }
+  .statement.preview .veracity {
+    float: left;
+    margin: 35px 0 0 -30px;
   }
 }
 
