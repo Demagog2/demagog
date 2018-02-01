@@ -10,16 +10,23 @@ article {
   }
 }
 
-.filters {
-  select {
-    display: inline;
-    border: 1px solid #ccc;
-    padding: 10px;
-    background: 97% 50% no-repeat image-url('select.png') white;
-    -webkit-appearance: none;
-    border-radius: 0;
-    width: 25%;
+.row .row.collapse.filters {
+  margin-bottom: 2em;
+
+  .button {
+    border: 1px solid $aluminum;
+    background: $silver;
+    
+    color: $jumbo;
+    font-family: "Lato", sans-serif;
+    text-transform: uppercase;
   }
+
+  input, select {
+    border: 1px solid $aluminum;
+    border-right: none;
+    background: $white;
+  } 
 }
 
 .cover-story {

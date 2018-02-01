@@ -91,6 +91,7 @@ $column-gutter: rem-calc(50);
 // $font-family-sans-serif: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
 // $font-family-serif: Georgia, Cambria, "Times New Roman", Times, serif;
 // $font-family-monospace: Consolas, "Liberation Mono", Courier, monospace;
+$font-family-sans-serif: "Lato", Helvetica, Roboto, Arial, sans-serif;
 
 // We use these to define default font weights
 $font-weight-normal: normal;
@@ -474,9 +475,11 @@ $blockquote-cite-font-size: inherit;
 // $button-font-lrg: rem-calc(20);
 // $button-font-weight: $font-weight-normal;
 // $button-font-align: center;
+$button-font-color: $jumbo;
 
 // We use these to control various hover effects.
 // $button-function-factor: -20%;
+$button-function-factor: -20%;
 
 // We use these to control button border styles.
 // $button-border-width: 0;
@@ -494,6 +497,11 @@ $blockquote-cite-font-size: inherit;
 // $warning-button-border-color: $warning-button-bg-hover;
 // $info-button-bg-hover: scale-color($info-color, $lightness: $button-function-factor);
 // $info-button-border-color: $info-button-bg-hover;
+$button-border-width: 1px;
+$button-border-style: solid;
+$button-bg-color: $white;
+$button-bg-hover: scale-color($button-bg-color, $lightness: $button-function-factor);
+$button-border-color: $aluminum;
 
 // We use this to set the default radius used throughout the core.
 // $button-radius: $global-radius;
@@ -696,6 +704,9 @@ $blockquote-cite-font-size: inherit;
 // $input-prefix-overflow: hidden;
 // $input-prefix-font-color: $oil;
 // $input-prefix-font-color-alt: $white;
+$input-prefix-border-size: 1px;
+$input-prefix-border-type: solid;
+$input-prefix-font-color: $jumbo;
 
 // We use this setting to turn on/off HTML5 number spinners (the up/down arrows)
 // $input-number-spinners: true;
