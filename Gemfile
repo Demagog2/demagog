@@ -49,6 +49,9 @@ gem "jbuilder", "~> 2.5"
 # Use friendly to generate slugs
 gem "friendly_id", "~> 5.1.0"
 
+# Use meta tags to add SEO tags to the head
+gem 'meta-tags'
+
 # Enables env. specific configuration
 gem "config"
 

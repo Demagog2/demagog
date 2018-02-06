@@ -1,29 +1,9 @@
 <!DOCTYPE html>
 <html lang="cs">
   <head>
-    <title>Demagog.cz &mdash; <%= content_for?(:title) ? yield(:title) : 'Factcheck politických diskuzí' %></title>
     <%= csrf_meta_tags %>
-
-    <meta name="author" content="Demagog.cz" >
-    <meta name="web_author" content="Demagog2 Dev Team — github.com/Demagog2">
-    <meta name="author" content="Demagog.cz" >
-    <meta name="description" content="Politici operují s informacemi, které jsou zkreslené, účelově vytrhávané z původních kontextů, neúplné anebo přímo lživé. Moderátor o tom často nevědí, protože jim chybějí informace a nedokážou efektivně a jednoznačně oponovat. Projekt Demagog.cz má za cíl kontrolu těchto tvrzení.">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f04124"/>
-
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-
-    <link rel="shortcut icon" href="<%= asset_path("favicon.png") %>" type="image/x-icon" />
-    <!-- Add apple touch icon -->
-
-    <%# {#% stylesheets "static/bower_components/foundation/css/foundation.min.css" %}
-        <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %#}
-    {% stylesheets "static/scss/frontend.scss" filter="compass" %}
-        <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %} %>
-    <!--[if IE 8]><link rel="stylesheet" href="./static/css/ie8-grid-foundation-4.css" type="text/css" media="screen" ><![endif]-->
-    <%= render partial: "shared/og" %>
+    <%= render partial: "shared/meta" %>
   </head>
 
   <body>

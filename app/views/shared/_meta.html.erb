@@ -1,0 +1,32 @@
+<%= display_meta_tags site: 'Demagog.cz',
+  title: content_for?(:title) ? yield(:title) : 'Factcheck politických diskuzí',
+  separator: "&mdash;".html_safe,
+  description: (defined?(@article) and @article.perex.present?) ?
+    strip_tags(@article.perex).truncate(230) :
+    'Politici operují s informacemi, které jsou zkreslené, účelově vytrhávané z původních kontextů, neúplné anebo přímo lživé. Moderátor o tom často nevědí, protože jim chybějí informace a nedokážou efektivně a jednoznačně oponovat. Projekt Demagog.cz má za cíl kontrolu těchto tvrzení.',
+  keywords: %w[factcheck politics truth ověřování politika pravda],
+  author: 'Demagog.cz',
+  web_author: 'Demagog2 Dev Team — github.com/Demagog2',
+  viewport: 'width=device-width, initial-scale=1',
+  'theme-color': '#f04124',
+  charset: 'utf-8',
+  image_src: defined?(@article) ? 
+      article_illustration(@article.illustration, @article.article_type.name) : 
+      asset_path("apple-touch-icon.png"),
+  icon: [
+    { href: asset_path('favicon.png'), sizes: '64x64', type: 'image/png' },
+    { href: asset_path('apple-touch-icon.png'), rel: 'apple-touch-icon-precomposed', sizes: '114x114', type: 'image/png' },
+  ],
+  og: {
+    title: :title,
+    site_name: :site,
+    type: 'article',
+    url: url_for(:only_path => false),
+    image: :image_src,
+    author: :author
+  },
+  twitter: {
+    card: 'summary',
+    site: '@DemagogCZ'
+  }
+%>
