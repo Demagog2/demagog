@@ -37,3 +37,6 @@
 config/settings.local.yml
 config/settings/*.local.yml
 config/environments/*.local.yml
+
+# Ignore OS generated files
+.DS_Store
