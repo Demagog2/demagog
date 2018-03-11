@@ -34,14 +34,14 @@
 <div class="row">
   <div class="columns medium-6">
     <h2 id="statements">Výroky</h2>
-    <div class="filters row collapse">
+    <%#<div class="filters row collapse">
       <div class="small-8 columns">
-        <%= select_tag(:veracity, options_from_collection_for_select(@veracities, "id", "name", params[:veracity])) %>
+        <%= select_tag(:veracity, options_from_collection_for_select(@veracities, "id", "name", params[:veracity])) % >
       </div>
       <div class="small-4 columns">
-        <%= submit_tag("Filtrovat", class: "button postfix") %>
+        <%= submit_tag("Filtrovat", class: "button postfix") % >
       </div>
-    </div>
+    </div>%>
   </div>
 </div>
 
