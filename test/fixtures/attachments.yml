@@ -2,12 +2,12 @@
 
 one:
   attachment_type: portrait
-  file: 123456.jpg
+  file: user,portrait.jpg
   description: MyText
   source_url: MyString
 
 cover_photo:
   attachment_type: article_illustration
-  file: MyString
+  file: cover,photo.png
   description: MyText
   source_url: MyString
