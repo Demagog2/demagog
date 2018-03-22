@@ -58,6 +58,9 @@ gem "config"
 # Use redis for store layer
 gem "redis", "~> 4.0", ">= 4.0.1"
 
+# Patches security vulnerability CVE-2018-8048
+gem "loofah", "~> 2.2.1"
+
 # Add skylight profiler
 # gem "skylight"
 
