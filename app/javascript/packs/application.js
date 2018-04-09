@@ -6,9 +6,6 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
-window.jQuery = require('jquery');
-require('zurb-foundation-5/js/foundation/foundation');
-require('zurb-foundation-5/js/foundation/foundation.topbar');
 import 'intersection-observer/intersection-observer'
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -64,7 +61,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
   [].slice.call(document.querySelectorAll('img.lazy-load'))
     .forEach(io.observe.bind(io));
-
-  jQuery(document).foundation();
   
 });

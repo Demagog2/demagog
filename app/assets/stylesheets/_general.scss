@@ -9,7 +9,7 @@ body {
 }
 
 body.f-topbar-fixed {
-  margin-top: 2rem + $topbar-height;
+  margin-top: calc(2rem + $topbar-height);
 }
 
 h1, h2, h3, h4, h5 {
@@ -148,7 +148,7 @@ footer {
 
 
 .pagination {
-  font-size: rem-calc(18);
+  font-size: 18px;
   margin: 50px -10px;
 
   span {
