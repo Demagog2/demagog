@@ -11,7 +11,7 @@ end
 gem "dotenv-rails"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~> 5.1.4"
+gem "rails", "~> 5.2"
 # Add possibility for bulk insert to Active Record models
 gem "bulk_insert"
 # Use MySQL as the database for Active Record
@@ -29,7 +29,7 @@ gem "foundation-rails", "~> 5.5.2"
 # Add gem for paging
 gem "kaminari"
 # Add webpack support
-gem "webpacker", "~> 3.0"
+gem "webpacker", "~> 3.4"
 # Add graphql support
 gem "graphql"
 # Allow CORS setup
