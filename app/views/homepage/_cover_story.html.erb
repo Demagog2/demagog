@@ -1,74 +1,33 @@
-<article class="cover-story">
-  <% if @cover_story %>
-    <% if @cover_story.unique_speakers.length < 3 %>
-      <div class="row">
-        <div class="columns">
-          <h1>
-            <%= link_to(@cover_story.title, article_path(@cover_story)) %>
-          </h1>
-        </div>
-        <div class="perex large-5 medium-7 columns">
-          <p>
-            <%= strip_tags(@cover_story.perex) %>
-            <a href="<%= article_path(@cover_story) %>">
-              <span>Číst&nbsp;dál&nbsp;&rarr;</span>
-            </a>
-          </p>
+<% if @cover_story %>
+  <article class="cover-story <% if @cover_story.unique_speakers.length > 2 %>many-speakers<% end %>">    
+    <h1>
+      <%= link_to(@cover_story.title, article_path(@cover_story)) %>
+    </h1>
 
-          <% @cover_story.unique_speakers.each do |speaker| %>
-            <%= render(
-              partial: "shared/speaker_stat",
-              locals: {
-                speaker: speaker,
-                stats: controller.source_stats.build(@cover_story.source, speaker),
-                lazy_load_images: false
-              })
-            %>
-          <% end %>
-        </div>
-
-        <% if @cover_story.illustration %>
-          <div class="perex large-7 medium-5 columns">
-            <p>
-              <%= image_tag(article_illustration(@cover_story.illustration, @cover_story.article_type.name)) %>
-            </p>
-          </div>
-        <% end %>
-      </div>
-    <% else %>
-      <div class="row">
-        <div class="columns">
-          <h1>
-              <%= link_to(@cover_story.title, article_path(@cover_story)) %>
-          </h1>
-        </div>
-        <div class="perex large-8 medium-5 columns">
-          <% if @cover_story.illustration %>
-            <p>
-              <%= image_tag(article_illustration(@cover_story.illustration, @cover_story.article_type.name)) %>
-            </p>
-          <% end %>
-
-          <p>
-            <%= strip_tags(@cover_story.perex) %>
-            <a href="<%= article_path(@cover_story) %>">
-                Prohlédnout&nbsp;diskusi
-            </a>
-          </p>
-        </div>
-        <div class="perex large-4 medium-7 columns">
-          <% @cover_story.unique_speakers.each do |speaker| %>
-            <%= render(
-              partial: "shared/speaker_stat",
-              locals: {
-                speaker: speaker,
-                stats: controller.source_stats.build(@cover_story.source, speaker),
-                lazy_load_images: false
-              })
-            %>
-          <% end %>
-        </div>
-      </div>
+    <% if @cover_story.illustration %>
+      <figure>
+        <%= image_tag(article_illustration(@cover_story.illustration, @cover_story.article_type.name)) %>
+      </figure>
     <% end %>
-  <% end %>
-</article>
+
+    <p class="perex">
+      <%= strip_tags(@cover_story.perex) %>
+      <a href="<%= article_path(@cover_story) %>">
+        Číst&nbsp;dál&nbsp;&rarr;
+      </a>
+    </p>
+
+    <section class="speakers">
+      <% @cover_story.unique_speakers.each do |speaker| %>
+        <%= render(
+          partial: "shared/speaker_stat",
+          locals: {
+            speaker: speaker,
+            stats: controller.source_stats.build(@cover_story.source, speaker),
+            lazy_load_images: false
+          })
+        %>
+      <% end %>
+    </section>
+  </article>
+<% end %>
