@@ -1,0 +1,71 @@
+<% 
+
+Struct.new("Submenu", :name, :items)
+Struct.new("Link", :text, :href)
+
+@nav = [
+  Struct::Submenu.new(
+    "Přehledy",
+    [Struct::Link.new('Politici', speakers_path())]
+  ),
+  Struct::Submenu.new(
+    'Speciály',
+    [
+      Struct::Link.new('Vládní sliby 2014—17', 'https://extra.demagog.cz/vladni-sliby/'),
+      Struct::Link.new('Sliby Miloše Zemana', 'https://zpravy.aktualne.cz/domaci/zverejnujeme-velkou-inventuru-zemanovych-slibu-ktere-slovo-d/r~9ebe8728ff6911e7adc2ac1f6b220ee8/')
+    ]
+  ),
+  Struct::Submenu.new(
+    "O nás",
+    [
+      Struct::Link.new('Politici', speakers_path()),
+      Struct::Link.new('O Demagog.cz', article_path("o-nas")),
+      Struct::Link.new('Jak hodnotíme?', article_path("jak-hodnotime-metodika")),
+      Struct::Link.new('Výtky k hodnocení', article_path("mam-vyhradu-k-hodnoceni-nebo-navrh-na-overeni-kam-se-mohu-obra")),
+      Struct::Link.new('Naše financování', article_path("jak-je-projekt-demagogcz-financovan")),
+      Struct::Link.new('Etický kodex', article_path("eticky-kodex-demagogcz")),
+      Struct::Link.new('Kontakty', article_path("kontakty")),
+      '<hr>',
+      Struct::Link.new('Nabízíme workshopy', article_path("workshopy-demagogcz")),
+      Struct::Link.new('Czech this out!', article_path("czech-this-out")),
+    ]
+  )
+]
+
+%>
+
+<nav id="main-menu" role="navigation">
+  <label for="tm" id="toggle-menu">Menu <span class="drop-icon">▾</span></label>
+  <input type="checkbox" id="tm">
+  <ul>
+    <% @nav.each_with_index do |submenu, index| %>
+      <li><%= submenu.name %>
+        <span class="drop-icon">▾</span>
+        <label title="Toggle Drop-down" class="drop-icon" for="sm<%= index %>">▾</label>
+        <input type="checkbox" id="sm<%= index %>">
+        <ul class="sub-menu">
+          <% submenu.items.each do |item| %>
+            <% if (item.is_a? String) %>
+              <%= raw item %>
+            <% else %>
+              <li><a href="<%= item.href %>"><%= item.text %></a></li>
+            <% end %>
+          <% end %>
+        </ul>
+      </li>
+    <% end %>
+    <li>
+      <form id="search" onsubmit="searchFn(); return false;">
+        <script>
+          function searchFn() {
+            var q = document.getElementById('searchQuery').value;
+            window.open('https://search.seznam.cz/?q=' + encodeURIComponent(q) + '+site%3Ademagog.cz', '_blank');
+          }
+        </script>
+          
+        <input id="searchQuery" type="text" placeholder="">
+        <a href="#" onclick="searchFn(); return false;">Hledat</a>
+      </form>
+    </li>
+  </ul>
+</nav>
