@@ -7,6 +7,9 @@
     "intersection-observer": "^0.4.2"
   },
   "devDependencies": {
+    "stylelint": "^9.2.0",
+    "stylelint-config-standard": "^18.2.0",
+    "stylelint-scss": "^3.0.1",
     "webpack-dev-server": "^2.9.1"
   }
 }
