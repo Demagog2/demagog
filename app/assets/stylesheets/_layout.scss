@@ -1,0 +1,61 @@
+@mixin for-size($range) {
+  $phone-upper-boundary: 600px;
+  $tablet-portrait-upper-boundary: 900px;
+
+  @if $range == phone-only {
+    @media (max-width: #{$phone-upper-boundary - 1}) { @content; }
+  }
+
+  @else if $range == tablet-portrait {
+    @media (min-width: $phone-upper-boundary) and (max-width: #{$tablet-portrait-upper-boundary - 1}) { @content; }
+  }
+
+  @else if $range == tablet-landscape-up {
+    @media (min-width: $tablet-portrait-upper-boundary) { @content; }
+  }
+}
+
+@include for-size(phone-only) {
+
+}
+
+@include for-size(tablet-landscape-up) {
+  .container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-column-gap: var(--gutter);
+    grid-row-gap: 3rem;
+  }
+
+  .container {
+    margin: 3rem auto;
+    max-width: 1000px;
+  }
+
+  header {
+    grid-column: 1 / 6;
+    grid-row: 1;
+  }
+
+  #main-menu {
+    grid-column: 6 / -1;
+    grid-row: 1;
+  }
+
+  article,
+  nav.pagination {
+    grid-column: 1 / -1;
+  }
+
+  aside {
+    grid-column: span 6;
+  }
+
+  #interesting-statements {
+    grid-column: 1 / 9;
+  }
+
+  #darujme-widget {
+    grid-column: 9 / -1;
+  }
+}

@@ -1,0 +1,63 @@
+@mixin veracity($size: 1) {
+  text-transform: uppercase;
+  font-size: 90%;
+  margin-left: -0.1em;
+  white-space: nowrap;
+  font-weight: bold;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    top: $size * -0.1em;
+    width: $size * 1.3em;
+    height: $size * 1.3em;
+    border-radius: $size * 1.3em;
+    background-color: red;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: ($size * 0.7em) ($size * 0.7em);
+  }
+
+  &.true {
+    color: var(--true);
+
+    &::before {
+      background-color: var(--true);
+      background-image: image-url('true-symbol.svg');
+      background-position: 48% 55%;
+      background-size: ($size * 0.7em) ($size * 0.7em);
+    }
+  }
+
+  &.untrue {
+    color: var(--untrue);
+
+    &::before {
+      background-color: var(--untrue);
+      background-image: image-url('untrue-symbol.svg');
+      background-position: 50% 55%;
+      background-size: ($size * 0.6em) ($size * 0.6em);
+    }
+  }
+
+  &.misleading {
+    color: var(--misleading);
+
+    &::before {
+      background-color: var(--misleading);
+      background-image: image-url('misleading-symbol.svg');
+    }
+  }
+
+  &.unverifiable {
+    color: var(--unverifiable);
+
+    &::before {
+      background-color: var(--unverifiable);
+      background-position: 55% 50%;
+      background-image: image-url('unverifiable-symbol.svg');
+    }
+  }
+}

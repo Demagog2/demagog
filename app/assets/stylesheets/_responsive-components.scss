@@ -1,0 +1,49 @@
+@mixin for-size($range) {
+  $phone-upper-boundary: 600px;
+  $tablet-portrait-upper-boundary: 900px;
+
+  @if $range == phone-only {
+    @media (max-width: #{$phone-upper-boundary - 1}) { @content; }
+  }
+
+  @else if $range == tablet-portrait {
+    @media (min-width: $phone-upper-boundary) and (max-width: #{$tablet-portrait-upper-boundary - 1}) { @content; }
+  }
+
+  @else if $range == tablet-landscape-up {
+    @media (min-width: $tablet-portrait-upper-boundary) { @content; }
+  }
+}
+
+@include for-size(phone-only) {
+
+}
+
+@include for-size(tablet-landscape-up) {
+  article.cover-story {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-column-gap: var(--gutter);
+    grid-row-gap: 1rem;
+
+    h1 {
+      grid-column: 1 / -1;
+      grid-row: 1;
+    }
+
+    figure {
+      grid-column: 5 / -1;
+      grid-row: 2;
+    }
+
+    .perex {
+      grid-column: 1 / 5;
+      grid-row: 2;
+    }
+
+    .speakers {
+      grid-column: 1 / -1;
+      grid-row: 3;
+    }
+  }
+}
