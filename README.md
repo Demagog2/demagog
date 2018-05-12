@@ -28,7 +28,7 @@ MIGRATION_DATABASE_URL=mysql2://username:password@server/database
 7. Run DB migration `rails db:drop db:create db:migrate migration:run`
 8. `rails server`
 
-Run live-reload server with `guard`.
+Run guard-livereload server with `guard`.
 
 ### Services (job queues, cache servers, search engines, etc.)
 
