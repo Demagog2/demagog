@@ -43,7 +43,7 @@ guard :minitest, spring: "bin/rails test" do
   # watch(%r{^app/models/(.*)\.rb$})      { |m| "test/unit/#{m[1]}_test.rb" }
 end
 
-guard 'livereload' do
+guard "livereload" do
   extensions = {
     css: :css,
     scss: :css,
