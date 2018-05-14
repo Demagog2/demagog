@@ -6,6 +6,11 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
+var t = {
+  hideReasons: "skrýt odůvodnění",
+  showReasons: "zobrazit odůvodnění",
+}
+
 import 'intersection-observer/intersection-observer'
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -30,19 +35,26 @@ document.addEventListener('DOMContentLoaded', function () {
    * @param {Event} event
    */
   function showAssessment(event) {
-    var parent = findClosest(event.target, 'reasons');
-
-    if (parent) {
-      parent.classList.remove('hidden');
-    }
+    var parent = findClosest(event.target, 'statement');
+    if (parent) parent.classList.toggle('collapsed');
 
     event.preventDefault();
     event.stopPropagation();
   }
 
-  [].slice.call(document.querySelectorAll('.show-reasons'))
-    .forEach(function (elem) {
-      elem.addEventListener('click', showAssessment)
+  [].slice.call(document.querySelectorAll('.statement'))
+    .forEach(function (statement) {
+      var link = document.createElement('A');
+      link.classList.add('show-reasons');
+      link.innerHTML = '<span class="open">' + t.hideReasons + '</span>' 
+        + '<span class="collapsed">' + t.showReasons + '</span>';
+      link.setAttribute('href', '#');
+      link.addEventListener('click', showAssessment);
+
+      var utils = statement.querySelector('.utils');
+      utils.insertBefore(link, utils.firstChild);
+
+      if (!statement.classList.contains('important-statement')) statement.classList.add('collapsed');
     });
 
   /**

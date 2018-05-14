@@ -1,0 +1,9 @@
+<% if speaker.portrait %>
+  <figure class="portrait">
+    <% if local_assigns[:lazy_load_images] == false %>
+      <img class="lazy-load" data-src="<%= speaker_portrait(speaker.portrait) %>" alt="<%= speaker.full_name %>">
+    <% else %>
+      <%= image_tag(speaker_portrait(speaker.portrait), alt: speaker.full_name) %>
+    <% end %>
+  </figure>
+<% end %>

@@ -1,39 +1,38 @@
-<div class="row">
-  <div class="columns statement-detail">
-    <h1>Tento výrok byl ověřen jako
-      <span class="veracity glyphicons <%= @statement.correct_assessment.veracity.default_name %>">
-        <i></i> <%= @statement.correct_assessment.veracity.name.downcase %>
-      </span>
-    </h1>
+<section class="statement-detail">
+  <h1>Tento výrok byl ověřen jako
+    <span class="veracity glyphicons <%= @statement.correct_assessment.veracity.default_name %>">
+      <i></i> <%= @statement.correct_assessment.veracity.name.downcase %>
+    </span>
+  </h1>
 
-    <blockquote>
-      <b><%= @statement.speaker.full_name %>:</b> <%= raw(@statement.content) %>
-      <cite><%= @statement.source.medium.name %>, <%= raw(l(@statement.source.released_at, format: :long)) %></cite>
-    </blockquote>
-  </div>
-</div>
-<div class="row">
-  <div class="large-6 columns">
-    <h2>Odůvodnění</h2>
-    <div class="reasons"><%= raw(@statement.correct_assessment.explanation) %></div>
-  </div>
+  <blockquote>
+    <b><%= @statement.speaker.full_name %>:</b> <%= raw(@statement.content) %>
+    <cite><%= @statement.source.medium.name %>, <%= raw(l(@statement.source.released_at, format: :long)) %></cite>
+  </blockquote>
+</section>
 
-  <div class="large-5 push-1 columns">
-    <%=
-      render(
-        partial: "shared/speaker_stat",
-        locals: {
-          speaker: @statement.speaker,
-          stats: @stats
-        }
-      )
-    %>
+<article>
+  <h2>Odůvodnění</h2>
+  <section class="reasons">
+    <%= raw(@statement.correct_assessment.explanation) %>
+  </section>
+</article>
 
-    <h2>Zmíněno</h2>
-    <ul>
-    <% @statement.articles.each do |article| %>
-      <li><%= link_to(article.title, article_path(article)) %></li>
-    <% end %>
-    </ul>
-  </div>
-</div>
+<aside class="meta">
+  <%=
+    render(
+      partial: "shared/speaker_stat",
+      locals: {
+        speaker: @statement.speaker,
+        stats: @stats
+      }
+    )
+  %>
+
+  <h2>Zmíněno</h2>
+  <ul>
+  <% @statement.articles.each do |article| %>
+    <li><%= link_to(article.title, article_path(article)) %></li>
+  <% end %>
+  </ul>
+</aside>

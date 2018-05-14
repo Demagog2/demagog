@@ -25,9 +25,6 @@
     grid-template-columns: repeat(12, 1fr);
     grid-column-gap: var(--gutter);
     grid-row-gap: 3rem;
-  }
-
-  .container {
     margin: 3rem auto;
     max-width: 1000px;
   }
@@ -49,6 +46,10 @@
 
   aside {
     grid-column: span 6;
+  }
+
+  #supporters {
+    grid-column: 1 / 7;
   }
 
   #interesting-statements {

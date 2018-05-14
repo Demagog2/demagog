@@ -20,7 +20,30 @@
 }
 
 @include for-size(tablet-landscape-up) {
+  article {
+    grid-column: 1 / 8;
+  }
+
+  article > h1:first-child,
+  article > h2:first-child,
+  aside > h2:first-child {
+    margin-top: 0;
+  }
+
+  .statement-detail {
+    grid-column: 1 / -1;
+  }
+
+  .meta {
+    grid-column: 8 / -1;
+  }
+
+  article.preview {
+    grid-column: 1 / -1;
+  }
+
   article.cover-story {
+    grid-column: 1 / -1;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-column-gap: var(--gutter);
@@ -44,6 +67,10 @@
     .speakers {
       grid-column: 1 / -1;
       grid-row: 3;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-column-gap: var(--gutter);
+      grid-row-gap: 1rem;
     }
   }
 }

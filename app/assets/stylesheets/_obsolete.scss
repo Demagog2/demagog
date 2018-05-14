@@ -1,8 +1,13 @@
-.explanation, .editorial {
+article {
   clear: left;
 
-  &, & font, & div, & span, & li {
-    font-size: 1em !important; line-height: 1.6em !important;
+  &,
+  font,
+  div,
+  span,
+  li {
+    font-size: 1em !important;
+    line-height: 1.6em !important;
   }
 
   * {

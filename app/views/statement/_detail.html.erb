@@ -1,33 +1,29 @@
-<article class="row statement s-speaker-statement">
-  <div class="large-7 medium-10 columns" id="<%= statement.id %>">
-     <% unless local_assigns[:non_attributed] %>
-      <figure class="speaker">
-        <a href="<%= speaker_path(statement.speaker.id) %>">
-          <div class="photo-wrapper">
-            <% if statement.speaker.portrait.file != "" %>
-              <img class="lazy-load" data-src="<%= speaker_portrait(statement.speaker.portrait) %>" alt="<%= statement.speaker.full_name %>">
-            <% end %>
-          </div>
-        </a>
-      </figure>
-    <% end %>
+<article class="statement <% if statement.important? %>important-statement<% end %>" id="<%= statement.id %>">
 
-    <% if statement.important? %>
-      <span class="label secondary">důležitý výrok</span>
-    <% end %>
+  <% unless local_assigns[:non_attributed] %>
+    <a href="<%= speaker_path(statement.speaker.id) %>" class="speaker">
+      <%= render(partial: 'shared/portrait', object: statement.speaker, as: :speaker) %>
+    </a>
+  <% end %>
 
-    <p class="quote">
-      <% unless local_assigns[:non_attributed] %><b><%= statement.speaker.full_name %></b>:<% end %>
-      „<%= raw(statement.content) %>“
-    </p>
+  <% if statement.important? %>
+    <span class="label important">důležitý výrok</span>
+  <% end %>
 
-    <div class="reasons <% unless statement.important? %>hidden<% end %>">
-      <p class="veracity <%= statement.correct_assessment.veracity.default_name %>">
-        <%= statement.correct_assessment.veracity.name %></p>
-      <a class="show-reasons" href="#">zobrazit odůvodnění</a>
-      <a class="permalink" href="<%= statement_path(statement.id) %>">trvalý odkaz</a>
-      <div class="explanation"><%= raw(statement.correct_assessment.explanation) %></div>
-    </div>
-  </div>
-  <div class="columns"></div>
+  <p class="quote">
+    <% unless local_assigns[:non_attributed] %><b><%= statement.speaker.full_name %></b>:<% end %>
+    „<%= raw(statement.content) %>“
+  </p>
+
+  <p class="veracity <%= statement.correct_assessment.veracity.default_name %>">
+    <%= statement.correct_assessment.veracity.name %>
+  </p>
+    
+  <p class="utils">
+    <a class="permalink" href="<%= statement_path(statement.id) %>">trvalý odkaz</a>
+  </p>
+
+  <section class="reasons">
+    <%= raw(statement.correct_assessment.explanation) %>
+  </section>
 </article>

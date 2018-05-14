@@ -1,9 +1,7 @@
-<figure class="speaker">
+<article class="speaker">
   <a href="<%= speaker_path(speaker) %>">
-    <div class="photo-wrapper">
-      <img src="<% if speaker.portrait %><%= speaker_portrait(speaker.portrait) %><% end %>" alt="<%= speaker.full_name %>">
-    </div>
+    <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
     <p class="name"><%= speaker.full_name %></p>
     <p><%= speaker.published_statements.size %> výroků</p>
   </a>
-</figure>
+</article>

@@ -1,38 +1,29 @@
-<div class="row">
-  <div class="medium-4 medium-push-8 columns">
-    <%= render(partial: "speaker/sidebar") %>
-  </div>
-  <div class="medium-8 medium-pull-4 columns speakers-list">
-    <% if @party  %>
-      <h2><%= @party.name %></h2>
+<article class="speakers-list">
+  <% if @party  %>
+    <h2><%= @party.name %></h2>
 
-      <div class="row">
-        <% @party.current_members.each do |speaker| %>
-          <%= render(partial: 'speaker/listed', object: speaker, as: :speaker) %>
-        <% end %>
-      </div>
-    <% else %>
-      <h2>Politici s nejvíce výroky</h2>
-      <p>Vybráni jsou nejaktivnější politici za posledních šest měsíců.</p>
+    <% @party.current_members.each do |speaker| %>
+      <%= render(partial: 'speaker/listed', object: speaker, as: :speaker) %>
+    <% end %>    
+  <% else %>
+    <h2>Politici s nejvíce výroky</h2>
+    <p>Vybráni jsou nejaktivnější politici za posledních šest měsíců.</p>
 
-      <div class="row">
-        <% @speakers.each do |speaker| %>
-          <figure class="speaker">
-            <a href="<%= speaker_path(speaker) %>">
-              <% if speaker.portrait %>
-                <div class="photo-wrapper">
-                  <%= image_tag(speaker_portrait(speaker.portrait), alt: speaker.full_name) %>
-                </div>
-              <% end %>
-              <p class="name"><%= speaker.full_name %></p>
-              <p>
-                <%= speaker.published_statements.where("excerpted_at >= ?", 6.months.ago).count %> výroků
-                (<%= speaker.published_statements.count %>&nbsp;výroků&nbsp;celkem)
-              </p>
-            </a>
-          </figure>
-        <% end %>
-      </div>
+    <% @speakers.each do |speaker| %>
+      <article class="speaker">
+        <a href="<%= speaker_path(speaker) %>">
+          <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
+          <p class="name"><%= speaker.full_name %></p>
+          <p>
+            <%= speaker.published_statements.where("excerpted_at >= ?", 6.months.ago).count %> výroků
+            (<%= speaker.published_statements.count %>&nbsp;výroků&nbsp;celkem)
+          </p>
+        </a>
+      </article>
     <% end %>
-  </div>
-</div>
+  <% end %>
+</article>
+
+<aside class="meta">
+  <%= render(partial: "speaker/sidebar") %>
+</aside>

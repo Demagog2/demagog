@@ -1,73 +1,42 @@
-<% if local_assigns[:type] == "column" %>
-    <article class="row preview">
-        <div class="large-8 columns">
-            <h2><a class="title" href="<%= article_path(article) %>">Komentář: <%= article.title %></a></h2>
+<article class="preview">
+  <a title="<%= article.title %>" href="<%= article_path(article) %>">
+      <% if article.illustration.file != "" %>
+        <img class="lazy-load" data-src="<%= article_illustration(article.illustration, article.article_type.name) %>">
+      <% end %>
+  </a>
 
-            <p class="clickthrough">
-                <span class="label editorial">Komentář</span> <i><%= raw(l(article.published_at, format: :long)) %></i> &mdash; <%= article.perex %>
-                <a href="<%= article_path(article) %>">
-                    <span>Číst&nbsp;dál&nbsp;&rarr;</span>
-                </a>
-            </p>
-        </div>
+  <div>
+    <div class="speakers">
+        <% for speaker in article.unique_speakers %>
+          <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
+        <% end %>
+    </div>
 
-        <div class="large-4 columns">
-            <div class="show-for-medium-up">
-                <a title="<%= article.title %>" href="<%= article_path(article) %>">
-                  <img class="lazy-load" data-src="<%= article_illustration(article.illustration, article.article_type.name) %>">
-                </a>
-            </div>
-        </div>
-    </article>
-<% else %>
-    <article class="row preview">
-        <div class="large-4 medium-3 columns">
-            <div class="show-for-medium-up">
-                <a title="<%= article.title %>" href="<%= article_path(article) %>">
-                    <% if article.illustration.file != "" %>
-                      <img class="lazy-load" data-src="<%= article_illustration(article.illustration, article.article_type.name) %>">
-                    <% end %>
-                </a>
-            </div>
-        </div>
+    <h2><%= link_to(article.title, article_path(article), class: "title") %></h2>
 
-        <div class="large-8 medium-9 columns">
-            <div class="speakers">
-                <% for speaker in article.unique_speakers %>
-                    <% if speaker.portrait %>
-                        <div class="photo-wrapper" title="<%= speaker.full_name %>">
-                          <img class="lazy-load" data-src="<%= speaker_portrait(speaker.portrait) %>">
-                        </div>
-                    <% end %>
-                <% end %>
-            </div>
+    <p class="clickthrough">
+      <span class="label <%= article.article_type.name == "default" ? "factcheck" : "editorial" %>">
+        <% if article.article_type.name == "default" %>
+            Ověřeno
+        <% end %>
+        <% if article.article_type.name == "static" %>
+            Komentář
+        <% end %>
+      </span>
 
-            <h2><%= link_to(article.title, article_path(article), class: "title") %></h2>
+      <% if article.article_type.name == "default" and article.source %>
+          <i><%= article.source.medium.name %></i>,
+      <% end %>
 
-            <p class="clickthrough">
-                <span class="label <%= article.article_type.name %>">
-                    <% if article.article_type.name == "default" %>
-                        Ověřeno
-                    <% end %>
-                    <% if article.article_type.name == "static" %>
-                        Komentář
-                    <% end %>
-                </span>
+      <i><%= raw(l(article.published_at, format: :long)) %></i>
 
-                <% if article.article_type.name == "default" and article.source %>
-                    <i><%= article.source.medium.name %></i>,
-                <% end %>
+      &mdash;
 
-                <i><%= raw(l(article.published_at, format: :long)) %></i>
+      <%= strip_tags(article.perex).truncate(230) %>
 
-                &mdash;
-
-                <%= strip_tags(article.perex).truncate(230) %>
-
-                <a href="<%= article_path(article) %>">
-                    <span>Číst&nbsp;dál&nbsp;&rarr;</span>
-                </a>
-            </p>
-        </div>
-    </article>
-<% end %>
+      <a href="<%= article_path(article) %>">
+          <span>Číst&nbsp;dál&nbsp;&rarr;</span>
+      </a>
+    </p>
+  </div>
+</article>
