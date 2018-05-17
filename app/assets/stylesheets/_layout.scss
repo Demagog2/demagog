@@ -34,14 +34,12 @@
 }
 
 @media (min-width: 900px) {
+  article img { width: 100%; }
+
   article.preview {
     display: grid;
     grid-template-columns: 1fr 2fr;
     grid-column-gap: var(--gap);
-
-    img {
-      width: 100%;
-    }
 
     h2 {
       margin-top: 0;
@@ -66,6 +64,7 @@
     grid-row-gap: 3rem;
     margin: 3rem auto;
     max-width: 1000px;
+    box-sizing: border-box;
   }
 
   header {
