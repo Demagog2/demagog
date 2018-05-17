@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
     fjs.parentNode.insertBefore(js, fjs);
   };
 
-  if (window.innerWidth >= 900) {
+  if (window.innerWidth >= 900 && document.querySelector('#facebook')) {
     var fbIo = new IntersectionObserver(renderFb);
     fbIo.observe(document.querySelector('#facebook'));
 
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  if (window.innerWidth >= 900) {
+  if (window.innerWidth >= 900 && document.querySelector('#twitter')) {
     var twIo = new IntersectionObserver(renderTwitter);
     twIo.observe(document.querySelector('#twitter'));
 
