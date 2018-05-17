@@ -1,18 +1,26 @@
 @media (max-width: 899.9px) {
+  :root {
+    --large-portrait: 80px;
+    --gutter: 30px;
+  }
+
   .container {
     padding: 15px;
   }
 
-  :root {
-    --large-portrait: 80px;
-    --gutter: 30px;
+  header {
+    margin-bottom: calc(2 * var(--gutter));
+  }
+
+  .pagination {
+    margin: calc(2 * var(--gutter)) 0;
   }
 
   .organizations {
     padding-top: var(--gutter);
   }
 
-  img {
+  article img {
     width: 100%;
   }
 

@@ -123,7 +123,7 @@
 
     #toggle-menu {
       float: right;
-      padding: 0.5rem 0 1rem;
+      padding: 0.5rem 0 0.5rem;
       margin-top: 2rem;
     }
 
@@ -132,10 +132,11 @@
     }
 
     & > ul > li {
-      width: 100%;
+      width: 100%;      
       box-sizing: border-box;
       display: block;
-      padding: 1rem 0 1rem;
+      padding: 0;
+      margin: 0.5rem 0;
       text-decoration: none;
       text-align: right;
       transition: all .125s ease-in-out;
@@ -145,12 +146,10 @@
     #toggle-menu span.drop-icon,
     li label.drop-icon {
       display: inline-block;
-      width: 2rem;
-      height: 2rem;
-      line-height: 1.8rem;
+      width: auto;
+      height: auto;
+      line-height: 1.6rem;
       border-radius: var(--gap);
-      color: white;
-      background-color: var(--aluminum);
     }
 
     .sub-menu {

@@ -31,13 +31,13 @@
 %>
 
 <nav id="main-menu" role="navigation">
-  <label for="tm" id="toggle-menu">Menu <span class="drop-icon">☰</span></label>
+  <label for="tm" id="toggle-menu"><span class="drop-icon">Menu ☰</span></label>
   <input type="checkbox" id="tm">
   <ul>
     <% @nav.each_with_index do |submenu, index| %>
-      <li><%= submenu.name %>
-        <span class="drop-icon">▾</span>
-        <label title="Toggle Drop-down" class="drop-icon" for="sm<%= index %>">▾</label>
+      <li>
+        <span class="drop-icon"><%= submenu.name %> ▾</span>
+        <label title="Toggle Drop-down" class="drop-icon" for="sm<%= index %>"><%= submenu.name %> ▾</label>
         <input type="checkbox" id="sm<%= index %>">
         <ul class="sub-menu">
           <% submenu.items.each do |item| %>
