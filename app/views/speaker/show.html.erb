@@ -2,15 +2,15 @@
 
 <div class="row politician">
     <div class="large-2 columns">
-        <% if @speaker.portrait %>
+        <% if @speaker.avatar.attached? %>
             <div class="photo-wrapper" style="float: right">
-                <img src="<%= speaker_portrait(@speaker.portrait) %>" alt="<%= @speaker.full_name %>" />
+                <%= image_tag(@speaker.avatar, alt: @speaker.full_name) %>
             </div>
         <% end %>
     </div>
 
     <div class="large-10 columns">
-        <h1 class="s-speaker-name"><%= @speaker.full_name %> <% if @speaker.body %>(<%= @speaker.body.short_name %>)<% end %></h1>
+        <h1 class="s-speaker-name"><%= @speaker.full_name %> <% if @speaker.body %><span class="s-body">(<%= @speaker.body.short_name %>)</span><% end %></h1>
 
         <p class="politicianStats">
             <span title="Pravda" class="veracity true">

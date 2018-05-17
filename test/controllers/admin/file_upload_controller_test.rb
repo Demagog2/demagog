@@ -18,7 +18,7 @@ class Admin::FileUploadControllerTest < ActionController::TestCase
   test "upload profile picture requires authorization" do
     fixture = fixture_file_upload("files/speaker.png", "image/png")
 
-    speaker = speakers(:one)
+    speaker = create(:speaker)
 
     post "upload_profile_picture", params: { id: speaker.id, file: fixture }
 
@@ -26,11 +26,13 @@ class Admin::FileUploadControllerTest < ActionController::TestCase
   end
 
   test "post speaker portrait" do
-    sign_in users(:one)
+    sign_in create(:user)
 
     fixture = fixture_file_upload("files/speaker.png", "image/png")
 
-    speaker = speakers(:one)
+    speaker = create(:speaker) do |speaker|
+      speaker.avatar.detach
+    end
 
     assert_changes -> { speaker.reload.avatar.attached? } do
       post "upload_profile_picture", params: { id: speaker.id, file: fixture }
@@ -40,7 +42,7 @@ class Admin::FileUploadControllerTest < ActionController::TestCase
   end
 
   test "delete profile picture requires authorization" do
-    speaker = speakers(:one)
+    speaker = create(:speaker)
 
     delete "delete_profile_picture", params: { id: speaker.id }
 
@@ -48,13 +50,13 @@ class Admin::FileUploadControllerTest < ActionController::TestCase
   end
 
   test "delete profile picture" do
-    sign_in users(:one)
+    sign_in create(:user)
 
-    speaker = speakers(:one)
+    speaker = create(:speaker)
 
-    fixture = fixture_file_upload("files/speaker.png", "image/png")
+    # fixture = fixture_file_upload("files/speaker.png", "image/png")
 
-    speaker.avatar.attach fixture
+    # speaker.avatar.attach fixture
 
     assert_changes -> { speaker.reload.avatar.attached? } do
       delete "delete_profile_picture", params: { id: speaker.id }
@@ -64,9 +66,9 @@ class Admin::FileUploadControllerTest < ActionController::TestCase
   end
 
   test "handling missing speaker id" do
-    sign_in users(:one)
+    sign_in create(:user)
 
-    speaker = speakers(:one)
+    speaker = create(:speaker)
 
     delete "delete_profile_picture", params: { id: "non-existent" }
 

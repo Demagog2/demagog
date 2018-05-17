@@ -4,12 +4,16 @@ require "test_helper"
 
 class ArticleControllerTest < ActionDispatch::IntegrationTest
   test "should render fact checking" do
-    get article_url(articles(:one))
+    article = create(:fact_check)
+
+    get article_url(article)
     assert_response :success
   end
 
   test "should render static article" do
-    get article_url(articles(:two))
+    article = create(:static)
+
+    get article_url(article)
     assert_response :success
   end
 end

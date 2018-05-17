@@ -7,14 +7,15 @@ class SourceStatsBuilderTest < ActiveSupport::TestCase
     stats_builder = Stats::Source::StatsBuilder.new Stats::StatsCache.new Store::HashStore.new
 
     expected_stats = {
-      true: 1,
+      true: 3,
       untrue: 0,
       unverifiable: 0,
       misleading: 0
     }
 
-    speaker = speakers(:one)
-    source = sources(:one)
+    source = create(:source)
+
+    speaker = create(:speaker, statement_source: source)
 
     assert_equal(expected_stats, stats_builder.build(source, speaker))
   end

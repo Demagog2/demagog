@@ -1,7 +1,11 @@
 <figure class="speaker">
   <a href="<%= speaker_path(speaker) %>">
     <div class="photo-wrapper">
-      <img src="<% if speaker.portrait %><%= speaker_portrait(speaker.portrait) %><% end %>" alt="<%= speaker.full_name %>">
+      <% if speaker.avatar.attached? %>
+        <img src="<%= speaker.avatar %>" alt="<%= speaker.full_name %>">
+      <% else %>
+        <img src="" alt="<%= speaker.full_name %>">
+      <% end %>
     </div>
     <p class="name"><%= speaker.full_name %></p>
     <p><%= speaker.published_statements.size %> výroků</p>

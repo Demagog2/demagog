@@ -4,22 +4,34 @@ require "test_helper"
 
 class SpeakerControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
+    create(:party)
+
     get speakers_url()
     assert_response :success
   end
 
   test "should get index with party id" do
-    get speakers_url(bodies(:body_a))
+    party = create(:party)
+
+    get speakers_url(party)
     assert_response :success
   end
 
   test "should get show" do
-    get speaker_url(speakers(:one))
+    speaker = create(:speaker_with_party)
+
+    get speaker_url(speaker)
     assert_response :success
+
+    assert_select ".s-speaker-name .s-body"
   end
 
   test "should handle showing speaker without party" do
-    get speaker_url(speakers(:speaker_with_no_party))
+    speaker = create(:speaker)
+
+    get speaker_url(speaker)
     assert_response :success
+
+    assert_select ".s-speaker-name .s-body", 0
   end
 end

@@ -1,8 +1,8 @@
 <div class="statement preview">
   <span class="veracity <%= statement.correct_assessment.veracity.default_name %>"></span>
-  
+
   <div class="photo-wrapper">
-    <img class="lazy-load" data-src="<%= speaker_portrait(statement.speaker.portrait) %>" alt="<%= statement.speaker.full_name %>">
+    <img class="lazy-load" data-src="<%= statement.speaker.avatar %>" alt="<%= statement.speaker.full_name %>">
   </div>
 
   <figure class="speaker">

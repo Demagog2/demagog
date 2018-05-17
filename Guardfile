@@ -35,6 +35,7 @@ guard :minitest, spring: "bin/rails test" do
   watch(%r{^app/views/(.+)_mailer/.+})                    { |m| "test/mailers/#{m[1]}_mailer_test.rb" }
   watch(%r{^lib/(.+)\.rb$})                               { |m| "test/lib/#{m[1]}_test.rb" }
   watch(%r{^test/.+_test\.rb$})
+  watch(%r{^test/factories/.+_factory\.rb$}) { "test" }
   watch(%r{^test/test_helper\.rb$}) { "test" }
 
   # Rails < 4

@@ -96,6 +96,9 @@ group :development, :test do
   # Tools for autorunning tests
   gem "guard"
   gem "guard-minitest"
+
+  # Fixture replacement
+  gem "factory_bot_rails"
 end
 
 group :development do

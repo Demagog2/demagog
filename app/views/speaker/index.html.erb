@@ -19,9 +19,9 @@
         <% @speakers.each do |speaker| %>
           <figure class="speaker">
             <a href="<%= speaker_path(speaker) %>">
-              <% if speaker.portrait %>
+              <% if speaker.avatar.attached? %>
                 <div class="photo-wrapper">
-                  <%= image_tag(speaker_portrait(speaker.portrait), alt: speaker.full_name) %>
+                  <%= image_tag(speaker.avatar, alt: speaker.full_name) %>
                 </div>
               <% end %>
               <p class="name"><%= speaker.full_name %></p>

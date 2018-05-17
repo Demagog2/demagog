@@ -4,8 +4,8 @@
       <figure class="speaker">
         <a href="<%= speaker_path(statement.speaker.id) %>">
           <div class="photo-wrapper">
-            <% if statement.speaker.portrait.file != "" %>
-              <img class="lazy-load" data-src="<%= speaker_portrait(statement.speaker.portrait) %>" alt="<%= statement.speaker.full_name %>">
+            <% if statement.speaker.avatar.attached? %>
+              <img class="lazy-load" data-src="<%= statetement.speaker.avatar %>" alt="<%= statement.speaker.full_name %>">
             <% end %>
           </div>
         </a>
