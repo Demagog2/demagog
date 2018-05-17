@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <title>Administrace &mdash; Demagog.cz &mdash; <%= content_for?(:title) ? yield(:title) : 'Factcheck politických diskuzí' %></title>
+    <%= csrf_meta_tags %>
+
+    <meta name="author" content="Demagog.cz" >
+    <meta name="web_author" content="Demagog2 Dev Team — github.com/Demagog2">
+    <meta name="author" content="Demagog.cz" >
+    <meta name="description" content="Politici operují s informacemi, které jsou zkreslené, účelově vytrhávané z původních kontextů, neúplné anebo přímo lživé. Moderátor o tom často nevědí, protože jim chybějí informace a nedokážou efektivně a jednoznačně oponovat. Projekt Demagog.cz má za cíl kontrolu těchto tvrzení.">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#f04124"/>
+
+    <%# <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> %>
+    <%= stylesheet_link_tag 'admin/homepage', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+    <link rel="shortcut icon" href="<%= asset_path("favicon.png") %>" type="image/x-icon" />
+    <!-- Add apple touch icon -->
+
+    <%# {#% stylesheets "static/bower_components/foundation/css/foundation.min.css" %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %#}
+    {% stylesheets "static/scss/frontend.scss" filter="compass" %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %} %>
+    <!--[if IE 8]><link rel="stylesheet" href="./static/css/ie8-grid-foundation-4.css" type="text/css" media="screen" ><![endif]-->
+  </head>
+
+  <body>
+    <% if notice %>
+      <div class="alert alert-success">
+        <%= notice %>
+      </div>
+    <% end %>
+
+    <% if alert %>
+      <div class="alert alert-warning">
+        <strong>Upozornění:</strong> <%= alert %>
+      </div>
+    <% end %>
+
+    <%= yield %>
+
+    <%= javascript_pack_tag 'admin'  %>
+  </body>
+</html>
+</body>
+</html>

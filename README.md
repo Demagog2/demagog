@@ -13,7 +13,13 @@ Site configuration is done via .env file (see dotenv project).
 ```
 // .env
 DEMAGOG_IMAGE_SERVICE_URL=https://pacific-meadow-53023.herokuapp.com
-MIGRATION_DATABASE_URL=mysql2://username:password@server/database
+LEGACY_DATABASE_URL=mysql2://username:password@server/database
+
+# S3 keys are needed for non-development environment only
+AMAZON_S3_ACCESS_KEY_ID=amazon-access-id
+AMAZON_S3_SECRET_ACCESS_KEY=amazon-secret-access-key
+AMAZON_S3_REGION=region
+AMAZON_S3_BUCKET=bucket-name
 ```
 
 ## Dev setup from legacy DB
@@ -24,11 +30,20 @@ MIGRATION_DATABASE_URL=mysql2://username:password@server/database
 3. `yarn install`
 4. Add image service into .env (as seen above)
 5. Set up MySQL DB, add credentials to .env (DB_USERNAME, DB_PASSWORD, DB_HOST)
-6. Prepare local legacy DB on MySQL, add its URL into .env as MIGRATION_DATABASE_URL
+6. Prepare local legacy DB on MySQL, add its URL into .env as LEGACY_DATABASE_URL
 7. Run DB migration `rails db:drop db:create db:migrate migration:run`
 8. `rails server`
 
 Run guard-livereload server with `guard`.
+
+## Generating Apollo flow types
+
+```sh
+npm install -g apollo-codegen
+bin/rails server
+apollo-codegen introspect-schema http://localhost:3000/graphql --output schema.json
+apollo-codegen generate **/*.tsx --schema schema.json --target typescript --output operation-result-types.ts
+```
 
 ### Services (job queues, cache servers, search engines, etc.)
 
@@ -47,12 +62,6 @@ docker pull redis:alpine
 
 docker run --name redis -p 6379:6379 -d redis
 ```
-
-#### Server for requesting static assets from legacy server
-
-HTTP server that upon request downloads an image from the legacy server and caches it locally.
-
-For more information see https://github.com/vaclavbohac/demagog-image-service
 
 ### Migration from legacy DB
 

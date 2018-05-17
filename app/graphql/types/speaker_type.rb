@@ -11,6 +11,14 @@ Types::SpeakerType = GraphQL::ObjectType.define do
   field :bio, !types.String
   field :website_url, !types.String
 
+  field :avatar, types.String do
+    resolve -> (obj, args, ctx) do
+      return nil unless obj.avatar.attached?
+
+      Rails.application.routes.url_helpers.rails_blob_path(obj.avatar, only_path: true)
+    end
+  end
+
   field :portrait, types.String do
     resolve -> (obj, args, ctx) do
       return nil if obj.portrait.file.empty?
@@ -45,6 +53,17 @@ Types::SpeakerType = GraphQL::ObjectType.define do
       else
         statements
       end
+    }
+  end
+
+  field :memberships, !types[!Types::MembershipType] do
+    argument :limit, types.Int, default_value: 10
+    argument :offset, types.Int, default_value: 0
+
+    resolve -> (obj, args, ctx) {
+      obj.memberships
+        .offset(args[:offset])
+        .limit(args[:limit])
     }
   end
 

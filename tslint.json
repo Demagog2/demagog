@@ -1,0 +1,30 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+      "prettier": true,
+      "semicolon": false,
+      "quotemark": [true, "single", "jsx-double"],
+      "max-classes-per-file": false,
+      "object-literal-sort-keys": false,
+      "member-ordering": [true,  {
+        "order": [
+          "public-static-field",
+          "public-instance-field",
+          "public-constructor",
+          "private-static-field",
+          "private-instance-field",
+          "private-constructor",
+          "public-instance-method",
+          "protected-instance-method",
+          "private-instance-method"
+        ]
+      }]
+    },
+    "rulesDirectory": [
+      "tslint-plugin-prettier"
+    ]
+}

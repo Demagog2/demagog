@@ -6,8 +6,6 @@ lock "~> 3.10.0"
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
-server "188.226.140.217", port: 22, roles: [:web, :app, :db], primary: true
-
 set :repo_url,        "git@github.com:Demagog2/demagog.git"
 set :application,     "demagog"
 set :user,            "rails"
@@ -22,10 +20,6 @@ set :deploy_via,      :remote_cache
 set :deploy_to,       "/home/#{fetch(:user)}/apps/#{fetch(:application)}"
 set :ssh_options,     forward_agent: true, user: fetch(:user), keys: %w(~/.ssh/id_rsa.pub)
 
-set :nvm_type, :user # or :system, depends on your nvm setup
-set :nvm_node, "v6.11.5"
-set :nvm_map_bins, %w{node npm yarn}
-
 set :unicorn_config_path, "/etc/unicorn.conf"
 
 ## Defaults:
@@ -39,7 +33,7 @@ set :unicorn_config_path, "/etc/unicorn.conf"
 set :linked_files, %w{config/database.yml config/unicorn/production.rb .env}
 # set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
-set :linked_dirs,  %w{tmp/pids}
+set :linked_dirs,  %w{log tmp/pids tmp/cache}
 
 namespace :deploy do
   desc "Make sure local git is in sync with remote."

@@ -11,7 +11,7 @@ end
 gem "dotenv-rails"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~> 5.1.4"
+gem "rails", "~> 5.2"
 # Add possibility for bulk insert to Active Record models
 gem "bulk_insert"
 # Use MySQL as the database for Active Record
@@ -27,7 +27,7 @@ gem "uglifier", ">= 1.3.0"
 # Add gem for paging
 gem "kaminari"
 # Add webpack support
-gem "webpacker", "~> 3.0"
+gem "webpacker", "~> 3.4"
 # Add graphql support
 gem "graphql"
 # Allow CORS setup
@@ -53,11 +53,23 @@ gem "meta-tags"
 # Enables env. specific configuration
 gem "config"
 
+# Authentication
+gem "devise"
+
+# Enables devise & omniauth to authenticate against Google OAuth 2
+gem "omniauth-google-oauth2"
+
 # Use redis for store layer
 gem "redis", "~> 4.0", ">= 4.0.1"
 
+# Use Amazon S3 for active storage for production environment
+gem "aws-sdk-s3", require: false
+
 # Patches security vulnerability CVE-2018-8048
 gem "loofah", "~> 2.2.1"
+
+# Enable image processing for active storage
+gem "image_processing", "~> 1.2"
 
 # Add skylight profiler
 # gem "skylight"
@@ -66,7 +78,6 @@ gem "loofah", "~> 2.2.1"
 group :development do
   gem "capistrano", require: false
   gem "capistrano-rvm", require: false
-  gem "capistrano-nvm", require: false
   gem "capistrano-rails", require: false
   gem "capistrano-bundler", require: false
   gem "capistrano3-unicorn", require: false

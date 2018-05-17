@@ -1,0 +1,17 @@
+<% if user_signed_in? %>
+  <div id="app-root" />
+<% else %>
+  <div class="container">
+    <h3 class="text-center" style="margin-top: 30px">Přihlášení</h3>
+
+    <p class="text-center" style="margin-top: 60px; margin-bottom: 60px;">
+      <a class="google-signin-btn" href="<%= user_google_oauth2_omniauth_authorize_path %>"></a>
+    </p>
+
+    <p class="text-center">
+      <small >
+        Pokud máte s přihlášením problémy, kontaktujte <a href="mailto:admin@demagog.cz">správce</a>.
+      </small>
+    </p>
+  </div>
+<% end %>

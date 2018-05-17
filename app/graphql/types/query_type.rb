@@ -1,15 +1,30 @@
 # frozen_string_literal: true
 
+Bootstrap = Struct.new(:image_server_url)
+
 Types::QueryType = GraphQL::ObjectType.define do
   name "Query"
   # Add root-level fields here.
   # They will be entry points for queries on your schema.
 
-  field :speaker, Types::SpeakerType do
+  field :bootstrap, !Types::BootstrapType do
+    resolve(Utils::Authorization.protect -> (obj, args, ctx) {
+      # TODO: Use real check for unauthorized
+      # raise "Unauthorized" unless ctx.current_user?
+
+      Bootstrap.new(ENV["DEMAGOG_IMAGE_SERVICE_URL"] || "")
+    })
+  end
+
+  field :speaker, !Types::SpeakerType do
     argument :id, !types.Int
 
     resolve -> (obj, args, ctx) {
-      Speaker.find(args[:id])
+      begin
+        Speaker.find(args[:id])
+      rescue ActiveRecord::RecordNotFound => err
+        nil
+      end
     }
   end
 
@@ -18,20 +33,21 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :offset, types.Int, default_value: 0
     argument :party, types.Int
     argument :body, types.Int
+    argument :name, types.String
 
     resolve -> (obj, args, ctx) {
-      speakers = Speaker.offset(args[:offset]).limit(args[:limit])
+      speakers = Speaker
+        .offset(args[:offset])
+        .limit(args[:limit])
+        .order(last_name: :asc)
 
-      if args[:party] || args[:body]
-        speakers
-          .joins(:memberships)
-          .where(memberships: {
-            body_id: args[:party] || args[:body],
-            until: nil
-          })
-      else
-        speakers
-      end
+      body = args[:party] || args[:body]
+      speakers = speakers.active_body_members(body) if body.present?
+
+      name = args[:name]
+      speakers = speakers.matching_name(name) if name.present?
+
+      speakers
     }
   end
 
@@ -59,7 +75,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
-  field :party, Types::PartyType do
+  field :party, !Types::PartyType do
     argument :id, !types.Int
 
     deprecation_reason "Replaced by 'body', as not all speakers must be members of a political party"
@@ -69,11 +85,15 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
-  field :body, Types::BodyType do
+  field :body, !Types::BodyType do
     argument :id, !types.Int
 
     resolve -> (obj, args, ctx) {
-      Body.find(args[:id])
+      begin
+        Body.find(args[:id])
+      rescue ActiveRecord::RecordNotFound => err
+        nil
+      end
     }
   end
 
@@ -88,15 +108,19 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
-  field :bodies, types[Types::BodyType] do
+  field :bodies, !types[!Types::BodyType] do
     argument :limit, types.Int, default_value: 10
     argument :offset, types.Int, default_value: 0
     argument :is_party, types.Boolean, default_value: nil
+    argument :name, types.String, default_value: nil
 
     resolve -> (obj, args, ctx) {
-      bodies = Body.offset(args[:offset]).limit(args[:limit])
+      bodies = Body.offset(args[:offset]).limit(args[:limit]).order(name: :asc)
 
       bodies = bodies.where(is_party: args[:is_party]) unless args[:is_party].nil?
+
+      bodies =
+        bodies.where("name LIKE ? OR short_name LIKE ?", "%#{args[:name]}%", "%#{args[:name]}%") unless args[:name].nil?
 
       bodies
     }

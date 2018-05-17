@@ -21,6 +21,10 @@ module ApplicationHelper
     end
   end
 
+  def body_logo(attachment)
+    "#{server}/data/static/s/#{attachment.file}"
+  end
+
   private
     def encode(uri)
       URI.encode(uri, ",")

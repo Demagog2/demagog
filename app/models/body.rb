@@ -5,6 +5,8 @@ class Body < ApplicationRecord
   has_many :speakers, through: :memberships
   belongs_to :attachment, optional: true
 
+  has_one_attached :logo
+
   def current_members
     speakers
       .where(memberships: { until: nil })

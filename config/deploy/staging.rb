@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
@@ -8,6 +9,7 @@
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
+server "146.185.138.157", port: 22, roles: [:web, :app, :db], primary: true
 
 
 # role-based syntax
@@ -32,7 +34,30 @@
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
 
+set :stage,           :production
+set :branch,          :beta
 
+set :rvm_custom_path, "/home/rails/.rvm"
+
+# Prevent robots from indexing the beta server
+namespace :deploy do
+  desc "Uploads a robots.txt that mandates the site as off-limits to crawlers"
+  task :block_robots do
+    content = [
+      "# This is a staging site. Do not index.",
+      "User-agent: *",
+      "Disallow: /"
+    ].join($/)
+    on roles(:all) do
+      within release_path do
+        puts "Uploading blocking robots.txt"
+        execute(:echo, "\"#{content}\" > public/robots.txt")
+      end
+    end
+  end
+
+  after :finishing,  :block_robots
+end
 
 # Custom SSH Options
 # ==================

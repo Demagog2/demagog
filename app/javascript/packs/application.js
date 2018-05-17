@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 // This file is automatically compiled by Webpack, along with any other files
 // present in this directory. You're encouraged to place your actual application logic in
 // a relevant structure within app/javascript and only use these pack files to reference
@@ -6,6 +8,7 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
+
 var t = {
   hideReasons: "skrýt odůvodnění",
   showReasons: "zobrazit odůvodnění",
@@ -13,7 +16,8 @@ var t = {
 
 import 'intersection-observer/intersection-observer'
 
-document.addEventListener('DOMContentLoaded', function () {
+
+document.addEventListener('DOMContentLoaded', () => {
   /**
    * Find closest parent of given element that has className
    * @param {HTMLElement} elem
@@ -21,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
    * @return {HTMLElement}
    */
   function findClosest(elem, className) {
+    // eslint-disable-next-line no-param-reassign
     for (; elem && elem !== document; elem = elem.parentNode) {
       if (elem.classList.contains(className)) {
         return elem;
@@ -35,8 +40,11 @@ document.addEventListener('DOMContentLoaded', function () {
    * @param {Event} event
    */
   function showAssessment(event) {
-    var parent = findClosest(event.target, 'statement');
-    if (parent) parent.classList.toggle('collapsed');
+    const parent = findClosest(event.target, 'statement');
+
+    if (parent) {
+      parent.classList.toggle('collapsed');
+    }
 
     event.preventDefault();
     event.stopPropagation();
@@ -62,14 +70,14 @@ document.addEventListener('DOMContentLoaded', function () {
    * @param {IntersectionObserverEntry[]} entries
    */
   function renderIntersectingImages(entries) {
-    entries.forEach(function (entry) {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.setAttribute('src', entry.target.getAttribute('data-src'));
       }
     });
   }
 
-  var io = new IntersectionObserver(renderIntersectingImages);
+  const io = new IntersectionObserver(renderIntersectingImages);
 
   [].slice.call(document.querySelectorAll('img.lazy-load'))
     .forEach(io.observe.bind(io));

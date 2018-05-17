@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
@@ -8,6 +9,7 @@
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
+server "188.226.140.217", port: 22, roles: [:web, :app, :db], primary: true
 
 
 # role-based syntax

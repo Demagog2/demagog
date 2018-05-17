@@ -7,7 +7,7 @@ require_relative "../migrate/migration_manager"
 namespace :migration do
   desc "Run migration"
   task run: :environment do
-    config = URI.parse ENV["MIGRATION_DATABASE_URL"]
+    config = URI.parse ENV["LEGACY_DATABASE_URL"]
 
     connection = Mysql2::Client.new(username: config.user,
       password: config.password,

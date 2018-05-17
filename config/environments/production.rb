@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.configure do
+  # Verifies that versions and hashed value of the package contents in the project's package.json
+  config.webpacker.check_yarn_integrity = false
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -56,6 +58,14 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 
+  # Use Amazon S3 file system for active storage
+
+
+  # TODO: Replace configuration with :amazon
+  # config.active_storage.service = :amazon
+
+  config.active_storage.service = :local
+
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
@@ -63,6 +73,9 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "demagog_#{Rails.env}"
   config.action_mailer.perform_caching = false
+
+  # Set default url for device
+  config.action_mailer.default_url_options = { host: "demagog.cz" }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
+require "json"
+
 class GraphqlController < ApplicationController
   protect_from_forgery except: :execute
+
+  # https://github.com/jaydenseric/apollo-upload-client
+  # sends params[:operations] on multipart submission
+  # fix query and variables before the #execute
 
   def execute
     variables = ensure_hash(params[:variables])
