@@ -33,11 +33,11 @@ FactoryBot.define do
     published_at { 1.day.ago }
 
     factory :fact_check do
-      association :article_type, factory: :article_type, name: 'fact_check'
+      association :article_type, factory: :article_type, name: "fact_check"
     end
 
     factory :static do
-      association :article_type, factory: :article_type, name: 'static'
+      association :article_type, factory: :article_type, name: "static"
     end
   end
 
