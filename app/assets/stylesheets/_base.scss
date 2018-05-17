@@ -123,6 +123,14 @@ blockquote {
   }
 }
 
+nav {
+  ul { padding: 0; }
+  li { 
+    list-style-type: none; 
+    margin-bottom: 0.25rem;
+  }
+}
+
 p.lead {
   font-size: var(--medium-typesize);
   line-height: 1.6;
