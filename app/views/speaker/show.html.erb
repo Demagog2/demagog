@@ -1,19 +1,22 @@
 <% content_for(:title, @speaker.full_name) %>
 
-<article class="speaker">
-  <%= render(partial: 'shared/portrait', object: @speaker, as: :speaker) %>
+<article class="speaker-detail">
+  <section class="profile">
+    <%= render(partial: 'shared/portrait', object: @speaker, as: :speaker) %>
+    <div>
+      <h1 class="name"><%= @speaker.full_name %> <% if @speaker.body %>(<%= @speaker.body.short_name %>)<% end %></h1>
 
-  <h1 class="name"><%= @speaker.full_name %> <% if @speaker.body %>(<%= @speaker.body.short_name %>)<% end %></h1>
+      <%= render(partial: 'shared/stats', object: @stats, as: :stats) %>
 
-  <%= render(partial: 'shared/stats', object: @stats, as: :stats) %>
+      <iframe src="http://www.facebook.com/plugins/like.php?href=http://demagog.cz/diskusie/269/sobotka-vs-fiala&amp;layout=standard&amp;show_faces=false&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=30" style="border:none; overflow:hidden; width:450px; height:30px;"></iframe>
+    </div>
+  </section>  
 
-  <iframe src="http://www.facebook.com/plugins/like.php?href=http://demagog.cz/diskusie/269/sobotka-vs-fiala&amp;layout=standard&amp;show_faces=false&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=30" style="border:none; overflow:hidden; width:450px; height:30px;"></iframe>
+  <section>
+    <h2 id="statements">Výroky</h2>
+    
+    <%= render(partial: 'statement/detail', collection: @statements, as: :statement, locals: { non_attributed: true }) %>
+
+    <%= paginate(@statements) %>
+  </section>
 </article>
-
-<section>
-  <h2 id="statements">Výroky</h2>
-  
-  <%= render(partial: 'statement/detail', collection: @statements, as: :statement, locals: { non_attributed: true }) %>
-
-  <%= paginate(@statements) %>
-</section>

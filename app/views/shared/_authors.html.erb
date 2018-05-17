@@ -1,13 +1,16 @@
 <section class="authors">
-  <h2>Kdo připravuje demagog.cz?</h2>
+  <h1>Kdo připravuje demagog.cz?</h1>
  
   <% @users.each do |user| %>
-    <figure class="portrait">      
-      <%= image_tag(user_portrait(user.portrait)) %>
-    </figure>
+    <article class="author">
+      <figure class="portrait">      
+        <%= image_tag(user_portrait(user.portrait)) %>
+      </figure>
 
-    <h3><%= user.full_name %></h3>
-    <p><%= user.position_description %></p>
-    <p><%= user.bio %></p>
+      <div>
+        <h2><%= user.full_name %></h2>
+        <p><b><%= user.position_description %></b> — <%= user.bio %></p>
+      </div>
+    </article>
   <% end %>
 </section>

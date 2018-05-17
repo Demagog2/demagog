@@ -5,6 +5,10 @@
   white-space: nowrap;
   font-weight: bold;
 
+  .hidden {
+    display: none;
+  }
+
   &::before {
     content: '';
     display: inline-block;

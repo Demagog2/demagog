@@ -1,26 +1,15 @@
-<article class="speakers-list">
+<article>
   <% if @party  %>
     <h2><%= @party.name %></h2>
-
-    <% @party.current_members.each do |speaker| %>
-      <%= render(partial: 'speaker/listed', object: speaker, as: :speaker) %>
-    <% end %>    
+    <section class="speakers-list">
+      <%= render(partial: 'speaker/listed', collection: @party.current_members, as: :speaker, locals: {showLatest: false}) %>
+    </section> 
   <% else %>
-    <h2>Politici s nejvíce výroky</h2>
-    <p>Vybráni jsou nejaktivnější politici za posledních šest měsíců.</p>
-
-    <% @speakers.each do |speaker| %>
-      <article class="speaker">
-        <a href="<%= speaker_path(speaker) %>">
-          <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
-          <p class="name"><%= speaker.full_name %></p>
-          <p>
-            <%= speaker.published_statements.where("excerpted_at >= ?", 6.months.ago).count %> výroků
-            (<%= speaker.published_statements.count %>&nbsp;výroků&nbsp;celkem)
-          </p>
-        </a>
-      </article>
-    <% end %>
+    <h2>Aktuálně nejaktivnější politici</h2>
+    <p>Politici s nejvyšším počtem výroků za posledních šest měsíců.</p>
+    <section class="speakers-list">
+      <%= render(partial: 'speaker/listed', collection: @speakers, as: :speaker, locals: {showLatest: true}) %>
+    </section>
   <% end %>
 </article>
 

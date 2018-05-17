@@ -244,10 +244,10 @@ p.lead {
   .veracity {
     @include veracity;
 
-    font-size: 120%;
+    font-size: var(--medium-typesize);
     font-weight: bold;
-    float: left;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
+    margin-left: -1.7rem;
   }
 
   table {
@@ -367,7 +367,7 @@ p.lead {
 .stats-box {
   display: grid;
   grid-template-columns: var(--small-portrait) 1fr;
-  grid-column-gap: 1rem;
+  grid-column-gap: var(--gap);
   margin: 0 0 1rem;
 
   .name {

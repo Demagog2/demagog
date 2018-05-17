@@ -14,7 +14,7 @@ class Speaker < ApplicationRecord
       .where("statements.published = ?", true)
       .group("speakers.id")
       .order("statements_count DESC")
-      .limit(5)
+      .limit(8)
   end
 
   def published_statements
