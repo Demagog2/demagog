@@ -75,52 +75,53 @@ document.addEventListener('DOMContentLoaded', function () {
     .forEach(io.observe.bind(io));
   
 
-  /**
-   * Run FB embed
-   */
-  function runFbCode(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/cs_CZ/sdk.js#xfbml=1&version=v2.7&appId=162983887479920";
-    fjs.parentNode.insertBefore(js, fjs);
-  };
+  function lazySocials(el, code) {
+    if (window.innerWidth >= 900 && el) {
+      var fbIo = new IntersectionObserver(renderFb);
+      fbIo.observe(el);
 
-  if (window.innerWidth >= 900 && document.querySelector('#facebook')) {
-    var fbIo = new IntersectionObserver(renderFb);
-    fbIo.observe(document.querySelector('#facebook'));
-
-    function renderFb(entries) {
-      if (entries[0].isIntersecting) {
-        fbIo.unobserve(document.querySelector('#facebook'));
-        runFbCode(document, 'script', 'facebook-jssdk');
+      function renderFb(entries) {
+        if (entries[0].isIntersecting) {
+          fbIo.unobserve(el);
+          code();
+        }
       }
     }
   }
-
+  
+  /**
+   * Run FB embed
+   */
+  lazySocials(
+    document.querySelector('#facebook'),
+    function () {
+      var id = 'facebook-jssdk';
+      var fjs = document.getElementsByTagName('script')[0];
+      if (document.getElementById(id)) return;
+      var js = document.createElement('script'); 
+      js.id = id;
+      js.src = "//connect.facebook.net/cs_CZ/sdk.js#xfbml=1&version=v2.7&appId=162983887479920";
+      fjs.parentNode.insertBefore(js, fjs);
+    }
+  );
 
   /**
    * Run twitter embed
    */
-  function runTwitterCode(d, s, id) {
-    var js, fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location) ? 'http' : 'https';
-    if (!d.getElementById(id)) {
-      js = d.createElement(s);
-      js.id = id;
-      js.src = p + '://platform.twitter.com/widgets.js';
-      fjs.parentNode.insertBefore(js,fjs);
-    }
-  }
-
-  if (window.innerWidth >= 900 && document.querySelector('#twitter')) {
-    var twIo = new IntersectionObserver(renderTwitter);
-    twIo.observe(document.querySelector('#twitter'));
-
-    function renderTwitter(entries) {
-      if (entries[0].isIntersecting) {
-        twIo.unobserve(document.querySelector('#twitter'));
-        runTwitterCode(document,"script","twitter-wjs");
+  lazySocials(
+    document.querySelector('#twitter'),
+    function () {
+      var js;
+      var id = 'twitter-wjs';
+      var fjs = document.getElementsByTagName('script')[0];
+      var p = /^http:/.test(document.location) ? 'http' : 'https';
+      
+      if (!document.getElementById(id)) {
+        js = document.createElement('script');
+        js.id = id;
+        js.src = p + '://platform.twitter.com/widgets.js';
+        fjs.parentNode.insertBefore(js,fjs);
       }
     }
-  }
+  );
 });
