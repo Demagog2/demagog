@@ -19,6 +19,10 @@
   article.preview img {
     display: none;
   }
+
+  #twitter, #facebook {
+    display: none;
+  }
 }
 
 @media (min-width: 900px) {

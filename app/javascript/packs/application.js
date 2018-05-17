@@ -74,4 +74,53 @@ document.addEventListener('DOMContentLoaded', function () {
   [].slice.call(document.querySelectorAll('img.lazy-load'))
     .forEach(io.observe.bind(io));
   
+
+  /**
+   * Run FB embed
+   */
+  function runFbCode(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/cs_CZ/sdk.js#xfbml=1&version=v2.7&appId=162983887479920";
+    fjs.parentNode.insertBefore(js, fjs);
+  };
+
+  if (window.innerWidth >= 900) {
+    var fbIo = new IntersectionObserver(renderFb);
+    fbIo.observe(document.querySelector('#facebook'));
+
+    function renderFb(entries) {
+      if (entries[0].isIntersecting) {
+        fbIo.unobserve(document.querySelector('#facebook'));
+        runFbCode(document, 'script', 'facebook-jssdk');
+      }
+    }
+  }
+
+
+  /**
+   * Run twitter embed
+   */
+  function runTwitterCode(d, s, id) {
+    var js, fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location) ? 'http' : 'https';
+    if (!d.getElementById(id)) {
+      js = d.createElement(s);
+      js.id = id;
+      js.src = p + '://platform.twitter.com/widgets.js';
+      fjs.parentNode.insertBefore(js,fjs);
+    }
+  }
+
+  if (window.innerWidth >= 900) {
+    var twIo = new IntersectionObserver(renderTwitter);
+    twIo.observe(document.querySelector('#twitter'));
+
+    function renderTwitter(entries) {
+      if (entries[0].isIntersecting) {
+        twIo.unobserve(document.querySelector('#twitter'));
+        runTwitterCode(document,"script","twitter-wjs");
+      }
+    }
+  }
 });
