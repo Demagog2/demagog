@@ -3,7 +3,6 @@
 
 <article class="full-text">
   <h1><%= @article.title %></h1>
-  <p>Publikováno <%= raw(l(@article.published_at, format: :long)) %></p>
   <p class="lead"><%= raw(@article.perex) %></p>
 
   <section class="segment">
@@ -39,7 +38,8 @@
           (<a class="ext" href="<%= @article.source.source_url %>">záznam</a>)
       <% end %>
       <br>
-      Moderátor: <%= @article.source.media_personality.name %>
+      Moderátor: <%= @article.source.media_personality.name %><br>
+      Publikováno <%= raw(l(@article.published_at, format: :long)) %>
     </p>
 
     <% @article.unique_speakers.each do |speaker| %>

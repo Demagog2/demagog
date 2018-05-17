@@ -1,3 +1,5 @@
+// can be removed after sanitization of wysiwyg articles
+
 article {
   clear: left;
 
@@ -15,5 +17,5 @@ article {
   }
 
   br { display: none; }
-  div { margin-top: 1em; }
+  div { margin-bottom: 1em; }
 }

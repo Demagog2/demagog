@@ -22,11 +22,12 @@
   /* font */
   --font-family: Lato, sans-serif;
   --normal-typesize: 16px;
-  --medium-typesize: 20px;
-  --large-typesize: 24px;
+  --medium-typesize: 18px;
+  --large-typesize: 22px;
 
   /* grid */
   --gutter: 50px;
+  --gap: 1.5rem;
 
   /* photos */
   --large-portrait: 100px;
@@ -57,7 +58,7 @@ a:hover {
 }
 
 footer {
-  padding: 1rem;
+  padding: 3rem;
 }
 
 h1 {
@@ -132,13 +133,13 @@ nav {
 }
 
 p.lead {
-  font-size: var(--medium-typesize);
+  font-weight: bold;
   line-height: 1.6;
 }
 
 .box {
-  margin: 0 -2rem;
-  padding: 2rem;
+  margin: 2rem -15px;
+  padding: 15px;
 }
 
 .organizations {
@@ -185,13 +186,14 @@ p.lead {
 }
 
 .statement {
+  margin-top: 1rem;
   margin-bottom: calc(2 * var(--gutter));
 
   .portrait {
     float: right;
     width: var(--large-portrait);
     height: var(--large-portrait);
-    margin: 0 -1rem 0 1rem;
+    margin-left: 0.5rem;
   }
 
   &:first-child {
@@ -212,7 +214,7 @@ p.lead {
   .permalink,
   .show-reasons {
     display: inline-block;
-    margin-left: 1em;
+    margin-right: 1em;
   }
 
   .permalink {
@@ -232,7 +234,6 @@ p.lead {
   }
 
   .reasons {
-    padding-top: 15px;
     margin-bottom: 40px;
     transition: all 300ms ease;
 
@@ -270,6 +271,8 @@ p.lead {
 }
 
 .statement-preview {
+  margin-bottom: 1.5rem;
+
   .portrait {
     float: left;
     margin: 0 1rem 0 -0.5rem;
@@ -277,7 +280,10 @@ p.lead {
 
   p { margin: 0; }
 
-  .name { font-weight: bold; }
+  .name {
+    font-size: var(--medium-typesize);
+    font-weight: bold;
+  }
 
   .veracity {
     @include veracity(1.3);
@@ -288,7 +294,7 @@ p.lead {
 
 .statement-detail {
   blockquote {
-    font-size: 130%;
+    font-size: var(--medium-typesize);
   }
 
   .veracity {
@@ -324,7 +330,10 @@ p.lead {
 
   &.factcheck { color: var(--true); }
   &.editorial { color: var(--orange); }
-  &.important { color: var(--orange); }
+  &.important { color: var(--steel); }
+
+  &.important::after { content: ') '; }
+  &.important::before { content: ' ('; }
 }
 
 
@@ -384,37 +393,42 @@ p.lead {
   }
 }
 
-#interesting-statements {
+.author {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-column-gap: var(--gutter);
+  grid-template-columns: var(--large-portrait) 1fr;
+  grid-column-gap: var(--gap);
+  margin-bottom: 2rem;
+
+  .portrait {
+    width: var(--large-portrait);
+    height: var(--large-portrait);
+  }
 
   h2 {
-    grid-column: span 2;
     margin: 0;
   }
 }
 
-#darujme-widget {
-  h2 {
-    margin: 0 0 20px;
+article.speaker-detail {
+  .profile {
+    display: grid;
+    grid-template-columns: var(--large-portrait) 1fr;
+    grid-column-gap: var(--gap);
   }
+
+  h1 {
+    margin: 1rem 0 0.5rem;
+  }
+
+  .portrait {
+    width: var(--large-portrait);
+    height: var(--large-portrait);
+  }
+
+  
 }
 
-
 article.preview {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  grid-column-gap: var(--gutter);
-
-  img {
-    width: 100%;
-  }
-
-  h2 {
-    margin-top: 0;
-  }
-
   .speakers {
     float: right;
     max-width: 35%;

@@ -6,17 +6,19 @@
     </a>
   <% end %>
 
-  <% if statement.important? %>
-    <span class="label important">důležitý výrok</span>
-  <% end %>
+  
+
+  <p class="veracity <%= statement.correct_assessment.veracity.default_name %>">
+    <%= statement.correct_assessment.veracity.name %>
+
+    <% if statement.important? %>
+      <span class="label important">důležitý výrok</span>
+    <% end %>
+  </p>
 
   <p class="quote">
     <% unless local_assigns[:non_attributed] %><b><%= statement.speaker.full_name %></b>:<% end %>
     „<%= raw(statement.content) %>“
-  </p>
-
-  <p class="veracity <%= statement.correct_assessment.veracity.default_name %>">
-    <%= statement.correct_assessment.veracity.name %>
   </p>
     
   <p class="utils">
