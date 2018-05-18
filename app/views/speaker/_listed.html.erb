@@ -2,9 +2,9 @@
   <a href="<%= speaker_path(speaker) %>">
     <div class="photo-wrapper">
       <% if speaker.avatar.attached? %>
-        <img src="<%= speaker.avatar %>" alt="<%= speaker.full_name %>">
+        <%= image_tag(speaker.avatar, alt: speaker.full_name) %>
       <% else %>
-        <img src="" alt="<%= speaker.full_name %>">
+        <%= image_tag("default-speaker.png", alt: speaker.full_name) %>
       <% end %>
     </div>
     <p class="name"><%= speaker.full_name %></p>
