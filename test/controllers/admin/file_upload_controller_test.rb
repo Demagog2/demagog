@@ -28,13 +28,10 @@ class Admin::FileUploadControllerTest < ActionController::TestCase
   test "post speaker portrait" do
     sign_in create(:user)
 
-    fixture = fixture_file_upload("files/speaker.png", "image/png")
-
-    speaker = create(:speaker) do |speaker|
-      speaker.avatar.detach
-    end
+    speaker = create(:speaker)
 
     assert_changes -> { speaker.reload.avatar.attached? } do
+      fixture = fixture_file_upload("files/speaker.png", "image/png")
       post "upload_profile_picture", params: { id: speaker.id, file: fixture }
     end
 
@@ -52,11 +49,10 @@ class Admin::FileUploadControllerTest < ActionController::TestCase
   test "delete profile picture" do
     sign_in create(:user)
 
-    speaker = create(:speaker)
-
-    # fixture = fixture_file_upload("files/speaker.png", "image/png")
-
-    # speaker.avatar.attach fixture
+    speaker = create(:speaker) do |speaker|
+      fixture = fixture_file_upload("files/speaker.png", "image/png")
+      speaker.avatar.attach fixture
+    end
 
     assert_changes -> { speaker.reload.avatar.attached? } do
       delete "delete_profile_picture", params: { id: speaker.id }
