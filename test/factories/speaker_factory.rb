@@ -68,13 +68,15 @@ FactoryBot.define do
 
   factory :assessment do
     statement
-    veracity
     user
+    association :veracity, factory: :true
 
     evaluation_status Assessment::STATUS_CORRECT
   end
 
   factory :veracity do
+    initialize_with { Veracity.find_or_create_by name: name, key: key }
+
     factory :true do
       name "True"
       key Veracity::TRUE
@@ -132,13 +134,6 @@ FactoryBot.define do
       statement_props[:source] = evaluator.statement_source if evaluator.statement_source
 
       create_list(:important_statement, evaluator.statement_count, statement_props)
-
-      # fixture = fixture_file_upload(
-      #   Rails.root.join("test/fixtures/files/speaker.png"),
-      #   "image/png"
-      # )
-
-      # speaker.avatar.attach fixture
     end
 
     factory :speaker_with_party do

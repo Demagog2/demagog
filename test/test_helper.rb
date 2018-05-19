@@ -9,4 +9,13 @@ class ActiveSupport::TestCase
 
   # Enable factorybot
   include FactoryBot::Syntax::Methods
+
+  setup do
+    ensure_veracities
+  end
+
+  private
+    def ensure_veracities
+      [:true, :untrue, :misleading, :unverifiable].each { |key| create(key) }
+    end
 end
