@@ -32,15 +32,31 @@ export const UpdateBody = gql`
   }
 `;
 
+export const DeleteBody = gql`
+  mutation DeleteBody($id: ID!) {
+    deleteBody(id: $id)
+  }
+`;
+
 export const CreateSpeaker = gql`
   mutation CreateSpeaker($speakerInput: SpeakerInputType!) {
     createSpeaker(speaker_input: $speakerInput) {
       id
       first_name
       last_name
+      avatar
       website_url
       body {
         short_name
+      }
+      memberships {
+        id
+        body {
+          id
+          short_name
+        }
+        since
+        until
       }
     }
   }
@@ -61,10 +77,17 @@ export const UpdateSpeaker = gql`
         id
         body {
           id
+          short_name
         }
         since
         until
       }
     }
+  }
+`;
+
+export const DeleteSpeaker = gql`
+  mutation DeleteSpeaker($id: ID!) {
+    deleteSpeaker(id: $id)
   }
 `;

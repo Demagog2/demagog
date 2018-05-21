@@ -2,21 +2,21 @@
 
 Mutations::DeleteSpeaker = GraphQL::Field.define do
   name "DeleteSpeaker"
-  type !types.Int
+  type !types.ID
   description "Delete existing speaker"
 
-  argument :id, !types.Int
+  argument :id, !types.ID
 
   resolve -> (obj, args, ctx) {
     raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
 
-    # Olol
+    id = args[:id].to_i
+
     begin
-      # TODO: check if it destroys also all memberships and avatar
-      Speaker.destroy(args[:id].to_i)
-      202
-    rescue
-      202
+      Speaker.destroy(id)
+      id
+    rescue ActiveRecord::RecordNotFound => e
+      raise GraphQL::ExecutionError.new(e.to_s)
     end
   }
 end

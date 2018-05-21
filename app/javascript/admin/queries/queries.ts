@@ -5,10 +5,14 @@ export const GetBodies = gql`
     bodies(limit: 100, name: $name) {
       id
       logo
+      link
       name
       is_party
+      is_inactive
       short_name
       description
+      founded_at
+      terminated_at
     }
   }
 `;
@@ -54,6 +58,7 @@ export const GetSpeaker = gql`
         id
         body {
           id
+          short_name
         }
         since
         until
@@ -69,8 +74,18 @@ export const GetSpeakers = gql`
       first_name
       last_name
       avatar
+      website_url
       body {
         short_name
+      }
+      memberships {
+        id
+        body {
+          id
+          short_name
+        }
+        since
+        until
       }
     }
   }

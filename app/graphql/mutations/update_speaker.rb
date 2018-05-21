@@ -6,7 +6,7 @@ Mutations::UpdateSpeaker = GraphQL::Field.define do
   description "Update existing speaker"
 
   argument :id, !types.Int
-  argument :body_input, !Types::SpeakerInputType
+  argument :speaker_input, !Types::SpeakerInputType
 
   resolve -> (obj, args, ctx) {
     raise Errors::AuthenticationNeededError.new unless ctx[:current_user]

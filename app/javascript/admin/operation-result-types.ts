@@ -95,6 +95,7 @@ export interface UpdateSpeakerMutation {
       id: string;
       body: {
         id: string;
+        short_name: string;
       };
       since: string | null;
       until: string | null;
@@ -106,14 +107,18 @@ export interface GetBodiesQueryVariables {
   name?: string | null;
 }
 
-export interface GetBodiesQuery {
+export interface GetBodiesQueryResult {
   bodies: Array<{
     id: string;
     logo: string | null;
+    link: string | null;
     name: string;
     is_party: boolean;
+    is_inactive: boolean;
     short_name: string | null;
     description: string | null;
+    founded_at: string | null;
+    terminated_at: string | null;
   }>;
 }
 
@@ -161,6 +166,7 @@ export interface GetSpeakerQuery {
       id: string;
       body: {
         id: string;
+        short_name: string;
       };
       since: string | null;
       until: string | null;
@@ -172,14 +178,24 @@ export interface GetSpeakersQueryVariables {
   name?: string | null;
 }
 
-export interface GetSpeakersQuery {
+export interface GetSpeakersQueryResult {
   speakers: Array<{
     id: string;
     first_name: string;
     last_name: string;
     avatar: string | null;
+    website_url: string;
     body: {
       short_name: string | null;
     } | null;
-  } | null> | null;
+    memberships: Array<{
+      id: string;
+      body: {
+        id: string;
+        short_name: string;
+      };
+      since: string | null;
+      until: string | null;
+    }>;
+  }>;
 }
