@@ -155,11 +155,30 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
-  field :users, types[Types::UserType] do
+  field :user, !Types::UserType do
+    argument :id, !types.Int
+
     resolve -> (obj, args, ctx) {
       raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
 
-      User.all
+      User.find(args[:id])
+    }
+  end
+
+  field :users, !types[!Types::UserType] do
+    argument :offset, types.Int, default_value: 0
+    argument :limit, types.Int, default_value: 10
+    argument :name, types.String
+
+    resolve -> (obj, args, ctx) {
+      raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+
+      users = User.limit(args[:limit]).offset(args[:offset])
+
+      users =
+        users.where("first_name LIKE ? OR last_name LIKE ?", "%#{args[:name]}%", "%#{args[:name]}%") unless args[:name].nil?
+
+      users
     }
   end
 end

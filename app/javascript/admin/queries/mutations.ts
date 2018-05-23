@@ -68,3 +68,26 @@ export const UpdateSpeaker = gql`
     }
   }
 `;
+
+export const CreateUser = gql`
+  mutation CreateUser($userInput: UserInputType!) {
+    createUser(user_input: $userInput) {
+      id
+      first_name
+      last_name
+      active
+    }
+  }
+`;
+
+export const UpdateUser = gql`
+  mutation UpdateUser($id: Int!, $userInput: UserInputType!) {
+    updateUser(id: $id, user_input: $userInput) {
+      id
+      first_name
+      last_name
+      avatar
+      active
+    }
+  }
+`;

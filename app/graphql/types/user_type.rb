@@ -5,19 +5,19 @@ Types::UserType = GraphQL::ObjectType.define do
 
   field :id, !types.ID
 
-  field :first_name, !types.String
-  field :last_name, !types.String
+  field :first_name, types.String
+  field :last_name, types.String
   field :email, !types.String
-  field :phone, !types.String
-  field :bio, !types.String
-  field :position_description, !types.String
+  field :phone, types.String
+  field :bio, types.String
+  field :position_description, types.String
 
-  field :order, !types.Int
+  field :order, types.Int
   field :active, !types.Boolean
-  field :rang, !types.Int
+  field :rang, types.Int
 
   field :created_at, !types.String
-  field :updated_at, !types.String
+  field :updated_at, types.String
 
   field :avatar, types.String do
     resolve -> (obj, args, ctx) do
