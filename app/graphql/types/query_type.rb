@@ -154,4 +154,12 @@ Types::QueryType = GraphQL::ObjectType.define do
         .order(published_at: args[:order])
     }
   end
+
+  field :users, types[Types::UserType] do
+    resolve -> (obj, args, ctx) {
+      raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+
+      User.all
+    }
+  end
 end
