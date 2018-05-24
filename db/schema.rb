@@ -254,7 +254,6 @@ ActiveRecord::Schema.define(version: 2018_05_14_230300) do
     t.text "position_description"
     t.text "bio"
     t.string "email"
-    t.string "password"
     t.string "phone"
     t.datetime "registered_at"
     t.integer "order"
@@ -268,6 +267,7 @@ ActiveRecord::Schema.define(version: 2018_05_14_230300) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
+    t.string "password"
   end
 
   create_table "users_roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
