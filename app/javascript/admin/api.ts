@@ -1,3 +1,19 @@
+export function uploadUserAvatar(id: number, avatar: File): Promise<Response> {
+  const formData = new FormData();
+  formData.append('file', avatar);
+
+  return callApi('/admin/user-avatar/' + id, {
+    method: 'POST',
+    body: formData,
+  });
+}
+
+export function deleteUserAvatar(id: number): Promise<Response> {
+  return callApi('/admin/user-avatar/' + id, {
+    method: 'DELETE',
+  });
+}
+
 export function uploadSpeakerAvatar(speakerId: number, avatar: File): Promise<Response> {
   const formData = new FormData();
   formData.append('file', avatar);

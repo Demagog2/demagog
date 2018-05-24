@@ -6,7 +6,6 @@ one:
   position_description: MyString
   bio: MyString
   email: MyString
-  password: MyString
   phone: MyString
   registered_at: 2017-09-17
   order: MyString
@@ -18,7 +17,6 @@ two:
   position_description: MyString
   bio: MyString
   email: MyString
-  password: MyString
   phone: MyString
   registered_at: 2017-09-17
   order: MyString

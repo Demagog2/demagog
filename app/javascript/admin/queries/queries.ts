@@ -1,5 +1,33 @@
 import gql from 'graphql-tag';
 
+export const GetUsers = gql`
+  query GetUsers($name: String) {
+    users(limit: 100, name: $name) {
+      id
+      email
+      first_name
+      last_name
+      avatar
+      active
+      bio
+    }
+  }
+`;
+
+export const GetUser = gql`
+  query GetUser($id: Int!) {
+    user(id: $id) {
+      id
+      email
+      first_name
+      last_name
+      avatar
+      active
+      bio
+    }
+  }
+`;
+
 export const GetBodies = gql`
   query GetBodies($name: String) {
     bodies(limit: 100, name: $name) {

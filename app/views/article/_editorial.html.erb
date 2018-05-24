@@ -30,7 +30,9 @@
     <div class="row" style="margin-bottom: 50px; clear: both;">
       <div class="large-2 medium-2 columns">
         <div class="photo-wrapper">
-          <%= image_tag(user_portrait(user.portrait), class: 'vyrok_fotografia') %>
+          <% if user.avatar.attached? %>
+            <%= image_tag(user.avatar, class: 'vyrok_fotografia') %>
+          <% end %>
         </div>
       </div>
 

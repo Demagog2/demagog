@@ -9,7 +9,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
-import { GetSpeakersQueryResult, GetSpeakersQueryVariables } from '../operation-result-types';
+import {
+  GetSpeakersQuery as GetSpeakersQueryResult,
+  GetSpeakersQueryVariables,
+} from '../operation-result-types';
 import { DeleteSpeaker } from '../queries/mutations';
 import { GetSpeakers } from '../queries/queries';
 import Loading from './Loading';

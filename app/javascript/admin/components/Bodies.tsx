@@ -9,7 +9,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
-import { GetBodiesQueryResult, GetBodiesQueryVariables } from '../operation-result-types';
+import {
+  GetBodiesQuery as GetBodiesQueryResult,
+  GetBodiesQueryVariables,
+} from '../operation-result-types';
 import { DeleteBody } from '../queries/mutations';
 import { GetBodies } from '../queries/queries';
 import BodyLogo from './BodyLogo';
