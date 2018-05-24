@@ -3,14 +3,14 @@ require "open-uri"
 class MigrationToUserAvatar < ActiveRecord::Migration[5.2]
   def up
     User.all.each do |user|
-      next if user.portrait.nil? || user.portrait.file.nil?
+      next if user.portrait.nil? || user.portrait.file.empty? || user.avatar.attached?
 
       begin
         url = Class.new.extend(ApplicationHelper).user_portrait(user.portrait)
 
         puts "Attaching #{user.email}, #{url}"
 
-        open url do |file|
+        open(ensure_absolute_url(url)) do |file|
           user.avatar.attach io: file, filename: user.portrait.file
           user.save
         end
@@ -26,4 +26,15 @@ class MigrationToUserAvatar < ActiveRecord::Migration[5.2]
       user.save
     end
   end
+
+  private
+    def legacy_hostname
+      "http://legacy.demagog.cz"
+    end
+
+    def ensure_absolute_url(url)
+      return url if url.start_with? legacy_hostname
+
+      legacy_hostname + url
+    end
 end
