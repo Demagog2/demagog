@@ -1,4 +1,4 @@
-require 'open-uri'
+require "open-uri"
 
 class MigrationToUserAvatar < ActiveRecord::Migration[5.2]
   def up
