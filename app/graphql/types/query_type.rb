@@ -169,11 +169,14 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :offset, types.Int, default_value: 0
     argument :limit, types.Int, default_value: 10
     argument :name, types.String
+    argument :include_inactive, types.Boolean, default_value: false
 
     resolve -> (obj, args, ctx) {
       raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
 
       users = User.limit(args[:limit]).offset(args[:offset])
+
+      users = users.where(active: false) unless args[:include_inactive]
 
       users =
         users.where("first_name LIKE ? OR last_name LIKE ?", "%#{args[:name]}%", "%#{args[:name]}%") unless args[:name].nil?

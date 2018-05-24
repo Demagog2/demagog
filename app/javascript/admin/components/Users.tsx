@@ -16,6 +16,7 @@ import SpeakerAvatar from './SpeakerAvatar';
 
 interface IUsersState {
   name: string | null;
+  includeInactive: boolean;
 }
 
 class GetUsersQuery extends Query<GetUsersQueryData, GetUsersQueryVariables> {}
@@ -26,6 +27,7 @@ export default class Users extends React.Component<{}, IUsersState> {
 
     this.state = {
       name: null,
+      includeInactive: false,
     };
   }
 
@@ -42,15 +44,29 @@ export default class Users extends React.Component<{}, IUsersState> {
             Přidat nového člena týmu
           </Link>
 
-          <input
-            style={{ marginBottom: 20 }}
-            className="form-control"
-            type="search"
-            placeholder="Vyhledat člena týmu"
-            onChange={(evt) => this.updateName(evt.target.value)}
-          />
+          <div className="input-group mb-3" style={{ marginBottom: 20 }}>
+            <div className="input-group-prepend">
+              <div className="input-group-text">
+                <span style={{ marginRight: 20 }}>Zobrazit neaktivní členy</span>
+                <input
+                  type="checkbox"
+                  onChange={(evt) => this.setState({ includeInactive: evt.target.checked })}
+                  defaultChecked={this.state.includeInactive}
+                />
+              </div>
+            </div>
+            <input
+              className="form-control"
+              type="search"
+              placeholder="Vyhledat člena týmu"
+              onChange={(evt) => this.updateName(evt.target.value)}
+            />
+          </div>
 
-          <GetUsersQuery query={GetUsers} variables={{ name: this.state.name }}>
+          <GetUsersQuery
+            query={GetUsers}
+            variables={{ name: this.state.name, includeInactive: this.state.includeInactive }}
+          >
             {(props) => {
               if (props.loading || !props.data) {
                 return <Loading />;

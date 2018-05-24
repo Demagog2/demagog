@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const GetUsers = gql`
-  query GetUsers($name: String) {
-    users(limit: 100, name: $name) {
+  query GetUsers($name: String, $includeInactive: Boolean) {
+    users(limit: 100, name: $name, include_inactive: $includeInactive) {
       id
       email
       first_name

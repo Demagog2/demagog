@@ -152,6 +152,7 @@ export interface UpdateUserMutation {
 
 export interface GetUsersQueryVariables {
   name?: string | null,
+  includeInactive?: boolean | null,
 };
 
 export interface GetUsersQuery {
