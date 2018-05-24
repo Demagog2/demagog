@@ -9,6 +9,7 @@ export const GetUsers = gql`
       last_name
       avatar
       active
+      bio
     }
   }
 `;
@@ -22,6 +23,7 @@ export const GetUser = gql`
       last_name
       avatar
       active
+      bio
     }
   }
 `;

@@ -162,6 +162,7 @@ export interface GetUsersQuery {
     last_name: string | null,
     avatar: string | null,
     active: boolean,
+    bio: string | null,
   } >,
 };
 
@@ -177,6 +178,7 @@ export interface GetUserQuery {
     last_name: string | null,
     avatar: string | null,
     active: boolean,
+    bio: string | null,
   },
 };
 

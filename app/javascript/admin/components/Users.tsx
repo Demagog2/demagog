@@ -88,6 +88,10 @@ export default class Users extends React.Component<{}, IUsersState> {
                           <h5>
                             {user.first_name} {user.last_name}
                           </h5>
+
+                          {!user.active && <small>Uživatel není aktivní</small>}
+
+                          {user.bio && <p>Bio: {user.bio}</p>}
                         </div>
                       </div>
                     </div>

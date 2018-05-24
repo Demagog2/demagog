@@ -23,6 +23,7 @@ interface IUserFields {
   first_name: string | null;
   last_name: string | null;
   avatar: ImageValueType;
+  bio: string | null;
 }
 
 interface IUserFormState extends IUserFields {
@@ -36,10 +37,12 @@ export class UserForm extends React.Component<IUserFormProps, IUserFormState> {
       user: {
         id: '',
 
+        active: false,
         email: '',
         first_name: '',
         last_name: '',
         avatar: null,
+        bio: '',
       },
     },
   };
@@ -56,6 +59,7 @@ export class UserForm extends React.Component<IUserFormProps, IUserFormState> {
         first_name: props.userQuery.user.first_name,
         last_name: props.userQuery.user.last_name,
         avatar: props.userQuery.user.avatar,
+        bio: props.userQuery.user.bio,
       };
     }
   }
@@ -73,9 +77,21 @@ export class UserForm extends React.Component<IUserFormProps, IUserFormState> {
     this.setState({ isFormValidated: true });
   };
 
-  private onChange = (name: keyof IUserFields) => (evt: React.ChangeEvent<HTMLInputElement>) => {
+  private onChange = (name: keyof IUserFields) => (
+    evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const state: { [P in keyof Extract<IUserFields, string>]: string } = {
       [name]: evt.target.value,
+    };
+
+    this.setState(state);
+  };
+
+  private onCheckboxChange = (name: keyof IUserFields) => (
+    evt: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const state: { [P in keyof Extract<IUserFields, boolean>]: boolean } = {
+      [name]: evt.target.checked,
     };
 
     this.setState(state);
@@ -90,7 +106,7 @@ export class UserForm extends React.Component<IUserFormProps, IUserFormState> {
   };
 
   private getFormValues(): IUserFormData {
-    const { active, email, first_name, last_name, avatar } = this.state;
+    const { active, email, first_name, last_name, avatar, bio } = this.state;
 
     return {
       email,
@@ -98,6 +114,7 @@ export class UserForm extends React.Component<IUserFormProps, IUserFormState> {
       first_name: first_name || '',
       last_name: last_name || '',
       avatar: avatar || null,
+      bio: bio || '',
     };
   }
 
@@ -120,7 +137,6 @@ export class UserForm extends React.Component<IUserFormProps, IUserFormState> {
           <div className="form-group col-md-6">
             <label htmlFor="first_name">Jméno:</label>
             <input
-              required
               className="form-control"
               id="first_name"
               placeholder="Zadejte jméno"
@@ -132,13 +148,43 @@ export class UserForm extends React.Component<IUserFormProps, IUserFormState> {
           <div className="form-group col-md-6">
             <label htmlFor="last_name">Přijmení</label>
             <input
-              required
               className="form-control"
               id="last_name"
               placeholder="Zadejte přijmení"
               defaultValue={userQuery.user.last_name || ''}
               onChange={this.onChange('last_name')}
             />
+          </div>
+        </div>
+
+        <div className="form-row">
+          <div className="form-group col-md-6">
+            <label htmlFor="email">E-mail:</label>
+            <input
+              required
+              className="form-control"
+              id="email"
+              placeholder="Zadejte jméno"
+              defaultValue={userQuery.user.email || ''}
+              onChange={this.onChange('email')}
+            />
+          </div>
+        </div>
+
+        <div className="form-row">
+          <div className="form-group col-md-3">
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                onChange={this.onCheckboxChange('active')}
+                defaultChecked={userQuery.user.active}
+                id="active"
+              />
+              <label className="form-check-label" htmlFor="active">
+                Uživatel je aktivní:
+              </label>
+            </div>
           </div>
         </div>
 
@@ -152,6 +198,17 @@ export class UserForm extends React.Component<IUserFormProps, IUserFormState> {
               renderImage={(src) => <SpeakerAvatar avatar={src} />}
             />
           </div>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="bio">Bio:</label>
+          <textarea
+            className="form-control"
+            id="bio"
+            rows={3}
+            onChange={this.onChange('bio')}
+            defaultValue={userQuery.user.bio || ''}
+          />
         </div>
 
         <div style={{ marginTop: 20 }}>
