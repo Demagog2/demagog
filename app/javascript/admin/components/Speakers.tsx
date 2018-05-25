@@ -100,13 +100,9 @@ class Speakers extends React.Component<IProps, IState> {
                 <div>
                   {confirmDeleteModalSpeaker && (
                     <ConfirmDeleteModal
-                      message={
-                        'Opravdu chcete smazat osobu ' +
-                        confirmDeleteModalSpeaker.first_name +
-                        ' ' +
-                        confirmDeleteModalSpeaker.last_name +
-                        '?'
-                      }
+                      message={`Opravdu chcete smazat osobu ${
+                        confirmDeleteModalSpeaker.first_name
+                      } ${confirmDeleteModalSpeaker.last_name}?`}
                       onCancel={this.hideConfirmDeleteModal}
                       mutation={DeleteSpeaker}
                       mutationProps={{
@@ -152,8 +148,6 @@ class Speakers extends React.Component<IProps, IState> {
                           <h5 style={{ marginTop: 7 }}>
                             {speaker.first_name} {speaker.last_name}
                           </h5>
-
-                          {/* <h6>{speaker.body ? speaker.body.short_name : 'Nestraník'}</h6> */}
 
                           <dl style={{ marginTop: 20 }}>
                             <dt className="text-muted">

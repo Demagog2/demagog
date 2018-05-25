@@ -107,9 +107,7 @@ class Bodies extends React.Component<IProps, IState> {
               <div>
                 {confirmDeleteModalBody && (
                   <ConfirmDeleteModal
-                    message={
-                      'Opravdu chcete smazat skupinu/stranu ' + confirmDeleteModalBody.name + '?'
-                    }
+                    message={`Opravdu chcete smazat skupinu/stranu ${confirmDeleteModalBody.name}?`}
                     onCancel={this.hideConfirmDeleteModal}
                     mutation={DeleteBody}
                     mutationProps={{
