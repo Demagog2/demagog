@@ -1,49 +1,34 @@
-export function uploadUserAvatar(id: number, avatar: File): Promise<Response> {
-  const formData = new FormData();
-  formData.append('file', avatar);
-
-  return callApi('/admin/user-avatar/' + id, {
-    method: 'POST',
-    body: formData,
-  });
+/**
+ * Interpolates params into the uri
+ *
+ * Given uri `/users/:id` and params `{ id: 1 }`
+ * the function returns `/users/1`
+ *
+ * @param uri uri to be interpolated
+ * @param params params to be included into the uri
+ */
+function interpolateParams(uri: string, params: { [name: string]: number | string }): string {
+  return Object.keys(params).reduce<string>((tmpUri, paramName) => {
+    return tmpUri.replace(`:${paramName}`, params[paramName].toString());
+  }, uri);
 }
 
-export function deleteUserAvatar(id: number): Promise<Response> {
-  return callApi('/admin/user-avatar/' + id, {
-    method: 'DELETE',
-  });
+function createImageUploader(uri: string) {
+  return (id: number, image: File): Promise<Response> => {
+    const formData = new FormData();
+    formData.append('file', image);
+
+    return callApi(interpolateParams(uri, { id }), {
+      method: 'POST',
+      body: formData,
+    });
+  };
 }
 
-export function uploadSpeakerAvatar(speakerId: number, avatar: File): Promise<Response> {
-  const formData = new FormData();
-  formData.append('file', avatar);
-
-  return callApi('/admin/profile-picture/' + speakerId, {
-    method: 'POST',
-    body: formData,
-  });
-}
-
-export function deleteSpeakerAvatar(speakerId: number): Promise<Response> {
-  return callApi('/admin/profile-picture/' + speakerId, {
-    method: 'DELETE',
-  });
-}
-
-export function uploadBodyLogo(bodyId: number, logo: File): Promise<Response> {
-  const formData = new FormData();
-  formData.append('file', logo);
-
-  return callApi('/admin/body-logo/' + bodyId, {
-    method: 'POST',
-    body: formData,
-  });
-}
-
-export function deleteBodyLogo(bodyId: number): Promise<Response> {
-  return callApi('/admin/body-logo/' + bodyId, {
-    method: 'DELETE',
-  });
+function createImageDeleter(uri: string) {
+  return (id: number): Promise<Response> => {
+    return callApi(interpolateParams(uri, { id }), { method: 'DELETE' });
+  };
 }
 
 function callApi(url, options) {
@@ -57,3 +42,12 @@ function callApi(url, options) {
     }
   });
 }
+
+export const uploadUserAvatar = createImageUploader('/admin/user-avatar/:id');
+export const deleteUserAvatar = createImageDeleter('/admin/user-avatar/:id');
+
+export const uploadSpeakerAvatar = createImageUploader('/admin/profile-picture/:id');
+export const deleteSpeakerAvatar = createImageDeleter('/admin/profile-picture/:id');
+
+export const uploadBodyLogo = createImageUploader('/admin/body-logo/:id');
+export const deleteBodyLogo = createImageDeleter('/admin/body-logo/:id');
