@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 
-import { debounce } from 'lodash';
 import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 
@@ -11,6 +10,7 @@ import {
   GetUsersQueryVariables,
 } from '../operation-result-types';
 import { GetUsers } from '../queries/queries';
+import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
 import SpeakerAvatar from './SpeakerAvatar';
 
@@ -31,7 +31,9 @@ export default class Users extends React.Component<{}, IUsersState> {
     };
   }
 
-  private updateName = debounce((name: string) => this.setState({ name }), 500);
+  private onSearchChange = (name: string) => {
+    this.setState({ name });
+  };
 
   // tslint:disable-next-line:member-ordering
   public render() {
@@ -55,11 +57,10 @@ export default class Users extends React.Component<{}, IUsersState> {
                 />
               </div>
             </div>
-            <input
-              className="form-control"
-              type="search"
+            <SearchInput
+              marginBottom={0}
               placeholder="Vyhledat člena týmu"
-              onChange={(evt) => this.updateName(evt.target.value)}
+              onChange={this.onSearchChange}
             />
           </div>
 

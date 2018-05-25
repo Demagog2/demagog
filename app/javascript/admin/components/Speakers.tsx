@@ -3,7 +3,6 @@
 import * as React from 'react';
 
 import { ApolloError } from 'apollo-client';
-import { debounce } from 'lodash';
 import { Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -15,6 +14,7 @@ import {
 } from '../operation-result-types';
 import { DeleteSpeaker } from '../queries/mutations';
 import { GetSpeakers } from '../queries/queries';
+import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 import SpeakerAvatar from './SpeakerAvatar';
@@ -36,7 +36,9 @@ class Speakers extends React.Component<IProps, IState> {
     confirmDeleteModalSpeakerId: null,
   };
 
-  private updateName = debounce((name: string) => this.setState({ name }), 500);
+  private onSearchChange = (name: string) => {
+    this.setState({ name });
+  };
 
   private showConfirmDeleteModal = (confirmDeleteModalSpeakerId: string) => () => {
     this.setState({ confirmDeleteModalSpeakerId });
@@ -70,13 +72,7 @@ class Speakers extends React.Component<IProps, IState> {
             Přidat novou osobu
           </Link>
 
-          <input
-            style={{ marginBottom: 20 }}
-            className="form-control"
-            type="search"
-            placeholder="Vyhledat politickou osobu"
-            onChange={(evt) => this.updateName(evt.target.value)}
-          />
+          <SearchInput placeholder="Vyhledat politickou osobu" onChange={this.onSearchChange} />
 
           <GetSpeakersQuery query={GetSpeakers} variables={{ name: this.state.name }}>
             {(props) => {

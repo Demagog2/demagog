@@ -3,7 +3,6 @@
 import * as React from 'react';
 
 import { ApolloError } from 'apollo-client';
-import { debounce } from 'lodash';
 import { Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -16,6 +15,7 @@ import {
 import { DeleteBody } from '../queries/mutations';
 import { GetBodies } from '../queries/queries';
 import BodyLogo from './BodyLogo';
+import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 
@@ -44,7 +44,9 @@ class Bodies extends React.Component<IProps, IState> {
     confirmDeleteModalBodyId: null,
   };
 
-  private updateName = debounce((name: string) => this.setState({ name }), 500);
+  private onSearchChange = (name: string) => {
+    this.setState({ name });
+  };
 
   private showConfirmDeleteModal = (confirmDeleteModalBodyId: string) => () => {
     this.setState({ confirmDeleteModalBodyId });
@@ -77,12 +79,9 @@ class Bodies extends React.Component<IProps, IState> {
           Přidat novou stranu / skupinu
         </Link>
 
-        <input
-          style={{ marginBottom: 20 }}
-          className="form-control"
-          type="search"
+        <SearchInput
           placeholder="Vyhledat politickou stranu nebo skupinu"
-          onChange={(evt) => this.updateName(evt.target.value)}
+          onChange={this.onSearchChange}
         />
 
         <GetBodiesQuery query={GetBodies} variables={{ name: this.state.name }}>
