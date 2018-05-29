@@ -10,6 +10,7 @@ export const GetUsers = gql`
       avatar
       active
       bio
+      position_description
     }
   }
 `;
@@ -24,6 +25,7 @@ export const GetUser = gql`
       avatar
       active
       bio
+      position_description
     }
   }
 `;

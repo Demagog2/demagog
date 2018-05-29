@@ -114,3 +114,9 @@ export const UpdateUser = gql`
     }
   }
 `;
+
+export const DeleteUser = gql`
+  mutation DeleteUser($id: ID!) {
+    deleteUser(id: $id)
+  }
+`;

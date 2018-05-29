@@ -24,6 +24,7 @@ interface IUserFields {
   last_name: string | null;
   avatar: ImageValueType;
   bio: string | null;
+  position_description: string | null;
 }
 
 interface IUserFormState extends IUserFields {
@@ -60,6 +61,7 @@ export class UserForm extends React.Component<IUserFormProps, IUserFormState> {
         last_name: props.userQuery.user.last_name,
         avatar: props.userQuery.user.avatar,
         bio: props.userQuery.user.bio,
+        position_description: props.userQuery.user.position_description,
       };
     }
   }
@@ -106,7 +108,7 @@ export class UserForm extends React.Component<IUserFormProps, IUserFormState> {
   };
 
   private getFormValues(): IUserFormData {
-    const { active, email, first_name, last_name, avatar, bio } = this.state;
+    const { active, email, first_name, last_name, avatar, bio, position_description } = this.state;
 
     return {
       email,
@@ -115,6 +117,7 @@ export class UserForm extends React.Component<IUserFormProps, IUserFormState> {
       last_name: last_name || '',
       avatar: avatar || null,
       bio: bio || '',
+      position_description: position_description || '',
     };
   }
 
@@ -208,6 +211,17 @@ export class UserForm extends React.Component<IUserFormProps, IUserFormState> {
             rows={3}
             onChange={this.onChange('bio')}
             defaultValue={userQuery.user.bio || ''}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="bio">Popis pozice:</label>
+          <textarea
+            className="form-control"
+            id="position_description"
+            rows={3}
+            onChange={this.onChange('position_description')}
+            defaultValue={userQuery.user.position_description || ''}
           />
         </div>
 

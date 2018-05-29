@@ -2,32 +2,43 @@
 
 import * as React from 'react';
 
+import { ApolloError } from 'apollo-client';
 import { Query } from 'react-apollo';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { addFlashMessage } from '../actions/flashMessages';
 import {
   GetUsersQuery as GetUsersQueryData,
   GetUsersQueryVariables,
 } from '../operation-result-types';
+import { DeleteUser } from '../queries/mutations';
 import { GetUsers } from '../queries/queries';
 import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
+import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 import SpeakerAvatar from './SpeakerAvatar';
+
+interface IProps {
+  addFlashMessage: (msg: string) => void;
+}
 
 interface IUsersState {
   name: string | null;
   includeInactive: boolean;
+  confirmDeleteModalUserId: string | null;
 }
 
 class GetUsersQuery extends Query<GetUsersQueryData, GetUsersQueryVariables> {}
 
-export default class Users extends React.Component<{}, IUsersState> {
-  constructor(props: {}) {
+class Users extends React.Component<IProps, IUsersState> {
+  constructor(props: IProps) {
     super(props);
 
     this.state = {
       name: null,
       includeInactive: false,
+      confirmDeleteModalUserId: null,
     };
   }
 
@@ -35,8 +46,30 @@ export default class Users extends React.Component<{}, IUsersState> {
     this.setState({ name });
   };
 
+  private showConfirmDeleteModal = (confirmDeleteModalUserId: string) => () => {
+    this.setState({ confirmDeleteModalUserId });
+  };
+
+  private hideConfirmDeleteModal = () => {
+    this.setState({ confirmDeleteModalUserId: null });
+  };
+
+  private onDeleted = () => {
+    this.props.addFlashMessage('Uživatel byl úspěšně smazán.');
+
+    this.hideConfirmDeleteModal();
+  };
+
+  private onDeleteError = (error: ApolloError) => {
+    this.props.addFlashMessage('Doško k chybě při mazání uživatele');
+
+    console.error(error); // tslint:disable-line:no-console
+  };
+
   // tslint:disable-next-line:member-ordering
   public render() {
+    const { confirmDeleteModalUserId } = this.state;
+
     return (
       <React.Fragment>
         <div>
@@ -77,21 +110,38 @@ export default class Users extends React.Component<{}, IUsersState> {
                 return <h1>{props.error}</h1>;
               }
 
+              const confirmDeleteModalUser = props.data.users.find(
+                (s) => s.id === confirmDeleteModalUserId,
+              );
+
               return (
                 <div>
+                  {confirmDeleteModalUser && (
+                    <ConfirmDeleteModal
+                      message={`Opravdu chcete smazat Uživatele ${
+                        confirmDeleteModalUser.first_name
+                      } ${confirmDeleteModalUser.last_name}?`}
+                      onCancel={this.hideConfirmDeleteModal}
+                      mutation={DeleteUser}
+                      mutationProps={{
+                        variables: { id: confirmDeleteModalUserId },
+                        refetchQueries: [
+                          {
+                            query: GetUsers,
+                            variables: {
+                              name: this.state.name,
+                              includeInactive: this.state.includeInactive,
+                            },
+                          },
+                        ],
+                        onCompleted: this.onDeleted,
+                        onError: this.onDeleteError,
+                      }}
+                    />
+                  )}
+
                   {props.data.users.map((user) => (
                     <div className="card" key={user.id} style={{ marginBottom: '1rem' }}>
-                      <Link
-                        to={`/admin/users/edit/${user.id}`}
-                        style={{
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          height: '100%',
-                          width: '100%',
-                        }}
-                      />
-
                       <div className="card-body" style={{ display: 'flex' }}>
                         <div style={{ flex: '0 0 106px' }}>
                           <SpeakerAvatar
@@ -101,14 +151,35 @@ export default class Users extends React.Component<{}, IUsersState> {
                           />
                         </div>
 
-                        <div style={{ marginLeft: 15 }}>
-                          <h5>
-                            {user.first_name} {user.last_name}
+                        <div style={{ marginLeft: 15, flex: '1 0' }}>
+                          <div style={{ float: 'right' }}>
+                            <Link
+                              to={`/admin/users/edit/${user.id}`}
+                              className="btn btn-secondary"
+                              style={{ marginRight: 15 }}
+                            >
+                              Upravit
+                            </Link>
+                            <button
+                              type="button"
+                              className="btn btn-secondary"
+                              onClick={this.showConfirmDeleteModal(user.id)}
+                            >
+                              Smazat
+                            </button>
+                          </div>
+
+                          <h5 style={{ marginTop: 7 }}>
+                            {user.first_name} {user.last_name}{' '}
+                            {!user.active && <small>(Uživatel není aktivní)</small>}
                           </h5>
 
-                          {!user.active && <small>Uživatel není aktivní</small>}
-
-                          {user.bio && <p>Bio: {user.bio}</p>}
+                          <dl style={{ marginTop: 20 }}>
+                            <dt className="text-muted">
+                              <small>BIO</small>
+                            </dt>
+                            <dd>{user.bio}</dd>
+                          </dl>
                         </div>
                       </div>
                     </div>
@@ -122,3 +193,13 @@ export default class Users extends React.Component<{}, IUsersState> {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addFlashMessage(message: string) {
+      dispatch(addFlashMessage(message));
+    },
+  };
+}
+
+export default connect(null, mapDispatchToProps)(Users);

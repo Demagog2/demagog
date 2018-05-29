@@ -179,6 +179,15 @@ export interface UpdateUserMutation {
   } | null,
 };
 
+export interface DeleteUserMutationVariables {
+  id: string,
+};
+
+export interface DeleteUserMutation {
+  // Delete existing user
+  deleteUser: string,
+};
+
 export interface GetUsersQueryVariables {
   name?: string | null,
   includeInactive?: boolean | null,
@@ -193,6 +202,7 @@ export interface GetUsersQuery {
     avatar: string | null,
     active: boolean,
     bio: string | null,
+    position_description: string | null,
   } >,
 };
 
@@ -209,6 +219,7 @@ export interface GetUserQuery {
     avatar: string | null,
     active: boolean,
     bio: string | null,
+    position_description: string | null,
   },
 };
 
