@@ -15,6 +15,10 @@ import SpeakerEdit from './components/SpeakerEdit';
 import SpeakerNew from './components/SpeakerNew';
 import Speakers from './components/Speakers';
 
+import UserEdit from './components/UserEdit';
+import UserNew from './components/UserNew';
+import Users from './components/Users';
+
 export default function App() {
   return (
     <Router history={createBrowserHistory()}>
@@ -35,6 +39,10 @@ export default function App() {
                 <Route path="/admin/speakers" exact component={Speakers} />
                 <Route path="/admin/speakers/new" exact component={SpeakerNew} />
                 <Route path="/admin/speakers/edit/:id" exact component={SpeakerEdit} />
+
+                <Route path="/admin/users" exact component={Users} />
+                <Route path="/admin/users/new" exact component={UserNew} />
+                <Route path="/admin/users/edit/:id" exact component={UserEdit} />
 
                 <Route component={NotFound} />
               </Switch>

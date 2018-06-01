@@ -25,7 +25,7 @@ const categories = [
   {
     title: 'O nás',
     links: [
-      { to: '/admin/team', title: 'Tým' },
+      { to: '/admin/users', title: 'Tým', enabled: true },
       { to: '/admin/availability', title: 'Dostupnost' },
       { to: '/admin/pages', title: 'Stránky' },
       { to: '/admin/navigation', title: 'Menu' },

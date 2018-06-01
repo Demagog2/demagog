@@ -2,45 +2,67 @@
 
 import * as React from 'react';
 
-import { debounce } from 'lodash';
+import { ApolloError } from 'apollo-client';
 import { Query } from 'react-apollo';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { addFlashMessage } from '../actions/flashMessages';
+import {
+  GetSpeakersQuery as GetSpeakersQueryResult,
+  GetSpeakersQueryVariables,
+} from '../operation-result-types';
+import { DeleteSpeaker } from '../queries/mutations';
 import { GetSpeakers } from '../queries/queries';
+import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
+import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 import SpeakerAvatar from './SpeakerAvatar';
 
-// TODO: Replace by generated interface
-interface ISpeaker {
-  id: number;
-  first_name: string;
-  last_name: string;
-  website_url: string;
-  avatar: string;
-  body: {
-    short_name: string;
-  };
+class GetSpeakersQuery extends Query<GetSpeakersQueryResult, GetSpeakersQueryVariables> {}
+
+interface IProps {
+  addFlashMessage: (msg: string) => void;
 }
 
-interface ISpeakersState {
+interface IState {
   name: string | null;
-  speakerId: number;
+  confirmDeleteModalSpeakerId: string | null;
 }
 
-export default class Bodies extends React.Component<{}, ISpeakersState> {
-  constructor(props: {}) {
-    super(props);
+class Speakers extends React.Component<IProps, IState> {
+  public state = {
+    name: null,
+    confirmDeleteModalSpeakerId: null,
+  };
 
-    this.state = {
-      name: null,
-      speakerId: -1,
-    };
-  }
+  private onSearchChange = (name: string) => {
+    this.setState({ name });
+  };
 
-  private updateName = debounce((name: string) => this.setState({ name }), 500);
+  private showConfirmDeleteModal = (confirmDeleteModalSpeakerId: string) => () => {
+    this.setState({ confirmDeleteModalSpeakerId });
+  };
+
+  private hideConfirmDeleteModal = () => {
+    this.setState({ confirmDeleteModalSpeakerId: null });
+  };
+
+  private onDeleted = () => {
+    this.props.addFlashMessage('Osoba byla úspěšně smazána.');
+    this.hideConfirmDeleteModal();
+  };
+
+  private onDeleteError = (error: ApolloError) => {
+    this.props.addFlashMessage('Doško k chybě při mazání osoby');
+
+    console.error(error); // tslint:disable-line:no-console
+  };
 
   // tslint:disable-next-line:member-ordering
   public render() {
+    const { confirmDeleteModalSpeakerId } = this.state;
+
     return (
       <React.Fragment>
         <div>
@@ -50,15 +72,9 @@ export default class Bodies extends React.Component<{}, ISpeakersState> {
             Přidat novou osobu
           </Link>
 
-          <input
-            style={{ marginBottom: 20 }}
-            className="form-control"
-            type="search"
-            placeholder="Vyhledat politickou osobu"
-            onChange={(evt) => this.updateName(evt.target.value)}
-          />
+          <SearchInput placeholder="Vyhledat politickou osobu" onChange={this.onSearchChange} />
 
-          <Query query={GetSpeakers} variables={{ name: this.state.name }}>
+          <GetSpeakersQuery query={GetSpeakers} variables={{ name: this.state.name }}>
             {(props) => {
               if (props.loading) {
                 return <Loading />;
@@ -68,21 +84,36 @@ export default class Bodies extends React.Component<{}, ISpeakersState> {
                 return <h1>{props.error}</h1>;
               }
 
+              if (!props.data) {
+                return null;
+              }
+
+              const confirmDeleteModalSpeaker = props.data.speakers.find(
+                (s) => s.id === confirmDeleteModalSpeakerId,
+              );
+
               return (
                 <div>
-                  {props.data.speakers.map((speaker: ISpeaker) => (
-                    <div className="card" key={speaker.id} style={{ marginBottom: '1rem' }}>
-                      <Link
-                        to={`/admin/speakers/edit/${speaker.id}`}
-                        style={{
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          height: '100%',
-                          width: '100%',
-                        }}
-                      />
+                  {confirmDeleteModalSpeaker && (
+                    <ConfirmDeleteModal
+                      message={`Opravdu chcete smazat osobu ${
+                        confirmDeleteModalSpeaker.first_name
+                      } ${confirmDeleteModalSpeaker.last_name}?`}
+                      onCancel={this.hideConfirmDeleteModal}
+                      mutation={DeleteSpeaker}
+                      mutationProps={{
+                        variables: { id: confirmDeleteModalSpeakerId },
+                        refetchQueries: [
+                          { query: GetSpeakers, variables: { name: this.state.name } },
+                        ],
+                        onCompleted: this.onDeleted,
+                        onError: this.onDeleteError,
+                      }}
+                    />
+                  )}
 
+                  {props.data.speakers.map((speaker) => (
+                    <div className="card" key={speaker.id} style={{ marginBottom: '1rem' }}>
                       <div className="card-body" style={{ display: 'flex' }}>
                         <div style={{ flex: '0 0 106px' }}>
                           <SpeakerAvatar
@@ -92,26 +123,78 @@ export default class Bodies extends React.Component<{}, ISpeakersState> {
                           />
                         </div>
 
-                        <div style={{ marginLeft: 15 }}>
-                          <h5>
+                        <div style={{ marginLeft: 15, flex: '1 0' }}>
+                          <div style={{ float: 'right' }}>
+                            <Link
+                              to={`/admin/speakers/edit/${speaker.id}`}
+                              className="btn btn-secondary"
+                              style={{ marginRight: 15 }}
+                            >
+                              Upravit
+                            </Link>
+                            <button
+                              type="button"
+                              className="btn btn-secondary"
+                              onClick={this.showConfirmDeleteModal(speaker.id)}
+                            >
+                              Smazat
+                            </button>
+                          </div>
+
+                          <h5 style={{ marginTop: 7 }}>
                             {speaker.first_name} {speaker.last_name}
                           </h5>
 
-                          <h6>{speaker.body ? speaker.body.short_name : 'Nestraník'}</h6>
-                        </div>
+                          <dl style={{ marginTop: 20 }}>
+                            <dt className="text-muted">
+                              <small>RESPEKTOVANÝ ODKAZ</small>
+                            </dt>
+                            <dd>
+                              {speaker.website_url ? (
+                                <a href={speaker.website_url}>{speaker.website_url}</a>
+                              ) : (
+                                'Nevyplněn'
+                              )}
+                            </dd>
 
-                        {speaker.website_url && (
-                          <a href={speaker.website_url}>{speaker.website_url}</a>
-                        )}
+                            <dt className="text-muted">
+                              <small>PŘÍSLUŠNOST KE SKUPINÁM/STRANÁM</small>
+                            </dt>
+                            <dd>
+                              {speaker.memberships.map((m) => (
+                                <span key={m.id}>
+                                  {m.body.short_name}
+                                  {' — od '}
+                                  {m.since ? m.since : 'nevyplněno'}
+                                  {' do '}
+                                  {m.until ? m.until : 'nevyplněno'}
+                                </span>
+                              ))}
+
+                              {speaker.memberships.length === 0 &&
+                                'Není členem žádné skupiny či strany'}
+                            </dd>
+                          </dl>
+                        </div>
                       </div>
                     </div>
                   ))}
                 </div>
               );
             }}
-          </Query>
+          </GetSpeakersQuery>
         </div>
       </React.Fragment>
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addFlashMessage(message: string) {
+      dispatch(addFlashMessage(message));
+    },
+  };
+}
+
+export default connect(null, mapDispatchToProps)(Speakers);

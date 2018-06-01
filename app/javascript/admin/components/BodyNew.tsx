@@ -36,7 +36,7 @@ class BodyNew extends React.Component<IBodyNewProps, IBodyNewState> {
 
     createBody({ variables: { bodyInput } })
       .then((mutationResult) => {
-        if (!mutationResult || !mutationResult.data) {
+        if (!mutationResult || !mutationResult.data || !mutationResult.data.createBody) {
           return;
         }
 

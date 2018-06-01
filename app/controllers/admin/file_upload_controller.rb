@@ -5,18 +5,28 @@ class Admin::FileUploadController < ApplicationController
 
   before_action :authenticate_user!
 
+  def upload_user_avatar
+    params.permit!
+
+    attach_picture User.find(params[:id])
+
+    head :ok
+  end
+
+  def delete_user_avatar
+    begin
+      user = User.find(params[:id])
+
+      user.avatar.purge
+    rescue ActiveRecord::RecordNotFound
+      head :not_found
+    end
+  end
+
   def upload_profile_picture
     params.permit!
 
-    speaker = Speaker.find(params[:id])
-
-    speaker.avatar.attach(
-      io: params[:file].to_io,
-      filename: params[:file].original_filename,
-      content_type: params[:file].content_type
-    )
-
-    speaker.save!
+    attach_picture Speaker.find(params[:id])
 
     head :ok
   end
@@ -56,4 +66,15 @@ class Admin::FileUploadController < ApplicationController
       head :not_found
     end
   end
+
+  private
+    def attach_picture(entity)
+      entity.avatar.attach(
+        io: params[:file].to_io,
+        filename: params[:file].original_filename,
+        content_type: params[:file].content_type
+      )
+
+      entity.save!
+    end
 end
