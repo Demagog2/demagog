@@ -1,7 +1,7 @@
 <aside id="interesting-statements" class="box" data-theme="dark">
   <h2>Vybrané výroky z posledních debat</h2>
   
-  <% @interesting_statements.each_with_index do |statement, index| %>
+  <% @interesting_statements.each do |statement| %>
     <%= render(partial: "statement/small", object: statement, as: :statement) %>
   <% end %>
 </aside>
