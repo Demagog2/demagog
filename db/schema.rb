@@ -221,8 +221,6 @@ ActiveRecord::Schema.define(version: 2018_05_25_113745) do
     t.boolean "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "attachment_id"
-    t.index ["attachment_id"], name: "index_speakers_on_attachment_id"
   end
 
   create_table "statements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

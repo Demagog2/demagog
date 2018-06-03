@@ -3,7 +3,7 @@
     <h2><%= @party.name %></h2>
     <section class="speakers-list">
       <%= render(partial: 'speaker/listed', collection: @party.current_members, as: :speaker, locals: {showLatest: false}) %>
-    </section> 
+    </section>
   <% else %>
     <h2>Aktuálně nejaktivnější politici</h2>
     <p>Politici s nejvyšším počtem výroků za posledních šest měsíců.</p>
@@ -13,39 +13,6 @@
   <% end %>
 </article>
 
-<<<<<<< HEAD
-      <div class="row">
-        <% @party.current_members.each do |speaker| %>
-          <%= render(partial: 'speaker/listed', object: speaker, as: :speaker) %>
-        <% end %>
-      </div>
-    <% else %>
-      <h2>Politici s nejvíce výroky</h2>
-      <p>Vybráni jsou nejaktivnější politici za posledních šest měsíců.</p>
-
-      <div class="row">
-        <% @speakers.each do |speaker| %>
-          <figure class="speaker">
-            <a href="<%= speaker_path(speaker) %>">
-              <% if speaker.avatar.attached? %>
-                <div class="photo-wrapper">
-                  <%= image_tag(speaker.avatar, alt: speaker.full_name) %>
-                </div>
-              <% end %>
-              <p class="name"><%= speaker.full_name %></p>
-              <p>
-                <%= speaker.published_statements.where("excerpted_at >= ?", 6.months.ago).count %> výroků
-                (<%= speaker.published_statements.count %>&nbsp;výroků&nbsp;celkem)
-              </p>
-            </a>
-          </figure>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
-</div>
-=======
 <aside class="meta">
   <%= render(partial: "speaker/sidebar") %>
 </aside>
->>>>>>> beta
