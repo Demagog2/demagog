@@ -4,7 +4,7 @@
   <section class="profile">
     <%= render(partial: 'shared/portrait', object: @speaker, as: :speaker) %>
     <div>
-      <h1 class="name"><%= @speaker.full_name %> <% if @speaker.body %>(<%= @speaker.body.short_name %>)<% end %></h1>
+      <h1 class="name s-speaker-name"><%= @speaker.full_name %> <% if @speaker.body %><span class="s-body">(<%= @speaker.body.short_name %>)</span><% end %></h1>
 
       <%= render(partial: 'shared/stats', object: @stats, as: :stats) %>
 
