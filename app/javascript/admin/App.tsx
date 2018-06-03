@@ -14,6 +14,9 @@ import Sidebar from './components/Sidebar';
 import SpeakerEdit from './components/SpeakerEdit';
 import SpeakerNew from './components/SpeakerNew';
 import Speakers from './components/Speakers';
+import Statements from './components/Statements';
+
+import { SourceNew } from './components/statements/SourceNew';
 
 import UserEdit from './components/UserEdit';
 import UserNew from './components/UserNew';
@@ -31,6 +34,9 @@ export default function App() {
               <FlashMessages />
               <Switch>
                 <Route path="/admin" exact component={Home} />
+
+                <Route path="/admin/statements" exact component={Statements} />
+                <Route path="/admin/statements/sources/new" exact component={SourceNew} />
 
                 <Route path="/admin/bodies" exact component={Bodies} />
                 <Route path="/admin/bodies/new" exact component={BodyNew} />
