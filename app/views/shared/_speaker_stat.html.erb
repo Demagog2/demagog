@@ -1,39 +1,5 @@
-<<<<<<< HEAD
-<div class="speaker-stats">
-  <a href="<%= speaker_path(speaker.id) %>">
-    <figure class="speaker">
-      <% if speaker.avatar.attached? %>
-        <div class="photo-wrapper">
-          <% if local_assigns[:lazy_load_images] == false %>
-            <img class="lazy-load" data-src="<%= url_for(speaker.avatar) %>" alt="<%= speaker.full_name %>">
-          <% else %>
-            <%= image_tag(speaker.avatar, alt: speaker.full_name) %>
-          <% end %>
-        </div>
-      <% end %>
-      <p class="name"><%= speaker.full_name %></p>
-    </figure>
-    <ul class="stats">
-      <li title="Pravda" class="true <%= "none" if stats[:true].zero? %>">
-        <%= stats[:true] %>
-      </li>
-      <li title="Nepravda" class="untrue <%= "none" if stats[:untrue].zero? %>">
-        <%= stats[:untrue] %>
-      </li>
-      <li title="Zavádějící" class="misleading <%= "none" if stats[:misleading].zero? %>">
-        <%= stats[:misleading] %>
-      </li>
-      <li title="Neověřitelné" class="unverifiable <%= "none" if stats[:unverifiable].zero? %>">
-        <%= stats[:unverifiable] %>
-      </li>
-    </ul>
-  </a>
-</div>
-
-=======
 <a class="stats-box" href="<%= speaker_path(speaker.id) %>">
   <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
   <p class="name"><%= speaker.full_name %></p>
   <%= render(partial: 'shared/stats', object: stats, as: :stats) %>
 </a>
->>>>>>> beta

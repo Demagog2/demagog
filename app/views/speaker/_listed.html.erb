@@ -1,18 +1,6 @@
-<<<<<<< HEAD
-<figure class="speaker">
-  <a href="<%= speaker_path(speaker) %>">
-    <div class="photo-wrapper">
-      <% if speaker.avatar.attached? %>
-        <%= image_tag(speaker.avatar, alt: speaker.full_name) %>
-      <% else %>
-        <%= image_tag("default-speaker.png", alt: speaker.full_name) %>
-      <% end %>
-    </div>
-=======
  <a class="speaker" href="<%= speaker_path(speaker) %>">
   <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
   <div>
->>>>>>> beta
     <p class="name"><%= speaker.full_name %></p>
     <p>
       <% if showLatest %>

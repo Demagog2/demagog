@@ -1,18 +1,3 @@
-<<<<<<< HEAD
-<article class="row statement s-speaker-statement">
-  <div class="large-7 medium-10 columns" id="<%= statement.id %>">
-     <% unless local_assigns[:non_attributed] %>
-      <figure class="speaker">
-        <a href="<%= speaker_path(statement.speaker.id) %>">
-          <div class="photo-wrapper">
-            <% if statement.speaker.avatar.attached? %>
-              <img class="lazy-load" data-src="<%= statetement.speaker.avatar %>" alt="<%= statement.speaker.full_name %>">
-            <% end %>
-          </div>
-        </a>
-      </figure>
-    <% end %>
-=======
 <article class="statement <% if statement.important? %>important-statement<% end %>" id="<%= statement.id %>">
 
   <% unless local_assigns[:non_attributed] %>
@@ -21,11 +6,10 @@
     </a>
   <% end %>
 
-  
+
 
   <p class="veracity <%= statement.correct_assessment.veracity.default_name %>">
     <%= statement.correct_assessment.veracity.name %>
->>>>>>> beta
 
     <% if statement.important? %>
       <span class="label important">důležitý výrok</span>
@@ -36,7 +20,7 @@
     <% unless local_assigns[:non_attributed] %><b><%= statement.speaker.full_name %></b>:<% end %>
     „<%= raw(statement.content) %>“
   </p>
-    
+
   <p class="utils">
     <a class="permalink" href="<%= statement_path(statement.id) %>">trvalý odkaz</a>
   </p>
