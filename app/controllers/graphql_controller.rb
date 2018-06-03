@@ -16,6 +16,7 @@ class GraphqlController < ApplicationController
     context = {
       # Query context goes here, for example:
       # current_user: current_user,
+      current_user: current_user
     }
     result = DemagogSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result

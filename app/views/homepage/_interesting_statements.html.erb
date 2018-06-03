@@ -1,33 +1,7 @@
-<section class="interesting-statements">
-  <div class="row">
-    <div class="large-8 medium-6 columns show-for-medium-up">
-      <h2>Vybrané výroky z posledních debat</h2>
-
-      <div class="row">
-        <% @interesting_statements.each_with_index do |statement, index| %>
-          <div class="large-6 columns">
-            <%= render(partial: "statement/small", object: statement, as: :statement) %>
-          </div>
-          <% if index == 1 %></div><div class="row"><% end %>
-        <% end %>
-      </div>
-    </div>
-    <div id="darujme-widget" class="large-4 medium-6 columns">
-      <h2>Podpořte Demagog.cz</h2>
-
-      <p class="disclaimer">Demagog.cz není finančně ani jinak navázán na žádnou politickou stranu či politickou zájmovou skupinu. Pro zajištění nezávislosti a udržitelnosti je financován z více zdrojů.  Jednorázovým či pravidelným příspěvkem můžete pomoci Demagog.cz také vy.</p>
-
-      <div data-darujme-widget-token="cal3h1ohu4dkri5u">&nbsp;</div>
-      <script type="text/javascript">
-        +function(w, d, s, u, a, b) {
-          w['DarujmeObject'] = u;
-          w[u] = w[u] || function () { (w[u].q = w[u].q || []).push(arguments) };
-          a = d.createElement(s); b = d.getElementsByTagName(s)[0];
-          a.async = 1; a.src = "https:\/\/www.darujme.cz\/assets\/scripts\/widget.js";
-          b.parentNode.insertBefore(a, b);
-        }(window, document, 'script', 'Darujme');
-        Darujme(1, "cal3h1ohu4dkri5u", 'render', "https:\/\/www.darujme.cz\/widget?token=cal3h1ohu4dkri5u", "370px");
-      </script>
-    </div>
-  </div>
-</section>
+<aside id="interesting-statements" class="box" data-theme="dark">
+  <h2>Vybrané výroky z posledních debat</h2>
+  
+  <% @interesting_statements.each do |statement| %>
+    <%= render(partial: "statement/small", object: statement, as: :statement) %>
+  <% end %>
+</aside>

@@ -1,0 +1,18 @@
+<section class="authors">
+  <h1>Kdo připravuje demagog.cz?</h1>
+ 
+  <% @users.each do |user| %>
+    <article class="author">
+      <figure class="portrait">      
+        <% if user.avatar.attached? %>  
+          <%= image_tag(user.avatar) %>
+        <% end %>
+      </figure>
+
+      <div>
+        <h2><%= user.full_name %></h2>
+        <p><b><%= user.position_description %></b> — <%= user.bio %></p>
+      </div>
+    </article>
+  <% end %>
+</section>

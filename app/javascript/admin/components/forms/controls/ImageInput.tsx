@@ -44,12 +44,12 @@ export default class ImageInput extends React.Component<IImageInputProps> {
               style={{}}
               className="dropzone"
             >
-              <button className="btn btn-secondary">
+              <button type="button" className="btn btn-secondary">
                 {value !== null ? 'Vybrat novou fotku' : 'Vybrat fotku'}
               </button>
             </Dropzone>
             {value !== null && (
-              <button className="btn btn-secondary" onClick={this.onRemoveClick}>
+              <button type="button" className="btn btn-secondary" onClick={this.onRemoveClick}>
                 Odstranit tuto fotku
               </button>
             )}

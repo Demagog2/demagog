@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="speaker-stats">
   <a href="<%= speaker_path(speaker.id) %>">
     <figure class="speaker">
@@ -29,3 +30,10 @@
   </a>
 </div>
 
+=======
+<a class="stats-box" href="<%= speaker_path(speaker.id) %>">
+  <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
+  <p class="name"><%= speaker.full_name %></p>
+  <%= render(partial: 'shared/stats', object: stats, as: :stats) %>
+</a>
+>>>>>>> beta

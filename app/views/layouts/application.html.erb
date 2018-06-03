@@ -8,14 +8,20 @@
 
   <body>
     <%= render partial: "shared/facebook" %>
-    <%= render partial: "shared/header" %>
 
-    <%= yield %>
+    <div class="container">
+      <%= render partial: "shared/nav" %>
 
+      <%= render partial: "shared/header" %>
+
+      <%= yield %>
+
+      <%= render partial: "shared/partners" %>
+    </div>
+      
     <%= render partial: "shared/footer" %>
+
     <%= javascript_pack_tag 'application'  %>
     <%= render partial: "shared/ga" %>
   </body>
-</html>
-</body>
 </html>

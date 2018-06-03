@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const CreateBody = gql`
-  mutation createBody($bodyInput: BodyInputType!) {
+  mutation CreateBody($bodyInput: BodyInputType!) {
     createBody(body_input: $bodyInput) {
       id
       logo
@@ -32,15 +32,31 @@ export const UpdateBody = gql`
   }
 `;
 
+export const DeleteBody = gql`
+  mutation DeleteBody($id: ID!) {
+    deleteBody(id: $id)
+  }
+`;
+
 export const CreateSpeaker = gql`
   mutation CreateSpeaker($speakerInput: SpeakerInputType!) {
     createSpeaker(speaker_input: $speakerInput) {
       id
       first_name
       last_name
+      avatar
       website_url
       body {
         short_name
+      }
+      memberships {
+        id
+        body {
+          id
+          short_name
+        }
+        since
+        until
       }
     }
   }
@@ -61,10 +77,40 @@ export const UpdateSpeaker = gql`
         id
         body {
           id
+          short_name
         }
         since
         until
       }
+    }
+  }
+`;
+
+export const DeleteSpeaker = gql`
+  mutation DeleteSpeaker($id: ID!) {
+    deleteSpeaker(id: $id)
+  }
+`;
+
+export const CreateUser = gql`
+  mutation CreateUser($userInput: UserInputType!) {
+    createUser(user_input: $userInput) {
+      id
+      first_name
+      last_name
+      active
+    }
+  }
+`;
+
+export const UpdateUser = gql`
+  mutation UpdateUser($id: Int!, $userInput: UserInputType!) {
+    updateUser(id: $id, user_input: $userInput) {
+      id
+      first_name
+      last_name
+      avatar
+      active
     }
   }
 `;

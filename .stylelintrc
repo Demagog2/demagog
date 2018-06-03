@@ -1,0 +1,12 @@
+{
+  "extends": "stylelint-config-standard",
+  "plugins": [
+    "stylelint-scss"
+  ],
+  "rules": {
+    "max-empty-lines": 2,
+    "at-rule-no-unknown": [ true, {
+      "ignoreAtRules": ["mixin", "if", "else", "content", "include"]
+    }]
+  }
+}

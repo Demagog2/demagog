@@ -23,7 +23,7 @@ export interface ISpeakerFormData extends SpeakerInputType {
 
 interface ISpeakerFormProps {
   speakerQuery?: GetSpeakerQuery;
-  onSubmit: (body: ISpeakerFormData) => void;
+  onSubmit: (formData: ISpeakerFormData) => void;
   submitting: boolean;
 }
 
@@ -263,7 +263,11 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps, ISpeakerForm
                     onChange={this.updateMembership(m.key)}
                   />
                 ))}
-                <button onClick={this.addMembership(data)} className="btn btn-secondary">
+                <button
+                  type="button"
+                  onClick={this.addMembership(data)}
+                  className="btn btn-secondary"
+                >
                   Přidat příslušnost ke straně nebo skupině
                 </button>
               </React.Fragment>

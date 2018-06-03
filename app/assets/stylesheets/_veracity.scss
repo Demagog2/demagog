@@ -5,6 +5,10 @@
   white-space: nowrap;
   font-weight: bold;
 
+  .hidden {
+    display: none;
+  }
+
   &::before {
     content: '';
     display: inline-block;
@@ -21,10 +25,10 @@
   }
 
   &.true {
-    color: $true;
+    color: var(--true);
 
     &::before {
-      background-color: $true;
+      background-color: var(--true);
       background-image: image-url('true-symbol.svg');
       background-position: 48% 55%;
       background-size: ($size * 0.7em) ($size * 0.7em);
@@ -32,10 +36,10 @@
   }
 
   &.untrue {
-    color: $untrue;
-      
+    color: var(--untrue);
+
     &::before {
-      background-color: $untrue;
+      background-color: var(--untrue);
       background-image: image-url('untrue-symbol.svg');
       background-position: 50% 55%;
       background-size: ($size * 0.6em) ($size * 0.6em);
@@ -43,22 +47,21 @@
   }
 
   &.misleading {
-    color: $misleading;
+    color: var(--misleading);
 
     &::before {
-      background-color: $misleading;
+      background-color: var(--misleading);
       background-image: image-url('misleading-symbol.svg');
     }
   }
 
   &.unverifiable {
-    color: $unverifiable;
+    color: var(--unverifiable);
 
     &::before {
-      background-color: $unverifiable;
+      background-color: var(--unverifiable);
       background-position: 55% 50%;
       background-image: image-url('unverifiable-symbol.svg');
     }
   }
-
 }

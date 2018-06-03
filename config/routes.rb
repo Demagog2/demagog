@@ -14,6 +14,14 @@ Rails.application.routes.draw do
     post "/profile-picture/:id" => "file_upload#upload_profile_picture", as: :upload_profile_picture
     delete "/profile-picture/:id" => "file_upload#delete_profile_picture", as: :delete_profile_picture
 
+    # Image uploading of user avatars
+    post "/user-avatar/:id" => "file_upload#upload_user_avatar", as: :upload_user_avatar
+    delete "/user-avatar/:id" => "file_upload#delete_user_avatar", as: :delete_user_avatar
+
+    # Image uploading of body logos
+    post "/body-logo/:id" => "file_upload#upload_body_logo", as: :upload_body_logo
+    delete "/body-logo/:id" => "file_upload#delete_body_logo", as: :delete_body_logo
+
     get "(/*all)" => "homepage#index"
   end
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <figure class="speaker">
   <a href="<%= speaker_path(speaker) %>">
     <div class="photo-wrapper">
@@ -7,7 +8,19 @@
         <%= image_tag("default-speaker.png", alt: speaker.full_name) %>
       <% end %>
     </div>
+=======
+ <a class="speaker" href="<%= speaker_path(speaker) %>">
+  <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
+  <div>
+>>>>>>> beta
     <p class="name"><%= speaker.full_name %></p>
-    <p><%= speaker.published_statements.size %> výroků</p>
-  </a>
-</figure>
+    <p>
+      <% if showLatest %>
+        <b><%= speaker.published_statements.where("excerpted_at >= ?", 6.months.ago).count %>&nbsp;výroků</b>
+        (<%= speaker.published_statements.count %>&nbsp;celkem)
+      <% else %>
+        <%= speaker.published_statements.count %>&nbsp;výroků
+      <% end %>
+    </p>
+  </div>
+</a>

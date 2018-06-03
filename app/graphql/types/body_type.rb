@@ -29,6 +29,16 @@ Types::BodyType = GraphQL::ObjectType.define do
 
   field :logo, types.String do
     resolve -> (obj, args, ctx) do
+      return nil unless obj.logo.attached?
+
+      Rails.application.routes.url_helpers.rails_blob_path(obj.logo, only_path: true)
+    end
+  end
+
+  field :legacy_logo, types.String do
+    deprecation_reason "Logo url from legacy demagog"
+
+    resolve -> (obj, args, ctx) do
       return nil if obj.attachment.nil?
 
       return nil if obj.attachment.file.empty?

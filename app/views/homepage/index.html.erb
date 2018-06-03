@@ -1,15 +1,12 @@
 <%= render partial: "cover_story" %>
 
 <%= render partial: "interesting_statements" %>
+<%= render partial: "darujme" %>
 
 <% @articles.drop(1).each do |article| %>
   <%= render partial: "article/preview", object: article, as: :article %>
 <% end %>
 
-<div class="row">
-  <div class="columns">
-    <%= paginate(@articles) %>
-  </div>
-</div>
+<%= paginate(@articles) %>
 
 <%= render partial: "social" %>

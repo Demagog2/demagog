@@ -24,8 +24,6 @@ gem "sass-rails", "~> 5.0"
 gem "uglifier", ">= 1.3.0"
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-# Add foundation CSS framework
-gem "foundation-rails", "~> 5.5.2"
 # Add gem for paging
 gem "kaminari"
 # Add webpack support
@@ -83,6 +81,7 @@ group :development do
   gem "capistrano-rails", require: false
   gem "capistrano-bundler", require: false
   gem "capistrano3-unicorn", require: false
+  gem "guard-livereload", "~> 2.5", require: false
 end
 
 group :development, :test do

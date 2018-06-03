@@ -1,11 +1,19 @@
-<div class="row">
-  <div class="medium-4 medium-push-8 columns">
-    <%= render(partial: "speaker/sidebar") %>
-  </div>
-  <div class="medium-8 medium-pull-4 columns speakers-list">
-    <% if @party  %>
-      <h2><%= @party.name %></h2>
+<article>
+  <% if @party  %>
+    <h2><%= @party.name %></h2>
+    <section class="speakers-list">
+      <%= render(partial: 'speaker/listed', collection: @party.current_members, as: :speaker, locals: {showLatest: false}) %>
+    </section> 
+  <% else %>
+    <h2>Aktuálně nejaktivnější politici</h2>
+    <p>Politici s nejvyšším počtem výroků za posledních šest měsíců.</p>
+    <section class="speakers-list">
+      <%= render(partial: 'speaker/listed', collection: @speakers, as: :speaker, locals: {showLatest: true}) %>
+    </section>
+  <% end %>
+</article>
 
+<<<<<<< HEAD
       <div class="row">
         <% @party.current_members.each do |speaker| %>
           <%= render(partial: 'speaker/listed', object: speaker, as: :speaker) %>
@@ -36,3 +44,8 @@
     <% end %>
   </div>
 </div>
+=======
+<aside class="meta">
+  <%= render(partial: "speaker/sidebar") %>
+</aside>
+>>>>>>> beta

@@ -34,6 +34,8 @@ AMAZON_S3_BUCKET=bucket-name
 7. Run DB migration `rails db:drop db:create db:migrate migration:run`
 8. `rails server`
 
+Run guard-livereload server with `guard`.
+
 ## Generating Apollo flow types
 
 ```sh

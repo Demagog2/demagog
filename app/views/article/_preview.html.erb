@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <% if local_assigns[:type] == "column" %>
     <article class="row preview">
         <div class="large-8 columns">
@@ -71,3 +72,47 @@
         </div>
     </article>
 <% end %>
+=======
+<article class="preview">
+  <a title="<%= article.title %>" href="<%= article_path(article) %>">
+      <% if article.illustration.file != "" %>
+        <img class="lazy-load" data-src="<%= article_illustration(article.illustration, article.article_type.name) %>">
+      <% end %>
+  </a>
+
+  <div>
+    <div class="speakers">
+        <% for speaker in article.unique_speakers %>
+          <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
+        <% end %>
+    </div>
+
+    <h2><%= link_to(article.title, article_path(article), class: "title") %></h2>
+
+    <p class="clickthrough">
+      <span class="label <%= article.article_type.name == "default" ? "factcheck" : "editorial" %>">
+        <% if article.article_type.name == "default" %>
+            Ověřeno
+        <% end %>
+        <% if article.article_type.name == "static" %>
+            Komentář
+        <% end %>
+      </span>
+
+      <% if article.article_type.name == "default" and article.source %>
+          <i><%= article.source.medium.name %></i>,
+      <% end %>
+
+      <i><%= raw(l(article.published_at, format: :long)) %></i>
+
+      &mdash;
+
+      <%= strip_tags(article.perex).truncate(230) %>
+
+      <a href="<%= article_path(article) %>">
+          <span>Číst&nbsp;dál&nbsp;&rarr;</span>
+      </a>
+    </p>
+  </div>
+</article>
+>>>>>>> beta

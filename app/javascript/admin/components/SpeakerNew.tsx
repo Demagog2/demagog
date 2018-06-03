@@ -42,7 +42,7 @@ class SpeakerNew extends React.Component<ISpeakerNewProps, ISpeakerNewState> {
 
     createSpeaker({ variables: { speakerInput } })
       .then((mutationResult) => {
-        if (!mutationResult || !mutationResult.data) {
+        if (!mutationResult || !mutationResult.data || !mutationResult.data.createSpeaker) {
           return;
         }
 

@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class Body < ApplicationRecord
-  has_many :memberships
+  has_many :memberships, dependent: :destroy
   has_many :speakers, through: :memberships
   belongs_to :attachment, optional: true
+
+  has_one_attached :logo
 
   def current_members
     speakers

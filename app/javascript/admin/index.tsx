@@ -29,7 +29,7 @@ import rootReducer from './reducers';
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: createUploadLink(),
+  link: createUploadLink({ credentials: 'same-origin' }),
 });
 
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

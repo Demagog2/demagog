@@ -4,18 +4,25 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import { BodyInputType, GetBodyQuery } from '../../operation-result-types';
+import BodyLogo from '../BodyLogo';
 import DateInput from './controls/DateInput';
+import ImageInput, { ImageValueType } from './controls/ImageInput';
+
+export interface IBodyFormData extends BodyInputType {
+  logo: ImageValueType;
+}
 
 interface IBodyProps {
   bodyQuery?: GetBodyQuery;
-  onSubmit: (body: BodyInputType) => void;
+  onSubmit: (formData: IBodyFormData) => void;
   submitting: boolean;
 }
 
 interface IBodyFields {
   name?: string;
-  link?: string;
   short_name?: string;
+  logo?: ImageValueType;
+  link?: string;
   is_party?: boolean;
   is_inactive?: boolean;
   founded_at?: string;
@@ -36,7 +43,7 @@ export class BodyForm extends React.Component<IBodyProps, IBodyState> {
         is_inactive: false,
         is_party: true,
         link: '',
-        logo: '',
+        logo: null,
         name: '',
         short_name: '',
         terminated_at: '',
@@ -56,6 +63,7 @@ export class BodyForm extends React.Component<IBodyProps, IBodyState> {
         link: props.bodyQuery.body.link || undefined,
         name: props.bodyQuery.body.name,
         short_name: props.bodyQuery.body.short_name || undefined,
+        logo: props.bodyQuery.body.logo,
         terminated_at: props.bodyQuery.body.terminated_at || undefined,
       };
     }
@@ -63,8 +71,9 @@ export class BodyForm extends React.Component<IBodyProps, IBodyState> {
 
   public render() {
     const { bodyQuery, submitting } = this.props;
+    const { logo } = this.state;
 
-    if (!bodyQuery) {
+    if (!bodyQuery || logo === undefined) {
       return null;
     }
 
@@ -131,6 +140,18 @@ export class BodyForm extends React.Component<IBodyProps, IBodyState> {
               placeholder="Zadejte zkratku"
               onChange={this.onChange('short_name')}
               defaultValue={bodyQuery.body.short_name || ''}
+            />
+          </div>
+        </div>
+
+        <div className="form-row">
+          <div className="form-group col-md-12">
+            <ImageInput
+              label="Logo / ilustrační obrázek"
+              name="logo"
+              value={logo}
+              onChange={this.onImageChange('logo')}
+              renderImage={(src) => <BodyLogo logo={src} />}
             />
           </div>
         </div>
@@ -203,6 +224,14 @@ export class BodyForm extends React.Component<IBodyProps, IBodyState> {
     this.setState(state);
   };
 
+  private onImageChange = (name: keyof IBodyFields) => (value: ImageValueType) => {
+    const state: { [P in keyof Extract<IBodyFields, string>]: string } = {
+      [name]: value,
+    };
+
+    this.setState(state);
+  };
+
   private onCheckboxChange = (name: keyof IBodyFields) => (
     evt: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -213,13 +242,23 @@ export class BodyForm extends React.Component<IBodyProps, IBodyState> {
     this.setState(state);
   };
 
-  private getFormValues(): BodyInputType {
-    const { name, short_name, is_party, is_inactive, founded_at, terminated_at, link } = this.state;
+  private getFormValues(): IBodyFormData {
+    const {
+      name,
+      short_name,
+      logo,
+      is_party,
+      is_inactive,
+      founded_at,
+      terminated_at,
+      link,
+    } = this.state;
 
     return {
       founded_at,
       is_inactive: !!is_inactive,
       is_party: !!is_party,
+      logo: logo || null,
       link,
       name: name || '',
       short_name,

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="statement preview">
   <span class="veracity <%= statement.correct_assessment.veracity.default_name %>"></span>
 
@@ -6,15 +7,22 @@
   </div>
 
   <figure class="speaker">
+=======
+<div class="statement-preview">
+  <%= render(partial: 'shared/portrait', object: statement.speaker, as: :speaker) %>
+  
+  <div>
+>>>>>>> beta
     <p class="name">
+      <span class="veracity <%= statement.correct_assessment.veracity.default_name %>"></span>
       <a href="<%= speaker_path(statement.speaker.id) %>">
         <%= statement.speaker.full_name %>
       </a>
     </p>
-  </figure>
-
-  <p>
-    <span class="quote">„<%= statement.content.truncate(250) %>“</span>
-    <a href="<%= statement_path(statement.id) %>">odůvodnění&nbsp;&rarr;</a>
-  </p>
+    
+    <p>
+      <span class="quote">„<%= statement.content.truncate(250) %>“</span>
+      <a href="<%= statement_path(statement.id) %>">odůvodnění&nbsp;&rarr;</a>
+    </p>
+  </div>
 </div>

@@ -14,7 +14,7 @@ export default function SpeakerAvatar(props: ISpeakerAvatarProps) {
   const alt = (props.first_name || '') + ' ' + (props.last_name || '');
 
   return (
-    <div className="speaker-avatar">
+    <div style={{ maxWidth: 106 }}>
       <img src={src} alt={alt} className="img-thumbnail" />
     </div>
   );

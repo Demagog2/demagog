@@ -1,5 +1,6 @@
 <% content_for(:title, @speaker.full_name) %>
 
+<<<<<<< HEAD
 <div class="row politician">
     <div class="large-2 columns">
         <% if @speaker.avatar.attached? %>
@@ -11,46 +12,25 @@
 
     <div class="large-10 columns">
         <h1 class="s-speaker-name"><%= @speaker.full_name %> <% if @speaker.body %><span class="s-body">(<%= @speaker.body.short_name %>)</span><% end %></h1>
+=======
+<article class="speaker-detail">
+  <section class="profile">
+    <%= render(partial: 'shared/portrait', object: @speaker, as: :speaker) %>
+    <div>
+      <h1 class="name"><%= @speaker.full_name %> <% if @speaker.body %>(<%= @speaker.body.short_name %>)<% end %></h1>
+>>>>>>> beta
 
-        <p class="politicianStats">
-            <span title="Pravda" class="veracity true">
-                <span><%= @stats[:true] %></span>
-            </span>
-            <span title="Nepravda" class="veracity untrue">
-                <span><%= @stats[:untrue] %></span>
-            </span>
-            <span title="Zavádějící" class="veracity misleading">
-                <span><%= @stats[:misleading] %></span>
-            </span>
-            <span title="Neověřitelné" class="veracity unverifiable">
-                <span><%= @stats[:unverifiable] %></span>
-            </span>
-        </p>
+      <%= render(partial: 'shared/stats', object: @stats, as: :stats) %>
 
-        <iframe src="http://www.facebook.com/plugins/like.php?href=http://demagog.cz/diskusie/269/sobotka-vs-fiala&amp;layout=standard&amp;show_faces=false&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=30" style="border:none; overflow:hidden; width:450px; height:30px;"></iframe>
+      <iframe src="http://www.facebook.com/plugins/like.php?href=http://demagog.cz/diskusie/269/sobotka-vs-fiala&amp;layout=standard&amp;show_faces=false&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=30" style="border:none; overflow:hidden; width:450px; height:30px;"></iframe>
     </div>
-</div>
+  </section>  
 
-<div class="row">
-  <div class="columns medium-6">
+  <section>
     <h2 id="statements">Výroky</h2>
-    <%#<div class="filters row collapse">
-      <div class="small-8 columns">
-        <%= select_tag(:veracity, options_from_collection_for_select(@veracities, "id", "name", params[:veracity])) % >
-      </div>
-      <div class="small-4 columns">
-        <%= submit_tag("Filtrovat", class: "button postfix") % >
-      </div>
-    </div>%>
-  </div>
-</div>
+    
+    <%= render(partial: 'statement/detail', collection: @statements, as: :statement, locals: { non_attributed: true }) %>
 
-<div class="speakers-details-statements">
-  <%= render(partial: 'statement/detail', collection: @statements, as: :statement, locals: { non_attributed: true }) %>
-
-  <div class="row">
-    <div class="columns">
-      <%= paginate(@statements) %>
-    </div>
-  </div>
-</div>
+    <%= paginate(@statements) %>
+  </section>
+</article>

@@ -1,14 +1,46 @@
 import gql from 'graphql-tag';
 
+export const GetUsers = gql`
+  query GetUsers($name: String, $includeInactive: Boolean) {
+    users(limit: 100, name: $name, include_inactive: $includeInactive) {
+      id
+      email
+      first_name
+      last_name
+      avatar
+      active
+      bio
+    }
+  }
+`;
+
+export const GetUser = gql`
+  query GetUser($id: Int!) {
+    user(id: $id) {
+      id
+      email
+      first_name
+      last_name
+      avatar
+      active
+      bio
+    }
+  }
+`;
+
 export const GetBodies = gql`
   query GetBodies($name: String) {
     bodies(limit: 100, name: $name) {
       id
       logo
+      link
       name
       is_party
+      is_inactive
       short_name
       description
+      founded_at
+      terminated_at
     }
   }
 `;
@@ -54,6 +86,7 @@ export const GetSpeaker = gql`
         id
         body {
           id
+          short_name
         }
         since
         until
@@ -69,8 +102,18 @@ export const GetSpeakers = gql`
       first_name
       last_name
       avatar
+      website_url
       body {
         short_name
+      }
+      memberships {
+        id
+        body {
+          id
+          short_name
+        }
+        since
+        until
       }
     }
   }
