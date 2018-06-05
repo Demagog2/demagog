@@ -40,7 +40,6 @@ export const GetBodies = gql`
       is_party
       is_inactive
       short_name
-      description
       founded_at
       terminated_at
     }
@@ -57,7 +56,6 @@ export const GetBody = gql`
       is_party
       is_inactive
       short_name
-      description
       founded_at
       terminated_at
     }

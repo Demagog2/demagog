@@ -197,4 +197,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(Speakers);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Speakers);

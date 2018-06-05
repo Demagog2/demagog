@@ -122,4 +122,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(BodyEdit);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(BodyEdit);

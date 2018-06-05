@@ -126,4 +126,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(SpeakerEdit);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SpeakerEdit);

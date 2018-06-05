@@ -6,7 +6,6 @@ Types::BodyType = GraphQL::ObjectType.define do
   field :id, !types.ID
   field :name, !types.String
   field :short_name, types.String
-  field :description, types.String
   field :is_party, !types.Boolean do
     resolve -> (obj, args, ctx) do
       obj.is_party.nil? || obj.is_party == true

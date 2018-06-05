@@ -19,10 +19,14 @@ export interface SpeakerInputType {
 };
 
 export interface MembershipInputType {
-  id?: number | null,
-  body_id: number,
+  id?: string | null,
   since?: string | null,
   until?: string | null,
+  body?: MembershipBodyInputType | null,
+};
+
+export interface MembershipBodyInputType {
+  id: string,
 };
 
 export interface UserInputType {
@@ -236,7 +240,6 @@ export interface GetBodiesQuery {
     is_party: boolean,
     is_inactive: boolean,
     short_name: string | null,
-    description: string | null,
     founded_at: string | null,
     terminated_at: string | null,
   } >,
@@ -255,7 +258,6 @@ export interface GetBodyQuery {
     is_party: boolean,
     is_inactive: boolean,
     short_name: string | null,
-    description: string | null,
     founded_at: string | null,
     terminated_at: string | null,
   },

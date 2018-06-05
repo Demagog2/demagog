@@ -3,8 +3,8 @@
 Types::MembershipInputType = GraphQL::InputObjectType.define do
   name "MembershipInputType"
 
-  argument :id, types.Int
-  argument :body_id, !types.Int
+  argument :id, types.ID
   argument :since, types.String
   argument :until, types.String
+  argument :body, Types::MembershipBodyInputType
 end

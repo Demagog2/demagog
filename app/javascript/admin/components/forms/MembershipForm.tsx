@@ -1,33 +1,34 @@
 import * as React from 'react';
+import { v4 as uuid } from 'uuid';
 
-import * as GO from 'react-icons/lib/go';
+import { pick } from 'lodash';
+import { Query } from 'react-apollo';
+import { GetSpeakerBodiesQuery } from '../../operation-result-types';
+import { GetSpeakersBodies } from '../../queries/queries';
+import Loading from '../Loading';
+import { IMembership, MembershipInput } from './controls/MembershipInput';
 
-export interface IMembership {
-  key: string;
-  id: string | null;
-  body_id: string;
-  since: string | null;
-  until: string | null;
-}
+type OutputMembership = Pick<IMembership, 'id' | 'body' | 'until' | 'since'>;
 
-interface IMembershipFormProps {
-  membership: IMembership;
-  bodies: Array<{
-    id: string;
-    name: string;
-    short_name: string;
-    is_inactive: boolean;
-    terminated_at: string | null;
-  }>;
-
-  onChange?(membership: IMembership): void;
-  onRemove?(evt: React.MouseEvent<React.ReactSVGElement>): void;
+function createMembership(bodyId: string): IMembership {
+  return {
+    key: uuid(),
+    id: null,
+    body: {
+      id: bodyId,
+    },
+    since: null,
+    until: null,
+  };
 }
 
 interface IMembershipFormState {
-  body_id?: string;
-  since?: string;
-  until?: string;
+  memberships: IMembership[];
+}
+
+interface IMembershipFormProps {
+  memberships: OutputMembership[];
+  onChange(memberships: OutputMembership[]): void;
 }
 
 export class MembershipForm extends React.Component<IMembershipFormProps, IMembershipFormState> {
@@ -35,92 +36,101 @@ export class MembershipForm extends React.Component<IMembershipFormProps, IMembe
     super(props);
 
     this.state = {
-      body_id: props.membership.body_id,
-      since: props.membership.since || undefined,
-      until: props.membership.until || undefined,
+      // We have to construct membership manually as Apollo adds __typename prop
+      // which causes propblems when saving.
+      memberships: props.memberships.map((membership: OutputMembership) => ({
+        key: uuid(),
+        body: pick(membership.body, ['id']),
+        ...pick(membership, ['id', 'since', 'until']),
+      })),
     };
   }
 
-  private onChange = (change: Partial<IMembershipFormState>) => {
-    this.setState(change, () => {
-      if (this.props.onChange) {
-        this.props.onChange({
-          ...this.props.membership,
-          body_id: this.state.body_id || '',
-          since: this.state.since || null,
-          until: this.state.until || null,
-        });
-      }
-    });
-  };
-
-  private onBodyChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
-    const bodyId = evt.target.value;
-    let until = this.state.until;
-
-    // If the selected body is inactive, prefill the end of membership to the
-    // date of body termination
-    const body = this.props.bodies.find((b) => b.id === bodyId);
-    if (body && body.is_inactive && body.terminated_at && !until) {
-      until = body.terminated_at;
-    }
-
-    this.onChange({ body_id: bodyId, until });
-  };
-
-  private onDateChange = (name: string) => (evt: React.ChangeEvent<HTMLInputElement>) => {
-    this.onChange({ [name]: evt.target.value });
-  };
-
-  // tslint:disable-next-line:member-ordering
   public render() {
     return (
-      <div className="form-row">
-        <div className="form-group col-md-5">
-          <label htmlFor="illustration">Příslušnost ke skupině:</label>
-          <select
-            name="body"
-            className="custom-select"
-            onChange={this.onBodyChange}
-            value={this.state.body_id}
-          >
-            {this.props.bodies.map((body) => (
-              <option key={body.id} value={body.id}>
-                {body.name} ({body.short_name})
-              </option>
-            ))}
-          </select>
-        </div>
+      <Query query={GetSpeakersBodies}>
+        {({ data, loading }) => {
+          if (loading) {
+            return <Loading />;
+          }
 
-        <div className="form-group col-md-3">
-          <label htmlFor="since">Od:</label>
-          <input
-            type="date"
-            className="form-control"
-            id="since"
-            placeholder="Zadejte datum"
-            onChange={this.onDateChange('since')}
-            value={this.state.since}
-          />
-        </div>
+          if (!data) {
+            return null;
+          }
 
-        <div className="form-group col-md-3">
-          <label htmlFor="until">Do:</label>
-          <input
-            type="date"
-            className="form-control"
-            id="until"
-            placeholder="Zadejte datum"
-            onChange={this.onDateChange('until')}
-            value={this.state.until}
-          />
-        </div>
-
-        <div className="form-group col-md-1">
-          <br />
-          <GO.GoTrashcan style={{ cursor: 'pointer' }} onClick={this.props.onRemove} />
-        </div>
-      </div>
+          return (
+            <React.Fragment>
+              {this.state.memberships.map((m) => (
+                <MembershipInput
+                  key={m.key}
+                  membership={m}
+                  bodies={data.bodies}
+                  onRemove={this.removeMembership(m.key)}
+                  onChange={this.updateMembership(m.key)}
+                />
+              ))}
+              <button
+                type="button"
+                onClick={this.addMembership(data)}
+                className="btn btn-secondary"
+              >
+                Přidat příslušnost ke straně nebo skupině
+              </button>
+            </React.Fragment>
+          );
+        }}
+      </Query>
     );
   }
+
+  private onChange = (memberships: IMembership[]) => {
+    this.props.onChange(
+      memberships.map((membership) => {
+        // Drop prop key
+        const { key, ...outputMembership } = membership;
+        return outputMembership;
+      }),
+    );
+  };
+
+  private addMembership = (bodiesQuery: GetSpeakerBodiesQuery) => (evt) => {
+    const defaultBody = bodiesQuery.bodies[0];
+
+    const memberships = [...this.state.memberships, createMembership(defaultBody.id)];
+
+    this.setState({ memberships });
+
+    evt.preventDefault();
+
+    this.onChange(memberships);
+  };
+
+  private removeMembership = (removedKey: string) => (evt) => {
+    const memberships = this.state.memberships.filter((membership) => {
+      return membership.key !== removedKey;
+    });
+
+    this.setState({ memberships });
+
+    evt.preventDefault();
+
+    this.onChange(memberships);
+  };
+
+  private updateMembership = (updatedKey: string) => (updatedMembership: IMembership) => {
+    const memberships = this.state.memberships.map((membership) => {
+      if (membership.key === updatedKey) {
+        return {
+          key: updatedKey,
+          ...updatedMembership,
+        };
+      }
+
+      return membership;
+    });
+
+    this.setState({ memberships });
+
+    this.onChange(memberships);
+  };
 }

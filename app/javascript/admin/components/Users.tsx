@@ -202,4 +202,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(Users);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Users);

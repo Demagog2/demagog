@@ -101,4 +101,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(UserNew));
+export default connect(
+  null,
+  mapDispatchToProps,
+)(withRouter(UserNew));

@@ -17,7 +17,7 @@ Mutations::UpdateSpeaker = GraphQL::Field.define do
       membership = mem["id"] ? Membership.find(mem["id"]) : Membership.new()
 
       membership.assign_attributes(
-        body: Body.find(mem["body_id"]),
+        body: Body.find(mem["body"]["id"]),
         since: mem["since"],
         until: mem["until"]
       )

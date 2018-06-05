@@ -99,4 +99,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(BodyNew));
+export default connect(
+  null,
+  mapDispatchToProps,
+)(withRouter(BodyNew));

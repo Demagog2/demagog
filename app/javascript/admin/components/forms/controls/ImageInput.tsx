@@ -8,23 +8,44 @@ interface IImageInputProps {
   renderImage: (src: string | null) => React.ReactNode;
   label: string;
   name: string;
-  value: ImageValueType;
+  defaultValue: ImageValueType;
   onChange(file: ImageValueType);
 }
 
-export default class ImageInput extends React.Component<IImageInputProps> {
+interface IImageInputState {
+  value: ImageValueType;
+}
+
+export default class ImageInput extends React.Component<IImageInputProps, IImageInputState> {
+  constructor(props: IImageInputProps) {
+    super(props);
+
+    this.state = {
+      value: props.defaultValue,
+    };
+  }
+
   public onDrop = (acceptedFiles) => {
     if (acceptedFiles.length === 1) {
       this.props.onChange(acceptedFiles[0]);
+
+      this.setState({
+        value: acceptedFiles[0],
+      });
     }
   };
 
   public onRemoveClick = () => {
     this.props.onChange(null);
+
+    this.setState({
+      value: null,
+    });
   };
 
   public render() {
-    const { label, name, value } = this.props;
+    const { label, name } = this.props;
+    const { value } = this.state;
 
     return (
       <div>
