@@ -16,7 +16,8 @@ import SpeakerNew from './components/SpeakerNew';
 import Speakers from './components/Speakers';
 import Statements from './components/Statements';
 
-import { SourceNew } from './components/statements/SourceNew';
+import SourceEdit from './components/statements/SourceEdit';
+import SourceNew from './components/statements/SourceNew';
 
 import UserEdit from './components/UserEdit';
 import UserNew from './components/UserNew';
@@ -37,6 +38,7 @@ export default function App() {
 
                 <Route path="/admin/statements" exact component={Statements} />
                 <Route path="/admin/statements/sources/new" exact component={SourceNew} />
+                <Route path="/admin/statements/sources/edit/:id" exact component={SourceEdit} />
 
                 <Route path="/admin/bodies" exact component={Bodies} />
                 <Route path="/admin/bodies/new" exact component={BodyNew} />

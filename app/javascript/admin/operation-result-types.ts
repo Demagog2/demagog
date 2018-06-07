@@ -1,6 +1,15 @@
 /* tslint:disable */
 //  This file was automatically generated and should not be edited.
 
+export interface SourceInputType {
+  name: string,
+  released_at: string,
+  source_url?: string | null,
+  medium_id?: string | null,
+  media_personality_id?: string | null,
+  transcript: string,
+};
+
 export interface BodyInputType {
   name: string,
   is_party: boolean,
@@ -39,6 +48,31 @@ export interface UserInputType {
   phone?: string | null,
   order?: number | null,
   rank?: number | null,
+};
+
+export interface CreateSourceMutationVariables {
+  sourceInput: SourceInputType,
+};
+
+export interface CreateSourceMutation {
+  // Add new source
+  createSource:  {
+    id: string,
+    name: string,
+  } | null,
+};
+
+export interface UpdateSourceMutationVariables {
+  id: number,
+  sourceInput: SourceInputType,
+};
+
+export interface UpdateSourceMutation {
+  // Update existing source
+  updateSource:  {
+    id: string,
+    name: string,
+  } | null,
 };
 
 export interface CreateBodyMutationVariables {
@@ -190,6 +224,60 @@ export interface DeleteUserMutationVariables {
 export interface DeleteUserMutation {
   // Delete existing user
   deleteUser: string,
+};
+
+export interface GetMediaPersonalitiesQuery {
+  media_personalities:  Array< {
+    id: string,
+    name: string,
+  } >,
+};
+
+export interface GetMediaQuery {
+  media:  Array< {
+    id: string,
+    name: string,
+  } >,
+};
+
+export interface GetSourcesQueryVariables {
+  name?: string | null,
+};
+
+export interface GetSourcesQuery {
+  sources:  Array< {
+    id: string,
+    name: string,
+    source_url: string | null,
+    released_at: string,
+    medium:  {
+      name: string,
+    } | null,
+    media_personality:  {
+      name: string,
+    } | null,
+  } >,
+};
+
+export interface GetSourceQueryVariables {
+  id: number,
+};
+
+export interface GetSourceQuery {
+  source:  {
+    name: string,
+    source_url: string | null,
+    released_at: string,
+    transcript: string | null,
+    medium:  {
+      id: string,
+      name: string,
+    } | null,
+    media_personality:  {
+      id: string,
+      name: string,
+    } | null,
+  },
 };
 
 export interface GetUsersQueryVariables {

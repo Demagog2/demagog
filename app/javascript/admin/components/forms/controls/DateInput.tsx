@@ -5,17 +5,19 @@ interface IDateInputProps {
   name: string;
   placeholder: string;
   defaultValue: string;
+  required?: boolean;
   onChange(evt: React.ChangeEvent<HTMLInputElement>): void;
 }
 
 export default function DateInput(props: IDateInputProps) {
-  const { label, name, placeholder, onChange, defaultValue } = props;
+  const { label, name, required, placeholder, onChange, defaultValue } = props;
 
   return (
     <React.Fragment>
       <label htmlFor={name}>{label}:</label>
       <input
         type="date"
+        required={required}
         className="form-control"
         id={name}
         placeholder={placeholder}

@@ -1,5 +1,59 @@
 import gql from 'graphql-tag';
 
+export const GetMediaPersonalities = gql`
+  query GetMediaPersonalities {
+    media_personalities {
+      id
+      name
+    }
+  }
+`;
+
+export const GetMedia = gql`
+  query GetMedia {
+    media {
+      id
+      name
+    }
+  }
+`;
+
+export const GetSources = gql`
+  query GetSources($name: String) {
+    sources(limit: 100, name: $name) {
+      id
+      name
+      source_url
+      released_at
+      medium {
+        name
+      }
+      media_personality {
+        name
+      }
+    }
+  }
+`;
+
+export const GetSource = gql`
+  query GetSource($id: Int!) {
+    source(id: $id) {
+      name
+      source_url
+      released_at
+      transcript
+      medium {
+        id
+        name
+      }
+      media_personality {
+        id
+        name
+      }
+    }
+  }
+`;
+
 export const GetUsers = gql`
   query GetUsers($name: String, $includeInactive: Boolean) {
     users(limit: 100, name: $name, include_inactive: $includeInactive) {

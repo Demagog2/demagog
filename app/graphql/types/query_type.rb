@@ -15,6 +15,47 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
+  field :source, !Types::SourceType do
+    argument :id, !types.Int
+
+    resolve -> (obj, args, ctx) {
+      begin
+        Source.find(args[:id])
+      rescue ActiveRecord::RecordNotFound => err
+        nil
+      end
+    }
+  end
+
+  field :media, !types[!Types::MediumType] do
+    resolve -> (obj, args, ctx) {
+      Medium.all
+    }
+  end
+
+  field :media_personalities, !types[!Types::MediaPersonalityType] do
+    resolve -> (obj, args, ctx) {
+      MediaPersonality.all
+    }
+  end
+
+  field :sources, !types[!Types::SourceType] do
+    argument :limit, types.Int, default_value: 10
+    argument :offset, types.Int, default_value: 0
+    argument :name, types.String
+
+    resolve -> (obj, args, ctx) {
+      sources = Source
+        .offset(args[:offset])
+        .limit(args[:limit])
+        .order(name: :asc)
+
+      sources = sources.matching_name(args[:name]) if args[:name].present?
+
+      sources
+    }
+  end
+
   field :speaker, !Types::SpeakerType do
     argument :id, !types.Int
 

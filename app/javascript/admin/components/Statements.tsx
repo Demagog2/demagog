@@ -3,23 +3,24 @@
 import * as React from 'react';
 
 // import { ApolloError } from 'apollo-client';
-// import { Query } from 'react-apollo';
+import { Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { compact } from 'lodash';
 import { addFlashMessage } from '../actions/flashMessages';
-// import {
-//   GetSpeakersQuery as GetSpeakersQueryResult,
-//   GetSpeakersQueryVariables,
-// } from '../operation-result-types';
+import {
+  GetSourcesQuery as GetSourcesQueryResult,
+  GetSourcesQueryVariables,
+} from '../operation-result-types';
 // import { DeleteSpeaker } from '../queries/mutations';
-// import { GetSpeakers } from '../queries/queries';
+import { GetSources } from '../queries/queries';
 import { SearchInput } from './forms/controls/SearchInput';
-// import Loading from './Loading';
+import Loading from './Loading';
 // import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 // import SpeakerAvatar from './SpeakerAvatar';
 
-// class GetSpeakersQuery extends Query<GetSpeakersQueryResult, GetSpeakersQueryVariables> {}
+class GetSourcesQuery extends Query<GetSourcesQueryResult, GetSourcesQueryVariables> {}
 
 interface IProps {
   addFlashMessage: (msg: string) => void;
@@ -35,6 +36,14 @@ class Speakers extends React.Component<IProps, IState> {
     name: null,
     confirmDeleteModalSpeakerId: null,
   };
+
+  public getLink(source: any): string {
+    return compact([
+      source.medium ? source.medium.name : undefined,
+      source.released_at,
+      source.medium_personality ? source.medium_personality.name : undefined,
+    ]).join(', ');
+  }
 
   private onSearchChange = (name: string) => {
     this.setState({ name });
@@ -78,7 +87,7 @@ class Speakers extends React.Component<IProps, IState> {
 
           <SearchInput placeholder="Vyhledat zdroj výroků" onChange={this.onSearchChange} />
 
-          {/* <GetSpeakersQuery query={GetSpeakers} variables={{ name: this.state.name }}>
+          <GetSourcesQuery query={GetSources} variables={{ name: this.state.name }}>
             {(props) => {
               if (props.loading) {
                 return <Loading />;
@@ -92,13 +101,13 @@ class Speakers extends React.Component<IProps, IState> {
                 return null;
               }
 
-              const confirmDeleteModalSpeaker = props.data.speakers.find(
-                (s) => s.id === confirmDeleteModalSpeakerId,
-              );
+              // const confirmDeleteModalSpeaker = props.data.speakers.find(
+              //   (s) => s.id === confirmDeleteModalSpeakerId,
+              // );
 
               return (
                 <div>
-                  {confirmDeleteModalSpeaker && (
+                  {/* {confirmDeleteModalSpeaker && (
                     <ConfirmDeleteModal
                       message={`Opravdu chcete smazat osobu ${
                         confirmDeleteModalSpeaker.first_name
@@ -114,69 +123,41 @@ class Speakers extends React.Component<IProps, IState> {
                         onError: this.onDeleteError,
                       }}
                     />
-                  )}
+                  )} */}
 
-                  {props.data.speakers.map((speaker) => (
-                    <div className="card" key={speaker.id} style={{ marginBottom: '1rem' }}>
+                  {props.data.sources.map((source) => (
+                    <div className="card" key={source.id} style={{ marginBottom: '1rem' }}>
                       <div className="card-body" style={{ display: 'flex' }}>
-                        <div style={{ flex: '0 0 106px' }}>
-                          <SpeakerAvatar
-                            avatar={speaker.avatar}
-                            first_name={speaker.first_name}
-                            last_name={speaker.last_name}
-                          />
-                        </div>
-
                         <div style={{ marginLeft: 15, flex: '1 0' }}>
                           <div style={{ float: 'right' }}>
                             <Link
-                              to={`/admin/speakers/edit/${speaker.id}`}
+                              to={`/admin/statements/sources/edit/${source.id}`}
                               className="btn btn-secondary"
                               style={{ marginRight: 15 }}
                             >
                               Upravit
                             </Link>
-                            <button
+                            {/* <button
                               type="button"
                               className="btn btn-secondary"
-                              onClick={this.showConfirmDeleteModal(speaker.id)}
+                              onClick={this.showConfirmDeleteModal(source.id)}
                             >
                               Smazat
-                            </button>
+                            </button> */}
                           </div>
 
-                          <h5 style={{ marginTop: 7 }}>
-                            {speaker.first_name} {speaker.last_name}
-                          </h5>
+                          <h5 style={{ marginTop: 7 }}>{source.name}</h5>
 
                           <dl style={{ marginTop: 20 }}>
                             <dt className="text-muted">
-                              <small>RESPEKTOVANÝ ODKAZ</small>
+                              <small>Odkaz</small>
                             </dt>
                             <dd>
-                              {speaker.website_url ? (
-                                <a href={speaker.website_url}>{speaker.website_url}</a>
+                              {source.source_url ? (
+                                <a href={source.source_url}>{this.getLink(source)}</a>
                               ) : (
                                 'Nevyplněn'
                               )}
-                            </dd>
-
-                            <dt className="text-muted">
-                              <small>PŘÍSLUŠNOST KE SKUPINÁM/STRANÁM</small>
-                            </dt>
-                            <dd>
-                              {speaker.memberships.map((m) => (
-                                <span key={m.id}>
-                                  {m.body.short_name}
-                                  {' — od '}
-                                  {m.since ? m.since : 'nevyplněno'}
-                                  {' do '}
-                                  {m.until ? m.until : 'nevyplněno'}
-                                </span>
-                              ))}
-
-                              {speaker.memberships.length === 0 &&
-                                'Není členem žádné skupiny či strany'}
                             </dd>
                           </dl>
                         </div>
@@ -186,7 +167,7 @@ class Speakers extends React.Component<IProps, IState> {
                 </div>
               );
             }}
-          </GetSpeakersQuery> */}
+          </GetSourcesQuery>
         </div>
       </React.Fragment>
     );
@@ -201,4 +182,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(Speakers);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Speakers);

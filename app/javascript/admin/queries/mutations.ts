@@ -1,5 +1,23 @@
 import gql from 'graphql-tag';
 
+export const CreateSource = gql`
+  mutation CreateSource($sourceInput: SourceInputType!) {
+    createSource(source_input: $sourceInput) {
+      id
+      name
+    }
+  }
+`;
+
+export const UpdateSource = gql`
+  mutation UpdateSource($id: Int!, $sourceInput: SourceInputType!) {
+    updateSource(id: $id, source_input: $sourceInput) {
+      id
+      name
+    }
+  }
+`;
+
 export const CreateBody = gql`
   mutation CreateBody($bodyInput: BodyInputType!) {
     createBody(body_input: $bodyInput) {
