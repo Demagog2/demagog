@@ -1,9 +1,13 @@
 import * as React from 'react';
-import { Mutation } from 'react-apollo';
+import { Mutation, MutationFn } from 'react-apollo';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { addFlashMessage } from '../../actions/flashMessages';
-import { CreateSourceMutation, CreateSourceMutationVariables } from '../../operation-result-types';
+import {
+  CreateSourceMutation,
+  CreateSourceMutationVariables,
+  SourceInputType,
+} from '../../operation-result-types';
 import { CreateSource } from '../../queries/mutations';
 import { SourceForm } from '../forms/SourceForm';
 
@@ -12,11 +16,21 @@ class CreateSourceMutationComponent extends Mutation<
   CreateSourceMutationVariables
 > {}
 
+type CreateSourceMutationFn = MutationFn<CreateSourceMutation, CreateSourceMutationVariables>;
+
 interface ISourceNewProps extends RouteComponentProps<{}> {
   addFlashMessage: (msg: string) => void;
 }
 
-export class SourceNew extends React.Component<ISourceNewProps> {
+interface ISourceNewState {
+  submitting: boolean;
+}
+
+export class SourceNew extends React.Component<ISourceNewProps, ISourceNewState> {
+  public state: ISourceNewState = {
+    submitting: false,
+  };
+
   public onSuccess = (source: CreateSourceMutation) => {
     this.props.addFlashMessage('Zdroj výroků byl úspěšně uložen.');
 
@@ -29,6 +43,14 @@ export class SourceNew extends React.Component<ISourceNewProps> {
     this.props.addFlashMessage('Došlo k chybě při ukládání zdroje výroků');
     // tslint:disable-next-line:no-console
     console.error(error);
+  };
+
+  public onSubmit = (createSource: CreateSourceMutationFn) => (sourceInput: SourceInputType) => {
+    this.setState({ submitting: true });
+
+    createSource({ variables: { sourceInput } }).finally(() => {
+      this.setState({ submitting: false });
+    });
   };
 
   public render() {
@@ -44,8 +66,8 @@ export class SourceNew extends React.Component<ISourceNewProps> {
           {(createSource) => {
             return (
               <SourceForm
-                onSubmit={(sourceInput) => createSource({ variables: { sourceInput } })}
-                submitting={false}
+                onSubmit={this.onSubmit(createSource)}
+                submitting={this.state.submitting}
               />
             );
           }}

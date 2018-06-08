@@ -29,13 +29,13 @@ Types::QueryType = GraphQL::ObjectType.define do
 
   field :media, !types[!Types::MediumType] do
     resolve -> (obj, args, ctx) {
-      Medium.all
+      Medium.order(name: :asc)
     }
   end
 
   field :media_personalities, !types[!Types::MediaPersonalityType] do
     resolve -> (obj, args, ctx) {
-      MediaPersonality.all
+      MediaPersonality.order(name: :asc)
     }
   end
 

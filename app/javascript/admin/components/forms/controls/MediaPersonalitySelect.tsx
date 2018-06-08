@@ -7,7 +7,8 @@ class MediaPersonalitiesQuery extends Query<GetMediaPersonalitiesQuery> {}
 
 interface IMediaSelectProps {
   className?: string;
-  onChange(evt: any): void;
+  defaultValue?: string;
+  onChange(evt: React.ChangeEvent<HTMLSelectElement>): void;
 }
 
 export class MediaPersonalitiesSelect extends React.Component<IMediaSelectProps> {
@@ -30,10 +31,10 @@ export class MediaPersonalitiesSelect extends React.Component<IMediaSelectProps>
                 name="media_personality"
                 className="custom-select"
                 onChange={this.props.onChange}
-                defaultValue={undefined}
+                defaultValue={this.props.defaultValue}
                 required
               >
-                <option disabled value={undefined}>
+                <option disabled value={-1}>
                   Vyberte moderátora
                 </option>
 

@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { Mutation, Query } from 'react-apollo';
+import { Mutation, MutationFn, Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { addFlashMessage } from '../../actions/flashMessages';
 import {
   GetSourceQuery,
   GetSourceQueryVariables,
+  SourceInputType,
   UpdateSourceMutation,
   UpdateSourceMutationVariables,
 } from '../../operation-result-types';
@@ -19,11 +20,21 @@ class UpdateSourceMutationComponent extends Mutation<
   UpdateSourceMutationVariables
 > {}
 
+type UpdateSourceMutationFn = MutationFn<UpdateSourceMutation, UpdateSourceMutationVariables>;
+
 interface ISourceEditProps extends RouteComponentProps<{ id: string }> {
   addFlashMessage: (message: string) => void;
 }
 
-class SourceEdit extends React.Component<ISourceEditProps> {
+interface ISourceEditState {
+  submitting: boolean;
+}
+
+class SourceEdit extends React.Component<ISourceEditProps, ISourceEditState> {
+  public state: ISourceEditState = {
+    submitting: false,
+  };
+
   public onSuccess = () => {
     this.props.addFlashMessage('Zdroj výroků byl úspěšně uložen.');
   };
@@ -34,8 +45,20 @@ class SourceEdit extends React.Component<ISourceEditProps> {
     console.error(error);
   };
 
+  public onSubmit = (updateSource: UpdateSourceMutationFn) => (sourceInput: SourceInputType) => {
+    const id = this.getParamId();
+
+    this.setState({ submitting: true });
+
+    updateSource({ variables: { id, sourceInput } }).finally(() => {
+      this.setState({ submitting: false });
+    });
+  };
+
+  public getParamId = () => parseInt(this.props.match.params.id, 10);
+
   public render() {
-    const id = parseInt(this.props.match.params.id, 10);
+    const id = this.getParamId();
 
     return (
       <div role="main">
@@ -61,8 +84,8 @@ class SourceEdit extends React.Component<ISourceEditProps> {
                   return (
                     <SourceForm
                       sourceQuery={data}
-                      onSubmit={(sourceInput) => updateSource({ variables: { id, sourceInput } })}
-                      submitting={false}
+                      onSubmit={this.onSubmit(updateSource)}
+                      submitting={this.state.submitting}
                     />
                   );
                 }}

@@ -7,6 +7,8 @@ class MediaSelectQuery extends Query<GetMediaQuery> {}
 
 interface IMediaSelectProps {
   className?: string;
+  defaultValue?: string;
+
   // TODO: Replace any
   onChange(evt: any): void;
 }
@@ -31,7 +33,7 @@ export class MediaSelect extends React.Component<IMediaSelectProps> {
                 name="medium"
                 className="custom-select"
                 onChange={this.props.onChange}
-                defaultValue={undefined}
+                defaultValue={this.props.defaultValue}
                 required
               >
                 <option disabled value={undefined}>

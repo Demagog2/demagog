@@ -51,18 +51,17 @@ export class SourceForm extends React.Component<ISourceFormProps> {
       return null;
     }
 
+    const sourceInput = sourceToSourceInput(sourceQuery);
+
     return (
-      <SourceInternalForm
-        defaultValues={sourceToSourceInput(sourceQuery)}
-        onSubmit={this.props.onSubmit}
-      >
-        {({ onInputChange /*, onCheckboxChange, onImageChange*/ }) => (
+      <SourceInternalForm defaultValues={sourceInput} onSubmit={this.props.onSubmit}>
+        {({ onInputChange }) => (
           <React.Fragment>
             <Input
               required
               id="name"
               label="Název"
-              defaultValue={sourceQuery.source.name}
+              defaultValue={sourceInput.name}
               placeholder="Zadejte název"
               onChange={onInputChange('name')}
             />
@@ -72,7 +71,7 @@ export class SourceForm extends React.Component<ISourceFormProps> {
                 className="col-md-6"
                 id="source_url"
                 label="Odkaz"
-                defaultValue={sourceQuery.source.source_url}
+                defaultValue={sourceInput.source_url || ''}
                 placeholder="Zadejte odkaz"
                 onChange={onInputChange('source_url')}
               />
@@ -84,18 +83,23 @@ export class SourceForm extends React.Component<ISourceFormProps> {
                   name="released_at"
                   label="Publikováno"
                   placeholder="Zadejte datum"
-                  defaultValue={sourceQuery.source.released_at}
+                  defaultValue={sourceInput.released_at}
                   onChange={onInputChange('released_at')}
                 />
               </div>
             </div>
 
             <div className="form-row">
-              <MediaSelect className="col-md-6" onChange={onInputChange('medium_id')} />
+              <MediaSelect
+                className="col-md-6"
+                onChange={onInputChange('medium_id')}
+                defaultValue={sourceInput.medium_id || undefined}
+              />
 
               <MediaPersonalitiesSelect
                 className="col-md-6"
                 onChange={onInputChange('media_personality_id')}
+                defaultValue={sourceInput.media_personality_id || undefined}
               />
             </div>
 
@@ -103,7 +107,7 @@ export class SourceForm extends React.Component<ISourceFormProps> {
               <TextInput
                 className="col-md-12"
                 placeholder="Zadejte text přepisu..."
-                defaultValue={sourceQuery.source.transcript}
+                defaultValue={sourceInput.transcript}
                 onChange={onInputChange('transcript')}
               />
             </div>
