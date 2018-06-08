@@ -48,7 +48,7 @@ Types::QueryType = GraphQL::ObjectType.define do
       sources = Source
         .offset(args[:offset])
         .limit(args[:limit])
-        .order(name: :asc)
+        .order(created_at: :desc)
 
       sources = sources.matching_name(args[:name]) if args[:name].present?
 
