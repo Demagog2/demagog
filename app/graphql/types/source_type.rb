@@ -10,4 +10,10 @@ Types::SourceType = GraphQL::ObjectType.define do
   field :transcript, types.String
   field :medium, Types::MediumType
   field :media_personality, Types::MediaPersonalityType
+
+  field :speakers, !types[!Types::SpeakerType] do
+    resolve -> (obj, args, ctx) {
+      obj.speakers
+    }
+  end
 end

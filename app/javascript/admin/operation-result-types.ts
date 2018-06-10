@@ -8,6 +8,7 @@ export interface SourceInputType {
   medium_id?: string | null,
   media_personality_id?: string | null,
   transcript: string,
+  speakers: Array< string >,
 };
 
 export interface BodyInputType {
@@ -226,20 +227,6 @@ export interface DeleteUserMutation {
   deleteUser: string,
 };
 
-export interface GetMediaPersonalitiesQuery {
-  media_personalities:  Array< {
-    id: string,
-    name: string,
-  } >,
-};
-
-export interface GetMediaQuery {
-  media:  Array< {
-    id: string,
-    name: string,
-  } >,
-};
-
 export interface GetSourcesQueryVariables {
   name?: string | null,
 };
@@ -256,6 +243,9 @@ export interface GetSourcesQuery {
     media_personality:  {
       name: string,
     } | null,
+    speakers:  Array< {
+      id: string,
+    } >,
   } >,
 };
 
@@ -277,6 +267,9 @@ export interface GetSourceQuery {
       id: string,
       name: string,
     } | null,
+    speakers:  Array< {
+      id: string,
+    } >,
   },
 };
 

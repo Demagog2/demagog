@@ -5,6 +5,7 @@ class Speaker < ApplicationRecord
   has_many :bodies, through: :memberships
   has_many :statements
   has_many :assessments, through: :statements
+  has_and_belongs_to_many :sources
 
   has_one_attached :avatar
 

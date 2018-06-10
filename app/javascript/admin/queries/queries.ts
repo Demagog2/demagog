@@ -1,23 +1,5 @@
 import gql from 'graphql-tag';
 
-export const GetMediaPersonalities = gql`
-  query GetMediaPersonalities {
-    media_personalities {
-      id
-      name
-    }
-  }
-`;
-
-export const GetMedia = gql`
-  query GetMedia {
-    media {
-      id
-      name
-    }
-  }
-`;
-
 export const GetSources = gql`
   query GetSources($name: String) {
     sources(limit: 100, name: $name) {
@@ -30,6 +12,9 @@ export const GetSources = gql`
       }
       media_personality {
         name
+      }
+      speakers {
+        id
       }
     }
   }
@@ -49,6 +34,9 @@ export const GetSource = gql`
       media_personality {
         id
         name
+      }
+      speakers {
+        id
       }
     }
   }

@@ -14,7 +14,7 @@ interface ICallbacks {
 interface IFormProps<T> {
   defaultValues: T;
 
-  children(callbacks: ICallbacks): JSX.Element;
+  children(callbacks: ICallbacks, data: T): JSX.Element;
   onSubmit(data: T): void;
 }
 
@@ -82,12 +82,15 @@ export class Form<T extends {}> extends React.Component<IFormProps<T>, IFormStat
         noValidate
         onSubmit={this.onSubmit}
       >
-        {this.props.children({
-          onAssociationChange,
-          onCheckboxChange,
-          onImageChange,
-          onInputChange,
-        })}
+        {this.props.children(
+          {
+            onAssociationChange,
+            onCheckboxChange,
+            onImageChange,
+            onInputChange,
+          },
+          this.state.data,
+        )}
       </form>
     );
   }

@@ -11,6 +11,12 @@ Mutations::UpdateSource = GraphQL::Field.define do
   resolve -> (obj, args, ctx) {
     raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
 
-    Source.update(args[:id], args[:source_input].to_h)
+    source = args[:source_input].to_h
+
+    source["speakers"] = source["speakers"].map do |speaker_id|
+      Speaker.find(speaker_id)
+    end
+
+    Source.update(args[:id], source)
   }
 end

@@ -1,53 +1,78 @@
+import gql from 'graphql-tag';
 import * as React from 'react';
 import { Query } from 'react-apollo';
-import { GetMediaPersonalitiesQuery } from '../../../operation-result-types';
-import { GetMediaPersonalities } from '../../../queries/queries';
+import Select from 'react-select';
 
-class MediaPersonalitiesQuery extends Query<GetMediaPersonalitiesQuery> {}
+const GET_MEDIA_PERSONALITIES = gql`
+  query {
+    media_personalities {
+      id
+      name
+      media {
+        id
+      }
+    }
+  }
+`;
+
+interface IGetMediaPersonalitiesQuery {
+  media_personalities: Array<{
+    id: string;
+    name: string;
+    media: Array<{
+      id: string;
+    }>;
+  }>;
+}
+
+class MediaPersonalitiesQueryComponent extends Query<IGetMediaPersonalitiesQuery> {}
 
 interface IMediaSelectProps {
   className?: string;
-  defaultValue?: string;
-  onChange(evt: React.ChangeEvent<HTMLSelectElement>): void;
+  value?: string | null;
+  mediumId?: string | null;
+  onChange(value: string): void;
 }
 
-export class MediaPersonalitiesSelect extends React.Component<IMediaSelectProps> {
+export default class MediaPersonalitiesSelect extends React.Component<IMediaSelectProps> {
   public render() {
     return (
-      <MediaPersonalitiesQuery query={GetMediaPersonalities}>
+      <MediaPersonalitiesQueryComponent query={GET_MEDIA_PERSONALITIES}>
         {({ data, loading }) => {
-          if (loading) {
-            return 'Loading';
-          }
+          let options: Array<{ label: string; value: string }> = [];
 
-          if (!data) {
-            return null;
+          if (data && !loading) {
+            let mediaPersonalities = data.media_personalities;
+
+            if (this.props.mediumId) {
+              mediaPersonalities = mediaPersonalities.filter((mp) =>
+                mp.media.find((m) => m.id === this.props.mediumId),
+              );
+            }
+
+            options = mediaPersonalities.map((mp) => ({
+              label: mp.name,
+              value: mp.id,
+            }));
           }
 
           return (
             <div className={`form-group ${this.props.className ? this.props.className : ''}`}>
-              <label htmlFor="media_personality">Moderátor:</label>
-              <select
-                name="media_personality"
-                className="custom-select"
-                onChange={this.props.onChange}
-                defaultValue={this.props.defaultValue}
-                required
-              >
-                <option disabled value={-1}>
-                  Vyberte moderátora
-                </option>
-
-                {data.media_personalities.map(({ id, name }) => (
-                  <option key={id} value={id}>
-                    {name}
-                  </option>
-                ))}
-              </select>
+              <label htmlFor="media-personality-select">Moderátor:</label>
+              <Select
+                id="media-personality-select"
+                disabled={!this.props.mediumId}
+                value={this.props.value}
+                isLoading={loading}
+                options={options}
+                onChange={({ value }) => this.props.onChange(value)}
+                placeholder="Vyberte moderátora …"
+                noResultsText="Žádný moderátor nenalezen"
+              />
             </div>
           );
         }}
-      </MediaPersonalitiesQuery>
+      </MediaPersonalitiesQueryComponent>
     );
   }
 }

@@ -33,6 +33,18 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
+  field :medium, !Types::MediumType do
+    argument :id, !types.Int
+
+    resolve -> (obj, args, ctx) {
+      begin
+        Medium.find(args[:id])
+      rescue ActiveRecord::RecordNotFound => err
+        nil
+      end
+    }
+  end
+
   field :media_personalities, !types[!Types::MediaPersonalityType] do
     resolve -> (obj, args, ctx) {
       MediaPersonality.order(name: :asc)
