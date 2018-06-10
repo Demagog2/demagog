@@ -57,6 +57,7 @@ class MediumMigration
       old_sources.each do |old_source|
         Source.create!(
           id: old_source["id"],
+          name: old_source["nazov"],
           medium: Medium.find(old_source["id_relacia"]),
           media_personality: MediaPersonality.find(old_source["id_moderator"]),
           transcript: old_source["prepis_relacie"],

@@ -26,14 +26,14 @@ class UserMigration
 
       user.roles << Role.find_by(name: old_user["usertype"])
 
-      if old_user["fotografia"]
-        user.portrait = Attachment.create(
-          attachment_type: Attachment::TYPE_PORTRAIT,
-          file: old_user["fotografia"]
-        )
-      end
-
       user.save!
+
+      unless old_user["fotografia"].empty?
+        url = "#{ENV["DEMAGOG_IMAGE_SERVICE_URL"]}/data/users/s/#{old_user["fotografia"]}"
+        open(url) do |file|
+          user.avatar.attach io: file, filename: old_user["fotografia"]
+        end
+      end
     end
   end
 end

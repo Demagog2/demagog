@@ -60,4 +60,9 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  # When running migrations from legacy db to new db, without this set to :inline
+  # ActiveStorage's attach method freezes.
+  # Same issue as this: https://github.com/rails/rails/issues/30937#issuecomment-367040869
+  config.active_job.queue_adapter = :inline
 end

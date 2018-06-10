@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_07_221312) do
+ActiveRecord::Schema.define(version: 2018_06_10_033827) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -207,7 +207,7 @@ ActiveRecord::Schema.define(version: 2018_06_07_221312) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "media_personality_id"
-    t.string "name"
+    t.string "name", null: false
     t.index ["media_personality_id"], name: "index_sources_on_media_personality_id"
     t.index ["medium_id"], name: "index_sources_on_medium_id"
   end
@@ -259,7 +259,6 @@ ActiveRecord::Schema.define(version: 2018_06_07_221312) do
     t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "portrait_id"
     t.integer "rank"
     t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"

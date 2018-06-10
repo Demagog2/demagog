@@ -5,7 +5,6 @@ class Speaker < ApplicationRecord
   has_many :bodies, through: :memberships
   has_many :statements
   has_many :assessments, through: :statements
-  belongs_to :attachment, optional: true
 
   has_one_attached :avatar
 
@@ -30,10 +29,6 @@ class Speaker < ApplicationRecord
 
   def published_statements
     statements.published
-  end
-
-  def portrait
-    attachment
   end
 
   def full_name

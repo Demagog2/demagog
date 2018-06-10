@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Attachment < ApplicationRecord
-  TYPE_PORTRAIT = "portrait"
   TYPE_ARTICLE_ILLUSTRATION = "article_illustration"
   TYPE_PARTY_LOGO = "party_logo"
   TYPE_LOGO = "logo"

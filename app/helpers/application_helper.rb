@@ -9,14 +9,6 @@ module ApplicationHelper
     encode "#{server}/data/#{folder}/s/#{attachment.file}"
   end
 
-  def user_portrait(attachment)
-    if attachment.file.empty?
-      "#{server}/data/users/default.png"
-    else
-      encode "#{server}/data/users/s/#{attachment.file}"
-    end
-  end
-
   def body_logo(attachment)
     "#{server}/data/static/s/#{attachment.file}"
   end
