@@ -12,6 +12,7 @@ FactoryBot.define do
   factory :medium
 
   factory :source do
+    name "Source name"
     medium
     media_personality
     released_at { 1.week.ago }

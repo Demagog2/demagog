@@ -32,7 +32,7 @@ class Statement < ApplicationRecord
   def self.interesting_statements
     limit(4)
       .published
-      .includes(:speaker, :attachments)
+      .includes(:speaker)
       .where(important: true)
   end
 
