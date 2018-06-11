@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "./helpers/image_url_helper"
+
 class UserMigration
   attr_accessor :connection
 
@@ -29,8 +31,8 @@ class UserMigration
       user.save!
 
       unless old_user["fotografia"].empty?
-        url = "#{ENV["DEMAGOG_IMAGE_SERVICE_URL"]}/data/users/s/#{old_user["fotografia"]}"
-        open(url) do |file|
+        path = "/data/users/s/#{old_user["fotografia"]}"
+        open(ImageUrlHelper.absolute_url(path)) do |file|
           user.avatar.attach io: file, filename: old_user["fotografia"]
         end
       end

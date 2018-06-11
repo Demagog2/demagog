@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "./helpers/duplication_tester"
+require_relative "./helpers/image_url_helper"
 
 class MissingPortrait
   def id
@@ -66,10 +67,10 @@ class SpeakerMigration
       next if @duplication_tester.duplicate?(old_speaker["id"])
       next if old_speaker["fotografia"].empty?
 
-      url = "#{ENV["DEMAGOG_IMAGE_SERVICE_URL"]}/data/politik/t/#{old_speaker["fotografia"]}"
+      path = "/data/politik/t/#{old_speaker["fotografia"]}"
       speaker = Speaker.find(old_speaker["id"])
 
-      open(url) do |file|
+      open(ImageUrlHelper.absolute_url(path)) do |file|
         speaker.avatar.attach io: file, filename: old_speaker["fotografia"]
       end
     end
