@@ -1,5 +1,29 @@
 import gql from 'graphql-tag';
 
+export const CreateArticle = gql`
+  mutation CreateArticle($articleInput: ArticleInputType!) {
+    createArticle(article_input: $articleInput) {
+      id
+      title
+    }
+  }
+`;
+
+export const UpdateArticle = gql`
+  mutation UpdateArticle($id: ID!, $articleInput: ArticleInputType!) {
+    updateArticle(id: $id, article_input: $articleInput) {
+      id
+      title
+    }
+  }
+`;
+
+export const DeleteArticle = gql`
+  mutation DeleteArticle($id: ID!) {
+    deleteArticle(id: $id)
+  }
+`;
+
 export const CreateSource = gql`
   mutation CreateSource($sourceInput: SourceInputType!) {
     createSource(source_input: $sourceInput) {

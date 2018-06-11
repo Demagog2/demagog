@@ -1,5 +1,52 @@
 import gql from 'graphql-tag';
 
+export const GetArticle = gql`
+  query GetArticle($id: ID!) {
+    article(id: $id) {
+      title
+      slug
+      perex
+      published
+      published_at
+      segments {
+        id
+        segment_type
+        text
+      }
+    }
+  }
+`;
+
+export const GetArticles = gql`
+  query GetArticles($title: String) {
+    articles(include_unpublished: true, limit: 100, title: $title) {
+      id
+      title
+      slug
+      published
+      published_at
+    }
+  }
+`;
+
+export const GetMediaPersonalities = gql`
+  query GetMediaPersonalities {
+    media_personalities {
+      id
+      name
+    }
+  }
+`;
+
+export const GetMedia = gql`
+  query GetMedia {
+    media {
+      id
+      name
+    }
+  }
+`;
+
 export const GetSources = gql`
   query GetSources($name: String) {
     sources(limit: 100, name: $name) {
@@ -22,6 +69,9 @@ export const GetSources = gql`
           last_name
         }
         statements_published_count
+      }
+      statements {
+        id
       }
     }
   }

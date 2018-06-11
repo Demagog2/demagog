@@ -1,6 +1,22 @@
 /* tslint:disable */
 //  This file was automatically generated and should not be edited.
 
+export interface ArticleInputType {
+  title: string,
+  perex: string,
+  slug?: string | null,
+  published?: boolean | null,
+  published_at?: string | null,
+  segments?: Array< SegmentInputType > | null,
+};
+
+export interface SegmentInputType {
+  id?: string | null,
+  segment_type: string,
+  text?: string | null,
+  statements?: Array< string > | null,
+};
+
 export interface SourceInputType {
   name: string,
   released_at: string,
@@ -104,12 +120,54 @@ export interface UpdateSourceStatementsOrderInputType {
   ordered_statement_ids?: Array< string > | null,
 };
 
+export interface CreateArticleMutationVariables {
+  articleInput: ArticleInputType,
+};
+
+export interface CreateArticleMutation {
+  /**
+   * Add new article
+   */
+  createArticle:  {
+    id: string,
+    title: string,
+  } | null,
+};
+
+export interface UpdateArticleMutationVariables {
+  id: string,
+  articleInput: ArticleInputType,
+};
+
+export interface UpdateArticleMutation {
+  /**
+   * Update existing article
+   */
+  updateArticle:  {
+    id: string,
+    title: string,
+  } | null,
+};
+
+export interface DeleteArticleMutationVariables {
+  id: string,
+};
+
+export interface DeleteArticleMutation {
+  /**
+   * Delete existing article
+   */
+  deleteArticle: string,
+};
+
 export interface CreateSourceMutationVariables {
   sourceInput: SourceInputType,
 };
 
 export interface CreateSourceMutation {
-  // Add new source
+  /**
+   * Add new source
+   */
   createSource:  {
     id: string,
     name: string,
@@ -122,7 +180,9 @@ export interface UpdateSourceMutationVariables {
 };
 
 export interface UpdateSourceMutation {
-  // Update existing source
+  /**
+   * Update existing source
+   */
   updateSource:  {
     id: string,
     name: string,
@@ -134,7 +194,9 @@ export interface DeleteSourceMutationVariables {
 };
 
 export interface DeleteSourceMutation {
-  // Delete existing source with all its statements
+  /**
+   * Delete existing source with all its statements
+   */
   deleteSource: string,
 };
 
@@ -143,7 +205,9 @@ export interface CreateBodyMutationVariables {
 };
 
 export interface CreateBodyMutation {
-  // Add new body
+  /**
+   * Add new body
+   */
   createBody:  {
     id: string,
     logo: string | null,
@@ -163,7 +227,9 @@ export interface UpdateBodyMutationVariables {
 };
 
 export interface UpdateBodyMutation {
-  // Update existing body
+  /**
+   * Update existing body
+   */
   updateBody:  {
     id: string,
     logo: string | null,
@@ -182,7 +248,9 @@ export interface DeleteBodyMutationVariables {
 };
 
 export interface DeleteBodyMutation {
-  // Delete existing body
+  /**
+   * Delete existing body
+   */
   deleteBody: string,
 };
 
@@ -191,7 +259,9 @@ export interface CreateSpeakerMutationVariables {
 };
 
 export interface CreateSpeakerMutation {
-  // Add new speaker
+  /**
+   * Add new speaker
+   */
   createSpeaker:  {
     id: string,
     first_name: string,
@@ -219,7 +289,9 @@ export interface UpdateSpeakerMutationVariables {
 };
 
 export interface UpdateSpeakerMutation {
-  // Update existing speaker
+  /**
+   * Update existing speaker
+   */
   updateSpeaker:  {
     id: string,
     first_name: string,
@@ -246,7 +318,9 @@ export interface DeleteSpeakerMutationVariables {
 };
 
 export interface DeleteSpeakerMutation {
-  // Delete existing speaker
+  /**
+   * Delete existing speaker
+   */
   deleteSpeaker: string,
 };
 
@@ -255,7 +329,9 @@ export interface CreateUserMutationVariables {
 };
 
 export interface CreateUserMutation {
-  // Add new user
+  /**
+   * Add new user
+   */
   createUser:  {
     id: string,
     first_name: string | null,
@@ -275,7 +351,9 @@ export interface UpdateUserMutationVariables {
 };
 
 export interface UpdateUserMutation {
-  // Update existing user
+  /**
+   * Update existing user
+   */
   updateUser:  {
     id: string,
     first_name: string | null,
@@ -294,7 +372,9 @@ export interface DeleteUserMutationVariables {
 };
 
 export interface DeleteUserMutation {
-  // Delete existing user
+  /**
+   * Delete existing user
+   */
   deleteUser: string,
 };
 
@@ -303,7 +383,9 @@ export interface CreateStatementMutationVariables {
 };
 
 export interface CreateStatementMutation {
-  // Add new statement
+  /**
+   * Add new statement
+   */
   createStatement:  {
     id: string,
     content: string,
@@ -321,7 +403,9 @@ export interface UpdateStatementMutationVariables {
 };
 
 export interface UpdateStatementMutation {
-  // Update existing statement
+  /**
+   * Update existing statement
+   */
   updateStatement:  {
     id: string,
     content: string,
@@ -360,7 +444,9 @@ export interface DeleteStatementMutationVariables {
 };
 
 export interface DeleteStatementMutation {
-  // Delete existing statement
+  /**
+   * Delete existing statement
+   */
   deleteStatement: string,
 };
 
@@ -369,7 +455,9 @@ export interface CreateCommentMutationVariables {
 };
 
 export interface CreateCommentMutation {
-  // Add new comment
+  /**
+   * Add new comment
+   */
   createComment:  {
     id: string,
     content: string,
@@ -388,10 +476,59 @@ export interface UpdateSourceStatementsOrderMutationVariables {
 };
 
 export interface UpdateSourceStatementsOrderMutation {
-  // Update order of statements in source
+  /**
+   * Update order of statements in source
+   */
   updateSourceStatementsOrder:  {
     id: string,
   } | null,
+};
+
+export interface GetArticleQueryVariables {
+  id: string,
+};
+
+export interface GetArticleQuery {
+  article:  {
+    title: string,
+    slug: string,
+    perex: string | null,
+    published: boolean,
+    published_at: string | null,
+    segments:  Array< {
+      id: string,
+      segment_type: string,
+      text: string | null,
+    } > | null,
+  },
+};
+
+export interface GetArticlesQueryVariables {
+  title?: string | null,
+};
+
+export interface GetArticlesQuery {
+  articles:  Array< {
+    id: string,
+    title: string,
+    slug: string,
+    published: boolean,
+    published_at: string | null,
+  } >,
+};
+
+export interface GetMediaPersonalitiesQuery {
+  media_personalities:  Array< {
+    id: string,
+    name: string,
+  } >,
+};
+
+export interface GetMediaQuery {
+  media:  Array< {
+    id: string,
+    name: string,
+  } >,
 };
 
 export interface GetSourcesQueryVariables {
@@ -419,6 +556,9 @@ export interface GetSourcesQuery {
         last_name: string,
       },
       statements_published_count: number,
+    } >,
+    statements:  Array< {
+      id: string,
     } >,
   } >,
 };

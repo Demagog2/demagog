@@ -9,7 +9,8 @@ Types::ArticleType = GraphQL::ObjectType.define do
   field :title, !types.String
   field :slug, !types.String
   field :perex, types.String
-  field :published_at, !types.String
+  field :published_at, types.String
+  field :published, !types.Boolean
   field :source, Types::SourceType
 
   field :article_type, !types.String do
@@ -53,6 +54,12 @@ Types::ArticleType = GraphQL::ObjectType.define do
       folder = obj.article_type.name === "static" ? "pages" : "diskusia"
 
       "/data/#{folder}/s/#{obj.illustration.file}"
+    end
+  end
+
+  field :segments, types[!Types::SegmentType] do
+    resolve -> (obj, args, ctx) do
+      obj.segments
     end
   end
 end

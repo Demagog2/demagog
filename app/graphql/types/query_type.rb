@@ -208,27 +208,38 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
-  field :article, Types::ArticleType do
-    argument :slug, !types.String
+  field :article, !Types::ArticleType do
+    argument :id, types.ID
+    argument :slug, types.String
 
     resolve -> (obj, args, ctx) {
-      Article.where(published: true).friendly.find(args[:slug])
+      articles = ctx[:current_user] ? Article : Article.where(published: true)
+
+      articles.friendly.find(args[:slug] || args[:id])
     }
   end
 
-  field :articles, types[Types::ArticleType] do
+  field :articles, !types[!Types::ArticleType] do
     argument :offset, types.Int, default_value: 0
     argument :limit, types.Int, default_value: 10
     argument :article_type, types.String, default_value: "default"
     argument :order, types.String, default_value: "desc"
+    argument :title, types.String
+    argument :include_unpublished, types.Boolean, default_value: false
 
     resolve -> (obj, args, ctx) {
-      Article
+      articles = Article
         .joins(:article_type)
-        .where(published: true, article_types: { name: args[:article_type] })
+        .where(article_types: { name: args[:article_type] })
         .offset(args[:offset])
         .limit(args[:limit])
-        .order(published_at: args[:order])
+        .order(created_at: args[:order])
+
+      articles = articles.where(published: true) unless ctx[:current_user] && args[:include_unpublished]
+
+      articles = articles.matching_title(args[:title]) if args[:title].present?
+
+      articles
     }
   end
 

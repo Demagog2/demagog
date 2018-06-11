@@ -136,6 +136,7 @@ export class SourceForm extends React.Component<ISourceFormProps> {
             <div className="form-row">
               <TextInput
                 className="col-md-12"
+                label="Přepis:"
                 placeholder="Zadejte text přepisu..."
                 defaultValue={sourceInput.transcript}
                 onChange={onInputChange('transcript')}
