@@ -2,14 +2,14 @@ import * as React from 'react';
 import { Mutation, MutationFn } from 'react-apollo';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { addFlashMessage } from '../../actions/flashMessages';
+import { addFlashMessage } from '../actions/flashMessages';
 import {
   CreateSourceMutation,
   CreateSourceMutationVariables,
   SourceInputType,
-} from '../../operation-result-types';
-import { CreateSource } from '../../queries/mutations';
-import { SourceForm } from '../forms/SourceForm';
+} from '../operation-result-types';
+import { CreateSource } from '../queries/mutations';
+import { SourceForm } from './forms/SourceForm';
 
 class CreateSourceMutationComponent extends Mutation<
   CreateSourceMutation,

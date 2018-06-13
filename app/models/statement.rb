@@ -11,6 +11,7 @@ class Statement < ApplicationRecord
   has_many :articles, through: :article_has_segments
   has_many :assessments
   has_many :veracities, through: :assessments
+  has_one :statement_transcript_position
 
   scope :published, -> {
     where(published: true)

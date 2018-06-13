@@ -51,6 +51,24 @@ export interface UserInputType {
   rank?: number | null,
 };
 
+export interface StatementInputType {
+  content: string,
+  excerpted_at: string,
+  important: boolean,
+  speaker_id: string,
+  source_id: string,
+  published: boolean,
+  count_in_statistics: boolean,
+  statement_transcript_position?: StatementTranscriptPositionInputType | null,
+};
+
+export interface StatementTranscriptPositionInputType {
+  start_line: number,
+  start_offset: number,
+  end_line: number,
+  end_offset: number,
+};
+
 export interface CreateSourceMutationVariables {
   sourceInput: SourceInputType,
 };
@@ -59,7 +77,7 @@ export interface CreateSourceMutation {
   // Add new source
   createSource:  {
     id: string,
-    name: string | null,
+    name: string,
   } | null,
 };
 
@@ -72,7 +90,7 @@ export interface UpdateSourceMutation {
   // Update existing source
   updateSource:  {
     id: string,
-    name: string | null,
+    name: string,
   } | null,
 };
 
@@ -227,6 +245,23 @@ export interface DeleteUserMutation {
   deleteUser: string,
 };
 
+export interface CreateStatementMutationVariables {
+  statementInput: StatementInputType,
+};
+
+export interface CreateStatementMutation {
+  // Add new statement
+  createStatement:  {
+    id: string,
+    content: string,
+    excerpted_at: string,
+    important: boolean,
+    speaker:  {
+      id: string,
+    },
+  } | null,
+};
+
 export interface GetSourcesQueryVariables {
   name?: string | null,
 };
@@ -234,17 +269,22 @@ export interface GetSourcesQueryVariables {
 export interface GetSourcesQuery {
   sources:  Array< {
     id: string,
-    name: string | null,
+    name: string,
     source_url: string | null,
     released_at: string,
     medium:  {
       name: string,
-    } | null,
+    },
     media_personality:  {
       name: string,
-    } | null,
-    speakers:  Array< {
-      id: string,
+    },
+    speakers_statements_stats:  Array< {
+      speaker:  {
+        id: string,
+        first_name: string,
+        last_name: string,
+      },
+      statements_published_count: number,
     } >,
   } >,
 };
@@ -255,22 +295,49 @@ export interface GetSourceQueryVariables {
 
 export interface GetSourceQuery {
   source:  {
-    name: string | null,
+    id: string,
+    name: string,
     source_url: string | null,
     released_at: string,
     transcript: string | null,
     medium:  {
       id: string,
       name: string,
-    } | null,
+    },
     media_personality:  {
       id: string,
       name: string,
-    } | null,
+    },
     speakers:  Array< {
       id: string,
+      first_name: string,
+      last_name: string,
     } >,
   },
+};
+
+export interface GetSourceStatementsQueryVariables {
+  sourceId: number,
+};
+
+export interface GetSourceStatementsQuery {
+  statements:  Array< {
+    id: string,
+    content: string,
+    important: boolean,
+    speaker:  {
+      id: string,
+      first_name: string,
+      last_name: string,
+      avatar: string | null,
+    },
+    statement_transcript_position:  {
+      start_line: number,
+      start_offset: number,
+      end_line: number,
+      end_offset: number,
+    } | null,
+  } >,
 };
 
 export interface GetUsersQueryVariables {

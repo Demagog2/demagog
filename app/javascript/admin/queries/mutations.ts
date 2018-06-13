@@ -138,3 +138,17 @@ export const DeleteUser = gql`
     deleteUser(id: $id)
   }
 `;
+
+export const CreateStatement = gql`
+  mutation CreateStatement($statementInput: StatementInputType!) {
+    createStatement(statement_input: $statementInput) {
+      id
+      content
+      excerpted_at
+      important
+      speaker {
+        id
+      }
+    }
+  }
+`;

@@ -9,7 +9,7 @@ const categories = [
     links: [
       { to: '/admin/articles', title: 'Články' },
       { to: '/admin/tags', title: 'Štítky' },
-      { to: '/admin/statements', title: 'Výroky', enabled: true },
+      { to: '/admin/sources', title: 'Výroky', enabled: true },
       { to: '/admin/visualizations', title: 'Vizualizace' },
       { to: '/admin/images', title: 'Obrázky' },
     ],

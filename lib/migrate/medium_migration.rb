@@ -16,7 +16,6 @@ class MediumMigration
   def perform
     migrate_media
     migrate_media_personalities
-    migrate_sources
   end
 
   def migrate_media
@@ -48,21 +47,6 @@ class MediumMigration
           id: old_media_personality["id"],
           name: old_media_personality["moderator"],
           media: [Medium.find(old_media_personality["id_relacia"])]
-        )
-      end
-    end
-
-    def migrate_sources
-      old_sources = self.connection.query("SELECT * FROM diskusia")
-      old_sources.each do |old_source|
-        Source.create!(
-          id: old_source["id"],
-          name: old_source["nazov"],
-          medium: Medium.find(old_source["id_relacia"]),
-          media_personality: MediaPersonality.find(old_source["id_moderator"]),
-          transcript: old_source["prepis_relacie"],
-          released_at: old_source["datum"],
-          source_url: old_source["url_videozaznam"]
         )
       end
     end

@@ -2,17 +2,17 @@ import * as React from 'react';
 import { Mutation, MutationFn, Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { addFlashMessage } from '../../actions/flashMessages';
+import { addFlashMessage } from '../actions/flashMessages';
 import {
   GetSourceQuery,
   GetSourceQueryVariables,
   SourceInputType,
   UpdateSourceMutation,
   UpdateSourceMutationVariables,
-} from '../../operation-result-types';
-import { UpdateSource } from '../../queries/mutations';
-import { GetSource } from '../../queries/queries';
-import { SourceForm } from '../forms/SourceForm';
+} from '../operation-result-types';
+import { UpdateSource } from '../queries/mutations';
+import { GetSource } from '../queries/queries';
+import { SourceForm } from './forms/SourceForm';
 
 class SourceQuery extends Query<GetSourceQuery, GetSourceQueryVariables> {}
 class UpdateSourceMutationComponent extends Mutation<

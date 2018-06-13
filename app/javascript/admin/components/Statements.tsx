@@ -2,187 +2,129 @@
 
 import * as React from 'react';
 
-// import { ApolloError } from 'apollo-client';
 import { Query } from 'react-apollo';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 
-import { compact } from 'lodash';
-import { addFlashMessage } from '../actions/flashMessages';
-import {
-  GetSourcesQuery as GetSourcesQueryResult,
-  GetSourcesQueryVariables,
-} from '../operation-result-types';
-// import { DeleteSpeaker } from '../queries/mutations';
-import { GetSources } from '../queries/queries';
-import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
-// import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
-// import SpeakerAvatar from './SpeakerAvatar';
+import {
+  GetSourceQuery,
+  GetSourceStatementsQuery,
+  GetSourceStatementsQueryVariables,
+} from '../operation-result-types';
+import { GetSource, GetSourceStatements } from '../queries/queries';
+import { displayDate } from '../utils';
 
-class GetSourcesQuery extends Query<GetSourcesQueryResult, GetSourcesQueryVariables> {}
+class GetSourceQueryComponent extends Query<GetSourceQuery> {}
+class GetSourceStatementsQueryComponent extends Query<
+  GetSourceStatementsQuery,
+  GetSourceStatementsQueryVariables
+> {}
 
-interface IProps {
-  addFlashMessage: (msg: string) => void;
-}
+interface IProps extends RouteComponentProps<{ sourceId: string }> {}
 
-interface IState {
-  name: string | null;
-  confirmDeleteModalSpeakerId: string | null;
-}
-
-class Speakers extends React.Component<IProps, IState> {
-  public state = {
-    name: null,
-    confirmDeleteModalSpeakerId: null,
-  };
-
-  public getLink(source: any): string {
-    return compact([
-      source.medium ? source.medium.name : undefined,
-      source.released_at,
-      source.medium_personality ? source.medium_personality.name : undefined,
-    ]).join(', ');
-  }
-
-  private onSearchChange = (name: string) => {
-    this.setState({ name });
-  };
-
-  // private showConfirmDeleteModal = (confirmDeleteModalSpeakerId: string) => () => {
-  //   this.setState({ confirmDeleteModalSpeakerId });
-  // };
-
-  // private hideConfirmDeleteModal = () => {
-  //   this.setState({ confirmDeleteModalSpeakerId: null });
-  // };
-
-  // private onDeleted = () => {
-  //   this.props.addFlashMessage('Osoba byla úspěšně smazána.');
-  //   this.hideConfirmDeleteModal();
-  // };
-
-  // private onDeleteError = (error: ApolloError) => {
-  //   this.props.addFlashMessage('Doško k chybě při mazání osoby');
-
-  //   console.error(error); // tslint:disable-line:no-console
-  // };
-
+class Statements extends React.Component<IProps> {
   // tslint:disable-next-line:member-ordering
   public render() {
-    // const { confirmDeleteModalSpeakerId } = this.state;
-
     return (
-      <React.Fragment>
-        <div>
-          <h1>Výroky</h1>
+      <GetSourceQueryComponent
+        query={GetSource}
+        variables={{ id: parseInt(this.props.match.params.sourceId, 10) }}
+      >
+        {({ data, loading }) => {
+          if (loading) {
+            return <Loading />;
+          }
 
-          <Link
-            style={{ marginBottom: 20 }}
-            className="btn btn-primary"
-            to="/admin/statements/sources/new"
-          >
-            Přidat zdroj výroků
-          </Link>
+          if (!data) {
+            return null;
+          }
 
-          <SearchInput placeholder="Vyhledat zdroj výroků" onChange={this.onSearchChange} />
+          const source = data.source;
 
-          <GetSourcesQuery query={GetSources} variables={{ name: this.state.name }}>
-            {(props) => {
-              if (props.loading) {
-                return <Loading />;
-              }
-
-              if (props.error) {
-                return <h1>{props.error}</h1>;
-              }
-
-              if (!props.data) {
-                return null;
-              }
-
-              // const confirmDeleteModalSpeaker = props.data.speakers.find(
-              //   (s) => s.id === confirmDeleteModalSpeakerId,
-              // );
-
-              return (
-                <div>
-                  {/* {confirmDeleteModalSpeaker && (
-                    <ConfirmDeleteModal
-                      message={`Opravdu chcete smazat osobu ${
-                        confirmDeleteModalSpeaker.first_name
-                      } ${confirmDeleteModalSpeaker.last_name}?`}
-                      onCancel={this.hideConfirmDeleteModal}
-                      mutation={DeleteSpeaker}
-                      mutationProps={{
-                        variables: { id: confirmDeleteModalSpeakerId },
-                        refetchQueries: [
-                          { query: GetSpeakers, variables: { name: this.state.name } },
-                        ],
-                        onCompleted: this.onDeleted,
-                        onError: this.onDeleteError,
-                      }}
-                    />
-                  )} */}
-
-                  {props.data.sources.map((source) => (
-                    <div className="card" key={source.id} style={{ marginBottom: '1rem' }}>
-                      <div className="card-body" style={{ display: 'flex' }}>
-                        <div style={{ marginLeft: 15, flex: '1 0' }}>
-                          <div style={{ float: 'right' }}>
-                            <Link
-                              to={`/admin/statements/sources/edit/${source.id}`}
-                              className="btn btn-secondary"
-                              style={{ marginRight: 15 }}
-                            >
-                              Upravit
-                            </Link>
-                            {/* <button
-                              type="button"
-                              className="btn btn-secondary"
-                              onClick={this.showConfirmDeleteModal(source.id)}
-                            >
-                              Smazat
-                            </button> */}
-                          </div>
-
-                          <h5 style={{ marginTop: 7 }}>{source.name}</h5>
-
-                          <dl style={{ marginTop: 20 }}>
-                            <dt className="text-muted">
-                              <small>Odkaz</small>
-                            </dt>
-                            <dd>
-                              {source.source_url ? (
-                                <a href={source.source_url}>{this.getLink(source)}</a>
-                              ) : (
-                                'Nevyplněn'
-                              )}
-                            </dd>
-                          </dl>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+          return (
+            <div>
+              <div>
+                <div className="float-right" style={{ marginTop: 15 }}>
+                  <Link to="/admin/sources" className="btn btn-secondary">
+                    Zpět
+                  </Link>
+                  <Link
+                    to={`/admin/sources/edit/${source.id}`}
+                    className="btn btn-secondary"
+                    style={{ marginLeft: 7 }}
+                  >
+                    Upravit údaje o zdroji
+                  </Link>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    disabled
+                    style={{ marginLeft: 7 }}
+                  >
+                    Smazat zdroj
+                  </button>
                 </div>
-              );
-            }}
-          </GetSourcesQuery>
-        </div>
-      </React.Fragment>
+
+                <h3 style={{ marginTop: 7 }}>{source.name}</h3>
+                <span>
+                  {source.medium.name}, {displayDate(source.released_at)},{' '}
+                  {source.media_personality.name}
+                  {source.source_url && (
+                    <>
+                      , <a href={source.source_url}>odkaz</a>
+                    </>
+                  )}
+                </span>
+              </div>
+
+              <GetSourceStatementsQueryComponent
+                query={GetSourceStatements}
+                variables={{ sourceId: parseInt(source.id, 10) }}
+              >
+                {({ data, loading }) => {
+                  if (loading) {
+                    return <Loading />;
+                  }
+
+                  if (!data) {
+                    return null;
+                  }
+
+                  if (data.statements.length === 0) {
+                    return (
+                      <div>
+                        <p className="text-center mt-5">
+                          Zatím tu nejsou žádné výroky<br />
+                          <Link
+                            to={`/admin/sources/${source.id}/statements-from-transcript`}
+                            className="btn btn-secondary"
+                          >
+                            Přidat výroky výběrem z přepisu
+                          </Link>
+                          <br />
+                          nebo<br />
+                          <Link
+                            to={`/admin/sources/${source.id}/statements/new`}
+                            className="btn btn-secondary"
+                          >
+                            Přidat výrok ručně
+                          </Link>
+                        </p>
+                      </div>
+                    );
+                  }
+
+                  // TODO: pagination?
+                  return <div>{data.statements.length} vyroku</div>;
+                }}
+              </GetSourceStatementsQueryComponent>
+            </div>
+          );
+        }}
+      </GetSourceQueryComponent>
     );
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Speakers);
+export default connect()(Statements);
