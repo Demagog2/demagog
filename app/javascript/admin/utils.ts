@@ -6,14 +6,6 @@ export function displayDate(date: string): string {
     .toLocaleString(DateTime.DATE_FULL);
 }
 
-export function newlinesToBrTags(text: string): string {
-  return text.replace(/(?:\r\n|\r|\n)/g, '<br>');
-}
-
-export function normalizeNewLines(text: string): string {
-  return text.replace(/(?:\r\n)/g, '\n');
-}
-
 export function pluralize(count: number, one: string, twoToFour: string, others: string): string {
   if (count === 1) {
     return one;
