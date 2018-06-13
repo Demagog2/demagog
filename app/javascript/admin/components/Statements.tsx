@@ -116,7 +116,7 @@ class Statements extends React.Component<IProps> {
                   nebo<br />
                   <Link
                     to={`/admin/sources/${source.id}/statements/new`}
-                    className="btn btn-secondary"
+                    className="btn btn-secondary disabled"
                   >
                     Přidat výrok ručně
                   </Link>

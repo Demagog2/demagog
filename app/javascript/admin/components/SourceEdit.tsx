@@ -83,6 +83,7 @@ class SourceEdit extends React.Component<ISourceEditProps, ISourceEditState> {
                 {(updateSource) => {
                   return (
                     <SourceForm
+                      backPath={`/admin/sources/${data.source.id}`}
                       sourceQuery={data}
                       onSubmit={this.onSubmit(updateSource)}
                       submitting={this.state.submitting}

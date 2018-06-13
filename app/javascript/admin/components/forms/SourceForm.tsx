@@ -15,6 +15,7 @@ import { TextInput } from './controls/TextInput';
 import { Form } from './Form';
 
 interface ISourceFormProps {
+  backPath: string;
   sourceQuery?: GetSourceQuery;
   onSubmit: (formData: SourceInputType) => void;
   submitting: boolean;
@@ -48,7 +49,7 @@ export class SourceForm extends React.Component<ISourceFormProps> {
   };
 
   public render() {
-    const { sourceQuery, submitting } = this.props;
+    const { backPath, sourceQuery, submitting } = this.props;
 
     if (!sourceQuery) {
       return null;
@@ -127,8 +128,8 @@ export class SourceForm extends React.Component<ISourceFormProps> {
             <button type="submit" className="btn btn-primary" disabled={submitting}>
               {submitting ? 'Ukládám ...' : 'Uložit'}
             </button>
-            <Link to="/admin/statements" className="btn">
-              Zpět na seznam
+            <Link to={backPath} className="btn">
+              Zpět
             </Link>
           </React.Fragment>
         )}

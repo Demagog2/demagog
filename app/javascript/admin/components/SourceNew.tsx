@@ -35,7 +35,7 @@ export class SourceNew extends React.Component<ISourceNewProps, ISourceNewState>
     this.props.addFlashMessage('Zdroj výroků byl úspěšně uložen.');
 
     if (source.createSource) {
-      this.props.history.push(`/admin/statements/sources/edit/${source.createSource.id}`);
+      this.props.history.push(`/admin/sources/${source.createSource.id}`);
     }
   };
 
@@ -66,6 +66,7 @@ export class SourceNew extends React.Component<ISourceNewProps, ISourceNewState>
           {(createSource) => {
             return (
               <SourceForm
+                backPath="/admin/sources"
                 onSubmit={this.onSubmit(createSource)}
                 submitting={this.state.submitting}
               />
