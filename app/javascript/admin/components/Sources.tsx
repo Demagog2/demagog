@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 
-// import { ApolloError } from 'apollo-client';
 import { Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -13,12 +12,10 @@ import {
   GetSourcesQuery as GetSourcesQueryResult,
   GetSourcesQueryVariables,
 } from '../operation-result-types';
-// import { DeleteSpeaker } from '../queries/mutations';
 import { GetSources } from '../queries/queries';
 import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
-// import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
-// import SpeakerAvatar from './SpeakerAvatar';
+
 import { displayDate } from '../utils';
 
 class GetSourcesQuery extends Query<GetSourcesQueryResult, GetSourcesQueryVariables> {}

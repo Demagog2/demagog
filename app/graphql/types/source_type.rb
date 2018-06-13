@@ -31,7 +31,7 @@ Types::SourceType = GraphQL::ObjectType.define do
           .count
 
         if statements_published_count > 0
-          stats << {speaker: speaker, statements_published_count: statements_published_count}
+          stats << { speaker: speaker, statements_published_count: statements_published_count }
         end
       end
 

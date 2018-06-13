@@ -2,7 +2,7 @@
 
 Types::StatementTranscriptPositionType = GraphQL::ObjectType.define do
     name "StatementTranscriptPosition"
-  
+
     field :id, !types.ID
     field :start_line, !types.Int
     field :start_offset, !types.Int
@@ -11,4 +11,3 @@ Types::StatementTranscriptPositionType = GraphQL::ObjectType.define do
     field :source, !Types::SourceType
     field :statement, !Types::StatementType
   end
-  

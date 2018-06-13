@@ -21,7 +21,7 @@ Mutations::CreateStatement = GraphQL::Field.define do
         transcript_position_input["source_id"] = statement.source.id
         StatementTranscriptPosition.create!(transcript_position_input)
       end
-      
+
       statement
     end
   }

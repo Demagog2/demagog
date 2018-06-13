@@ -6,7 +6,6 @@ import { Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
-import Loading from './Loading';
 import {
   GetSourceQuery,
   GetSourceStatementsQuery,
@@ -14,6 +13,7 @@ import {
 } from '../operation-result-types';
 import { GetSource, GetSourceStatements } from '../queries/queries';
 import { displayDate } from '../utils';
+import Loading from './Loading';
 
 class GetSourceQueryComponent extends Query<GetSourceQuery> {}
 class GetSourceStatementsQueryComponent extends Query<
@@ -78,51 +78,57 @@ class Statements extends React.Component<IProps> {
                 </span>
               </div>
 
-              <GetSourceStatementsQueryComponent
-                query={GetSourceStatements}
-                variables={{ sourceId: parseInt(source.id, 10) }}
-              >
-                {({ data, loading }) => {
-                  if (loading) {
-                    return <Loading />;
-                  }
-
-                  if (!data) {
-                    return null;
-                  }
-
-                  if (data.statements.length === 0) {
-                    return (
-                      <div>
-                        <p className="text-center mt-5">
-                          Zatím tu nejsou žádné výroky<br />
-                          <Link
-                            to={`/admin/sources/${source.id}/statements-from-transcript`}
-                            className="btn btn-secondary"
-                          >
-                            Přidat výroky výběrem z přepisu
-                          </Link>
-                          <br />
-                          nebo<br />
-                          <Link
-                            to={`/admin/sources/${source.id}/statements/new`}
-                            className="btn btn-secondary"
-                          >
-                            Přidat výrok ručně
-                          </Link>
-                        </p>
-                      </div>
-                    );
-                  }
-
-                  // TODO: pagination?
-                  return <div>{data.statements.length} vyroku</div>;
-                }}
-              </GetSourceStatementsQueryComponent>
+              {this.renderStatements(source)}
             </div>
           );
         }}
       </GetSourceQueryComponent>
+    );
+  }
+
+  public renderStatements(source) {
+    return (
+      <GetSourceStatementsQueryComponent
+        query={GetSourceStatements}
+        variables={{ sourceId: parseInt(source.id, 10) }}
+      >
+        {({ data, loading }) => {
+          if (loading) {
+            return <Loading />;
+          }
+
+          if (!data) {
+            return null;
+          }
+
+          if (data.statements.length === 0) {
+            return (
+              <div>
+                <p className="text-center mt-5">
+                  Zatím tu nejsou žádné výroky<br />
+                  <Link
+                    to={`/admin/sources/${source.id}/statements-from-transcript`}
+                    className="btn btn-secondary"
+                  >
+                    Přidat výroky výběrem z přepisu
+                  </Link>
+                  <br />
+                  nebo<br />
+                  <Link
+                    to={`/admin/sources/${source.id}/statements/new`}
+                    className="btn btn-secondary"
+                  >
+                    Přidat výrok ručně
+                  </Link>
+                </p>
+              </div>
+            );
+          }
+
+          // TODO: pagination?
+          return <div>{data.statements.length} vyroku</div>;
+        }}
+      </GetSourceStatementsQueryComponent>
     );
   }
 }

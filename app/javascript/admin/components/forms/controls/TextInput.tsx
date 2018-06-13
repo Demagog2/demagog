@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import Plain from 'slate-plain-serializer';
 import * as Slate from 'slate';
+import Plain from 'slate-plain-serializer';
 import { Editor } from 'slate-react';
 
 interface ITextInputProps {
