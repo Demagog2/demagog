@@ -14,7 +14,7 @@ import {
   GetSourceStatementsQueryVariables,
 } from '../operation-result-types';
 import { DeleteSource } from '../queries/mutations';
-import { GetSource, GetSourceStatements } from '../queries/queries';
+import { GetSource, GetSources, GetSourceStatements } from '../queries/queries';
 import { displayDate } from '../utils';
 import Loading from './Loading';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
@@ -85,6 +85,10 @@ class SourceDetail extends React.Component<IProps, IState> {
                       {
                         query: GetSource,
                         variables: { id: parseInt(source.id, 10) },
+                      },
+                      {
+                        query: GetSources,
+                        variables: { name: null },
                       },
                     ],
                     onCompleted: this.onDeleted,
