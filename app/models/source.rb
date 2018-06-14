@@ -8,6 +8,8 @@ class Source < ApplicationRecord
   has_and_belongs_to_many :speakers
   belongs_to :media_personality, optional: true
 
+  default_scope { where(deleted_at: nil) }
+
   def self.matching_name(name)
     where("name LIKE ?", "%#{name}%")
   end

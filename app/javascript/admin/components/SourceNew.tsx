@@ -9,6 +9,7 @@ import {
   SourceInputType,
 } from '../operation-result-types';
 import { CreateSource } from '../queries/mutations';
+import { GetSources } from '../queries/queries';
 import { SourceForm } from './forms/SourceForm';
 
 class CreateSourceMutationComponent extends Mutation<
@@ -56,12 +57,11 @@ export class SourceNew extends React.Component<ISourceNewProps, ISourceNewState>
   public render() {
     return (
       <div role="main">
-        <h1>Přidat nový zdroj</h1>
-
         <CreateSourceMutationComponent
           mutation={CreateSource}
           onCompleted={this.onSuccess}
           onError={this.onError}
+          refetchQueries={[{ query: GetSources, variables: { name: null } }]}
         >
           {(createSource) => {
             return (
@@ -69,6 +69,7 @@ export class SourceNew extends React.Component<ISourceNewProps, ISourceNewState>
                 backPath="/admin/sources"
                 onSubmit={this.onSubmit(createSource)}
                 submitting={this.state.submitting}
+                title="Přidat nový zdroj"
               />
             );
           }}

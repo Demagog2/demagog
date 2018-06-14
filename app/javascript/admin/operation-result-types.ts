@@ -94,6 +94,15 @@ export interface UpdateSourceMutation {
   } | null,
 };
 
+export interface DeleteSourceMutationVariables {
+  id: string,
+};
+
+export interface DeleteSourceMutation {
+  // Delete existing source with all its statements
+  deleteSource: string,
+};
+
 export interface CreateBodyMutationVariables {
   bodyInput: BodyInputType,
 };
@@ -262,6 +271,15 @@ export interface CreateStatementMutation {
   } | null,
 };
 
+export interface DeleteStatementMutationVariables {
+  id: string,
+};
+
+export interface DeleteStatementMutation {
+  // Delete existing statement
+  deleteStatement: string,
+};
+
 export interface GetSourcesQueryVariables {
   name?: string | null,
 };
@@ -273,9 +291,11 @@ export interface GetSourcesQuery {
     source_url: string | null,
     released_at: string,
     medium:  {
+      id: string,
       name: string,
     },
     media_personality:  {
+      id: string,
       name: string,
     },
     speakers_statements_stats:  Array< {

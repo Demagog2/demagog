@@ -13,8 +13,18 @@ class Statement < ApplicationRecord
   has_many :veracities, through: :assessments
   has_one :statement_transcript_position
 
+  default_scope {
+    where(deleted_at: nil)
+      .includes(:statement_transcript_position)
+      .order(
+        "statement_transcript_positions.start_line ASC",
+        "statement_transcript_positions.start_offset ASC",
+        "excerpted_at ASC"
+      )
+  }
+
   scope :published, -> {
-    where(published: true)
+    where(published: true, deleted_at: nil)
       .order(excerpted_at: :desc)
       .joins(:assessments)
       .where.not(assessments: {

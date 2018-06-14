@@ -15,11 +15,11 @@ import SpeakerEdit from './components/SpeakerEdit';
 import SpeakerNew from './components/SpeakerNew';
 import Speakers from './components/Speakers';
 
+import SourceDetail from './components/SourceDetail';
 import SourceEdit from './components/SourceEdit';
 import SourceNew from './components/SourceNew';
 import Sources from './components/Sources';
 
-import Statements from './components/Statements';
 import StatementsFromTranscript from './components/StatementsFromTranscript';
 
 import UserEdit from './components/UserEdit';
@@ -43,7 +43,7 @@ export default function App() {
                 <Route path="/admin/sources/new" exact component={SourceNew} />
                 <Route path="/admin/sources/edit/:id" exact component={SourceEdit} />
 
-                <Route path="/admin/sources/:sourceId" exact component={Statements} />
+                <Route path="/admin/sources/:sourceId" exact component={SourceDetail} />
                 <Route
                   path="/admin/sources/:sourceId/statements-from-transcript"
                   exact

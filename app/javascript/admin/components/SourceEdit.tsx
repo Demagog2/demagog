@@ -11,7 +11,7 @@ import {
   UpdateSourceMutationVariables,
 } from '../operation-result-types';
 import { UpdateSource } from '../queries/mutations';
-import { GetSource } from '../queries/queries';
+import { GetSource, GetSources } from '../queries/queries';
 import { SourceForm } from './forms/SourceForm';
 
 class SourceQuery extends Query<GetSourceQuery, GetSourceQueryVariables> {}
@@ -62,8 +62,6 @@ class SourceEdit extends React.Component<ISourceEditProps, ISourceEditState> {
 
     return (
       <div role="main">
-        <h1>Upravit zdroj</h1>
-
         <SourceQuery query={GetSource} variables={{ id }}>
           {({ data, loading }) => {
             if (loading) {
@@ -79,6 +77,10 @@ class SourceEdit extends React.Component<ISourceEditProps, ISourceEditState> {
                 mutation={UpdateSource}
                 onCompleted={this.onSuccess}
                 onError={this.onError}
+                refetchQueries={[
+                  { query: GetSources, variables: { name: null } },
+                  { query: GetSource, variables: { id } },
+                ]}
               >
                 {(updateSource) => {
                   return (
@@ -87,6 +89,7 @@ class SourceEdit extends React.Component<ISourceEditProps, ISourceEditState> {
                       sourceQuery={data}
                       onSubmit={this.onSubmit(updateSource)}
                       submitting={this.state.submitting}
+                      title="Upravit zdroj"
                     />
                   );
                 }}

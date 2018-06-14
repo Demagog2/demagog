@@ -21,8 +21,8 @@ Types::QueryType = GraphQL::ObjectType.define do
     resolve -> (obj, args, ctx) {
       begin
         Source.find(args[:id])
-      rescue ActiveRecord::RecordNotFound => err
-        nil
+      rescue ActiveRecord::RecordNotFound => e
+        raise GraphQL::ExecutionError.new("Could not find Source with id=#{args[:id]}")
       end
     }
   end
@@ -39,8 +39,8 @@ Types::QueryType = GraphQL::ObjectType.define do
     resolve -> (obj, args, ctx) {
       begin
         Medium.find(args[:id])
-      rescue ActiveRecord::RecordNotFound => err
-        nil
+      rescue ActiveRecord::RecordNotFound => e
+        raise GraphQL::ExecutionError.new("Could not find Medium with id=#{args[:id]}")
       end
     }
   end
@@ -74,8 +74,8 @@ Types::QueryType = GraphQL::ObjectType.define do
     resolve -> (obj, args, ctx) {
       begin
         Speaker.find(args[:id])
-      rescue ActiveRecord::RecordNotFound => err
-        nil
+      rescue ActiveRecord::RecordNotFound => e
+        raise GraphQL::ExecutionError.new("Could not find Speaker with id=#{args[:id]}")
       end
     }
   end
@@ -107,7 +107,11 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :id, !types.Int
 
     resolve -> (obj, args, ctx) {
-      Statement.where(published: true).find(args[:id])
+      begin
+        Statement.where(published: true).find(args[:id])
+      rescue ActiveRecord::RecordNotFound => e
+        raise GraphQL::ExecutionError.new("Could not find Statement with id=#{args[:id]}")
+      end
     }
   end
 
@@ -145,8 +149,8 @@ Types::QueryType = GraphQL::ObjectType.define do
     resolve -> (obj, args, ctx) {
       begin
         Body.find(args[:id])
-      rescue ActiveRecord::RecordNotFound => err
-        nil
+      rescue ActiveRecord::RecordNotFound => e
+        raise GraphQL::ExecutionError.new("Could not find Body with id=#{args[:id]}")
       end
     }
   end
@@ -216,7 +220,11 @@ Types::QueryType = GraphQL::ObjectType.define do
     resolve -> (obj, args, ctx) {
       raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
 
-      User.find(args[:id])
+      begin
+        User.find(args[:id])
+      rescue ActiveRecord::RecordNotFound => e
+        raise GraphQL::ExecutionError.new("Could not find User with id=#{args[:id]}")
+      end
     }
   end
 

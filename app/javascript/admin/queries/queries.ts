@@ -8,9 +8,11 @@ export const GetSources = gql`
       source_url
       released_at
       medium {
+        id
         name
       }
       media_personality {
+        id
         name
       }
       speakers_statements_stats {

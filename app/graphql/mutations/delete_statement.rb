@@ -1,0 +1,22 @@
+# frozen_string_literal: true
+
+Mutations::DeleteStatement = GraphQL::Field.define do
+  name "DeleteStatement"
+  type !types.ID
+  description "Delete existing statement"
+
+  argument :id, !types.ID
+
+  resolve -> (obj, args, ctx) {
+    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+
+    id = args[:id].to_i
+
+    begin
+      Statement.update(id, deleted_at: Time.now)
+      id
+    rescue ActiveRecord::RecordNotFound => e
+      raise GraphQL::ExecutionError.new(e.to_s)
+    end
+  }
+end

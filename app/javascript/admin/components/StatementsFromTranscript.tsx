@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import { Formik } from 'formik';
-import { List, Set } from 'immutable';
+import { List } from 'immutable';
 import { isEqual } from 'lodash';
 import { DateTime } from 'luxon';
 import { Mutation, Query } from 'react-apollo';
@@ -26,6 +26,7 @@ import { GetSource, GetSourceStatements } from '../queries/queries';
 import Loading from './Loading';
 
 import { displayDate, pluralize } from '../utils';
+import StatementCard from './StatementCard';
 
 class GetSourceQueryComponent extends Query<GetSourceQuery> {}
 
@@ -109,15 +110,22 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
           const source = data.source;
 
           return (
-            <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 55px)' }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                height: 'calc(100vh - 55px)',
+                marginTop: 7,
+              }}
+            >
               <div>
-                <div className="float-right" style={{ marginTop: 15 }}>
+                <div className="float-right">
                   <Link to={`/admin/sources/${source.id}`} className="btn btn-secondary">
                     Zpět na detail zdroje
                   </Link>
                 </div>
 
-                <h3 style={{ marginTop: 7 }}>{source.name}</h3>
+                <h3>{source.name}</h3>
                 <span>
                   {source.medium.name}, {displayDate(source.released_at)},{' '}
                   {source.media_personality.name}
@@ -220,44 +228,14 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                             </>
                           )}
 
-                          {statementsToDisplay.map((s) => (
-                            <div className="card mb-3" key={s.id}>
-                              <div className="card-body">
-                                <div className="float-right" style={{ marginTop: -7 }}>
-                                  <button
-                                    type="button"
-                                    className="btn btn-sm btn-outline-secondary"
-                                    disabled
-                                  >
-                                    Na detail výroku
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn btn-sm btn-outline-secondary ml-1"
-                                    disabled
-                                  >
-                                    Upravit
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn btn-sm btn-outline-secondary ml-1"
-                                    disabled
-                                  >
-                                    Smazat
-                                  </button>
-                                </div>
-
-                                <h5>
-                                  {s.speaker.first_name} {s.speaker.last_name}
-                                </h5>
-                                <p style={{ margin: 0 }}>{s.content}</p>
-                              </div>
-                              <div className="card-footer text-muted small">
-                                Stav: ve zpracování{' · '}
-                                Ověřovatel: Ivana Procházková{' · '}
-                                1 komentář v diskuzi k výroku
-                              </div>
-                            </div>
+                          {statementsToDisplay.map((statement) => (
+                            <StatementCard
+                              key={statement.id}
+                              onDeleted={() => {
+                                refetch({ sourceId: parseInt(source.id, 10) });
+                              }}
+                              statement={statement}
+                            />
                           ))}
                         </>
                       )}
@@ -490,7 +468,8 @@ class TranscriptText extends React.Component<ITranscriptTextProps, ITranscriptTe
     super(props);
 
     let value = deserializeTranscript(props.transcript);
-    value = addMarksFromStatements(value, props.statements);
+    value = addMarksFromStatements(value.change(), props.statements, props.selectedStatements)
+      .value;
 
     this.state = {
       value,
@@ -510,8 +489,11 @@ class TranscriptText extends React.Component<ITranscriptTextProps, ITranscriptTe
         let change = this.state.value.change();
 
         change = highlightNewStatementSelection(change, this.props.newStatementSelection);
-        change = higlightMarksOfSelectedStatements(change, this.props.selectedStatements);
-        change = addMarksFromStatements(change.value, this.props.statements).change();
+        change = addMarksFromStatements(
+          change,
+          this.props.statements,
+          this.props.selectedStatements,
+        );
 
         this.onChange(change);
       });
@@ -565,15 +547,18 @@ class TranscriptText extends React.Component<ITranscriptTextProps, ITranscriptTe
       }
 
       if (selectionText === '') {
+        const cursorLine = startLine;
+        const cursorOffset = startOffset;
+
         const selectedStatements = this.props.statements.filter((statement) => {
           if (statement.statement_transcript_position) {
             const position = statement.statement_transcript_position;
 
             return (
-              position.start_line <= startLine &&
-              position.start_offset <= startOffset &&
-              position.end_line >= startLine &&
-              position.end_offset >= endOffset
+              position.start_line <= cursorLine &&
+              (position.start_line === cursorLine ? position.start_offset <= cursorOffset : true) &&
+              position.end_line >= cursorLine &&
+              (position.end_line === cursorLine ? position.end_offset >= startOffset : true)
             );
           }
 
@@ -648,8 +633,15 @@ const deserializeTranscript = (transcript: string): Slate.Value => {
   return Slate.Value.fromJSON(valueJSON);
 };
 
-const addMarksFromStatements = (value: Slate.Value, statements: any[]): Slate.Value => {
-  return statements.reduce((change: Slate.Change, statement: any) => {
+const addMarksFromStatements = (
+  change: Slate.Change,
+  statements: any[],
+  selectedIds: string[],
+): Slate.Change => {
+  let decorations = change.value.decorations || List();
+  decorations = removeDecorationsWithMarkType(decorations, 'statement-');
+
+  statements.forEach((statement: any) => {
     if (statement.statement_transcript_position) {
       const position = statement.statement_transcript_position;
 
@@ -658,8 +650,6 @@ const addMarksFromStatements = (value: Slate.Value, statements: any[]): Slate.Va
         position.start_line,
       );
       const endInlineNode = findInlineNodeByLineNumber(change.value.document, position.end_line);
-
-      let decorations = change.value.decorations || List();
 
       decorations = decorations.push(
         Slate.Range.fromJSON({
@@ -670,17 +660,15 @@ const addMarksFromStatements = (value: Slate.Value, statements: any[]): Slate.Va
           marks: [
             {
               type: `statement-${statement.id}`,
-              data: { selected: false, statementId: statement.id },
+              data: { selected: selectedIds.includes(statement.id) },
             },
           ],
         }),
       );
-
-      return (change as any).setValue({ decorations });
     }
+  });
 
-    return change;
-  }, value.change()).value;
+  return (change as any).setValue({ decorations });
 };
 
 const findInlineNodeByLineNumber = (document: Slate.Document, line: number): Slate.Inline => {
@@ -702,14 +690,7 @@ const highlightNewStatementSelection = (
   newStatementSelection: ITranscriptSelection | null,
 ): Slate.Change => {
   let decorations = change.value.decorations || List();
-
-  decorations = decorations.filter((decoration) => {
-    if (!decoration || !decoration.marks) {
-      return false;
-    }
-
-    return !!decoration.marks.find((mark) => (mark ? mark.type !== 'new-statement' : false));
-  }) as List<Slate.Range>;
+  decorations = removeDecorationsWithMarkType(decorations, 'new-statement');
 
   if (newStatementSelection !== null) {
     const startInlineNode = findInlineNodeByLineNumber(
@@ -735,36 +716,19 @@ const highlightNewStatementSelection = (
   return (change as any).setValue({ decorations });
 };
 
-const higlightMarksOfSelectedStatements = (
-  change: Slate.Change,
-  selectedStatements: string[],
-): Slate.Change => {
-  let decorations = change.value.decorations || List();
-
-  decorations = decorations.map((decoration) => {
-    if (
-      decoration &&
-      decoration.marks &&
-      decoration.marks.size === 1 &&
-      decoration.marks.first().type.startsWith('statement-')
-    ) {
-      return decoration.set(
-        'marks',
-        Set([
-          decoration.marks
-            .first()
-            .setIn(
-              ['data', 'selected'],
-              selectedStatements.includes(decoration.marks.first().data.get('statementId')),
-            ),
-        ]),
-      );
+const removeDecorationsWithMarkType = (
+  decorations: List<Slate.Range>,
+  markTypeStartsWith: string,
+): List<Slate.Range> => {
+  return decorations.filter((decoration) => {
+    if (!decoration || !decoration.marks) {
+      return false;
     }
 
-    return decoration;
+    return !!decoration.marks.find(
+      (mark) => (mark ? !mark.type.startsWith(markTypeStartsWith) : false),
+    );
   }) as List<Slate.Range>;
-
-  return (change as any).setValue({ decorations });
 };
 
 export default StatementsFromTranscript;

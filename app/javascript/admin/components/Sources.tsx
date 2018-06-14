@@ -52,13 +52,13 @@ class Sources extends React.Component<IProps, IState> {
     return (
       <React.Fragment>
         <div>
-          <div style={{ display: 'flex' }}>
-            <h3 style={{ marginTop: 7 }}>Výroky</h3>
-
-            <Link style={{ margin: 10 }} className="btn btn-primary btn-sm" to="/admin/sources/new">
+          <div className="float-right">
+            <Link className="btn btn-primary" to="/admin/sources/new">
               Přidat zdroj výroků
             </Link>
           </div>
+
+          <h3 style={{ marginTop: 7, marginBottom: 20 }}>Výroky</h3>
 
           <SearchInput placeholder="Hledat dle názvu zdroje …" onChange={this.onSearchChange} />
 

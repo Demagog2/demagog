@@ -19,6 +19,7 @@ interface ISourceFormProps {
   sourceQuery?: GetSourceQuery;
   onSubmit: (formData: SourceInputType) => void;
   submitting: boolean;
+  title: string;
 }
 
 class SourceInternalForm extends Form<SourceInputType> {}
@@ -49,7 +50,7 @@ export class SourceForm extends React.Component<ISourceFormProps> {
   };
 
   public render() {
-    const { backPath, sourceQuery, submitting } = this.props;
+    const { backPath, sourceQuery, submitting, title } = this.props;
 
     if (!sourceQuery) {
       return null;
@@ -61,6 +62,22 @@ export class SourceForm extends React.Component<ISourceFormProps> {
       <SourceInternalForm defaultValues={sourceInput} onSubmit={this.props.onSubmit}>
         {({ onInputChange, onAssociationChange }, data) => (
           <React.Fragment>
+            <div className="float-right">
+              <Link to={backPath} className="btn btn-secondary">
+                Zpět
+              </Link>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{ marginLeft: 7 }}
+                disabled={submitting}
+              >
+                {submitting ? 'Ukládám ...' : 'Uložit'}
+              </button>
+            </div>
+
+            <h3 style={{ marginTop: 7, marginBottom: 20 }}>{title}</h3>
+
             <Input
               required
               id="name"
@@ -124,13 +141,6 @@ export class SourceForm extends React.Component<ISourceFormProps> {
                 onChange={onInputChange('transcript')}
               />
             </div>
-
-            <button type="submit" className="btn btn-primary" disabled={submitting}>
-              {submitting ? 'Ukládám ...' : 'Uložit'}
-            </button>
-            <Link to={backPath} className="btn">
-              Zpět
-            </Link>
           </React.Fragment>
         )}
       </SourceInternalForm>

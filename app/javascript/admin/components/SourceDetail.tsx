@@ -2,18 +2,22 @@
 
 import * as React from 'react';
 
+import { ApolloError } from 'apollo-client';
 import { Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
+import { addFlashMessage } from '../actions/flashMessages';
 import {
   GetSourceQuery,
   GetSourceStatementsQuery,
   GetSourceStatementsQueryVariables,
 } from '../operation-result-types';
+import { DeleteSource } from '../queries/mutations';
 import { GetSource, GetSourceStatements } from '../queries/queries';
 import { displayDate } from '../utils';
 import Loading from './Loading';
+import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 
 class GetSourceQueryComponent extends Query<GetSourceQuery> {}
 class GetSourceStatementsQueryComponent extends Query<
@@ -21,10 +25,34 @@ class GetSourceStatementsQueryComponent extends Query<
   GetSourceStatementsQueryVariables
 > {}
 
-interface IProps extends RouteComponentProps<{ sourceId: string }> {}
+interface IProps extends RouteComponentProps<{ sourceId: string }> {
+  addFlashMessage: (msg: string) => void;
+}
 
-class Statements extends React.Component<IProps> {
-  // tslint:disable-next-line:member-ordering
+interface IState {
+  showConfirmDeleteModal: boolean;
+}
+
+class SourceDetail extends React.Component<IProps, IState> {
+  public state = {
+    showConfirmDeleteModal: false,
+  };
+
+  public toggleConfirmDeleteModal = () => {
+    this.setState({ showConfirmDeleteModal: !this.state.showConfirmDeleteModal });
+  };
+
+  public onDeleted = () => {
+    this.props.addFlashMessage('Zdroj včetně jeho výroků byl úspěšně smazán.');
+    this.props.history.push(`/admin/sources`);
+  };
+
+  public onDeleteError = (error: ApolloError) => {
+    this.props.addFlashMessage('Doško k chybě při mazání zdroje');
+
+    console.error(error); // tslint:disable-line:no-console
+  };
+
   public render() {
     return (
       <GetSourceQueryComponent
@@ -44,8 +72,29 @@ class Statements extends React.Component<IProps> {
 
           return (
             <div>
+              {this.state.showConfirmDeleteModal && (
+                <ConfirmDeleteModal
+                  message={`Opravdu chcete smazat zdroj ${
+                    source.name
+                  } se všemi výroky, které k němu patří?`}
+                  onCancel={this.toggleConfirmDeleteModal}
+                  mutation={DeleteSource}
+                  mutationProps={{
+                    variables: { id: source.id },
+                    refetchQueries: [
+                      {
+                        query: GetSource,
+                        variables: { id: parseInt(source.id, 10) },
+                      },
+                    ],
+                    onCompleted: this.onDeleted,
+                    onError: this.onDeleteError,
+                  }}
+                />
+              )}
+
               <div>
-                <div className="float-right" style={{ marginTop: 15 }}>
+                <div className="float-right">
                   <Link to="/admin/sources" className="btn btn-secondary">
                     Zpět
                   </Link>
@@ -59,14 +108,15 @@ class Statements extends React.Component<IProps> {
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    disabled
                     style={{ marginLeft: 7 }}
+                    onClick={this.toggleConfirmDeleteModal}
                   >
                     Smazat zdroj
                   </button>
                 </div>
 
                 <h3 style={{ marginTop: 7 }}>{source.name}</h3>
+
                 <span>
                   {source.medium.name}, {displayDate(source.released_at)},{' '}
                   {source.media_personality.name}
@@ -133,4 +183,15 @@ class Statements extends React.Component<IProps> {
   }
 }
 
-export default connect()(Statements);
+function mapDispatchToProps(dispatch) {
+  return {
+    addFlashMessage(message: string) {
+      dispatch(addFlashMessage(message));
+    },
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SourceDetail);

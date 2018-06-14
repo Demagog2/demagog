@@ -18,6 +18,12 @@ export const UpdateSource = gql`
   }
 `;
 
+export const DeleteSource = gql`
+  mutation DeleteSource($id: ID!) {
+    deleteSource(id: $id)
+  }
+`;
+
 export const CreateBody = gql`
   mutation CreateBody($bodyInput: BodyInputType!) {
     createBody(body_input: $bodyInput) {
@@ -150,5 +156,11 @@ export const CreateStatement = gql`
         id
       }
     }
+  }
+`;
+
+export const DeleteStatement = gql`
+  mutation DeleteStatement($id: ID!) {
+    deleteStatement(id: $id)
   }
 `;
