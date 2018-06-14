@@ -34,17 +34,25 @@ export class TextInput extends React.Component<ITextInputProps, ITextInputState>
 
   public render() {
     return (
-      <div
-        className={`form-group ${this.props.className ? this.props.className : ''}`}
-        style={{ minHeight: 320 }}
-      >
+      <div className={`form-group ${this.props.className ? this.props.className : ''}`}>
         <label>Přepis:</label>
 
-        <Editor
-          placeholder={this.props.placeholder}
-          value={this.state.value}
-          onChange={this.onChange}
-        />
+        <div
+          style={{
+            height: 300,
+            overflow: 'scroll',
+            border: '1px solid #ced4da',
+            borderRadius: '.25rem',
+            padding: 10,
+          }}
+        >
+          <Editor
+            placeholder={this.props.placeholder}
+            value={this.state.value}
+            onChange={this.onChange}
+            style={{ minHeight: '280px' }}
+          />
+        </div>
       </div>
     );
   }
