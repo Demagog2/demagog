@@ -50,7 +50,7 @@ class StatementMigration
                      old_statement["timestamp"],
                      Time.now,
                      Time.now,
-                     old_statement["status"] == -1 ? Time.now : nil
+                     old_statement["status"] == -3 ? Time.now : nil
                    ])
       end
     end
