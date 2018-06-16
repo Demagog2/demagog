@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import * as React from 'react';
 import { Query } from 'react-apollo';
-import Select from 'react-select';
+import Select, { Option } from 'react-select';
 
 const GET_MEDIA = gql`
   query {
@@ -25,7 +25,7 @@ interface IMediaSelectProps {
   className?: string;
   value?: string | null;
 
-  onChange(value: string): void;
+  onChange(value: string | null): void;
 }
 
 export default class MediumSelect extends React.Component<IMediaSelectProps> {
@@ -47,10 +47,10 @@ export default class MediumSelect extends React.Component<IMediaSelectProps> {
               <label htmlFor="medium-select">Pořad:</label>
               <Select
                 id="medium-select"
-                value={this.props.value}
+                value={this.props.value || undefined}
                 isLoading={loading}
                 options={options}
-                onChange={({ value }) => this.props.onChange(value)}
+                onChange={(option: Option<string>) => this.props.onChange(option.value || null)}
                 placeholder="Vyberte pořad …"
               />
             </div>

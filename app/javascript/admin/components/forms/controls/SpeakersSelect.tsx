@@ -52,7 +52,7 @@ export default class SpeakersSelect extends React.Component<IProps> {
                 value={this.props.value}
                 isLoading={loading}
                 options={options}
-                onChange={(selectedOptions) =>
+                onChange={(selectedOptions: Array<{ value: string }>) =>
                   this.props.onChange(selectedOptions.map((o) => o.value))
                 }
                 placeholder="Vyberte řečníky …"

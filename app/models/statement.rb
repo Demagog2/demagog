@@ -9,8 +9,8 @@ class Statement < ApplicationRecord
   has_many :segments, through: :segment_has_statements
   has_many :article_has_segments, through: :segments
   has_many :articles, through: :article_has_segments
-  has_many :assessments
-  has_many :veracities, through: :assessments
+  has_one :assessment
+  has_one :veracity, through: :assessment
   has_one :statement_transcript_position
 
   default_scope {
@@ -26,12 +26,12 @@ class Statement < ApplicationRecord
   scope :published, -> {
     where(published: true, deleted_at: nil)
       .order(excerpted_at: :desc)
-      .joins(:assessments)
+      .joins(:assessment)
       .where.not(assessments: {
         veracity_id: nil
       })
       .where(assessments: {
-        evaluation_status: Assessment::STATUS_CORRECT
+        evaluation_status: Assessment::STATUS_APPROVED
       })
   }
 
@@ -48,10 +48,10 @@ class Statement < ApplicationRecord
   end
 
   # @return [Assessment]
-  def correct_assessment
+  def approved_assessment
     Assessment.find_by(
       statement: self,
-      evaluation_status: Assessment::STATUS_CORRECT
+      evaluation_status: Assessment::STATUS_APPROVED
     )
   end
 end

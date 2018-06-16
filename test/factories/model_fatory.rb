@@ -72,7 +72,7 @@ FactoryBot.define do
     user
     association :veracity, factory: :true
 
-    evaluation_status Assessment::STATUS_CORRECT
+    evaluation_status Assessment::STATUS_APPROVED
   end
 
   factory :veracity do

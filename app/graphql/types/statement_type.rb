@@ -9,9 +9,11 @@ Types::StatementType = GraphQL::ObjectType.define do
   field :important, !types.Boolean
   field :speaker, !Types::SpeakerType
   field :statement_transcript_position, Types::StatementTranscriptPositionType
-  field :assessment, Types::AssessmentType do
-    resolve ->(obj, args, ctx) {
-      obj.correct_assessment
-    }
-  end
+  # field :assessment, Types::AssessmentType do
+  #   resolve ->(obj, args, ctx) {
+  #     obj.approved_assessment
+  #   }
+  # end
+  field :assessment, !Types::AssessmentType
+  field :published, !types.Boolean
 end

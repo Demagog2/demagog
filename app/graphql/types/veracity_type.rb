@@ -13,7 +13,7 @@ Types::VeracityType = GraphQL::ObjectType.define do
 
     resolve ->(obj, args, ctx) {
       obj.assessments
-        .where(assessments: { evaluation_status: Assessment::STATUS_CORRECT })
+        .where(assessments: { evaluation_status: Assessment::STATUS_APPROVED })
         .limit(args[:limit])
         .offset(args[:offset])
     }

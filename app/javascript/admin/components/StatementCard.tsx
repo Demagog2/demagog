@@ -5,8 +5,21 @@ import { truncate } from 'lodash';
 import { connect } from 'react-redux';
 
 import { addFlashMessage } from '../actions/flashMessages';
+import {
+  ASSESSMENT_STATUS_APPROVAL_NEEDED,
+  ASSESSMENT_STATUS_APPROVED,
+  ASSESSMENT_STATUS_BEING_EVALUATED,
+  ASSESSMENT_STATUS_UNASSIGNED,
+} from '../constants';
 import { DeleteStatement } from '../queries/mutations';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
+
+const STATUS_LABELS = {
+  [ASSESSMENT_STATUS_UNASSIGNED]: 'nepřiřazený',
+  [ASSESSMENT_STATUS_BEING_EVALUATED]: 've zpracování',
+  [ASSESSMENT_STATUS_APPROVAL_NEEDED]: 'ke kontrole',
+  [ASSESSMENT_STATUS_APPROVED]: 'schválený',
+};
 
 interface IStatement {
   id: string;
@@ -16,6 +29,14 @@ interface IStatement {
     first_name: string;
     last_name: string;
     avatar: string | null;
+  };
+  assessment: {
+    evaluation_status: string;
+    evaluator: null | {
+      id: string;
+      first_name: string | null;
+      last_name: string | null;
+    };
   };
   statement_transcript_position: null | {
     start_line: number;
@@ -63,6 +84,8 @@ class StatementCard extends React.Component<IProps, IState> {
     const { refetchQueriesAfterDelete, statement } = this.props;
     const { showConfirmDeleteModal } = this.state;
 
+    const assessment = statement.assessment;
+
     return (
       <>
         {showConfirmDeleteModal && (
@@ -87,9 +110,6 @@ class StatementCard extends React.Component<IProps, IState> {
               <button type="button" className="btn btn-sm btn-outline-secondary" disabled>
                 Na detail výroku
               </button>
-              <button type="button" className="btn btn-sm btn-outline-secondary ml-1" disabled>
-                Upravit
-              </button>
               <button
                 type="button"
                 className="btn btn-sm btn-outline-secondary ml-1"
@@ -105,9 +125,14 @@ class StatementCard extends React.Component<IProps, IState> {
             <p style={{ margin: 0 }}>{statement.content}</p>
           </div>
           <div className="card-footer text-muted small">
-            Stav: ve zpracování{' · '}
-            Ověřovatel: Ivana Procházková{' · '}
-            1 komentář v diskuzi k výroku
+            Stav: {STATUS_LABELS[assessment.evaluation_status]}
+            {assessment.evaluator && (
+              <>
+                {' · '}
+                Ověřovatel: {assessment.evaluator.first_name} {assessment.evaluator.last_name}
+              </>
+            )}
+            {/* {' · '}1 komentář v diskuzi k výroku */}
           </div>
         </div>
       </>

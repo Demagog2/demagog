@@ -13,6 +13,7 @@ import * as Slate from 'slate';
 import Plain from 'slate-plain-serializer';
 import { Editor } from 'slate-react';
 
+import { ASSESSMENT_STATUS_BEING_EVALUATED, ASSESSMENT_STATUS_UNASSIGNED } from '../constants';
 import {
   CreateStatementMutation,
   CreateStatementMutationVariables,
@@ -23,9 +24,9 @@ import {
 } from '../operation-result-types';
 import { CreateStatement } from '../queries/mutations';
 import { GetSource, GetSourceStatements } from '../queries/queries';
-import Loading from './Loading';
-
 import { displayDate, pluralize } from '../utils';
+import UserSelect from './forms/controls/UserSelect';
+import Loading from './Loading';
 import StatementCard from './StatementCard';
 
 class GetSourceQueryComponent extends Query<GetSourceQuery> {}
@@ -288,6 +289,7 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
       content: selection.text,
       speaker_id: source.speakers[0].id,
       note: '',
+      evaluator_id: null,
     };
 
     return (
@@ -315,6 +317,12 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
                 published: false,
                 count_in_statistics: false,
                 excerpted_at: DateTime.utc().toISO(),
+                assessment: {
+                  evaluation_status: values.evaluator_id
+                    ? ASSESSMENT_STATUS_BEING_EVALUATED
+                    : ASSESSMENT_STATUS_UNASSIGNED,
+                  evaluator_id: values.evaluator_id,
+                },
                 statement_transcript_position: {
                   start_line: selection.startLine,
                   start_offset: selection.startOffset,
@@ -344,6 +352,8 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
               handleBlur,
               handleSubmit,
               isSubmitting,
+              setFieldValue,
+              setFieldTouched,
             }) => (
               <form onSubmit={handleSubmit}>
                 <div className="card">
@@ -422,7 +432,11 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
                     </div> */}
                     <div className="form-group">
                       <label>Ověřovatel:</label>
-                      <p>TODO</p>
+                      <UserSelect
+                        onChange={(value) => setFieldValue('evaluator_id', value)}
+                        onBlur={() => setFieldTouched('evaluator_id')}
+                        value={values.evaluator_id}
+                      />
                     </div>
                     <div className="form-group">
                       <label htmlFor="note">Poznámka pro ověřování</label>

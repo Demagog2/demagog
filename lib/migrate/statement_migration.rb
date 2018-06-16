@@ -32,7 +32,8 @@ class StatementMigration
       :published,
       :excerpted_at,
       :created_at,
-      :updated_at
+      :updated_at,
+      :deleted_at
     ]
 
     Statement.bulk_insert(*keys) do |worker|
@@ -48,7 +49,8 @@ class StatementMigration
                      old_statement["status"] == 1,
                      old_statement["timestamp"],
                      Time.now,
-                     Time.now
+                     Time.now,
+                     old_statement["status"] == -1 ? Time.now : nil
                    ])
       end
     end
@@ -56,11 +58,15 @@ class StatementMigration
 
   def evaluation_status
     {
-        -3 => Assessment::STATUS_REMOVED,
-        -2 => Assessment::STATUS_TO_BE_EVALUATED,
-        -1 => Assessment::STATUS_TO_BE_CHECKED_BY_SUPERVISOR,
-         0 => Assessment::STATUS_CORRECT,
-         1 => Assessment::STATUS_CORRECT
+        # -3 is removed statement, which we migrate by setting deleted_at,
+        # so does not really matter what the evaluation status of such
+        # statements are
+        -3 => Assessment::STATUS_BEING_EVALUATED,
+
+        -2 => Assessment::STATUS_BEING_EVALUATED,
+        -1 => Assessment::STATUS_APPROVAL_NEEDED,
+         0 => Assessment::STATUS_APPROVED,
+         1 => Assessment::STATUS_APPROVED
     }
   end
 
@@ -79,8 +85,6 @@ class StatementMigration
 
     Assessment.bulk_insert(*keys) do |worker|
       old_statements.each do |old_statement|
-        next unless old_statement["status"] >= -1
-
         veracity_id = nil
         if old_statement["id_pravdivostna_hodnota"]
           veracity_id = old_statement["id_pravdivostna_hodnota"]

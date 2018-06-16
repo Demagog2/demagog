@@ -59,11 +59,20 @@ export const GetSourceStatements = gql`
       id
       content
       important
+      published
       speaker {
         id
         first_name
         last_name
         avatar
+      }
+      assessment {
+        evaluation_status
+        evaluator {
+          id
+          first_name
+          last_name
+        }
       }
       statement_transcript_position {
         start_line

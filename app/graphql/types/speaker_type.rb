@@ -36,7 +36,7 @@ Types::SpeakerType = GraphQL::ObjectType.define do
           .joins(:assessments, :veracities)
           .where(
             assessments: {
-              evaluation_status: Assessment::STATUS_CORRECT
+              evaluation_status: Assessment::STATUS_APPROVED
             },
             veracities: {
               key: args[:veracity]

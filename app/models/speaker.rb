@@ -51,7 +51,7 @@ class Speaker < ApplicationRecord
       .published
       .joins(:assessments)
       .where(assessments: {
-        evaluation_status: Assessment::STATUS_CORRECT,
+        evaluation_status: Assessment::STATUS_APPROVED,
         veracity_id: veracity_id
       })
   end

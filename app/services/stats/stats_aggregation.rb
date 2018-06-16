@@ -4,12 +4,12 @@ module Stats
   class StatsAggregation
     # @param [Array<Statement>] statements
     def aggregate(statements)
-      correct_assessments = Assessment
+      approved_assessments = Assessment
                               .includes(:veracity)
                               .where(statement: statements)
-                              .where(evaluation_status: Assessment::STATUS_CORRECT)
+                              .where(evaluation_status: Assessment::STATUS_APPROVED)
 
-      correct_assessments.reduce(empty_stats) do |acc, assessment|
+      approved_assessments.reduce(empty_stats) do |acc, assessment|
         acc[assessment.veracity.key.to_sym] += 1
         acc
       end

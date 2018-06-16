@@ -3,11 +3,19 @@
 import * as React from 'react';
 
 import { ApolloError } from 'apollo-client';
+import * as classNames from 'classnames';
+import { get, orderBy } from 'lodash';
 import { Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
+import {
+  ASSESSMENT_STATUS_APPROVAL_NEEDED,
+  ASSESSMENT_STATUS_APPROVED,
+  ASSESSMENT_STATUS_BEING_EVALUATED,
+  ASSESSMENT_STATUS_UNASSIGNED,
+} from '../constants';
 import {
   GetSourceQuery,
   GetSourceStatementsQuery,
@@ -18,6 +26,7 @@ import { GetSource, GetSources, GetSourceStatements } from '../queries/queries';
 import { displayDate } from '../utils';
 import Loading from './Loading';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
+import StatementCard from './StatementCard';
 
 class GetSourceQueryComponent extends Query<GetSourceQuery> {}
 class GetSourceStatementsQueryComponent extends Query<
@@ -25,18 +34,42 @@ class GetSourceStatementsQueryComponent extends Query<
   GetSourceStatementsQueryVariables
 > {}
 
+const STATUS_FILTER_LABELS = {
+  [ASSESSMENT_STATUS_UNASSIGNED]: 'Nepřiřazené',
+  [ASSESSMENT_STATUS_BEING_EVALUATED]: 'Ve zpracování',
+  [ASSESSMENT_STATUS_APPROVAL_NEEDED]: 'Ke kontrole',
+  [ASSESSMENT_STATUS_APPROVED]: 'Schválené',
+};
+
 interface IProps extends RouteComponentProps<{ sourceId: string }> {
   addFlashMessage: (msg: string) => void;
 }
 
 interface IState {
+  showAddStatementDropdown: boolean;
   showConfirmDeleteModal: boolean;
+  statementsFilter: null | {
+    field: string;
+    value: any;
+  };
 }
 
 class SourceDetail extends React.Component<IProps, IState> {
-  public state = {
+  public addStatementDropdown: HTMLElement | null = null;
+
+  public state: IState = {
+    showAddStatementDropdown: false,
     showConfirmDeleteModal: false,
+    statementsFilter: null,
   };
+
+  public componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+
+  public componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  }
 
   public toggleConfirmDeleteModal = () => {
     this.setState({ showConfirmDeleteModal: !this.state.showConfirmDeleteModal });
@@ -51,6 +84,36 @@ class SourceDetail extends React.Component<IProps, IState> {
     this.props.addFlashMessage('Doško k chybě při mazání zdroje');
 
     console.error(error); // tslint:disable-line:no-console
+  };
+
+  public handleClickOutside = (event: MouseEvent) => {
+    if (
+      this.state.showAddStatementDropdown &&
+      this.addStatementDropdown !== null &&
+      !this.addStatementDropdown.contains(event.target as Node)
+    ) {
+      this.toggleAddStatementDropdown();
+    }
+  };
+
+  public toggleAddStatementDropdown = () => {
+    this.setState({ showAddStatementDropdown: !this.state.showAddStatementDropdown });
+  };
+
+  public onStatementsFilterClick = (field: string, value: any) => (
+    event: React.MouseEvent<HTMLAnchorElement>,
+  ) => {
+    this.setState({ statementsFilter: { field, value } });
+
+    event.preventDefault();
+    return false;
+  };
+
+  public onCancelStatementsFilterClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    this.setState({ statementsFilter: null });
+
+    event.preventDefault();
+    return false;
   };
 
   public render() {
@@ -141,6 +204,8 @@ class SourceDetail extends React.Component<IProps, IState> {
   }
 
   public renderStatements(source) {
+    const { showAddStatementDropdown, statementsFilter } = this.state;
+
     return (
       <GetSourceStatementsQueryComponent
         query={GetSourceStatements}
@@ -179,8 +244,193 @@ class SourceDetail extends React.Component<IProps, IState> {
             );
           }
 
-          // TODO: pagination?
-          return <div>{data.statements.length} vyroku</div>;
+          // TODO: pagination maybe?
+
+          const statusFilterOptions = Object.keys(STATUS_FILTER_LABELS).map((statusKey) => ({
+            value: statusKey,
+            label: STATUS_FILTER_LABELS[statusKey],
+            count: data.statements.filter(
+              (statement) => statement.assessment.evaluation_status === statusKey,
+            ).length,
+            active:
+              statementsFilter !== null &&
+              statementsFilter.field === 'assessment.evaluation_status' &&
+              statementsFilter.value === statusKey,
+          }));
+
+          const publishedFilterOptions = [false, true].map((value) => ({
+            value,
+            label: value ? 'Zveřejněné' : 'Nezveřejněné',
+            count: data.statements.filter((statement) => statement.published === value).length,
+            active:
+              statementsFilter !== null &&
+              statementsFilter.field === 'published' &&
+              statementsFilter.value === value,
+          }));
+
+          const evaluators = data.statements.reduce((carry, statement) => {
+            if (statement.assessment.evaluator && !carry[statement.assessment.evaluator.id]) {
+              carry[statement.assessment.evaluator.id] = statement.assessment.evaluator;
+            }
+            return carry;
+          }, {});
+
+          let evaluatorFilterOptions = Object.keys(evaluators).map((evaluatorId) => ({
+            value: evaluatorId,
+            label: `${evaluators[evaluatorId].first_name} ${evaluators[evaluatorId].last_name}`,
+            count: data.statements.filter(
+              (statement) =>
+                statement.assessment.evaluator && statement.assessment.evaluator.id === evaluatorId,
+            ).length,
+            active:
+              statementsFilter !== null &&
+              statementsFilter.field === 'assessment.evaluator.id' &&
+              statementsFilter.value === evaluatorId,
+          }));
+
+          evaluatorFilterOptions = orderBy(
+            evaluatorFilterOptions,
+            ['count', 'label'],
+            ['desc', 'asc'],
+          );
+
+          const statementsToDisplay = data.statements.filter((statement) => {
+            if (statementsFilter !== null) {
+              return get(statement, statementsFilter.field) === statementsFilter.value;
+            } else {
+              return true;
+            }
+          });
+
+          return (
+            <>
+              <div style={{ display: 'flex', marginTop: 30 }}>
+                <div style={{ flex: '0 0 220px', marginRight: 15 }}>
+                  <div
+                    className={classNames('dropdown', { show: showAddStatementDropdown })}
+                    ref={(ref) => (this.addStatementDropdown = ref)}
+                  >
+                    <button
+                      className="btn btn-secondary dropdown-toggle"
+                      type="button"
+                      id="dropdownMenuButton"
+                      onClick={this.toggleAddStatementDropdown}
+                    >
+                      Přidat výrok
+                    </button>
+                    <div
+                      className={classNames('dropdown-menu', { show: showAddStatementDropdown })}
+                    >
+                      <Link
+                        to={`/admin/sources/${source.id}/statements-from-transcript`}
+                        className="dropdown-item"
+                      >
+                        Přidat výroky výběrem z přepisu
+                      </Link>
+                      <Link
+                        to={`/admin/sources/${source.id}/statements/new`}
+                        className="dropdown-item"
+                      >
+                        Přidat výrok ručně
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                <div style={{ flex: '1 0' }}>
+                  <div className="float-right">
+                    <Link
+                      to={`/admin/sources/${source.id}/statements-sorting`}
+                      className="btn btn-secondary disabled"
+                    >
+                      Seřadit výroky
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', marginTop: 22, marginBottom: 50 }}>
+                <div style={{ flex: '0 0 220px', marginRight: 15 }}>
+                  <ul className="nav flex-column">
+                    <li className="nav-item">
+                      <a
+                        className="nav-link"
+                        style={statementsFilter === null ? { fontWeight: 'bold' } : {}}
+                        href=""
+                        onClick={this.onCancelStatementsFilterClick}
+                      >
+                        Všechny výroky ({data.statements.length})
+                      </a>
+                    </li>
+                  </ul>
+
+                  <h6 style={{ marginTop: 15 }}>Filtrovat dle stavu</h6>
+
+                  <ul className="nav flex-column">
+                    {statusFilterOptions.map((option) => (
+                      <li className="nav-item">
+                        <a
+                          className="nav-link"
+                          style={option.active ? { fontWeight: 'bold' } : {}}
+                          href=""
+                          onClick={this.onStatementsFilterClick(
+                            'assessment.evaluation_status',
+                            option.value,
+                          )}
+                        >
+                          {option.label} ({option.count})
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <h6 style={{ marginTop: 15 }}>Filtrovat dle zveřejnění</h6>
+
+                  <ul className="nav flex-column">
+                    {publishedFilterOptions.map((option) => (
+                      <li className="nav-item">
+                        <a
+                          className="nav-link"
+                          style={option.active ? { fontWeight: 'bold' } : {}}
+                          href=""
+                          onClick={this.onStatementsFilterClick('published', option.value)}
+                        >
+                          {option.label} ({option.count})
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <h6 style={{ marginTop: 15 }}>Filtrovat dle ověřovatele</h6>
+
+                  <ul className="nav flex-column">
+                    {evaluatorFilterOptions.map((option) => (
+                      <li className="nav-item">
+                        <a
+                          className="nav-link"
+                          style={option.active ? { fontWeight: 'bold' } : {}}
+                          href=""
+                          onClick={this.onStatementsFilterClick(
+                            'assessment.evaluator.id',
+                            option.value,
+                          )}
+                        >
+                          {option.label} ({option.count})
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div style={{ flex: '1 0' }}>
+                  {statementsToDisplay.map((statement) => (
+                    <StatementCard key={statement.id} statement={statement} />
+                  ))}
+                  {statementsToDisplay.length === 0 && (
+                    <p>Vybranému filtru nevyhovují žádné výroky</p>
+                  )}
+                </div>
+              </div>
+            </>
+          );
         }}
       </GetSourceStatementsQueryComponent>
     );

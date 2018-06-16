@@ -1,7 +1,7 @@
 <section class="statement-detail">
   <h1>Tento výrok byl ověřen jako
-    <span class="veracity glyphicons <%= @statement.correct_assessment.veracity.default_name %>">
-      <i></i> <%= @statement.correct_assessment.veracity.name.downcase %>
+    <span class="veracity glyphicons <%= @statement.approved_assessment.veracity.default_name %>">
+      <i></i> <%= @statement.approved_assessment.veracity.name.downcase %>
     </span>
   </h1>
 
@@ -14,7 +14,7 @@
 <article>
   <h2>Odůvodnění</h2>
   <section class="reasons">
-    <%= raw(@statement.correct_assessment.explanation) %>
+    <%= raw(@statement.approved_assessment.explanation) %>
   </section>
 </article>
 

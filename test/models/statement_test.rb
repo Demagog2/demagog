@@ -7,7 +7,7 @@ class StatementTest < ActiveSupport::TestCase
     statements = Statement.published
 
     statements.each do |statement|
-      assert_not_nil statement.correct_assessment.veracity
+      assert_not_nil statement.approved_assessment.veracity
     end
   end
 

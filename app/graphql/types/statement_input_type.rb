@@ -10,5 +10,6 @@ Types::StatementInputType = GraphQL::InputObjectType.define do
   argument :source_id, !types.ID
   argument :published, !types.Boolean
   argument :count_in_statistics, !types.Boolean
+  argument :assessment, !Types::AssessmentInputType
   argument :statement_transcript_position, Types::StatementTranscriptPositionInputType
 end

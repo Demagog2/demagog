@@ -59,7 +59,15 @@ export interface StatementInputType {
   source_id: string,
   published: boolean,
   count_in_statistics: boolean,
+  assessment: AssessmentInputType,
   statement_transcript_position?: StatementTranscriptPositionInputType | null,
+};
+
+export interface AssessmentInputType {
+  evaluation_status: string,
+  evaluator_id?: string | null,
+  explanation?: string | null,
+  veracity_id?: string | null,
 };
 
 export interface StatementTranscriptPositionInputType {
@@ -345,11 +353,20 @@ export interface GetSourceStatementsQuery {
     id: string,
     content: string,
     important: boolean,
+    published: boolean,
     speaker:  {
       id: string,
       first_name: string,
       last_name: string,
       avatar: string | null,
+    },
+    assessment:  {
+      evaluation_status: string,
+      evaluator:  {
+        id: string,
+        first_name: string | null,
+        last_name: string | null,
+      } | null,
     },
     statement_transcript_position:  {
       start_line: number,

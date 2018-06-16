@@ -8,8 +8,8 @@
 
 
 
-  <p class="veracity <%= statement.correct_assessment.veracity.default_name %>">
-    <%= statement.correct_assessment.veracity.name %>
+  <p class="veracity <%= statement.approved_assessment.veracity.default_name %>">
+    <%= statement.approved_assessment.veracity.name %>
 
     <% if statement.important? %>
       <span class="label important">důležitý výrok</span>
@@ -26,6 +26,6 @@
   </p>
 
   <section class="reasons">
-    <%= raw(statement.correct_assessment.explanation) %>
+    <%= raw(statement.approved_assessment.explanation) %>
   </section>
 </article>
