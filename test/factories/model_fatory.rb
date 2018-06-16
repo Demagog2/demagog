@@ -69,7 +69,7 @@ FactoryBot.define do
 
   factory :assessment do
     statement
-    user
+    association :evaluator, factory: :user
     association :veracity, factory: :true
 
     evaluation_status Assessment::STATUS_APPROVED
