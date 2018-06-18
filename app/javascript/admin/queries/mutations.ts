@@ -146,7 +146,7 @@ export const DeleteUser = gql`
 `;
 
 export const CreateStatement = gql`
-  mutation CreateStatement($statementInput: StatementInputType!) {
+  mutation CreateStatement($statementInput: CreateStatementInputType!) {
     createStatement(statement_input: $statementInput) {
       id
       content
@@ -154,6 +154,39 @@ export const CreateStatement = gql`
       important
       speaker {
         id
+      }
+    }
+  }
+`;
+
+export const UpdateStatement = gql`
+  mutation UpdateStatement($id: Int!, $statementInput: UpdateStatementInputType!) {
+    updateStatement(id: $id, statement_input: $statementInput) {
+      id
+      content
+      important
+      published
+      excerpted_at
+      speaker {
+        id
+        first_name
+        last_name
+        avatar
+      }
+      assessment {
+        id
+        explanation
+        evaluation_status
+        evaluator {
+          id
+          first_name
+          last_name
+        }
+        veracity {
+          id
+          key
+          name
+        }
       }
     }
   }

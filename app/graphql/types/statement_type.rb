@@ -8,6 +8,7 @@ Types::StatementType = GraphQL::ObjectType.define do
   field :excerpted_at, !types.String
   field :important, !types.Boolean
   field :speaker, !Types::SpeakerType
+  field :source, !Types::SourceType
   field :statement_transcript_position, Types::StatementTranscriptPositionType
   # field :assessment, Types::AssessmentType do
   #   resolve ->(obj, args, ctx) {

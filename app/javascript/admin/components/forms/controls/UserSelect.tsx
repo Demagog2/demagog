@@ -24,6 +24,7 @@ interface IGetUsersQuery {
 class GetUsersQueryComponent extends Query<IGetUsersQuery> {}
 
 interface IProps {
+  disabled?: boolean;
   value?: string | null;
   onChange: (value: string | null) => void;
   onBlur: () => void;
@@ -51,6 +52,7 @@ export default class UserSelect extends React.Component<IProps> {
               onChange={(option: Option<string>) => this.props.onChange(option.value || null)}
               onBlur={this.props.onBlur}
               placeholder="Vyberte …"
+              disabled={this.props.disabled || false}
             />
           );
         }}

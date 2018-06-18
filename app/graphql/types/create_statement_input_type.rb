@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-Types::StatementInputType = GraphQL::InputObjectType.define do
-  name "StatementInputType"
+Types::CreateStatementInputType = GraphQL::InputObjectType.define do
+  name "CreateStatementInputType"
 
   argument :content, !types.String
   argument :excerpted_at, !types.String
@@ -10,6 +10,6 @@ Types::StatementInputType = GraphQL::InputObjectType.define do
   argument :source_id, !types.ID
   argument :published, !types.Boolean
   argument :count_in_statistics, !types.Boolean
-  argument :assessment, !Types::AssessmentInputType
+  argument :assessment, !Types::CreateAssessmentInputType
   argument :statement_transcript_position, Types::StatementTranscriptPositionInputType
 end

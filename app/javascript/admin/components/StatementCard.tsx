@@ -3,23 +3,12 @@ import * as React from 'react';
 import { ApolloError } from 'apollo-client';
 import { truncate } from 'lodash';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
-import {
-  ASSESSMENT_STATUS_APPROVAL_NEEDED,
-  ASSESSMENT_STATUS_APPROVED,
-  ASSESSMENT_STATUS_BEING_EVALUATED,
-  ASSESSMENT_STATUS_UNASSIGNED,
-} from '../constants';
+import { ASSESSMENT_STATUS_LABELS } from '../constants';
 import { DeleteStatement } from '../queries/mutations';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
-
-const STATUS_LABELS = {
-  [ASSESSMENT_STATUS_UNASSIGNED]: 'nepřiřazený',
-  [ASSESSMENT_STATUS_BEING_EVALUATED]: 've zpracování',
-  [ASSESSMENT_STATUS_APPROVAL_NEEDED]: 'ke kontrole',
-  [ASSESSMENT_STATUS_APPROVED]: 'schválený',
-};
 
 interface IStatement {
   id: string;
@@ -107,9 +96,12 @@ class StatementCard extends React.Component<IProps, IState> {
         <div className="card mb-3">
           <div className="card-body">
             <div className="float-right" style={{ marginTop: -7 }}>
-              <button type="button" className="btn btn-sm btn-outline-secondary" disabled>
+              <Link
+                to={`/admin/statements/${statement.id}`}
+                className="btn btn-sm btn-outline-secondary"
+              >
                 Na detail výroku
-              </button>
+              </Link>
               <button
                 type="button"
                 className="btn btn-sm btn-outline-secondary ml-1"
@@ -125,7 +117,7 @@ class StatementCard extends React.Component<IProps, IState> {
             <p style={{ margin: 0 }}>{statement.content}</p>
           </div>
           <div className="card-footer text-muted small">
-            Stav: {STATUS_LABELS[assessment.evaluation_status]}
+            Stav: {ASSESSMENT_STATUS_LABELS[assessment.evaluation_status]}
             {assessment.evaluator && (
               <>
                 {' · '}

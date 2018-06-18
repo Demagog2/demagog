@@ -67,6 +67,7 @@ export const GetSourceStatements = gql`
         avatar
       }
       assessment {
+        id
         evaluation_status
         evaluator {
           id
@@ -75,6 +76,7 @@ export const GetSourceStatements = gql`
         }
       }
       statement_transcript_position {
+        id
         start_line
         start_offset
         end_line
@@ -198,6 +200,54 @@ export const GetSpeakers = gql`
         }
         since
         until
+      }
+    }
+  }
+`;
+
+export const GetStatement = gql`
+  query GetStatement($id: Int!) {
+    statement(id: $id, include_unapproved: true) {
+      id
+      content
+      important
+      published
+      excerpted_at
+      speaker {
+        id
+        first_name
+        last_name
+        avatar
+      }
+      assessment {
+        id
+        explanation
+        short_explanation
+        evaluation_status
+        evaluator {
+          id
+          first_name
+          last_name
+        }
+        veracity {
+          id
+          key
+          name
+        }
+      }
+      source {
+        id
+        name
+        source_url
+        released_at
+        medium {
+          id
+          name
+        }
+        media_personality {
+          id
+          name
+        }
       }
     }
   }

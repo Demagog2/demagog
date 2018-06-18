@@ -3,6 +3,8 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 @import "react-select/scss/default.scss";
+@import "@blueprintjs/core/lib/css/blueprint";
+@import "@blueprintjs/icons/lib/css/blueprint-icons";
 
 body {
   font-size: .875rem;

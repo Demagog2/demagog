@@ -13,14 +13,13 @@ import * as Slate from 'slate';
 import Plain from 'slate-plain-serializer';
 import { Editor } from 'slate-react';
 
-import { ASSESSMENT_STATUS_BEING_EVALUATED, ASSESSMENT_STATUS_UNASSIGNED } from '../constants';
 import {
+  CreateStatementInputType,
   CreateStatementMutation,
   CreateStatementMutationVariables,
   GetSourceQuery,
   GetSourceStatementsQuery,
   GetSourceStatementsQueryVariables,
-  StatementInputType,
 } from '../operation-result-types';
 import { CreateStatement } from '../queries/mutations';
 import { GetSource, GetSourceStatements } from '../queries/queries';
@@ -309,7 +308,7 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
             //   return errors;
             // }}
             onSubmit={(values, { setSubmitting }) => {
-              const statementInput: StatementInputType = {
+              const statementInput: CreateStatementInputType = {
                 content: values.content,
                 speaker_id: values.speaker_id,
                 source_id: source.id,
@@ -318,9 +317,6 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
                 count_in_statistics: false,
                 excerpted_at: DateTime.utc().toISO(),
                 assessment: {
-                  evaluation_status: values.evaluator_id
-                    ? ASSESSMENT_STATUS_BEING_EVALUATED
-                    : ASSESSMENT_STATUS_UNASSIGNED,
                   evaluator_id: values.evaluator_id,
                 },
                 statement_transcript_position: {
@@ -682,7 +678,7 @@ const addMarksFromStatements = (
     }
   });
 
-  return (change as any).setValue({ decorations });
+  return change.setValue({ decorations });
 };
 
 const findInlineNodeByLineNumber = (document: Slate.Document, line: number): Slate.Inline => {
@@ -727,7 +723,7 @@ const highlightNewStatementSelection = (
     );
   }
 
-  return (change as any).setValue({ decorations });
+  return change.setValue({ decorations });
 };
 
 const removeDecorationsWithMarkType = (

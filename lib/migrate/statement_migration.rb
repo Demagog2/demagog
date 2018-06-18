@@ -74,7 +74,7 @@ class StatementMigration
   def migrate_assessments(old_statements)
     keys = [
       :statement_id,
-      :explanation,
+      :explanation_html,
       :veracity_id,
       :evaluation_status,
       :user_id,

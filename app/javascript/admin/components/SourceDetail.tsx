@@ -122,7 +122,11 @@ class SourceDetail extends React.Component<IProps, IState> {
         query={GetSource}
         variables={{ id: parseInt(this.props.match.params.sourceId, 10) }}
       >
-        {({ data, loading }) => {
+        {({ data, loading, error }) => {
+          if (error) {
+            console.error(error); // tslint:disable-line:no-console
+          }
+
           if (loading) {
             return <Loading />;
           }
@@ -211,7 +215,11 @@ class SourceDetail extends React.Component<IProps, IState> {
         query={GetSourceStatements}
         variables={{ sourceId: parseInt(source.id, 10) }}
       >
-        {({ data, loading }) => {
+        {({ data, loading, error }) => {
+          if (error) {
+            console.error(error); // tslint:disable-line:no-console
+          }
+
           if (loading) {
             return <Loading />;
           }
@@ -243,8 +251,6 @@ class SourceDetail extends React.Component<IProps, IState> {
               </div>
             );
           }
-
-          // TODO: pagination maybe?
 
           const statusFilterOptions = Object.keys(STATUS_FILTER_LABELS).map((statusKey) => ({
             value: statusKey,
@@ -367,7 +373,7 @@ class SourceDetail extends React.Component<IProps, IState> {
 
                   <ul className="nav flex-column">
                     {statusFilterOptions.map((option) => (
-                      <li className="nav-item">
+                      <li className="nav-item" key={option.value}>
                         <a
                           className="nav-link"
                           style={option.active ? { fontWeight: 'bold' } : {}}
@@ -387,7 +393,7 @@ class SourceDetail extends React.Component<IProps, IState> {
 
                   <ul className="nav flex-column">
                     {publishedFilterOptions.map((option) => (
-                      <li className="nav-item">
+                      <li className="nav-item" key={String(option.value)}>
                         <a
                           className="nav-link"
                           style={option.active ? { fontWeight: 'bold' } : {}}
@@ -404,7 +410,7 @@ class SourceDetail extends React.Component<IProps, IState> {
 
                   <ul className="nav flex-column">
                     {evaluatorFilterOptions.map((option) => (
-                      <li className="nav-item">
+                      <li className="nav-item" key={option.value}>
                         <a
                           className="nav-link"
                           style={option.active ? { fontWeight: 'bold' } : {}}

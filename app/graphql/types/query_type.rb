@@ -103,11 +103,19 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
-  field :statement, Types::StatementType do
+  field :statement, !Types::StatementType do
     argument :id, !types.Int
+    argument :include_unapproved, types.Boolean, default_value: false
 
     resolve -> (obj, args, ctx) {
       begin
+        if args[:include_unapproved]
+          # Public cannot access unapproved statements
+          raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+
+          return Statement.find(args[:id])
+        end
+
         Statement.where(published: true).find(args[:id])
       rescue ActiveRecord::RecordNotFound => e
         raise GraphQL::ExecutionError.new("Could not find Statement with id=#{args[:id]}")
@@ -184,7 +192,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
-  field :veracities, types[Types::VeracityType] do
+  field :veracities, !types[!Types::VeracityType] do
     resolve -> (obj, args, ctx) {
       Veracity.all
     }

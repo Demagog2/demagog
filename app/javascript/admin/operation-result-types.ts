@@ -51,7 +51,7 @@ export interface UserInputType {
   rank?: number | null,
 };
 
-export interface StatementInputType {
+export interface CreateStatementInputType {
   content: string,
   excerpted_at: string,
   important: boolean,
@@ -59,12 +59,11 @@ export interface StatementInputType {
   source_id: string,
   published: boolean,
   count_in_statistics: boolean,
-  assessment: AssessmentInputType,
+  assessment: CreateAssessmentInputType,
   statement_transcript_position?: StatementTranscriptPositionInputType | null,
 };
 
-export interface AssessmentInputType {
-  evaluation_status: string,
+export interface CreateAssessmentInputType {
   evaluator_id?: string | null,
   explanation?: string | null,
   veracity_id?: string | null,
@@ -75,6 +74,22 @@ export interface StatementTranscriptPositionInputType {
   start_offset: number,
   end_line: number,
   end_offset: number,
+};
+
+export interface UpdateStatementInputType {
+  content?: string | null,
+  important?: boolean | null,
+  published?: boolean | null,
+  count_in_statistics?: boolean | null,
+  assessment?: UpdateAssessmentInputType | null,
+};
+
+export interface UpdateAssessmentInputType {
+  evaluator_id?: string | null,
+  evaluation_status?: string | null,
+  explanation?: string | null,
+  short_explanation?: string | null,
+  veracity_id?: string | null,
 };
 
 export interface CreateSourceMutationVariables {
@@ -263,7 +278,7 @@ export interface DeleteUserMutation {
 };
 
 export interface CreateStatementMutationVariables {
-  statementInput: StatementInputType,
+  statementInput: CreateStatementInputType,
 };
 
 export interface CreateStatementMutation {
@@ -275,6 +290,43 @@ export interface CreateStatementMutation {
     important: boolean,
     speaker:  {
       id: string,
+    },
+  } | null,
+};
+
+export interface UpdateStatementMutationVariables {
+  id: number,
+  statementInput: UpdateStatementInputType,
+};
+
+export interface UpdateStatementMutation {
+  // Update existing statement
+  updateStatement:  {
+    id: string,
+    content: string,
+    important: boolean,
+    published: boolean,
+    excerpted_at: string,
+    speaker:  {
+      id: string,
+      first_name: string,
+      last_name: string,
+      avatar: string | null,
+    },
+    assessment:  {
+      id: string,
+      explanation: string | null,
+      evaluation_status: string,
+      evaluator:  {
+        id: string,
+        first_name: string | null,
+        last_name: string | null,
+      } | null,
+      veracity:  {
+        id: string,
+        key: string,
+        name: string,
+      } | null,
     },
   } | null,
 };
@@ -361,6 +413,7 @@ export interface GetSourceStatementsQuery {
       avatar: string | null,
     },
     assessment:  {
+      id: string,
       evaluation_status: string,
       evaluator:  {
         id: string,
@@ -369,6 +422,7 @@ export interface GetSourceStatementsQuery {
       } | null,
     },
     statement_transcript_position:  {
+      id: string,
       start_line: number,
       start_offset: number,
       end_line: number,
@@ -505,4 +559,54 @@ export interface GetSpeakersQuery {
       until: string | null,
     } >,
   } >,
+};
+
+export interface GetStatementQueryVariables {
+  id: number,
+};
+
+export interface GetStatementQuery {
+  statement:  {
+    id: string,
+    content: string,
+    important: boolean,
+    published: boolean,
+    excerpted_at: string,
+    speaker:  {
+      id: string,
+      first_name: string,
+      last_name: string,
+      avatar: string | null,
+    },
+    assessment:  {
+      id: string,
+      explanation: string | null,
+      short_explanation: string | null,
+      evaluation_status: string,
+      evaluator:  {
+        id: string,
+        first_name: string | null,
+        last_name: string | null,
+      } | null,
+      veracity:  {
+        id: string,
+        key: string,
+        name: string,
+      } | null,
+    },
+    source:  {
+      id: string,
+      name: string,
+      source_url: string | null,
+      released_at: string,
+      medium:  {
+        id: string,
+        name: string,
+      },
+      media_personality:  {
+        id: string,
+        name: string,
+      },
+    },
+  },
 };

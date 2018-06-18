@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_15_022320) do
+ActiveRecord::Schema.define(version: 2018_06_16_084630) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 2018_06_15_022320) do
   end
 
   create_table "assessments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.text "explanation"
+    t.text "explanation_legacy"
     t.string "evaluation_status"
     t.datetime "evaluated_at"
     t.bigint "veracity_id"
@@ -86,6 +86,8 @@ ActiveRecord::Schema.define(version: 2018_06_15_022320) do
     t.bigint "statement_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "explanation_short"
+    t.text "explanation"
     t.index ["statement_id"], name: "index_assessments_on_statement_id"
     t.index ["user_id"], name: "index_assessments_on_user_id"
     t.index ["veracity_id"], name: "index_assessments_on_veracity_id"

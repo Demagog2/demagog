@@ -5,7 +5,7 @@ Mutations::CreateStatement = GraphQL::Field.define do
   type Types::StatementType
   description "Add new statement"
 
-  argument :statement_input, !Types::StatementInputType
+  argument :statement_input, !Types::CreateStatementInputType
 
   resolve -> (obj, args, ctx) {
     raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
@@ -23,20 +23,13 @@ Mutations::CreateStatement = GraphQL::Field.define do
         StatementTranscriptPosition.create!(transcript_position_input)
       end
 
-      if assessment_input["evaluator_id"].nil? && assessment_input["evaluation_status"] != Assessment::STATUS_UNASSIGNED
-        raise GraphQL::ExecutionError.new("When not passing user_id, evaluation_status must be unassigned")
-      end
-
       evaluator_id = assessment_input.delete("evaluator_id")
-      if evaluator_id.nil?
-        if assessment_input["evaluation_status"] != Assessment::STATUS_UNASSIGNED
-          raise GraphQL::ExecutionError.new("When not passing evaluator_id, evaluation_status must be unassigned")
-        end
-      else
+      unless evaluator_id.nil?
         assessment_input["evaluator"] = User.find(evaluator_id)
       end
 
       assessment_input["statement"] = statement
+      assessment_input["evaluation_status"] = Assessment::STATUS_BEING_EVALUATED
       Assessment.create!(assessment_input)
 
       statement

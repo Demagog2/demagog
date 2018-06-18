@@ -20,6 +20,7 @@ import SourceEdit from './components/SourceEdit';
 import SourceNew from './components/SourceNew';
 import Sources from './components/Sources';
 
+import StatementDetail from './components/StatementDetail';
 import StatementsFromTranscript from './components/StatementsFromTranscript';
 
 import UserEdit from './components/UserEdit';
@@ -49,6 +50,8 @@ export default function App() {
                   exact
                   component={StatementsFromTranscript}
                 />
+
+                <Route path="/admin/statements/:id" exact component={StatementDetail} />
 
                 <Route path="/admin/bodies" exact component={Bodies} />
                 <Route path="/admin/bodies/new" exact component={BodyNew} />
