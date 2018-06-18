@@ -14,7 +14,6 @@ import {
   ASSESSMENT_STATUS_APPROVAL_NEEDED,
   ASSESSMENT_STATUS_APPROVED,
   ASSESSMENT_STATUS_BEING_EVALUATED,
-  ASSESSMENT_STATUS_UNASSIGNED,
 } from '../constants';
 import {
   GetSourceQuery,
@@ -35,7 +34,6 @@ class GetSourceStatementsQueryComponent extends Query<
 > {}
 
 const STATUS_FILTER_LABELS = {
-  [ASSESSMENT_STATUS_UNASSIGNED]: 'Nepřiřazené',
   [ASSESSMENT_STATUS_BEING_EVALUATED]: 'Ve zpracování',
   [ASSESSMENT_STATUS_APPROVAL_NEEDED]: 'Ke kontrole',
   [ASSESSMENT_STATUS_APPROVED]: 'Schválené',

@@ -35,7 +35,6 @@ end
 class Assessment < ApplicationRecord
   include ActiveModel::Dirty
 
-  STATUS_UNASSIGNED = "unassigned"
   STATUS_BEING_EVALUATED = "being_evaluated"
   STATUS_APPROVAL_NEEDED = "approval_needed"
   STATUS_APPROVED = "approved"
