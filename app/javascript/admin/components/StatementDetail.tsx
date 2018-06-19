@@ -69,6 +69,7 @@ class StatementDetail extends React.Component<IProps> {
           const statement = data.statement;
 
           const initialValues = {
+            content: statement.content,
             published: statement.published,
             assessment: {
               evaluation_status: statement.assessment.evaluation_status,
@@ -122,6 +123,10 @@ class StatementDetail extends React.Component<IProps> {
 
                     if (initialValues.published !== values.published) {
                       statementInput.published = values.published;
+                    }
+
+                    if (initialValues.content !== values.content) {
+                      statementInput.content = values.content;
                     }
 
                     if (
@@ -183,7 +188,7 @@ class StatementDetail extends React.Component<IProps> {
                     status,
                   }) => (
                     <div style={{ marginTop: 15 }}>
-                      <FormikAutoSave debounceWait={1000} submitForm={submitForm} values={values} />
+                      <FormikAutoSave debounceWait={500} submitForm={submitForm} values={values} />
                       <div className="float-right">
                         <Link
                           to={`/admin/sources/${statement.source.id}`}
@@ -208,7 +213,18 @@ class StatementDetail extends React.Component<IProps> {
                           <h5>
                             {statement.speaker.first_name} {statement.speaker.last_name}
                           </h5>
-                          <p>{statement.content}</p>
+                          <textarea
+                            disabled={
+                              values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED
+                            }
+                            className="form-control"
+                            style={{ marginBottom: 5 }}
+                            name="content"
+                            rows={4}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.content || ''}
+                          />
                           <p className="text-muted">
                             Zdroj: {statement.source.medium.name},{' '}
                             {displayDate(statement.source.released_at)},{' '}
@@ -231,8 +247,7 @@ class StatementDetail extends React.Component<IProps> {
                             <div className="col-sm-8">
                               <VeracitySelect
                                 disabled={
-                                  statement.assessment.evaluation_status ===
-                                  ASSESSMENT_STATUS_APPROVED
+                                  values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED
                                 }
                                 onChange={(value) => setFieldValue('assessment.veracity_id', value)}
                                 onBlur={() => setFieldTouched('assessment.veracity_id')}
@@ -246,8 +261,7 @@ class StatementDetail extends React.Component<IProps> {
                             </label>
                             <textarea
                               disabled={
-                                statement.assessment.evaluation_status ===
-                                ASSESSMENT_STATUS_APPROVED
+                                values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED
                               }
                               className="form-control"
                               id="assessment-short-explanation"
@@ -267,8 +281,7 @@ class StatementDetail extends React.Component<IProps> {
                             </label>
                             <textarea
                               disabled={
-                                statement.assessment.evaluation_status ===
-                                ASSESSMENT_STATUS_APPROVED
+                                values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED
                               }
                               className="form-control"
                               id="assessment-explanation"
@@ -288,7 +301,12 @@ class StatementDetail extends React.Component<IProps> {
                             </label>
                             <div className="col-sm-8">
                               <EvaluationStatusInput
-                                disabled={statement.published}
+                                disabled={
+                                  values.published ||
+                                  !values.assessment.veracity_id ||
+                                  !values.assessment.short_explanation ||
+                                  !values.assessment.explanation_html
+                                }
                                 value={values.assessment.evaluation_status}
                                 onChange={(value) =>
                                   setFieldValue('assessment.evaluation_status', value)
@@ -304,7 +322,7 @@ class StatementDetail extends React.Component<IProps> {
                               {/* TODO: add tooltip to explain when the user select is disabled? */}
                               <UserSelect
                                 disabled={
-                                  statement.assessment.evaluation_status !==
+                                  values.assessment.evaluation_status !==
                                   ASSESSMENT_STATUS_BEING_EVALUATED
                                 }
                                 onChange={(value) =>
@@ -322,8 +340,7 @@ class StatementDetail extends React.Component<IProps> {
                             <div className="col-sm-8" style={{ paddingTop: 8 }}>
                               <Tooltip
                                 disabled={
-                                  statement.assessment.evaluation_status ===
-                                  ASSESSMENT_STATUS_APPROVED
+                                  values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED
                                 }
                                 content="Aby šel výrok zveřejnit, musí být ve schváleném stavu"
                                 position={Position.TOP}
@@ -336,7 +353,7 @@ class StatementDetail extends React.Component<IProps> {
                                   inline
                                   style={{ margin: 0 }}
                                   disabled={
-                                    statement.assessment.evaluation_status !==
+                                    values.assessment.evaluation_status !==
                                     ASSESSMENT_STATUS_APPROVED
                                   }
                                 />
@@ -388,13 +405,19 @@ class EvaluationStatusInput extends React.Component<IEvaluationStatusInputProps>
         />
 
         {value === ASSESSMENT_STATUS_BEING_EVALUATED && (
-          <button
-            type="button"
-            className={classNames('btn', 'btn-outline-secondary', { disabled })}
-            onClick={this.onChange(ASSESSMENT_STATUS_APPROVAL_NEEDED)}
+          <Tooltip
+            disabled={!disabled}
+            content="Aby šel výrok posunout ke kontrole, musí být vyplněné hodnocení a odůvodnění, včetně zkráceného"
+            position={Position.TOP}
           >
-            Posunout ke kontrole
-          </button>
+            <button
+              type="button"
+              className={classNames('btn', 'btn-outline-secondary', { disabled })}
+              onClick={this.onChange(ASSESSMENT_STATUS_APPROVAL_NEEDED)}
+            >
+              Posunout ke kontrole
+            </button>
+          </Tooltip>
         )}
 
         {value === ASSESSMENT_STATUS_APPROVAL_NEEDED && (

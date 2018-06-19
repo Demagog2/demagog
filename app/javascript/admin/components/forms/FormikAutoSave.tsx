@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { isEqual } from 'lodash';
+import { debounce, isEqual } from 'lodash';
 
 interface IProps {
   debounceWait: number;
@@ -9,14 +9,13 @@ interface IProps {
 }
 
 class FormikAutoSave extends React.Component<IProps> {
-  // public submit = debounce(() => {
-  //   this.props.submitForm();
-  // }, this.props.debounceWait);
+  public submit = debounce(() => {
+    this.props.submitForm();
+  }, this.props.debounceWait);
 
   public componentDidUpdate(prevProps) {
     if (!isEqual(prevProps.values, this.props.values)) {
-      // this.submit();
-      this.props.submitForm();
+      this.submit();
     }
   }
 
