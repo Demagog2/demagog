@@ -73,6 +73,7 @@ FactoryBot.define do
     association :veracity, factory: :true
 
     evaluation_status Assessment::STATUS_APPROVED
+    explanation_html "Lorem ipsum <strong>dolor</strong> sit amet"
   end
 
   factory :veracity do

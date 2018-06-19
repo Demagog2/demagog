@@ -2,7 +2,7 @@
 
 class AssessmentValidator < ActiveModel::Validator
   def validate(assessment)
-    if assessment.evaluation_status_changed?
+    if assessment.evaluation_status_changed? && !assessment.evaluation_status_was.nil?
       case assessment.evaluation_status_was
       when Assessment::STATUS_BEING_EVALUATED
         if assessment.evaluation_status != Assessment::STATUS_APPROVAL_NEEDED

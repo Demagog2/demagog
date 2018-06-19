@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 2018_06_16_084630) do
   end
 
   create_table "assessments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.text "explanation_legacy"
+    t.text "explanation_html"
     t.string "evaluation_status"
     t.datetime "evaluated_at"
     t.bigint "veracity_id"
@@ -86,8 +86,8 @@ ActiveRecord::Schema.define(version: 2018_06_16_084630) do
     t.bigint "statement_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "explanation_short"
-    t.text "explanation"
+    t.text "short_explanation"
+    t.text "explanation_slatejson"
     t.index ["statement_id"], name: "index_assessments_on_statement_id"
     t.index ["user_id"], name: "index_assessments_on_user_id"
     t.index ["veracity_id"], name: "index_assessments_on_veracity_id"
