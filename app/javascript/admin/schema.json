@@ -2676,11 +2676,35 @@
             },
             {
               "name": "explanation",
+              "description": "Alias for explanation_html",
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "explanation_html",
               "description": null,
               "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "explanation_slatejson",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "JsonType",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -3028,6 +3052,16 @@
           ],
           "inputFields": null,
           "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "JsonType",
+          "description": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },
@@ -4598,11 +4632,21 @@
               "defaultValue": null
             },
             {
-              "name": "explanation",
+              "name": "explanation_html",
               "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "explanation_slatejson",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "JsonType",
                 "ofType": null
               },
               "defaultValue": null

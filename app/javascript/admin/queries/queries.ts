@@ -221,7 +221,8 @@ export const GetStatement = gql`
       }
       assessment {
         id
-        explanation
+        explanation_html
+        explanation_slatejson
         short_explanation
         evaluation_status
         evaluator {

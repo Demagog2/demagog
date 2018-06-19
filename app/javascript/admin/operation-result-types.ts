@@ -87,7 +87,8 @@ export interface UpdateStatementInputType {
 export interface UpdateAssessmentInputType {
   evaluator_id?: string | null,
   evaluation_status?: string | null,
-  explanation?: string | null,
+  explanation_html?: string | null,
+  explanation_slatejson?: string | null,
   short_explanation?: string | null,
   veracity_id?: string | null,
 };
@@ -315,6 +316,7 @@ export interface UpdateStatementMutation {
     },
     assessment:  {
       id: string,
+      // Alias for explanation_html
       explanation: string | null,
       evaluation_status: string,
       evaluator:  {
@@ -580,7 +582,8 @@ export interface GetStatementQuery {
     },
     assessment:  {
       id: string,
-      explanation: string | null,
+      explanation_html: string | null,
+      explanation_slatejson: string | null,
       short_explanation: string | null,
       evaluation_status: string,
       evaluator:  {

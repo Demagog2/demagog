@@ -25,6 +25,7 @@ interface IGetVeracitiesQuery {
 class GetVeracitiesQueryComponent extends Query<IGetVeracitiesQuery> {}
 
 interface IProps {
+  disabled?: boolean;
   value?: string | null;
   onChange: (value: string | null) => void;
   onBlur: () => void;
@@ -54,6 +55,7 @@ export default class VeracitySelect extends React.Component<IProps> {
               }
               onBlur={this.props.onBlur}
               placeholder="Zatím nehodnoceno"
+              disabled={this.props.disabled || false}
             />
           );
         }}

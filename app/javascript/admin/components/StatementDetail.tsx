@@ -4,6 +4,7 @@ import { Position, Switch, Tooltip } from '@blueprintjs/core';
 import { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
 import { Formik } from 'formik';
+import { isEqual } from 'lodash';
 import { Mutation, Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
@@ -73,6 +74,8 @@ class StatementDetail extends React.Component<IProps> {
               evaluation_status: statement.assessment.evaluation_status,
               veracity_id: statement.assessment.veracity ? statement.assessment.veracity.id : null,
               short_explanation: statement.assessment.short_explanation,
+              explanation_html: statement.assessment.explanation_html,
+              explanation_slatejson: statement.assessment.explanation_slatejson,
               evaluator_id: statement.assessment.evaluator
                 ? statement.assessment.evaluator.id
                 : null,
@@ -119,6 +122,26 @@ class StatementDetail extends React.Component<IProps> {
 
                     if (initialValues.published !== values.published) {
                       statementInput.published = values.published;
+                    }
+
+                    if (
+                      initialValues.assessment.explanation_html !==
+                      values.assessment.explanation_html
+                    ) {
+                      statementInput.assessment = statementInput.assessment || {};
+                      statementInput.assessment.explanation_html =
+                        values.assessment.explanation_html;
+                    }
+
+                    if (
+                      !isEqual(
+                        initialValues.assessment.explanation_slatejson,
+                        values.assessment.explanation_slatejson,
+                      )
+                    ) {
+                      statementInput.assessment = statementInput.assessment || {};
+                      statementInput.assessment.explanation_slatejson =
+                        values.assessment.explanation_slatejson;
                     }
 
                     updateStatement({
@@ -207,6 +230,10 @@ class StatementDetail extends React.Component<IProps> {
                             </label>
                             <div className="col-sm-8">
                               <VeracitySelect
+                                disabled={
+                                  statement.assessment.evaluation_status ===
+                                  ASSESSMENT_STATUS_APPROVED
+                                }
                                 onChange={(value) => setFieldValue('assessment.veracity_id', value)}
                                 onBlur={() => setFieldTouched('assessment.veracity_id')}
                                 value={values.assessment.veracity_id}
@@ -218,6 +245,10 @@ class StatementDetail extends React.Component<IProps> {
                               Odůvodnění zkráceně
                             </label>
                             <textarea
+                              disabled={
+                                statement.assessment.evaluation_status ===
+                                ASSESSMENT_STATUS_APPROVED
+                              }
                               className="form-control"
                               id="assessment-short-explanation"
                               name="assessment.short_explanation"
@@ -231,10 +262,22 @@ class StatementDetail extends React.Component<IProps> {
                             </small>
                           </div>
                           <div className="form-group">
-                            <label htmlFor="explanation" className="form-label">
+                            <label htmlFor="assessment-explanation" className="form-label">
                               Odůvodnění
                             </label>
-                            <textarea className="form-control" id="explanation" rows={5} />
+                            <textarea
+                              disabled={
+                                statement.assessment.evaluation_status ===
+                                ASSESSMENT_STATUS_APPROVED
+                              }
+                              className="form-control"
+                              id="assessment-explanation"
+                              name="assessment.explanation_html"
+                              rows={5}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.assessment.explanation_html || ''}
+                            />
                           </div>
                         </div>
 
