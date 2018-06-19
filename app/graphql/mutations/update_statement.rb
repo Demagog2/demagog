@@ -20,7 +20,10 @@ Mutations::UpdateStatement = GraphQL::Field.define do
       Statement.transaction do
         if assessment_input
           evaluator_id = assessment_input.delete("evaluator_id")
-          unless evaluator_id.nil?
+
+          if evaluator_id.nil? && args[:statement_input][:assessment].key?("evaluator_id")
+            assessment_input["evaluator"] = nil
+          elsif !evaluator_id.nil?
             assessment_input["evaluator"] = User.find(evaluator_id)
           end
 

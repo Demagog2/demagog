@@ -49,7 +49,9 @@ export default class UserSelect extends React.Component<IProps> {
               value={this.props.value || undefined}
               isLoading={loading}
               options={options}
-              onChange={(option: Option<string>) => this.props.onChange(option.value || null)}
+              onChange={(option: Option<string>) =>
+                this.props.onChange((option && option.value) || null)
+              }
               onBlur={this.props.onBlur}
               placeholder="Vyberte …"
               disabled={this.props.disabled || false}
