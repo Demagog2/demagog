@@ -97,7 +97,7 @@ const AddCommentForm = (props: IAddCommentFormProps) => {
           initialValues={initialValues}
           onSubmit={(values, { setSubmitting, resetForm }) => {
             const commentInput: CommentInputType = {
-              content: values.content,
+              content: values.content.trim(),
               user_id: '66', // TODO: load from logged in user
               statement_id: props.statementId,
             };
@@ -127,7 +127,7 @@ const AddCommentForm = (props: IAddCommentFormProps) => {
               <button
                 type="submit"
                 className="btn btn-outline-secondary"
-                disabled={isSubmitting}
+                disabled={isSubmitting || values.content.trim() === ''}
                 style={{ marginTop: 10 }}
               >
                 {isSubmitting ? 'Přidávám ...' : 'Přidat komentář'}
