@@ -104,6 +104,7 @@ class StatementDetail extends React.Component<IProps, IState> {
             _isEditing: false,
             content: statement.content,
             published: statement.published,
+            important: statement.important,
             assessment: {
               evaluation_status: statement.assessment.evaluation_status,
               veracity_id: statement.assessment.veracity ? statement.assessment.veracity.id : null,
@@ -174,6 +175,10 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                     if (initialValues.content !== values.content) {
                       statementInput.content = values.content;
+                    }
+
+                    if (initialValues.important !== values.important) {
+                      statementInput.important = values.important;
                     }
 
                     if (
@@ -413,7 +418,22 @@ class StatementDetail extends React.Component<IProps, IState> {
                             </div>
                           </div>
                           <hr style={{ borderTop: '2px solid #ccc' }} />
-                          <p>TODO: stitky a dulezity</p>
+                          {/* TODO: stitky */}
+                          <div className="form-group row">
+                            <label htmlFor="important" className="col-sm-4 col-form-label">
+                              Důležitý
+                            </label>
+                            <div className="col-sm-8" style={{ paddingTop: 8 }}>
+                              <Switch
+                                name="important"
+                                checked={values.important}
+                                onChange={handleChange}
+                                large
+                                inline
+                                style={{ margin: 0 }}
+                              />
+                            </div>
+                          </div>
                           <hr style={{ borderTop: '2px solid #ccc' }} />
                           <p>TODO: komentare</p>
                         </div>
