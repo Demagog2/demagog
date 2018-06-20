@@ -253,3 +253,21 @@ export const GetStatement = gql`
     }
   }
 `;
+
+export const GetStatementComments = gql`
+  query GetStatementComments($id: Int!) {
+    statement(id: $id, include_unapproved: true) {
+      id
+      comments {
+        id
+        content
+        user {
+          id
+          first_name
+          last_name
+        }
+        created_at
+      }
+    }
+  }
+`;

@@ -199,3 +199,18 @@ export const DeleteStatement = gql`
     deleteStatement(id: $id)
   }
 `;
+
+export const CreateComment = gql`
+  mutation CreateComment($commentInput: CommentInputType!) {
+    createComment(comment_input: $commentInput) {
+      id
+      content
+      user {
+        id
+        first_name
+        last_name
+      }
+      created_at
+    }
+  }
+`;

@@ -29,6 +29,7 @@ import UserSelect from './forms/controls/UserSelect';
 import VeracitySelect from './forms/controls/VeracitySelect';
 import FormikAutoSave from './forms/FormikAutoSave';
 import Loading from './Loading';
+import StatementComments from './StatementComments';
 
 class UpdateStatementMutationComponent extends Mutation<
   UpdateStatementMutation,
@@ -435,7 +436,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                             </div>
                           </div>
                           <hr style={{ borderTop: '2px solid #ccc' }} />
-                          <p>TODO: komentare</p>
+                          <StatementComments statementId={statement.id} />
                         </div>
                       </div>
                     </div>

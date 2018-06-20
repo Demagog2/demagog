@@ -93,6 +93,12 @@ export interface UpdateAssessmentInputType {
   veracity_id?: string | null,
 };
 
+export interface CommentInputType {
+  content: string,
+  statement_id: string,
+  user_id: string,
+};
+
 export interface CreateSourceMutationVariables {
   sourceInput: SourceInputType,
 };
@@ -341,6 +347,24 @@ export interface DeleteStatementMutationVariables {
 export interface DeleteStatementMutation {
   // Delete existing statement
   deleteStatement: string,
+};
+
+export interface CreateCommentMutationVariables {
+  commentInput: CommentInputType,
+};
+
+export interface CreateCommentMutation {
+  // Add new comment
+  createComment:  {
+    id: string,
+    content: string,
+    user:  {
+      id: string,
+      first_name: string | null,
+      last_name: string | null,
+    },
+    created_at: string,
+  } | null,
 };
 
 export interface GetSourcesQueryVariables {
@@ -612,5 +636,25 @@ export interface GetStatementQuery {
         name: string,
       },
     },
+  },
+};
+
+export interface GetStatementCommentsQueryVariables {
+  id: number,
+};
+
+export interface GetStatementCommentsQuery {
+  statement:  {
+    id: string,
+    comments:  Array< {
+      id: string,
+      content: string,
+      user:  {
+        id: string,
+        first_name: string | null,
+        last_name: string | null,
+      },
+      created_at: string,
+    } >,
   },
 };

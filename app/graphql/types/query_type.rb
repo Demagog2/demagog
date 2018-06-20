@@ -15,6 +15,16 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
+  field :comments, !types[!Types::CommentType] do
+    argument :statement_id, !types.Int
+
+    resolve -> (obj, args, ctx) {
+      raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+
+      Medium.order(name: :asc)
+    }
+  end
+
   field :source, !Types::SourceType do
     argument :id, !types.Int
 

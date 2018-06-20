@@ -17,4 +17,12 @@ Types::StatementType = GraphQL::ObjectType.define do
   # end
   field :assessment, !Types::AssessmentType
   field :published, !types.Boolean
+
+  field :comments, !types[!Types::CommentType] do
+    resolve -> (obj, args, ctx) {
+      raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+
+      obj.comments
+    }
+  end
 end

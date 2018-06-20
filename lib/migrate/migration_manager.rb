@@ -2,6 +2,7 @@
 
 require_relative "./article_migration"
 require_relative "./article_type_migration"
+require_relative "./comment_migration"
 require_relative "./medium_migration"
 require_relative "./membership_migration"
 require_relative "./body_migration"
@@ -23,6 +24,7 @@ class MigrationManager
     tasks = [
       ArticleTypeMigration,
       ArticleMigration,
+      CommentMigration,
       VeracityMigration,
       BodyMigration,
       SpeakerMigration,
