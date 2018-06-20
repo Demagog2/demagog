@@ -98,7 +98,6 @@ const AddCommentForm = (props: IAddCommentFormProps) => {
           onSubmit={(values, { setSubmitting, resetForm }) => {
             const commentInput: CommentInputType = {
               content: values.content.trim(),
-              user_id: '66', // TODO: load from logged in user
               statement_id: props.statementId,
             };
 

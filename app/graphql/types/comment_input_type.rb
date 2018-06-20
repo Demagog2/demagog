@@ -5,5 +5,4 @@ Types::CommentInputType = GraphQL::InputObjectType.define do
 
   argument :content, !types.String
   argument :statement_id, !types.ID
-  argument :user_id, !types.ID
 end

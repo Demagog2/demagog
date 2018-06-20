@@ -96,7 +96,6 @@ export interface UpdateAssessmentInputType {
 export interface CommentInputType {
   content: string,
   statement_id: string,
-  user_id: string,
 };
 
 export interface CreateSourceMutationVariables {
