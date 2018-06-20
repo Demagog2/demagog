@@ -8,11 +8,13 @@ import { Link } from 'react-router-dom';
 import { addFlashMessage } from '../actions/flashMessages';
 import { ASSESSMENT_STATUS_LABELS } from '../constants';
 import { DeleteStatement } from '../queries/mutations';
+import { pluralize } from '../utils';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 
 interface IStatement {
   id: string;
   content: string;
+  published: boolean;
   speaker: {
     id: string;
     first_name: string;
@@ -33,6 +35,7 @@ interface IStatement {
     end_line: number;
     end_offset: number;
   };
+  comments_count: number;
 }
 
 interface IProps {
@@ -117,6 +120,7 @@ class StatementCard extends React.Component<IProps, IState> {
             <p style={{ margin: 0 }}>{statement.content}</p>
           </div>
           <div className="card-footer text-muted small">
+            {statement.published && <>Zveřejněný{' · '}</>}
             Stav: {ASSESSMENT_STATUS_LABELS[assessment.evaluation_status]}
             {assessment.evaluator && (
               <>
@@ -124,7 +128,14 @@ class StatementCard extends React.Component<IProps, IState> {
                 Ověřovatel: {assessment.evaluator.first_name} {assessment.evaluator.last_name}
               </>
             )}
-            {/* {' · '}1 komentář v diskuzi k výroku */}
+            {statement.comments_count > 0 && (
+              <>
+                {' · '}
+                {statement.comments_count}{' '}
+                {pluralize(statement.comments_count, 'komentář', 'komentáře', 'komentářů')} v
+                diskuzi k výroku
+              </>
+            )}
           </div>
         </div>
       </>

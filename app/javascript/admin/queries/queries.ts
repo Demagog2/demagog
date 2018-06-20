@@ -82,6 +82,7 @@ export const GetSourceStatements = gql`
         end_line
         end_offset
       }
+      comments_count
     }
   }
 `;
@@ -250,6 +251,7 @@ export const GetStatement = gql`
           name
         }
       }
+      comments_count
     }
   }
 `;
@@ -258,6 +260,7 @@ export const GetStatementComments = gql`
   query GetStatementComments($id: Int!) {
     statement(id: $id, include_unapproved: true) {
       id
+      comments_count
       comments {
         id
         content

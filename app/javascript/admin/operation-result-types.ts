@@ -336,6 +336,7 @@ export interface UpdateStatementMutation {
         name: string,
       } | null,
     },
+    comments_count: number,
   } | null,
 };
 
@@ -454,6 +455,7 @@ export interface GetSourceStatementsQuery {
       end_line: number,
       end_offset: number,
     } | null,
+    comments_count: number,
   } >,
 };
 
@@ -635,6 +637,7 @@ export interface GetStatementQuery {
         name: string,
       },
     },
+    comments_count: number,
   },
 };
 
@@ -645,6 +648,7 @@ export interface GetStatementCommentsQueryVariables {
 export interface GetStatementCommentsQuery {
   statement:  {
     id: string,
+    comments_count: number,
     comments:  Array< {
       id: string,
       content: string,

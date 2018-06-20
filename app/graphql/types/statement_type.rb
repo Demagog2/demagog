@@ -25,4 +25,12 @@ Types::StatementType = GraphQL::ObjectType.define do
       obj.comments
     }
   end
+
+  field :comments_count, !types.Int do
+    resolve -> (obj, args, ctx) {
+      raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+
+      obj.comments.size
+    }
+  end
 end

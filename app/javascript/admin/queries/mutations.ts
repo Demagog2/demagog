@@ -190,6 +190,7 @@ export const UpdateStatement = gql`
           name
         }
       }
+      comments_count
     }
   }
 `;
