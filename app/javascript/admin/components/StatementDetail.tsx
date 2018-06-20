@@ -255,17 +255,17 @@ class StatementDetail extends React.Component<IProps, IState> {
                         </Link>
                       </div>
 
-                      <h3>Detail výroku</h3>
+                      <div style={{ display: 'flex' }}>
+                        <h3>Detail výroku</h3>
 
-                      {!status && !isSubmitting && <div>Změny jsou ukládány automaticky</div>}
+                        <div className="text-muted" style={{ marginLeft: 20, marginTop: 9 }}>
+                          {!status && !isSubmitting && 'Změny jsou ukládány automaticky'}
+                          {status && status === 'saved' && !isSubmitting && 'Změny úspěšně uloženy'}
+                          {isSubmitting && 'Ukládám změny ...'}
+                        </div>
+                      </div>
 
-                      {status &&
-                        status === 'saved' &&
-                        !isSubmitting && <div>Změny úspěšně uloženy</div>}
-
-                      {isSubmitting && <div>Ukládám změny ...</div>}
-
-                      <div style={{ display: 'flex', marginTop: 30, marginBottom: 30 }}>
+                      <div style={{ display: 'flex', marginTop: 20, marginBottom: 30 }}>
                         <div style={{ flex: '2 0' }}>
                           <h5>
                             {statement.speaker.first_name} {statement.speaker.last_name}
@@ -351,7 +351,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                           </div>
                         </div>
 
-                        <div style={{ flex: '1 0', marginLeft: 15 }}>
+                        <div style={{ flex: '1 0', marginLeft: 30 }}>
                           <div className="form-group row">
                             <label htmlFor="status" className="col-sm-4 col-form-label">
                               Stav
