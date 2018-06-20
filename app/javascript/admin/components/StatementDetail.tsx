@@ -41,8 +41,40 @@ interface IProps extends RouteComponentProps<{ id: string }> {
   dispatch: (action: any) => any;
 }
 
-class StatementDetail extends React.Component<IProps> {
+interface IState {
+  isEditing: boolean;
+}
+
+class StatementDetail extends React.Component<IProps, IState> {
   public savedMessageTimeoutId: number | null = null;
+  public isEditingTimeoutId: number | null = null;
+
+  public state: IState = {
+    isEditing: false,
+  };
+
+  public componentWillUnmount() {
+    if (this.savedMessageTimeoutId !== null) {
+      window.clearTimeout(this.savedMessageTimeoutId);
+    }
+
+    if (this.isEditingTimeoutId !== null) {
+      window.clearTimeout(this.isEditingTimeoutId);
+    }
+  }
+
+  public onFormEdit = () => {
+    this.setState({ isEditing: true });
+
+    if (this.isEditingTimeoutId !== null) {
+      window.clearTimeout(this.isEditingTimeoutId);
+    }
+
+    this.isEditingTimeoutId = window.setTimeout(() => {
+      this.setState({ isEditing: false });
+      this.isEditingTimeoutId = null;
+    }, 10000);
+  };
 
   public render() {
     const statementId = this.props.match.params.id;
@@ -69,6 +101,7 @@ class StatementDetail extends React.Component<IProps> {
           const statement = data.statement;
 
           const initialValues = {
+            _isEditing: false,
             content: statement.content,
             published: statement.published,
             assessment: {
@@ -82,14 +115,28 @@ class StatementDetail extends React.Component<IProps> {
                 : null,
             },
           };
+          let enableReinitialize = true;
+
+          if (this.state.isEditing) {
+            // When user is editing, we don't let formik reinitialize values,
+            // so users do not lose anything they are writing. But after he's
+            // done editing (no change in 10s), we let formik reinitialize with
+            // latest values and use the _isEditing field to do change in
+            // initialValues so resetForm is triggered in formik's
+            // componentDidUpdate.
+            initialValues._isEditing = true;
+            enableReinitialize = false;
+          }
 
           return (
             <UpdateStatementMutationComponent mutation={UpdateStatement}>
               {(updateStatement) => (
                 <Formik
                   initialValues={initialValues}
-                  enableReinitialize
+                  enableReinitialize={enableReinitialize}
                   onSubmit={(values, { setSubmitting, setStatus, resetForm }) => {
+                    this.onFormEdit();
+
                     const statementInput: UpdateStatementInputType = {};
 
                     // TODO: generalize
@@ -188,7 +235,12 @@ class StatementDetail extends React.Component<IProps> {
                     status,
                   }) => (
                     <div style={{ marginTop: 15 }}>
-                      <FormikAutoSave debounceWait={500} submitForm={submitForm} values={values} />
+                      <FormikAutoSave
+                        debounceWait={500}
+                        submitForm={submitForm}
+                        values={values}
+                        initialValues={initialValues}
+                      />
                       <div className="float-right">
                         <Link
                           to={`/admin/sources/${statement.source.id}`}

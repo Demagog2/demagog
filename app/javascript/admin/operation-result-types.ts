@@ -316,8 +316,9 @@ export interface UpdateStatementMutation {
     },
     assessment:  {
       id: string,
-      // Alias for explanation_html
-      explanation: string | null,
+      short_explanation: string | null,
+      explanation_html: string | null,
+      explanation_slatejson: string | null,
       evaluation_status: string,
       evaluator:  {
         id: string,

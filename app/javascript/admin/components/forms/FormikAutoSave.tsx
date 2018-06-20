@@ -6,6 +6,7 @@ interface IProps {
   debounceWait: number;
   submitForm: any;
   values: any;
+  initialValues: any;
 }
 
 class FormikAutoSave extends React.Component<IProps> {
@@ -13,8 +14,11 @@ class FormikAutoSave extends React.Component<IProps> {
     this.props.submitForm();
   }, this.props.debounceWait);
 
-  public componentDidUpdate(prevProps) {
-    if (!isEqual(prevProps.values, this.props.values)) {
+  public componentDidUpdate(prevProps: IProps) {
+    if (
+      !isEqual(prevProps.values, this.props.values) &&
+      !isEqual(this.props.values, this.props.initialValues)
+    ) {
       this.submit();
     }
   }

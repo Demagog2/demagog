@@ -175,7 +175,9 @@ export const UpdateStatement = gql`
       }
       assessment {
         id
-        explanation
+        short_explanation
+        explanation_html
+        explanation_slatejson
         evaluation_status
         evaluator {
           id
