@@ -193,6 +193,15 @@ class StatementDetail extends React.Component<IProps, IState> {
                     }
 
                     if (
+                      initialValues.assessment.explanation_html !==
+                      values.assessment.explanation_html
+                    ) {
+                      statementInput.assessment = statementInput.assessment || {};
+                      statementInput.assessment.explanation_html =
+                        values.assessment.explanation_html;
+                    }
+
+                    if (
                       !isEqual(
                         initialValues.assessment.explanation_slatejson,
                         values.assessment.explanation_slatejson,
@@ -352,9 +361,10 @@ class StatementDetail extends React.Component<IProps, IState> {
                             /> */}
                             <RichTextEditor
                               value={values.assessment.explanation_slatejson}
-                              onChange={(value) =>
-                                setFieldValue('assessment.explanation_slatejson', value)
-                              }
+                              onChange={(value, html) => {
+                                setFieldValue('assessment.explanation_slatejson', value);
+                                setFieldValue('assessment.explanation_html', html);
+                              }}
                             />
                           </div>
                         </div>

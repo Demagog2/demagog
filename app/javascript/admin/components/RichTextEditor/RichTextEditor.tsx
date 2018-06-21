@@ -6,6 +6,7 @@ import { Editor } from 'slate-react';
 import Bold from './featurePlugins/Bold';
 import Italic from './featurePlugins/Italic';
 import Underlined from './featurePlugins/Underlined';
+import HtmlSerializer from './HtmlSerializer';
 
 const bold = Bold();
 const italic = Italic();
@@ -34,7 +35,7 @@ const toolbar = [...bold.toolbar, ...italic.toolbar, ...underlined.toolbar, tool
 
 interface IProps {
   value: object | null;
-  onChange: (value: object) => void;
+  onChange: (value: object, html: string) => void;
 }
 
 interface IState {
@@ -52,7 +53,7 @@ class RichTextEditor extends React.Component<IProps, IState> {
 
   public onChange = ({ value }: Slate.Change) => {
     if (value.document !== this.state.value.document) {
-      this.props.onChange(value.toJSON());
+      this.props.onChange(value.toJSON(), HtmlSerializer.serialize(value));
     }
 
     this.setState({ value });
@@ -69,12 +70,14 @@ class RichTextEditor extends React.Component<IProps, IState> {
             borderRadius: '.25rem .25rem 0 0',
           }}
         >
-          {toolbar.map((item) =>
-            item.renderToolbarButton({
-              onChange: this.onChange,
-              value: this.state.value,
-            }),
-          )}
+          {toolbar.map((item, index) => (
+            <span key={index}>
+              {item.renderToolbarButton({
+                onChange: this.onChange,
+                value: this.state.value,
+              })}
+            </span>
+          ))}
         </div>
 
         <div
