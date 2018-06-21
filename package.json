@@ -7,6 +7,9 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^2.3.1",
+    "@fortawesome/fontawesome-svg-core": "^1.2.0-14",
+    "@fortawesome/free-solid-svg-icons": "^5.1.0-11",
+    "@fortawesome/react-fontawesome": "^0.1.0-11",
     "@rails/webpacker": "3.4",
     "@types/classnames": "^2.2.4",
     "@types/enzyme": "^3.1.10",
@@ -37,6 +40,7 @@
     "history": "^4.7.2",
     "immutable": "^3.8.2",
     "intersection-observer": "^0.4.2",
+    "is-hotkey": "^0.1.2",
     "jquery": "^2.2.4",
     "jquery-ujs": "^1.2.2",
     "lodash": "^4.17.5",

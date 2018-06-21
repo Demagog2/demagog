@@ -85,7 +85,7 @@ class StatementDetail extends React.Component<IProps, IState> {
       <GetStatementQueryComponent
         query={GetStatement}
         variables={{ id: parseInt(statementId, 10) }}
-        pollInterval={5000}
+        // pollInterval={5000}
       >
         {({ data, loading, error }) => {
           if (error) {
@@ -184,12 +184,12 @@ class StatementDetail extends React.Component<IProps, IState> {
                     }
 
                     if (
-                      initialValues.assessment.explanation_html !==
-                      values.assessment.explanation_html
+                      initialValues.assessment.explanation_slatejson !==
+                      values.assessment.explanation_slatejson
                     ) {
                       statementInput.assessment = statementInput.assessment || {};
-                      statementInput.assessment.explanation_html =
-                        values.assessment.explanation_html;
+                      statementInput.assessment.explanation_slatejson =
+                        values.assessment.explanation_slatejson;
                     }
 
                     if (
@@ -350,7 +350,12 @@ class StatementDetail extends React.Component<IProps, IState> {
                               onBlur={handleBlur}
                               value={values.assessment.explanation_html || ''}
                             /> */}
-                            <RichTextEditor value={values.assessment.explanation_slatejson} />
+                            <RichTextEditor
+                              value={values.assessment.explanation_slatejson}
+                              onChange={(value) =>
+                                setFieldValue('assessment.explanation_slatejson', value)
+                              }
+                            />
                           </div>
                         </div>
 

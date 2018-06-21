@@ -26,5 +26,8 @@ module Demagog
         resource "/graphql", headers: :any, methods: [:get, :post, :options]
       end
     end
+
+    # Needed to be able to use JSON type in GraphQL
+    config.action_controller.permit_all_parameters = true
   end
 end
