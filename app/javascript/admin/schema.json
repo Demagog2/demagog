@@ -3100,7 +3100,7 @@
               "args": [],
               "type": {
                 "kind": "SCALAR",
-                "name": "JsonType",
+                "name": "JSON",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -3270,7 +3270,7 @@
         },
         {
           "kind": "SCALAR",
-          "name": "JsonType",
+          "name": "JSON",
           "description": null,
           "fields": null,
           "inputFields": null,
@@ -4853,7 +4853,7 @@
               "description": null,
               "type": {
                 "kind": "SCALAR",
-                "name": "JsonType",
+                "name": "JSON",
                 "ofType": null
               },
               "defaultValue": null

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Types::Scalars::JsonType = GraphQL::ScalarType.define do
-  name "JsonType"
+  name "JSON"
 
   coerce_input ->(value, ctx) {
     value

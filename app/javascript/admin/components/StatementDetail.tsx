@@ -29,6 +29,7 @@ import UserSelect from './forms/controls/UserSelect';
 import VeracitySelect from './forms/controls/VeracitySelect';
 import FormikAutoSave from './forms/FormikAutoSave';
 import Loading from './Loading';
+import RichTextEditor from './RichTextEditor';
 import StatementComments from './StatementComments';
 
 class UpdateStatementMutationComponent extends Mutation<
@@ -337,7 +338,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                             <label htmlFor="assessment-explanation" className="form-label">
                               Odůvodnění
                             </label>
-                            <textarea
+                            {/* <textarea
                               disabled={
                                 values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED
                               }
@@ -348,7 +349,8 @@ class StatementDetail extends React.Component<IProps, IState> {
                               onChange={handleChange}
                               onBlur={handleBlur}
                               value={values.assessment.explanation_html || ''}
-                            />
+                            /> */}
+                            <RichTextEditor value={values.assessment.explanation_slatejson} />
                           </div>
                         </div>
 

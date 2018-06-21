@@ -88,7 +88,7 @@ export interface UpdateAssessmentInputType {
   evaluator_id?: string | null,
   evaluation_status?: string | null,
   explanation_html?: string | null,
-  explanation_slatejson?: string | null,
+  explanation_slatejson?: GraphQLCustomScalar_JSON | null,
   short_explanation?: string | null,
   veracity_id?: string | null,
 };
@@ -323,7 +323,7 @@ export interface UpdateStatementMutation {
       id: string,
       short_explanation: string | null,
       explanation_html: string | null,
-      explanation_slatejson: string | null,
+      explanation_slatejson: GraphQLCustomScalar_JSON | null,
       evaluation_status: string,
       evaluator:  {
         id: string,
@@ -332,7 +332,7 @@ export interface UpdateStatementMutation {
       } | null,
       veracity:  {
         id: string,
-        key: string,
+        key: GraphQLCustomScalar_VeracityKey,
         name: string,
       } | null,
     },
@@ -363,7 +363,7 @@ export interface CreateCommentMutation {
       first_name: string | null,
       last_name: string | null,
     },
-    created_at: string,
+    created_at: GraphQLCustomScalar_DateTime,
   } | null,
 };
 
@@ -609,7 +609,7 @@ export interface GetStatementQuery {
     assessment:  {
       id: string,
       explanation_html: string | null,
-      explanation_slatejson: string | null,
+      explanation_slatejson: GraphQLCustomScalar_JSON | null,
       short_explanation: string | null,
       evaluation_status: string,
       evaluator:  {
@@ -619,7 +619,7 @@ export interface GetStatementQuery {
       } | null,
       veracity:  {
         id: string,
-        key: string,
+        key: GraphQLCustomScalar_VeracityKey,
         name: string,
       } | null,
     },
@@ -657,7 +657,7 @@ export interface GetStatementCommentsQuery {
         first_name: string | null,
         last_name: string | null,
       },
-      created_at: string,
+      created_at: GraphQLCustomScalar_DateTime,
     } >,
   },
 };
