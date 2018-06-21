@@ -57,6 +57,9 @@ const setLinkHref = (change: Slate.Change, href: string) => {
 const hasLinks = (value: Slate.Value) =>
   value.inlines.some((inline) => (inline ? inline.type === 'link' : false));
 
+const getLink = (value: Slate.Value) =>
+  value.inlines.find((inline) => (inline ? inline.type === 'link' : false));
+
 const renderToolbarButton = (props: IRenderToolbarButtonProps) => {
   const { onChange, value } = props;
 
@@ -65,9 +68,22 @@ const renderToolbarButton = (props: IRenderToolbarButtonProps) => {
     const change = value.change();
 
     if (hasLinks(value)) {
-      change.call(unwrapLink);
+      const link = getLink(value);
+
+      const href = link.data.get('href');
+
+      const newHref = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):', href);
+      if (newHref === null || newHref === '') {
+        return;
+      }
+
+      (change as any).call(setLinkHref, newHref);
     } else if (value.isExpanded) {
-      const href = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):') || '';
+      const href = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):');
+      if (href === null || href === '') {
+        return;
+      }
+
       (change as any).call(wrapLink, href);
     } else {
       const href = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):');
