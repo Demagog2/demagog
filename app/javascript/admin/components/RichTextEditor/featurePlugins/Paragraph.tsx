@@ -22,8 +22,12 @@ export default function Paragraph() {
 const ParagraphNode = (props: RenderNodeProps) => {
   const { attributes, children } = props;
 
-  // const code = node.data.get('code');
-  // const style = isSelected ? { boxShadow: '0 0 2px' } : {};
-
-  return <p {...attributes}>{children}</p>;
+  return (
+    // Using <div> element, not <p>, because <p> cannot have non-text
+    // descendant elements and we need descendant dics for the interactivity
+    // of at least links.
+    <div style={{ marginBottom: '1rem' }} {...attributes}>
+      {children}
+    </div>
+  );
 };
