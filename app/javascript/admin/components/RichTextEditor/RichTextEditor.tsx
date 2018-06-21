@@ -4,6 +4,7 @@ import * as Slate from 'slate';
 import { Editor } from 'slate-react';
 
 import Bold from './featurePlugins/Bold';
+import Embed from './featurePlugins/Embed';
 import Italic from './featurePlugins/Italic';
 import Link from './featurePlugins/Link';
 import Underlined from './featurePlugins/Underlined';
@@ -12,11 +13,18 @@ import HtmlSerializer from './HtmlSerializer';
 import schema from './schema';
 
 const bold = Bold();
+const embed = Embed();
 const italic = Italic();
-const underlined = Underlined();
 const link = Link();
+const underlined = Underlined();
 
-const plugins = [...bold.plugins, ...italic.plugins, ...underlined.plugins, ...link.plugins];
+const plugins = [
+  ...bold.plugins,
+  ...italic.plugins,
+  ...underlined.plugins,
+  ...link.plugins,
+  ...embed.plugins,
+];
 
 const toolbarDivider = {
   renderToolbarButton() {
@@ -41,6 +49,8 @@ const toolbar = [
   ...underlined.toolbar,
   toolbarDivider,
   ...link.toolbar,
+  toolbarDivider,
+  ...embed.toolbar,
 ];
 
 interface IProps {

@@ -32,6 +32,13 @@ const rules: IRule[] = [
     },
   },
   {
+    serialize: (object) => {
+      if (object.object === 'block' && object.type === 'embed') {
+        return <div dangerouslySetInnerHTML={{ __html: object.data.get('code') }} />;
+      }
+    },
+  },
+  {
     serialize: (object, children) => {
       if (object.object === 'inline' && object.type === 'link') {
         return <a href={object.data.get('href')}>{children}</a>;
