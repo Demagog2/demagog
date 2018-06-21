@@ -7,6 +7,7 @@ import Bold from './featurePlugins/Bold';
 import Italic from './featurePlugins/Italic';
 import Underlined from './featurePlugins/Underlined';
 import HtmlSerializer from './HtmlSerializer';
+import schema from './schema';
 
 const bold = Bold();
 const italic = Italic();
@@ -93,6 +94,7 @@ class RichTextEditor extends React.Component<IProps, IState> {
             plugins={plugins}
             spellCheck
             style={{ minHeight: '200px' }}
+            schema={schema}
           />
         </div>
       </div>
