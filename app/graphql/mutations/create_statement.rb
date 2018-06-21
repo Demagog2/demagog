@@ -32,6 +32,8 @@ Mutations::CreateStatement = GraphQL::Field.define do
       assessment_input["evaluation_status"] = Assessment::STATUS_BEING_EVALUATED
       Assessment.create!(assessment_input)
 
+      statement.source.regenerate_statements_order
+
       statement
     end
   }

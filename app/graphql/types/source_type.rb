@@ -10,8 +10,24 @@ Types::SourceType = GraphQL::ObjectType.define do
   field :transcript, types.String
   field :medium, !Types::MediumType
   field :media_personality, !Types::MediaPersonalityType
-  field :statements, !types[!Types::StatementType]
   field :speakers, !types[!Types::SpeakerType]
+
+  field :statements, !types[!Types::StatementType] do
+    argument :include_unapproved, types.Boolean, default_value: false
+
+    resolve ->(obj, args, ctx) {
+      if args[:include_unapproved]
+        # Public cannot access unapproved statements
+        raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+
+        statements = Statement.ordered
+      else
+        statements = Statement.published
+      end
+
+      statements
+    }
+  end
 
   SourceSpeakersStatementsStatType = GraphQL::ObjectType.define do
     name "SourceSpeakersStatementsStat"

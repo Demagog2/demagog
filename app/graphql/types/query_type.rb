@@ -126,7 +126,7 @@ Types::QueryType = GraphQL::ObjectType.define do
           return Statement.find(args[:id])
         end
 
-        Statement.where(published: true).find(args[:id])
+        Statement.published.find(args[:id])
       rescue ActiveRecord::RecordNotFound => e
         raise GraphQL::ExecutionError.new("Could not find Statement with id=#{args[:id]}")
       end
@@ -139,9 +139,19 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :source, types.Int
     argument :speaker, types.Int
     argument :veracity, Types::VeracityKeyType
+    argument :include_unapproved, types.Boolean, default_value: false
 
     resolve -> (obj, args, ctx) {
-      statements = Statement.offset(args[:offset]).limit(args[:limit])
+      if args[:include_unapproved]
+        # Public cannot access unapproved statements
+        raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+
+        statements = Statement.ordered
+      else
+        statements = Statement.published
+      end
+
+      statements = statements.offset(args[:offset]).limit(args[:limit])
 
       statements = statements.where(source: args[:source]) if args[:source]
       statements = statements.where(speaker: args[:speaker]) if args[:speaker]

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_20_045000) do
+ActiveRecord::Schema.define(version: 2018_06_21_104810) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -256,6 +256,7 @@ ActiveRecord::Schema.define(version: 2018_06_20_045000) do
     t.datetime "updated_at", null: false
     t.bigint "source_id"
     t.datetime "deleted_at"
+    t.integer "source_order"
     t.index ["source_id"], name: "index_statements_on_source_id"
     t.index ["speaker_id"], name: "index_statements_on_speaker_id"
   end

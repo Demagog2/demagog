@@ -14,18 +14,19 @@ class Statement < ApplicationRecord
   has_one :statement_transcript_position
 
   default_scope {
+    # We keep here only soft-delete, ordering cannot be here because
+    # of has_many :through relations which use statements
     where(deleted_at: nil)
-      .includes(:statement_transcript_position)
-      .order(
-        "statement_transcript_positions.start_line ASC",
-        "statement_transcript_positions.start_offset ASC",
-        "excerpted_at ASC"
-      )
+  }
+
+  scope :ordered, -> {
+    where(deleted_at: nil)
+      .order(source_order: :asc, excerpted_at: :asc)
   }
 
   scope :published, -> {
     where(published: true, deleted_at: nil)
-      .order(excerpted_at: :desc)
+      .order(source_order: :asc, excerpted_at: :asc)
       .joins(:assessment)
       .where.not(assessments: {
         veracity_id: nil

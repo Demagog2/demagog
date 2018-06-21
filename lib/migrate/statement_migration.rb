@@ -31,6 +31,7 @@ class StatementMigration
       :important,
       :published,
       :excerpted_at,
+      :source_order,
       :created_at,
       :updated_at,
       :deleted_at
@@ -48,6 +49,7 @@ class StatementMigration
                      old_statement["dolezity"] == 1,
                      old_statement["status"] == 1,
                      old_statement["timestamp"],
+                     old_statement["poradie"],
                      Time.now,
                      Time.now,
                      old_statement["status"] == -3 ? Time.now : nil
