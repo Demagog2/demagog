@@ -454,6 +454,10 @@ class StatementDetail extends React.Component<IProps, IState> {
                                   }
                                 />
                               </Tooltip>
+
+                              {values.published && (
+                                <a href={`/vyrok/${statement.id}`}>Veřejný odkaz</a>
+                              )}
                             </div>
                           </div>
                           <hr style={{ borderTop: '2px solid #ccc' }} />
