@@ -1,21 +1,20 @@
 import * as React from 'react';
 
-import { faCode } from '@fortawesome/free-solid-svg-icons';
+import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import * as Slate from 'slate';
 import { RenderNodeProps } from 'slate-react';
 
 import { IRenderToolbarButtonProps } from '../helperPlugins/RenderToolbarButton';
 
-export default function Embed() {
+export default function Image() {
   return {
     helpers: {},
     changes: {},
     plugins: [
       {
         renderNode: (props: RenderNodeProps) => {
-          if (props.node.type === 'embed') {
-            return <EmbedNode {...props} />;
+          if (props.node.type === 'image') {
+            return <ImageNode {...props} />;
           }
         },
       },
@@ -28,11 +27,11 @@ export default function Embed() {
   };
 }
 
-function insertEmbed(change, code) {
+function insertImage(change, src) {
   return change.insertBlock({
-    type: 'embed',
+    type: 'image',
     isVoid: true,
-    data: { code },
+    data: { src },
   });
 }
 
@@ -42,30 +41,30 @@ const renderToolbarButton = (props: IRenderToolbarButtonProps) => {
   const onMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
     event.preventDefault();
 
-    const code = window.prompt('Vložte embedovaný kód (začíná většinou znaky "<iframe "):');
-    if (code === null || code === '') {
+    const src = window.prompt('Vložte URL obrázku:');
+    if (src === null || src === '') {
       return;
     }
 
-    const change = (value.change() as any).call(insertEmbed, code);
+    const change = (value.change() as any).call(insertImage, src);
 
     onChange(change);
   };
 
   return (
     <span style={{ cursor: 'pointer', padding: '5px 10px' }} onMouseDown={onMouseDown}>
-      <FontAwesomeIcon icon={faCode} color="#aaa" />
+      <FontAwesomeIcon icon={faImage} color="#aaa" />
     </span>
   );
 };
 
-const EmbedNode = (props: RenderNodeProps) => {
+const ImageNode = (props: RenderNodeProps) => {
   const { attributes, node, isSelected } = props;
 
-  const code = node.data.get('code');
+  const src = node.data.get('src');
   const style = isSelected
     ? { boxShadow: '0 0 2px', marginBottom: '1rem' }
     : { marginBottom: '1rem' };
 
-  return <div style={style} {...attributes} dangerouslySetInnerHTML={{ __html: code }} />;
+  return <img src={src} style={style} alt="" {...attributes} />;
 };

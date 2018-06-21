@@ -1,12 +1,13 @@
 import * as Slate from 'slate';
 import { LAST_CHILD_TYPE_INVALID } from 'slate-schema-violations';
+import * as yup from 'yup';
 
 export default Slate.Schema.fromJSON({
   document: {
-    nodes: [{ types: ['paragraph', 'embed'] }],
+    nodes: [{ types: ['paragraph', 'image', 'embed'] }],
 
-    // So there is always a line after embed, because users cannot create new line
-    // after embed otherwise
+    // We want to make sure there is a line after embed or image, because users
+    // cannot create new line themselves
     last: { types: ['paragraph'] },
     normalize: (change, reason, { node }) => {
       switch (reason) {
@@ -25,7 +26,19 @@ export default Slate.Schema.fromJSON({
     embed: {
       isVoid: true,
       data: {
-        code: () => true,
+        // TODO: test that it is a valid iframe?
+        code: (code) => !!code,
+      },
+    },
+    image: {
+      isVoid: true,
+      data: {
+        src: (src) =>
+          src &&
+          yup
+            .string()
+            .url()
+            .isValidSync(src),
       },
     },
   },

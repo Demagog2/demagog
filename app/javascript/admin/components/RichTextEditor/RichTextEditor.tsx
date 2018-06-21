@@ -5,6 +5,7 @@ import { Editor } from 'slate-react';
 
 import Bold from './featurePlugins/Bold';
 import Embed from './featurePlugins/Embed';
+import Image from './featurePlugins/Image';
 import Italic from './featurePlugins/Italic';
 import Link from './featurePlugins/Link';
 import Paragraph from './featurePlugins/Paragraph';
@@ -15,6 +16,7 @@ import schema from './schema';
 
 const bold = Bold();
 const embed = Embed();
+const image = Image();
 const italic = Italic();
 const link = Link();
 const paragraph = Paragraph();
@@ -23,6 +25,7 @@ const underlined = Underlined();
 const plugins = [
   ...bold.plugins,
   ...embed.plugins,
+  ...image.plugins,
   ...italic.plugins,
   ...link.plugins,
   ...paragraph.plugins,
@@ -53,6 +56,7 @@ const toolbar = [
   toolbarDivider,
   ...link.toolbar,
   toolbarDivider,
+  ...image.toolbar,
   ...embed.toolbar,
 ];
 

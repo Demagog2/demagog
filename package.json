@@ -27,6 +27,7 @@
     "@types/slate": "git+https://github.com/JanLoebel/types-slate.git",
     "@types/slate-react": "git+https://github.com/JanLoebel/types-slate-react.git",
     "@types/uuid": "^3.4.3",
+    "@types/yup": "^0.24.7",
     "activestorage": "^5.2.0",
     "apollo-client": "2.3.4",
     "apollo-client-preset": "^1.0.6",
@@ -70,6 +71,7 @@
     "uuid": "^3.2.1",
     "webpack": "3.10.0",
     "whatwg-fetch": "^2.0.4",
+    "yup": "^0.25.1",
     "zurb-foundation-5": "^5.4.7"
   },
   "devDependencies": {
