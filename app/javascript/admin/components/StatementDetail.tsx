@@ -379,7 +379,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                 disabled={
                                   values.published ||
                                   !values.assessment.veracity_id ||
-                                  !values.assessment.short_explanation ||
+                                  // !values.assessment.short_explanation ||
                                   !values.assessment.explanation_html
                                 }
                                 value={values.assessment.evaluation_status}

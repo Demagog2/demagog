@@ -7,6 +7,7 @@ import Bold from './featurePlugins/Bold';
 import Embed from './featurePlugins/Embed';
 import Italic from './featurePlugins/Italic';
 import Link from './featurePlugins/Link';
+import Paragraph from './featurePlugins/Paragraph';
 import Underlined from './featurePlugins/Underlined';
 
 import HtmlSerializer from './HtmlSerializer';
@@ -16,14 +17,16 @@ const bold = Bold();
 const embed = Embed();
 const italic = Italic();
 const link = Link();
+const paragraph = Paragraph();
 const underlined = Underlined();
 
 const plugins = [
   ...bold.plugins,
-  ...italic.plugins,
-  ...underlined.plugins,
-  ...link.plugins,
   ...embed.plugins,
+  ...italic.plugins,
+  ...link.plugins,
+  ...paragraph.plugins,
+  ...underlined.plugins,
 ];
 
 const toolbarDivider = {
@@ -121,7 +124,6 @@ class RichTextEditor extends React.Component<IProps, IState> {
   }
 }
 
-// TODO
 const DEFAULT_VALUE = Slate.Value.fromJSON({
   document: {
     nodes: [
@@ -133,7 +135,7 @@ const DEFAULT_VALUE = Slate.Value.fromJSON({
             object: 'text',
             leaves: [
               {
-                text: 'A line of text in a paragraph.',
+                text: '',
               },
             ],
           },
