@@ -6,8 +6,13 @@ export default Slate.Schema.fromJSON({
   },
   blocks: {
     paragraph: {
-      nodes: [{ objects: ['text'] }],
+      nodes: [{ objects: ['text', 'inline'] }],
       marks: [{ type: 'bold' }, { type: 'italic' }, { type: 'underlined' }],
+    },
+  },
+  inlines: {
+    link: {
+      nodes: [{ objects: ['text'] }],
     },
   },
 } as any);

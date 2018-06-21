@@ -33,6 +33,13 @@ const rules: IRule[] = [
   },
   {
     serialize: (object, children) => {
+      if (object.object === 'inline' && object.type === 'link') {
+        return <a href={object.data.get('href')}>{children}</a>;
+      }
+    },
+  },
+  {
+    serialize: (object, children) => {
       if (object.object === 'mark') {
         switch (object.type) {
           case 'bold':

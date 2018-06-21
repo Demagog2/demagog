@@ -5,15 +5,18 @@ import { Editor } from 'slate-react';
 
 import Bold from './featurePlugins/Bold';
 import Italic from './featurePlugins/Italic';
+import Link from './featurePlugins/Link';
 import Underlined from './featurePlugins/Underlined';
+
 import HtmlSerializer from './HtmlSerializer';
 import schema from './schema';
 
 const bold = Bold();
 const italic = Italic();
 const underlined = Underlined();
+const link = Link();
 
-const plugins = [...bold.plugins, ...italic.plugins, ...underlined.plugins];
+const plugins = [...bold.plugins, ...italic.plugins, ...underlined.plugins, ...link.plugins];
 
 const toolbarDivider = {
   renderToolbarButton() {
@@ -32,7 +35,13 @@ const toolbarDivider = {
     );
   },
 };
-const toolbar = [...bold.toolbar, ...italic.toolbar, ...underlined.toolbar, toolbarDivider];
+const toolbar = [
+  ...bold.toolbar,
+  ...italic.toolbar,
+  ...underlined.toolbar,
+  toolbarDivider,
+  ...link.toolbar,
+];
 
 interface IProps {
   value: object | null;
