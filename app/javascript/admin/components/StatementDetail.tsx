@@ -281,18 +281,19 @@ class StatementDetail extends React.Component<IProps, IState> {
                           <h5>
                             {statement.speaker.first_name} {statement.speaker.last_name}
                           </h5>
-                          <textarea
-                            disabled={
-                              values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED
-                            }
-                            className="form-control"
-                            style={{ marginBottom: 5 }}
-                            name="content"
-                            rows={4}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.content || ''}
-                          />
+                          {values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED ? (
+                            <p>{values.content}</p>
+                          ) : (
+                            <textarea
+                              className="form-control"
+                              style={{ marginBottom: 5 }}
+                              name="content"
+                              rows={4}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.content || ''}
+                            />
+                          )}
                           <p className="text-muted">
                             Zdroj: {statement.source.medium.name},{' '}
                             {displayDate(statement.source.released_at)},{' '}
@@ -313,59 +314,75 @@ class StatementDetail extends React.Component<IProps, IState> {
                               Hodnocení
                             </label>
                             <div className="col-sm-8">
-                              <VeracitySelect
-                                disabled={
-                                  values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED
-                                }
-                                onChange={(value) => setFieldValue('assessment.veracity_id', value)}
-                                onBlur={() => setFieldTouched('assessment.veracity_id')}
-                                value={values.assessment.veracity_id}
-                              />
+                              {values.assessment.evaluation_status ===
+                              ASSESSMENT_STATUS_APPROVED ? (
+                                <input
+                                  type="text"
+                                  readOnly
+                                  className="form-control-plaintext"
+                                  value={
+                                    statement.assessment.veracity
+                                      ? statement.assessment.veracity.name
+                                      : ''
+                                  }
+                                />
+                              ) : (
+                                <VeracitySelect
+                                  disabled={
+                                    values.assessment.evaluation_status ===
+                                    ASSESSMENT_STATUS_APPROVED
+                                  }
+                                  onChange={(value) =>
+                                    setFieldValue('assessment.veracity_id', value)
+                                  }
+                                  onBlur={() => setFieldTouched('assessment.veracity_id')}
+                                  value={values.assessment.veracity_id}
+                                />
+                              )}
                             </div>
                           </div>
                           <div className="form-group">
                             <label htmlFor="assessment-short-explanation" className="form-label">
                               Odůvodnění zkráceně
                             </label>
-                            <textarea
-                              disabled={
-                                values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED
-                              }
-                              className="form-control"
-                              id="assessment-short-explanation"
-                              name="assessment.short_explanation"
-                              rows={3}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.assessment.short_explanation || ''}
-                            />
-                            <small className="form-text text-muted">
-                              Maximálně na dlouhý tweet, tj. 280 znaků
-                            </small>
+                            {values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED ? (
+                              <p>{values.assessment.short_explanation}</p>
+                            ) : (
+                              <>
+                                <textarea
+                                  className="form-control"
+                                  id="assessment-short-explanation"
+                                  name="assessment.short_explanation"
+                                  rows={3}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.assessment.short_explanation || ''}
+                                />
+                                <small className="form-text text-muted">
+                                  Maximálně na dlouhý tweet, tj. 280 znaků
+                                </small>
+                              </>
+                            )}
                           </div>
                           <div className="form-group">
                             <label htmlFor="assessment-explanation" className="form-label">
                               Odůvodnění
                             </label>
-                            {/* <textarea
-                              disabled={
-                                values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED
-                              }
-                              className="form-control"
-                              id="assessment-explanation"
-                              name="assessment.explanation_html"
-                              rows={5}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.assessment.explanation_html || ''}
-                            /> */}
-                            <RichTextEditor
-                              value={values.assessment.explanation_slatejson}
-                              onChange={(value, html) => {
-                                setFieldValue('assessment.explanation_slatejson', value);
-                                setFieldValue('assessment.explanation_html', html);
-                              }}
-                            />
+                            {values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED ? (
+                              <div
+                                dangerouslySetInnerHTML={{
+                                  __html: values.assessment.explanation_html || '',
+                                }}
+                              />
+                            ) : (
+                              <RichTextEditor
+                                value={values.assessment.explanation_slatejson}
+                                onChange={(value, html) => {
+                                  setFieldValue('assessment.explanation_slatejson', value);
+                                  setFieldValue('assessment.explanation_html', html);
+                                }}
+                              />
+                            )}
                           </div>
                         </div>
 
@@ -377,10 +394,14 @@ class StatementDetail extends React.Component<IProps, IState> {
                             <div className="col-sm-8">
                               <EvaluationStatusInput
                                 disabled={
-                                  values.published ||
-                                  !values.assessment.veracity_id ||
-                                  // !values.assessment.short_explanation ||
-                                  !values.assessment.explanation_html
+                                  (values.assessment.evaluation_status ===
+                                    ASSESSMENT_STATUS_APPROVED &&
+                                    values.published) ||
+                                  (values.assessment.evaluation_status ===
+                                    ASSESSMENT_STATUS_BEING_EVALUATED &&
+                                    (!values.assessment.veracity_id ||
+                                      !values.assessment.short_explanation ||
+                                      !values.assessment.explanation_html))
                                 }
                                 value={values.assessment.evaluation_status}
                                 onChange={(value) =>

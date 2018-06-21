@@ -119,7 +119,9 @@ class RichTextEditor extends React.Component<IProps, IState> {
             onChange={this.onChange}
             plugins={plugins}
             spellCheck
-            style={{ minHeight: '200px' }}
+            style={{
+              minHeight: '200px',
+            }}
             schema={schema}
           />
         </div>
