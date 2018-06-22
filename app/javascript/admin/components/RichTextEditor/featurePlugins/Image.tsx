@@ -2,14 +2,13 @@ import * as React from 'react';
 
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Rule } from 'slate-html-serializer';
 import { RenderNodeProps } from 'slate-react';
 
-import { IRenderToolbarButtonProps } from '../helperPlugins/RenderToolbarButton';
+import { IToolbarItem } from '../toolbar';
 
 export default function Image() {
   return {
-    helpers: {},
-    changes: {},
     plugins: [
       {
         renderNode: (props: RenderNodeProps) => {
@@ -19,11 +18,8 @@ export default function Image() {
         },
       },
     ],
-    toolbar: [
-      {
-        renderToolbarButton,
-      },
-    ],
+    toolbarItem,
+    htmlSerializerRule,
   };
 }
 
@@ -35,27 +31,29 @@ function insertImage(change, src) {
   });
 }
 
-const renderToolbarButton = (props: IRenderToolbarButtonProps) => {
-  const { onChange, value } = props;
+const toolbarItem: IToolbarItem = {
+  renderItem(props) {
+    const { onChange, value } = props;
 
-  const onMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
-    event.preventDefault();
+    const onMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
+      event.preventDefault();
 
-    const src = window.prompt('Vložte URL obrázku:');
-    if (src === null || src === '') {
-      return;
-    }
+      const src = window.prompt('Vložte URL obrázku:');
+      if (src === null || src === '') {
+        return;
+      }
 
-    const change = (value.change() as any).call(insertImage, src);
+      const change = value.change().call(insertImage, src);
 
-    onChange(change);
-  };
+      onChange(change);
+    };
 
-  return (
-    <span style={{ cursor: 'pointer', padding: '5px 10px' }} onMouseDown={onMouseDown}>
-      <FontAwesomeIcon icon={faImage} color="#aaa" />
-    </span>
-  );
+    return (
+      <span style={{ cursor: 'pointer', padding: '5px 10px' }} onMouseDown={onMouseDown}>
+        <FontAwesomeIcon icon={faImage} color="#aaa" />
+      </span>
+    );
+  },
 };
 
 const ImageNode = (props: RenderNodeProps) => {
@@ -67,4 +65,12 @@ const ImageNode = (props: RenderNodeProps) => {
     : { marginBottom: '1rem' };
 
   return <img src={src} style={style} alt="" {...attributes} />;
+};
+
+const htmlSerializerRule: Rule = {
+  serialize(object) {
+    if (object.object === 'block' && object.type === 'image') {
+      return <img src={object.data.get('src')} alt="" />;
+    }
+  },
 };

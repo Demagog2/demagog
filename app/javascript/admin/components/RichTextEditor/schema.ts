@@ -26,7 +26,7 @@ export default Slate.Schema.fromJSON({
     embed: {
       isVoid: true,
       data: {
-        // TODO: test that it is a valid iframe?
+        // TODO: test that it is a valid embed code?
         code: (code) => !!code,
       },
     },

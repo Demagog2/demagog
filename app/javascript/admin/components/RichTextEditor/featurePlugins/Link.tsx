@@ -4,19 +4,13 @@ import { Popover, Position } from '@blueprintjs/core';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Slate from 'slate';
+import { Rule } from 'slate-html-serializer';
 import { RenderNodeProps } from 'slate-react';
 
-import { IRenderToolbarButtonProps } from '../helperPlugins/RenderToolbarButton';
+import { IToolbarItem } from '../toolbar';
 
 export default function Bold() {
   return {
-    helpers: {
-      hasLinks,
-    },
-    changes: {
-      wrapLink,
-      unwrapLink,
-    },
     plugins: [
       {
         renderNode: (props: RenderNodeProps) => {
@@ -26,11 +20,8 @@ export default function Bold() {
         },
       },
     ],
-    toolbar: [
-      {
-        renderToolbarButton,
-      },
-    ],
+    toolbarItem,
+    htmlSerializerRule,
   };
 }
 
@@ -60,56 +51,58 @@ const hasLinks = (value: Slate.Value) =>
 const getLink = (value: Slate.Value) =>
   value.inlines.find((inline) => (inline ? inline.type === 'link' : false));
 
-const renderToolbarButton = (props: IRenderToolbarButtonProps) => {
-  const { onChange, value } = props;
+const toolbarItem: IToolbarItem = {
+  renderItem(props) {
+    const { onChange, value } = props;
 
-  const onMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
-    event.preventDefault();
-    const change = value.change();
+    const onMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
+      event.preventDefault();
+      const change = value.change();
 
-    if (hasLinks(value)) {
-      const link = getLink(value);
+      if (hasLinks(value)) {
+        const link = getLink(value);
 
-      const href = link.data.get('href');
+        const href = link.data.get('href');
 
-      const newHref = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):', href);
-      if (newHref === null || newHref === '') {
-        return;
+        const newHref = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):', href);
+        if (newHref === null || newHref === '') {
+          return;
+        }
+
+        change.call(setLinkHref, newHref);
+      } else if (value.isExpanded) {
+        const href = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):');
+        if (href === null || href === '') {
+          return;
+        }
+
+        change.call(wrapLink, href);
+      } else {
+        const href = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):');
+        if (href === null || href === '') {
+          return;
+        }
+
+        const text = window.prompt('Vložte text odkazu (např. Demagog):');
+        if (text === null || text === '') {
+          return;
+        }
+
+        change
+          .insertText(text)
+          .extend(0 - text.length)
+          .call(wrapLink, href);
       }
 
-      (change as any).call(setLinkHref, newHref);
-    } else if (value.isExpanded) {
-      const href = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):');
-      if (href === null || href === '') {
-        return;
-      }
+      onChange(change);
+    };
 
-      (change as any).call(wrapLink, href);
-    } else {
-      const href = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):');
-      if (href === null || href === '') {
-        return;
-      }
-
-      const text = window.prompt('Vložte text odkazu (např. Demagog):');
-      if (text === null || text === '') {
-        return;
-      }
-
-      (change as any)
-        .insertText(text)
-        .extend(0 - text.length)
-        .call(wrapLink, href);
-    }
-
-    onChange(change);
-  };
-
-  return (
-    <span style={{ cursor: 'pointer', padding: '5px 10px' }} onMouseDown={onMouseDown}>
-      <FontAwesomeIcon icon={faLink} color="#aaa" />
-    </span>
-  );
+    return (
+      <span style={{ cursor: 'pointer', padding: '5px 10px' }} onMouseDown={onMouseDown}>
+        <FontAwesomeIcon icon={faLink} color="#aaa" />
+      </span>
+    );
+  },
 };
 
 const LinkNode = (props: RenderNodeProps) => {
@@ -131,7 +124,7 @@ const LinkNode = (props: RenderNodeProps) => {
     }
 
     if (editor.props.onChange) {
-      editor.props.onChange((editor.value.change() as any).call(setLinkHref, newHref));
+      editor.props.onChange(editor.value.change().call(setLinkHref, newHref));
     }
   };
 
@@ -169,4 +162,12 @@ const LinkNode = (props: RenderNodeProps) => {
       </a>
     </Popover>
   );
+};
+
+const htmlSerializerRule: Rule = {
+  serialize(object, children) {
+    if (object.object === 'inline' && object.type === 'link') {
+      return <a href={object.data.get('href')}>{children}</a>;
+    }
+  },
 };

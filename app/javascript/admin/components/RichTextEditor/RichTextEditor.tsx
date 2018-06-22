@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import * as Slate from 'slate';
+import HtmlSerializer from 'slate-html-serializer';
 import { Editor } from 'slate-react';
 
 import Bold from './featurePlugins/Bold';
@@ -11,8 +12,8 @@ import Link from './featurePlugins/Link';
 import Paragraph from './featurePlugins/Paragraph';
 import Underlined from './featurePlugins/Underlined';
 
-import HtmlSerializer from './HtmlSerializer';
 import schema from './schema';
+import { toolbarDivider } from './toolbar';
 
 const bold = Bold();
 const embed = Embed();
@@ -32,33 +33,28 @@ const plugins = [
   ...underlined.plugins,
 ];
 
-const toolbarDivider = {
-  renderToolbarButton() {
-    return (
-      <span
-        style={{
-          borderLeft: '1px solid #ced4da',
-          marginTop: -6,
-          marginBottom: -12,
-          marginLeft: 5,
-          marginRight: 5,
-          display: 'inline-block',
-          height: 36,
-        }}
-      />
-    );
-  },
-};
 const toolbar = [
-  ...bold.toolbar,
-  ...italic.toolbar,
-  ...underlined.toolbar,
+  bold.toolbarItem,
+  italic.toolbarItem,
+  underlined.toolbarItem,
   toolbarDivider,
-  ...link.toolbar,
+  link.toolbarItem,
   toolbarDivider,
-  ...image.toolbar,
-  ...embed.toolbar,
+  image.toolbarItem,
+  embed.toolbarItem,
 ];
+
+const htmlSerializer = new HtmlSerializer({
+  rules: [
+    bold.htmlSerializerRule,
+    embed.htmlSerializerRule,
+    image.htmlSerializerRule,
+    italic.htmlSerializerRule,
+    link.htmlSerializerRule,
+    paragraph.htmlSerializerRule,
+    underlined.htmlSerializerRule,
+  ],
+});
 
 interface IProps {
   value: object | null;
@@ -80,7 +76,7 @@ class RichTextEditor extends React.Component<IProps, IState> {
 
   public onChange = ({ value }: Slate.Change) => {
     if (value.document !== this.state.value.document) {
-      this.props.onChange(value.toJSON(), HtmlSerializer.serialize(value));
+      this.props.onChange(value.toJSON(), htmlSerializer.serialize(value));
     }
 
     this.setState({ value });
@@ -99,7 +95,7 @@ class RichTextEditor extends React.Component<IProps, IState> {
         >
           {toolbar.map((item, index) => (
             <span key={index}>
-              {item.renderToolbarButton({
+              {item.renderItem({
                 onChange: this.onChange,
                 value: this.state.value,
               })}

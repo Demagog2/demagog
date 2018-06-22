@@ -2,15 +2,13 @@ import * as React from 'react';
 
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import * as Slate from 'slate';
+import { Rule } from 'slate-html-serializer';
 import { RenderNodeProps } from 'slate-react';
 
-import { IRenderToolbarButtonProps } from '../helperPlugins/RenderToolbarButton';
+import { IToolbarItem } from '../toolbar';
 
 export default function Embed() {
   return {
-    helpers: {},
-    changes: {},
     plugins: [
       {
         renderNode: (props: RenderNodeProps) => {
@@ -20,11 +18,8 @@ export default function Embed() {
         },
       },
     ],
-    toolbar: [
-      {
-        renderToolbarButton,
-      },
-    ],
+    toolbarItem,
+    htmlSerializerRule,
   };
 }
 
@@ -36,27 +31,29 @@ function insertEmbed(change, code) {
   });
 }
 
-const renderToolbarButton = (props: IRenderToolbarButtonProps) => {
-  const { onChange, value } = props;
+const toolbarItem: IToolbarItem = {
+  renderItem(props) {
+    const { onChange, value } = props;
 
-  const onMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
-    event.preventDefault();
+    const onMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
+      event.preventDefault();
 
-    const code = window.prompt('Vložte embedovaný kód (začíná většinou znaky "<iframe "):');
-    if (code === null || code === '') {
-      return;
-    }
+      const code = window.prompt('Vložte embedovaný kód (začíná většinou znaky "<iframe "):');
+      if (code === null || code === '') {
+        return;
+      }
 
-    const change = (value.change() as any).call(insertEmbed, code);
+      const change = value.change().call(insertEmbed, code);
 
-    onChange(change);
-  };
+      onChange(change);
+    };
 
-  return (
-    <span style={{ cursor: 'pointer', padding: '5px 10px' }} onMouseDown={onMouseDown}>
-      <FontAwesomeIcon icon={faCode} color="#aaa" />
-    </span>
-  );
+    return (
+      <span style={{ cursor: 'pointer', padding: '5px 10px' }} onMouseDown={onMouseDown}>
+        <FontAwesomeIcon icon={faCode} color="#aaa" />
+      </span>
+    );
+  },
 };
 
 const EmbedNode = (props: RenderNodeProps) => {
@@ -68,4 +65,12 @@ const EmbedNode = (props: RenderNodeProps) => {
     : { marginBottom: '1rem' };
 
   return <div style={style} {...attributes} dangerouslySetInnerHTML={{ __html: code }} />;
+};
+
+const htmlSerializerRule: Rule = {
+  serialize(object) {
+    if (object.object === 'block' && object.type === 'embed') {
+      return <div dangerouslySetInnerHTML={{ __html: object.data.get('code') }} />;
+    }
+  },
 };

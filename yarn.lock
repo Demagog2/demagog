@@ -226,7 +226,7 @@
 
 "@types/slate@git+https://github.com/JanLoebel/types-slate.git":
   version "0.33.4"
-  resolved "git+https://github.com/JanLoebel/types-slate.git#bbbdfb5c666f068177ede5e0519b36b8ba58fd72"
+  resolved "git+https://github.com/JanLoebel/types-slate.git#156b128f61b03677bdc73cea81766f13a367fe6e"
 
 "@types/uuid@^3.4.3":
   version "3.4.3"

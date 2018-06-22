@@ -2,25 +2,21 @@ import * as React from 'react';
 
 import { faUnderline } from '@fortawesome/free-solid-svg-icons';
 import * as Slate from 'slate';
+import { Rule } from 'slate-html-serializer';
 import { RenderMarkProps } from 'slate-react';
 
 import Hotkey from '../helperPlugins/Hotkey';
 import RenderMark from '../helperPlugins/RenderMark';
-import RenderToolbarButton from '../helperPlugins/RenderToolbarButton';
+import ToolbarMarkButton from '../helperPlugins/ToolbarMarkButton';
 
 export default function Underlined() {
   return {
-    helpers: {
-      hasUnderlinedMark,
-    },
-    changes: {
-      addUnderlinedMark,
-    },
     plugins: [
       Hotkey('mod+u', addUnderlinedMark),
       RenderMark('underlined', (props) => <UnderlinedMark {...props} />),
     ],
-    toolbar: [RenderToolbarButton(faUnderline, addUnderlinedMark, hasUnderlinedMark)],
+    toolbarItem: ToolbarMarkButton(faUnderline, addUnderlinedMark, hasUnderlinedMark),
+    htmlSerializerRule,
   };
 }
 
@@ -33,4 +29,12 @@ const UnderlinedMark = (props: RenderMarkProps) => {
   const { children, attributes } = props;
 
   return <u {...attributes}>{children}</u>;
+};
+
+const htmlSerializerRule: Rule = {
+  serialize(object, children) {
+    if (object.object === 'mark' && object.type === 'underlined') {
+      return <u>{children}</u>;
+    }
+  },
 };
