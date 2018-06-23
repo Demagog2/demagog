@@ -213,7 +213,7 @@ class SourceDetail extends React.Component<IProps, IState> {
         query={GetSourceStatements}
         variables={{ sourceId: parseInt(source.id, 10) }}
       >
-        {({ data, loading, error }) => {
+        {({ data, loading, error, refetch }) => {
           if (error) {
             console.error(error); // tslint:disable-line:no-console
           }
@@ -241,7 +241,7 @@ class SourceDetail extends React.Component<IProps, IState> {
                   nebo<br />
                   <Link
                     to={`/admin/sources/${source.id}/statements/new`}
-                    className="btn btn-secondary disabled"
+                    className="btn btn-secondary"
                   >
                     Přidat výrok ručně
                   </Link>
@@ -426,7 +426,13 @@ class SourceDetail extends React.Component<IProps, IState> {
                 </div>
                 <div style={{ flex: '1 0' }}>
                   {statementsToDisplay.map((statement) => (
-                    <StatementCard key={statement.id} statement={statement} />
+                    <StatementCard
+                      key={statement.id}
+                      statement={statement}
+                      onDeleted={() => {
+                        refetch({ sourceId: parseInt(source.id, 10) });
+                      }}
+                    />
                   ))}
                   {statementsToDisplay.length === 0 && (
                     <p>Vybranému filtru nevyhovují žádné výroky</p>
