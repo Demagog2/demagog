@@ -115,6 +115,10 @@ FactoryBot.define do
     factory :important_statement do
       important true
     end
+
+    factory :unpublished_statement do
+      published false
+    end
   end
 
   factory :membership do
