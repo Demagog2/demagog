@@ -13,11 +13,11 @@ Types::SourceType = GraphQL::ObjectType.define do
   field :speakers, !types[!Types::SpeakerType]
 
   field :statements, !types[!Types::StatementType] do
-    argument :include_unapproved, types.Boolean, default_value: false
+    argument :include_unpublished, types.Boolean, default_value: false
 
     resolve ->(obj, args, ctx) {
-      if args[:include_unapproved]
-        # Public cannot access unapproved statements
+      if args[:include_unpublished]
+        # Public cannot access unpublished statements
         raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
 
         statements = Statement.ordered

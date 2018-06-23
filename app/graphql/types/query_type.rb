@@ -115,12 +115,12 @@ Types::QueryType = GraphQL::ObjectType.define do
 
   field :statement, !Types::StatementType do
     argument :id, !types.Int
-    argument :include_unapproved, types.Boolean, default_value: false
+    argument :include_unpublished, types.Boolean, default_value: false
 
     resolve -> (obj, args, ctx) {
       begin
-        if args[:include_unapproved]
-          # Public cannot access unapproved statements
+        if args[:include_unpublished]
+          # Public cannot access unpublished statements
           raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
 
           return Statement.find(args[:id])
@@ -139,11 +139,11 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :source, types.Int
     argument :speaker, types.Int
     argument :veracity, Types::VeracityKeyType
-    argument :include_unapproved, types.Boolean, default_value: false
+    argument :include_unpublished, types.Boolean, default_value: false
 
     resolve -> (obj, args, ctx) {
-      if args[:include_unapproved]
-        # Public cannot access unapproved statements
+      if args[:include_unpublished]
+        # Public cannot access unpublished statements
         raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
 
         statements = Statement.ordered

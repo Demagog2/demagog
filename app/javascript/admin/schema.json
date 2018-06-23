@@ -1112,7 +1112,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "include_unapproved",
+                  "name": "include_unpublished",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -1189,7 +1189,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "include_unapproved",
+                  "name": "include_unpublished",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -2710,7 +2710,7 @@
               "description": null,
               "args": [
                 {
-                  "name": "include_unapproved",
+                  "name": "include_unpublished",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",

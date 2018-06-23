@@ -55,7 +55,7 @@ export const GetSource = gql`
 // TODO: add pagination and control limit
 export const GetSourceStatements = gql`
   query GetSourceStatements($sourceId: Int!) {
-    statements(limit: 100, source: $sourceId, include_unapproved: true) {
+    statements(limit: 100, source: $sourceId, include_unpublished: true) {
       id
       content
       important
@@ -208,7 +208,7 @@ export const GetSpeakers = gql`
 
 export const GetStatement = gql`
   query GetStatement($id: Int!) {
-    statement(id: $id, include_unapproved: true) {
+    statement(id: $id, include_unpublished: true) {
       id
       content
       important
@@ -258,7 +258,7 @@ export const GetStatement = gql`
 
 export const GetStatementComments = gql`
   query GetStatementComments($id: Int!) {
-    statement(id: $id, include_unapproved: true) {
+    statement(id: $id, include_unpublished: true) {
       id
       comments_count
       comments {
