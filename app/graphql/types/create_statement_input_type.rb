@@ -12,4 +12,5 @@ Types::CreateStatementInputType = GraphQL::InputObjectType.define do
   argument :count_in_statistics, !types.Boolean
   argument :assessment, !Types::CreateAssessmentInputType
   argument :statement_transcript_position, Types::StatementTranscriptPositionInputType
+  argument :first_comment_content, types.String
 end

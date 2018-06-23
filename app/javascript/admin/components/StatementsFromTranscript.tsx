@@ -308,6 +308,8 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
             //   return errors;
             // }}
             onSubmit={(values, { setSubmitting }) => {
+              const note = values.note.trim();
+
               const statementInput: CreateStatementInputType = {
                 content: values.content,
                 speaker_id: values.speaker_id,
@@ -325,6 +327,7 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
                   end_line: selection.endLine,
                   end_offset: selection.endOffset,
                 },
+                first_comment_content: note !== '' ? note : null,
               };
 
               createStatement({ variables: { statementInput } })

@@ -4658,6 +4658,16 @@
                 "ofType": null
               },
               "defaultValue": null
+            },
+            {
+              "name": "first_comment_content",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
             }
           ],
           "interfaces": null,

@@ -61,6 +61,7 @@ export interface CreateStatementInputType {
   count_in_statistics: boolean,
   assessment: CreateAssessmentInputType,
   statement_transcript_position?: StatementTranscriptPositionInputType | null,
+  first_comment_content?: string | null,
 };
 
 export interface CreateAssessmentInputType {

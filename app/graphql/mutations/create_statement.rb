@@ -13,6 +13,7 @@ Mutations::CreateStatement = GraphQL::Field.define do
     statement_input = args[:statement_input].to_h
     transcript_position_input = statement_input.delete("statement_transcript_position")
     assessment_input = statement_input.delete("assessment")
+    first_comment_content = statement_input.delete("first_comment_content")
 
     Statement.transaction do
       statement = Statement.create!(statement_input)
@@ -31,6 +32,14 @@ Mutations::CreateStatement = GraphQL::Field.define do
       assessment_input["statement"] = statement
       assessment_input["evaluation_status"] = Assessment::STATUS_BEING_EVALUATED
       Assessment.create!(assessment_input)
+
+      if first_comment_content
+        Comment.create!(
+          statement: statement,
+          content: first_comment_content,
+          user: ctx[:current_user]
+        )
+      end
 
       statement.source.regenerate_statements_order
 

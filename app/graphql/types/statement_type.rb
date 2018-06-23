@@ -22,7 +22,7 @@ Types::StatementType = GraphQL::ObjectType.define do
     resolve -> (obj, args, ctx) {
       raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
 
-      obj.comments
+      obj.comments.ordered
     }
   end
 
