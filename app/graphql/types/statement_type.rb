@@ -11,11 +11,6 @@ Types::StatementType = GraphQL::ObjectType.define do
   field :source, !Types::SourceType
   field :source_order, types.Int
   field :statement_transcript_position, Types::StatementTranscriptPositionType
-  # field :assessment, Types::AssessmentType do
-  #   resolve ->(obj, args, ctx) {
-  #     obj.approved_assessment
-  #   }
-  # end
   field :assessment, !Types::AssessmentType
   field :published, !types.Boolean
 

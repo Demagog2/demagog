@@ -79,11 +79,10 @@ class StatementNew extends React.Component<IProps> {
               {(createStatement) => (
                 <Formik
                   initialValues={initialValues}
-                  // TODO: some validation?
                   validate={(values) => {
                     const errors: { [key: string]: any } = {};
                     if (values.content.trim() === '') {
-                      errors.content = 'Je potřeba vyplnit znění výroku';
+                      errors.content = 'Je třeba vyplnit znění výroku';
                     }
                     return errors;
                   }}

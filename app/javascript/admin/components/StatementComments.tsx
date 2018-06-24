@@ -54,7 +54,6 @@ class StatementComments extends React.Component<IProps> {
             <div>
               {data.statement.comments.map((comment) => (
                 <p key={comment.id}>
-                  {/* [{comment.created_at}] {comment.user.first_name} {comment.user.last_name}:{' '} */}
                   <strong>
                     {comment.user.first_name} {comment.user.last_name}
                   </strong>

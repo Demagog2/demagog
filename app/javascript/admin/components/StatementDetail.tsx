@@ -4,7 +4,7 @@ import { Position, Switch, Tooltip } from '@blueprintjs/core';
 import { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
 import { Formik } from 'formik';
-import { isEqual } from 'lodash';
+import { get, isEqual, set } from 'lodash';
 import { Mutation, Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
@@ -142,75 +142,23 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                     const statementInput: UpdateStatementInputType = {};
 
-                    // TODO: generalize
-                    if (initialValues.assessment.veracity_id !== values.assessment.veracity_id) {
-                      statementInput.assessment = statementInput.assessment || {};
-                      statementInput.assessment.veracity_id = values.assessment.veracity_id;
-                    }
+                    const paths = [
+                      'assessment.veracity_id',
+                      'assessment.short_explanation',
+                      'assessment.evaluator_id',
+                      'assessment.evaluation_status',
+                      'assessment.explanation_slatejson',
+                      'assessment.explanation_html',
+                      'published',
+                      'content',
+                      'important',
+                    ];
 
-                    if (
-                      initialValues.assessment.short_explanation !==
-                      values.assessment.short_explanation
-                    ) {
-                      statementInput.assessment = statementInput.assessment || {};
-                      statementInput.assessment.short_explanation =
-                        values.assessment.short_explanation;
-                    }
-
-                    if (initialValues.assessment.evaluator_id !== values.assessment.evaluator_id) {
-                      statementInput.assessment = statementInput.assessment || {};
-                      statementInput.assessment.evaluator_id = values.assessment.evaluator_id;
-                    }
-
-                    if (
-                      initialValues.assessment.evaluation_status !==
-                      values.assessment.evaluation_status
-                    ) {
-                      statementInput.assessment = statementInput.assessment || {};
-                      statementInput.assessment.evaluation_status =
-                        values.assessment.evaluation_status;
-                    }
-
-                    if (initialValues.published !== values.published) {
-                      statementInput.published = values.published;
-                    }
-
-                    if (initialValues.content !== values.content) {
-                      statementInput.content = values.content;
-                    }
-
-                    if (initialValues.important !== values.important) {
-                      statementInput.important = values.important;
-                    }
-
-                    if (
-                      initialValues.assessment.explanation_slatejson !==
-                      values.assessment.explanation_slatejson
-                    ) {
-                      statementInput.assessment = statementInput.assessment || {};
-                      statementInput.assessment.explanation_slatejson =
-                        values.assessment.explanation_slatejson;
-                    }
-
-                    if (
-                      initialValues.assessment.explanation_html !==
-                      values.assessment.explanation_html
-                    ) {
-                      statementInput.assessment = statementInput.assessment || {};
-                      statementInput.assessment.explanation_html =
-                        values.assessment.explanation_html;
-                    }
-
-                    if (
-                      !isEqual(
-                        initialValues.assessment.explanation_slatejson,
-                        values.assessment.explanation_slatejson,
-                      )
-                    ) {
-                      statementInput.assessment = statementInput.assessment || {};
-                      statementInput.assessment.explanation_slatejson =
-                        values.assessment.explanation_slatejson;
-                    }
+                    paths.forEach((path) => {
+                      if (!isEqual(get(initialValues, path), get(values, path))) {
+                        set(statementInput, path, get(values, path));
+                      }
+                    });
 
                     updateStatement({
                       variables: { id: parseInt(statement.id, 10), statementInput },

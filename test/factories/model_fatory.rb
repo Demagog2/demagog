@@ -138,13 +138,8 @@ FactoryBot.define do
       end
     end
 
-    factory :important_statement do
-      important true
-    end
-
-    factory :unpublished_statement do
-      published false
-    end
+    factory :important_statement, traits: [:important]
+    factory :unpublished_statement, traits: [:unpublished]
   end
 
   factory :statement_transcript_position

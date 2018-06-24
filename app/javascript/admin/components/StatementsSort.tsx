@@ -162,7 +162,6 @@ class StatementsSort extends React.Component<IProps, IState> {
   }
 }
 
-// a little function to help us with reordering the result
 function reorder<T>(list: T[], startIndex: number, endIndex: number): T[] {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -172,7 +171,6 @@ function reorder<T>(list: T[], startIndex: number, endIndex: number): T[] {
 }
 
 const getItemStyle = (isDragging, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
   userSelect: 'none',
   padding: 10,
   margin: '0 0 8px 0',
@@ -180,11 +178,8 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   borderRadius: '.25rem',
   display: 'flex',
   background: 'white',
-
-  // change background colour if dragging
   boxShadow: isDragging ? '0 0 5px #bbb' : 'none',
 
-  // styles we need to apply on draggables
   ...draggableStyle,
 });
 
