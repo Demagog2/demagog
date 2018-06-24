@@ -35,7 +35,7 @@ class StatementComments extends React.Component<IProps> {
       <GetStatementCommentsQueryComponent
         query={GetStatementComments}
         variables={{ id: parseInt(this.props.statementId, 10) }}
-        // pollInterval={5000}
+        pollInterval={5000}
       >
         {({ data, loading, error, refetch }) => {
           if (error) {

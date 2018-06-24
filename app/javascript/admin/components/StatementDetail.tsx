@@ -85,7 +85,7 @@ class StatementDetail extends React.Component<IProps, IState> {
       <GetStatementQueryComponent
         query={GetStatement}
         variables={{ id: parseInt(statementId, 10) }}
-        // pollInterval={5000}
+        pollInterval={5000}
       >
         {({ data, loading, error }) => {
           if (error) {
