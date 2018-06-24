@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import { DateTime } from 'luxon';
 
 export function displayDate(date: string): string {
@@ -22,4 +24,15 @@ export function pluralize(count: number, one: string, twoToFour: string, others:
   } else {
     return others;
   }
+}
+
+export function newlinesToBr(str: string): React.ReactNode {
+  const parts = str.split(/(?:\r\n|\r|\n)/);
+
+  return parts.map((part, index) => (
+    <>
+      {part}
+      {index !== parts.length - 1 && <br />}
+    </>
+  ));
 }

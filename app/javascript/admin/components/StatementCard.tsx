@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { addFlashMessage } from '../actions/flashMessages';
 import { ASSESSMENT_STATUS_LABELS } from '../constants';
 import { DeleteStatement } from '../queries/mutations';
-import { pluralize } from '../utils';
+import { newlinesToBr, pluralize } from '../utils';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 
 interface IStatement {
@@ -117,7 +117,7 @@ class StatementCard extends React.Component<IProps, IState> {
             <h5>
               {statement.speaker.first_name} {statement.speaker.last_name}
             </h5>
-            <p style={{ margin: 0 }}>{statement.content}</p>
+            <p style={{ margin: 0 }}>{newlinesToBr(statement.content)}</p>
           </div>
           <div className="card-footer text-muted small">
             {statement.published && <>Zveřejněný{' · '}</>}

@@ -24,7 +24,7 @@ import {
 } from '../operation-result-types';
 import { UpdateStatement } from '../queries/mutations';
 import { GetStatement } from '../queries/queries';
-import { displayDate } from '../utils';
+import { displayDate, newlinesToBr } from '../utils';
 import UserSelect from './forms/controls/UserSelect';
 import VeracitySelect from './forms/controls/VeracitySelect';
 import FormikAutoSave from './forms/FormikAutoSave';
@@ -282,7 +282,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                             {statement.speaker.first_name} {statement.speaker.last_name}
                           </h5>
                           {values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED ? (
-                            <p>{values.content}</p>
+                            <p>{newlinesToBr(values.content)}</p>
                           ) : (
                             <textarea
                               className="form-control"

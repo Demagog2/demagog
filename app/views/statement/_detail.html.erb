@@ -18,7 +18,7 @@
 
   <p class="quote">
     <% unless local_assigns[:non_attributed] %><b><%= statement.speaker.full_name %></b>:<% end %>
-    „<%= raw(statement.content) %>“
+    „<%= content_to_html(statement.content) %>“
   </p>
 
   <p class="utils">

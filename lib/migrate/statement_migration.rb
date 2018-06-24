@@ -38,11 +38,13 @@ class StatementMigration
 
     Statement.bulk_insert(*keys) do |worker|
       old_statements.each do |old_statement|
+        content = migrate_statement_content old_statement["vyrok"]
+
         worker.add([
                      old_statement["id"],
                      old_statement["id_diskusia"],
                      @tester.duplicated_id(old_statement["id_politik"]),
-                     old_statement["vyrok"],
+                     content,
                      old_statement["evaluate"] == 1,
                      old_statement["dolezity"] == 1,
                      old_statement["status"] == 1,
@@ -152,5 +154,20 @@ class StatementMigration
         ])
       end
     end
+  end
+
+  def migrate_statement_content(old_content)
+    # First remove old newlines, which did not do anything, because statements
+    # were rendered as html
+    content = old_content.gsub(/(?:\r\n|\r|\n)/, " ")
+
+    # Then replace all existing <br> tags with newlines
+    content = content.gsub(/(?:<br>|<BR>|<\/br>)/, "\n")
+
+    # If there are any spaces before or after newline, remove them
+    content = content.gsub(/(?: \n|\n )/, "\n")
+
+    # And remove all other <i> tags
+    content.gsub(/(<i>|<\/i>)/, "")
   end
 end

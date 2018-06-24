@@ -19,6 +19,7 @@ import {
 } from '../operation-result-types';
 import { UpdateSourceStatementsOrder } from '../queries/mutations';
 import { GetSource, GetSourceStatements } from '../queries/queries';
+import { newlinesToBr } from '../utils';
 import Loading from './Loading';
 
 class UpdateSourceStatementsOrderMutationComponent extends Mutation<
@@ -145,7 +146,7 @@ class StatementsSort extends React.Component<IProps, IState> {
                               {statement.speaker.first_name} {statement.speaker.last_name}
                             </h5>
                           </div>
-                          <div style={{ flex: '2 0' }}>{statement.content}</div>
+                          <div style={{ flex: '2 0' }}>{newlinesToBr(statement.content)}</div>
                         </div>
                       )}
                     </Draggable>

@@ -6,7 +6,7 @@
   </h1>
 
   <blockquote>
-    <b><%= @statement.speaker.full_name %>:</b> <%= raw(@statement.content) %>
+    <b><%= @statement.speaker.full_name %>:</b> <%= content_to_html(@statement.content) %>
     <cite><%= @statement.source.medium.name %>, <%= raw(l(@statement.source.released_at, format: :long)) %></cite>
   </blockquote>
 </section>
