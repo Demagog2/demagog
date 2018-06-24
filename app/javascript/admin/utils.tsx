@@ -30,9 +30,9 @@ export function newlinesToBr(str: string): React.ReactNode {
   const parts = str.split(/(?:\r\n|\r|\n)/);
 
   return parts.map((part, index) => (
-    <>
+    <React.Fragment key={index}>
       {part}
       {index !== parts.length - 1 && <br />}
-    </>
+    </React.Fragment>
   ));
 }
