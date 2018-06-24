@@ -343,8 +343,8 @@ class SourceDetail extends React.Component<IProps, IState> {
                 <div style={{ flex: '1 0' }}>
                   <div className="float-right">
                     <Link
-                      to={`/admin/sources/${source.id}/statements-sorting`}
-                      className="btn btn-secondary disabled"
+                      to={`/admin/sources/${source.id}/statements-sort`}
+                      className="btn btn-secondary"
                     >
                       Seřadit výroky
                     </Link>

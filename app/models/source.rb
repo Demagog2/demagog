@@ -14,28 +14,18 @@ class Source < ApplicationRecord
     where("name LIKE ?", "%#{name}%")
   end
 
-  def regenerate_statements_order
-    sorted = statements
-      .unscoped
-      .where(source: self)
-      .where(deleted_at: nil)
-      .left_outer_joins(:statement_transcript_position)
-      .order(
-        "statement_transcript_positions.start_line ASC",
-        "statement_transcript_positions.start_offset ASC",
-        "excerpted_at ASC"
-      )
-
-    puts "======================"
-    puts sorted.inspect
-
+  def update_statements_source_order(ordered_statement_ids)
     Source.transaction do
-      sorted.each_with_index do |statement, index|
-        puts "-----------------"
-        puts statement.id.inspect
-        puts index.inspect
-        statement.update!(source_order: index)
+      statements.update_all(source_order: nil)
+
+      unless ordered_statement_ids.nil?
+        ordered_statement_ids.each_with_index do |statement_id, index|
+          self.statements.find(statement_id).update!(source_order: index)
+        end
       end
     end
+
+    statements.reload
+    self
   end
 end

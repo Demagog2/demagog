@@ -99,6 +99,10 @@ export interface CommentInputType {
   statement_id: string,
 };
 
+export interface UpdateSourceStatementsOrderInputType {
+  ordered_statement_ids?: Array< string > | null,
+};
+
 export interface CreateSourceMutationVariables {
   sourceInput: SourceInputType,
 };
@@ -368,6 +372,21 @@ export interface CreateCommentMutation {
   } | null,
 };
 
+export interface UpdateSourceStatementsOrderMutationVariables {
+  id: string,
+  input: UpdateSourceStatementsOrderInputType,
+};
+
+export interface UpdateSourceStatementsOrderMutation {
+  // Update order of statements in source
+  updateSourceStatementsOrder:  {
+    id: string,
+    statements:  Array< {
+      id: string,
+    } >,
+  } | null,
+};
+
 export interface GetSourcesQueryVariables {
   name?: string | null,
 };
@@ -457,6 +476,7 @@ export interface GetSourceStatementsQuery {
       end_offset: number,
     } | null,
     comments_count: number,
+    source_order: number | null,
   } >,
 };
 

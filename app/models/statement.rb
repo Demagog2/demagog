@@ -21,12 +21,25 @@ class Statement < ApplicationRecord
 
   scope :ordered, -> {
     where(deleted_at: nil)
-      .order(source_order: :asc, excerpted_at: :asc)
+      .left_outer_joins(
+        # Doing left outer join so it returns also statements without transcript position
+        :statement_transcript_position
+      )
+      .order(
+        # -column DESC means we sort in ascending order, but we want NULL values at the end
+        # See https://stackoverflow.com/questions/2051602/mysql-orderby-a-number-nulls-last
+        # It means that when user provides manual sorting in source_order columns, it will be
+        # used first and rest of the statements will be after
+        Arel.sql("- source_order DESC"),
+        Arel.sql("- statement_transcript_positions.start_line DESC"),
+        Arel.sql("- statement_transcript_positions.start_offset DESC"),
+        "excerpted_at ASC"
+      )
   }
 
   scope :published, -> {
-    where(published: true, deleted_at: nil)
-      .order(source_order: :asc, excerpted_at: :asc)
+    ordered
+      .where(published: true)
       .joins(:assessment)
       .where.not(assessments: {
         veracity_id: nil
@@ -39,6 +52,13 @@ class Statement < ApplicationRecord
   scope :relevant_for_statistics, -> {
     published
       .where(count_in_statistics: true)
+  }
+
+  scope :published_important_first, -> {
+    # We first call order and then the published scope so the important DESC
+    # order rule is used first and then the ones from scope ordered
+    # (source_order, etc.)
+    order(important: :desc).published
   }
 
   def self.interesting_statements

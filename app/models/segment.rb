@@ -15,8 +15,6 @@ class Segment < ApplicationRecord
   end
 
   def published_statements
-    statements
-      .where(published: true)
-      .order(important: :desc, excerpted_at: :asc)
+    statements.published_important_first
   end
 end

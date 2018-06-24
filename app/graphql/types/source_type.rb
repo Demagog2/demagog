@@ -20,9 +20,9 @@ Types::SourceType = GraphQL::ObjectType.define do
         # Public cannot access unpublished statements
         raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
 
-        statements = Statement.ordered
+        statements = obj.statements.ordered
       else
-        statements = Statement.published
+        statements = obj.statements.published
       end
 
       statements

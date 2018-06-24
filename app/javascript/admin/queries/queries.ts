@@ -83,6 +83,7 @@ export const GetSourceStatements = gql`
         end_offset
       }
       comments_count
+      source_order
     }
   }
 `;

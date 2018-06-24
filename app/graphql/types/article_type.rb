@@ -38,7 +38,7 @@ Types::ArticleType = GraphQL::ObjectType.define do
     argument :speaker, types.Int
 
     resolve -> (obj, args, ctx) do
-      statements = obj.statements.where(published: true).order(excerpted_at: "asc")
+      statements = obj.statements.published
       statements = statements.joins(:veracities).where(veracities: { key: args[:veracity] }) if args[:veracity]
       statements = statements.where(speaker_id: args[:speaker]) if args[:speaker]
 

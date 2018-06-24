@@ -215,3 +215,11 @@ export const CreateComment = gql`
     }
   }
 `;
+
+export const UpdateSourceStatementsOrder = gql`
+  mutation UpdateSourceStatementsOrder($id: ID!, $input: UpdateSourceStatementsOrderInputType!) {
+    updateSourceStatementsOrder(id: $id, input: $input) {
+      id
+    }
+  }
+`;

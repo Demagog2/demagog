@@ -41,8 +41,6 @@ Mutations::CreateStatement = GraphQL::Field.define do
         )
       end
 
-      statement.source.regenerate_statements_order
-
       statement
     end
   }

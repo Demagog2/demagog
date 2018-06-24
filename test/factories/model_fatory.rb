@@ -112,6 +112,32 @@ FactoryBot.define do
       create(:assessment, statement: statement, veracity: create(:true))
     end
 
+    trait :important do
+      important true
+    end
+
+    trait :unpublished do
+      published false
+    end
+
+    trait :with_transcript_position do
+      transient do
+        transcript_position [0, 0, 0, 20]
+      end
+
+      after(:create) do |statement, evaluator|
+        create(
+          :statement_transcript_position,
+          statement: statement,
+          source: statement.source,
+          start_line: evaluator.transcript_position[0],
+          start_offset: evaluator.transcript_position[1],
+          end_line: evaluator.transcript_position[2],
+          end_offset: evaluator.transcript_position[3],
+        )
+      end
+    end
+
     factory :important_statement do
       important true
     end
@@ -120,6 +146,8 @@ FactoryBot.define do
       published false
     end
   end
+
+  factory :statement_transcript_position
 
   factory :membership do
     speaker
