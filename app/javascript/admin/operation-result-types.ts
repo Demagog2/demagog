@@ -381,9 +381,6 @@ export interface UpdateSourceStatementsOrderMutation {
   // Update order of statements in source
   updateSourceStatementsOrder:  {
     id: string,
-    statements:  Array< {
-      id: string,
-    } >,
   } | null,
 };
 
