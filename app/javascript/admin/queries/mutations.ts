@@ -122,7 +122,12 @@ export const CreateUser = gql`
       id
       first_name
       last_name
+      avatar
       active
+      role {
+        id
+        name
+      }
     }
   }
 `;
@@ -135,6 +140,10 @@ export const UpdateUser = gql`
       last_name
       avatar
       active
+      role {
+        id
+        name
+      }
     }
   }
 `;

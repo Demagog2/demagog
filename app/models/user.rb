@@ -20,4 +20,12 @@ class User < ApplicationRecord
     user = User.active.find_by(email: data["email"])
     user
   end
+
+  # We right now expect exactly one role per user
+  def role
+    roles.first
+  end
+  def role_id=(value)
+    self.roles = [Role.find(value)]
+  end
 end

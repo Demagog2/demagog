@@ -17,4 +17,5 @@ Types::UserInputType = GraphQL::InputObjectType.define do
   argument :phone, types.String
   argument :order, types.Int
   argument :rank, types.Int
+  argument :role_id, types.ID
 end

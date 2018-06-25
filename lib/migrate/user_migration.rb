@@ -26,7 +26,7 @@ class UserMigration
         rank: old_user["rank"]
       )
 
-      user.roles << Role.find_by(name: old_user["usertype"])
+      user.roles << Role.find_by(key: usertype_to_role_key(old_user["usertype"]))
 
       user.save!
 
@@ -38,4 +38,14 @@ class UserMigration
       end
     end
   end
+
+  private
+    def usertype_to_role_key(usertype)
+      case usertype
+      when "admin" then "admin"
+      when "expert" then "expert"
+      when "stazista" then "intern"
+      else raise Exception.new("Unexpected usertype #{usertype}")
+      end
+    end
 end

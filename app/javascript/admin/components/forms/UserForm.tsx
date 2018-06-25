@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { GetUserQuery, UserInputType } from '../../operation-result-types';
 import SpeakerAvatar from '../SpeakerAvatar';
 import ImageInput, { ImageValueType } from './controls/ImageInput';
+import RoleSelect from './controls/RoleSelect';
 import { Form } from './Form';
 
 export interface IUserFormData extends UserInputType {
@@ -33,6 +34,9 @@ export class UserForm extends React.Component<IUserFormProps> {
         last_name: '',
         avatar: null,
         bio: '',
+        role: {
+          id: null,
+        },
       },
     },
   };
@@ -45,9 +49,19 @@ export class UserForm extends React.Component<IUserFormProps> {
       return null;
     }
 
+    const defaultValues = {
+      active: userQuery.user.active,
+      email: userQuery.user.email,
+      first_name: userQuery.user.first_name,
+      last_name: userQuery.user.last_name,
+      avatar: userQuery.user.avatar,
+      bio: userQuery.user.bio,
+      role_id: userQuery.user.role.id,
+    };
+
     return (
-      <UserFormInternal defaultValues={userQuery.user} onSubmit={this.props.onSubmit}>
-        {({ onInputChange, onCheckboxChange, onImageChange }) => (
+      <UserFormInternal defaultValues={defaultValues} onSubmit={this.props.onSubmit}>
+        {({ onAssociationChange, onInputChange, onCheckboxChange, onImageChange }, data) => (
           <React.Fragment>
             <div className="form-row">
               <div className="form-group col-md-6">
@@ -98,10 +112,18 @@ export class UserForm extends React.Component<IUserFormProps> {
                     id="active"
                   />
                   <label className="form-check-label" htmlFor="active">
-                    Uživatel je aktivní:
+                    Uživatel je aktivní
                   </label>
                 </div>
               </div>
+            </div>
+
+            <div className="form-row">
+              <RoleSelect
+                className="col-md-6"
+                value={data.role_id || null}
+                onChange={onAssociationChange('role_id')}
+              />
             </div>
 
             <div className="form-row">

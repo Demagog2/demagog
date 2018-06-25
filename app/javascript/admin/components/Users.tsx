@@ -176,6 +176,13 @@ class Users extends React.Component<IProps, IUsersState> {
 
                           <dl style={{ marginTop: 20 }}>
                             <dt className="text-muted">
+                              <small>PŘÍSTUPOVÁ PRÁVA</small>
+                            </dt>
+                            <dd>{user.role.name}</dd>
+                          </dl>
+
+                          <dl style={{ marginTop: 20 }}>
+                            <dt className="text-muted">
                               <small>BIO</small>
                             </dt>
                             <dd>{user.bio}</dd>

@@ -265,4 +265,12 @@ Types::QueryType = GraphQL::ObjectType.define do
       users
     }
   end
+
+  field :roles, !types[!Types::RoleType] do
+    resolve -> (obj, args, ctx) {
+      raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+
+      Role.all
+    }
+  end
 end
