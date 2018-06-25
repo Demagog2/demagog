@@ -705,3 +705,17 @@ export interface GetRolesQuery {
     name: string,
   } >,
 };
+
+export interface GetCurrentUserQuery {
+  current_user:  {
+    id: string,
+    first_name: string | null,
+    last_name: string | null,
+    email: string,
+    role:  {
+      id: string,
+      key: string,
+      name: string,
+    },
+  },
+};

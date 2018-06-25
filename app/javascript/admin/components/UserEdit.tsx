@@ -4,8 +4,10 @@ import { Mutation, MutationFn, Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
+import { fetchCurrentUser } from '../actions/currentUser';
 import { addFlashMessage } from '../actions/flashMessages';
 import { deleteUserAvatar, uploadUserAvatar } from '../api';
+import { IState } from '../reducers';
 import Error from './Error';
 import Loading from './Loading';
 
@@ -31,7 +33,8 @@ interface IUpdateUserMutationFn
 
 interface ISpeakerEditProps extends RouteComponentProps<{ id: string }> {
   id: number;
-  addFlashMessage: (message: string) => void;
+  currentUser: IState['currentUser']['user'];
+  dispatch: (action: any) => any;
 }
 
 interface ISpeakerEditState {
@@ -49,6 +52,8 @@ class UserEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> {
     previousData: GetUserQueryData,
   ) => (speakerFormData: IUserFormData) => {
     const { avatar, ...userInput } = speakerFormData;
+
+    // TODO: do not allow deactivating ourselves
 
     this.setState({ submitting: true });
 
@@ -74,11 +79,16 @@ class UserEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> {
   };
 
   private onCompleted = () => {
-    this.props.addFlashMessage('Uložení proběhlo v pořádku');
+    this.props.dispatch(addFlashMessage('Uložení proběhlo v pořádku'));
+
+    if (this.props.currentUser && this.props.match.params.id === this.props.currentUser.id) {
+      // When we are editing ourselves, lets update the currentUser info
+      this.props.dispatch(fetchCurrentUser());
+    }
   };
 
   private onError = (error: any) => {
-    this.props.addFlashMessage('Doško k chybě při uložení dat');
+    this.props.dispatch(addFlashMessage('Doško k chybě při uložení dat'));
 
     console.error(error); // tslint:disable-line:no-console
   };
@@ -121,15 +131,8 @@ class UserEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
+const mapStateToProps = (state: IState) => ({
+  currentUser: state.currentUser.user,
+});
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(UserEdit);
+export default connect(mapStateToProps)(UserEdit);

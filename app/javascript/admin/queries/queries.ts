@@ -293,3 +293,19 @@ export const GetRoles = gql`
     }
   }
 `;
+
+export const GetCurrentUser = gql`
+  query GetCurrentUser {
+    current_user {
+      id
+      first_name
+      last_name
+      email
+      role {
+        id
+        key
+        name
+      }
+    }
+  }
+`;

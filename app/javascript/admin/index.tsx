@@ -11,10 +11,7 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';
 
-/* eslint-disable import/no-extraneous-dependencies */
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { ApolloClient } from 'apollo-client';
-import { createUploadLink } from 'apollo-upload-client';
+import apolloClient from './apolloClient';
 
 import 'jquery';
 import 'jquery-ujs';
@@ -27,11 +24,6 @@ import App from './App';
 import rootEpic from './epics';
 import rootReducer from './reducers';
 
-const client = new ApolloClient({
-  cache: new InMemoryCache(),
-  link: createUploadLink({ credentials: 'same-origin' }),
-});
-
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const epicMiddleware = createEpicMiddleware(rootEpic);
@@ -41,7 +33,7 @@ const store = createStore(rootReducer, composeEnhancers(applyMiddleware(epicMidd
 const render = (RootContainer) =>
   ReactDOM.render(
     <AppContainer>
-      <ApolloProvider client={client}>
+      <ApolloProvider client={apolloClient}>
         <Provider store={store}>
           <RootContainer />
         </Provider>
