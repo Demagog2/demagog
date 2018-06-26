@@ -9,7 +9,8 @@ Mutations::UpdateSource = GraphQL::Field.define do
   argument :source_input, !Types::SourceInputType
 
   resolve -> (obj, args, ctx) {
-    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+    Utils::Auth.authenticate(ctx)
+    Utils::Auth.authorize(ctx, ["sources:edit"])
 
     source = args[:source_input].to_h
 

@@ -9,7 +9,8 @@ Mutations::UpdateBody = GraphQL::Field.define do
   argument :body_input, !Types::BodyInputType
 
   resolve -> (obj, args, ctx) {
-    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+    Utils::Auth.authenticate(ctx)
+    Utils::Auth.authorize(ctx, ["bodies"])
 
     Body.update(args[:id], args[:body_input].to_h)
   }

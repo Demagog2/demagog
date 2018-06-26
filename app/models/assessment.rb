@@ -44,4 +44,41 @@ class Assessment < ApplicationRecord
   belongs_to :statement
 
   validates_with AssessmentValidator
+
+  def is_user_authorized_to_save(user)
+    permissions = user.role.permissions
+
+    # With statements:edit, user can edit anything in assessment
+    return true if permissions.include?("statements:edit")
+
+    evaluator_allowed_attributes = [
+      "veracity_id",
+      "explanation_html",
+      "explanation_slatejson",
+      "short_explanation",
+      "evaluation_status"
+    ]
+    evaluator_allowed_changes =
+      evaluation_status_was == STATUS_BEING_EVALUATED &&
+      (changed_attributes.keys - evaluator_allowed_attributes).empty?
+
+    if evaluator_allowed_changes && permissions.include?("statements:edit-as-evaluator") && user_id == user.id
+      return true
+    end
+
+    texts_allowed_attributes = [
+      "explanation_html",
+      "explanation_slatejson",
+      "short_explanation",
+    ]
+    texts_allowed_changes =
+      [STATUS_BEING_EVALUATED, STATUS_APPROVAL_NEEDED].include?(evaluation_status) &&
+      (changed_attributes.keys - texts_allowed_attributes).empty?
+
+    if texts_allowed_changes && permissions.include?("statements:edit-texts")
+      return true
+    end
+
+    changed_attributes.empty?
+  end
 end

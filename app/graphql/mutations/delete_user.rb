@@ -8,7 +8,8 @@ Mutations::DeleteUser = GraphQL::Field.define do
   argument :id, !types.ID
 
   resolve -> (obj, args, ctx) {
-    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+    Utils::Auth.authenticate(ctx)
+    Utils::Auth.authorize(ctx, ["users"])
 
     id = args[:id].to_i
 

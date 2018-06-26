@@ -9,11 +9,12 @@ interface IProps {
   isAuthorized: (permissions: string[]) => boolean;
   children: React.ReactNode;
   permissions: string[];
+  bypass?: boolean;
 }
 
 class Authorize extends React.Component<IProps> {
   public render() {
-    if (!this.props.isAuthorized(this.props.permissions)) {
+    if (!this.props.bypass && !this.props.isAuthorized(this.props.permissions)) {
       return null;
     }
 

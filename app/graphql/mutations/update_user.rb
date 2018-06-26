@@ -9,7 +9,8 @@ Mutations::UpdateUser = GraphQL::Field.define do
   argument :user_input, !Types::UserInputType
 
   resolve -> (obj, args, ctx) {
-    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+    Utils::Auth.authenticate(ctx)
+    Utils::Auth.authorize(ctx, ["users"])
 
     User.update(args[:id], args[:user_input].to_h)
   }

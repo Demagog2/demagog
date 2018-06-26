@@ -8,7 +8,8 @@ Mutations::CreateStatement = GraphQL::Field.define do
   argument :statement_input, !Types::CreateStatementInputType
 
   resolve -> (obj, args, ctx) {
-    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+    Utils::Auth.authenticate(ctx)
+    Utils::Auth.authorize(ctx, ["statements:add"])
 
     statement_input = args[:statement_input].to_h
     transcript_position_input = statement_input.delete("statement_transcript_position")

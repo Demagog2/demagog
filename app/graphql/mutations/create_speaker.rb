@@ -8,7 +8,8 @@ Mutations::CreateSpeaker = GraphQL::Field.define do
   argument :speaker_input, !Types::SpeakerInputType
 
   resolve -> (obj, args, ctx) {
-    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+    Utils::Auth.authenticate(ctx)
+    Utils::Auth.authorize(ctx, ["speakers"])
 
     speaker = args[:speaker_input].to_h
 

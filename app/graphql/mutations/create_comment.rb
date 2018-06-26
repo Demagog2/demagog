@@ -8,7 +8,8 @@ Mutations::CreateComment = GraphQL::Field.define do
   argument :comment_input, !Types::CommentInputType
 
   resolve -> (obj, args, ctx) {
-    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+    Utils::Auth.authenticate(ctx)
+    Utils::Auth.authorize(ctx, ["statements:comments:add"])
 
     comment_input = args[:comment_input].to_h
     comment_input["user"] = ctx[:current_user]

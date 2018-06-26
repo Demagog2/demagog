@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Statement < ApplicationRecord
+  include ActiveModel::Dirty
+
   belongs_to :speaker
   belongs_to :source, optional: true
   has_many :comments
@@ -74,5 +76,32 @@ class Statement < ApplicationRecord
       statement: self,
       evaluation_status: Assessment::STATUS_APPROVED
     )
+  end
+
+  def is_user_authorized_to_save(user)
+    permissions = user.role.permissions
+
+    # With statements:edit, user can edit anything in statement
+    return true if permissions.include? "statements:edit"
+
+    evaluator_allowed_attributes = ["content"]
+    evaluator_allowed_changes =
+      assessment.evaluation_status == Assessment::STATUS_BEING_EVALUATED &&
+      (changed_attributes.keys - evaluator_allowed_attributes).empty?
+
+    if evaluator_allowed_changes && permissions.include?("statements:edit-as-evaluator") && assessment.user_id == user.id
+      return true
+    end
+
+    texts_allowed_attributes = ["content"]
+    texts_allowed_changes =
+      [Assessment::STATUS_BEING_EVALUATED, Assessment::STATUS_APPROVAL_NEEDED].include?(assessment.evaluation_status) &&
+      (changed_attributes.keys - texts_allowed_attributes).empty?
+
+    if texts_allowed_changes && permissions.include?("statements:edit-texts")
+      return true
+    end
+
+    changed_attributes.empty?
   end
 end

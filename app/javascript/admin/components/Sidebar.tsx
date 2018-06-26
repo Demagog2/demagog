@@ -9,11 +9,11 @@ const categories = [
   {
     title: 'Výstupy',
     links: [
-      { to: '/admin/articles', title: 'Články' },
-      { to: '/admin/tags', title: 'Štítky' },
+      { to: '/admin/articles', title: 'Články', permissions: ['articles:view'] },
+      { to: '/admin/tags', title: 'Štítky', permissions: ['tags'] },
       { to: '/admin/sources', title: 'Výroky', enabled: true, permissions: ['sources:view'] },
-      { to: '/admin/visualizations', title: 'Vizualizace' },
-      { to: '/admin/images', title: 'Obrázky' },
+      { to: '/admin/visualizations', title: 'Vizualizace', permissions: ['visualizations'] },
+      { to: '/admin/images', title: 'Obrázky', permissions: ['images'] },
     ],
   },
   {
@@ -26,16 +26,16 @@ const categories = [
         enabled: true,
         permissions: ['bodies'],
       },
-      { to: '/admin/media', title: 'Pořady' },
+      { to: '/admin/media', title: 'Pořady', permissions: ['media'] },
     ],
   },
   {
     title: 'O nás',
     links: [
       { to: '/admin/users', title: 'Tým', enabled: true, permissions: ['users'] },
-      { to: '/admin/availability', title: 'Dostupnost' },
-      { to: '/admin/pages', title: 'Stránky' },
-      { to: '/admin/navigation', title: 'Menu' },
+      { to: '/admin/availability', title: 'Dostupnost', permissions: ['availability'] },
+      { to: '/admin/pages', title: 'Stránky', permissions: ['pages'] },
+      { to: '/admin/navigation', title: 'Menu', permissions: ['menu'] },
     ],
   },
 ];

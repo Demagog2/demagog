@@ -9,7 +9,8 @@ Mutations::UpdateSourceStatementsOrder = GraphQL::Field.define do
   argument :input, !Types::UpdateSourceStatementsOrderInputType
 
   resolve -> (obj, args, ctx) {
-    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+    Utils::Auth.authenticate(ctx)
+    Utils::Auth.authorize(ctx, ["statements:sort"])
 
     source = Source.find(args[:id])
     source.update_statements_source_order(args[:input]["ordered_statement_ids"])

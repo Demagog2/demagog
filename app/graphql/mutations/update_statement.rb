@@ -9,7 +9,7 @@ Mutations::UpdateStatement = GraphQL::Field.define do
   argument :statement_input, !Types::UpdateStatementInputType
 
   resolve -> (obj, args, ctx) {
-    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+    Utils::Auth.authenticate(ctx)
 
     statement_input = args[:statement_input].to_h
     assessment_input = statement_input.delete("assessment")
@@ -27,10 +27,22 @@ Mutations::UpdateStatement = GraphQL::Field.define do
             assessment_input["evaluator"] = User.find(evaluator_id)
           end
 
-          statement.assessment.update!(assessment_input)
+          statement.assessment.assign_attributes(assessment_input)
+
+          unless statement.assessment.is_user_authorized_to_save(ctx[:current_user])
+            raise Errors::NotAuthorizedError.new
+          end
+
+          statement.assessment.save!
         end
 
-        statement.update!(statement_input)
+        statement.assign_attributes(statement_input)
+
+        unless statement.is_user_authorized_to_save(ctx[:current_user])
+          raise Errors::NotAuthorizedError.new
+        end
+
+        statement.save!
 
         statement
       end

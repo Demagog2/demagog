@@ -1,12 +1,21 @@
 # frozen_string_literal: true
 
 ALL_PERMISSIONS = [
+  "availability",
+  "bodies",
+  "images",
+  "media",
+  "menu",
+  "pages",
+  "speakers",
+  "tags",
+  "users",
+  "visualizations",
+
+  "articles:view",
+
   "sources:view",
   "sources:edit",
-
-  "speakers",
-  "bodies",
-  "users",
 
   "statements:add",
   "statements:edit", # Allows editing of everything in statement
