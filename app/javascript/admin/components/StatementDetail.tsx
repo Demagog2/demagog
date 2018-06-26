@@ -598,7 +598,7 @@ class EvaluationStatusInput extends React.Component<IEvaluationStatusInputProps>
 
 const mapStateToProps = (state: ReduxState) => ({
   currentUser: state.currentUser.user,
-  isAuthorized: isAuthorized(state.roles.roles, state.currentUser.user),
+  isAuthorized: isAuthorized(state.currentUser.user),
 });
 
 export default connect(mapStateToProps)(StatementDetail);

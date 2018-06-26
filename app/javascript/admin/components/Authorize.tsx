@@ -23,7 +23,7 @@ class Authorize extends React.Component<IProps> {
 }
 
 const mapStateToProps = (state: IState) => ({
-  isAuthorized: isAuthorized(state.roles.roles, state.currentUser.user),
+  isAuthorized: isAuthorized(state.currentUser.user),
 });
 
 export default connect(mapStateToProps)(Authorize);

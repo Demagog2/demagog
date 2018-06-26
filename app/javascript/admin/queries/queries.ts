@@ -290,7 +290,6 @@ export const GetRoles = gql`
       id
       key
       name
-      permissions
     }
   }
 `;
@@ -306,6 +305,7 @@ export const GetCurrentUser = gql`
         id
         key
         name
+        permissions
       }
     }
   }
