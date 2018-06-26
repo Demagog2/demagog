@@ -9,7 +9,7 @@ Mutations::DeleteUser = GraphQL::Field.define do
 
   resolve -> (obj, args, ctx) {
     Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["users"])
+    Utils::Auth.authorize(ctx, ["users:edit"])
 
     id = args[:id].to_i
 

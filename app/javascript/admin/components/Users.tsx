@@ -14,6 +14,7 @@ import {
 } from '../operation-result-types';
 import { DeleteUser } from '../queries/mutations';
 import { GetUsers } from '../queries/queries';
+import Authorize from './Authorize';
 import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
@@ -75,9 +76,11 @@ class Users extends React.Component<IProps, IUsersState> {
         <div>
           <h1>Tým</h1>
 
-          <Link style={{ marginBottom: 20 }} className="btn btn-primary" to="/admin/users/new">
-            Přidat nového člena týmu
-          </Link>
+          <Authorize permissions={['users:edit']}>
+            <Link style={{ marginBottom: 20 }} className="btn btn-primary" to="/admin/users/new">
+              Přidat nového člena týmu
+            </Link>
+          </Authorize>
 
           <div className="input-group mb-3" style={{ marginBottom: 20 }}>
             <div className="input-group-prepend">
@@ -152,22 +155,24 @@ class Users extends React.Component<IProps, IUsersState> {
                         </div>
 
                         <div style={{ marginLeft: 15, flex: '1 0' }}>
-                          <div style={{ float: 'right' }}>
-                            <Link
-                              to={`/admin/users/edit/${user.id}`}
-                              className="btn btn-secondary"
-                              style={{ marginRight: 15 }}
-                            >
-                              Upravit
-                            </Link>
-                            <button
-                              type="button"
-                              className="btn btn-secondary"
-                              onClick={this.showConfirmDeleteModal(user.id)}
-                            >
-                              Smazat
-                            </button>
-                          </div>
+                          <Authorize permissions={['users:edit']}>
+                            <div style={{ float: 'right' }}>
+                              <Link
+                                to={`/admin/users/edit/${user.id}`}
+                                className="btn btn-secondary"
+                                style={{ marginRight: 15 }}
+                              >
+                                Upravit
+                              </Link>
+                              <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={this.showConfirmDeleteModal(user.id)}
+                              >
+                                Smazat
+                              </button>
+                            </div>
+                          </Authorize>
 
                           <h5 style={{ marginTop: 7 }}>
                             {user.first_name} {user.last_name}{' '}

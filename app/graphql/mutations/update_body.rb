@@ -10,7 +10,7 @@ Mutations::UpdateBody = GraphQL::Field.define do
 
   resolve -> (obj, args, ctx) {
     Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["bodies"])
+    Utils::Auth.authorize(ctx, ["bodies:edit"])
 
     Body.update(args[:id], args[:body_input].to_h)
   }

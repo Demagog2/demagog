@@ -9,7 +9,7 @@ Mutations::DeleteBody = GraphQL::Field.define do
 
   resolve -> (obj, args, ctx) {
     Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["bodies"])
+    Utils::Auth.authorize(ctx, ["bodies:edit"])
 
     id = args[:id].to_i
 

@@ -14,6 +14,7 @@ import {
 } from '../operation-result-types';
 import { DeleteSpeaker } from '../queries/mutations';
 import { GetSpeakers } from '../queries/queries';
+import Authorize from './Authorize';
 import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
@@ -68,9 +69,11 @@ class Speakers extends React.Component<IProps, IState> {
         <div>
           <h1>Lidé</h1>
 
-          <Link style={{ marginBottom: 20 }} className="btn btn-primary" to="/admin/speakers/new">
-            Přidat novou osobu
-          </Link>
+          <Authorize permissions={['speakers:edit']}>
+            <Link style={{ marginBottom: 20 }} className="btn btn-primary" to="/admin/speakers/new">
+              Přidat novou osobu
+            </Link>
+          </Authorize>
 
           <SearchInput placeholder="Vyhledat politickou osobu" onChange={this.onSearchChange} />
 
@@ -124,22 +127,24 @@ class Speakers extends React.Component<IProps, IState> {
                         </div>
 
                         <div style={{ marginLeft: 15, flex: '1 0' }}>
-                          <div style={{ float: 'right' }}>
-                            <Link
-                              to={`/admin/speakers/edit/${speaker.id}`}
-                              className="btn btn-secondary"
-                              style={{ marginRight: 15 }}
-                            >
-                              Upravit
-                            </Link>
-                            <button
-                              type="button"
-                              className="btn btn-secondary"
-                              onClick={this.showConfirmDeleteModal(speaker.id)}
-                            >
-                              Smazat
-                            </button>
-                          </div>
+                          <Authorize permissions={['speakers:edit']}>
+                            <div style={{ float: 'right' }}>
+                              <Link
+                                to={`/admin/speakers/edit/${speaker.id}`}
+                                className="btn btn-secondary"
+                                style={{ marginRight: 15 }}
+                              >
+                                Upravit
+                              </Link>
+                              <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={this.showConfirmDeleteModal(speaker.id)}
+                              >
+                                Smazat
+                              </button>
+                            </div>
+                          </Authorize>
 
                           <h5 style={{ marginTop: 7 }}>
                             {speaker.first_name} {speaker.last_name}

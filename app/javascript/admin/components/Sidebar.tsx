@@ -10,32 +10,32 @@ const categories = [
     title: 'Výstupy',
     links: [
       { to: '/admin/articles', title: 'Články', permissions: ['articles:view'] },
-      { to: '/admin/tags', title: 'Štítky', permissions: ['tags'] },
+      { to: '/admin/tags', title: 'Štítky', permissions: ['tags:view'] },
       { to: '/admin/sources', title: 'Výroky', enabled: true, permissions: ['sources:view'] },
-      { to: '/admin/visualizations', title: 'Vizualizace', permissions: ['visualizations'] },
-      { to: '/admin/images', title: 'Obrázky', permissions: ['images'] },
+      { to: '/admin/visualizations', title: 'Vizualizace', permissions: ['visualizations:view'] },
+      { to: '/admin/images', title: 'Obrázky', permissions: ['images:view'] },
     ],
   },
   {
     title: 'Kontext',
     links: [
-      { to: '/admin/speakers', title: 'Lidé', enabled: true, permissions: ['speakers'] },
+      { to: '/admin/speakers', title: 'Lidé', enabled: true, permissions: ['speakers:view'] },
       {
         to: '/admin/bodies',
         title: 'Strany a skupiny',
         enabled: true,
-        permissions: ['bodies'],
+        permissions: ['bodies:view'],
       },
-      { to: '/admin/media', title: 'Pořady', permissions: ['media'] },
+      { to: '/admin/media', title: 'Pořady', permissions: ['media:view'] },
     ],
   },
   {
     title: 'O nás',
     links: [
-      { to: '/admin/users', title: 'Tým', enabled: true, permissions: ['users'] },
-      { to: '/admin/availability', title: 'Dostupnost', permissions: ['availability'] },
-      { to: '/admin/pages', title: 'Stránky', permissions: ['pages'] },
-      { to: '/admin/navigation', title: 'Menu', permissions: ['menu'] },
+      { to: '/admin/users', title: 'Tým', enabled: true, permissions: ['users:view'] },
+      { to: '/admin/availability', title: 'Dostupnost', permissions: ['availability:view'] },
+      { to: '/admin/pages', title: 'Stránky', permissions: ['pages:view'] },
+      { to: '/admin/navigation', title: 'Menu', permissions: ['menu:view'] },
     ],
   },
 ];

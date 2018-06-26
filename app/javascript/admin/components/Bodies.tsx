@@ -14,6 +14,7 @@ import {
 } from '../operation-result-types';
 import { DeleteBody } from '../queries/mutations';
 import { GetBodies } from '../queries/queries';
+import Authorize from './Authorize';
 import BodyLogo from './BodyLogo';
 import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
@@ -75,9 +76,11 @@ class Bodies extends React.Component<IProps, IState> {
       <div>
         <h1>Strany a skupiny</h1>
 
-        <Link style={{ marginBottom: 20 }} className="btn btn-primary" to="/admin/bodies/new">
-          Přidat novou stranu / skupinu
-        </Link>
+        <Authorize permissions={['bodies:edit']}>
+          <Link style={{ marginBottom: 20 }} className="btn btn-primary" to="/admin/bodies/new">
+            Přidat novou stranu / skupinu
+          </Link>
+        </Authorize>
 
         <SearchInput
           placeholder="Vyhledat politickou stranu nebo skupinu"
@@ -126,22 +129,24 @@ class Bodies extends React.Component<IProps, IState> {
                       </div>
 
                       <div style={{ marginLeft: 15, flex: '1 0' }}>
-                        <div style={{ float: 'right' }}>
-                          <Link
-                            to={`/admin/bodies/edit/${body.id}`}
-                            className="btn btn-secondary"
-                            style={{ marginRight: 15 }}
-                          >
-                            Upravit
-                          </Link>
-                          <button
-                            type="button"
-                            className="btn btn-secondary"
-                            onClick={this.showConfirmDeleteModal(body.id)}
-                          >
-                            Smazat
-                          </button>
-                        </div>
+                        <Authorize permissions={['bodies:edit']}>
+                          <div style={{ float: 'right' }}>
+                            <Link
+                              to={`/admin/bodies/edit/${body.id}`}
+                              className="btn btn-secondary"
+                              style={{ marginRight: 15 }}
+                            >
+                              Upravit
+                            </Link>
+                            <button
+                              type="button"
+                              className="btn btn-secondary"
+                              onClick={this.showConfirmDeleteModal(body.id)}
+                            >
+                              Smazat
+                            </button>
+                          </div>
+                        </Authorize>
 
                         <h5 className="card-title" style={{ marginTop: 7 }}>
                           {body.name} ({body.short_name})

@@ -9,7 +9,7 @@ Mutations::CreateUser = GraphQL::Field.define do
 
   resolve -> (obj, args, ctx) {
     Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["users"])
+    Utils::Auth.authorize(ctx, ["users:edit"])
 
     User.create!(args[:user_input].to_h)
   }

@@ -9,7 +9,7 @@ Mutations::DeleteSpeaker = GraphQL::Field.define do
 
   resolve -> (obj, args, ctx) {
     Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["speakers"])
+    Utils::Auth.authorize(ctx, ["speakers:edit"])
 
     id = args[:id].to_i
 
