@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Route, Router, Switch } from 'react-router';
 
 import { fetchCurrentUser } from './actions/currentUser';
+import { fetchRoles } from './actions/roles';
 import { IState } from './reducers';
 
 import Loading from './components/Loading';
@@ -42,16 +43,18 @@ const history = createBrowserHistory();
 interface IProps {
   currentUser: IState['currentUser']['user'];
   dispatch: (action: any) => any;
+  roles: IState['roles']['roles'];
 }
 
 class App extends React.Component<IProps> {
   public componentDidMount() {
     this.props.dispatch(fetchCurrentUser());
+    this.props.dispatch(fetchRoles());
   }
 
   public render() {
-    if (!this.props.currentUser) {
-      // We need current user loaded because of the authorization
+    if (!this.props.currentUser || !this.props.roles) {
+      // We need current user & roles loaded because of the authorization
       return <Loading />;
     }
 
@@ -115,6 +118,7 @@ class App extends React.Component<IProps> {
 
 const mapStateToProps = (state: IState) => ({
   currentUser: state.currentUser.user,
+  roles: state.roles.roles,
 });
 
 export default connect(mapStateToProps)(App);

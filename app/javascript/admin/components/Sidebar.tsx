@@ -19,12 +19,12 @@ const categories = [
   {
     title: 'Kontext',
     links: [
-      { to: '/admin/speakers', title: 'Lidé', enabled: true, permissions: ['speakers:view'] },
+      { to: '/admin/speakers', title: 'Lidé', enabled: true, permissions: ['speakers'] },
       {
         to: '/admin/bodies',
         title: 'Strany a skupiny',
         enabled: true,
-        permissions: ['bodies:view'],
+        permissions: ['bodies'],
       },
       { to: '/admin/media', title: 'Pořady' },
     ],
@@ -32,7 +32,7 @@ const categories = [
   {
     title: 'O nás',
     links: [
-      { to: '/admin/users', title: 'Tým', enabled: true, permissions: ['users:view'] },
+      { to: '/admin/users', title: 'Tým', enabled: true, permissions: ['users'] },
       { to: '/admin/availability', title: 'Dostupnost' },
       { to: '/admin/pages', title: 'Stránky' },
       { to: '/admin/navigation', title: 'Menu' },

@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
-import { isCurrentUserAuthorized } from '../authorization';
+import { isAuthorized } from '../authorization';
 import {
   ASSESSMENT_STATUS_APPROVAL_NEEDED,
   ASSESSMENT_STATUS_APPROVED,
@@ -27,7 +27,6 @@ import { UpdateStatement } from '../queries/mutations';
 import { GetStatement } from '../queries/queries';
 import { IState as ReduxState } from '../reducers';
 import { displayDate, newlinesToBr } from '../utils';
-// import Authorize from './Authorize';
 import UserSelect from './forms/controls/UserSelect';
 import VeracitySelect from './forms/controls/VeracitySelect';
 import FormikAutoSave from './forms/FormikAutoSave';
@@ -45,6 +44,7 @@ class GetStatementQueryComponent extends Query<GetStatementQuery> {}
 interface IProps extends RouteComponentProps<{ id: string }> {
   currentUser: ReduxState['currentUser']['user'];
   dispatch: (action: any) => any;
+  isAuthorized: (permissions: string[]) => boolean;
 }
 
 interface IState {
@@ -203,17 +203,14 @@ class StatementDetail extends React.Component<IProps, IState> {
                     status,
                   }) => {
                     const canEdit =
-                      isCurrentUserAuthorized(this.props.currentUser, ['statements:edit']) ||
+                      this.props.isAuthorized(['statements:edit']) ||
                       (values.assessment.evaluator_id !== null &&
                         this.props.currentUser !== null &&
                         this.props.currentUser.id === values.assessment.evaluator_id &&
-                        isCurrentUserAuthorized(this.props.currentUser, [
-                          'statements:edit-evaluated',
-                        ]));
+                        this.props.isAuthorized(['statements:edit-as-evaluator']));
 
                     const canEditTexts =
-                      canEdit ||
-                      isCurrentUserAuthorized(this.props.currentUser, ['statements:edit-texts']);
+                      canEdit || this.props.isAuthorized(['statements:edit-texts']);
 
                     const isApproved =
                       values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED;
@@ -255,9 +252,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                     const canViewEvaluation =
                       canEditEvaluation ||
                       isApproved ||
-                      isCurrentUserAuthorized(this.props.currentUser, [
-                        'statements:view-unapproved-evaluation',
-                      ]);
+                      this.props.isAuthorized(['statements:view-unapproved-evaluation']);
 
                     return (
                       <div style={{ marginTop: 15 }}>
@@ -587,6 +582,7 @@ class EvaluationStatusInput extends React.Component<IEvaluationStatusInputProps>
 
 const mapStateToProps = (state: ReduxState) => ({
   currentUser: state.currentUser.user,
+  isAuthorized: isAuthorized(state.roles.roles, state.currentUser.user),
 });
 
 export default connect(mapStateToProps)(StatementDetail);

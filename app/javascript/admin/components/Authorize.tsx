@@ -2,22 +2,18 @@ import * as React from 'react';
 
 import { connect } from 'react-redux';
 
-import { isRoleAuthorized } from '../authorization';
+import { isAuthorized } from '../authorization';
 import { IState } from '../reducers';
 
 interface IProps {
-  currentUser: IState['currentUser']['user'];
+  isAuthorized: (permissions: string[]) => boolean;
   children: React.ReactNode;
   permissions: string[];
 }
 
 class Authorize extends React.Component<IProps> {
   public render() {
-    if (!this.props.currentUser) {
-      return null;
-    }
-
-    if (!isRoleAuthorized(this.props.currentUser.role.key, this.props.permissions)) {
+    if (!this.props.isAuthorized(this.props.permissions)) {
       return null;
     }
 
@@ -26,7 +22,7 @@ class Authorize extends React.Component<IProps> {
 }
 
 const mapStateToProps = (state: IState) => ({
-  currentUser: state.currentUser.user,
+  isAuthorized: isAuthorized(state.roles.roles, state.currentUser.user),
 });
 
 export default connect(mapStateToProps)(Authorize);

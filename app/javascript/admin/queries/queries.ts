@@ -290,6 +290,7 @@ export const GetRoles = gql`
       id
       key
       name
+      permissions
     }
   }
 `;

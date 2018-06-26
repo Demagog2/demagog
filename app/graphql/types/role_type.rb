@@ -6,4 +6,5 @@ Types::RoleType = GraphQL::ObjectType.define do
   field :id, !types.ID
   field :key, !types.String
   field :name, !types.String
+  field :permissions, !types[!types.String]
 end

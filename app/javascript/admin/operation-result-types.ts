@@ -703,6 +703,7 @@ export interface GetRolesQuery {
     id: string,
     key: string,
     name: string,
+    permissions: Array< string >,
   } >,
 };
 
