@@ -202,15 +202,13 @@ class StatementDetail extends React.Component<IProps, IState> {
                     isSubmitting,
                     status,
                   }) => {
-                    const canEdit =
-                      this.props.isAuthorized(['statements:edit']) ||
-                      (values.assessment.evaluator_id !== null &&
-                        this.props.currentUser !== null &&
-                        this.props.currentUser.id === values.assessment.evaluator_id &&
-                        this.props.isAuthorized(['statements:edit-as-evaluator']));
-
-                    const canEditTexts =
-                      canEdit || this.props.isAuthorized(['statements:edit-texts']);
+                    const canEditEverything = this.props.isAuthorized(['statements:edit']);
+                    const canEditAsEvaluator =
+                      values.assessment.evaluator_id !== null &&
+                      this.props.currentUser !== null &&
+                      this.props.currentUser.id === values.assessment.evaluator_id &&
+                      this.props.isAuthorized(['statements:edit-as-evaluator']);
+                    const canEditTexts = this.props.isAuthorized(['statements:edit-texts']);
 
                     const isApproved =
                       values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED;
@@ -219,11 +217,18 @@ class StatementDetail extends React.Component<IProps, IState> {
                     const isApprovalNeeded =
                       values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVAL_NEEDED;
 
-                    const canEditStatementContent = canEditTexts && !isApproved;
-                    const canEditEvaluation = canEditTexts && !isApproved;
-                    const canEditEvaluator = canEdit && isBeingEvaluated;
-                    const canEditPublished = canEdit && isApproved;
-                    const canEditImportant = canEdit;
+                    const canEditStatementContent =
+                      ((canEditEverything || canEditTexts) && !isApproved) ||
+                      (canEditAsEvaluator && isBeingEvaluated);
+                    const canEditVeracity =
+                      (canEditEverything && !isApproved) ||
+                      (canEditAsEvaluator && isBeingEvaluated);
+                    const canEditExplanations =
+                      ((canEditEverything || canEditTexts) && !isApproved) ||
+                      (canEditAsEvaluator && isBeingEvaluated);
+                    const canEditEvaluator = canEditEverything && isBeingEvaluated;
+                    const canEditPublished = canEditEverything && isApproved;
+                    const canEditImportant = canEditEverything;
 
                     const isApprovedAndNotPublished = isApproved && !values.published;
                     const isBeingEvaluatedAndEvaluationFilled =
@@ -233,26 +238,36 @@ class StatementDetail extends React.Component<IProps, IState> {
                         values.assessment.explanation_html);
 
                     const canEditStatus =
-                      canEdit &&
-                      (isApprovedAndNotPublished ||
-                        isBeingEvaluatedAndEvaluationFilled ||
-                        isApprovalNeeded);
+                      (canEditEverything &&
+                        (isApprovedAndNotPublished ||
+                          isBeingEvaluatedAndEvaluationFilled ||
+                          isApprovalNeeded)) ||
+                      (canEditAsEvaluator && isBeingEvaluated);
 
                     let statusTooltipContent: string | null = null;
-                    if (canEdit && isBeingEvaluated && !canEditStatus) {
+                    if (canEditEverything && isBeingEvaluated && !canEditStatus) {
                       statusTooltipContent =
                         'Aby šel výrok posunout ke kontrole, ' +
                         'musí být vyplněné hodnocení a odůvodnění, včetně zkráceného';
                     }
-                    if (canEdit && isApproved && !canEditStatus) {
+                    if (canEditEverything && isApproved && !canEditStatus) {
                       statusTooltipContent =
                         'Aby šel výrok vrátit ke zpracování, nesmí být zveřejněný';
                     }
 
                     const canViewEvaluation =
-                      canEditEvaluation ||
+                      canEditAsEvaluator ||
                       isApproved ||
                       this.props.isAuthorized(['statements:view-unapproved-evaluation']);
+
+                    const canEditSomething =
+                      canEditStatementContent ||
+                      canEditVeracity ||
+                      canEditExplanations ||
+                      canEditEvaluator ||
+                      canEditPublished ||
+                      canEditImportant ||
+                      canEditStatus;
 
                     return (
                       <div style={{ marginTop: 15 }}>
@@ -274,7 +289,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                         <div style={{ display: 'flex' }}>
                           <h3>Detail výroku</h3>
 
-                          {canEdit && (
+                          {canEditSomething && (
                             <div className="text-muted" style={{ marginLeft: 20, marginTop: 9 }}>
                               {!status && !isSubmitting && 'Změny jsou ukládány automaticky'}
                               {status &&
@@ -323,14 +338,14 @@ class StatementDetail extends React.Component<IProps, IState> {
                               }}
                             />
 
-                            {(canEditEvaluation || canViewEvaluation) && (
+                            {(canEditVeracity || canEditExplanations || canViewEvaluation) && (
                               <>
                                 <div className="form-group row">
                                   <label htmlFor="veracity" className="col-sm-4 col-form-label">
                                     Hodnocení
                                   </label>
                                   <div className="col-sm-8">
-                                    {canEditEvaluation ? (
+                                    {canEditVeracity ? (
                                       <VeracitySelect
                                         disabled={
                                           values.assessment.evaluation_status ===
@@ -363,7 +378,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                   >
                                     Odůvodnění zkráceně
                                   </label>
-                                  {canEditEvaluation ? (
+                                  {canEditExplanations ? (
                                     <>
                                       <textarea
                                         className="form-control"
@@ -386,7 +401,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                   <label htmlFor="assessment-explanation" className="form-label">
                                     Odůvodnění
                                   </label>
-                                  {canEditEvaluation ? (
+                                  {canEditExplanations ? (
                                     <RichTextEditor
                                       value={values.assessment.explanation_slatejson}
                                       onChange={(value, html) => {
@@ -404,7 +419,8 @@ class StatementDetail extends React.Component<IProps, IState> {
                                 </div>
                               </>
                             )}
-                            {!canEditEvaluation &&
+                            {!canEditVeracity &&
+                              !canEditExplanations &&
                               !canViewEvaluation && (
                                 <div className="alert alert-info" role="alert">
                                   Hodnocení a odůvodnění tohoto výroku můžete vidět teprve až po
@@ -451,7 +467,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                               </label>
                               <div className="col-sm-8" style={{ paddingTop: 8 }}>
                                 <Tooltip
-                                  disabled={!canEdit || canEditPublished}
+                                  disabled={canEditPublished}
                                   content="Aby šel výrok zveřejnit, musí být ve schváleném stavu"
                                   position={Position.TOP}
                                 >
