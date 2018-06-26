@@ -67,19 +67,19 @@ FactoryBot.define do
 
   factory :user do
     trait :admin do
-      role_id Role.find_by(key: Role::ADMIN).id
+      role_id { Role.find_by(key: Role::ADMIN).id }
     end
     trait :expert do
-      role_id Role.find_by(key: Role::EXPERT).id
+      role_id { Role.find_by(key: Role::EXPERT).id }
     end
     trait :social_media_manager do
-      role_id Role.find_by(key: Role::SOCIAL_MEDIA_MANAGER).id
+      role_id { Role.find_by(key: Role::SOCIAL_MEDIA_MANAGER).id }
     end
     trait :proofreader do
-      role_id Role.find_by(key: Role::PROOFREADER).id
+      role_id { Role.find_by(key: Role::PROOFREADER).id }
     end
     trait :intern do
-      role_id Role.find_by(key: Role::INTERN).id
+      role_id { Role.find_by(key: Role::INTERN).id }
     end
   end
 
