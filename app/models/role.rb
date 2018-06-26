@@ -23,6 +23,7 @@ ALL_PERMISSIONS = [
   "statements:edit-texts", # Allows editing only texts, for proofreaders
   "statements:sort",
   "statements:view-unapproved-evaluation",
+  "statements:view-evaluation-as-evaluator",
   "statements:comments:add",
 ]
 
@@ -54,6 +55,7 @@ class Role < ApplicationRecord
     when INTERN then [
         "sources:view",
         "statements:edit-as-evaluator",
+        "statements:view-evaluation-as-evaluator",
         "statements:comments:add",
       ]
     else raise Exception.new("Permissions for role #{key} have not been implemented yet")

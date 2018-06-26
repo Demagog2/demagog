@@ -78,6 +78,8 @@ class Statement < ApplicationRecord
     )
   end
 
+  # Meant to be used after setting new attributes with assign_attributes, just
+  # before calling save! on the record
   def is_user_authorized_to_save(user)
     permissions = user.role.permissions
 

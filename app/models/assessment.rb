@@ -45,6 +45,16 @@ class Assessment < ApplicationRecord
 
   validates_with AssessmentValidator
 
+  def approved?
+    evaluation_status == STATUS_APPROVED
+  end
+
+  def unapproved?
+    evaluation_status != STATUS_APPROVED
+  end
+
+  # Meant to be used after setting new attributes with assign_attributes, just
+  # before calling save! on the record
   def is_user_authorized_to_save(user)
     permissions = user.role.permissions
 
@@ -71,14 +81,22 @@ class Assessment < ApplicationRecord
       "explanation_slatejson",
       "short_explanation",
     ]
-    texts_allowed_changes =
-      [STATUS_BEING_EVALUATED, STATUS_APPROVAL_NEEDED].include?(evaluation_status) &&
-      (changed_attributes.keys - texts_allowed_attributes).empty?
+    texts_allowed_changes = unapproved? && (changed_attributes.keys - texts_allowed_attributes).empty?
 
     if texts_allowed_changes && permissions.include?("statements:edit-texts")
       return true
     end
 
     changed_attributes.empty?
+  end
+
+  def is_user_authorized_to_view_evaluation(user)
+    permissions = user.role.permissions
+
+    return true if approved?
+    return true if permissions.include?("statements:view-unapproved-evaluation")
+    return true if permissions.include?("statements:view-evaluation-as-evaluator") && user.id == user_id
+
+    false
   end
 end

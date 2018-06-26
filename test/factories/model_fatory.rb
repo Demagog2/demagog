@@ -65,7 +65,23 @@ FactoryBot.define do
     end
   end
 
-  factory :user
+  factory :user do
+    trait :admin do
+      role_id Role.find_by(key: Role::ADMIN).id
+    end
+    trait :expert do
+      role_id Role.find_by(key: Role::EXPERT).id
+    end
+    trait :social_media_manager do
+      role_id Role.find_by(key: Role::SOCIAL_MEDIA_MANAGER).id
+    end
+    trait :proofreader do
+      role_id Role.find_by(key: Role::PROOFREADER).id
+    end
+    trait :intern do
+      role_id Role.find_by(key: Role::INTERN).id
+    end
+  end
 
   factory :assessment do
     statement
@@ -74,6 +90,14 @@ FactoryBot.define do
 
     evaluation_status Assessment::STATUS_APPROVED
     explanation_html "Lorem ipsum <strong>dolor</strong> sit amet"
+
+    trait :being_evaluated do
+      evaluation_status Assessment::STATUS_BEING_EVALUATED
+    end
+
+    trait :approval_needed do
+      evaluation_status Assessment::STATUS_APPROVAL_NEEDED
+    end
   end
 
   factory :veracity do

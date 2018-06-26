@@ -6,8 +6,12 @@ module Utils::Auth
   end
 
   def self.authorize(ctx, permissions)
-    if (permissions & ctx[:current_user].role.permissions).size == 0
+    unless self.is_authorized(ctx, permissions)
       raise Errors::NotAuthorizedError.new
     end
+  end
+
+  def self.is_authorized(ctx, permissions)
+    !(permissions & ctx[:current_user].role.permissions).empty?
   end
 end
