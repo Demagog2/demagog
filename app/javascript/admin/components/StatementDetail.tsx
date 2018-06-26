@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
+import { isCurrentUserAuthorized } from '../authorization';
 import {
   ASSESSMENT_STATUS_APPROVAL_NEEDED,
   ASSESSMENT_STATUS_APPROVED,
@@ -24,7 +25,9 @@ import {
 } from '../operation-result-types';
 import { UpdateStatement } from '../queries/mutations';
 import { GetStatement } from '../queries/queries';
+import { IState as ReduxState } from '../reducers';
 import { displayDate, newlinesToBr } from '../utils';
+// import Authorize from './Authorize';
 import UserSelect from './forms/controls/UserSelect';
 import VeracitySelect from './forms/controls/VeracitySelect';
 import FormikAutoSave from './forms/FormikAutoSave';
@@ -40,6 +43,7 @@ class UpdateStatementMutationComponent extends Mutation<
 class GetStatementQueryComponent extends Query<GetStatementQuery> {}
 
 interface IProps extends RouteComponentProps<{ id: string }> {
+  currentUser: ReduxState['currentUser']['user'];
   dispatch: (action: any) => any;
 }
 
@@ -197,240 +201,306 @@ class StatementDetail extends React.Component<IProps, IState> {
                     submitForm,
                     isSubmitting,
                     status,
-                  }) => (
-                    <div style={{ marginTop: 15 }}>
-                      <FormikAutoSave
-                        debounceWait={500}
-                        submitForm={submitForm}
-                        values={values}
-                        initialValues={initialValues}
-                      />
-                      <div className="float-right">
-                        <Link
-                          to={`/admin/sources/${statement.source.id}`}
-                          className="btn btn-secondary"
-                        >
-                          Zpět na zdroj výroku
-                        </Link>
-                      </div>
+                  }) => {
+                    const canEdit =
+                      isCurrentUserAuthorized(this.props.currentUser, ['statements:edit']) ||
+                      (values.assessment.evaluator_id !== null &&
+                        this.props.currentUser !== null &&
+                        this.props.currentUser.id === values.assessment.evaluator_id &&
+                        isCurrentUserAuthorized(this.props.currentUser, [
+                          'statements:edit-evaluated',
+                        ]));
 
-                      <div style={{ display: 'flex' }}>
-                        <h3>Detail výroku</h3>
+                    const canEditTexts =
+                      canEdit ||
+                      isCurrentUserAuthorized(this.props.currentUser, ['statements:edit-texts']);
 
-                        <div className="text-muted" style={{ marginLeft: 20, marginTop: 9 }}>
-                          {!status && !isSubmitting && 'Změny jsou ukládány automaticky'}
-                          {status && status === 'saved' && !isSubmitting && 'Změny úspěšně uloženy'}
-                          {isSubmitting && 'Ukládám změny ...'}
+                    const isApproved =
+                      values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED;
+                    const isBeingEvaluated =
+                      values.assessment.evaluation_status === ASSESSMENT_STATUS_BEING_EVALUATED;
+                    const isApprovalNeeded =
+                      values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVAL_NEEDED;
+
+                    const canEditStatementContent = canEditTexts && !isApproved;
+                    const canEditEvaluation = canEditTexts && !isApproved;
+                    const canEditEvaluator = canEdit && isBeingEvaluated;
+                    const canEditPublished = canEdit && isApproved;
+                    const canEditImportant = canEdit;
+
+                    const isApprovedAndNotPublished = isApproved && !values.published;
+                    const isBeingEvaluatedAndEvaluationFilled =
+                      isBeingEvaluated &&
+                      (values.assessment.veracity_id &&
+                        values.assessment.short_explanation &&
+                        values.assessment.explanation_html);
+
+                    const canEditStatus =
+                      canEdit &&
+                      (isApprovedAndNotPublished ||
+                        isBeingEvaluatedAndEvaluationFilled ||
+                        isApprovalNeeded);
+
+                    let statusTooltipContent: string | null = null;
+                    if (canEdit && isBeingEvaluated && !canEditStatus) {
+                      statusTooltipContent =
+                        'Aby šel výrok posunout ke kontrole, ' +
+                        'musí být vyplněné hodnocení a odůvodnění, včetně zkráceného';
+                    }
+                    if (canEdit && isApproved && !canEditStatus) {
+                      statusTooltipContent =
+                        'Aby šel výrok vrátit ke zpracování, nesmí být zveřejněný';
+                    }
+
+                    const canViewEvaluation =
+                      canEditEvaluation ||
+                      isApproved ||
+                      isCurrentUserAuthorized(this.props.currentUser, [
+                        'statements:view-unapproved-evaluation',
+                      ]);
+
+                    return (
+                      <div style={{ marginTop: 15 }}>
+                        <FormikAutoSave
+                          debounceWait={500}
+                          submitForm={submitForm}
+                          values={values}
+                          initialValues={initialValues}
+                        />
+                        <div className="float-right">
+                          <Link
+                            to={`/admin/sources/${statement.source.id}`}
+                            className="btn btn-secondary"
+                          >
+                            Zpět na zdroj výroku
+                          </Link>
                         </div>
-                      </div>
 
-                      <div style={{ display: 'flex', marginTop: 20, marginBottom: 30 }}>
-                        <div style={{ flex: '2 0' }}>
-                          <h5>
-                            {statement.speaker.first_name} {statement.speaker.last_name}
-                          </h5>
-                          {values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED ? (
-                            <p>{newlinesToBr(values.content)}</p>
-                          ) : (
-                            <textarea
-                              className="form-control"
-                              style={{ marginBottom: 5 }}
-                              name="content"
-                              rows={4}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.content || ''}
-                            />
+                        <div style={{ display: 'flex' }}>
+                          <h3>Detail výroku</h3>
+
+                          {canEdit && (
+                            <div className="text-muted" style={{ marginLeft: 20, marginTop: 9 }}>
+                              {!status && !isSubmitting && 'Změny jsou ukládány automaticky'}
+                              {status &&
+                                status === 'saved' &&
+                                !isSubmitting &&
+                                'Změny úspěšně uloženy'}
+                              {isSubmitting && 'Ukládám změny ...'}
+                            </div>
                           )}
-                          <p className="text-muted">
-                            Zdroj: {statement.source.medium.name},{' '}
-                            {displayDate(statement.source.released_at)},{' '}
-                            {statement.source.media_personality.name}
-                            {statement.source.source_url && (
-                              <>
-                                , <a href={statement.source.source_url}>odkaz</a>
-                              </>
-                            )}
-                          </p>
-
-                          <hr
-                            style={{ borderTop: '2px solid #ccc', marginTop: 30, marginBottom: 30 }}
-                          />
-
-                          <div className="form-group row">
-                            <label htmlFor="veracity" className="col-sm-4 col-form-label">
-                              Hodnocení
-                            </label>
-                            <div className="col-sm-8">
-                              {values.assessment.evaluation_status ===
-                              ASSESSMENT_STATUS_APPROVED ? (
-                                <input
-                                  type="text"
-                                  readOnly
-                                  className="form-control-plaintext"
-                                  value={
-                                    statement.assessment.veracity
-                                      ? statement.assessment.veracity.name
-                                      : ''
-                                  }
-                                />
-                              ) : (
-                                <VeracitySelect
-                                  disabled={
-                                    values.assessment.evaluation_status ===
-                                    ASSESSMENT_STATUS_APPROVED
-                                  }
-                                  onChange={(value) =>
-                                    setFieldValue('assessment.veracity_id', value)
-                                  }
-                                  onBlur={() => setFieldTouched('assessment.veracity_id')}
-                                  value={values.assessment.veracity_id}
-                                />
-                              )}
-                            </div>
-                          </div>
-                          <div className="form-group">
-                            <label htmlFor="assessment-short-explanation" className="form-label">
-                              Odůvodnění zkráceně
-                            </label>
-                            {values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED ? (
-                              <p>{values.assessment.short_explanation}</p>
-                            ) : (
-                              <>
-                                <textarea
-                                  className="form-control"
-                                  id="assessment-short-explanation"
-                                  name="assessment.short_explanation"
-                                  rows={3}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={values.assessment.short_explanation || ''}
-                                />
-                                <small className="form-text text-muted">
-                                  Maximálně na dlouhý tweet, tj. 280 znaků
-                                </small>
-                              </>
-                            )}
-                          </div>
-                          <div className="form-group">
-                            <label htmlFor="assessment-explanation" className="form-label">
-                              Odůvodnění
-                            </label>
-                            {values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED ? (
-                              <div
-                                dangerouslySetInnerHTML={{
-                                  __html: values.assessment.explanation_html || '',
-                                }}
-                              />
-                            ) : (
-                              <RichTextEditor
-                                value={values.assessment.explanation_slatejson}
-                                onChange={(value, html) => {
-                                  setFieldValue('assessment.explanation_slatejson', value);
-                                  setFieldValue('assessment.explanation_html', html);
-                                }}
-                              />
-                            )}
-                          </div>
                         </div>
 
-                        <div style={{ flex: '1 0', marginLeft: 30 }}>
-                          <div className="form-group row">
-                            <label htmlFor="status" className="col-sm-4 col-form-label">
-                              Stav
-                            </label>
-                            <div className="col-sm-8">
-                              <EvaluationStatusInput
-                                disabled={
-                                  (values.assessment.evaluation_status ===
-                                    ASSESSMENT_STATUS_APPROVED &&
-                                    values.published) ||
-                                  (values.assessment.evaluation_status ===
-                                    ASSESSMENT_STATUS_BEING_EVALUATED &&
-                                    (!values.assessment.veracity_id ||
-                                      !values.assessment.short_explanation ||
-                                      !values.assessment.explanation_html))
-                                }
-                                value={values.assessment.evaluation_status}
-                                onChange={(value) =>
-                                  setFieldValue('assessment.evaluation_status', value)
-                                }
+                        <div style={{ display: 'flex', marginTop: 20, marginBottom: 30 }}>
+                          <div style={{ flex: '2 0' }}>
+                            <h5>
+                              {statement.speaker.first_name} {statement.speaker.last_name}
+                            </h5>
+                            {canEditStatementContent ? (
+                              <textarea
+                                className="form-control"
+                                style={{ marginBottom: 5 }}
+                                name="content"
+                                rows={4}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.content || ''}
                               />
-                            </div>
+                            ) : (
+                              <p>{newlinesToBr(values.content)}</p>
+                            )}
+                            <p className="text-muted">
+                              Zdroj: {statement.source.medium.name},{' '}
+                              {displayDate(statement.source.released_at)},{' '}
+                              {statement.source.media_personality.name}
+                              {statement.source.source_url && (
+                                <>
+                                  , <a href={statement.source.source_url}>odkaz</a>
+                                </>
+                              )}
+                            </p>
+
+                            <hr
+                              style={{
+                                borderTop: '2px solid #ccc',
+                                marginTop: 30,
+                                marginBottom: 30,
+                              }}
+                            />
+
+                            {(canEditEvaluation || canViewEvaluation) && (
+                              <>
+                                <div className="form-group row">
+                                  <label htmlFor="veracity" className="col-sm-4 col-form-label">
+                                    Hodnocení
+                                  </label>
+                                  <div className="col-sm-8">
+                                    {canEditEvaluation ? (
+                                      <VeracitySelect
+                                        disabled={
+                                          values.assessment.evaluation_status ===
+                                          ASSESSMENT_STATUS_APPROVED
+                                        }
+                                        onChange={(value) =>
+                                          setFieldValue('assessment.veracity_id', value)
+                                        }
+                                        onBlur={() => setFieldTouched('assessment.veracity_id')}
+                                        value={values.assessment.veracity_id}
+                                      />
+                                    ) : (
+                                      <input
+                                        type="text"
+                                        readOnly
+                                        className="form-control-plaintext"
+                                        value={
+                                          statement.assessment.veracity
+                                            ? statement.assessment.veracity.name
+                                            : ''
+                                        }
+                                      />
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="form-group">
+                                  <label
+                                    htmlFor="assessment-short-explanation"
+                                    className="form-label"
+                                  >
+                                    Odůvodnění zkráceně
+                                  </label>
+                                  {canEditEvaluation ? (
+                                    <>
+                                      <textarea
+                                        className="form-control"
+                                        id="assessment-short-explanation"
+                                        name="assessment.short_explanation"
+                                        rows={3}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.assessment.short_explanation || ''}
+                                      />
+                                      <small className="form-text text-muted">
+                                        Maximálně na dlouhý tweet, tj. 280 znaků
+                                      </small>
+                                    </>
+                                  ) : (
+                                    <p>{values.assessment.short_explanation}</p>
+                                  )}
+                                </div>
+                                <div className="form-group">
+                                  <label htmlFor="assessment-explanation" className="form-label">
+                                    Odůvodnění
+                                  </label>
+                                  {canEditEvaluation ? (
+                                    <RichTextEditor
+                                      value={values.assessment.explanation_slatejson}
+                                      onChange={(value, html) => {
+                                        setFieldValue('assessment.explanation_slatejson', value);
+                                        setFieldValue('assessment.explanation_html', html);
+                                      }}
+                                    />
+                                  ) : (
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html: values.assessment.explanation_html || '',
+                                      }}
+                                    />
+                                  )}
+                                </div>
+                              </>
+                            )}
+                            {!canEditEvaluation &&
+                              !canViewEvaluation && (
+                                <div className="alert alert-info" role="alert">
+                                  Hodnocení a odůvodnění tohoto výroku můžete vidět teprve až po
+                                  schválení
+                                </div>
+                              )}
                           </div>
-                          <div className="form-group row">
-                            <label htmlFor="evaluator" className="col-sm-4 col-form-label">
-                              Ověřovatel/ka
-                            </label>
-                            <div className="col-sm-8">
-                              {/* TODO: add tooltip to explain when the user select is disabled? */}
-                              <UserSelect
-                                disabled={
-                                  values.assessment.evaluation_status !==
-                                  ASSESSMENT_STATUS_BEING_EVALUATED
-                                }
-                                onChange={(value) =>
-                                  setFieldValue('assessment.evaluator_id', value)
-                                }
-                                onBlur={() => setFieldTouched('assessment.evaluator_id')}
-                                value={values.assessment.evaluator_id}
-                              />
+
+                          <div style={{ flex: '1 0', marginLeft: 30 }}>
+                            <div className="form-group row">
+                              <label htmlFor="status" className="col-sm-4 col-form-label">
+                                Stav
+                              </label>
+                              <div className="col-sm-8">
+                                <EvaluationStatusInput
+                                  disabled={!canEditStatus}
+                                  tooltipContent={statusTooltipContent}
+                                  value={values.assessment.evaluation_status}
+                                  onChange={(value) =>
+                                    setFieldValue('assessment.evaluation_status', value)
+                                  }
+                                />
+                              </div>
                             </div>
-                          </div>
-                          <div className="form-group row">
-                            <label htmlFor="published" className="col-sm-4 col-form-label">
-                              Zvěřejněný
-                            </label>
-                            <div className="col-sm-8" style={{ paddingTop: 8 }}>
-                              <Tooltip
-                                disabled={
-                                  values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED
-                                }
-                                content="Aby šel výrok zveřejnit, musí být ve schváleném stavu"
-                                position={Position.TOP}
-                              >
+                            <div className="form-group row">
+                              <label htmlFor="evaluator" className="col-sm-4 col-form-label">
+                                Ověřovatel/ka
+                              </label>
+                              <div className="col-sm-8">
+                                {/* TODO: add tooltip to explain when the user select is disabled? */}
+                                <UserSelect
+                                  disabled={!canEditEvaluator}
+                                  onChange={(value) =>
+                                    setFieldValue('assessment.evaluator_id', value)
+                                  }
+                                  onBlur={() => setFieldTouched('assessment.evaluator_id')}
+                                  value={values.assessment.evaluator_id}
+                                />
+                              </div>
+                            </div>
+                            <div className="form-group row">
+                              <label htmlFor="published" className="col-sm-4 col-form-label">
+                                Zvěřejněný
+                              </label>
+                              <div className="col-sm-8" style={{ paddingTop: 8 }}>
+                                <Tooltip
+                                  disabled={!canEdit || canEditPublished}
+                                  content="Aby šel výrok zveřejnit, musí být ve schváleném stavu"
+                                  position={Position.TOP}
+                                >
+                                  <Switch
+                                    name="published"
+                                    checked={values.published}
+                                    onChange={handleChange}
+                                    large
+                                    inline
+                                    style={{ margin: 0 }}
+                                    disabled={!canEditPublished}
+                                  />
+                                </Tooltip>
+
+                                {values.published && (
+                                  <a href={`/vyrok/${statement.id}`}>Veřejný odkaz</a>
+                                )}
+                              </div>
+                            </div>
+                            <hr style={{ borderTop: '2px solid #ccc' }} />
+                            {/* TODO: stitky */}
+                            <div className="form-group row">
+                              <label htmlFor="important" className="col-sm-4 col-form-label">
+                                Důležitý
+                              </label>
+                              <div className="col-sm-8" style={{ paddingTop: 8 }}>
                                 <Switch
-                                  name="published"
-                                  checked={values.published}
+                                  disabled={!canEditImportant}
+                                  name="important"
+                                  checked={values.important}
                                   onChange={handleChange}
                                   large
                                   inline
                                   style={{ margin: 0 }}
-                                  disabled={
-                                    values.assessment.evaluation_status !==
-                                    ASSESSMENT_STATUS_APPROVED
-                                  }
                                 />
-                              </Tooltip>
-
-                              {values.published && (
-                                <a href={`/vyrok/${statement.id}`}>Veřejný odkaz</a>
-                              )}
+                              </div>
                             </div>
+                            <hr style={{ borderTop: '2px solid #ccc' }} />
+                            <StatementComments statementId={statement.id} />
                           </div>
-                          <hr style={{ borderTop: '2px solid #ccc' }} />
-                          {/* TODO: stitky */}
-                          <div className="form-group row">
-                            <label htmlFor="important" className="col-sm-4 col-form-label">
-                              Důležitý
-                            </label>
-                            <div className="col-sm-8" style={{ paddingTop: 8 }}>
-                              <Switch
-                                name="important"
-                                checked={values.important}
-                                onChange={handleChange}
-                                large
-                                inline
-                                style={{ margin: 0 }}
-                              />
-                            </div>
-                          </div>
-                          <hr style={{ borderTop: '2px solid #ccc' }} />
-                          <StatementComments statementId={statement.id} />
                         </div>
                       </div>
-                    </div>
-                  )}
+                    );
+                  }}
                 </Formik>
               )}
             </UpdateStatementMutationComponent>
@@ -443,6 +513,7 @@ class StatementDetail extends React.Component<IProps, IState> {
 
 interface IEvaluationStatusInputProps {
   disabled: boolean;
+  tooltipContent: string | null;
   value: string;
   onChange: (value: string) => void;
 }
@@ -455,7 +526,7 @@ class EvaluationStatusInput extends React.Component<IEvaluationStatusInputProps>
   };
 
   public render() {
-    const { disabled, value } = this.props;
+    const { disabled, tooltipContent, value } = this.props;
 
     return (
       <>
@@ -467,12 +538,12 @@ class EvaluationStatusInput extends React.Component<IEvaluationStatusInputProps>
           value={ASSESSMENT_STATUS_LABELS[value]}
         />
 
-        {value === ASSESSMENT_STATUS_BEING_EVALUATED && (
-          <Tooltip
-            disabled={!disabled}
-            content="Aby šel výrok posunout ke kontrole, musí být vyplněné hodnocení a odůvodnění, včetně zkráceného"
-            position={Position.TOP}
-          >
+        <Tooltip
+          disabled={tooltipContent === null || !disabled}
+          content={tooltipContent || ''}
+          position={Position.TOP}
+        >
+          {value === ASSESSMENT_STATUS_BEING_EVALUATED && (
             <button
               type="button"
               className={classNames('btn', 'btn-outline-secondary', { disabled })}
@@ -480,11 +551,26 @@ class EvaluationStatusInput extends React.Component<IEvaluationStatusInputProps>
             >
               Posunout ke kontrole
             </button>
-          </Tooltip>
-        )}
-
-        {value === ASSESSMENT_STATUS_APPROVAL_NEEDED && (
-          <>
+          )}
+          {value === ASSESSMENT_STATUS_APPROVAL_NEEDED && (
+            <>
+              <button
+                type="button"
+                className={classNames('btn', 'btn-outline-secondary', { disabled })}
+                onClick={this.onChange(ASSESSMENT_STATUS_BEING_EVALUATED)}
+              >
+                Vrátit ke zpracování
+              </button>
+              <button
+                type="button"
+                className={classNames('btn', 'btn-outline-secondary', { disabled })}
+                onClick={this.onChange(ASSESSMENT_STATUS_APPROVED)}
+              >
+                Schválit
+              </button>
+            </>
+          )}
+          {value === ASSESSMENT_STATUS_APPROVED && (
             <button
               type="button"
               className={classNames('btn', 'btn-outline-secondary', { disabled })}
@@ -492,34 +578,15 @@ class EvaluationStatusInput extends React.Component<IEvaluationStatusInputProps>
             >
               Vrátit ke zpracování
             </button>
-            <button
-              type="button"
-              className={classNames('btn', 'btn-outline-secondary', { disabled })}
-              onClick={this.onChange(ASSESSMENT_STATUS_APPROVED)}
-            >
-              Schválit
-            </button>
-          </>
-        )}
-
-        {value === ASSESSMENT_STATUS_APPROVED && (
-          <Tooltip
-            disabled={!disabled}
-            content="Aby šel výrok vrátit ke zpracování, nesmí být zveřejněný"
-            position={Position.TOP}
-          >
-            <button
-              type="button"
-              className={classNames('btn', 'btn-outline-secondary', { disabled })}
-              onClick={this.onChange(ASSESSMENT_STATUS_BEING_EVALUATED)}
-            >
-              Vrátit ke zpracování
-            </button>
-          </Tooltip>
-        )}
+          )}
+        </Tooltip>
       </>
     );
   }
 }
 
-export default connect()(StatementDetail);
+const mapStateToProps = (state: ReduxState) => ({
+  currentUser: state.currentUser.user,
+});
+
+export default connect(mapStateToProps)(StatementDetail);

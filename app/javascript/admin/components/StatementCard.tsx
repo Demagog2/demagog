@@ -9,6 +9,7 @@ import { addFlashMessage } from '../actions/flashMessages';
 import { ASSESSMENT_STATUS_LABELS } from '../constants';
 import { DeleteStatement } from '../queries/mutations';
 import { newlinesToBr, pluralize } from '../utils';
+import Authorize from './Authorize';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 
 interface IStatement {
@@ -105,13 +106,15 @@ class StatementCard extends React.Component<IProps, IState> {
               >
                 Na detail výroku
               </Link>
-              <button
-                type="button"
-                className="btn btn-sm btn-outline-secondary ml-1"
-                onClick={this.toggleConfirmDeleteModal}
-              >
-                Smazat
-              </button>
+              <Authorize permissions={['statements:delete']}>
+                <button
+                  type="button"
+                  className="btn btn-sm btn-outline-secondary ml-1"
+                  onClick={this.toggleConfirmDeleteModal}
+                >
+                  Smazat
+                </button>
+              </Authorize>
             </div>
 
             <h5>

@@ -23,6 +23,7 @@ import {
 import { DeleteSource } from '../queries/mutations';
 import { GetSource, GetSources, GetSourceStatements } from '../queries/queries';
 import { displayDate } from '../utils';
+import Authorize from './Authorize';
 import Loading from './Loading';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 import StatementCard from './StatementCard';
@@ -167,21 +168,25 @@ class SourceDetail extends React.Component<IProps, IState> {
                   <Link to="/admin/sources" className="btn btn-secondary">
                     Zpět
                   </Link>
-                  <Link
-                    to={`/admin/sources/edit/${source.id}`}
-                    className="btn btn-secondary"
-                    style={{ marginLeft: 7 }}
-                  >
-                    Upravit údaje o zdroji
-                  </Link>
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    style={{ marginLeft: 7 }}
-                    onClick={this.toggleConfirmDeleteModal}
-                  >
-                    Smazat zdroj
-                  </button>
+                  <Authorize permissions={['sources:edit']}>
+                    <>
+                      <Link
+                        to={`/admin/sources/edit/${source.id}`}
+                        className="btn btn-secondary"
+                        style={{ marginLeft: 7 }}
+                      >
+                        Upravit údaje o zdroji
+                      </Link>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        style={{ marginLeft: 7 }}
+                        onClick={this.toggleConfirmDeleteModal}
+                      >
+                        Smazat zdroj
+                      </button>
+                    </>
+                  </Authorize>
                 </div>
 
                 <h3 style={{ marginTop: 7 }}>{source.name}</h3>
@@ -308,49 +313,57 @@ class SourceDetail extends React.Component<IProps, IState> {
 
           return (
             <>
-              <div style={{ display: 'flex', marginTop: 30 }}>
-                <div style={{ flex: '0 0 220px', marginRight: 15 }}>
-                  <div
-                    className={classNames('dropdown', { show: showAddStatementDropdown })}
-                    ref={(ref) => (this.addStatementDropdown = ref)}
-                  >
-                    <button
-                      className="btn btn-secondary dropdown-toggle"
-                      type="button"
-                      id="dropdownMenuButton"
-                      onClick={this.toggleAddStatementDropdown}
-                    >
-                      Přidat výrok
-                    </button>
-                    <div
-                      className={classNames('dropdown-menu', { show: showAddStatementDropdown })}
-                    >
-                      <Link
-                        to={`/admin/sources/${source.id}/statements-from-transcript`}
-                        className="dropdown-item"
+              <Authorize permissions={['statements:add', 'statements:sort']}>
+                <div style={{ display: 'flex', marginTop: 30 }}>
+                  <div style={{ flex: '0 0 220px', marginRight: 15 }}>
+                    <Authorize permissions={['statements:add']}>
+                      <div
+                        className={classNames('dropdown', { show: showAddStatementDropdown })}
+                        ref={(ref) => (this.addStatementDropdown = ref)}
                       >
-                        Přidat výroky výběrem z přepisu
-                      </Link>
-                      <Link
-                        to={`/admin/sources/${source.id}/statements/new`}
-                        className="dropdown-item"
-                      >
-                        Přidat výrok ručně
-                      </Link>
-                    </div>
+                        <button
+                          className="btn btn-secondary dropdown-toggle"
+                          type="button"
+                          id="dropdownMenuButton"
+                          onClick={this.toggleAddStatementDropdown}
+                        >
+                          Přidat výrok
+                        </button>
+                        <div
+                          className={classNames('dropdown-menu', {
+                            show: showAddStatementDropdown,
+                          })}
+                        >
+                          <Link
+                            to={`/admin/sources/${source.id}/statements-from-transcript`}
+                            className="dropdown-item"
+                          >
+                            Přidat výroky výběrem z přepisu
+                          </Link>
+                          <Link
+                            to={`/admin/sources/${source.id}/statements/new`}
+                            className="dropdown-item"
+                          >
+                            Přidat výrok ručně
+                          </Link>
+                        </div>
+                      </div>
+                    </Authorize>
+                  </div>
+                  <div style={{ flex: '1 0' }}>
+                    <Authorize permissions={['statements:sort']}>
+                      <div className="float-right">
+                        <Link
+                          to={`/admin/sources/${source.id}/statements-sort`}
+                          className="btn btn-secondary"
+                        >
+                          Seřadit výroky
+                        </Link>
+                      </div>
+                    </Authorize>
                   </div>
                 </div>
-                <div style={{ flex: '1 0' }}>
-                  <div className="float-right">
-                    <Link
-                      to={`/admin/sources/${source.id}/statements-sort`}
-                      className="btn btn-secondary"
-                    >
-                      Seřadit výroky
-                    </Link>
-                  </div>
-                </div>
-              </div>
+              </Authorize>
 
               <div style={{ display: 'flex', marginTop: 22, marginBottom: 50 }}>
                 <div style={{ flex: '0 0 220px', marginRight: 15 }}>

@@ -13,6 +13,7 @@ import {
 import { CreateComment } from '../queries/mutations';
 import { GetStatementComments } from '../queries/queries';
 import { displayDateTime } from '../utils';
+import Authorize from './Authorize';
 import Loading from './Loading';
 
 class GetStatementCommentsQueryComponent extends Query<
@@ -65,12 +66,14 @@ class StatementComments extends React.Component<IProps> {
                 </p>
               ))}
 
-              <AddCommentForm
-                statementId={this.props.statementId}
-                onCommentAdded={() => {
-                  refetch({ id: parseInt(this.props.statementId, 10) });
-                }}
-              />
+              <Authorize permissions={['statements:comments:add']}>
+                <AddCommentForm
+                  statementId={this.props.statementId}
+                  onCommentAdded={() => {
+                    refetch({ id: parseInt(this.props.statementId, 10) });
+                  }}
+                />
+              </Authorize>
             </div>
           );
         }}

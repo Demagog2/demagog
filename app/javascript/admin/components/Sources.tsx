@@ -13,6 +13,7 @@ import {
   GetSourcesQueryVariables,
 } from '../operation-result-types';
 import { GetSources } from '../queries/queries';
+import Authorize from './Authorize';
 import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
 
@@ -52,11 +53,13 @@ class Sources extends React.Component<IProps, IState> {
     return (
       <React.Fragment>
         <div>
-          <div className="float-right">
-            <Link className="btn btn-primary" to="/admin/sources/new">
-              Přidat zdroj výroků
-            </Link>
-          </div>
+          <Authorize permissions={['sources:edit']}>
+            <div className="float-right">
+              <Link className="btn btn-primary" to="/admin/sources/new">
+                Přidat zdroj výroků
+              </Link>
+            </div>
+          </Authorize>
 
           <h3 style={{ marginTop: 7, marginBottom: 20 }}>Výroky</h3>
 
