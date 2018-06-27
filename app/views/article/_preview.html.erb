@@ -1,7 +1,7 @@
 <article class="preview">
   <a title="<%= article.title %>" href="<%= article_path(article) %>">
-      <% if article.illustration.file != "" %>
-        <img class="lazy-load" data-src="<%= article_illustration(article.illustration, article.article_type.name) %>">
+      <% if article.illustration.attached? %>
+        <img class="lazy-load" data-src="<%= url_for(article.illustration) %>">
       <% end %>
   </a>
 
@@ -28,7 +28,9 @@
           <i><%= article.source.medium.name %></i>,
       <% end %>
 
-      <i><%= raw(l(article.published_at, format: :long)) %></i>
+      <% if article.published_at.present? %>
+        <i><%= raw(l(article.published_at, format: :long)) %></i>
+      <% end %>
 
       &mdash;
 

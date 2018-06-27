@@ -14,7 +14,7 @@ function interpolateParams(uri: string, params: { [name: string]: number | strin
 }
 
 function createImageUploader(uri: string) {
-  return (id: number, image: File): Promise<Response> => {
+  return (id: number | string, image: File): Promise<Response> => {
     const formData = new FormData();
     formData.append('file', image);
 
@@ -26,7 +26,7 @@ function createImageUploader(uri: string) {
 }
 
 function createImageDeleter(uri: string) {
-  return (id: number): Promise<Response> => {
+  return (id: number | string): Promise<Response> => {
     return callApi(interpolateParams(uri, { id }), { method: 'DELETE' });
   };
 }
@@ -42,6 +42,9 @@ function callApi(url, options) {
     }
   });
 }
+
+export const uploadArticleIllustration = createImageUploader('/admin/article-illustration/:id');
+export const deleteArticleIllustration = createImageDeleter('/admin/article-illustration/:id');
 
 export const uploadUserAvatar = createImageUploader('/admin/user-avatar/:id');
 export const deleteUserAvatar = createImageDeleter('/admin/user-avatar/:id');

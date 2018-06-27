@@ -4,9 +4,9 @@ import { v4 as uuid } from 'uuid';
 import { Button, Icon, Intent, Menu, MenuItem, Popover, Position } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { SegmentInputType } from '../../../operation-result-types';
+import { Statement } from '../../articles/Statement';
 import { SelectStatementsModal } from '../../modals/SelectStatementsModal';
 import { TextInput } from './TextInput';
-import {Statement} from '../../articles/Statement';
 
 type SegmentType = 'text' | 'statements_set';
 

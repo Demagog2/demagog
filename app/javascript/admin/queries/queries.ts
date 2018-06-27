@@ -8,6 +8,7 @@ export const GetArticle = gql`
       perex
       published
       published_at
+      illustration
       segments {
         id
         segment_type

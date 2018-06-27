@@ -15,13 +15,13 @@ import Bodies from './components/Bodies';
 import BodyEdit from './components/BodyEdit';
 import BodyNew from './components/BodyNew';
 
-import Loading from './components/Loading';
 import FlashMessages from './components/FlashMessages';
 import Header from './components/Header';
 // import Home from './components/Home';
+import Home from './components/Home';
+import Loading from './components/Loading';
 import NotFound from './components/NotFound';
 import Sidebar from './components/Sidebar';
-
 
 import SpeakerEdit from './components/SpeakerEdit';
 import SpeakerNew from './components/SpeakerNew';
@@ -75,13 +75,13 @@ class App extends React.Component<IProps> {
                     <Redirect to="/admin/sources" />
                   </Route>
 
-                <Route path="/admin/articles" exact component={Articles} />
-                <Route path="/admin/articles/new" exact component={ArticleNew} />
-                <Route path="/admin/articles/edit/:id" exact component={ArticleEdit} />
+                  <Route path="/admin/articles" exact component={Articles} />
+                  <Route path="/admin/articles/new" exact component={ArticleNew} />
+                  <Route path="/admin/articles/edit/:id" exact component={ArticleEdit} />
 
-                <Route path="/admin/sources" exact component={Sources} />
-                <Route path="/admin/sources/new" exact component={SourceNew} />
-                <Route path="/admin/sources/edit/:id" exact component={SourceEdit} />
+                  <Route path="/admin/sources" exact component={Sources} />
+                  <Route path="/admin/sources/new" exact component={SourceNew} />
+                  <Route path="/admin/sources/edit/:id" exact component={SourceEdit} />
 
                   <Route path="/admin/sources/:sourceId" exact component={SourceDetail} />
                   <Route

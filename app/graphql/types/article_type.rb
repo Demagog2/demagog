@@ -49,11 +49,9 @@ Types::ArticleType = GraphQL::ObjectType.define do
 
   field :illustration, types.String do
     resolve -> (obj, args, ctx) do
-      return nil if obj.illustration.file.empty?
+      return nil unless obj.illustration.attached?
 
-      folder = obj.article_type.name === "static" ? "pages" : "diskusia"
-
-      "/data/#{folder}/s/#{obj.illustration.file}"
+      Rails.application.routes.url_helpers.rails_blob_path(obj.illustration, only_path: true)
     end
   end
 

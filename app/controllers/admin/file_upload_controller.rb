@@ -5,10 +5,28 @@ class Admin::FileUploadController < ApplicationController
 
   before_action :authenticate_user!
 
+  def upload_article_illustration
+    params.permit!
+
+    attach_picture :illustration, Article.find(params[:id])
+
+    head :ok
+  end
+
+  def delete_article_illustration
+    begin
+      article = Article.find(params[:id])
+
+      article.illustration.purge
+    rescue ActiveRecord::RecordNotFound
+      head :not_found
+    end
+  end
+
   def upload_user_avatar
     params.permit!
 
-    attach_picture User.find(params[:id])
+    attach_picture :avatar, User.find(params[:id])
 
     head :ok
   end
@@ -26,7 +44,7 @@ class Admin::FileUploadController < ApplicationController
   def upload_profile_picture
     params.permit!
 
-    attach_picture Speaker.find(params[:id])
+    attach_picture :avatar, Speaker.find(params[:id])
 
     head :ok
   end
@@ -46,11 +64,7 @@ class Admin::FileUploadController < ApplicationController
 
     body = Body.find(params[:id])
 
-    body.logo.attach(
-      io: params[:file].to_io,
-      filename: params[:file].original_filename,
-      content_type: params[:file].content_type
-    )
+    attach_picture :logo, Logo.find(params[:id])
 
     body.save!
 
@@ -68,13 +82,13 @@ class Admin::FileUploadController < ApplicationController
   end
 
   private
-    def attach_picture(entity)
-      entity.avatar.attach(
+    def attach_picture(image_name, obj)
+      obj.send(image_name).attach(
         io: params[:file].to_io,
         filename: params[:file].original_filename,
         content_type: params[:file].content_type
       )
 
-      entity.save!
+      obj.save!
     end
 end

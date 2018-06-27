@@ -4,9 +4,9 @@
       <%= link_to(@cover_story.title, article_path(@cover_story)) %>
     </h1>
 
-    <% if @cover_story.illustration %>
+    <% if @cover_story.illustration.attached? %>
       <figure>
-        <%= image_tag(article_illustration(@cover_story.illustration, @cover_story.article_type.name)) %>
+        <%= image_tag(@cover_story.illustration) %>
       </figure>
     <% end %>
 

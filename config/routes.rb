@@ -10,6 +10,10 @@ Rails.application.routes.draw do
   get "rss/index"
 
   namespace :admin do
+    # Imare uploading of article illustrations
+    post "/article-illustration/:id" => "file_upload#upload_article_illustration", as: :upload_article_illustration
+    delete "/article-illustration/:id" => "file_upload#delete_article_illustration", as: :delete_article_illustration
+
     # Image uploading of speaker portraits
     post "/profile-picture/:id" => "file_upload#upload_profile_picture", as: :upload_profile_picture
     delete "/profile-picture/:id" => "file_upload#delete_profile_picture", as: :delete_profile_picture

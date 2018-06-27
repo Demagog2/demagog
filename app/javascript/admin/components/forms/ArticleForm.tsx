@@ -44,6 +44,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
         slug: '',
         published: false,
         published_at: '',
+        illustration: null,
         segments: [],
       },
     },
@@ -110,7 +111,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                 <div className="form-row">
                   <ImageInput
                     label="Ilustrační obrázek"
-                    defaultValue={null}
+                    defaultValue={articleQuery.article.illustration}
                     name="illustration"
                     onChange={onImageChange('illustration')}
                     renderImage={(src) => (

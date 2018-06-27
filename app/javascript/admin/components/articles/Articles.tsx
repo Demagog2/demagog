@@ -15,10 +15,10 @@ import {
 import { DeleteArticle } from '../../queries/mutations';
 import { GetArticles } from '../../queries/queries';
 import { formatDate } from '../../utils/date';
+import Authorize from '../Authorize';
 import { SearchInput } from '../forms/controls/SearchInput';
 import Loading from '../Loading';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
-import Authorize from '../Authorize';
 
 class GetArticlesQuery extends Query<GetArticlesQueryResult, GetArticlesQueryVariables> {}
 

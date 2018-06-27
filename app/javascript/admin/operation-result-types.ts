@@ -495,6 +495,7 @@ export interface GetArticleQuery {
     perex: string | null,
     published: boolean,
     published_at: string | null,
+    illustration: string | null,
     segments:  Array< {
       id: string,
       segment_type: string,
