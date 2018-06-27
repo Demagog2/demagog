@@ -14,4 +14,3 @@ Mutations::UpdateArticle = GraphQL::Field.define do
     Article.update_article(args[:id], args[:article_input].to_h)
   }
 end
-

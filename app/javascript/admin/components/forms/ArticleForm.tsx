@@ -18,6 +18,8 @@ interface IArticleFormProps {
   articleQuery?: GetArticleQuery;
   onSubmit: (formData: ArticleInputType) => void;
   submitting: boolean;
+  title: string;
+  backPath: string;
 }
 
 class ArticleInternalForm extends Form<ArticleInputType> {}
@@ -48,7 +50,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
   };
 
   public render() {
-    const { articleQuery, submitting } = this.props;
+    const { backPath, articleQuery, submitting, title } = this.props;
 
     if (!articleQuery) {
       return null;
@@ -60,6 +62,22 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
       <ArticleInternalForm defaultValues={articleInput} onSubmit={this.props.onSubmit}>
         {({ onInputChange, onCheckboxChange, onImageChange, onAssociationChange }) => (
           <React.Fragment>
+            <div className="float-right">
+              <Link to={backPath} className="btn btn-secondary">
+                Zpět
+              </Link>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{ marginLeft: 7 }}
+                disabled={submitting}
+              >
+                {submitting ? 'Ukládám ...' : 'Uložit'}
+              </button>
+            </div>
+
+            <h3 style={{ marginTop: 7, marginBottom: 20 }}>{title}</h3>
+
             <div className="row">
               <div className="col-md-8">
                 <Input

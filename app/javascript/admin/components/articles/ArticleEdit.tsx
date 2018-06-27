@@ -11,7 +11,7 @@ import {
   UpdateArticleMutationVariables,
 } from '../../operation-result-types';
 import { UpdateArticle } from '../../queries/mutations';
-import { GetArticle } from '../../queries/queries';
+import { GetArticle, GetArticles } from '../../queries/queries';
 import { ArticleForm } from '../forms/ArticleForm';
 
 class ArticleQuery extends Query<GetArticleQuery, GetArticleQueryVariables> {}
@@ -64,8 +64,6 @@ class ArticleEdit extends React.Component<IArticleEditProps, IArticleEditState> 
 
     return (
       <div role="main">
-        <h1>Upravit článek</h1>
-
         <ArticleQuery query={GetArticle} variables={{ id }}>
           {({ data, loading }) => {
             if (loading) {
@@ -81,6 +79,10 @@ class ArticleEdit extends React.Component<IArticleEditProps, IArticleEditState> 
                 mutation={UpdateArticle}
                 onCompleted={this.onSuccess}
                 onError={this.onError}
+                refetchQueries={[
+                  { query: GetArticles, variables: { name: null } },
+                  { query: GetArticle, variables: { id } },
+                ]}
               >
                 {(updateArticle) => {
                   return (
@@ -88,6 +90,8 @@ class ArticleEdit extends React.Component<IArticleEditProps, IArticleEditState> 
                       articleQuery={data}
                       onSubmit={this.onSubmit(updateArticle)}
                       submitting={this.state.submitting}
+                      title="Upravit článek"
+                      backPath="/admin/articles"
                     />
                   );
                 }}

@@ -18,6 +18,7 @@ import { formatDate } from '../../utils/date';
 import { SearchInput } from '../forms/controls/SearchInput';
 import Loading from '../Loading';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
+import Authorize from '../Authorize';
 
 class GetArticlesQuery extends Query<GetArticlesQueryResult, GetArticlesQueryVariables> {}
 
@@ -66,11 +67,15 @@ class Articles extends React.Component<IProps, IState> {
     return (
       <React.Fragment>
         <div>
-          <h1>Články</h1>
+          <Authorize permissions={['articles:edit']}>
+            <div className="float-right">
+              <Link className="btn btn-primary" to="/admin/articles/new">
+                Přidat článek
+              </Link>
+            </div>
+          </Authorize>
 
-          <Link style={{ marginBottom: 20 }} className="btn btn-primary" to="/admin/articles/new">
-            Přidat článek
-          </Link>
+          <h3 style={{ marginTop: 7, marginBottom: 20 }}>Články</h3>
 
           <SearchInput placeholder="Vyhledat článek" onChange={this.onSearchChange} />
 
@@ -110,43 +115,43 @@ class Articles extends React.Component<IProps, IState> {
                     />
                   )}
 
-                  {props.data.articles.map((article) => (
-                    <div className="card" key={article.id} style={{ marginBottom: '1rem' }}>
-                      <div className="card-body" style={{ display: 'flex' }}>
-                        <div style={{ marginLeft: 15, flex: '1 0' }}>
-                          <div style={{ float: 'right' }}>
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Titulek</th>
+                        <th scope="col">Zveřejněný</th>
+                        <th scope="col" />
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {props.data.articles.map((article) => (
+                        <tr key={article.id}>
+                          <td>{article.title}</td>
+                          <td>
+                            {article.published ? 'Ano' : 'Ne'}&nbsp;
+                            {article.published_at && formatDate(article.published_at)}&nbsp;
+                            <a href={`/diskuze/${article.slug}`}>Odkaz</a>
+                          </td>
+                          <td>
                             <Link
                               to={`/admin/articles/edit/${article.id}`}
-                              className="btn btn-secondary"
+                              className="btn btn-secondary btn-sm"
                               style={{ marginRight: 15 }}
                             >
                               Upravit
                             </Link>
                             <button
                               type="button"
-                              className="btn btn-secondary"
+                              className="btn btn-secondary btn-sm"
                               onClick={this.showConfirmDeleteModal(article.id)}
                             >
                               Smazat
                             </button>
-                          </div>
-
-                          <h5 style={{ marginTop: 7 }}>{article.title}</h5>
-
-                          <dl style={{ marginTop: 20 }}>
-                            <dt className="text-muted">
-                              <small>Zveřejněný</small>
-                            </dt>
-                            <dd>
-                              {article.published ? 'Ano' : 'Ne'}&nbsp;
-                              {article.published_at && formatDate(article.published_at)}&nbsp;
-                              <a href={`/diskuze/${article.slug}`}>Odkaz</a>
-                            </dd>
-                          </dl>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               );
             }}

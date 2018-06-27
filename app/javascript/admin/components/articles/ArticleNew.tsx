@@ -58,8 +58,6 @@ export class ArticleNew extends React.Component<ISourceNewProps, ISourceNewState
   public render() {
     return (
       <div role="main">
-        <h1>Přidat nový článek</h1>
-
         <CreateArticleMutationComponent
           mutation={CreateArticle}
           onCompleted={this.onSuccess}
@@ -70,6 +68,8 @@ export class ArticleNew extends React.Component<ISourceNewProps, ISourceNewState
               <ArticleForm
                 onSubmit={this.onSubmit(createArticle)}
                 submitting={this.state.submitting}
+                title="Přidat nový článek"
+                backPath="/admin/articles"
               />
             );
           }}
