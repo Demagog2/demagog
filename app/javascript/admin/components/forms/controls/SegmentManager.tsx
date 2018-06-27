@@ -6,7 +6,7 @@ import { IconNames } from '@blueprintjs/icons';
 import { SegmentInputType } from '../../../operation-result-types';
 import { Statement } from '../../articles/Statement';
 import { SelectStatementsModal } from '../../modals/SelectStatementsModal';
-import { TextInput } from './TextInput';
+import RichTextEditor from '../../RichTextEditor';
 
 type SegmentType = 'text' | 'statements_set';
 
@@ -80,16 +80,15 @@ function TextSegment(props: ISegmentProps<ITextSegment>) {
         onClick={props.onRemove}
       />
 
-      <TextInput
-        label="Obsah segmentu:"
-        defaultValue={props.segment.text}
-        onChange={(evt) =>
+      <RichTextEditor
+        value={props.segment.text_slatejson}
+        onChange={(json, html) => {
           props.onChange({
             ...props.segment,
-            text: evt.target.value,
-          })
-        }
-        placeholder="Zadejte obsah segmentu"
+            text_html: html,
+            text_slatejson: json,
+          });
+        }}
       />
     </div>
   );
@@ -104,7 +103,8 @@ interface IStatementsSegment {
 interface ITextSegment {
   id: string;
   type: 'text';
-  text: string;
+  text_html: string;
+  text_slatejson: GraphQLCustomScalar_JSON | null;
 }
 
 type Segment = IStatementsSegment | ITextSegment;
@@ -128,7 +128,8 @@ export class SegmentManager extends React.Component<ISegmentManagerProps, ISegme
           if (segInput.segment_type === 'text') {
             return {
               id: segInput.id || uuid(),
-              text: segInput.text || '',
+              text_html: segInput.text_html || '',
+              text_slatejson: segInput.text_slatejson || {},
               type: 'text',
             };
           }
@@ -148,7 +149,7 @@ export class SegmentManager extends React.Component<ISegmentManagerProps, ISegme
 
     const segment =
       segmentType === 'text'
-        ? { id: uuid(), type: segmentType, text: '' }
+        ? { id: uuid(), type: segmentType, text_html: '', text_slatejson: null }
         : { id: uuid(), type: segmentType, statements: [] };
 
     this.updateSegments([...segments, segment]);
@@ -175,6 +176,7 @@ export class SegmentManager extends React.Component<ISegmentManagerProps, ISegme
           if (segment.type === 'text') {
             return (
               <TextSegment
+                key={segment.id}
                 segment={segment}
                 onRemove={this.removeSegment(segment.id)}
                 onChange={this.updateSegment(segment.id)}
@@ -209,7 +211,8 @@ function mapSegmentToSegmentInputType(segment: Segment): SegmentInputType {
     return {
       id: segment.id,
       segment_type: segment.type,
-      text: segment.text,
+      text_html: segment.text_html,
+      text_slatejson: segment.text_slatejson,
     };
   }
 

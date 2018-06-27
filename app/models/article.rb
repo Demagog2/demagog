@@ -52,7 +52,7 @@ class Article < ApplicationRecord
     if article[:segments]
       article[:segments] = article[:segments].map do |seg|
         if seg[:segment_type] == Segment::TYPE_TEXT
-          Segment.new(segment_type: seg[:segment_type], text: seg[:text])
+          Segment.new(segment_type: seg[:segment_type], text_html: seg[:text_html], text_slatejson: seg[:text_slatejson])
         else
           statements = Statement.where(id: seg[:statements])
           Segment.new(segment_type: seg[:segment_type], statements: statements)
@@ -72,7 +72,8 @@ class Article < ApplicationRecord
       if seg[:segment_type] == Segment::TYPE_TEXT
         segment.assign_attributes(
           segment_type: seg[:segment_type],
-          text: seg[:text]
+          text_html: seg[:text_html],
+          text_slatejson: seg[:text_slatejson]
         )
       else
         segment.assign_attributes(
@@ -85,9 +86,7 @@ class Article < ApplicationRecord
     end
 
     Article.transaction do
-      article[:segments].each do |seg|
-        seg.save
-      end
+      article[:segments].each(&:save)
 
       Article.update(id, article)
     end

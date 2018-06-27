@@ -8,7 +8,7 @@
   <section class="segment">
     <% @article.segments.each do |segment| %>
       <% if segment.is_text? %>
-        <%= raw(segment.text) %>
+        <%= raw(segment.text_html) %>
       <% else %>
         <% if @article.segments.size === 1 %>
           <h2 class="filters">Výroky</h2>
@@ -16,7 +16,7 @@
 
         <% @article.segments.each do |segment| %>
           <% if segment.is_text? %>
-            <%= raw(segment.text) %>
+            <%= raw(segment.text_html) %>
           <% else %>
             <%= render(partial: "statement/detail", collection: segment.published_statements, as: :statement) %>
           <% end %>

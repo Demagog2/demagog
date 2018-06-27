@@ -5,5 +5,6 @@ Types::SegmentType = GraphQL::ObjectType.define do
 
   field :id, !types.ID
   field :segment_type, !types.String
-  field :text, types.String
+  field :text_html, types.String
+  field :text_slatejson, Types::Scalars::JsonType
 end

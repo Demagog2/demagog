@@ -13,7 +13,8 @@ export interface ArticleInputType {
 export interface SegmentInputType {
   id?: string | null,
   segment_type: string,
-  text?: string | null,
+  text_html?: string | null,
+  text_slatejson?: GraphQLCustomScalar_JSON | null,
   statements?: Array< string > | null,
 };
 
@@ -499,7 +500,8 @@ export interface GetArticleQuery {
     segments:  Array< {
       id: string,
       segment_type: string,
-      text: string | null,
+      text_html: string | null,
+      text_slatejson: GraphQLCustomScalar_JSON | null,
     } > | null,
   },
 };

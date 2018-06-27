@@ -92,10 +92,10 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
 
                 <div className="form-row">
                   <TextInput
-                    minHeight={200}
+                    minHeight={100}
                     className="col-md-12"
                     placeholder="Zadejte perex..."
-                    label="Perex:"
+                    label="Perex"
                     defaultValue={articleInput.perex}
                     onChange={onInputChange('perex')}
                   />
@@ -134,7 +134,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                   <div className="form-group">
                     <DateInput
                       onChange={onInputChange('published_at')}
-                      label="Datum zveřejnění:"
+                      label="Datum zveřejnění"
                       placeholder="Zadejte datum zveřejnění"
                       name="published_at"
                       defaultValue={articleInput.published_at || ''}
@@ -143,13 +143,6 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                 </div>
               </div>
             </div>
-
-            <button type="submit" className="btn btn-primary" disabled={submitting}>
-              {submitting ? 'Ukládám ...' : 'Uložit'}
-            </button>
-            <Link to="/admin/articles" className="btn">
-              Zpět na seznam
-            </Link>
           </React.Fragment>
         )}
       </ArticleInternalForm>

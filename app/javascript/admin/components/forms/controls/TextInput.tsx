@@ -54,7 +54,6 @@ export class TextInput extends React.Component<ITextInputProps, ITextInputState>
 
         <div
           style={{
-            height: 300,
             overflow: 'scroll',
             border: '1px solid #ced4da',
             borderRadius: '.25rem',
@@ -65,7 +64,7 @@ export class TextInput extends React.Component<ITextInputProps, ITextInputState>
             placeholder={this.props.placeholder}
             value={this.state.value}
             onChange={this.onChange}
-            style={{ minHeight: '280px' }}
+            style={{ minHeight: `${this.props.minHeight}px` }}
           />
         </div>
       </div>

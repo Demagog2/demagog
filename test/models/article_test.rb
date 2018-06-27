@@ -15,7 +15,7 @@ class ArticleTest < ActiveSupport::TestCase
       segments: [
         {
           segment_type: "text",
-          text: "Lorem ipsum..."
+          text_html: "<p>Lorem ipsum...</p>"
         },
         {
           segment_type: "statements_set",
@@ -31,7 +31,7 @@ class ArticleTest < ActiveSupport::TestCase
 
       segment = article.segments.first
       assert_equal "text", segment.segment_type
-      assert_equal "Lorem ipsum...", segment.text
+      assert_equal "<p>Lorem ipsum...</p>", segment.text_html
 
       segment = article.segments.second
       assert_equal "statements_set", segment.segment_type
@@ -48,7 +48,7 @@ class ArticleTest < ActiveSupport::TestCase
       segments: [
         {
           segment_type: "text",
-          text: "Lorem ipsum..."
+          text_html: "<p>Lorem ipsum...</p>"
         },
         {
           segment_type: "statements_set",
@@ -64,7 +64,7 @@ class ArticleTest < ActiveSupport::TestCase
 
       segment = article.segments.first
       assert_equal "text", segment.segment_type
-      assert_equal "Lorem ipsum...", segment.text
+      assert_equal "<p>Lorem ipsum...</p>", segment.text_html
 
       segment = article.segments.second
       assert_equal "statements_set", segment.segment_type

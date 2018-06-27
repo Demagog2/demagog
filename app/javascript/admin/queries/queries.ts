@@ -12,7 +12,8 @@ export const GetArticle = gql`
       segments {
         id
         segment_type
-        text
+        text_html
+        text_slatejson
       }
     }
   }

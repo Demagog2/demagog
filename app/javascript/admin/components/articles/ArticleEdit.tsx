@@ -89,8 +89,6 @@ class ArticleEdit extends React.Component<IArticleEditProps, IArticleEditState> 
             return (
               <UpdateArticleMutationComponent
                 mutation={UpdateArticle}
-                onCompleted={this.onSuccess}
-                onError={this.onError}
                 refetchQueries={[
                   { query: GetArticles, variables: { name: null } },
                   { query: GetArticle, variables: { id } },
