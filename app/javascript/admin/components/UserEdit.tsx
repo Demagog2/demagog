@@ -79,7 +79,7 @@ class UserEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> {
   };
 
   private onCompleted = () => {
-    this.props.dispatch(addFlashMessage('Uložení proběhlo v pořádku'));
+    this.props.dispatch(addFlashMessage('Uložení proběhlo v pořádku', 'success'));
 
     if (this.props.currentUser && this.props.match.params.id === this.props.currentUser.id) {
       // When we are editing ourselves, lets update the currentUser info
@@ -88,7 +88,7 @@ class UserEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> {
   };
 
   private onError = (error: any) => {
-    this.props.dispatch(addFlashMessage('Doško k chybě při uložení dat'));
+    this.props.dispatch(addFlashMessage('Doško k chybě při uložení dat', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };

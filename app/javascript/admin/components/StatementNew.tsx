@@ -4,7 +4,7 @@ import * as classNames from 'classnames';
 import { Formik } from 'formik';
 import { DateTime } from 'luxon';
 import { Mutation, Query } from 'react-apollo';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Link, withRouter } from 'react-router-dom';
 
@@ -29,18 +29,18 @@ class CreateStatementMutationComponent extends Mutation<
 > {}
 
 interface IProps extends RouteComponentProps<{ sourceId: string }> {
-  addFlashMessage: (msg: string) => void;
+  dispatch: Dispatch;
 }
 
 // tslint:disable-next-line:max-classes-per-file
 class StatementNew extends React.Component<IProps> {
   public onCompleted = (sourceId: string) => {
-    this.props.addFlashMessage('Výrok byl úspěšně přidán.');
+    this.props.dispatch(addFlashMessage('Výrok byl úspěšně přidán.', 'success'));
     this.props.history.push(`/admin/sources/${sourceId}`);
   };
 
   public onError = (error: any) => {
-    this.props.addFlashMessage('Při ukládání došlo k chybě.');
+    this.props.dispatch(addFlashMessage('Při ukládání došlo k chybě.', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
@@ -228,15 +228,4 @@ class StatementNew extends React.Component<IProps> {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(withRouter(StatementNew));
+export default connect()(withRouter(StatementNew));

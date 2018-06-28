@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Mutation, MutationFn, Query } from 'react-apollo';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { addFlashMessage } from '../../actions/flashMessages';
 import { deleteArticleIllustration, uploadArticleIllustration } from '../../api';
@@ -24,7 +24,7 @@ class UpdateArticleMutationComponent extends Mutation<
 type UpdateArticleMutationFn = MutationFn<UpdateArticleMutation, UpdateArticleMutationVariables>;
 
 interface IArticleEditProps extends RouteComponentProps<{ id: string }> {
-  addFlashMessage: (message: string) => void;
+  dispatch: Dispatch;
 }
 
 interface IArticleEditState {
@@ -37,11 +37,11 @@ class ArticleEdit extends React.Component<IArticleEditProps, IArticleEditState> 
   };
 
   public onSuccess = () => {
-    this.props.addFlashMessage('Článek byl úspěšně uložen.');
+    this.props.dispatch(addFlashMessage('Článek byl úspěšně uložen.', 'success'));
   };
 
   public onError = (error) => {
-    this.props.addFlashMessage('Došlo k chybě při ukládání článku');
+    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání článku', 'error'));
     // tslint:disable-next-line:no-console
     console.error(error);
   };
@@ -114,15 +114,4 @@ class ArticleEdit extends React.Component<IArticleEditProps, IArticleEditState> 
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ArticleEdit);
+export default connect()(ArticleEdit);

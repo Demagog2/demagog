@@ -3,7 +3,7 @@ import * as React from 'react';
 import { ApolloError } from 'apollo-client';
 import { Mutation, Query } from 'react-apollo';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Link, withRouter } from 'react-router-dom';
 
@@ -44,7 +44,7 @@ interface IStatement {
 interface IProps {
   source: ISource;
   statements: IStatement[];
-  addFlashMessage: (message: string) => void;
+  dispatch: Dispatch;
   onCompleted: () => void;
 }
 
@@ -90,12 +90,12 @@ class StatementsSort extends React.Component<IProps, IState> {
     updateSourceStatementsOrder({ variables: { id: this.props.source.id, input } })
       .then(() => {
         this.setState({ isSubmitting: false });
-        this.props.addFlashMessage('Aktuální řazení výroků úspěšně uloženo.');
+        this.props.dispatch(addFlashMessage('Aktuální řazení výroků úspěšně uloženo.', 'success'));
         this.props.onCompleted();
       })
       .catch((error: ApolloError) => {
         this.setState({ isSubmitting: false });
-        this.props.addFlashMessage('Při ukládání došlo k chybě.');
+        this.props.dispatch(addFlashMessage('Při ukládání došlo k chybě.', 'error'));
 
         console.error(error); // tslint:disable-line:no-console
       });
@@ -183,18 +183,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   ...draggableStyle,
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
-
-const EnhancedStatementsSort = connect(
-  null,
-  mapDispatchToProps,
-)(StatementsSort);
+const EnhancedStatementsSort = connect()(StatementsSort);
 
 class GetSourceQueryComponent extends Query<GetSourceQuery, GetSourceQueryVariables> {}
 

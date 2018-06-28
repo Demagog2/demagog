@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { ApolloError } from 'apollo-client';
 import { Query } from 'react-apollo';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../../actions/flashMessages';
@@ -23,7 +23,7 @@ import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
 class GetArticlesQuery extends Query<GetArticlesQueryResult, GetArticlesQueryVariables> {}
 
 interface IProps {
-  addFlashMessage: (msg: string) => void;
+  dispatch: Dispatch;
 }
 
 interface IState {
@@ -50,12 +50,12 @@ class Articles extends React.Component<IProps, IState> {
   };
 
   private onDeleted = () => {
-    this.props.addFlashMessage('Článek byl úspěšně smazán.');
+    this.props.dispatch(addFlashMessage('Článek byl úspěšně smazán.', 'success'));
     this.hideConfirmDeleteModal();
   };
 
   private onDeleteError = (error: ApolloError) => {
-    this.props.addFlashMessage('Doško k chybě při mazání článku.');
+    this.props.dispatch(addFlashMessage('Doško k chybě při mazání článku.', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
@@ -162,15 +162,4 @@ class Articles extends React.Component<IProps, IState> {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Articles);
+export default connect()(Articles);

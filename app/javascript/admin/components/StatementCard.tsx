@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { ApolloError } from 'apollo-client';
 import { truncate } from 'lodash';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
@@ -40,7 +40,7 @@ interface IStatement {
 }
 
 interface IProps {
-  addFlashMessage: (msg: string) => void;
+  dispatch: Dispatch;
   onDeleted?: () => void;
   refetchQueriesAfterDelete?: object[];
   statement: IStatement;
@@ -60,7 +60,7 @@ class StatementCard extends React.Component<IProps, IState> {
   };
 
   public onDeleted = () => {
-    this.props.addFlashMessage('Výrok byl úspěšně smazán.');
+    this.props.dispatch(addFlashMessage('Výrok byl úspěšně smazán.', 'success'));
 
     if (this.props.onDeleted) {
       this.props.onDeleted();
@@ -68,7 +68,7 @@ class StatementCard extends React.Component<IProps, IState> {
   };
 
   public onDeleteError = (error: ApolloError) => {
-    this.props.addFlashMessage('Doško k chybě při mazání výroku.');
+    this.props.dispatch(addFlashMessage('Doško k chybě při mazání výroku.', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
@@ -146,15 +146,4 @@ class StatementCard extends React.Component<IProps, IState> {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(StatementCard);
+export default connect()(StatementCard);

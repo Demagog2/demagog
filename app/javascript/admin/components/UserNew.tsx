@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Mutation, MutationFn } from 'react-apollo';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ interface ICreateUserMutationFn
   extends MutationFn<CreateUserMutation, CreateUserMutationVariables> {}
 
 interface IUserNewProps extends RouteComponentProps<{}> {
-  addFlashMessage: (msg: string) => void;
+  dispatch: Dispatch;
 }
 
 interface IUserNewState {
@@ -65,12 +65,12 @@ class UserNew extends React.Component<IUserNewProps, IUserNewState> {
   };
 
   private onCompleted = (speakerId: number) => {
-    this.props.addFlashMessage('Osoba byla úspěšně uložena.');
+    this.props.dispatch(addFlashMessage('Osoba byla úspěšně uložena.', 'success'));
     this.props.history.push(`/admin/users/edit/${speakerId}`);
   };
 
   private onError = (error: any) => {
-    this.props.addFlashMessage('Při ukládání došlo k chybě.');
+    this.props.dispatch(addFlashMessage('Při ukládání došlo k chybě.', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
@@ -95,15 +95,4 @@ class UserNew extends React.Component<IUserNewProps, IUserNewState> {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(withRouter(UserNew));
+export default connect()(withRouter(UserNew));

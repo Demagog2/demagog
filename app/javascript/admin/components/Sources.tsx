@@ -3,11 +3,9 @@
 import * as React from 'react';
 
 import { Query } from 'react-apollo';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { compact } from 'lodash';
-import { addFlashMessage } from '../actions/flashMessages';
 import {
   GetSourcesQuery as GetSourcesQueryResult,
   GetSourcesQueryVariables,
@@ -21,16 +19,12 @@ import { displayDate } from '../utils';
 
 class GetSourcesQuery extends Query<GetSourcesQueryResult, GetSourcesQueryVariables> {}
 
-interface IProps {
-  addFlashMessage: (msg: string) => void;
-}
-
 interface IState {
   name: string | null;
   confirmDeleteModalSpeakerId: string | null;
 }
 
-class Sources extends React.Component<IProps, IState> {
+class Sources extends React.Component<{}, IState> {
   public state = {
     name: null,
     confirmDeleteModalSpeakerId: null,
@@ -142,15 +136,4 @@ class Sources extends React.Component<IProps, IState> {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Sources);
+export default Sources;

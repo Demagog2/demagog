@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Mutation, MutationFn, Query } from 'react-apollo';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
 import { addFlashMessage } from '../actions/flashMessages';
@@ -28,7 +28,7 @@ interface IUpdateSpeakerMutationFn
 
 interface ISpeakerEditProps extends RouteComponentProps<{ id: string }> {
   id: number;
-  addFlashMessage: (message: string) => void;
+  dispatch: Dispatch;
 }
 
 interface ISpeakerEditState {
@@ -71,11 +71,11 @@ class SpeakerEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> 
   };
 
   private onCompleted = () => {
-    this.props.addFlashMessage('Uložení proběhlo v pořádku');
+    this.props.dispatch(addFlashMessage('Uložení proběhlo v pořádku', 'success'));
   };
 
   private onError = (error: any) => {
-    this.props.addFlashMessage('Doško k chybě při uložení dat');
+    this.props.dispatch(addFlashMessage('Doško k chybě při uložení dat', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
@@ -117,15 +117,4 @@ class SpeakerEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> 
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(SpeakerEdit);
+export default connect()(SpeakerEdit);

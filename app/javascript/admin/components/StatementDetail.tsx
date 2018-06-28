@@ -186,6 +186,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                         this.props.dispatch(
                           addFlashMessage(
                             'Nepodařilo se uložit tvoji poslední změnu, zkus to prosím znovu',
+                            'error',
                           ),
                         );
                         console.error(mutationError); // tslint:disable-line:no-console

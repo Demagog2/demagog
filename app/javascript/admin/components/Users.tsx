@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { ApolloError } from 'apollo-client';
 import { Query } from 'react-apollo';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
@@ -21,7 +21,7 @@ import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 import SpeakerAvatar from './SpeakerAvatar';
 
 interface IProps {
-  addFlashMessage: (msg: string) => void;
+  dispatch: Dispatch;
 }
 
 interface IUsersState {
@@ -56,13 +56,13 @@ class Users extends React.Component<IProps, IUsersState> {
   };
 
   private onDeleted = () => {
-    this.props.addFlashMessage('Uživatel byl úspěšně smazán.');
+    this.props.dispatch(addFlashMessage('Uživatel byl úspěšně smazán.', 'success'));
 
     this.hideConfirmDeleteModal();
   };
 
   private onDeleteError = (error: ApolloError) => {
-    this.props.addFlashMessage('Doško k chybě při mazání uživatele');
+    this.props.dispatch(addFlashMessage('Doško k chybě při mazání uživatele', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
@@ -206,15 +206,4 @@ class Users extends React.Component<IProps, IUsersState> {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Users);
+export default connect()(Users);

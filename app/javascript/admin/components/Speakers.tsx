@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { ApolloError } from 'apollo-client';
 import { Query } from 'react-apollo';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
@@ -23,7 +23,7 @@ import SpeakerAvatar from './SpeakerAvatar';
 class GetSpeakersQuery extends Query<GetSpeakersQueryResult, GetSpeakersQueryVariables> {}
 
 interface IProps {
-  addFlashMessage: (msg: string) => void;
+  dispatch: Dispatch;
 }
 
 interface IState {
@@ -50,12 +50,12 @@ class Speakers extends React.Component<IProps, IState> {
   };
 
   private onDeleted = () => {
-    this.props.addFlashMessage('Osoba byla úspěšně smazána.');
+    this.props.dispatch(addFlashMessage('Osoba byla úspěšně smazána.', 'success'));
     this.hideConfirmDeleteModal();
   };
 
   private onDeleteError = (error: ApolloError) => {
-    this.props.addFlashMessage('Doško k chybě při mazání osoby');
+    this.props.dispatch(addFlashMessage('Doško k chybě při mazání osoby', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
@@ -199,15 +199,4 @@ class Speakers extends React.Component<IProps, IState> {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Speakers);
+export default connect()(Speakers);

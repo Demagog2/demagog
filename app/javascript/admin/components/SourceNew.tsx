@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Mutation, MutationFn } from 'react-apollo';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { addFlashMessage } from '../actions/flashMessages';
 import {
@@ -20,7 +20,7 @@ class CreateSourceMutationComponent extends Mutation<
 type CreateSourceMutationFn = MutationFn<CreateSourceMutation, CreateSourceMutationVariables>;
 
 interface ISourceNewProps extends RouteComponentProps<{}> {
-  addFlashMessage: (msg: string) => void;
+  dispatch: Dispatch;
 }
 
 interface ISourceNewState {
@@ -33,7 +33,7 @@ export class SourceNew extends React.Component<ISourceNewProps, ISourceNewState>
   };
 
   public onSuccess = (source: CreateSourceMutation) => {
-    this.props.addFlashMessage('Zdroj výroků byl úspěšně uložen.');
+    this.props.dispatch(addFlashMessage('Zdroj výroků byl úspěšně uložen.', 'success'));
 
     if (source.createSource) {
       this.props.history.push(`/admin/sources/${source.createSource.id}`);
@@ -41,7 +41,7 @@ export class SourceNew extends React.Component<ISourceNewProps, ISourceNewState>
   };
 
   public onError = (error) => {
-    this.props.addFlashMessage('Došlo k chybě při ukládání zdroje výroků');
+    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání zdroje výroků', 'error'));
     // tslint:disable-next-line:no-console
     console.error(error);
   };
@@ -79,15 +79,4 @@ export class SourceNew extends React.Component<ISourceNewProps, ISourceNewState>
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(withRouter(SourceNew));
+export default connect()(withRouter(SourceNew));

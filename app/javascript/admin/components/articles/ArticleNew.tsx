@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Mutation, MutationFn } from 'react-apollo';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { addFlashMessage } from '../../actions/flashMessages';
 import { uploadArticleIllustration } from '../../api';
@@ -20,7 +20,7 @@ class CreateArticleMutationComponent extends Mutation<
 type CreateArticleMutationFn = MutationFn<CreateArticleMutation, CreateArticleMutationVariables>;
 
 interface ISourceNewProps extends RouteComponentProps<{}> {
-  addFlashMessage: (msg: string) => void;
+  dispatch: Dispatch;
 }
 
 interface ISourceNewState {
@@ -33,13 +33,13 @@ export class ArticleNew extends React.Component<ISourceNewProps, ISourceNewState
   };
 
   public onSuccess = (articleId: string) => {
-    this.props.addFlashMessage('Článek byl úspěšně uložen.');
+    this.props.dispatch(addFlashMessage('Článek byl úspěšně uložen.', 'success'));
 
     this.props.history.push(`/admin/articles/edit/${articleId}`);
   };
 
   public onError = (error) => {
-    this.props.addFlashMessage('Došlo k chybě při ukládání článku');
+    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání článku', 'error'));
     // tslint:disable-next-line:no-console
     console.error(error);
 
@@ -92,15 +92,4 @@ export class ArticleNew extends React.Component<ISourceNewProps, ISourceNewState
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(withRouter(ArticleNew));
+export default connect()(withRouter(ArticleNew));

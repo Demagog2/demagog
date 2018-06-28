@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Mutation, MutationFn } from 'react-apollo';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ interface ICreateSpeakerMutationFn
   extends MutationFn<CreateSpeakerMutation, CreateSpeakerMutationVariables> {}
 
 interface ISpeakerNewProps extends RouteComponentProps<{}> {
-  addFlashMessage: (msg: string) => void;
+  dispatch: Dispatch;
 }
 
 interface ISpeakerNewState {
@@ -65,12 +65,12 @@ class SpeakerNew extends React.Component<ISpeakerNewProps, ISpeakerNewState> {
   };
 
   private onCompleted = (speakerId: number) => {
-    this.props.addFlashMessage('Osoba byla úspěšně uložena.');
+    this.props.dispatch(addFlashMessage('Osoba byla úspěšně uložena.'));
     this.props.history.push(`/admin/speakers/edit/${speakerId}`);
   };
 
   private onError = (error: any) => {
-    this.props.addFlashMessage('Při ukládání došlo k chybě.');
+    this.props.dispatch(addFlashMessage('Při ukládání došlo k chybě.', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
@@ -95,15 +95,4 @@ class SpeakerNew extends React.Component<ISpeakerNewProps, ISpeakerNewState> {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(withRouter(SpeakerNew));
+export default connect()(withRouter(SpeakerNew));

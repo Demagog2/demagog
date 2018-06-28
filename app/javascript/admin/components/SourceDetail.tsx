@@ -6,7 +6,7 @@ import { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
 import { get, orderBy } from 'lodash';
 import { Query } from 'react-apollo';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
@@ -41,7 +41,7 @@ const STATUS_FILTER_LABELS = {
 };
 
 interface IProps extends RouteComponentProps<{ sourceId: string }> {
-  addFlashMessage: (msg: string) => void;
+  dispatch: Dispatch;
 }
 
 interface IState {
@@ -75,12 +75,12 @@ class SourceDetail extends React.Component<IProps, IState> {
   };
 
   public onDeleted = () => {
-    this.props.addFlashMessage('Zdroj včetně jeho výroků byl úspěšně smazán.');
+    this.props.dispatch(addFlashMessage('Zdroj včetně jeho výroků byl úspěšně smazán.', 'success'));
     this.props.history.push(`/admin/sources`);
   };
 
   public onDeleteError = (error: ApolloError) => {
-    this.props.addFlashMessage('Doško k chybě při mazání zdroje');
+    this.props.dispatch(addFlashMessage('Doško k chybě při mazání zdroje', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
@@ -460,15 +460,4 @@ class SourceDetail extends React.Component<IProps, IState> {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(SourceDetail);
+export default connect()(SourceDetail);
