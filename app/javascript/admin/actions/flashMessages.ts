@@ -1,23 +1,44 @@
+import { v4 as uuid } from 'uuid';
+
+import { FlashMessageType } from '../components/FlashMessages';
+
 interface IAddFlashMessageAction {
   type: 'ADD_FLASH_MESSAGE_ACTION';
-  payload: string;
+  payload: {
+    id: string;
+    message: string;
+    type: FlashMessageType;
+  };
 }
 
 interface IRemoveFlashMessageAction {
   type: 'REMOVE_FLASH_MESSAGE_ACTION';
+  payload: {
+    id: string;
+  };
 }
 
 export type Action = IAddFlashMessageAction | IRemoveFlashMessageAction;
 
-export function addFlashMessage(message: string): IAddFlashMessageAction {
+export function addFlashMessage(
+  message: string,
+  type: FlashMessageType = 'info',
+): IAddFlashMessageAction {
   return {
     type: 'ADD_FLASH_MESSAGE_ACTION',
-    payload: message,
+    payload: {
+      id: uuid(),
+      message,
+      type,
+    },
   };
 }
 
-export function removeFlashMessage(): IRemoveFlashMessageAction {
+export function removeFlashMessage(id: string): IRemoveFlashMessageAction {
   return {
     type: 'REMOVE_FLASH_MESSAGE_ACTION',
+    payload: {
+      id,
+    },
   };
 }

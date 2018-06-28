@@ -24,7 +24,7 @@ interface IUpdateBodyMutationFn
   extends MutationFn<UpdateBodyMutation, UpdateBodyMutationVariables> {}
 
 interface IBodyDetailProps extends RouteComponentProps<{ id: string }> {
-  addFlashMessage: (message: string) => void;
+  dispatch: (action: any) => any;
 }
 
 interface IBodyEditState {
@@ -67,11 +67,11 @@ class BodyEdit extends React.Component<IBodyDetailProps, IBodyEditState> {
   };
 
   private onCompleted = () => {
-    this.props.addFlashMessage('Uložení proběhlo v pořádku');
+    this.props.dispatch(addFlashMessage('Uložení proběhlo v pořádku', 'success'));
   };
 
   private onError = (error: any) => {
-    this.props.addFlashMessage('Doško k chybě při uložení dat');
+    this.props.dispatch(addFlashMessage('Doško k chybě při uložení dat', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
@@ -113,15 +113,4 @@ class BodyEdit extends React.Component<IBodyDetailProps, IBodyEditState> {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(BodyEdit);
+export default connect()(BodyEdit);

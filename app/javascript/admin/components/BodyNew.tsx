@@ -16,7 +16,7 @@ interface ICreateBodyMutationFn
   extends MutationFn<CreateBodyMutation, CreateBodyMutationVariables> {}
 
 interface IBodyNewProps extends RouteComponentProps<{}> {
-  addFlashMessage: (msg: string) => void;
+  dispatch: (action: any) => any;
 }
 
 interface IBodyNewState {
@@ -59,12 +59,12 @@ class BodyNew extends React.Component<IBodyNewProps, IBodyNewState> {
   };
 
   private onCompleted = (bodyId: number) => {
-    this.props.addFlashMessage('Strana / skupina byla úspěšně uložena.');
+    this.props.dispatch(addFlashMessage('Strana / skupina byla úspěšně uložena.', 'success'));
     this.props.history.push(`/admin/bodies/edit/${bodyId}`);
   };
 
   private onError = (error: any) => {
-    this.props.addFlashMessage('Při ukládání došlo k chybě.');
+    this.props.dispatch(addFlashMessage('Při ukládání došlo k chybě.', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
@@ -89,15 +89,4 @@ class BodyNew extends React.Component<IBodyNewProps, IBodyNewState> {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(withRouter(BodyNew));
+export default connect()(withRouter(BodyNew));

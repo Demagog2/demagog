@@ -1,31 +1,58 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
+import { removeFlashMessage } from '../actions/flashMessages';
+
 // Modal backdrop has z-index 1050, so we want to be over it
 const FLASH_MESSAGE_Z_INDEX = 2000;
 
+export type FlashMessageType = 'success' | 'error' | 'info' | 'warning';
+
+const TYPE_CLASSNAME = {
+  success: 'alert-success',
+  error: 'alert-danger',
+  info: 'alert-primary',
+  warning: 'alert-warning',
+};
+
 interface IFlashMessagesProps {
-  messages: string[];
+  dispatch: (action: any) => any;
+  messages: Array<{
+    id: string;
+    message: string;
+    type: FlashMessageType;
+  }>;
 }
 
-function FlashMessage(props: { message: string }) {
-  const { message } = props;
+class FlashMessages extends React.Component<IFlashMessagesProps> {
+  public onCloseClick = (id: string) => () => {
+    this.props.dispatch(removeFlashMessage(id));
+  };
 
-  return (
-    <div className="container fixed-bottom" style={{ zIndex: FLASH_MESSAGE_Z_INDEX }}>
-      <div key={message} className="alert alert-primary" role="alert">
-        {message}
+  public render() {
+    return (
+      <div className="container fixed-bottom" style={{ zIndex: FLASH_MESSAGE_Z_INDEX }}>
+        {this.props.messages.map((message) => (
+          <div
+            key={message.id}
+            className={`alert ${TYPE_CLASSNAME[message.type]}`}
+            role="alert"
+            onClick={this.onCloseClick(message.id)}
+          >
+            {message.message}
+            <button
+              type="button"
+              className="close"
+              aria-label="Close"
+              onClick={this.onCloseClick(message.id)}
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        ))}
       </div>
-    </div>
-  );
-}
-
-function FlashMessages(props: IFlashMessagesProps) {
-  return (
-    <React.Fragment>
-      {props.messages.map((message) => <FlashMessage key={message} message={message} />)}
-    </React.Fragment>
-  );
+    );
+  }
 }
 
 const mapStateToProps = (state) => ({ messages: state.flashMessages });

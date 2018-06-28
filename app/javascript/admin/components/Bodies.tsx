@@ -31,7 +31,7 @@ function Badge(props: { is_party: boolean }) {
 }
 
 interface IProps {
-  addFlashMessage: (msg: string) => void;
+  dispatch: (action: any) => any;
 }
 
 interface IState {
@@ -58,12 +58,12 @@ class Bodies extends React.Component<IProps, IState> {
   };
 
   private onDeleted = () => {
-    this.props.addFlashMessage('Skupina/strana byla úspěšně smazána.');
+    this.props.dispatch(addFlashMessage('Skupina/strana byla úspěšně smazána.', 'success'));
     this.hideConfirmDeleteModal();
   };
 
   private onDeleteError = (error: ApolloError) => {
-    this.props.addFlashMessage('Doško k chybě při mazání skupiny/strany');
+    this.props.dispatch(addFlashMessage('Doško k chybě při mazání skupiny/strany', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
@@ -199,15 +199,4 @@ class Bodies extends React.Component<IProps, IState> {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addFlashMessage(message: string) {
-      dispatch(addFlashMessage(message));
-    },
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Bodies);
+export default connect()(Bodies);
