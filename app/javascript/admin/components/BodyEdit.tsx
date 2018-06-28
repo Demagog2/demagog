@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Mutation, MutationFn, Query } from 'react-apollo';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
 import { addFlashMessage } from '../actions/flashMessages';
@@ -24,7 +24,7 @@ interface IUpdateBodyMutationFn
   extends MutationFn<UpdateBodyMutation, UpdateBodyMutationVariables> {}
 
 interface IBodyDetailProps extends RouteComponentProps<{ id: string }> {
-  dispatch: (action: any) => any;
+  dispatch: Dispatch;
 }
 
 interface IBodyEditState {

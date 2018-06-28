@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Mutation, MutationFn, Query } from 'react-apollo';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
 import { fetchCurrentUser } from '../actions/currentUser';
@@ -34,7 +34,7 @@ interface IUpdateUserMutationFn
 interface ISpeakerEditProps extends RouteComponentProps<{ id: string }> {
   id: number;
   currentUser: IState['currentUser']['user'];
-  dispatch: (action: any) => any;
+  dispatch: Dispatch;
 }
 
 interface ISpeakerEditState {

@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { ApolloError } from 'apollo-client';
 import { Query } from 'react-apollo';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
@@ -31,7 +31,7 @@ function Badge(props: { is_party: boolean }) {
 }
 
 interface IProps {
-  dispatch: (action: any) => any;
+  dispatch: Dispatch;
 }
 
 interface IState {

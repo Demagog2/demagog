@@ -6,7 +6,7 @@ import * as classNames from 'classnames';
 import { Formik } from 'formik';
 import { get, isEqual, set } from 'lodash';
 import { Mutation, Query } from 'react-apollo';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
@@ -43,7 +43,7 @@ class GetStatementQueryComponent extends Query<GetStatementQuery> {}
 
 interface IProps extends RouteComponentProps<{ id: string }> {
   currentUser: ReduxState['currentUser']['user'];
-  dispatch: (action: any) => any;
+  dispatch: Dispatch;
   isAuthorized: (permissions: string[]) => boolean;
 }
 

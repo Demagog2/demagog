@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import createBrowserHistory from 'history/createBrowserHistory';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { Redirect, Route, Router, Switch } from 'react-router';
 
 import { fetchCurrentUser } from './actions/currentUser';
@@ -41,7 +41,7 @@ const history = createBrowserHistory();
 
 interface IProps {
   currentUser: IState['currentUser']['user'];
-  dispatch: (action: any) => any;
+  dispatch: Dispatch;
 }
 
 class App extends React.Component<IProps> {

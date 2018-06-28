@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Mutation, MutationFn } from 'react-apollo';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
@@ -16,7 +16,7 @@ interface ICreateBodyMutationFn
   extends MutationFn<CreateBodyMutation, CreateBodyMutationVariables> {}
 
 interface IBodyNewProps extends RouteComponentProps<{}> {
-  dispatch: (action: any) => any;
+  dispatch: Dispatch;
 }
 
 interface IBodyNewState {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 
 import { removeFlashMessage } from '../actions/flashMessages';
 
@@ -16,7 +16,7 @@ const TYPE_CLASSNAME = {
 };
 
 interface IFlashMessagesProps {
-  dispatch: (action: any) => any;
+  dispatch: Dispatch;
   messages: Array<{
     id: string;
     message: string;
