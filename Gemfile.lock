@@ -75,8 +75,6 @@ GEM
     capistrano-bundler (1.3.0)
       capistrano (~> 3.1)
       sshkit (~> 1.2)
-    capistrano-local-precompile (1.1.2)
-      capistrano (>= 3)
     capistrano-rails (1.3.1)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
@@ -392,7 +390,6 @@ DEPENDENCIES
   byebug
   capistrano
   capistrano-bundler
-  capistrano-local-precompile (~> 1.1.1)
   capistrano-rails
   capistrano-rvm
   capistrano3-unicorn
