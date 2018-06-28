@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import createBrowserHistory from 'history/createBrowserHistory';
 import { connect } from 'react-redux';
-import { Route, Router, Switch } from 'react-router';
+import { Redirect, Route, Router, Switch } from 'react-router';
 
 import { fetchCurrentUser } from './actions/currentUser';
 import { IState } from './reducers';
@@ -11,7 +11,7 @@ import Loading from './components/Loading';
 
 import FlashMessages from './components/FlashMessages';
 import Header from './components/Header';
-import Home from './components/Home';
+// import Home from './components/Home';
 import NotFound from './components/NotFound';
 import Sidebar from './components/Sidebar';
 
@@ -65,7 +65,11 @@ class App extends React.Component<IProps> {
               <div className="col">
                 <FlashMessages />
                 <Switch>
-                  <Route path="/admin" exact component={Home} />
+                  {/* TODO: replace when we have something useful at home screen */}
+                  {/* <Route path="/admin" exact component={Home} /> */}
+                  <Route path="/admin" exact>
+                    <Redirect to="/admin/sources" />
+                  </Route>
 
                   <Route path="/admin/sources" exact component={Sources} />
                   <Route path="/admin/sources/new" exact component={SourceNew} />

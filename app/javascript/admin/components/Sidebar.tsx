@@ -44,13 +44,14 @@ export default function Sidebar() {
   return (
     <nav className="col-md-2 d-none d-md-block bg-light sidebar">
       <div className="sidebar-sticky">
-        <ul className="nav flex-column">
+        {/* TODO: uncomment when we have something useful at home screen */}
+        {/* <ul className="nav flex-column">
           <li className="nav-item">
             <NavLink exact className="nav-link" to="/admin">
               Přehled
             </NavLink>
           </li>
-        </ul>
+        </ul> */}
 
         {categories.map((category) => (
           <Authorize
