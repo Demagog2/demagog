@@ -167,13 +167,16 @@ class Speakers extends React.Component<IProps, IState> {
                             </dt>
                             <dd>
                               {speaker.memberships.map((m) => (
-                                <span key={m.id}>
-                                  {m.body.short_name}
-                                  {' — od '}
-                                  {m.since ? m.since : 'nevyplněno'}
-                                  {' do '}
-                                  {m.until ? m.until : 'nevyplněno'}
-                                </span>
+                                <React.Fragment key={m.id}>
+                                  <span>
+                                    {m.body.short_name}
+                                    {' — od '}
+                                    {m.since ? m.since : 'nevyplněno'}
+                                    {' do '}
+                                    {m.until ? m.until : 'nevyplněno'}
+                                  </span>
+                                  <br />
+                                </React.Fragment>
                               ))}
 
                               {speaker.memberships.length === 0 &&

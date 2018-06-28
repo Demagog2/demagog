@@ -4,12 +4,12 @@ import * as GO from 'react-icons/lib/go';
 
 export interface IMembership {
   key: string;
-  id: string | null;
+  id?: string | null;
   body: {
     id: string;
   };
-  since: string | null;
-  until: string | null;
+  since?: string | null;
+  until?: string | null;
 }
 
 interface IMembershipFormProps {

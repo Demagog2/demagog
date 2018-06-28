@@ -7,5 +7,5 @@ Types::SpeakerInputType = GraphQL::InputObjectType.define do
   argument :last_name, !types.String
   argument :website_url, types.String
 
-  argument :memberships, !types[Types::MembershipInputType]
+  argument :memberships, !types[!Types::MembershipInputType]
 end

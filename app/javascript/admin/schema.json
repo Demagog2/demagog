@@ -4381,9 +4381,13 @@
                   "kind": "LIST",
                   "name": null,
                   "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "MembershipInputType",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "MembershipInputType",
+                      "ofType": null
+                    }
                   }
                 }
               },
@@ -4434,9 +4438,13 @@
               "name": "body",
               "description": null,
               "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "MembershipBodyInputType",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "MembershipBodyInputType",
+                  "ofType": null
+                }
               },
               "defaultValue": null
             }

@@ -46,8 +46,23 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
       return null;
     }
 
+    const defaultValues: ISpeakerFormData = {
+      first_name: speakerQuery.speaker.first_name,
+      last_name: speakerQuery.speaker.last_name,
+      avatar: speakerQuery.speaker.avatar,
+      website_url: speakerQuery.speaker.website_url,
+      memberships: speakerQuery.speaker.memberships.map((m) => ({
+        id: m.id,
+        since: m.since,
+        until: m.until,
+        body: {
+          id: m.body.id,
+        },
+      })),
+    };
+
     return (
-      <SpeakerFormInternal defaultValues={speakerQuery.speaker} onSubmit={this.props.onSubmit}>
+      <SpeakerFormInternal defaultValues={defaultValues} onSubmit={this.props.onSubmit}>
         {({ onInputChange, onImageChange, onAssociationChange }) => (
           <React.Fragment>
             <div className="form-row">
@@ -58,7 +73,7 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
                   className="form-control"
                   id="first_name"
                   placeholder="Zadejte jméno"
-                  defaultValue={speakerQuery.speaker.first_name}
+                  defaultValue={defaultValues.first_name}
                   onChange={onInputChange('first_name')}
                 />
               </div>
@@ -70,7 +85,7 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
                   className="form-control"
                   id="last_name"
                   placeholder="Zadejte přijmení"
-                  defaultValue={speakerQuery.speaker.last_name}
+                  defaultValue={defaultValues.last_name}
                   onChange={onInputChange('last_name')}
                 />
               </div>
@@ -81,7 +96,7 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
                 <ImageInput
                   label="Portrét"
                   name="avatar"
-                  defaultValue={speakerQuery.speaker.avatar}
+                  defaultValue={defaultValues.avatar}
                   onChange={onImageChange('avatar')}
                   renderImage={(src) => <SpeakerAvatar avatar={src} />}
                 />
@@ -95,14 +110,14 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
                   className="form-control"
                   id="website_url"
                   placeholder="Zadejte odkaz"
-                  defaultValue={speakerQuery.speaker.website_url}
+                  defaultValue={defaultValues.website_url || undefined}
                   onChange={onInputChange('website_url')}
                 />
               </div>
             </div>
 
             <MembershipForm
-              memberships={speakerQuery.speaker.memberships}
+              memberships={defaultValues.memberships}
               onChange={onAssociationChange('memberships')}
             />
 

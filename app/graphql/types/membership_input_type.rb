@@ -6,5 +6,5 @@ Types::MembershipInputType = GraphQL::InputObjectType.define do
   argument :id, types.ID
   argument :since, types.String
   argument :until, types.String
-  argument :body, Types::MembershipBodyInputType
+  argument :body, !Types::MembershipBodyInputType
 end

@@ -25,14 +25,14 @@ export interface SpeakerInputType {
   first_name: string,
   last_name: string,
   website_url?: string | null,
-  memberships: Array< MembershipInputType | null >,
+  memberships: Array< MembershipInputType >,
 };
 
 export interface MembershipInputType {
   id?: string | null,
   since?: string | null,
   until?: string | null,
-  body?: MembershipBodyInputType | null,
+  body: MembershipBodyInputType,
 };
 
 export interface MembershipBodyInputType {
