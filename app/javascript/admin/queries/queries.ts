@@ -14,6 +14,9 @@ export const GetArticle = gql`
         segment_type
         text_html
         text_slatejson
+        statements {
+          id
+        }
       }
     }
   }

@@ -51,8 +51,19 @@ class StatementSegment extends React.Component<
   public render() {
     return (
       <div>
-        {this.props.segment.statements.map((statement) => <Statement id={statement} />)}
+        <Icon
+          icon={IconNames.TRASH}
+          iconSize={Icon.SIZE_LARGE}
+          intent={Intent.DANGER}
+          onClick={this.props.onRemove}
+        />
+
+        {this.props.segment.statements.map((statement) => (
+          <Statement key={statement} id={statement} />
+        ))}
+
         <Button icon="plus" text="Vyberte výroky" onClick={this.toggleDialog} />
+
         <SelectStatementsModal
           isOpen={this.state.isOpen}
           toggleDialog={this.toggleDialog}
@@ -129,7 +140,7 @@ export class SegmentManager extends React.Component<ISegmentManagerProps, ISegme
             return {
               id: segInput.id || uuid(),
               text_html: segInput.text_html || '',
-              text_slatejson: segInput.text_slatejson || {},
+              text_slatejson: segInput.text_slatejson || null,
               type: 'text',
             };
           }
@@ -137,7 +148,7 @@ export class SegmentManager extends React.Component<ISegmentManagerProps, ISegme
           return {
             id: segInput.id || uuid(),
             type: 'statements_set',
-            statements: [],
+            statements: segInput.statements || [],
           };
         },
       ),

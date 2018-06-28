@@ -31,7 +31,13 @@ function mapQueryToInput(articleQuery: GetArticleQuery): ArticleInputType {
     title: article.title,
     perex: article.perex || '',
     published: article.published,
-    segments: article.segments,
+    segments: (article.segments || []).map((segment) => ({
+      id: segment.id,
+      segment_type: segment.segment_type,
+      text_html: segment.text_html,
+      text_slatejson: segment.text_slatejson,
+      statements: segment.statements.map((statement) => statement.id),
+    })),
   };
 }
 

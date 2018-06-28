@@ -14,13 +14,7 @@
           <h2 class="filters">Výroky</h2>
         <% end %>
 
-        <% @article.segments.each do |segment| %>
-          <% if segment.is_text? %>
-            <%= raw(segment.text_html) %>
-          <% else %>
-            <%= render(partial: "statement/detail", collection: segment.published_statements, as: :statement) %>
-          <% end %>
-        <% end %>
+        <%= render(partial: "statement/detail", collection: segment.published_statements, as: :statement) %>
       <% end %>
     <% end %>
   </section>
@@ -49,7 +43,7 @@
         partial: "shared/speaker_stat",
         locals: {
           speaker: speaker,
-          stats: controller.source_stats.build(@article.source, speaker)
+          stats: controller.article_stats.build(@article, speaker)
         }) %>
     <% end %>
   </aside>

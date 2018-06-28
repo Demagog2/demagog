@@ -502,6 +502,9 @@ export interface GetArticleQuery {
       segment_type: string,
       text_html: string | null,
       text_slatejson: GraphQLCustomScalar_JSON | null,
+      statements:  Array< {
+        id: string,
+      } >,
     } > | null,
   },
 };
