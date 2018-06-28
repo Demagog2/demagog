@@ -5,7 +5,7 @@ class HomepageController < ApplicationController
     @cover_story = Article.cover_story
     @interesting_statements = Statement.interesting_statements
     @articles = Article
-      .where(published: true, deleted_at: nil)
+      .where(published: true)
       .order(published_at: :desc)
       .page(params[:page])
 
