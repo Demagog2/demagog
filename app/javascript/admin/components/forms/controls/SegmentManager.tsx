@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { v4 as uuid } from 'uuid';
 
-import { Button, Icon, Intent, Menu, MenuItem, Popover, Position } from '@blueprintjs/core';
+import { Button, Intent, Menu, MenuItem, Popover, Position } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { SegmentInputType } from '../../../operation-result-types';
 import { Statement } from '../../articles/Statement';
@@ -12,6 +12,20 @@ type SegmentType = 'text' | 'statements_set';
 
 interface IAddSegmentProps {
   onSelect(type: SegmentType): void;
+}
+
+function RemoveSegment(props: { onRemove(): void }) {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 5 }}>
+      <Button
+        minimal
+        icon={IconNames.TRASH}
+        onClick={props.onRemove}
+        intent={Intent.DANGER}
+        text="Odstranit segment"
+      />
+    </div>
+  );
 }
 
 function AddSegment(props: IAddSegmentProps) {
@@ -25,6 +39,7 @@ function AddSegment(props: IAddSegmentProps) {
           </Menu>
         }
         position={Position.BOTTOM_RIGHT}
+        minimal
       >
         <Button icon="plus" text="Přidat segment článku" />
       </Popover>
@@ -50,13 +65,8 @@ class StatementSegment extends React.Component<
 
   public render() {
     return (
-      <div>
-        <Icon
-          icon={IconNames.TRASH}
-          iconSize={Icon.SIZE_LARGE}
-          intent={Intent.DANGER}
-          onClick={this.props.onRemove}
-        />
+      <div style={{ marginBottom: 20 }}>
+        <RemoveSegment onRemove={this.props.onRemove} />
 
         {this.props.segment.statements.map((statement) => (
           <Statement key={statement} id={statement} />
@@ -83,13 +93,8 @@ class StatementSegment extends React.Component<
 
 function TextSegment(props: ISegmentProps<ITextSegment>) {
   return (
-    <div>
-      <Icon
-        icon={IconNames.TRASH}
-        iconSize={Icon.SIZE_LARGE}
-        intent={Intent.DANGER}
-        onClick={props.onRemove}
-      />
+    <div style={{ marginBottom: 20 }}>
+      <RemoveSegment onRemove={props.onRemove} />
 
       <RichTextEditor
         value={props.segment.text_slatejson}

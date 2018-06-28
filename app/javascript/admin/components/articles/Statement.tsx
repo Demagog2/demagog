@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Query } from 'react-apollo';
 
+import { Card } from '@blueprintjs/core';
 import Loading from '../Loading';
 
 import { GetStatementQuery, GetStatementQueryVariables } from '../../operation-result-types';
@@ -25,11 +26,13 @@ export function Statement(props: IProps) {
         }
 
         return (
-          <div>
-            <h3>
-              {data.statement.speaker.first_name} {data.statement.speaker.last_name}
-            </h3>
-            <p>{data.statement.content}</p>
+          <div style={{ marginBottom: 10 }}>
+            <Card>
+              <h5>
+                {data.statement.speaker.first_name} {data.statement.speaker.last_name}
+              </h5>
+              <p>{data.statement.content}</p>
+            </Card>
           </div>
         );
       }}

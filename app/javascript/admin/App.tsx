@@ -18,7 +18,6 @@ import BodyNew from './components/BodyNew';
 import FlashMessages from './components/FlashMessages';
 import Header from './components/Header';
 // import Home from './components/Home';
-import Home from './components/Home';
 import Loading from './components/Loading';
 import NotFound from './components/NotFound';
 import Sidebar from './components/Sidebar';

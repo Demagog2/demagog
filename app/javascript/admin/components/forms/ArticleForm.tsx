@@ -3,15 +3,15 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Switch } from '@blueprintjs/core';
+import { EditableText, Switch } from '@blueprintjs/core';
 import { ArticleInputType, GetArticleQuery } from '../../operation-result-types';
 import ArticleIllustration from '../ArticleIllustration';
 import DateInput from './controls/DateInput';
 import ImageInput from './controls/ImageInput';
 // import { CheckboxInput } from './controls/CheckboxInput';
-import { Input } from './controls/Input';
+// import { Input } from './controls/Input';
 import { SegmentManager } from './controls/SegmentManager';
-import { TextInput } from './controls/TextInput';
+// import { TextInput } from './controls/TextInput';
 import { Form } from './Form';
 
 interface IArticleFormProps {
@@ -87,21 +87,20 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
 
             <div className="row">
               <div className="col-md-8">
-                <Input
-                  required
-                  id="name"
-                  label="Název"
-                  defaultValue={articleInput.title}
-                  placeholder="Zadejte název"
-                  onChange={onInputChange('title')}
-                />
+                <h2 style={{ marginBottom: 20 }}>
+                  <EditableText
+                    placeholder="Upravit Název.."
+                    defaultValue={articleInput.title}
+                    onChange={onInputChange('title')}
+                  />
+                </h2>
 
-                <div className="form-row">
-                  <TextInput
-                    minHeight={100}
-                    className="col-md-12"
+                <div style={{ marginBottom: 20 }}>
+                  <EditableText
+                    maxLines={12}
+                    minLines={3}
+                    multiline={true}
                     placeholder="Zadejte perex..."
-                    label="Perex"
                     defaultValue={articleInput.perex}
                     onChange={onInputChange('perex')}
                   />
