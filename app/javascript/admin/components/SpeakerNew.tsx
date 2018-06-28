@@ -80,12 +80,14 @@ class SpeakerNew extends React.Component<ISpeakerNewProps, ISpeakerNewState> {
     const { submitting } = this.state;
 
     return (
-      <div role="main">
-        <h1>Přidat novou osobu</h1>
-
+      <div role="main" style={{ marginTop: 15 }}>
         <CreateSpeakerMutationComponent mutation={CreateSpeaker}>
           {(createSpeaker) => (
-            <SpeakerForm onSubmit={this.onFormSubmit(createSpeaker)} submitting={submitting} />
+            <SpeakerForm
+              onSubmit={this.onFormSubmit(createSpeaker)}
+              submitting={submitting}
+              title="Přidat novou osobu"
+            />
           )}
         </CreateSpeakerMutationComponent>
       </div>

@@ -52,7 +52,7 @@ class Sources extends React.Component<IProps, IState> {
   public render() {
     return (
       <React.Fragment>
-        <div>
+        <div role="main" style={{ marginTop: 15 }}>
           <Authorize permissions={['sources:edit']}>
             <div className="float-right">
               <Link className="btn btn-primary" to="/admin/sources/new">
@@ -61,9 +61,11 @@ class Sources extends React.Component<IProps, IState> {
             </div>
           </Authorize>
 
-          <h3 style={{ marginTop: 7, marginBottom: 20 }}>Výroky</h3>
+          <h3>Výroky</h3>
 
-          <SearchInput placeholder="Hledat dle názvu zdroje …" onChange={this.onSearchChange} />
+          <div style={{ marginTop: 25 }}>
+            <SearchInput placeholder="Hledat dle názvu zdroje …" onChange={this.onSearchChange} />
+          </div>
 
           <GetSourcesQuery query={GetSources} variables={{ name: this.state.name }}>
             {(props) => {

@@ -74,15 +74,13 @@ class BodyNew extends React.Component<IBodyNewProps, IBodyNewState> {
     const { submitting } = this.state;
 
     return (
-      <div role="main">
-        <h1>Přidat novou stranu / skupinu</h1>
-
+      <div role="main" style={{ marginTop: 15 }}>
         <BodyNewMutation mutation={CreateBody}>
           {(createBody) => (
             <BodyForm
-              // onSubmit={(bodyInput) => createBody({ variables: { bodyInput } })}
               onSubmit={this.onFormSubmit(createBody)}
               submitting={submitting}
+              title="Přidat novou stranu / skupinu"
             />
           )}
         </BodyNewMutation>

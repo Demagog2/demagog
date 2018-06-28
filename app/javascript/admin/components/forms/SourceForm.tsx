@@ -61,7 +61,7 @@ export class SourceForm extends React.Component<ISourceFormProps> {
     return (
       <SourceInternalForm defaultValues={sourceInput} onSubmit={this.props.onSubmit}>
         {({ onInputChange, onAssociationChange }, data) => (
-          <React.Fragment>
+          <div style={{ paddingBottom: 50 }}>
             <div className="float-right">
               <Link to={backPath} className="btn btn-secondary">
                 Zpět
@@ -76,7 +76,7 @@ export class SourceForm extends React.Component<ISourceFormProps> {
               </button>
             </div>
 
-            <h3 style={{ marginTop: 7, marginBottom: 20 }}>{title}</h3>
+            <h3 style={{ marginBottom: 20 }}>{title}</h3>
 
             <Input
               required
@@ -141,7 +141,7 @@ export class SourceForm extends React.Component<ISourceFormProps> {
                 onChange={onInputChange('transcript')}
               />
             </div>
-          </React.Fragment>
+          </div>
         )}
       </SourceInternalForm>
     );

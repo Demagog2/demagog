@@ -20,6 +20,7 @@ interface ISpeakerFormProps {
   speakerQuery?: GetSpeakerQuery;
   onSubmit: (formData: ISpeakerFormData) => void;
   submitting: boolean;
+  title: string;
 }
 
 // tslint:disable-next-line:max-classes-per-file
@@ -40,7 +41,7 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
   };
 
   public render() {
-    const { speakerQuery, submitting } = this.props;
+    const { speakerQuery, submitting, title } = this.props;
 
     if (!speakerQuery) {
       return null;
@@ -64,7 +65,23 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
     return (
       <SpeakerFormInternal defaultValues={defaultValues} onSubmit={this.props.onSubmit}>
         {({ onInputChange, onImageChange, onAssociationChange }) => (
-          <React.Fragment>
+          <div style={{ paddingBottom: 50 }}>
+            <div className="float-right">
+              <Link to="/admin/speakers" className="btn btn-secondary">
+                Zpět
+              </Link>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{ marginLeft: 7 }}
+                disabled={submitting}
+              >
+                {submitting ? 'Ukládám ...' : 'Uložit'}
+              </button>
+            </div>
+
+            <h3 style={{ marginBottom: 25 }}>{title}</h3>
+
             <div className="form-row">
               <div className="form-group col-md-6">
                 <label htmlFor="first_name">Jméno:</label>
@@ -120,16 +137,7 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
               memberships={defaultValues.memberships}
               onChange={onAssociationChange('memberships')}
             />
-
-            <div style={{ marginTop: 20 }}>
-              <button type="submit" className="btn btn-primary" disabled={submitting}>
-                {submitting ? 'Ukládám ...' : 'Uložit'}
-              </button>
-              <Link to="/admin/speakers" className="btn">
-                Zpět na seznam
-              </Link>
-            </div>
-          </React.Fragment>
+          </div>
         )}
       </SpeakerFormInternal>
     );

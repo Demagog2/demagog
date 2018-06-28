@@ -56,7 +56,7 @@ export class SourceNew extends React.Component<ISourceNewProps, ISourceNewState>
 
   public render() {
     return (
-      <div role="main">
+      <div role="main" style={{ marginTop: 15 }}>
         <CreateSourceMutationComponent
           mutation={CreateSource}
           onCompleted={this.onSuccess}

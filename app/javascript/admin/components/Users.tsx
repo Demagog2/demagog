@@ -72,136 +72,136 @@ class Users extends React.Component<IProps, IUsersState> {
     const { confirmDeleteModalUserId } = this.state;
 
     return (
-      <React.Fragment>
-        <div>
-          <h1>Tým</h1>
-
-          <Authorize permissions={['users:edit']}>
+      <div role="main" style={{ marginTop: 15 }}>
+        <Authorize permissions={['users:edit']}>
+          <div className="float-right">
             <Link style={{ marginBottom: 20 }} className="btn btn-primary" to="/admin/users/new">
               Přidat nového člena týmu
             </Link>
-          </Authorize>
-
-          <div className="input-group mb-3" style={{ marginBottom: 20 }}>
-            <div className="input-group-prepend">
-              <div className="input-group-text">
-                <span style={{ marginRight: 20 }}>Zobrazit neaktivní členy</span>
-                <input
-                  type="checkbox"
-                  onChange={(evt) => this.setState({ includeInactive: evt.target.checked })}
-                  defaultChecked={this.state.includeInactive}
-                />
-              </div>
-            </div>
-            <SearchInput
-              marginBottom={0}
-              placeholder="Vyhledat člena týmu"
-              onChange={this.onSearchChange}
-            />
           </div>
+        </Authorize>
 
-          <GetUsersQuery
-            query={GetUsers}
-            variables={{ name: this.state.name, includeInactive: this.state.includeInactive }}
-          >
-            {(props) => {
-              if (props.loading || !props.data) {
-                return <Loading />;
-              }
+        <h3>Tým</h3>
 
-              if (props.error) {
-                return <h1>{props.error}</h1>;
-              }
+        <div className="input-group mb-3" style={{ marginBottom: 20 }}>
+          <div className="input-group-prepend">
+            <div className="input-group-text">
+              <span style={{ marginRight: 20 }}>Zobrazit neaktivní členy</span>
+              <input
+                type="checkbox"
+                onChange={(evt) => this.setState({ includeInactive: evt.target.checked })}
+                defaultChecked={this.state.includeInactive}
+              />
+            </div>
+          </div>
+          <SearchInput
+            marginBottom={0}
+            placeholder="Vyhledat člena týmu"
+            onChange={this.onSearchChange}
+          />
+        </div>
 
-              const confirmDeleteModalUser = props.data.users.find(
-                (s) => s.id === confirmDeleteModalUserId,
-              );
+        <GetUsersQuery
+          query={GetUsers}
+          variables={{ name: this.state.name, includeInactive: this.state.includeInactive }}
+        >
+          {(props) => {
+            if (props.loading || !props.data) {
+              return <Loading />;
+            }
 
-              return (
-                <div>
-                  {confirmDeleteModalUser && (
-                    <ConfirmDeleteModal
-                      message={`Opravdu chcete smazat Uživatele ${
-                        confirmDeleteModalUser.first_name
-                      } ${confirmDeleteModalUser.last_name}?`}
-                      onCancel={this.hideConfirmDeleteModal}
-                      mutation={DeleteUser}
-                      mutationProps={{
-                        variables: { id: confirmDeleteModalUserId },
-                        refetchQueries: [
-                          {
-                            query: GetUsers,
-                            variables: {
-                              name: this.state.name,
-                              includeInactive: this.state.includeInactive,
-                            },
+            if (props.error) {
+              return <h1>{props.error}</h1>;
+            }
+
+            const confirmDeleteModalUser = props.data.users.find(
+              (s) => s.id === confirmDeleteModalUserId,
+            );
+
+            return (
+              <div>
+                {confirmDeleteModalUser && (
+                  <ConfirmDeleteModal
+                    message={`Opravdu chcete smazat Uživatele ${
+                      confirmDeleteModalUser.first_name
+                    } ${confirmDeleteModalUser.last_name}?`}
+                    onCancel={this.hideConfirmDeleteModal}
+                    mutation={DeleteUser}
+                    mutationProps={{
+                      variables: { id: confirmDeleteModalUserId },
+                      refetchQueries: [
+                        {
+                          query: GetUsers,
+                          variables: {
+                            name: this.state.name,
+                            includeInactive: this.state.includeInactive,
                           },
-                        ],
-                        onCompleted: this.onDeleted,
-                        onError: this.onDeleteError,
-                      }}
-                    />
-                  )}
+                        },
+                      ],
+                      onCompleted: this.onDeleted,
+                      onError: this.onDeleteError,
+                    }}
+                  />
+                )}
 
-                  {props.data.users.map((user) => (
-                    <div className="card" key={user.id} style={{ marginBottom: '1rem' }}>
-                      <div className="card-body" style={{ display: 'flex' }}>
-                        <div style={{ flex: '0 0 106px' }}>
-                          <SpeakerAvatar
-                            avatar={user.avatar}
-                            first_name={user.first_name || ''}
-                            last_name={user.last_name || ''}
-                          />
-                        </div>
+                {props.data.users.map((user) => (
+                  <div className="card" key={user.id} style={{ marginBottom: '1rem' }}>
+                    <div className="card-body" style={{ display: 'flex' }}>
+                      <div style={{ flex: '0 0 106px' }}>
+                        <SpeakerAvatar
+                          avatar={user.avatar}
+                          first_name={user.first_name || ''}
+                          last_name={user.last_name || ''}
+                        />
+                      </div>
 
-                        <div style={{ marginLeft: 15, flex: '1 0' }}>
-                          <Authorize permissions={['users:edit']}>
-                            <div style={{ float: 'right' }}>
-                              <Link
-                                to={`/admin/users/edit/${user.id}`}
-                                className="btn btn-secondary"
-                                style={{ marginRight: 15 }}
-                              >
-                                Upravit
-                              </Link>
-                              <button
-                                type="button"
-                                className="btn btn-secondary"
-                                onClick={this.showConfirmDeleteModal(user.id)}
-                              >
-                                Smazat
-                              </button>
-                            </div>
-                          </Authorize>
+                      <div style={{ marginLeft: 15, flex: '1 0' }}>
+                        <Authorize permissions={['users:edit']}>
+                          <div style={{ float: 'right' }}>
+                            <Link
+                              to={`/admin/users/edit/${user.id}`}
+                              className="btn btn-secondary"
+                              style={{ marginRight: 15 }}
+                            >
+                              Upravit
+                            </Link>
+                            <button
+                              type="button"
+                              className="btn btn-secondary"
+                              onClick={this.showConfirmDeleteModal(user.id)}
+                            >
+                              Smazat
+                            </button>
+                          </div>
+                        </Authorize>
 
-                          <h5 style={{ marginTop: 7 }}>
-                            {user.first_name} {user.last_name}{' '}
-                            {!user.active && <small>(Uživatel není aktivní)</small>}
-                          </h5>
+                        <h5 style={{ marginTop: 7 }}>
+                          {user.first_name} {user.last_name}{' '}
+                          {!user.active && <small>(Uživatel není aktivní)</small>}
+                        </h5>
 
-                          <dl style={{ marginTop: 20 }}>
-                            <dt className="text-muted">
-                              <small>PŘÍSTUPOVÁ PRÁVA</small>
-                            </dt>
-                            <dd>{user.role.name}</dd>
-                          </dl>
+                        <dl style={{ marginTop: 20 }}>
+                          <dt className="text-muted">
+                            <small>PŘÍSTUPOVÁ PRÁVA</small>
+                          </dt>
+                          <dd>{user.role.name}</dd>
+                        </dl>
 
-                          <dl style={{ marginTop: 20 }}>
-                            <dt className="text-muted">
-                              <small>BIO</small>
-                            </dt>
-                            <dd>{user.bio}</dd>
-                          </dl>
-                        </div>
+                        <dl style={{ marginTop: 20 }}>
+                          <dt className="text-muted">
+                            <small>BIO</small>
+                          </dt>
+                          <dd>{user.bio}</dd>
+                        </dl>
                       </div>
                     </div>
-                  ))}
-                </div>
-              );
-            }}
-          </GetUsersQuery>
-        </div>
-      </React.Fragment>
+                  </div>
+                ))}
+              </div>
+            );
+          }}
+        </GetUsersQuery>
+      </div>
     );
   }
 }

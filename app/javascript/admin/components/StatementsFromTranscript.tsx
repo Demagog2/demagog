@@ -115,7 +115,7 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                 display: 'flex',
                 flexDirection: 'column',
                 height: 'calc(100vh - 55px)',
-                marginTop: 7,
+                marginTop: 15,
               }}
             >
               <div>

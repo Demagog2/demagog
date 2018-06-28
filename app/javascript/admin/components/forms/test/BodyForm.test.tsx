@@ -6,7 +6,9 @@ import { BodyForm } from '../BodyForm';
 
 describe('BodyForm', () => {
   it.skip('should toggle Party related fields on "is party" flag', () => {
-    const component = shallow(<BodyForm onSubmit={jest.fn()} submitting={false} />);
+    const component = shallow(
+      <BodyForm onSubmit={jest.fn()} submitting={false} title="Body form" />,
+    );
 
     component.find('.s-is_party').simulate('change', { target: { checked: false } });
 

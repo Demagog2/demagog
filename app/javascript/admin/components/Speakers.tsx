@@ -65,134 +65,136 @@ class Speakers extends React.Component<IProps, IState> {
     const { confirmDeleteModalSpeakerId } = this.state;
 
     return (
-      <React.Fragment>
-        <div>
-          <h1>Lidé</h1>
-
-          <Authorize permissions={['speakers:edit']}>
-            <Link style={{ marginBottom: 20 }} className="btn btn-primary" to="/admin/speakers/new">
+      <div role="main" style={{ marginTop: 15 }}>
+        <Authorize permissions={['speakers:edit']}>
+          <div className="float-right">
+            <Link className="btn btn-primary" to="/admin/speakers/new">
               Přidat novou osobu
             </Link>
-          </Authorize>
+          </div>
+        </Authorize>
 
+        <h3>Lidé</h3>
+
+        <div style={{ marginTop: 25 }}>
           <SearchInput placeholder="Vyhledat politickou osobu" onChange={this.onSearchChange} />
+        </div>
 
-          <GetSpeakersQuery query={GetSpeakers} variables={{ name: this.state.name }}>
-            {(props) => {
-              if (props.loading) {
-                return <Loading />;
-              }
+        <GetSpeakersQuery query={GetSpeakers} variables={{ name: this.state.name }}>
+          {(props) => {
+            if (props.loading) {
+              return <Loading />;
+            }
 
-              if (props.error) {
-                return <h1>{props.error}</h1>;
-              }
+            if (props.error) {
+              return <h1>{props.error}</h1>;
+            }
 
-              if (!props.data) {
-                return null;
-              }
+            if (!props.data) {
+              return null;
+            }
 
-              const confirmDeleteModalSpeaker = props.data.speakers.find(
-                (s) => s.id === confirmDeleteModalSpeakerId,
-              );
+            const confirmDeleteModalSpeaker = props.data.speakers.find(
+              (s) => s.id === confirmDeleteModalSpeakerId,
+            );
 
-              return (
-                <div>
-                  {confirmDeleteModalSpeaker && (
-                    <ConfirmDeleteModal
-                      message={`Opravdu chcete smazat osobu ${
-                        confirmDeleteModalSpeaker.first_name
-                      } ${confirmDeleteModalSpeaker.last_name}?`}
-                      onCancel={this.hideConfirmDeleteModal}
-                      mutation={DeleteSpeaker}
-                      mutationProps={{
-                        variables: { id: confirmDeleteModalSpeakerId },
-                        refetchQueries: [
-                          { query: GetSpeakers, variables: { name: this.state.name } },
-                        ],
-                        onCompleted: this.onDeleted,
-                        onError: this.onDeleteError,
-                      }}
-                    />
-                  )}
+            return (
+              <div>
+                {confirmDeleteModalSpeaker && (
+                  <ConfirmDeleteModal
+                    message={`Opravdu chcete smazat osobu ${confirmDeleteModalSpeaker.first_name} ${
+                      confirmDeleteModalSpeaker.last_name
+                    }?`}
+                    onCancel={this.hideConfirmDeleteModal}
+                    mutation={DeleteSpeaker}
+                    mutationProps={{
+                      variables: { id: confirmDeleteModalSpeakerId },
+                      refetchQueries: [
+                        { query: GetSpeakers, variables: { name: this.state.name } },
+                      ],
+                      onCompleted: this.onDeleted,
+                      onError: this.onDeleteError,
+                    }}
+                  />
+                )}
 
-                  {props.data.speakers.map((speaker) => (
-                    <div className="card" key={speaker.id} style={{ marginBottom: '1rem' }}>
-                      <div className="card-body" style={{ display: 'flex' }}>
-                        <div style={{ flex: '0 0 106px' }}>
-                          <SpeakerAvatar
-                            avatar={speaker.avatar}
-                            first_name={speaker.first_name}
-                            last_name={speaker.last_name}
-                          />
-                        </div>
+                {props.data.speakers.map((speaker) => (
+                  <div className="card" key={speaker.id} style={{ marginBottom: '1rem' }}>
+                    <div className="card-body" style={{ display: 'flex' }}>
+                      <div style={{ flex: '0 0 106px' }}>
+                        <SpeakerAvatar
+                          avatar={speaker.avatar}
+                          first_name={speaker.first_name}
+                          last_name={speaker.last_name}
+                        />
+                      </div>
 
-                        <div style={{ marginLeft: 15, flex: '1 0' }}>
-                          <Authorize permissions={['speakers:edit']}>
-                            <div style={{ float: 'right' }}>
-                              <Link
-                                to={`/admin/speakers/edit/${speaker.id}`}
-                                className="btn btn-secondary"
-                                style={{ marginRight: 15 }}
-                              >
-                                Upravit
-                              </Link>
-                              <button
-                                type="button"
-                                className="btn btn-secondary"
-                                onClick={this.showConfirmDeleteModal(speaker.id)}
-                              >
-                                Smazat
-                              </button>
-                            </div>
-                          </Authorize>
+                      <div style={{ marginLeft: 15, flex: '1 0' }}>
+                        <Authorize permissions={['speakers:edit']}>
+                          <div style={{ float: 'right' }}>
+                            <Link
+                              to={`/admin/speakers/edit/${speaker.id}`}
+                              className="btn btn-secondary"
+                              style={{ marginRight: 15 }}
+                            >
+                              Upravit
+                            </Link>
+                            <button
+                              type="button"
+                              className="btn btn-secondary"
+                              onClick={this.showConfirmDeleteModal(speaker.id)}
+                            >
+                              Smazat
+                            </button>
+                          </div>
+                        </Authorize>
 
-                          <h5 style={{ marginTop: 7 }}>
-                            {speaker.first_name} {speaker.last_name}
-                          </h5>
+                        <h5 style={{ marginTop: 7 }}>
+                          {speaker.first_name} {speaker.last_name}
+                        </h5>
 
-                          <dl style={{ marginTop: 20 }}>
-                            <dt className="text-muted">
-                              <small>RESPEKTOVANÝ ODKAZ</small>
-                            </dt>
-                            <dd>
-                              {speaker.website_url ? (
-                                <a href={speaker.website_url}>{speaker.website_url}</a>
-                              ) : (
-                                'Nevyplněn'
-                              )}
-                            </dd>
+                        <dl style={{ marginTop: 20 }}>
+                          <dt className="text-muted">
+                            <small>RESPEKTOVANÝ ODKAZ</small>
+                          </dt>
+                          <dd>
+                            {speaker.website_url ? (
+                              <a href={speaker.website_url}>{speaker.website_url}</a>
+                            ) : (
+                              'Nevyplněn'
+                            )}
+                          </dd>
 
-                            <dt className="text-muted">
-                              <small>PŘÍSLUŠNOST KE SKUPINÁM/STRANÁM</small>
-                            </dt>
-                            <dd>
-                              {speaker.memberships.map((m) => (
-                                <React.Fragment key={m.id}>
-                                  <span>
-                                    {m.body.short_name}
-                                    {' — od '}
-                                    {m.since ? m.since : 'nevyplněno'}
-                                    {' do '}
-                                    {m.until ? m.until : 'nevyplněno'}
-                                  </span>
-                                  <br />
-                                </React.Fragment>
-                              ))}
+                          <dt className="text-muted">
+                            <small>PŘÍSLUŠNOST KE SKUPINÁM/STRANÁM</small>
+                          </dt>
+                          <dd>
+                            {speaker.memberships.map((m) => (
+                              <React.Fragment key={m.id}>
+                                <span>
+                                  {m.body.short_name}
+                                  {' — od '}
+                                  {m.since ? m.since : 'nevyplněno'}
+                                  {' do '}
+                                  {m.until ? m.until : 'nevyplněno'}
+                                </span>
+                                <br />
+                              </React.Fragment>
+                            ))}
 
-                              {speaker.memberships.length === 0 &&
-                                'Není členem žádné skupiny či strany'}
-                            </dd>
-                          </dl>
-                        </div>
+                            {speaker.memberships.length === 0 &&
+                              'Není členem žádné skupiny či strany'}
+                          </dd>
+                        </dl>
                       </div>
                     </div>
-                  ))}
-                </div>
-              );
-            }}
-          </GetSpeakersQuery>
-        </div>
-      </React.Fragment>
+                  </div>
+                ))}
+              </div>
+            );
+          }}
+        </GetSpeakersQuery>
+      </div>
     );
   }
 }

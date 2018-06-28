@@ -17,6 +17,7 @@ interface IBodyProps {
   bodyQuery?: GetBodyQuery;
   onSubmit: (formData: IBodyFormData) => void;
   submitting: boolean;
+  title: string;
 }
 
 class BodyInternalForm extends Form<IBodyFormData> {}
@@ -39,7 +40,7 @@ export class BodyForm extends React.Component<IBodyProps> {
   };
 
   public render() {
-    const { bodyQuery, submitting } = this.props;
+    const { bodyQuery, submitting, title } = this.props;
 
     if (!bodyQuery) {
       return null;
@@ -48,7 +49,23 @@ export class BodyForm extends React.Component<IBodyProps> {
     return (
       <BodyInternalForm defaultValues={bodyQuery.body} onSubmit={this.props.onSubmit}>
         {({ onInputChange, onCheckboxChange, onImageChange }) => (
-          <React.Fragment>
+          <div style={{ paddingBottom: 50 }}>
+            <div className="float-right">
+              <Link to="/admin/bodies" className="btn btn-secondary">
+                Zpět
+              </Link>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{ marginLeft: 7 }}
+                disabled={submitting}
+              >
+                {submitting ? 'Ukládám ...' : 'Uložit'}
+              </button>
+            </div>
+
+            <h3 style={{ marginBottom: 25 }}>{title}</h3>
+
             <div className="form-group">
               <label className="form-control-label" htmlFor="name">
                 Název:
@@ -156,14 +173,7 @@ export class BodyForm extends React.Component<IBodyProps> {
                 />
               </div>
             </div>
-
-            <button type="submit" className="btn btn-primary" disabled={submitting}>
-              {submitting ? 'Ukládám ...' : 'Uložit'}
-            </button>
-            <Link to="/admin/bodies" className="btn">
-              Zpět na seznam
-            </Link>
-          </React.Fragment>
+          </div>
         )}
       </BodyInternalForm>
     );

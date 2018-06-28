@@ -61,7 +61,7 @@ class SourceEdit extends React.Component<ISourceEditProps, ISourceEditState> {
     const id = this.getParamId();
 
     return (
-      <div role="main">
+      <div role="main" style={{ marginTop: 15 }}>
         <SourceQuery query={GetSource} variables={{ id }}>
           {({ data, loading }) => {
             if (loading) {

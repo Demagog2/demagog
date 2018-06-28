@@ -87,9 +87,7 @@ class SpeakerEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> 
     const id = parseInt(this.props.match.params.id, 10);
 
     return (
-      <div role="main">
-        <h1>Upravit osobu</h1>
-
+      <div role="main" style={{ marginTop: 15 }}>
         <Query query={GetSpeaker} variables={{ id }}>
           {({ data, loading, error }) => {
             if (loading) {
@@ -107,6 +105,7 @@ class SpeakerEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> 
                     speakerQuery={data}
                     onSubmit={this.onFormSubmit(id, updateSpeaker, data)}
                     submitting={submitting}
+                    title="Upravit osobu"
                   />
                 )}
               </UpdateSpeakerMutationComponent>

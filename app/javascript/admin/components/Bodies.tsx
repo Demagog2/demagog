@@ -73,19 +73,23 @@ class Bodies extends React.Component<IProps, IState> {
     const { confirmDeleteModalBodyId } = this.state;
 
     return (
-      <div>
-        <h1>Strany a skupiny</h1>
-
+      <div role="main" style={{ marginTop: 15 }}>
         <Authorize permissions={['bodies:edit']}>
-          <Link style={{ marginBottom: 20 }} className="btn btn-primary" to="/admin/bodies/new">
-            Přidat novou stranu / skupinu
-          </Link>
+          <div className="float-right">
+            <Link className="btn btn-primary" to="/admin/bodies/new">
+              Přidat novou stranu / skupinu
+            </Link>
+          </div>
         </Authorize>
 
-        <SearchInput
-          placeholder="Vyhledat politickou stranu nebo skupinu"
-          onChange={this.onSearchChange}
-        />
+        <h3>Strany a skupiny</h3>
+
+        <div style={{ marginTop: 25 }}>
+          <SearchInput
+            placeholder="Vyhledat politickou stranu nebo skupinu"
+            onChange={this.onSearchChange}
+          />
+        </div>
 
         <GetBodiesQuery query={GetBodies} variables={{ name: this.state.name }}>
           {(props) => {

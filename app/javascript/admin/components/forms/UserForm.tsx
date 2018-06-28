@@ -17,6 +17,7 @@ interface IUserFormProps {
   userQuery?: GetUserQuery;
   onSubmit: (formData: IUserFormData) => void;
   submitting: boolean;
+  title: string;
 }
 
 class UserFormInternal extends Form<IUserFormData> {}
@@ -43,7 +44,7 @@ export class UserForm extends React.Component<IUserFormProps> {
 
   // tslint:disable-next-line:member-ordering
   public render() {
-    const { userQuery, submitting } = this.props;
+    const { userQuery, submitting, title } = this.props;
 
     if (!userQuery) {
       return null;
@@ -62,7 +63,23 @@ export class UserForm extends React.Component<IUserFormProps> {
     return (
       <UserFormInternal defaultValues={defaultValues} onSubmit={this.props.onSubmit}>
         {({ onAssociationChange, onInputChange, onCheckboxChange, onImageChange }, data) => (
-          <React.Fragment>
+          <div style={{ paddingBottom: 50 }}>
+            <div className="float-right">
+              <Link to="/admin/users" className="btn btn-secondary">
+                Zpět
+              </Link>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{ marginLeft: 7 }}
+                disabled={submitting}
+              >
+                {submitting ? 'Ukládám ...' : 'Uložit'}
+              </button>
+            </div>
+
+            <h3 style={{ marginBottom: 25 }}>{title}</h3>
+
             <div className="form-row">
               <div className="form-group col-md-6">
                 <label htmlFor="first_name">Jméno:</label>
@@ -159,16 +176,7 @@ export class UserForm extends React.Component<IUserFormProps> {
                 defaultValue={userQuery.user.position_description || ''}
               />
             </div>
-
-            <div style={{ marginTop: 20 }}>
-              <button type="submit" className="btn btn-primary" disabled={submitting}>
-                {submitting ? 'Ukládám ...' : 'Uložit'}
-              </button>
-              <Link to="/admin/users" className="btn">
-                Zpět na seznam
-              </Link>
-            </div>
-          </React.Fragment>
+          </div>
         )}
       </UserFormInternal>
     );

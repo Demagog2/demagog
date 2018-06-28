@@ -100,9 +100,7 @@ class UserEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> {
     const id = parseInt(this.props.match.params.id, 10);
 
     return (
-      <div role="main">
-        <h1>Upravit člena týmu</h1>
-
+      <div role="main" style={{ marginTop: 15 }}>
         <GetUserQuery query={GetUser} variables={{ id }}>
           {({ data, loading, error }) => {
             if (loading || !data) {
@@ -120,6 +118,7 @@ class UserEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> {
                     userQuery={data}
                     onSubmit={this.onFormSubmit(id, updateUser, data)}
                     submitting={submitting}
+                    title="Upravit člena týmu"
                   />
                 )}
               </UpdateUserMutationComponent>

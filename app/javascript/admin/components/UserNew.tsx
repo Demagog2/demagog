@@ -80,12 +80,14 @@ class UserNew extends React.Component<IUserNewProps, IUserNewState> {
     const { submitting } = this.state;
 
     return (
-      <div role="main">
-        <h1>Přidat nového člena týmu</h1>
-
+      <div role="main" style={{ marginTop: 15 }}>
         <CreateUserMutationComponent mutation={CreateUser}>
           {(createUser) => (
-            <UserForm onSubmit={this.onFormSubmit(createUser)} submitting={submitting} />
+            <UserForm
+              onSubmit={this.onFormSubmit(createUser)}
+              submitting={submitting}
+              title="Přidat nového člena týmu"
+            />
           )}
         </CreateUserMutationComponent>
       </div>

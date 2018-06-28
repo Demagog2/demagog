@@ -83,9 +83,7 @@ class BodyEdit extends React.Component<IBodyDetailProps, IBodyEditState> {
     const id = parseInt(this.props.match.params.id, 10);
 
     return (
-      <div role="main">
-        <h1>Upravit stranu / skupinu</h1>
-
+      <div role="main" style={{ marginTop: 15 }}>
         <Query query={GetBody} variables={{ id }}>
           {({ data, loading, error }) => {
             if (loading) {
@@ -103,6 +101,7 @@ class BodyEdit extends React.Component<IBodyDetailProps, IBodyEditState> {
                     bodyQuery={data}
                     onSubmit={this.onFormSubmit(id, updateBody, data)}
                     submitting={submitting}
+                    title="Upravit stranu / skupinu"
                   />
                 )}
               </UpdateBodyMutationComponent>

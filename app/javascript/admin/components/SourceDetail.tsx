@@ -137,7 +137,7 @@ class SourceDetail extends React.Component<IProps, IState> {
           const source = data.source;
 
           return (
-            <div>
+            <div role="main" style={{ marginTop: 15 }}>
               {this.state.showConfirmDeleteModal && (
                 <ConfirmDeleteModal
                   message={`Opravdu chcete smazat zdroj ${
@@ -189,7 +189,7 @@ class SourceDetail extends React.Component<IProps, IState> {
                   </Authorize>
                 </div>
 
-                <h3 style={{ marginTop: 7 }}>{source.name}</h3>
+                <h3>{source.name}</h3>
 
                 <span>
                   {source.medium.name}, {displayDate(source.released_at)},{' '}
