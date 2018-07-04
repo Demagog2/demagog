@@ -1,13 +1,14 @@
 import * as React from 'react';
 
+import { Classes } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
+import * as classNames from 'classnames';
 import Dropzone, { ImageFile } from 'react-dropzone';
 
 export type ImageValueType = string | ImageFile | null;
 
 interface IImageInputProps {
   renderImage: (src: string | null) => React.ReactNode;
-  label: string;
-  name: string;
   defaultValue: ImageValueType;
   onChange(file: ImageValueType);
 }
@@ -44,37 +45,41 @@ export default class ImageInput extends React.Component<IImageInputProps, IImage
   };
 
   public render() {
-    const { label, name } = this.props;
     const { value } = this.state;
 
     return (
-      <div>
-        <label htmlFor={name}>{label}:</label>
-        <div className="image-input-control">
-          {value !== null && (
-            <div className="preview">
-              {this.props.renderImage(value instanceof File ? value.preview || null : value)}
-            </div>
-          )}
-
-          <div className="actions">
-            <Dropzone
-              accept="image/jpeg, image/png"
-              multiple={false}
-              onDrop={this.onDrop}
-              style={{}}
-              className="dropzone"
-            >
-              <button type="button" className="btn btn-secondary">
-                {value !== null ? 'Vybrat novou fotku' : 'Vybrat fotku'}
-              </button>
-            </Dropzone>
-            {value !== null && (
-              <button type="button" className="btn btn-secondary" onClick={this.onRemoveClick}>
-                Odstranit tuto fotku
-              </button>
-            )}
+      <div style={{ display: 'flex' }}>
+        {value !== null && (
+          <div style={{ marginRight: 10 }}>
+            {this.props.renderImage(value instanceof File ? value.preview || null : value)}
           </div>
+        )}
+
+        <div style={{ marginBottom: 10 }}>
+          <Dropzone
+            accept="image/jpeg, image/png"
+            multiple={false}
+            onDrop={this.onDrop}
+            style={{}}
+            className="dropzone"
+          >
+            <button
+              type="button"
+              className={classNames(Classes.BUTTON, Classes.iconClass(IconNames.FOLDER_OPEN))}
+            >
+              {value !== null ? 'Vybrat novou fotku' : 'Vybrat fotku'}
+            </button>
+          </Dropzone>
+          {value !== null && (
+            <button
+              type="button"
+              className={classNames(Classes.BUTTON, Classes.iconClass(IconNames.TRASH))}
+              style={{ marginTop: 7 }}
+              onClick={this.onRemoveClick}
+            >
+              Odstranit tuto fotku
+            </button>
+          )}
         </div>
       </div>
     );

@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { Colors } from '@blueprintjs/core';
+
 // TODO: do not use image from legacy demagog
 const EMPTY_AVATAR_IMAGE_SRC = 'http://legacy.demagog.cz/data/users/default.png';
 
@@ -15,7 +17,17 @@ export default function SpeakerAvatar(props: ISpeakerAvatarProps) {
 
   return (
     <div style={{ maxWidth: 106 }}>
-      <img src={src} alt={alt} className="img-thumbnail" />
+      <img
+        src={src}
+        alt={alt}
+        style={{
+          padding: 4,
+          border: `1px solid ${Colors.GRAY5}`,
+          borderRadius: 4,
+          maxWidth: '100%',
+          height: 'auto',
+        }}
+      />
     </div>
   );
 }

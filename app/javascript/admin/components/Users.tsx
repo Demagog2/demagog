@@ -2,7 +2,10 @@
 
 import * as React from 'react';
 
+import { Callout, Card, Classes, Colors, Icon, Switch } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
+import * as classNames from 'classnames';
 import { Query } from 'react-apollo';
 import { connect, Dispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -14,8 +17,9 @@ import {
 } from '../operation-result-types';
 import { DeleteUser } from '../queries/mutations';
 import { GetUsers } from '../queries/queries';
+import { newlinesToBr } from '../utils';
 import Authorize from './Authorize';
-import { SearchInput } from './forms/controls/SearchInput';
+// import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 import SpeakerAvatar from './SpeakerAvatar';
@@ -25,7 +29,7 @@ interface IProps {
 }
 
 interface IUsersState {
-  name: string | null;
+  search: string;
   includeInactive: boolean;
   confirmDeleteModalUserId: string | null;
 }
@@ -37,14 +41,14 @@ class Users extends React.Component<IProps, IUsersState> {
     super(props);
 
     this.state = {
-      name: null,
+      search: '',
       includeInactive: false,
       confirmDeleteModalUserId: null,
     };
   }
 
-  private onSearchChange = (name: string) => {
-    this.setState({ name });
+  private onSearchChange = (search: string) => {
+    this.setState({ search });
   };
 
   private showConfirmDeleteModal = (confirmDeleteModalUserId: string) => () => {
@@ -72,38 +76,59 @@ class Users extends React.Component<IProps, IUsersState> {
     const { confirmDeleteModalUserId } = this.state;
 
     return (
-      <div role="main" style={{ marginTop: 15 }}>
+      <div style={{ padding: '15px 0 40px 40px' }}>
         <Authorize permissions={['users:edit']}>
-          <div className="float-right">
-            <Link style={{ marginBottom: 20 }} className="btn btn-primary" to="/admin/users/new">
+          <div style={{ float: 'right', paddingTop: 5 }}>
+            <Link
+              className={classNames(
+                Classes.BUTTON,
+                Classes.INTENT_PRIMARY,
+                Classes.iconClass(IconNames.PLUS),
+              )}
+              to="/admin/users/new"
+              role="button"
+            >
               Přidat nového člena týmu
             </Link>
           </div>
         </Authorize>
 
-        <h3>Tým</h3>
+        <h1>Tým</h1>
 
-        <div className="input-group mb-3" style={{ marginBottom: 20 }}>
-          <div className="input-group-prepend">
-            <div className="input-group-text">
-              <span style={{ marginRight: 20 }}>Zobrazit neaktivní členy</span>
-              <input
-                type="checkbox"
-                onChange={(evt) => this.setState({ includeInactive: evt.target.checked })}
-                defaultChecked={this.state.includeInactive}
-              />
-            </div>
-          </div>
-          <SearchInput
-            marginBottom={0}
-            placeholder="Vyhledat člena týmu"
-            onChange={this.onSearchChange}
+        <div style={{ marginTop: 15 }}>
+          <Switch
+            checked={this.state.includeInactive}
+            label="Zobrazit i deaktivované členy"
+            onChange={(e) => this.setState({ includeInactive: e.currentTarget.checked })}
           />
+          <div className={classNames(Classes.INPUT_GROUP, Classes.LARGE)}>
+            <Icon icon={IconNames.SEARCH} />
+            <input
+              className={Classes.INPUT}
+              type="search"
+              placeholder="Hledat dle jména…"
+              dir="auto"
+              value={this.state.search}
+              onChange={(e) => this.onSearchChange(e.target.value)}
+            />
+            {this.state.search && (
+              <button
+                type="button"
+                className={classNames(
+                  Classes.BUTTON,
+                  Classes.MINIMAL,
+                  Classes.INTENT_PRIMARY,
+                  Classes.iconClass(IconNames.CROSS),
+                )}
+                onClick={() => this.onSearchChange('')}
+              />
+            )}
+          </div>
         </div>
 
         <GetUsersQuery
           query={GetUsers}
-          variables={{ name: this.state.name, includeInactive: this.state.includeInactive }}
+          variables={{ name: this.state.search, includeInactive: this.state.includeInactive }}
         >
           {(props) => {
             if (props.loading || !props.data) {
@@ -119,10 +144,10 @@ class Users extends React.Component<IProps, IUsersState> {
             );
 
             return (
-              <div>
+              <div style={{ marginTop: 15 }}>
                 {confirmDeleteModalUser && (
                   <ConfirmDeleteModal
-                    message={`Opravdu chcete smazat Uživatele ${
+                    message={`Opravdu chcete smazat uživatele ${
                       confirmDeleteModalUser.first_name
                     } ${confirmDeleteModalUser.last_name}?`}
                     onCancel={this.hideConfirmDeleteModal}
@@ -133,7 +158,7 @@ class Users extends React.Component<IProps, IUsersState> {
                         {
                           query: GetUsers,
                           variables: {
-                            name: this.state.name,
+                            name: this.state.search,
                             includeInactive: this.state.includeInactive,
                           },
                         },
@@ -145,8 +170,14 @@ class Users extends React.Component<IProps, IUsersState> {
                 )}
 
                 {props.data.users.map((user) => (
-                  <div className="card" key={user.id} style={{ marginBottom: '1rem' }}>
-                    <div className="card-body" style={{ display: 'flex' }}>
+                  <Card
+                    key={user.id}
+                    style={{
+                      marginBottom: 15,
+                      backgroundColor: user.active ? 'none' : Colors.LIGHT_GRAY4,
+                    }}
+                  >
+                    <div style={{ display: 'flex' }}>
                       <div style={{ flex: '0 0 106px' }}>
                         <SpeakerAvatar
                           avatar={user.avatar}
@@ -154,49 +185,79 @@ class Users extends React.Component<IProps, IUsersState> {
                           last_name={user.last_name || ''}
                         />
                       </div>
-
-                      <div style={{ marginLeft: 15, flex: '1 0' }}>
+                      <div style={{ flex: '1 1', marginLeft: 15 }}>
                         <Authorize permissions={['users:edit']}>
                           <div style={{ float: 'right' }}>
                             <Link
                               to={`/admin/users/edit/${user.id}`}
-                              className="btn btn-secondary"
-                              style={{ marginRight: 15 }}
+                              className={classNames(
+                                Classes.BUTTON,
+                                Classes.iconClass(IconNames.EDIT),
+                              )}
                             >
                               Upravit
                             </Link>
+                            {user.active ? (
+                              <button
+                                type="button"
+                                className={classNames(
+                                  Classes.BUTTON,
+                                  Classes.iconClass(IconNames.CROSS),
+                                )}
+                                disabled
+                                style={{ marginLeft: 7 }}
+                              >
+                                Deaktivovat
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                className={classNames(
+                                  Classes.BUTTON,
+                                  Classes.iconClass(IconNames.TICK),
+                                )}
+                                disabled
+                                style={{ marginLeft: 7 }}
+                              >
+                                Aktivovat
+                              </button>
+                            )}
                             <button
                               type="button"
-                              className="btn btn-secondary"
+                              className={classNames(
+                                Classes.BUTTON,
+                                Classes.iconClass(IconNames.TRASH),
+                              )}
+                              style={{ marginLeft: 7 }}
                               onClick={this.showConfirmDeleteModal(user.id)}
-                            >
-                              Smazat
-                            </button>
+                              title="Smazat"
+                            />
                           </div>
                         </Authorize>
 
-                        <h5 style={{ marginTop: 7 }}>
-                          {user.first_name} {user.last_name}{' '}
-                          {!user.active && <small>(Uživatel není aktivní)</small>}
+                        <h5>
+                          {user.first_name} {user.last_name}
                         </h5>
 
-                        <dl style={{ marginTop: 20 }}>
-                          <dt className="text-muted">
-                            <small>PŘÍSTUPOVÁ PRÁVA</small>
-                          </dt>
-                          <dd>{user.role.name}</dd>
-                        </dl>
+                        <h6>{user.position_description}</h6>
+                        <p>{user.bio && newlinesToBr(user.bio)}</p>
 
-                        <dl style={{ marginTop: 20 }}>
-                          <dt className="text-muted">
-                            <small>BIO</small>
-                          </dt>
-                          <dd>{user.bio}</dd>
-                        </dl>
+                        <Callout>
+                          <span className={Classes.TEXT_MUTED}>Email: </span>
+                          {user.email}
+                          <br />
+                          <span className={Classes.TEXT_MUTED}>Přístupová práva: </span>
+                          {user.role.name}
+                        </Callout>
                       </div>
                     </div>
-                  </div>
+                  </Card>
                 ))}
+
+                {props.data.users.length === 0 &&
+                  this.state.search !== '' && (
+                    <p>Nenašli jsme žádného člena týmu se jménem „{this.state.search}‟.</p>
+                  )}
               </div>
             );
           }}

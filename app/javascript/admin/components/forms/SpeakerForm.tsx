@@ -111,8 +111,8 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
             <div className="form-row">
               <div className="form-group col-md-12">
                 <ImageInput
-                  label="Portrét"
-                  name="avatar"
+                  // label="Portrét"
+                  // name="avatar"
                   defaultValue={defaultValues.avatar}
                   onChange={onImageChange('avatar')}
                   renderImage={(src) => <SpeakerAvatar avatar={src} />}

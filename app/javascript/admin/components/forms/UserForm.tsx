@@ -1,6 +1,9 @@
 /* eslint camelcase: 0, react/sort-comp: 0 */
 
 import * as React from 'react';
+
+import { Classes, FormGroup, Switch } from '@blueprintjs/core';
+import * as classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
 import { GetUserQuery, UserInputType } from '../../operation-result-types';
@@ -29,7 +32,7 @@ export class UserForm extends React.Component<IUserFormProps> {
       user: {
         id: '',
 
-        active: false,
+        active: true,
         email: '',
         first_name: '',
         last_name: '',
@@ -63,14 +66,14 @@ export class UserForm extends React.Component<IUserFormProps> {
     return (
       <UserFormInternal defaultValues={defaultValues} onSubmit={this.props.onSubmit}>
         {({ onAssociationChange, onInputChange, onCheckboxChange, onImageChange }, data) => (
-          <div style={{ paddingBottom: 50 }}>
-            <div className="float-right">
-              <Link to="/admin/users" className="btn btn-secondary">
+          <div>
+            <div style={{ float: 'right' }}>
+              <Link to="/admin/users" className={Classes.BUTTON}>
                 Zpět
               </Link>
               <button
                 type="submit"
-                className="btn btn-primary"
+                className={classNames(Classes.BUTTON, Classes.INTENT_PRIMARY)}
                 style={{ marginLeft: 7 }}
                 disabled={submitting}
               >
@@ -78,103 +81,107 @@ export class UserForm extends React.Component<IUserFormProps> {
               </button>
             </div>
 
-            <h3 style={{ marginBottom: 25 }}>{title}</h3>
+            <h1>{title}</h1>
 
-            <div className="form-row">
-              <div className="form-group col-md-6">
-                <label htmlFor="first_name">Jméno:</label>
-                <input
-                  className="form-control"
-                  id="first_name"
-                  placeholder="Zadejte jméno"
-                  defaultValue={userQuery.user.first_name || ''}
-                  onChange={onInputChange('first_name')}
-                />
+            <div style={{ display: 'flex', marginTop: 30 }}>
+              <div style={{ flex: '0 0 200px' }}>
+                <h4>Základní údaje</h4>
               </div>
-
-              <div className="form-group col-md-6">
-                <label htmlFor="last_name">Přijmení</label>
-                <input
-                  className="form-control"
-                  id="last_name"
-                  placeholder="Zadejte přijmení"
-                  defaultValue={userQuery.user.last_name || ''}
-                  onChange={onInputChange('last_name')}
-                />
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-group col-md-6">
-                <label htmlFor="email">E-mail:</label>
-                <input
-                  required
-                  className="form-control"
-                  id="email"
-                  placeholder="Zadejte jméno"
-                  defaultValue={userQuery.user.email || ''}
-                  onChange={onInputChange('email')}
-                />
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-group col-md-3">
-                <div className="form-check">
+              <div style={{ flex: '1 1' }}>
+                <FormGroup label="Jméno" labelFor="first-name">
                   <input
-                    className="form-check-input"
-                    type="checkbox"
-                    onChange={onCheckboxChange('active')}
-                    defaultChecked={userQuery.user.active}
-                    id="active"
+                    id="first-name"
+                    className={classNames(Classes.INPUT, Classes.FILL)}
+                    type="text"
+                    dir="auto"
+                    defaultValue={userQuery.user.first_name || ''}
+                    onChange={onInputChange('first_name')}
                   />
-                  <label className="form-check-label" htmlFor="active">
-                    Uživatel je aktivní
-                  </label>
+                </FormGroup>
+              </div>
+              <div style={{ flex: '1 1', marginLeft: 15 }}>
+                <FormGroup label="Přijmení" labelFor="last-name">
+                  <input
+                    id="last-name"
+                    className={classNames(Classes.INPUT, Classes.FILL)}
+                    type="text"
+                    dir="auto"
+                    defaultValue={userQuery.user.last_name || ''}
+                    onChange={onInputChange('last_name')}
+                  />
+                </FormGroup>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', marginTop: 15 }}>
+              <div style={{ flex: '0 0 200px' }}>
+                <h4>Přístup do administrace</h4>
+              </div>
+              <div style={{ flex: '1 1' }}>
+                <FormGroup
+                  label="E-mail"
+                  labelFor="email"
+                  helperText="Uživatel musí mít Google účet s tímto emailem, aby se dokázal do administrace přihlásit"
+                >
+                  <input
+                    id="email"
+                    className={classNames(Classes.INPUT, Classes.FILL)}
+                    type="text"
+                    dir="auto"
+                    defaultValue={userQuery.user.email || ''}
+                    onChange={onInputChange('email')}
+                  />
+                </FormGroup>
+                <div style={{ marginTop: 15, marginBottom: 15 }}>
+                  <Switch
+                    checked={data.active}
+                    label="Aktivovaný uživatel"
+                    onChange={onCheckboxChange('active')}
+                  />
                 </div>
+                <FormGroup label="Přístupová práva" labelFor="role">
+                  <RoleSelect
+                    id="role"
+                    value={data.role_id || null}
+                    onChange={onAssociationChange('role_id')}
+                  />
+                </FormGroup>
               </div>
             </div>
 
-            <div className="form-row">
-              <RoleSelect
-                className="col-md-6"
-                value={data.role_id || null}
-                onChange={onAssociationChange('role_id')}
-              />
-            </div>
-
-            <div className="form-row">
-              <div className="form-group col-md-12">
-                <ImageInput
-                  label="Portrét"
-                  name="avatar"
-                  defaultValue={userQuery.user.avatar}
-                  onChange={onImageChange('avatar')}
-                  renderImage={(src) => <SpeakerAvatar avatar={src} />}
-                />
+            <div style={{ display: 'flex', marginTop: 15 }}>
+              <div style={{ flex: '0 0 200px' }}>
+                <h4>Veřejný profil</h4>
               </div>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="bio">Bio:</label>
-              <textarea
-                className="form-control"
-                id="bio"
-                rows={3}
-                onChange={onInputChange('bio')}
-                defaultValue={userQuery.user.bio || ''}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="bio">Popis pozice:</label>
-              <textarea
-                className="form-control"
-                id="position_description"
-                rows={3}
-                onChange={onInputChange('position_description')}
-                defaultValue={userQuery.user.position_description || ''}
-              />
+              <div style={{ flex: '1 1' }}>
+                <FormGroup label="Portrét">
+                  <ImageInput
+                    defaultValue={userQuery.user.avatar}
+                    onChange={onImageChange('avatar')}
+                    renderImage={(src) => <SpeakerAvatar avatar={src} />}
+                  />
+                </FormGroup>
+                <FormGroup label="Popis pozice" labelFor="position-description">
+                  <input
+                    id="position-description"
+                    className={classNames(Classes.INPUT, Classes.FILL)}
+                    type="text"
+                    dir="auto"
+                    defaultValue={userQuery.user.position_description || ''}
+                    onChange={onInputChange('position_description')}
+                  />
+                </FormGroup>
+                <FormGroup label="Bio" labelFor="bio">
+                  <textarea
+                    id="bio"
+                    className={classNames(Classes.INPUT, Classes.FILL)}
+                    dir="auto"
+                    defaultValue={userQuery.user.bio || ''}
+                    onChange={onInputChange('bio')}
+                    rows={9}
+                  />
+                </FormGroup>
+              </div>
             </div>
           </div>
         )}

@@ -9,6 +9,7 @@ import { GetRoles } from '../../../queries/queries';
 class GetRolesQueryComponent extends Query<GetRolesQuery> {}
 
 interface IProps {
+  id?: string;
   className?: string;
   value: string | null;
   onChange(value: string): void;
@@ -29,20 +30,17 @@ export default class RoleSelect extends React.Component<IProps> {
           }
 
           return (
-            <div className={`form-group ${this.props.className ? this.props.className : ''}`}>
-              <label htmlFor="role-select">Přístupová práva:</label>
-              <Select
-                id="role-select"
-                value={this.props.value || undefined}
-                isLoading={loading}
-                options={options}
-                onChange={(option: Option<string>) =>
-                  option.value && this.props.onChange(option.value)
-                }
-                placeholder="Vyberte roli …"
-                clearable={false}
-              />
-            </div>
+            <Select
+              id={this.props.id}
+              value={this.props.value || undefined}
+              isLoading={loading}
+              options={options}
+              onChange={(option: Option<string>) =>
+                option.value && this.props.onChange(option.value)
+              }
+              placeholder="Vyberte roli …"
+              clearable={false}
+            />
           );
         }}
       </GetRolesQueryComponent>

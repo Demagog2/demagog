@@ -1,6 +1,8 @@
 import * as React from 'react';
 
+import { Alignment, Button, Colors, Navbar } from '@blueprintjs/core';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
 import { IState } from '../reducers';
 
@@ -10,23 +12,29 @@ interface IProps {
 
 function Header(props: IProps) {
   return (
-    <nav className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-      <a className="navbar-brand col-sm-3 col-md-2 mr-0" href="/admin">
-        Demagog.cz
-      </a>
-      {props.currentUser && (
-        <span className="navbar-text ml-auto">
-          {props.currentUser.first_name} {props.currentUser.last_name}
-        </span>
-      )}
-      <ul className="navbar-nav px-3" style={{ margin: 0 }}>
-        <li className="nav-item text-nowrap">
-          <a className="nav-link" data-method="delete" href="/sign_out">
-            Odhlásit se
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <Navbar fixedToTop>
+      <Navbar.Group align={Alignment.LEFT}>
+        <Navbar.Heading>
+          <NavLink to="/admin" style={{ color: Colors.DARK_GRAY1 }}>
+            Demagog
+          </NavLink>
+        </Navbar.Heading>
+      </Navbar.Group>
+
+      <Navbar.Group align={Alignment.RIGHT}>
+        {props.currentUser !== null && (
+          <>
+            <Button
+              icon="user"
+              minimal
+              text={`${props.currentUser.first_name} ${props.currentUser.last_name}`}
+            />
+            <Navbar.Divider />
+          </>
+        )}
+        <Button icon="log-out" minimal text="Odhlásit se" />
+      </Navbar.Group>
+    </Navbar>
   );
 }
 

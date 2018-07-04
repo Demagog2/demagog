@@ -1,18 +1,17 @@
 import * as React from 'react';
+
+import { Classes, Intent, Overlay, Toast } from '@blueprintjs/core';
 import { connect, Dispatch } from 'react-redux';
 
 import { removeFlashMessage } from '../actions/flashMessages';
 
-// Modal backdrop has z-index 1050, so we want to be over it
-const FLASH_MESSAGE_Z_INDEX = 2000;
-
 export type FlashMessageType = 'success' | 'error' | 'info' | 'warning';
 
-const TYPE_CLASSNAME = {
-  success: 'alert-success',
-  error: 'alert-danger',
-  info: 'alert-primary',
-  warning: 'alert-warning',
+const TYPE_TO_INTENT = {
+  success: Intent.SUCCESS,
+  error: Intent.DANGER,
+  info: Intent.NONE,
+  warning: Intent.WARNING,
 };
 
 interface IFlashMessagesProps {
@@ -31,26 +30,24 @@ class FlashMessages extends React.Component<IFlashMessagesProps> {
 
   public render() {
     return (
-      <div className="container fixed-bottom" style={{ zIndex: FLASH_MESSAGE_Z_INDEX }}>
+      <Overlay
+        autoFocus={false}
+        canOutsideClickClose={false}
+        enforceFocus={false}
+        hasBackdrop={false}
+        isOpen={this.props.messages.length > 0}
+        className={Classes.TOAST_CONTAINER}
+      >
         {this.props.messages.map((message) => (
-          <div
+          <Toast
             key={message.id}
-            className={`alert ${TYPE_CLASSNAME[message.type]}`}
-            role="alert"
-            onClick={this.onCloseClick(message.id)}
-          >
-            {message.message}
-            <button
-              type="button"
-              className="close"
-              aria-label="Close"
-              onClick={this.onCloseClick(message.id)}
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
+            message={message.message}
+            intent={TYPE_TO_INTENT[message.type]}
+            timeout={0}
+            onDismiss={this.onCloseClick(message.id)}
+          />
         ))}
-      </div>
+      </Overlay>
     );
   }
 }

@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { Button, Classes, Dialog, Intent } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
 import { Mutation } from 'react-apollo';
 
 interface IProps {
@@ -18,53 +20,28 @@ class ConfirmDeleteModal extends React.Component<IProps> {
   };
 
   public render() {
-    const { message, title, onCancel, mutation, mutationProps } = this.props;
+    const { message, mutation, mutationProps, onCancel, title } = this.props;
 
     return (
-      <React.Fragment>
-        <div className="modal-backdrop show" onClick={onCancel} />
-        <div className="modal show" role="dialog" style={{ display: 'block' }}>
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">{title}</h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                  onClick={onCancel}
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">{message}</div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal"
-                  onClick={onCancel}
-                >
-                  Zpět
-                </button>
-                <Mutation mutation={mutation} {...mutationProps}>
-                  {(mutate, { loading }) => (
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      onClick={() => mutate()}
-                      disabled={loading}
-                    >
-                      {loading ? 'Mažu ...' : 'Smazat'}
-                    </button>
-                  )}
-                </Mutation>
-              </div>
-            </div>
+      <Dialog isOpen onClose={onCancel} title={title}>
+        <div className={Classes.DIALOG_BODY}>{message}</div>
+        <div className={Classes.DIALOG_FOOTER}>
+          <div className={Classes.DIALOG_FOOTER_ACTIONS}>
+            <Button text="Zpět" />
+            <Mutation mutation={mutation} {...mutationProps}>
+              {(mutate, { loading }) => (
+                <Button
+                  icon={IconNames.TRASH}
+                  intent={Intent.DANGER}
+                  onClick={() => mutate()}
+                  text={loading ? 'Mažu ...' : 'Smazat'}
+                  disabled={loading}
+                />
+              )}
+            </Mutation>
           </div>
         </div>
-      </React.Fragment>
+      </Dialog>
     );
   }
 }

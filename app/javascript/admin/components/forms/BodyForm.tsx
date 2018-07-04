@@ -130,8 +130,8 @@ export class BodyForm extends React.Component<IBodyProps> {
             <div className="form-row">
               <div className="form-group col-md-12">
                 <ImageInput
-                  label="Logo / ilustrační obrázek"
-                  name="logo"
+                  // label="Logo / ilustrační obrázek"
+                  // name="logo"
                   defaultValue={bodyQuery.body.logo}
                   onChange={onImageChange('logo')}
                   renderImage={(src) => <BodyLogo logo={src} />}

@@ -115,9 +115,9 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
               <div className="col-md-4">
                 <div className="form-row">
                   <ImageInput
-                    label="Ilustrační obrázek"
+                    // label="Ilustrační obrázek"
                     defaultValue={articleQuery.article.illustration}
-                    name="illustration"
+                    // name="illustration"
                     onChange={onImageChange('illustration')}
                     renderImage={(src) => (
                       <ArticleIllustration illustration={src} title={articleInput.title} />

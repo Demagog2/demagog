@@ -1,6 +1,9 @@
 /* eslint jsx-a11y/anchor-is-valid: 0 */
 
 import * as React from 'react';
+
+import { Classes, Colors } from '@blueprintjs/core';
+import * as classNames from 'classnames';
 import { NavLink } from 'react-router-dom';
 
 import Authorize from './Authorize';
@@ -42,17 +45,17 @@ const categories = [
 
 export default function Sidebar() {
   return (
-    <nav className="col-md-2 d-none d-md-block bg-light sidebar">
-      <div className="sidebar-sticky">
-        {/* TODO: uncomment when we have something useful at home screen */}
-        {/* <ul className="nav flex-column">
-          <li className="nav-item">
-            <NavLink exact className="nav-link" to="/admin">
-              Přehled
-            </NavLink>
-          </li>
-        </ul> */}
-
+    <div style={{ flexBasis: 270, flexGrow: 0, flexShrink: 0 }}>
+      <div
+        style={{
+          position: 'fixed',
+          height: '100vh',
+          width: 270,
+          backgroundColor: Colors.LIGHT_GRAY5,
+          boxShadow: '1px 0 0 rgba(16, 22, 26, .15)',
+          overflowY: 'auto',
+        }}
+      >
         {categories.map((category) => (
           <Authorize
             key={category.title}
@@ -61,26 +64,30 @@ export default function Sidebar() {
               [],
             )}
           >
-            <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>{category.title}</span>
-            </h6>
+            <h6 style={{ paddingLeft: 15, marginTop: 30 }}>{category.title}</h6>
 
-            <ul className="nav flex-column">
+            <ul className={Classes.LIST_UNSTYLED}>
               {category.links.map((link) => (
                 <Authorize key={link.to} permissions={link.permissions || []}>
-                  <li className="nav-item">
+                  <li>
                     {link.enabled ? (
-                      <NavLink className="nav-link" to={link.to}>
-                        {link.title}
+                      <NavLink
+                        to={link.to}
+                        className={Classes.MENU_ITEM}
+                        activeClassName={Classes.ACTIVE}
+                        style={{ padding: '5px 15px' }}
+                      >
+                        <span>{link.title}</span>
                       </NavLink>
                     ) : (
-                      <span
-                        title="Coming soon"
-                        style={{ cursor: 'pointer' }}
-                        className="nav-link disabled"
+                      <a
+                        href=""
+                        className={classNames(Classes.MENU_ITEM, Classes.DISABLED)}
+                        style={{ padding: '5px 15px' }}
+                        onClick={(e) => e.preventDefault()}
                       >
-                        {link.title}
-                      </span>
+                        <span>{link.title}</span>
+                      </a>
                     )}
                   </li>
                 </Authorize>
@@ -89,6 +96,6 @@ export default function Sidebar() {
           </Authorize>
         ))}
       </div>
-    </nav>
+    </div>
   );
 }
