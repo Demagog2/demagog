@@ -81,7 +81,7 @@ export class UserForm extends React.Component<IUserFormProps> {
               </button>
             </div>
 
-            <h1>{title}</h1>
+            <h2>{title}</h2>
 
             <div style={{ display: 'flex', marginTop: 30 }}>
               <div style={{ flex: '0 0 200px' }}>

@@ -56,7 +56,7 @@ export class SourceNew extends React.Component<ISourceNewProps, ISourceNewState>
 
   public render() {
     return (
-      <div role="main" style={{ marginTop: 15 }}>
+      <div style={{ padding: '15px 0 40px 0' }}>
         <CreateSourceMutationComponent
           mutation={CreateSource}
           onCompleted={this.onSuccess}

@@ -2,6 +2,9 @@
 
 import * as React from 'react';
 
+import { Classes } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
+import * as classNames from 'classnames';
 import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 
@@ -20,13 +23,13 @@ import { displayDate } from '../utils';
 class GetSourcesQuery extends Query<GetSourcesQueryResult, GetSourcesQueryVariables> {}
 
 interface IState {
-  name: string | null;
+  search: string;
   confirmDeleteModalSpeakerId: string | null;
 }
 
 class Sources extends React.Component<{}, IState> {
   public state = {
-    name: null,
+    search: '',
     confirmDeleteModalSpeakerId: null,
   };
 
@@ -38,30 +41,40 @@ class Sources extends React.Component<{}, IState> {
     ]).join(', ');
   }
 
-  private onSearchChange = (name: string) => {
-    this.setState({ name });
+  public onSearchChange = (search: string) => {
+    this.setState({ search });
   };
 
-  // tslint:disable-next-line:member-ordering
   public render() {
     return (
-      <React.Fragment>
-        <div role="main" style={{ marginTop: 15 }}>
-          <Authorize permissions={['sources:edit']}>
-            <div className="float-right">
-              <Link className="btn btn-primary" to="/admin/sources/new">
-                Přidat zdroj výroků
-              </Link>
-            </div>
-          </Authorize>
-
-          <h3>Výroky</h3>
-
-          <div style={{ marginTop: 25 }}>
-            <SearchInput placeholder="Hledat dle názvu zdroje …" onChange={this.onSearchChange} />
+      <div style={{ padding: '15px 0 40px 0' }}>
+        <Authorize permissions={['sources:edit']}>
+          <div style={{ float: 'right' }}>
+            <Link
+              className={classNames(
+                Classes.BUTTON,
+                Classes.INTENT_PRIMARY,
+                Classes.iconClass(IconNames.PLUS),
+              )}
+              to="/admin/sources/new"
+            >
+              Přidat zdroj výroků
+            </Link>
           </div>
+        </Authorize>
 
-          <GetSourcesQuery query={GetSources} variables={{ name: this.state.name }}>
+        <h2>Výroky</h2>
+
+        <div style={{ marginTop: 15 }}>
+          <SearchInput
+            placeholder="Hledat dle názvu zdroje …"
+            onChange={this.onSearchChange}
+            value={this.state.search}
+          />
+        </div>
+
+        <div style={{ marginTop: 15 }}>
+          <GetSourcesQuery query={GetSources} variables={{ name: this.state.search }}>
             {(props) => {
               if (props.loading) {
                 return <Loading />;
@@ -75,63 +88,67 @@ class Sources extends React.Component<{}, IState> {
                 return null;
               }
 
+              if (this.state.search !== '' && props.data.sources.length === 0) {
+                return <p>Nenašli jsme žádný zdroj s názvem „{this.state.search}‟.</p>;
+              }
+
               return (
-                <div>
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">Zdroj</th>
-                        <th scope="col">Zveřejněné výroky</th>
-                        <th scope="col" />
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {props.data.sources.map((source) => (
-                        <tr key={source.id}>
-                          <td>
-                            {source.name}
-                            <br />
-                            <span className="text-muted small">
-                              {source.medium.name}, {displayDate(source.released_at)},{' '}
-                              {source.media_personality.name}
-                              {source.source_url && (
-                                <>
-                                  , <a href={source.source_url}>odkaz</a>
-                                </>
-                              )}
-                            </span>
-                          </td>
-                          <td>
+                <table
+                  className={classNames(Classes.HTML_TABLE, Classes.HTML_TABLE_STRIPED)}
+                  style={{ width: '100%' }}
+                >
+                  <thead>
+                    <tr>
+                      <th scope="col" style={{ width: '60%' }}>
+                        Zdroj
+                      </th>
+                      <th scope="col">Zveřejněné výroky</th>
+                      <th scope="col" />
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {props.data.sources.map((source) => (
+                      <tr key={source.id}>
+                        <td>
+                          <div className={Classes.UI_TEXT_LARGE}>{source.name}</div>
+                          <div className={Classes.TEXT_MUTED} style={{ marginTop: 5 }}>
+                            {source.medium.name}, {displayDate(source.released_at)},{' '}
+                            {source.media_personality.name}
+                            {source.source_url && (
+                              <>
+                                , <a href={source.source_url}>odkaz</a>
+                              </>
+                            )}
+                          </div>
+                        </td>
+                        <td>
+                          <ul className={Classes.LIST_UNSTYLED} style={{ lineHeight: '1.5' }}>
                             {source.speakers_statements_stats.map((stat, index) => (
-                              <span key={index}>
+                              <li key={index}>
                                 {stat.speaker.first_name} {stat.speaker.last_name}:{' '}
                                 {stat.statements_published_count}
-                                <br />
-                              </span>
+                              </li>
                             ))}
+                          </ul>
 
-                            {source.speakers_statements_stats.length === 0 && (
-                              <span className="text-muted">Zatím žádné</span>
-                            )}
-                          </td>
-                          <td>
-                            <Link
-                              to={`/admin/sources/${source.id}`}
-                              className="btn btn-secondary btn-sm"
-                            >
-                              Na detail zdroje
-                            </Link>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                          {source.speakers_statements_stats.length === 0 && (
+                            <span className={Classes.TEXT_MUTED}>Zatím žádné</span>
+                          )}
+                        </td>
+                        <td>
+                          <Link to={`/admin/sources/${source.id}`} className={Classes.BUTTON}>
+                            Na detail zdroje
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               );
             }}
           </GetSourcesQuery>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

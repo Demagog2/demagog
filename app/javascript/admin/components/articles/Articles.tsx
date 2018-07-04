@@ -27,13 +27,13 @@ interface IProps {
 }
 
 interface IState {
-  name: string | null;
+  name: string;
   confirmDeleteModalArticleId: string | null;
 }
 
 class Articles extends React.Component<IProps, IState> {
   public state = {
-    name: null,
+    name: '',
     confirmDeleteModalArticleId: null,
   };
 
@@ -77,7 +77,11 @@ class Articles extends React.Component<IProps, IState> {
 
           <h3 style={{ marginTop: 7, marginBottom: 20 }}>Články</h3>
 
-          <SearchInput placeholder="Vyhledat článek" onChange={this.onSearchChange} />
+          <SearchInput
+            placeholder="Vyhledat článek"
+            onChange={this.onSearchChange}
+            value={this.state.name}
+          />
 
           <GetArticlesQuery query={GetArticles} variables={{ title: this.state.name }}>
             {(props) => {

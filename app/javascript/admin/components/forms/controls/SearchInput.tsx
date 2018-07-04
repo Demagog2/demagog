@@ -1,35 +1,55 @@
 import * as React from 'react';
 
+import { Classes, Icon } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
+import * as classNames from 'classnames';
 import { debounce } from 'lodash';
 
-interface ISearchInputProps {
-  marginBottom?: number;
+interface IProps {
   placeholder: string;
+  value: string;
   onChange(value: string): void;
 }
 
-export class SearchInput extends React.Component<ISearchInputProps> {
-  public static defaultProps = {
-    marginBottom: 20,
-  };
+interface IState {
+  value: string;
+}
 
-  private debouncedOnChange = debounce((value: string) => this.props.onChange(value), 500);
+export class SearchInput extends React.Component<IProps, IState> {
+  public debouncedOnChange = debounce((value: string) => {
+    this.props.onChange(value);
+  }, 500);
 
-  public render() {
-    const { marginBottom, placeholder } = this.props;
+  constructor(props) {
+    super(props);
 
-    return (
-      <input
-        style={{ marginBottom }}
-        className="form-control"
-        type="search"
-        placeholder={placeholder}
-        onChange={this.onChange}
-      />
-    );
+    this.state = {
+      value: this.props.value,
+    };
   }
 
-  private onChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    this.debouncedOnChange(evt.target.value);
+  public onInputChange = (e: React.FormEvent<HTMLInputElement>) => {
+    this.setState({ value: e.currentTarget.value }, () => {
+      this.debouncedOnChange(this.state.value);
+    });
   };
+
+  public render() {
+    const { placeholder } = this.props;
+    const { value } = this.state;
+
+    return (
+      <div className={classNames(Classes.INPUT_GROUP)}>
+        <Icon icon={IconNames.SEARCH} />
+        <input
+          className={Classes.INPUT}
+          type="search"
+          placeholder={placeholder}
+          dir="auto"
+          value={value}
+          onChange={this.onInputChange}
+        />
+      </div>
+    );
+  }
 }

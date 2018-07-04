@@ -65,7 +65,7 @@ class App extends React.Component<IProps> {
           <Header />
           <div style={{ display: 'flex' }}>
             <Sidebar />
-            <main style={{ flexGrow: 1, flexShrink: 1, paddingRight: 15 }}>
+            <main style={{ flexGrow: 1, flexShrink: 1, paddingLeft: 30, paddingRight: 30 }}>
               <FlashMessages />
               <Switch>
                 {/* TODO: replace when we have something useful at home screen */}

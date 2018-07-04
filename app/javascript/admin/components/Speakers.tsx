@@ -27,13 +27,13 @@ interface IProps {
 }
 
 interface IState {
-  name: string | null;
+  name: string;
   confirmDeleteModalSpeakerId: string | null;
 }
 
 class Speakers extends React.Component<IProps, IState> {
   public state = {
-    name: null,
+    name: '',
     confirmDeleteModalSpeakerId: null,
   };
 
@@ -77,7 +77,11 @@ class Speakers extends React.Component<IProps, IState> {
         <h3>Lidé</h3>
 
         <div style={{ marginTop: 25 }}>
-          <SearchInput placeholder="Vyhledat politickou osobu" onChange={this.onSearchChange} />
+          <SearchInput
+            placeholder="Vyhledat politickou osobu"
+            onChange={this.onSearchChange}
+            value={this.state.name}
+          />
         </div>
 
         <GetSpeakersQuery query={GetSpeakers} variables={{ name: this.state.name }}>

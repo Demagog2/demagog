@@ -1,9 +1,11 @@
 /* eslint camelcase: 0 */
 
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 
+import { Classes } from '@blueprintjs/core';
+import * as classNames from 'classnames';
 import { get } from 'lodash';
+import { Link } from 'react-router-dom';
 
 import { GetSourceQuery, SourceInputType } from '../../operation-result-types';
 import DateInput from './controls/DateInput';
@@ -61,14 +63,14 @@ export class SourceForm extends React.Component<ISourceFormProps> {
     return (
       <SourceInternalForm defaultValues={sourceInput} onSubmit={this.props.onSubmit}>
         {({ onInputChange, onAssociationChange }, data) => (
-          <div style={{ paddingBottom: 50 }}>
-            <div className="float-right">
-              <Link to={backPath} className="btn btn-secondary">
+          <div>
+            <div style={{ float: 'right' }}>
+              <Link to={backPath} className={Classes.BUTTON}>
                 Zpět
               </Link>
               <button
                 type="submit"
-                className="btn btn-primary"
+                className={classNames(Classes.BUTTON, Classes.INTENT_PRIMARY)}
                 style={{ marginLeft: 7 }}
                 disabled={submitting}
               >
@@ -76,7 +78,7 @@ export class SourceForm extends React.Component<ISourceFormProps> {
               </button>
             </div>
 
-            <h3 style={{ marginBottom: 20 }}>{title}</h3>
+            <h2>{title}</h2>
 
             <Input
               required

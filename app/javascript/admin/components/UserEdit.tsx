@@ -100,7 +100,7 @@ class UserEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> {
     const id = parseInt(this.props.match.params.id, 10);
 
     return (
-      <div style={{ padding: '15px 30px 40px 40px' }}>
+      <div style={{ padding: '15px 0 40px 0' }}>
         <GetUserQuery query={GetUser} variables={{ id }}>
           {({ data, loading, error }) => {
             if (loading || !data) {

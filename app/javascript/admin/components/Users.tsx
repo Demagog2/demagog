@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { Callout, Card, Classes, Colors, Icon, Switch } from '@blueprintjs/core';
+import { Callout, Card, Classes, Colors, Switch } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
@@ -19,7 +19,7 @@ import { DeleteUser } from '../queries/mutations';
 import { GetUsers } from '../queries/queries';
 import { newlinesToBr } from '../utils';
 import Authorize from './Authorize';
-// import { SearchInput } from './forms/controls/SearchInput';
+import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 import SpeakerAvatar from './SpeakerAvatar';
@@ -76,9 +76,9 @@ class Users extends React.Component<IProps, IUsersState> {
     const { confirmDeleteModalUserId } = this.state;
 
     return (
-      <div style={{ padding: '15px 0 40px 40px' }}>
+      <div style={{ padding: '15px 0 40px 0' }}>
         <Authorize permissions={['users:edit']}>
-          <div style={{ float: 'right', paddingTop: 5 }}>
+          <div style={{ float: 'right' }}>
             <Link
               className={classNames(
                 Classes.BUTTON,
@@ -93,7 +93,7 @@ class Users extends React.Component<IProps, IUsersState> {
           </div>
         </Authorize>
 
-        <h1>Tým</h1>
+        <h2>Tým</h2>
 
         <div style={{ marginTop: 15 }}>
           <Switch
@@ -101,29 +101,11 @@ class Users extends React.Component<IProps, IUsersState> {
             label="Zobrazit i deaktivované členy"
             onChange={(e) => this.setState({ includeInactive: e.currentTarget.checked })}
           />
-          <div className={classNames(Classes.INPUT_GROUP, Classes.LARGE)}>
-            <Icon icon={IconNames.SEARCH} />
-            <input
-              className={Classes.INPUT}
-              type="search"
-              placeholder="Hledat dle jména…"
-              dir="auto"
-              value={this.state.search}
-              onChange={(e) => this.onSearchChange(e.target.value)}
-            />
-            {this.state.search && (
-              <button
-                type="button"
-                className={classNames(
-                  Classes.BUTTON,
-                  Classes.MINIMAL,
-                  Classes.INTENT_PRIMARY,
-                  Classes.iconClass(IconNames.CROSS),
-                )}
-                onClick={() => this.onSearchChange('')}
-              />
-            )}
-          </div>
+          <SearchInput
+            placeholder="Hledat dle jména…"
+            value={this.state.search}
+            onChange={this.onSearchChange}
+          />
         </div>
 
         <GetUsersQuery

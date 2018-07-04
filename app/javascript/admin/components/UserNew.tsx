@@ -80,7 +80,7 @@ class UserNew extends React.Component<IUserNewProps, IUserNewState> {
     const { submitting } = this.state;
 
     return (
-      <div style={{ padding: '15px 30px 40px 40px' }}>
+      <div style={{ padding: '15px 0 40px 0' }}>
         <CreateUserMutationComponent mutation={CreateUser}>
           {(createUser) => (
             <UserForm

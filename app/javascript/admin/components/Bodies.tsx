@@ -35,13 +35,13 @@ interface IProps {
 }
 
 interface IState {
-  name: string | null;
+  name: string;
   confirmDeleteModalBodyId: string | null;
 }
 
 class Bodies extends React.Component<IProps, IState> {
   public state = {
-    name: null,
+    name: '',
     confirmDeleteModalBodyId: null,
   };
 
@@ -88,6 +88,7 @@ class Bodies extends React.Component<IProps, IState> {
           <SearchInput
             placeholder="Vyhledat politickou stranu nebo skupinu"
             onChange={this.onSearchChange}
+            value={this.state.name}
           />
         </div>
 
