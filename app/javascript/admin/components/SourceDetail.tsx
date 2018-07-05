@@ -2,8 +2,19 @@
 
 import * as React from 'react';
 
+import {
+  Button,
+  Classes,
+  Menu,
+  MenuDivider,
+  MenuItem,
+  NonIdealState,
+  Popover,
+  Position,
+} from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
-import * as classNames from 'classnames';
+// import * as classNames from 'classnames';
 import { get, orderBy } from 'lodash';
 import { Query } from 'react-apollo';
 import { connect, Dispatch } from 'react-redux';
@@ -45,7 +56,6 @@ interface IProps extends RouteComponentProps<{ sourceId: string }> {
 }
 
 interface IState {
-  showAddStatementDropdown: boolean;
   showConfirmDeleteModal: boolean;
   statementsFilter: null | {
     field: string;
@@ -54,21 +64,10 @@ interface IState {
 }
 
 class SourceDetail extends React.Component<IProps, IState> {
-  public addStatementDropdown: HTMLElement | null = null;
-
   public state: IState = {
-    showAddStatementDropdown: false,
     showConfirmDeleteModal: false,
     statementsFilter: null,
   };
-
-  public componentDidMount() {
-    document.addEventListener('mousedown', this.handleClickOutside);
-  }
-
-  public componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside);
-  }
 
   public toggleConfirmDeleteModal = () => {
     this.setState({ showConfirmDeleteModal: !this.state.showConfirmDeleteModal });
@@ -83,20 +82,6 @@ class SourceDetail extends React.Component<IProps, IState> {
     this.props.dispatch(addFlashMessage('Doško k chybě při mazání zdroje', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
-  };
-
-  public handleClickOutside = (event: MouseEvent) => {
-    if (
-      this.state.showAddStatementDropdown &&
-      this.addStatementDropdown !== null &&
-      !this.addStatementDropdown.contains(event.target as Node)
-    ) {
-      this.toggleAddStatementDropdown();
-    }
-  };
-
-  public toggleAddStatementDropdown = () => {
-    this.setState({ showAddStatementDropdown: !this.state.showAddStatementDropdown });
   };
 
   public onStatementsFilterClick = (field: string, value: any) => (
@@ -137,7 +122,7 @@ class SourceDetail extends React.Component<IProps, IState> {
           const source = data.source;
 
           return (
-            <div role="main" style={{ marginTop: 15 }}>
+            <div style={{ padding: '15px 0 40px 0' }}>
               {this.state.showConfirmDeleteModal && (
                 <ConfirmDeleteModal
                   message={`Opravdu chcete smazat zdroj ${
@@ -164,22 +149,22 @@ class SourceDetail extends React.Component<IProps, IState> {
               )}
 
               <div>
-                <div className="float-right">
-                  <Link to="/admin/sources" className="btn btn-secondary">
+                <div style={{ float: 'right' }}>
+                  <Link to="/admin/sources" className={Classes.BUTTON}>
                     Zpět
                   </Link>
                   <Authorize permissions={['sources:edit']}>
                     <>
                       <Link
                         to={`/admin/sources/edit/${source.id}`}
-                        className="btn btn-secondary"
+                        className={Classes.BUTTON}
                         style={{ marginLeft: 7 }}
                       >
                         Upravit údaje o zdroji
                       </Link>
                       <button
                         type="button"
-                        className="btn btn-secondary"
+                        className={Classes.BUTTON}
                         style={{ marginLeft: 7 }}
                         onClick={this.toggleConfirmDeleteModal}
                       >
@@ -189,7 +174,7 @@ class SourceDetail extends React.Component<IProps, IState> {
                   </Authorize>
                 </div>
 
-                <h3>{source.name}</h3>
+                <h2>{source.name}</h2>
 
                 <span>
                   {source.medium.name}, {displayDate(source.released_at)},{' '}
@@ -211,7 +196,7 @@ class SourceDetail extends React.Component<IProps, IState> {
   }
 
   public renderStatements(source) {
-    const { showAddStatementDropdown, statementsFilter } = this.state;
+    const { statementsFilter } = this.state;
 
     return (
       <GetSourceStatementsQueryComponent
@@ -233,24 +218,22 @@ class SourceDetail extends React.Component<IProps, IState> {
 
           if (data.statements.length === 0) {
             return (
-              <div>
-                <p className="text-center mt-5">
-                  Zatím tu nejsou žádné výroky<br />
+              <div style={{ marginTop: 50 }}>
+                <NonIdealState title="Zatím tu nejsou žádné výroky">
                   <Link
                     to={`/admin/sources/${source.id}/statements-from-transcript`}
-                    className="btn btn-secondary"
+                    className={Classes.BUTTON}
                   >
                     Přidat výroky výběrem z přepisu
                   </Link>
-                  <br />
-                  nebo<br />
+                  <div style={{ margin: '5px 0' }}>nebo</div>
                   <Link
                     to={`/admin/sources/${source.id}/statements/new`}
-                    className="btn btn-secondary"
+                    className={Classes.BUTTON}
                   >
                     Přidat výrok ručně
                   </Link>
-                </p>
+                </NonIdealState>
               </div>
             );
           }
@@ -317,45 +300,35 @@ class SourceDetail extends React.Component<IProps, IState> {
                 <div style={{ display: 'flex', marginTop: 30 }}>
                   <div style={{ flex: '0 0 220px', marginRight: 15 }}>
                     <Authorize permissions={['statements:add']}>
-                      <div
-                        className={classNames('dropdown', { show: showAddStatementDropdown })}
-                        ref={(ref) => (this.addStatementDropdown = ref)}
+                      <Popover
+                        content={
+                          <Menu>
+                            <Link
+                              to={`/admin/sources/${source.id}/statements-from-transcript`}
+                              className={Classes.MENU_ITEM}
+                            >
+                              Přidat výroky výběrem z přepisu
+                            </Link>
+                            <Link
+                              to={`/admin/sources/${source.id}/statements/new`}
+                              className={Classes.MENU_ITEM}
+                            >
+                              Přidat výrok ručně
+                            </Link>
+                          </Menu>
+                        }
+                        position={Position.BOTTOM_LEFT}
                       >
-                        <button
-                          className="btn btn-secondary dropdown-toggle"
-                          type="button"
-                          id="dropdownMenuButton"
-                          onClick={this.toggleAddStatementDropdown}
-                        >
-                          Přidat výrok
-                        </button>
-                        <div
-                          className={classNames('dropdown-menu', {
-                            show: showAddStatementDropdown,
-                          })}
-                        >
-                          <Link
-                            to={`/admin/sources/${source.id}/statements-from-transcript`}
-                            className="dropdown-item"
-                          >
-                            Přidat výroky výběrem z přepisu
-                          </Link>
-                          <Link
-                            to={`/admin/sources/${source.id}/statements/new`}
-                            className="dropdown-item"
-                          >
-                            Přidat výrok ručně
-                          </Link>
-                        </div>
-                      </div>
+                        <Button icon={IconNames.PLUS} text="Přidat výrok" />
+                      </Popover>
                     </Authorize>
                   </div>
-                  <div style={{ flex: '1 0' }}>
+                  <div style={{ flex: '1 1' }}>
                     <Authorize permissions={['statements:sort']}>
-                      <div className="float-right">
+                      <div style={{ float: 'right' }}>
                         <Link
                           to={`/admin/sources/${source.id}/statements-sort`}
-                          className="btn btn-secondary"
+                          className={Classes.BUTTON}
                         >
                           Seřadit výroky
                         </Link>
@@ -367,77 +340,51 @@ class SourceDetail extends React.Component<IProps, IState> {
 
               <div style={{ display: 'flex', marginTop: 22, marginBottom: 50 }}>
                 <div style={{ flex: '0 0 220px', marginRight: 15 }}>
-                  <ul className="nav flex-column">
-                    <li className="nav-item">
-                      <a
-                        className="nav-link"
-                        style={statementsFilter === null ? { fontWeight: 'bold' } : {}}
-                        href=""
-                        onClick={this.onCancelStatementsFilterClick}
-                      >
-                        Všechny výroky ({data.statements.length})
-                      </a>
-                    </li>
-                  </ul>
+                  <div className={Classes.LIST_UNSTYLED}>
+                    <MenuItem
+                      active={statementsFilter === null}
+                      text={`Všechny výroky (${data.statements.length})`}
+                      onClick={this.onCancelStatementsFilterClick}
+                    />
 
-                  <h6 style={{ marginTop: 15 }}>Filtrovat dle stavu</h6>
-
-                  <ul className="nav flex-column">
+                    <MenuDivider title="Filtrovat dle stavu" />
                     {statusFilterOptions.map((option) => (
-                      <li className="nav-item" key={option.value}>
-                        <a
-                          className="nav-link"
-                          style={option.active ? { fontWeight: 'bold' } : {}}
-                          href=""
-                          onClick={this.onStatementsFilterClick(
-                            'assessment.evaluation_status',
-                            option.value,
-                          )}
-                        >
-                          {option.label} ({option.count})
-                        </a>
-                      </li>
+                      <MenuItem
+                        key={option.value}
+                        active={option.active}
+                        text={`${option.label} (${option.count})`}
+                        onClick={this.onStatementsFilterClick(
+                          'assessment.evaluation_status',
+                          option.value,
+                        )}
+                      />
                     ))}
-                  </ul>
 
-                  <h6 style={{ marginTop: 15 }}>Filtrovat dle zveřejnění</h6>
-
-                  <ul className="nav flex-column">
+                    <MenuDivider title="Filtrovat dle zveřejnění" />
                     {publishedFilterOptions.map((option) => (
-                      <li className="nav-item" key={String(option.value)}>
-                        <a
-                          className="nav-link"
-                          style={option.active ? { fontWeight: 'bold' } : {}}
-                          href=""
-                          onClick={this.onStatementsFilterClick('published', option.value)}
-                        >
-                          {option.label} ({option.count})
-                        </a>
-                      </li>
+                      <MenuItem
+                        key={String(option.value)}
+                        active={option.active}
+                        text={`${option.label} (${option.count})`}
+                        onClick={this.onStatementsFilterClick('published', option.value)}
+                      />
                     ))}
-                  </ul>
 
-                  <h6 style={{ marginTop: 15 }}>Filtrovat dle ověřovatele</h6>
-
-                  <ul className="nav flex-column">
+                    <MenuDivider title="Filtrovat dle ověřovatele" />
                     {evaluatorFilterOptions.map((option) => (
-                      <li className="nav-item" key={option.value}>
-                        <a
-                          className="nav-link"
-                          style={option.active ? { fontWeight: 'bold' } : {}}
-                          href=""
-                          onClick={this.onStatementsFilterClick(
-                            'assessment.evaluator.id',
-                            option.value,
-                          )}
-                        >
-                          {option.label} ({option.count})
-                        </a>
-                      </li>
+                      <MenuItem
+                        key={option.value}
+                        active={option.active}
+                        text={`${option.label} (${option.count})`}
+                        onClick={this.onStatementsFilterClick(
+                          'assessment.evaluator.id',
+                          option.value,
+                        )}
+                      />
                     ))}
-                  </ul>
+                  </div>
                 </div>
-                <div style={{ flex: '1 0' }}>
+                <div style={{ flex: '1 1' }}>
                   {statementsToDisplay.map((statement) => (
                     <StatementCard
                       key={statement.id}

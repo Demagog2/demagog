@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { Card, Classes } from '@blueprintjs/core';
 import { ApolloError } from 'apollo-client';
 import { truncate } from 'lodash';
 import { connect, Dispatch } from 'react-redux';
@@ -97,32 +98,33 @@ class StatementCard extends React.Component<IProps, IState> {
           />
         )}
 
-        <div className="card mb-3">
-          <div className="card-body">
-            <div className="float-right" style={{ marginTop: -7 }}>
-              <Link
-                to={`/admin/statements/${statement.id}`}
-                className="btn btn-sm btn-outline-secondary"
+        <Card
+          style={{
+            marginBottom: 15,
+          }}
+        >
+          <div style={{ float: 'right', marginTop: -8 }}>
+            <Link to={`/admin/statements/${statement.id}`} className={Classes.BUTTON}>
+              Na detail výroku
+            </Link>
+            <Authorize permissions={['statements:delete']}>
+              <button
+                type="button"
+                className={Classes.BUTTON}
+                onClick={this.toggleConfirmDeleteModal}
               >
-                Na detail výroku
-              </Link>
-              <Authorize permissions={['statements:delete']}>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-outline-secondary ml-1"
-                  onClick={this.toggleConfirmDeleteModal}
-                >
-                  Smazat
-                </button>
-              </Authorize>
-            </div>
-
-            <h5>
-              {statement.speaker.first_name} {statement.speaker.last_name}
-            </h5>
-            <p style={{ margin: 0 }}>{newlinesToBr(statement.content)}</p>
+                Smazat
+              </button>
+            </Authorize>
           </div>
-          <div className="card-footer text-muted small">
+
+          <h5>
+            {statement.speaker.first_name} {statement.speaker.last_name}
+          </h5>
+
+          <p>{newlinesToBr(statement.content)}</p>
+
+          <small className={Classes.TEXT_MUTED}>
             {statement.published && <>Zveřejněný{' · '}</>}
             Stav: {ASSESSMENT_STATUS_LABELS[assessment.evaluation_status]}
             {assessment.evaluator && (
@@ -139,8 +141,8 @@ class StatementCard extends React.Component<IProps, IState> {
                 diskuzi k výroku
               </>
             )}
-          </div>
-        </div>
+          </small>
+        </Card>
       </>
     );
   }
