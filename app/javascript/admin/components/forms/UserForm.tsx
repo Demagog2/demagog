@@ -77,7 +77,7 @@ export class UserForm extends React.Component<IUserFormProps> {
                 style={{ marginLeft: 7 }}
                 disabled={submitting}
               >
-                {submitting ? 'Ukládám ...' : 'Uložit'}
+                {submitting ? 'Ukládám…' : 'Uložit'}
               </button>
             </div>
 

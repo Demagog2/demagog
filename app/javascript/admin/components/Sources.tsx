@@ -135,7 +135,7 @@ class Sources extends React.Component<{}, IState> {
                             <span className={Classes.TEXT_MUTED}>Zatím žádné</span>
                           )}
                         </td>
-                        <td>
+                        <td style={{ textAlign: 'right' }}>
                           <Link to={`/admin/sources/${source.id}`} className={Classes.BUTTON}>
                             Na detail zdroje
                           </Link>

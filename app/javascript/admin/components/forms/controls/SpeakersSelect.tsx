@@ -24,7 +24,7 @@ interface IGetSpeakersQuery {
 class GetSpeakersQueryComponent extends Query<IGetSpeakersQuery> {}
 
 interface IProps {
-  className?: string;
+  id?: string;
   value: string[];
   onChange(value: string[]): void;
 }
@@ -44,20 +44,17 @@ export default class SpeakersSelect extends React.Component<IProps> {
           }
 
           return (
-            <div className={`form-group ${this.props.className ? this.props.className : ''}`}>
-              <label htmlFor="speakers-select">Rečníci:</label>
-              <Select
-                id="speakers-select"
-                multi
-                value={this.props.value}
-                isLoading={loading}
-                options={options}
-                onChange={(selectedOptions: Array<{ value: string }>) =>
-                  this.props.onChange(selectedOptions.map((o) => o.value))
-                }
-                placeholder="Vyberte řečníky …"
-              />
-            </div>
+            <Select
+              id={this.props.id}
+              multi
+              value={this.props.value}
+              isLoading={loading}
+              options={options}
+              onChange={(selectedOptions: Array<{ value: string }>) =>
+                this.props.onChange(selectedOptions.map((o) => o.value))
+              }
+              placeholder="Vyberte řečníky …"
+            />
           );
         }}
       </GetSpeakersQueryComponent>

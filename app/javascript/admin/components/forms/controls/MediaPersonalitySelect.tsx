@@ -28,7 +28,7 @@ interface IGetMediaPersonalitiesQuery {
 class MediaPersonalitiesQueryComponent extends Query<IGetMediaPersonalitiesQuery> {}
 
 interface IMediaSelectProps {
-  className?: string;
+  id?: string;
   value?: string | null;
   mediumId?: string | null;
   onChange(value: string | null): void;
@@ -57,19 +57,16 @@ export default class MediaPersonalitiesSelect extends React.Component<IMediaSele
           }
 
           return (
-            <div className={`form-group ${this.props.className ? this.props.className : ''}`}>
-              <label htmlFor="media-personality-select">Moderátor:</label>
-              <Select
-                id="media-personality-select"
-                disabled={!this.props.mediumId}
-                value={this.props.value || undefined}
-                isLoading={loading}
-                options={options}
-                onChange={(option: Option<string>) => this.props.onChange(option.value || null)}
-                placeholder="Vyberte moderátora …"
-                noResultsText="Žádný moderátor nenalezen"
-              />
-            </div>
+            <Select
+              id={this.props.id}
+              disabled={!this.props.mediumId}
+              value={this.props.value || undefined}
+              isLoading={loading}
+              options={options}
+              onChange={(option: Option<string>) => this.props.onChange(option.value || null)}
+              placeholder="Vyberte moderátora …"
+              noResultsText="Žádný moderátor nenalezen"
+            />
           );
         }}
       </MediaPersonalitiesQueryComponent>

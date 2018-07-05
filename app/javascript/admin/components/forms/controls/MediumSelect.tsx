@@ -22,7 +22,7 @@ interface IGetMediaQuery {
 class GetMediaQueryComponent extends Query<IGetMediaQuery> {}
 
 interface IMediaSelectProps {
-  className?: string;
+  id?: string;
   value?: string | null;
 
   onChange(value: string | null): void;
@@ -43,17 +43,14 @@ export default class MediumSelect extends React.Component<IMediaSelectProps> {
           }
 
           return (
-            <div className={`form-group ${this.props.className ? this.props.className : ''}`}>
-              <label htmlFor="medium-select">Pořad:</label>
-              <Select
-                id="medium-select"
-                value={this.props.value || undefined}
-                isLoading={loading}
-                options={options}
-                onChange={(option: Option<string>) => this.props.onChange(option.value || null)}
-                placeholder="Vyberte pořad …"
-              />
-            </div>
+            <Select
+              id={this.props.id}
+              value={this.props.value || undefined}
+              isLoading={loading}
+              options={options}
+              onChange={(option: Option<string>) => this.props.onChange(option.value || null)}
+              placeholder="Vyberte pořad …"
+            />
           );
         }}
       </GetMediaQueryComponent>
