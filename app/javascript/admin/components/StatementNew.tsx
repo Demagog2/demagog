@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { Classes, FormGroup, Intent } from '@blueprintjs/core';
 import * as classNames from 'classnames';
 import { Formik } from 'formik';
 import { DateTime } from 'luxon';
@@ -126,93 +127,98 @@ class StatementNew extends React.Component<IProps> {
                     setFieldTouched,
                     isSubmitting,
                   }) => (
-                    <div role="main" style={{ marginTop: 15 }}>
+                    <div style={{ padding: '15px 0 40px 0' }}>
                       <form onSubmit={handleSubmit}>
-                        <div className="float-right">
-                          <Link to={`/admin/sources/${source.id}`} className="btn btn-secondary">
+                        <div style={{ float: 'right' }}>
+                          <Link to={`/admin/sources/${source.id}`} className={Classes.BUTTON}>
                             Zpět na zdroj výroku
                           </Link>
                           <button
                             type="submit"
-                            className="btn btn-primary"
+                            className={classNames(Classes.BUTTON, Classes.INTENT_PRIMARY)}
                             style={{ marginLeft: 7 }}
                             disabled={isSubmitting}
                           >
-                            {isSubmitting ? 'Ukládám ...' : 'Uložit'}
+                            {isSubmitting ? 'Ukládám…' : 'Uložit'}
                           </button>
                         </div>
 
-                        <h3>Přidat nový výrok</h3>
+                        <h2>Přidat nový výrok</h2>
 
-                        <div className="form-row">
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label className="form-control-label" htmlFor="content">
-                                Znění
-                              </label>
+                        <div style={{ display: 'flex', marginTop: 30 }}>
+                          <div style={{ flex: '0 0 200px', marginRight: 15 }}>
+                            <h4>Výrok</h4>
+                          </div>
+                          <div style={{ flex: '1 1' }}>
+                            <FormGroup
+                              label="Znění"
+                              labelFor="content"
+                              intent={
+                                touched.content && errors.content ? Intent.DANGER : Intent.NONE
+                              }
+                              helperText={touched.content && errors.content ? errors.content : ''}
+                            >
                               <textarea
                                 id="content"
                                 name="content"
-                                className={classNames('form-control', {
-                                  'is-invalid': !!(touched.content && errors.content),
+                                className={classNames(Classes.INPUT, Classes.FILL, {
+                                  [Classes.INTENT_DANGER]: !!(touched.content && errors.content),
                                 })}
                                 placeholder="Vložte či vepište znění …"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.content}
-                                rows={5}
+                                rows={7}
                               />
-                              {touched.content &&
-                                errors.content && (
-                                  <div className="invalid-feedback">{errors.content}</div>
-                                )}
-                            </div>
-                            <div className="form-group">
-                              <label className="form-control-label" htmlFor="speaker_id">
-                                Řečník
-                              </label>
-                              <select
-                                className="form-control"
-                                id="speaker_id"
-                                name="speaker_id"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.speaker_id}
-                              >
-                                {source.speakers.map((s) => (
-                                  <option key={s.id} value={s.id}>
-                                    {s.first_name} {s.last_name}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
+                            </FormGroup>
+                            <FormGroup label="Řečník" labelFor="speaker">
+                              <div className={Classes.SELECT}>
+                                <select
+                                  id="speaker"
+                                  name="speaker_id"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.speaker_id}
+                                >
+                                  {source.speakers.map((s) => (
+                                    <option key={s.id} value={s.id}>
+                                      {s.first_name} {s.last_name}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </FormGroup>
                           </div>
+                        </div>
 
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>Ověřovatel</label>
+                        <div style={{ display: 'flex', marginTop: 30 }}>
+                          <div style={{ flex: '0 0 200px', marginRight: 15 }}>
+                            <h4>Ověřování</h4>
+                          </div>
+                          <div style={{ flex: '1 1' }}>
+                            <FormGroup label="Ověřovatel" labelFor="evaluator">
                               <UserSelect
+                                id="evaluator"
                                 onChange={(value) => setFieldValue('evaluator_id', value)}
                                 onBlur={() => setFieldTouched('evaluator_id')}
                                 value={values.evaluator_id}
                               />
-                            </div>
-
-                            <div className="form-group">
-                              <label htmlFor="note">Poznámka pro ověřování</label>
+                            </FormGroup>
+                            <FormGroup
+                              label="Poznámka pro ověřování"
+                              labelFor="note"
+                              helperText="Bude přidána jako první komentář v diskuzi k výroku."
+                            >
                               <textarea
-                                className="form-control"
                                 id="note"
                                 name="note"
+                                className={classNames(Classes.INPUT, Classes.FILL)}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.note}
-                                rows={3}
+                                rows={4}
                               />
-                              <small className="form-text text-muted">
-                                Bude přidána jako první komentář v diskuzi k výroku.
-                              </small>
-                            </div>
+                            </FormGroup>
                           </div>
                         </div>
                       </form>

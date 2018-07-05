@@ -27,7 +27,7 @@ class ConfirmDeleteModal extends React.Component<IProps> {
         <div className={Classes.DIALOG_BODY}>{message}</div>
         <div className={Classes.DIALOG_FOOTER}>
           <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-            <Button text="Zpět" />
+            <Button text="Zpět" onClick={onCancel} />
             <Mutation mutation={mutation} {...mutationProps}>
               {(mutate, { loading }) => (
                 <Button

@@ -14,7 +14,6 @@ import {
 } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
-// import * as classNames from 'classnames';
 import { get, orderBy } from 'lodash';
 import { Query } from 'react-apollo';
 import { connect, Dispatch } from 'react-redux';
