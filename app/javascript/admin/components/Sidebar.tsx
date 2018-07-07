@@ -45,7 +45,7 @@ const categories = [
 
 export default function Sidebar() {
   return (
-    <div style={{ flexBasis: 270, flexGrow: 0, flexShrink: 0 }}>
+    <div style={{ flexBasis: 230, flexGrow: 0, flexShrink: 0 }}>
       <div className="sidebar">
         {categories.map((category) => (
           <Authorize
