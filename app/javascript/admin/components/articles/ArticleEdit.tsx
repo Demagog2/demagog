@@ -75,7 +75,7 @@ class ArticleEdit extends React.Component<IArticleEditProps, IArticleEditState> 
     const id = this.getParamId();
 
     return (
-      <div role="main">
+      <div style={{ padding: '15px 0 40px 0' }}>
         <ArticleQuery query={GetArticle} variables={{ id }}>
           {({ data, loading }) => {
             if (loading) {

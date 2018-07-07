@@ -3,7 +3,7 @@ import * as React from 'react';
 import { DateTime } from 'luxon';
 
 export function displayDate(date: string): string {
-  return DateTime.fromSQL(date)
+  return DateTime.fromISO(date)
     .setLocale('cs')
     .setZone('Europe/Prague')
     .toLocaleString(DateTime.DATE_FULL);

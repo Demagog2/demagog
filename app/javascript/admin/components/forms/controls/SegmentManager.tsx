@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { v4 as uuid } from 'uuid';
 
 import { Button, Intent, Menu, MenuItem, Popover, Position } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
+import { v4 as uuid } from 'uuid';
+
 import { SegmentInputType } from '../../../operation-result-types';
 import { Statement } from '../../articles/Statement';
 import { SelectStatementsModal } from '../../modals/SelectStatementsModal';
@@ -41,7 +42,7 @@ function AddSegment(props: IAddSegmentProps) {
         position={Position.BOTTOM_RIGHT}
         minimal
       >
-        <Button icon="plus" text="Přidat segment článku" />
+        <Button icon={IconNames.PLUS} text="Přidat segment článku…" />
       </Popover>
     </div>
   );
@@ -72,7 +73,7 @@ class StatementSegment extends React.Component<
           <Statement key={statement} id={statement} />
         ))}
 
-        <Button icon="plus" text="Vyberte výroky" onClick={this.toggleDialog} />
+        <Button text="Vyberte výroky…" onClick={this.toggleDialog} />
 
         <SelectStatementsModal
           isOpen={this.state.isOpen}

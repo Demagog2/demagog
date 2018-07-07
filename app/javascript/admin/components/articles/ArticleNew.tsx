@@ -1,7 +1,9 @@
 import * as React from 'react';
+
 import { Mutation, MutationFn } from 'react-apollo';
 import { connect, Dispatch } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+
 import { addFlashMessage } from '../../actions/flashMessages';
 import { uploadArticleIllustration } from '../../api';
 import {
@@ -74,7 +76,7 @@ export class ArticleNew extends React.Component<ISourceNewProps, ISourceNewState
 
   public render() {
     return (
-      <div role="main">
+      <div style={{ padding: '15px 0 40px 0' }}>
         <CreateArticleMutationComponent mutation={CreateArticle}>
           {(createArticle) => {
             return (

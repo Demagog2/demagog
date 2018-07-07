@@ -9,7 +9,7 @@ Types::ArticleType = GraphQL::ObjectType.define do
   field :title, !types.String
   field :slug, !types.String
   field :perex, types.String
-  field :published_at, types.String
+  field :published_at, Types::Scalars::DateTimeType
   field :published, !types.Boolean
   field :source, Types::SourceType
 

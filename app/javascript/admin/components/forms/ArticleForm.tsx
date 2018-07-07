@@ -1,17 +1,15 @@
 /* eslint camelcase: 0 */
 
 import * as React from 'react';
+
+import { Button, Classes, EditableText, FormGroup, Intent, Switch } from '@blueprintjs/core';
 import { Link } from 'react-router-dom';
 
-import { EditableText, Switch } from '@blueprintjs/core';
 import { ArticleInputType, GetArticleQuery } from '../../operation-result-types';
 import ArticleIllustration from '../ArticleIllustration';
-import DateInput from './controls/DateInput';
+import DateInput from './controls/DateInput2';
 import ImageInput from './controls/ImageInput';
-// import { CheckboxInput } from './controls/CheckboxInput';
-// import { Input } from './controls/Input';
 import { SegmentManager } from './controls/SegmentManager';
-// import { TextInput } from './controls/TextInput';
 import { Form } from './Form';
 
 interface IArticleFormProps {
@@ -31,6 +29,7 @@ function mapQueryToInput(articleQuery: GetArticleQuery): ArticleInputType {
     title: article.title,
     perex: article.perex || '',
     published: article.published,
+    published_at: article.published_at,
     segments: (article.segments || []).map((segment) => ({
       id: segment.id,
       segment_type: segment.segment_type,
@@ -67,26 +66,25 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
 
     return (
       <ArticleInternalForm defaultValues={articleInput} onSubmit={this.props.onSubmit}>
-        {({ onInputChange, onCheckboxChange, onImageChange, onAssociationChange }) => (
+        {({ onInputChange, onCheckboxChange, onImageChange, onAssociationChange }, data) => (
           <React.Fragment>
-            <div className="float-right">
-              <Link to={backPath} className="btn btn-secondary">
+            <div style={{ float: 'right' }}>
+              <Link to={backPath} className={Classes.BUTTON}>
                 Zpět
               </Link>
-              <button
+              <Button
                 type="submit"
-                className="btn btn-primary"
+                intent={Intent.PRIMARY}
                 style={{ marginLeft: 7 }}
                 disabled={submitting}
-              >
-                {submitting ? 'Ukládám ...' : 'Uložit'}
-              </button>
+                text={submitting ? 'Ukládám ...' : 'Uložit'}
+              />
             </div>
 
-            <h3 style={{ marginTop: 7, marginBottom: 20 }}>{title}</h3>
+            <h2>{title}</h2>
 
-            <div className="row">
-              <div className="col-md-8">
+            <div style={{ display: 'flex' }}>
+              <div style={{ flex: '2 2', overflow: 'hidden', padding: 10 }}>
                 <h2 style={{ marginBottom: 20 }}>
                   <EditableText
                     placeholder="Upravit Název.."
@@ -112,40 +110,31 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                 />
               </div>
 
-              <div className="col-md-4">
-                <div className="form-row">
+              <div style={{ flex: '1 1', marginLeft: 15 }}>
+                <FormGroup label="Ilustrační obrázek">
                   <ImageInput
-                    // label="Ilustrační obrázek"
                     defaultValue={articleQuery.article.illustration}
-                    // name="illustration"
                     onChange={onImageChange('illustration')}
                     renderImage={(src) => (
                       <ArticleIllustration illustration={src} title={articleInput.title} />
                     )}
                   />
-                </div>
+                </FormGroup>
 
-                <div className="form-row" style={{ marginTop: 20 }}>
-                  <div className="form-group">
-                    <Switch
-                      defaultChecked={articleInput.published || false}
-                      label="Zveřejněný článek"
-                      onChange={onCheckboxChange('published')}
-                    />
-                  </div>
-                </div>
+                <Switch
+                  defaultChecked={articleInput.published || false}
+                  label="Zveřejněný článek"
+                  onChange={onCheckboxChange('published')}
+                  style={{ marginBottom: 20 }}
+                />
 
-                <div className="form-row">
-                  <div className="form-group">
-                    <DateInput
-                      onChange={onInputChange('published_at')}
-                      label="Datum zveřejnění"
-                      placeholder="Zadejte datum zveřejnění"
-                      name="published_at"
-                      defaultValue={articleInput.published_at || ''}
-                    />
-                  </div>
-                </div>
+                <FormGroup label="Datum zveřejnění" labelFor="published-at">
+                  <DateInput
+                    id="published-at"
+                    value={data.published_at || null}
+                    onChange={onInputChange('published_at')}
+                  />
+                </FormGroup>
               </div>
             </div>
           </React.Fragment>

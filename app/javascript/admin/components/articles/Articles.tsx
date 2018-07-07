@@ -2,7 +2,10 @@
 
 import * as React from 'react';
 
+import { Button, Classes } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
+import * as classNames from 'classnames';
 import { Query } from 'react-apollo';
 import { connect, Dispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -14,7 +17,7 @@ import {
 } from '../../operation-result-types';
 import { DeleteArticle } from '../../queries/mutations';
 import { GetArticles } from '../../queries/queries';
-import { formatDate } from '../../utils/date';
+import { displayDate } from '../../utils';
 import Authorize from '../Authorize';
 import { SearchInput } from '../forms/controls/SearchInput';
 import Loading from '../Loading';
@@ -27,18 +30,18 @@ interface IProps {
 }
 
 interface IState {
-  name: string;
+  search: string;
   confirmDeleteModalArticleId: string | null;
 }
 
 class Articles extends React.Component<IProps, IState> {
   public state = {
-    name: '',
+    search: '',
     confirmDeleteModalArticleId: null,
   };
 
-  private onSearchChange = (name: string) => {
-    this.setState({ name });
+  private onSearchChange = (search: string) => {
+    this.setState({ search });
   };
 
   private showConfirmDeleteModal = (confirmDeleteModalArticleId: string) => () => {
@@ -65,65 +68,79 @@ class Articles extends React.Component<IProps, IState> {
     const { confirmDeleteModalArticleId } = this.state;
 
     return (
-      <React.Fragment>
-        <div>
-          <Authorize permissions={['articles:edit']}>
-            <div className="float-right">
-              <Link className="btn btn-primary" to="/admin/articles/new">
-                Přidat článek
-              </Link>
-            </div>
-          </Authorize>
+      <div style={{ padding: '15px 0 40px 0' }}>
+        <Authorize permissions={['articles:edit']}>
+          <div style={{ float: 'right' }}>
+            <Link
+              className={classNames(
+                Classes.BUTTON,
+                Classes.INTENT_PRIMARY,
+                Classes.iconClass(IconNames.PLUS),
+              )}
+              to="/admin/articles/new"
+            >
+              Přidat článek
+            </Link>
+          </div>
+        </Authorize>
 
-          <h3 style={{ marginTop: 7, marginBottom: 20 }}>Články</h3>
+        <h2>Články</h2>
 
+        <div style={{ marginTop: 15 }}>
           <SearchInput
-            placeholder="Vyhledat článek"
+            placeholder="Hledat dle titulku…"
             onChange={this.onSearchChange}
-            value={this.state.name}
+            value={this.state.search}
           />
+        </div>
 
-          <GetArticlesQuery query={GetArticles} variables={{ title: this.state.name }}>
-            {(props) => {
-              if (props.loading) {
-                return <Loading />;
-              }
+        <GetArticlesQuery query={GetArticles} variables={{ title: this.state.search }}>
+          {(props) => {
+            if (props.loading) {
+              return <Loading />;
+            }
 
-              if (props.error) {
-                return <h1>{props.error}</h1>;
-              }
+            if (props.error) {
+              return <h1>{props.error}</h1>;
+            }
 
-              if (!props.data) {
-                return null;
-              }
+            if (!props.data) {
+              return null;
+            }
 
-              const confirmDeleteModalArticle = props.data.articles.find(
-                (s) => s.id === confirmDeleteModalArticleId,
-              );
+            const confirmDeleteModalArticle = props.data.articles.find(
+              (s) => s.id === confirmDeleteModalArticleId,
+            );
 
-              return (
-                <div>
-                  {confirmDeleteModalArticle && (
-                    <ConfirmDeleteModal
-                      message={`Opravdu chcete smazat článek ${confirmDeleteModalArticle.title}?`}
-                      onCancel={this.hideConfirmDeleteModal}
-                      mutation={DeleteArticle}
-                      mutationProps={{
-                        variables: { id: confirmDeleteModalArticleId },
-                        refetchQueries: [
-                          { query: GetArticles, variables: { title: this.state.name } },
-                        ],
-                        onCompleted: this.onDeleted,
-                        onError: this.onDeleteError,
-                      }}
-                    />
-                  )}
+            return (
+              <div style={{ marginTop: 15 }}>
+                {confirmDeleteModalArticle && (
+                  <ConfirmDeleteModal
+                    message={`Opravdu chcete smazat článek „${confirmDeleteModalArticle.title}‟?`}
+                    onCancel={this.hideConfirmDeleteModal}
+                    mutation={DeleteArticle}
+                    mutationProps={{
+                      variables: { id: confirmDeleteModalArticleId },
+                      refetchQueries: [
+                        { query: GetArticles, variables: { title: this.state.search } },
+                      ],
+                      onCompleted: this.onDeleted,
+                      onError: this.onDeleteError,
+                    }}
+                  />
+                )}
 
-                  <table className="table">
+                {props.data.articles.length > 0 && (
+                  <table
+                    className={classNames(Classes.HTML_TABLE, Classes.HTML_TABLE_STRIPED)}
+                    style={{ width: '100%' }}
+                  >
                     <thead>
                       <tr>
                         <th scope="col">Titulek</th>
-                        <th scope="col">Zveřejněný</th>
+                        <th scope="col" style={{ width: '25%' }}>
+                          Zveřejněný
+                        </th>
                         <th scope="col" />
                       </tr>
                     </thead>
@@ -133,35 +150,43 @@ class Articles extends React.Component<IProps, IState> {
                           <td>{article.title}</td>
                           <td>
                             {article.published ? 'Ano' : 'Ne'}&nbsp;
-                            {article.published_at && formatDate(article.published_at)}&nbsp;
+                            {article.published_at && displayDate(article.published_at)}&nbsp;
                             <a href={`/diskuze/${article.slug}`}>Odkaz</a>
                           </td>
                           <td>
-                            <Link
-                              to={`/admin/articles/edit/${article.id}`}
-                              className="btn btn-secondary btn-sm"
-                              style={{ marginRight: 15 }}
-                            >
-                              Upravit
-                            </Link>
-                            <button
-                              type="button"
-                              className="btn btn-secondary btn-sm"
-                              onClick={this.showConfirmDeleteModal(article.id)}
-                            >
-                              Smazat
-                            </button>
+                            <div style={{ display: 'flex' }}>
+                              <Link
+                                to={`/admin/articles/edit/${article.id}`}
+                                className={classNames(
+                                  Classes.BUTTON,
+                                  Classes.iconClass(IconNames.EDIT),
+                                )}
+                              >
+                                Upravit
+                              </Link>
+                              <Button
+                                icon={IconNames.TRASH}
+                                style={{ marginLeft: 7 }}
+                                onClick={this.showConfirmDeleteModal(article.id)}
+                                title="Smazat"
+                              />
+                            </div>
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
-                </div>
-              );
-            }}
-          </GetArticlesQuery>
-        </div>
-      </React.Fragment>
+                )}
+
+                {props.data.articles.length === 0 &&
+                  this.state.search !== '' && (
+                    <p>Nenašli jsme žádný článek s názvem „{this.state.search}‟.</p>
+                  )}
+              </div>
+            );
+          }}
+        </GetArticlesQuery>
+      </div>
     );
   }
 }

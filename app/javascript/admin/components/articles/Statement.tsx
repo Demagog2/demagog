@@ -26,7 +26,7 @@ export function Statement(props: IProps) {
         }
 
         return (
-          <div style={{ marginBottom: 10 }}>
+          <div style={{ margin: '10px 1px 1px 1px' }}>
             <Card>
               <h5>
                 {data.statement.speaker.first_name} {data.statement.speaker.last_name}
