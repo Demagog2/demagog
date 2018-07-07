@@ -74,7 +74,7 @@ class BodyNew extends React.Component<IBodyNewProps, IBodyNewState> {
     const { submitting } = this.state;
 
     return (
-      <div role="main" style={{ marginTop: 15 }}>
+      <div style={{ padding: '15px 0 40px 0' }}>
         <BodyNewMutation mutation={CreateBody}>
           {(createBody) => (
             <BodyForm

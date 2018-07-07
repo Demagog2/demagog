@@ -1,11 +1,14 @@
 /* eslint camelcase: 0 */
 
 import * as React from 'react';
+
+import { Button, Classes, FormGroup, Intent, Switch } from '@blueprintjs/core';
+import * as classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
 import { BodyInputType, GetBodyQuery } from '../../operation-result-types';
 import BodyLogo from '../BodyLogo';
-import DateInput from './controls/DateInput';
+import DateInput from './controls/DateInput2';
 import ImageInput, { ImageValueType } from './controls/ImageInput';
 import { Form } from './Form';
 
@@ -48,129 +51,100 @@ export class BodyForm extends React.Component<IBodyProps> {
 
     return (
       <BodyInternalForm defaultValues={bodyQuery.body} onSubmit={this.props.onSubmit}>
-        {({ onInputChange, onCheckboxChange, onImageChange }) => (
-          <div style={{ paddingBottom: 50 }}>
-            <div className="float-right">
-              <Link to="/admin/bodies" className="btn btn-secondary">
+        {({ onAssociationChange, onInputChange, onCheckboxChange, onImageChange }, data) => (
+          <div>
+            <div style={{ float: 'right' }}>
+              <Link to="/admin/bodies" className={Classes.BUTTON}>
                 Zpět
               </Link>
-              <button
+              <Button
                 type="submit"
-                className="btn btn-primary"
+                intent={Intent.PRIMARY}
                 style={{ marginLeft: 7 }}
                 disabled={submitting}
-              >
-                {submitting ? 'Ukládám ...' : 'Uložit'}
-              </button>
-            </div>
-
-            <h3 style={{ marginBottom: 25 }}>{title}</h3>
-
-            <div className="form-group">
-              <label className="form-control-label" htmlFor="name">
-                Název:
-              </label>
-              <input
-                required
-                id="name"
-                className="form-control"
-                placeholder="Zadejte název"
-                onChange={onInputChange('name')}
-                defaultValue={bodyQuery.body.name}
-              />
-              <div className="invalid-feedback">Prosím zadejte název</div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-group col-md-3">
-                <div className="form-check">
-                  <input
-                    id="is-party"
-                    name="is-party"
-                    className="form-check-input s-is_party"
-                    type="checkbox"
-                    onChange={onCheckboxChange('is_party')}
-                    defaultChecked={bodyQuery.body.is_party}
-                  />
-                  <label className="form-check-label" htmlFor="is-party">
-                    jde o politickou stranu
-                  </label>
-                </div>
-              </div>
-
-              <div className="form-group col-md-3">
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    onChange={onCheckboxChange('is_inactive')}
-                    defaultChecked={bodyQuery.body.is_inactive}
-                    id="is-inactive"
-                  />
-                  <label className="form-check-label" htmlFor="is-inactive">
-                    skupina zanikla / není aktivní
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-group col-md-6">
-                <label htmlFor="short_name">Zkratka:</label>
-                <input
-                  className="form-control s-short_name"
-                  id="short_name"
-                  placeholder="Zadejte zkratku"
-                  onChange={onInputChange('short_name')}
-                  defaultValue={bodyQuery.body.short_name || ''}
-                />
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-group col-md-12">
-                <ImageInput
-                  // label="Logo / ilustrační obrázek"
-                  // name="logo"
-                  defaultValue={bodyQuery.body.logo}
-                  onChange={onImageChange('logo')}
-                  renderImage={(src) => <BodyLogo logo={src} />}
-                />
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="link">
-                Respekovaný odkaz obsahující popis (wikipedia, nasipolitici, atp.):
-              </label>
-              <input
-                className="form-control s-link"
-                id="link"
-                placeholder="Zadejte odkaz"
-                defaultValue={bodyQuery.body.link || ''}
-                onChange={onInputChange('link')}
+                text={submitting ? 'Ukládám ...' : 'Uložit'}
               />
             </div>
 
-            <div className="form-row">
-              <div className="form-group col-md-6 s-founded_at">
-                <DateInput
-                  label="Vznik"
-                  name="founded_at"
-                  placeholder="Zadejte datum vzniku"
-                  onChange={onInputChange('founded_at')}
-                  defaultValue={bodyQuery.body.founded_at || ''}
+            <h2>{title}</h2>
+
+            <div style={{ display: 'flex', marginTop: 30 }}>
+              <div style={{ flex: '0 0 200px', marginRight: 15 }}>
+                <h4>Základní údaje</h4>
+              </div>
+              <div style={{ flex: '1 1' }}>
+                <FormGroup label="Název" labelFor="name">
+                  <input
+                    type="text"
+                    id="name"
+                    className={classNames(Classes.INPUT, Classes.FILL)}
+                    onChange={onInputChange('name')}
+                    defaultValue={bodyQuery.body.name}
+                  />
+                </FormGroup>
+                <FormGroup label="Zkrácený název" labelFor="short-name">
+                  <input
+                    type="text"
+                    id="short-name"
+                    className={Classes.INPUT}
+                    onChange={onInputChange('short_name')}
+                    defaultValue={bodyQuery.body.short_name || ''}
+                  />
+                </FormGroup>
+                <FormGroup
+                  label="Respekovaný odkaz obsahující popis (wikipedia, nasipolitici, atp.)"
+                  labelFor="link"
+                >
+                  <input
+                    type="text"
+                    id="link"
+                    className={classNames(Classes.INPUT, Classes.FILL)}
+                    onChange={onInputChange('link')}
+                    defaultValue={bodyQuery.body.link || ''}
+                  />
+                </FormGroup>
+                <FormGroup label="Logo">
+                  <ImageInput
+                    defaultValue={bodyQuery.body.logo}
+                    onChange={onImageChange('logo')}
+                    renderImage={(src) => <BodyLogo logo={src} />}
+                  />
+                </FormGroup>
+                <Switch
+                  name="is-party"
+                  label="Jde o politickou stranu"
+                  onChange={onCheckboxChange('is_party')}
+                  defaultChecked={bodyQuery.body.is_party}
                 />
               </div>
+            </div>
 
-              <div className="form-group col-md-6 s-terminated_at">
-                <DateInput
-                  label="Zánik"
-                  name="terminated_at"
-                  placeholder="Zadejte datum zániku"
-                  onChange={onInputChange('terminated_at')}
-                  defaultValue={bodyQuery.body.terminated_at || ''}
+            <div style={{ display: 'flex', marginTop: 30 }}>
+              <div style={{ flex: '0 0 200px', marginRight: 15 }}>
+                <h4>Vznik a zánik</h4>
+              </div>
+              <div style={{ flex: '1 1' }}>
+                <FormGroup label="Datum vzniku" labelFor="founded-at">
+                  <DateInput
+                    id="founded-at"
+                    value={data.founded_at || null}
+                    onChange={onAssociationChange('founded_at')}
+                  />
+                </FormGroup>
+                <Switch
+                  name="is-inactive"
+                  label="Skupina zanikla / není aktivní"
+                  onChange={onCheckboxChange('is_inactive')}
+                  defaultChecked={bodyQuery.body.is_inactive}
                 />
+                <FormGroup label="Datum zániku" labelFor="terminated-at">
+                  <DateInput
+                    disabled={!data.is_inactive}
+                    id="terminated-at"
+                    value={data.terminated_at || null}
+                    onChange={onAssociationChange('terminated_at')}
+                  />
+                </FormGroup>
               </div>
             </div>
           </div>

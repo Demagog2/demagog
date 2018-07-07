@@ -62,11 +62,7 @@ class Admin::FileUploadController < ApplicationController
   def upload_body_logo
     params.permit!
 
-    body = Body.find(params[:id])
-
-    attach_picture :logo, Logo.find(params[:id])
-
-    body.save!
+    attach_picture :logo, Body.find(params[:id])
 
     head :ok
   end

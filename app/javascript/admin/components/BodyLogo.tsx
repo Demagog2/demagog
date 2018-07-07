@@ -1,9 +1,8 @@
 import * as React from 'react';
 
-import bodyLogoPlaceholder from 'images/admin/body_logo_placeholder.png';
+import { Colors } from '@blueprintjs/core';
 
-// TODO: do not use image from legacy demagog
-// const EMPTY_LOGO_IMAGE_SRC = 'http://legacy.demagog.cz/data/users/default.png';
+import bodyLogoPlaceholder from 'images/admin/body_logo_placeholder.png';
 
 interface IBodyLogoProps {
   logo: string | null;
@@ -16,7 +15,17 @@ export default function BodyLogo(props: IBodyLogoProps) {
 
   return (
     <div style={{ maxWidth: 106 }}>
-      <img src={src} alt={alt} className="img-thumbnail" />
+      <img
+        src={src}
+        alt={alt}
+        style={{
+          padding: 4,
+          border: `1px solid ${Colors.GRAY5}`,
+          borderRadius: 4,
+          maxWidth: '100%',
+          height: 'auto',
+        }}
+      />
     </div>
   );
 }

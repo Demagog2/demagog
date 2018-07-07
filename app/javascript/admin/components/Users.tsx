@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { Callout, Card, Classes, Colors, Switch } from '@blueprintjs/core';
+import { Button, Callout, Card, Classes, Colors, Switch } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
@@ -169,7 +169,7 @@ class Users extends React.Component<IProps, IUsersState> {
                       </div>
                       <div style={{ flex: '1 1', marginLeft: 15 }}>
                         <Authorize permissions={['users:edit']}>
-                          <div style={{ float: 'right' }}>
+                          <div style={{ float: 'right', display: 'flex' }}>
                             <Link
                               to={`/admin/users/edit/${user.id}`}
                               className={classNames(
@@ -180,36 +180,23 @@ class Users extends React.Component<IProps, IUsersState> {
                               Upravit
                             </Link>
                             {user.active ? (
-                              <button
-                                type="button"
-                                className={classNames(
-                                  Classes.BUTTON,
-                                  Classes.iconClass(IconNames.CROSS),
-                                )}
+                              <Button
+                                icon={IconNames.CROSS}
                                 disabled
                                 style={{ marginLeft: 7 }}
-                              >
-                                Deaktivovat
-                              </button>
+                                text="Deaktivovat"
+                              />
                             ) : (
-                              <button
-                                type="button"
-                                className={classNames(
-                                  Classes.BUTTON,
-                                  Classes.iconClass(IconNames.TICK),
-                                )}
+                              <Button
+                                icon={IconNames.TICK}
                                 disabled
                                 style={{ marginLeft: 7 }}
-                              >
-                                Aktivovat
-                              </button>
+                                text="Aktivovat"
+                              />
                             )}
-                            <button
+                            <Button
                               type="button"
-                              className={classNames(
-                                Classes.BUTTON,
-                                Classes.iconClass(IconNames.TRASH),
-                              )}
+                              icon={IconNames.TRASH}
                               style={{ marginLeft: 7 }}
                               onClick={this.showConfirmDeleteModal(user.id)}
                               title="Smazat"

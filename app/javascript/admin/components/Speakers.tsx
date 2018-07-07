@@ -2,7 +2,8 @@
 
 import * as React from 'react';
 
-import { Card, Classes } from '@blueprintjs/core';
+import { Button, Card, Classes } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
 import { Query } from 'react-apollo';
@@ -72,7 +73,11 @@ class Speakers extends React.Component<IProps, IState> {
         <Authorize permissions={['speakers:edit']}>
           <div style={{ float: 'right' }}>
             <Link
-              className={classNames(Classes.BUTTON, Classes.INTENT_PRIMARY)}
+              className={classNames(
+                Classes.BUTTON,
+                Classes.INTENT_PRIMARY,
+                Classes.iconClass(IconNames.PLUS),
+              )}
               to="/admin/speakers/new"
             >
               Přidat novou osobu
@@ -84,7 +89,7 @@ class Speakers extends React.Component<IProps, IState> {
 
         <div style={{ marginTop: 15 }}>
           <SearchInput
-            placeholder="Vyhledat politickou osobu"
+            placeholder="Hledat dle jména…"
             onChange={this.onSearchChange}
             value={this.state.search}
           />
@@ -140,21 +145,22 @@ class Speakers extends React.Component<IProps, IState> {
                       </div>
                       <div style={{ flex: '1 1' }}>
                         <Authorize permissions={['speakers:edit']}>
-                          <div style={{ float: 'right' }}>
+                          <div style={{ float: 'right', display: 'flex' }}>
                             <Link
                               to={`/admin/speakers/edit/${speaker.id}`}
-                              className={Classes.BUTTON}
+                              className={classNames(
+                                Classes.BUTTON,
+                                Classes.iconClass(IconNames.EDIT),
+                              )}
                             >
                               Upravit
                             </Link>
-                            <button
-                              type="button"
-                              className={Classes.BUTTON}
+                            <Button
+                              icon={IconNames.TRASH}
                               onClick={this.showConfirmDeleteModal(speaker.id)}
                               style={{ marginLeft: 7 }}
-                            >
-                              Smazat
-                            </button>
+                              title="Smazat"
+                            />
                           </div>
                         </Authorize>
 

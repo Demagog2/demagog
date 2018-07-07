@@ -10,6 +10,7 @@ const DISPLAY_FORMAT = 'd. M. yyyy';
 const PARSE_FORMATS = [DISPLAY_FORMAT, 'd.M.yyyy', 'd. M.yyyy', 'd.M. yyyy'];
 
 interface IProps {
+  disabled?: boolean;
   value: string | null;
   id?: string;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement> & IInputGroupProps;
@@ -19,6 +20,7 @@ interface IProps {
 const DateInput = (props: IProps) => (
   <BlueprintDateInput
     canClearSelection={false}
+    disabled={props.disabled}
     inputProps={{
       id: props.id,
       onKeyDown: (e) => {

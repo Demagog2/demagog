@@ -2,7 +2,10 @@
 
 import * as React from 'react';
 
+import { Button, Card, Classes, Intent, Tag } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
+import * as classNames from 'classnames';
 import { Query } from 'react-apollo';
 import { connect, Dispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -14,6 +17,7 @@ import {
 } from '../operation-result-types';
 import { DeleteBody } from '../queries/mutations';
 import { GetBodies } from '../queries/queries';
+import { displayDate } from '../utils';
 import Authorize from './Authorize';
 import BodyLogo from './BodyLogo';
 import { SearchInput } from './forms/controls/SearchInput';
@@ -22,31 +26,23 @@ import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 
 class GetBodiesQuery extends Query<GetBodiesQueryResult, GetBodiesQueryVariables> {}
 
-function Badge(props: { is_party: boolean }) {
-  if (props.is_party) {
-    return <span className="badge badge-primary">Politická strana</span>;
-  }
-
-  return <span className="badge badge-secondary">Skupina</span>;
-}
-
 interface IProps {
   dispatch: Dispatch;
 }
 
 interface IState {
-  name: string;
+  search: string;
   confirmDeleteModalBodyId: string | null;
 }
 
 class Bodies extends React.Component<IProps, IState> {
   public state = {
-    name: '',
+    search: '',
     confirmDeleteModalBodyId: null,
   };
 
-  private onSearchChange = (name: string) => {
-    this.setState({ name });
+  private onSearchChange = (search: string) => {
+    this.setState({ search });
   };
 
   private showConfirmDeleteModal = (confirmDeleteModalBodyId: string) => () => {
@@ -73,26 +69,33 @@ class Bodies extends React.Component<IProps, IState> {
     const { confirmDeleteModalBodyId } = this.state;
 
     return (
-      <div role="main" style={{ marginTop: 15 }}>
+      <div style={{ padding: '15px 0 40px 0' }}>
         <Authorize permissions={['bodies:edit']}>
-          <div className="float-right">
-            <Link className="btn btn-primary" to="/admin/bodies/new">
+          <div style={{ float: 'right' }}>
+            <Link
+              className={classNames(
+                Classes.BUTTON,
+                Classes.INTENT_PRIMARY,
+                Classes.iconClass(IconNames.PLUS),
+              )}
+              to="/admin/bodies/new"
+            >
               Přidat novou stranu / skupinu
             </Link>
           </div>
         </Authorize>
 
-        <h3>Strany a skupiny</h3>
+        <h2>Strany a skupiny</h2>
 
-        <div style={{ marginTop: 25 }}>
+        <div style={{ marginTop: 15 }}>
           <SearchInput
-            placeholder="Vyhledat politickou stranu nebo skupinu"
+            placeholder="Hledat dle názvu…"
             onChange={this.onSearchChange}
-            value={this.state.name}
+            value={this.state.search}
           />
         </div>
 
-        <GetBodiesQuery query={GetBodies} variables={{ name: this.state.name }}>
+        <GetBodiesQuery query={GetBodies} variables={{ name: this.state.search }}>
           {(props) => {
             if (props.loading) {
               return <Loading />;
@@ -111,7 +114,7 @@ class Bodies extends React.Component<IProps, IState> {
             );
 
             return (
-              <div>
+              <div style={{ marginTop: 15 }}>
                 {confirmDeleteModalBody && (
                   <ConfirmDeleteModal
                     message={`Opravdu chcete smazat skupinu/stranu ${confirmDeleteModalBody.name}?`}
@@ -119,7 +122,9 @@ class Bodies extends React.Component<IProps, IState> {
                     mutation={DeleteBody}
                     mutationProps={{
                       variables: { id: confirmDeleteModalBodyId },
-                      refetchQueries: [{ query: GetBodies, variables: { name: this.state.name } }],
+                      refetchQueries: [
+                        { query: GetBodies, variables: { name: this.state.search } },
+                      ],
                       onCompleted: this.onDeleted,
                       onError: this.onDeleteError,
                     }}
@@ -127,70 +132,68 @@ class Bodies extends React.Component<IProps, IState> {
                 )}
 
                 {props.data.bodies.map((body) => (
-                  <div className="card" key={body.id} style={{ marginBottom: '1rem' }}>
-                    <div className="card-body" style={{ display: 'flex' }}>
-                      <div style={{ flex: '0 0 106px' }}>
+                  <Card key={body.id} style={{ marginBottom: 15 }}>
+                    <div style={{ display: 'flex' }}>
+                      <div style={{ flex: '0 0 106px', marginRight: 15 }}>
                         <BodyLogo logo={body.logo} name={body.name} />
                       </div>
 
-                      <div style={{ marginLeft: 15, flex: '1 0' }}>
+                      <div style={{ flex: '1 1' }}>
                         <Authorize permissions={['bodies:edit']}>
-                          <div style={{ float: 'right' }}>
+                          <div style={{ float: 'right', display: 'flex' }}>
                             <Link
                               to={`/admin/bodies/edit/${body.id}`}
-                              className="btn btn-secondary"
-                              style={{ marginRight: 15 }}
+                              className={classNames(
+                                Classes.BUTTON,
+                                Classes.iconClass(IconNames.EDIT),
+                              )}
                             >
                               Upravit
                             </Link>
-                            <button
-                              type="button"
-                              className="btn btn-secondary"
+                            <Button
+                              icon={IconNames.TRASH}
                               onClick={this.showConfirmDeleteModal(body.id)}
-                            >
-                              Smazat
-                            </button>
+                              title="Smazat"
+                              style={{ marginLeft: 7 }}
+                            />
                           </div>
                         </Authorize>
 
-                        <h5 className="card-title" style={{ marginTop: 7 }}>
+                        <h5>
                           {body.name} ({body.short_name})
                         </h5>
 
-                        <div className="card-subtitle">
-                          <Badge is_party={body.is_party} />
-                        </div>
+                        {body.is_party ? (
+                          <Tag intent={Intent.PRIMARY}>Politická strana</Tag>
+                        ) : (
+                          <Tag>Skupina</Tag>
+                        )}
 
-                        <dl style={{ marginTop: 10 }}>
-                          <dt className="text-muted">
-                            <small>RESPEKTOVANÝ ODKAZ</small>
-                          </dt>
-                          <dd>{body.link ? <a href={body.link}>{body.link}</a> : 'Nevyplněn'}</dd>
-
-                          <dt className="text-muted">
-                            <small>VZNIK</small>
-                          </dt>
-                          <dd>{body.founded_at ? body.founded_at : 'Nevyplněn'}</dd>
-
-                          {body.is_inactive && (
-                            <>
-                              <dt className="text-muted">
-                                <small>ZÁNIK</small>
-                              </dt>
-                              <dd>{body.terminated_at ? body.terminated_at : 'Nevyplněn'}</dd>
-                            </>
+                        <ul className={Classes.LIST_UNSTYLED} style={{ marginTop: 15 }}>
+                          <li>
+                            <span className={Classes.TEXT_MUTED}>Respektovaný odkaz: </span>
+                            <p>{body.link ? <a href={body.link}>{body.link}</a> : 'Nevyplněn'}</p>
+                          </li>
+                          <li>
+                            <span className={Classes.TEXT_MUTED}>Vznik: </span>
+                            <p>{body.founded_at ? displayDate(body.founded_at) : 'Nevyplněn'}</p>
+                          </li>
+                          {body.terminated_at && (
+                            <li>
+                              <span className={Classes.TEXT_MUTED}>Zánik: </span>
+                              <p>{displayDate(body.terminated_at)}</p>
+                            </li>
                           )}
-                        </dl>
-
-                        {/*
-                          TODO: description will be graudally removed (see github issue #65),
-                          how do we show it during the transition?
-                          <p className="card-text">{truncate(body.description, { length: 180 })}</p>
-                        */}
+                        </ul>
                       </div>
                     </div>
-                  </div>
+                  </Card>
                 ))}
+
+                {props.data.bodies.length === 0 &&
+                  this.state.search !== '' && (
+                    <p>Nenašli jsme žádnou stranu či skupinu s názvem „{this.state.search}‟.</p>
+                  )}
               </div>
             );
           }}
