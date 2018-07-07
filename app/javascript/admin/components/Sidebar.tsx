@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { Classes, Colors } from '@blueprintjs/core';
+import { Classes } from '@blueprintjs/core';
 import * as classNames from 'classnames';
 import { NavLink } from 'react-router-dom';
 
@@ -46,16 +46,7 @@ const categories = [
 export default function Sidebar() {
   return (
     <div style={{ flexBasis: 270, flexGrow: 0, flexShrink: 0 }}>
-      <div
-        style={{
-          position: 'fixed',
-          height: '100vh',
-          width: 270,
-          backgroundColor: Colors.LIGHT_GRAY5,
-          boxShadow: '1px 0 0 rgba(16, 22, 26, .15)',
-          overflowY: 'auto',
-        }}
-      >
+      <div className="sidebar">
         {categories.map((category) => (
           <Authorize
             key={category.title}
@@ -64,9 +55,9 @@ export default function Sidebar() {
               [],
             )}
           >
-            <h6 style={{ paddingLeft: 15, marginTop: 30 }}>{category.title}</h6>
+            <h6 className="sidebar-menu-title">{category.title}</h6>
 
-            <ul className={Classes.LIST_UNSTYLED}>
+            <ul className={classNames(Classes.LIST_UNSTYLED, 'sidebar-menu')}>
               {category.links.map((link) => (
                 <Authorize key={link.to} permissions={link.permissions || []}>
                   <li>
@@ -75,7 +66,6 @@ export default function Sidebar() {
                         to={link.to}
                         className={Classes.MENU_ITEM}
                         activeClassName={Classes.ACTIVE}
-                        style={{ padding: '5px 15px' }}
                       >
                         <span>{link.title}</span>
                       </NavLink>
@@ -83,7 +73,6 @@ export default function Sidebar() {
                       <a
                         href=""
                         className={classNames(Classes.MENU_ITEM, Classes.DISABLED)}
-                        style={{ padding: '5px 15px' }}
                         onClick={(e) => e.preventDefault()}
                       >
                         <span>{link.title}</span>
