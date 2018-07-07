@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 
+import { Button, Card, Classes, FormGroup, Intent } from '@blueprintjs/core';
+import * as classNames from 'classnames';
 import { Formik } from 'formik';
 import { List } from 'immutable';
 import { isEqual } from 'lodash';
@@ -114,18 +116,19 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                height: 'calc(100vh - 55px)',
-                marginTop: 15,
+                height: 'calc(100vh - 65px)',
+                paddingTop: 15,
               }}
             >
               <div>
-                <div className="float-right">
-                  <Link to={`/admin/sources/${source.id}`} className="btn btn-secondary">
+                <div style={{ float: 'right' }}>
+                  <Link to={`/admin/sources/${source.id}`} className={Classes.BUTTON}>
                     Zpět na detail zdroje
                   </Link>
                 </div>
 
-                <h3>{source.name}</h3>
+                <h2>{source.name}</h2>
+
                 <span>
                   {source.medium.name}, {displayDate(source.released_at)},{' '}
                   {source.media_personality.name}
@@ -228,15 +231,24 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                             </>
                           )}
 
-                          {statementsToDisplay.map((statement) => (
-                            <StatementCard
-                              key={statement.id}
-                              onDeleted={() => {
-                                refetch({ sourceId: parseInt(source.id, 10) });
-                              }}
-                              statement={statement}
-                            />
-                          ))}
+                          <div style={{ marginTop: 20 }}>
+                            {statementsToDisplay.map((statement) => (
+                              <div
+                                style={{
+                                  // 1px margin so there is enough space for the card box-shadow
+                                  margin: 1,
+                                }}
+                                key={statement.id}
+                              >
+                                <StatementCard
+                                  onDeleted={() => {
+                                    refetch({ sourceId: parseInt(source.id, 10) });
+                                  }}
+                                  statement={statement}
+                                />
+                              </div>
+                            ))}
+                          </div>
                         </>
                       )}
                     </>
@@ -244,13 +256,12 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
 
                 {transcriptSelection !== null &&
                   newStatementSelection === null && (
-                    <button
-                      type="button"
-                      className="btn btn-primary"
+                    <Button
+                      intent={Intent.PRIMARY}
+                      large
                       onMouseDown={this.onCreateStatementMouseDown}
-                    >
-                      Vytvořit výrok z označené části přepisu
-                    </button>
+                      text="Vytvořit výrok z označené části přepisu"
+                    />
                   )}
 
                 {newStatementSelection !== null && (
@@ -296,17 +307,13 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
         {(createStatement) => (
           <Formik
             initialValues={initialValues}
-            // TODO: some validation?
-            // validate={(values) => {
-            //   // same as above, but feel free to move this into a class method now.
-            //   let errors = {};
-            //   if (!values.email) {
-            //     errors.email = 'Required';
-            //   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-            //     errors.email = 'Invalid email address';
-            //   }
-            //   return errors;
-            // }}
+            validate={(values) => {
+              const errors: { [key: string]: any } = {};
+              if (values.content.trim() === '') {
+                errors.content = 'Je třeba vyplnit znění výroku';
+              }
+              return errors;
+            }}
             onSubmit={(values, { setSubmitting }) => {
               const note = values.note.trim();
 
@@ -355,105 +362,87 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
               setFieldTouched,
             }) => (
               <form onSubmit={handleSubmit}>
-                <div className="card">
-                  <div className="card-header">
-                    <div className="float-right" style={{ margin: '-3px 0' }}>
-                      <button
-                        type="button"
-                        className="btn btn-secondary btn-sm"
-                        onClick={onRequestClose}
-                      >
-                        Zrušit
-                      </button>
-                      <button
-                        type="submit"
-                        className="btn btn-primary btn-sm"
-                        style={{ marginLeft: 10 }}
-                        disabled={isSubmitting}
-                      >
-                        {isSubmitting ? 'Ukládám ...' : 'Uložit'}
-                      </button>
-                    </div>
-
-                    <h5 style={{ margin: 0 }}>Nový výrok</h5>
+                <Card
+                  style={{
+                    // 1px margin so there is enough space for the card box-shadow
+                    margin: 1,
+                  }}
+                >
+                  <div style={{ float: 'right', margin: '-3px 0' }}>
+                    <Button onClick={onRequestClose} text="Zrušit" />
+                    <Button
+                      type="submit"
+                      intent={Intent.PRIMARY}
+                      style={{ marginLeft: 7 }}
+                      disabled={isSubmitting}
+                      text={isSubmitting ? 'Ukládám ...' : 'Uložit'}
+                    />
                   </div>
-                  <div className="card-body">
-                    <div className="form-group">
-                      <label htmlFor="content">Znění</label>
+
+                  <h5>Nový výrok</h5>
+
+                  <div style={{ marginTop: 20 }}>
+                    <FormGroup
+                      label="Znění"
+                      labelFor="content"
+                      intent={touched.content && errors.content ? Intent.DANGER : Intent.NONE}
+                      helperText={touched.content && errors.content ? errors.content : ''}
+                    >
                       <textarea
-                        className="form-control"
                         id="content"
                         name="content"
+                        className={classNames(Classes.INPUT, Classes.FILL, {
+                          [Classes.INTENT_DANGER]: !!(touched.content && errors.content),
+                        })}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.content}
                         rows={5}
                         autoFocus
                       />
-                      {touched.content && errors.content && <div>{errors.content}</div>}
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="speaker_id">Řečník</label>
-                      <select
-                        className="form-control"
-                        id="speaker_id"
-                        name="speaker_id"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.speaker_id}
-                      >
-                        {source.speakers.map((s) => (
-                          <option key={s.id} value={s.id}>
-                            {s.first_name} {s.last_name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    {/* <div className="form-group">
-                      <label>Štítky</label>
-                      <p>TODO</p>
-                    </div> */}
-                    {/* <div className="form-group">
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          name="important"
+                    </FormGroup>
+                    <FormGroup label="Řečník" labelFor="speaker">
+                      <div className={Classes.SELECT}>
+                        <select
+                          id="speaker"
+                          name="speaker_id"
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.important}
-                          id="important"
-                        />
-                        <label className="form-check-label" htmlFor="important">
-                          Důležitý výrok
-                        </label>
+                          value={values.speaker_id}
+                        >
+                          {source.speakers.map((s) => (
+                            <option key={s.id} value={s.id}>
+                              {s.first_name} {s.last_name}
+                            </option>
+                          ))}
+                        </select>
                       </div>
-                    </div> */}
-                    <div className="form-group">
-                      <label>Ověřovatel:</label>
+                    </FormGroup>
+                    <FormGroup label="Ověřovatel" labelFor="evaluator">
                       <UserSelect
+                        id="evaluator"
                         onChange={(value) => setFieldValue('evaluator_id', value)}
                         onBlur={() => setFieldTouched('evaluator_id')}
                         value={values.evaluator_id}
                       />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="note">Poznámka pro ověřování</label>
+                    </FormGroup>
+                    <FormGroup
+                      label="Poznámka pro ověřování"
+                      labelFor="note"
+                      helperText="Bude přidána jako první komentář v diskuzi k výroku."
+                    >
                       <textarea
-                        className="form-control"
                         id="note"
                         name="note"
+                        className={classNames(Classes.INPUT, Classes.FILL)}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.note}
-                        rows={3}
+                        rows={4}
                       />
-                      <small className="form-text text-muted">
-                        Bude přidána jako první komentář v diskuzi k výroku.
-                      </small>
-                    </div>
+                    </FormGroup>
                   </div>
-                </div>
+                </Card>
               </form>
             )}
           </Formik>
