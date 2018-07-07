@@ -3,16 +3,17 @@ import * as React from 'react';
 import { Button, IInputGroupProps } from '@blueprintjs/core';
 import { DateInput as BlueprintDateInput, IDatePickerLocaleUtils } from '@blueprintjs/datetime';
 import { IconNames } from '@blueprintjs/icons';
+import { isKeyHotkey } from 'is-hotkey';
 import { DateTime } from 'luxon';
 
 const DISPLAY_FORMAT = 'd. M. yyyy';
 const PARSE_FORMATS = [DISPLAY_FORMAT, 'd.M.yyyy', 'd. M.yyyy', 'd.M. yyyy'];
 
 interface IProps {
-  value: string;
+  value: string | null;
   id?: string;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement> & IInputGroupProps;
-  onChange: (value: string) => any;
+  onChange: (value: string | null) => any;
 }
 
 const DateInput = (props: IProps) => (
@@ -20,13 +21,25 @@ const DateInput = (props: IProps) => (
     canClearSelection={false}
     inputProps={{
       id: props.id,
+      onKeyDown: (e) => {
+        if (isKeyHotkey('enter', e)) {
+          // Let enter work like a confirm of entered date
+          e.currentTarget.blur();
+
+          // Do not submit the whole form by enter
+          e.preventDefault();
+        }
+      },
     }}
-    value={DateTime.fromISO(props.value).toJSDate()}
+    value={props.value !== null ? DateTime.fromISO(props.value).toJSDate() : null}
     locale="cs"
     localeUtils={localeUtils}
     formatDate={formatDate}
-    onChange={(date) => props.onChange(DateTime.fromJSDate(date).toISODate())}
+    onChange={(date: Date | null) =>
+      props.onChange(date !== null ? DateTime.fromJSDate(date).toISODate() : null)
+    }
     parseDate={parseDate}
+    placeholder="Vyberte…"
     rightElement={
       <Button
         icon={IconNames.CALENDAR}
@@ -46,10 +59,14 @@ const DateInput = (props: IProps) => (
 export default DateInput;
 
 function formatDate(date: Date): string {
-  return date ? DateTime.fromJSDate(date).toFormat(DISPLAY_FORMAT) : '';
+  return DateTime.fromJSDate(date).toFormat(DISPLAY_FORMAT);
 }
 
-function parseDate(str: string): Date {
+function parseDate(str: string): Date | null {
+  if (str === '') {
+    return null;
+  }
+
   for (const format of PARSE_FORMATS) {
     const datetime = DateTime.fromFormat(str, format);
     if (datetime.isValid) {

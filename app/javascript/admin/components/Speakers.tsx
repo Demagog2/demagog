@@ -2,7 +2,9 @@
 
 import * as React from 'react';
 
+import { Card, Classes } from '@blueprintjs/core';
 import { ApolloError } from 'apollo-client';
+import * as classNames from 'classnames';
 import { Query } from 'react-apollo';
 import { connect, Dispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -14,6 +16,7 @@ import {
 } from '../operation-result-types';
 import { DeleteSpeaker } from '../queries/mutations';
 import { GetSpeakers } from '../queries/queries';
+import { displayDate } from '../utils';
 import Authorize from './Authorize';
 import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
@@ -27,18 +30,18 @@ interface IProps {
 }
 
 interface IState {
-  name: string;
+  search: string;
   confirmDeleteModalSpeakerId: string | null;
 }
 
 class Speakers extends React.Component<IProps, IState> {
   public state = {
-    name: '',
+    search: '',
     confirmDeleteModalSpeakerId: null,
   };
 
-  private onSearchChange = (name: string) => {
-    this.setState({ name });
+  private onSearchChange = (search: string) => {
+    this.setState({ search });
   };
 
   private showConfirmDeleteModal = (confirmDeleteModalSpeakerId: string) => () => {
@@ -65,26 +68,29 @@ class Speakers extends React.Component<IProps, IState> {
     const { confirmDeleteModalSpeakerId } = this.state;
 
     return (
-      <div role="main" style={{ marginTop: 15 }}>
+      <div style={{ padding: '15px 0 40px 0' }}>
         <Authorize permissions={['speakers:edit']}>
-          <div className="float-right">
-            <Link className="btn btn-primary" to="/admin/speakers/new">
+          <div style={{ float: 'right' }}>
+            <Link
+              className={classNames(Classes.BUTTON, Classes.INTENT_PRIMARY)}
+              to="/admin/speakers/new"
+            >
               Přidat novou osobu
             </Link>
           </div>
         </Authorize>
 
-        <h3>Lidé</h3>
+        <h2>Lidé</h2>
 
-        <div style={{ marginTop: 25 }}>
+        <div style={{ marginTop: 15 }}>
           <SearchInput
             placeholder="Vyhledat politickou osobu"
             onChange={this.onSearchChange}
-            value={this.state.name}
+            value={this.state.search}
           />
         </div>
 
-        <GetSpeakersQuery query={GetSpeakers} variables={{ name: this.state.name }}>
+        <GetSpeakersQuery query={GetSpeakers} variables={{ name: this.state.search }}>
           {(props) => {
             if (props.loading) {
               return <Loading />;
@@ -103,7 +109,7 @@ class Speakers extends React.Component<IProps, IState> {
             );
 
             return (
-              <div>
+              <div style={{ marginTop: 15 }}>
                 {confirmDeleteModalSpeaker && (
                   <ConfirmDeleteModal
                     message={`Opravdu chcete smazat osobu ${confirmDeleteModalSpeaker.first_name} ${
@@ -114,7 +120,7 @@ class Speakers extends React.Component<IProps, IState> {
                     mutationProps={{
                       variables: { id: confirmDeleteModalSpeakerId },
                       refetchQueries: [
-                        { query: GetSpeakers, variables: { name: this.state.name } },
+                        { query: GetSpeakers, variables: { name: this.state.search } },
                       ],
                       onCompleted: this.onDeleted,
                       onError: this.onDeleteError,
@@ -123,77 +129,82 @@ class Speakers extends React.Component<IProps, IState> {
                 )}
 
                 {props.data.speakers.map((speaker) => (
-                  <div className="card" key={speaker.id} style={{ marginBottom: '1rem' }}>
-                    <div className="card-body" style={{ display: 'flex' }}>
-                      <div style={{ flex: '0 0 106px' }}>
+                  <Card key={speaker.id} style={{ marginBottom: 15 }}>
+                    <div style={{ display: 'flex' }}>
+                      <div style={{ flex: '0 0 106px', marginRight: 15 }}>
                         <SpeakerAvatar
                           avatar={speaker.avatar}
                           first_name={speaker.first_name}
                           last_name={speaker.last_name}
                         />
                       </div>
-
-                      <div style={{ marginLeft: 15, flex: '1 0' }}>
+                      <div style={{ flex: '1 1' }}>
                         <Authorize permissions={['speakers:edit']}>
                           <div style={{ float: 'right' }}>
                             <Link
                               to={`/admin/speakers/edit/${speaker.id}`}
-                              className="btn btn-secondary"
-                              style={{ marginRight: 15 }}
+                              className={Classes.BUTTON}
                             >
                               Upravit
                             </Link>
                             <button
                               type="button"
-                              className="btn btn-secondary"
+                              className={Classes.BUTTON}
                               onClick={this.showConfirmDeleteModal(speaker.id)}
+                              style={{ marginLeft: 7 }}
                             >
                               Smazat
                             </button>
                           </div>
                         </Authorize>
 
-                        <h5 style={{ marginTop: 7 }}>
+                        <h5>
                           {speaker.first_name} {speaker.last_name}
                         </h5>
 
-                        <dl style={{ marginTop: 20 }}>
-                          <dt className="text-muted">
-                            <small>RESPEKTOVANÝ ODKAZ</small>
-                          </dt>
-                          <dd>
-                            {speaker.website_url ? (
-                              <a href={speaker.website_url}>{speaker.website_url}</a>
-                            ) : (
-                              'Nevyplněn'
-                            )}
-                          </dd>
+                        <ul className={Classes.LIST_UNSTYLED}>
+                          <li>
+                            <span className={Classes.TEXT_MUTED}>Respektovaný odkaz: </span>
+                            <p>
+                              {speaker.website_url ? (
+                                <a href={speaker.website_url}>{speaker.website_url}</a>
+                              ) : (
+                                'Nevyplněn'
+                              )}
+                            </p>
+                          </li>
+                          <li>
+                            <span className={Classes.TEXT_MUTED}>
+                              Příslušnost ke skupinám/stranám:{' '}
+                            </span>
+                            <p>
+                              {speaker.memberships.map((m) => (
+                                <React.Fragment key={m.id}>
+                                  <span>
+                                    {m.body.short_name}
+                                    {' — od '}
+                                    {m.since ? displayDate(m.since) : 'nevyplněno'}
+                                    {' do '}
+                                    {m.until ? displayDate(m.until) : 'nevyplněno'}
+                                  </span>
+                                  <br />
+                                </React.Fragment>
+                              ))}
 
-                          <dt className="text-muted">
-                            <small>PŘÍSLUŠNOST KE SKUPINÁM/STRANÁM</small>
-                          </dt>
-                          <dd>
-                            {speaker.memberships.map((m) => (
-                              <React.Fragment key={m.id}>
-                                <span>
-                                  {m.body.short_name}
-                                  {' — od '}
-                                  {m.since ? m.since : 'nevyplněno'}
-                                  {' do '}
-                                  {m.until ? m.until : 'nevyplněno'}
-                                </span>
-                                <br />
-                              </React.Fragment>
-                            ))}
-
-                            {speaker.memberships.length === 0 &&
-                              'Není členem žádné skupiny či strany'}
-                          </dd>
-                        </dl>
+                              {speaker.memberships.length === 0 &&
+                                'Není členem žádné skupiny či strany'}
+                            </p>
+                          </li>
+                        </ul>
                       </div>
                     </div>
-                  </div>
+                  </Card>
                 ))}
+
+                {props.data.speakers.length === 0 &&
+                  this.state.search !== '' && (
+                    <p>Nenašli jsme žádnou osobu se jménem „{this.state.search}‟.</p>
+                  )}
               </div>
             );
           }}

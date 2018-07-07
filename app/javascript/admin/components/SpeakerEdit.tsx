@@ -87,7 +87,7 @@ class SpeakerEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> 
     const id = parseInt(this.props.match.params.id, 10);
 
     return (
-      <div role="main" style={{ marginTop: 15 }}>
+      <div style={{ padding: '15px 0 40px 0' }}>
         <Query query={GetSpeaker} variables={{ id }}>
           {({ data, loading, error }) => {
             if (loading) {

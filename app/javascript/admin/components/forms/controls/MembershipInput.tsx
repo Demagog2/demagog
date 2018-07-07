@@ -1,6 +1,9 @@
 import * as React from 'react';
 
-import * as GO from 'react-icons/lib/go';
+import { Button, Classes, FormGroup } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
+
+import DateInput from './DateInput2';
 
 export interface IMembership {
   key: string;
@@ -23,7 +26,7 @@ interface IMembershipFormProps {
   }>;
 
   onChange?(membership: IMembership): void;
-  onRemove?(evt: React.MouseEvent<React.ReactSVGElement>): void;
+  onRemove?(): void;
 }
 
 interface IMembershipFormState {
@@ -72,57 +75,55 @@ export class MembershipInput extends React.Component<IMembershipFormProps, IMemb
     this.onChange({ body_id: bodyId, until });
   };
 
-  private onDateChange = (name: string) => (evt: React.ChangeEvent<HTMLInputElement>) => {
-    this.onChange({ [name]: evt.target.value });
+  private onDateChange = (name: string) => (value: string) => {
+    this.onChange({ [name]: value });
   };
 
   // tslint:disable-next-line:member-ordering
   public render() {
     return (
-      <div className="form-row">
-        <div className="form-group col-md-5">
-          <label htmlFor="illustration">Příslušnost ke skupině:</label>
-          <select
-            name="body"
-            className="custom-select"
-            onChange={this.onBodyChange}
-            value={this.state.body_id}
-          >
-            {this.props.bodies.map((body) => (
-              <option key={body.id} value={body.id}>
-                {body.name} ({body.short_name})
-              </option>
-            ))}
-          </select>
+      <div style={{ display: 'flex' }}>
+        <div style={{ flex: '5 5' }}>
+          <FormGroup label="Strana/skupina" labelFor="body">
+            <div className={Classes.SELECT}>
+              <select id="body" name="body" onChange={this.onBodyChange} value={this.state.body_id}>
+                {this.props.bodies.map((body) => (
+                  <option key={body.id} value={body.id}>
+                    {body.name} ({body.short_name})
+                  </option>
+                ))}
+              </select>
+            </div>
+          </FormGroup>
         </div>
 
-        <div className="form-group col-md-3">
-          <label htmlFor="since">Od:</label>
-          <input
-            type="date"
-            className="form-control"
-            id="since"
-            placeholder="Zadejte datum"
-            onChange={this.onDateChange('since')}
-            value={this.state.since}
+        <div style={{ flex: '3 3', marginLeft: 15 }}>
+          <FormGroup label="Od" labelFor="since">
+            <DateInput
+              id="since"
+              value={this.state.since || null}
+              onChange={this.onDateChange('since')}
+            />
+          </FormGroup>
+        </div>
+
+        <div style={{ flex: '3 3', marginLeft: 15 }}>
+          <FormGroup label="Do" labelFor="until">
+            <DateInput
+              id="until"
+              value={this.state.until || null}
+              onChange={this.onDateChange('until')}
+            />
+          </FormGroup>
+        </div>
+
+        <div style={{ flex: '1 1', marginLeft: 15, paddingTop: 15 }}>
+          <Button
+            icon={IconNames.TRASH}
+            onClick={this.props.onRemove}
+            minimal
+            title="Odstranit příslušnost"
           />
-        </div>
-
-        <div className="form-group col-md-3">
-          <label htmlFor="until">Do:</label>
-          <input
-            type="date"
-            className="form-control"
-            id="until"
-            placeholder="Zadejte datum"
-            onChange={this.onDateChange('until')}
-            value={this.state.until}
-          />
-        </div>
-
-        <div className="form-group col-md-1">
-          <br />
-          <GO.GoTrashcan style={{ cursor: 'pointer' }} onClick={this.props.onRemove} />
         </div>
       </div>
     );

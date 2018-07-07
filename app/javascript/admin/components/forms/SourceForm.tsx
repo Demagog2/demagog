@@ -6,7 +6,6 @@ import { Classes, FormGroup } from '@blueprintjs/core';
 // import { DateInput } from '@blueprintjs/datetime';
 import * as classNames from 'classnames';
 import { get } from 'lodash';
-import { DateTime } from 'luxon';
 import { Link } from 'react-router-dom';
 
 import { GetSourceQuery, SourceInputType } from '../../operation-result-types';
@@ -49,7 +48,7 @@ export class SourceForm extends React.Component<ISourceFormProps> {
         medium: {},
         media_personality: {},
         speakers: [],
-        released_at: DateTime.local().toISODate(),
+        released_at: null,
       },
     },
   };

@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { v4 as uuid } from 'uuid';
 
+import { Button } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
 import { pick } from 'lodash';
 import { Query } from 'react-apollo';
+import { v4 as uuid } from 'uuid';
+
 import { GetSpeakerBodiesQuery } from '../../operation-result-types';
 import { GetSpeakersBodies } from '../../queries/queries';
 import Loading from '../Loading';
@@ -69,13 +72,11 @@ export class MembershipForm extends React.Component<IMembershipFormProps, IMembe
                   onChange={this.updateMembership(m.key)}
                 />
               ))}
-              <button
-                type="button"
+              <Button
                 onClick={this.addMembership(data)}
-                className="btn btn-secondary"
-              >
-                Přidat příslušnost ke straně nebo skupině
-              </button>
+                icon={IconNames.PLUS}
+                text="Přidat příslušnost ke straně nebo skupině"
+              />
             </React.Fragment>
           );
         }}
@@ -105,14 +106,12 @@ export class MembershipForm extends React.Component<IMembershipFormProps, IMembe
     this.onChange(memberships);
   };
 
-  private removeMembership = (removedKey: string) => (evt) => {
+  private removeMembership = (removedKey: string) => () => {
     const memberships = this.state.memberships.filter((membership) => {
       return membership.key !== removedKey;
     });
 
     this.setState({ memberships });
-
-    evt.preventDefault();
 
     this.onChange(memberships);
   };
