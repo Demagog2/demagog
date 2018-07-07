@@ -1,6 +1,16 @@
 import * as React from 'react';
 
-import { Position, Switch, Tooltip } from '@blueprintjs/core';
+import {
+  Button,
+  Callout,
+  Classes,
+  FormGroup,
+  Intent,
+  Position,
+  Switch,
+  Tooltip,
+} from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
 import { Formik } from 'formik';
@@ -271,27 +281,30 @@ class StatementDetail extends React.Component<IProps, IState> {
                       canEditStatus;
 
                     return (
-                      <div style={{ marginTop: 15 }}>
+                      <div style={{ padding: '15px 0 40px 0' }}>
                         <FormikAutoSave
                           debounceWait={500}
                           submitForm={submitForm}
                           values={values}
                           initialValues={initialValues}
                         />
-                        <div className="float-right">
+                        <div style={{ float: 'right' }}>
                           <Link
                             to={`/admin/sources/${statement.source.id}`}
-                            className="btn btn-secondary"
+                            className={Classes.BUTTON}
                           >
                             Zpět na zdroj výroku
                           </Link>
                         </div>
 
                         <div style={{ display: 'flex' }}>
-                          <h3>Detail výroku</h3>
+                          <h2>Detail výroku</h2>
 
                           {canEditSomething && (
-                            <div className="text-muted" style={{ marginLeft: 20, marginTop: 9 }}>
+                            <div
+                              className={Classes.TEXT_MUTED}
+                              style={{ marginLeft: 20, marginTop: 12 }}
+                            >
                               {!status && !isSubmitting && 'Změny jsou ukládány automaticky'}
                               {status &&
                                 status === 'saved' &&
@@ -309,7 +322,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                             </h5>
                             {canEditStatementContent ? (
                               <textarea
-                                className="form-control"
+                                className={classNames(Classes.INPUT, Classes.FILL)}
                                 style={{ marginBottom: 5 }}
                                 name="content"
                                 rows={4}
@@ -320,7 +333,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                             ) : (
                               <p>{newlinesToBr(values.content)}</p>
                             )}
-                            <p className="text-muted">
+                            <p className={Classes.TEXT_MUTED}>
                               Zdroj: {statement.source.medium.name},{' '}
                               {displayDate(statement.source.released_at)},{' '}
                               {statement.source.media_personality.name}
@@ -341,67 +354,50 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                             {(canEditVeracity || canEditExplanations || canViewEvaluation) && (
                               <>
-                                <div className="form-group row">
-                                  <label htmlFor="veracity" className="col-sm-4 col-form-label">
-                                    Hodnocení
-                                  </label>
-                                  <div className="col-sm-8">
-                                    {canEditVeracity ? (
-                                      <VeracitySelect
-                                        disabled={
-                                          values.assessment.evaluation_status ===
-                                          ASSESSMENT_STATUS_APPROVED
-                                        }
-                                        onChange={(value) =>
-                                          setFieldValue('assessment.veracity_id', value)
-                                        }
-                                        onBlur={() => setFieldTouched('assessment.veracity_id')}
-                                        value={values.assessment.veracity_id}
-                                      />
-                                    ) : (
-                                      <input
-                                        type="text"
-                                        readOnly
-                                        className="form-control-plaintext"
-                                        value={
-                                          statement.assessment.veracity
-                                            ? statement.assessment.veracity.name
-                                            : ''
-                                        }
-                                      />
-                                    )}
+                                {canEditVeracity ? (
+                                  <FormGroup label="Hodnocení" labelFor="veracity">
+                                    <VeracitySelect
+                                      id="veracity"
+                                      disabled={
+                                        values.assessment.evaluation_status ===
+                                        ASSESSMENT_STATUS_APPROVED
+                                      }
+                                      onChange={(value) =>
+                                        setFieldValue('assessment.veracity_id', value)
+                                      }
+                                      onBlur={() => setFieldTouched('assessment.veracity_id')}
+                                      value={values.assessment.veracity_id}
+                                    />
+                                  </FormGroup>
+                                ) : (
+                                  <div>
+                                    Hodnocení:{' '}
+                                    {statement.assessment.veracity &&
+                                      statement.assessment.veracity.name}
                                   </div>
-                                </div>
-                                <div className="form-group">
-                                  <label
-                                    htmlFor="assessment-short-explanation"
-                                    className="form-label"
-                                  >
-                                    Odůvodnění zkráceně
-                                  </label>
+                                )}
+
+                                <FormGroup
+                                  label="Odůvodnění zkráceně"
+                                  labelFor="assessment-short-explanation"
+                                  helperText="Maximálně na dlouhý tweet, tj. 280 znaků"
+                                >
                                   {canEditExplanations ? (
-                                    <>
-                                      <textarea
-                                        className="form-control"
-                                        id="assessment-short-explanation"
-                                        name="assessment.short_explanation"
-                                        rows={3}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.assessment.short_explanation || ''}
-                                      />
-                                      <small className="form-text text-muted">
-                                        Maximálně na dlouhý tweet, tj. 280 znaků
-                                      </small>
-                                    </>
+                                    <textarea
+                                      className={classNames(Classes.INPUT, Classes.FILL)}
+                                      id="assessment-short-explanation"
+                                      name="assessment.short_explanation"
+                                      rows={3}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.assessment.short_explanation || ''}
+                                    />
                                   ) : (
                                     <p>{values.assessment.short_explanation}</p>
                                   )}
-                                </div>
-                                <div className="form-group">
-                                  <label htmlFor="assessment-explanation" className="form-label">
-                                    Odůvodnění
-                                  </label>
+                                </FormGroup>
+
+                                <FormGroup label="Odůvodnění" labelFor="assessment-explanation">
                                   {canEditExplanations ? (
                                     <RichTextEditor
                                       value={values.assessment.explanation_slatejson}
@@ -417,25 +413,25 @@ class StatementDetail extends React.Component<IProps, IState> {
                                       }}
                                     />
                                   )}
-                                </div>
+                                </FormGroup>
                               </>
                             )}
                             {!canEditVeracity &&
                               !canEditExplanations &&
                               !canViewEvaluation && (
-                                <div className="alert alert-info" role="alert">
+                                <Callout intent={Intent.PRIMARY} icon={IconNames.INFO_SIGN}>
                                   Hodnocení a odůvodnění tohoto výroku můžete vidět teprve až po
                                   schválení
-                                </div>
+                                </Callout>
                               )}
                           </div>
 
                           <div style={{ flex: '1 0', marginLeft: 30 }}>
-                            <div className="form-group row">
-                              <label htmlFor="status" className="col-sm-4 col-form-label">
+                            <div className={classNames(Classes.FORM_GROUP, Classes.INLINE)}>
+                              <label className={Classes.LABEL} style={{ flex: '1' }}>
                                 Stav
                               </label>
-                              <div className="col-sm-8">
+                              <div style={{ flex: '2' }}>
                                 <EvaluationStatusInput
                                   disabled={!canEditStatus}
                                   tooltipContent={statusTooltipContent}
@@ -446,11 +442,12 @@ class StatementDetail extends React.Component<IProps, IState> {
                                 />
                               </div>
                             </div>
-                            <div className="form-group row">
-                              <label htmlFor="evaluator" className="col-sm-4 col-form-label">
+
+                            <div className={classNames(Classes.FORM_GROUP, Classes.INLINE)}>
+                              <label className={Classes.LABEL} style={{ flex: '1' }}>
                                 Ověřovatel/ka
                               </label>
-                              <div className="col-sm-8">
+                              <div style={{ flex: '2' }}>
                                 {/* TODO: add tooltip to explain when the user select is disabled? */}
                                 <UserSelect
                                   disabled={!canEditEvaluator}
@@ -462,51 +459,78 @@ class StatementDetail extends React.Component<IProps, IState> {
                                 />
                               </div>
                             </div>
-                            <div className="form-group row">
-                              <label htmlFor="published" className="col-sm-4 col-form-label">
+
+                            <div
+                              className={classNames(Classes.FORM_GROUP, Classes.INLINE)}
+                              style={{
+                                // flex-start needed to align switch with tooltip and without label correctly
+                                alignItems: 'flex-start',
+                              }}
+                            >
+                              <label
+                                htmlFor="published"
+                                className={Classes.LABEL}
+                                style={{ flex: '1' }}
+                              >
                                 Zvěřejněný
                               </label>
-                              <div className="col-sm-8" style={{ paddingTop: 8 }}>
+                              <div className={Classes.FORM_CONTENT} style={{ flex: '2' }}>
                                 <Tooltip
                                   disabled={canEditPublished}
                                   content="Aby šel výrok zveřejnit, musí být ve schváleném stavu"
                                   position={Position.TOP}
                                 >
                                   <Switch
+                                    id="published"
                                     name="published"
                                     checked={values.published}
                                     onChange={handleChange}
                                     large
-                                    inline
-                                    style={{ margin: 0 }}
                                     disabled={!canEditPublished}
                                   />
                                 </Tooltip>
 
                                 {values.published && (
-                                  <a href={`/vyrok/${statement.id}`}>Veřejný odkaz</a>
+                                  <a
+                                    href={`/vyrok/${statement.id}`}
+                                    style={{ display: 'inline-block', marginTop: 6 }}
+                                  >
+                                    Veřejný odkaz
+                                  </a>
                                 )}
                               </div>
                             </div>
+
                             <hr style={{ borderTop: '2px solid #ccc' }} />
-                            {/* TODO: stitky */}
-                            <div className="form-group row">
-                              <label htmlFor="important" className="col-sm-4 col-form-label">
+
+                            <div
+                              className={classNames(Classes.FORM_GROUP, Classes.INLINE)}
+                              style={{
+                                // flex-start needed to align switch without label correctly
+                                alignItems: 'flex-start',
+                              }}
+                            >
+                              <label
+                                htmlFor="important"
+                                className={Classes.LABEL}
+                                style={{ flex: '1' }}
+                              >
                                 Důležitý
                               </label>
-                              <div className="col-sm-8" style={{ paddingTop: 8 }}>
+                              <div className={Classes.FORM_CONTENT} style={{ flex: '2' }}>
                                 <Switch
                                   disabled={!canEditImportant}
+                                  id="important"
                                   name="important"
                                   checked={values.important}
                                   onChange={handleChange}
                                   large
-                                  inline
-                                  style={{ margin: 0 }}
                                 />
                               </div>
                             </div>
+
                             <hr style={{ borderTop: '2px solid #ccc' }} />
+
                             <StatementComments statementId={statement.id} />
                           </div>
                         </div>
@@ -542,13 +566,7 @@ class EvaluationStatusInput extends React.Component<IEvaluationStatusInputProps>
 
     return (
       <>
-        <input
-          type="text"
-          readOnly
-          className="form-control-plaintext"
-          id="status"
-          value={ASSESSMENT_STATUS_LABELS[value]}
-        />
+        <p style={{ marginBottom: 5 }}>{ASSESSMENT_STATUS_LABELS[value]}</p>
 
         <Tooltip
           disabled={tooltipContent === null || !disabled}
@@ -556,40 +574,32 @@ class EvaluationStatusInput extends React.Component<IEvaluationStatusInputProps>
           position={Position.TOP}
         >
           {value === ASSESSMENT_STATUS_BEING_EVALUATED && (
-            <button
-              type="button"
-              className={classNames('btn', 'btn-outline-secondary', { disabled })}
+            <Button
+              disabled={disabled}
               onClick={this.onChange(ASSESSMENT_STATUS_APPROVAL_NEEDED)}
-            >
-              Posunout ke kontrole
-            </button>
+              text="Posunout ke kontrole"
+            />
           )}
           {value === ASSESSMENT_STATUS_APPROVAL_NEEDED && (
             <>
-              <button
-                type="button"
-                className={classNames('btn', 'btn-outline-secondary', { disabled })}
+              <Button
+                disabled={disabled}
                 onClick={this.onChange(ASSESSMENT_STATUS_BEING_EVALUATED)}
-              >
-                Vrátit ke zpracování
-              </button>
-              <button
-                type="button"
-                className={classNames('btn', 'btn-outline-secondary', { disabled })}
+                text="Vrátit ke zpracování"
+              />
+              <Button
+                disabled={disabled}
                 onClick={this.onChange(ASSESSMENT_STATUS_APPROVED)}
-              >
-                Schválit
-              </button>
+                text="Schválit"
+              />
             </>
           )}
           {value === ASSESSMENT_STATUS_APPROVED && (
-            <button
-              type="button"
-              className={classNames('btn', 'btn-outline-secondary', { disabled })}
+            <Button
+              disabled={disabled}
               onClick={this.onChange(ASSESSMENT_STATUS_BEING_EVALUATED)}
-            >
-              Vrátit ke zpracování
-            </button>
+              text="Vrátit ke zpracování"
+            />
           )}
         </Tooltip>
       </>

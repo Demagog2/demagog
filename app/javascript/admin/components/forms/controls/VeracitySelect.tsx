@@ -25,6 +25,7 @@ interface IGetVeracitiesQuery {
 class GetVeracitiesQueryComponent extends Query<IGetVeracitiesQuery> {}
 
 interface IProps {
+  id?: string;
   disabled?: boolean;
   value?: string | null;
   onChange: (value: string | null) => void;
@@ -47,6 +48,7 @@ export default class VeracitySelect extends React.Component<IProps> {
 
           return (
             <Select
+              id={this.props.id}
               value={this.props.value || undefined}
               isLoading={loading}
               options={options}

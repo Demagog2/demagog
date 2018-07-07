@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { Button, Classes } from '@blueprintjs/core';
+import * as classNames from 'classnames';
 import { Formik } from 'formik';
 import { Mutation, Query } from 'react-apollo';
 
@@ -54,16 +56,15 @@ class StatementComments extends React.Component<IProps> {
           return (
             <div>
               {data.statement.comments.map((comment) => (
-                <p key={comment.id}>
+                <div key={comment.id} style={{ marginBottom: 15 }}>
                   <strong>
                     {comment.user.first_name} {comment.user.last_name}
                   </strong>
-                  <span className="small text-muted" style={{ marginLeft: 10 }}>
+                  <small className={Classes.TEXT_MUTED} style={{ marginLeft: 10 }}>
                     {displayDateTime(comment.created_at)}
-                  </span>
-                  <br />
-                  {comment.content}
-                </p>
+                  </small>
+                  <p style={{ marginTop: 3 }}>{comment.content}</p>
+                </div>
               ))}
 
               <Authorize permissions={['statements:comments:add']}>
@@ -120,19 +121,17 @@ const AddCommentForm = (props: IAddCommentFormProps) => {
             <form onSubmit={handleSubmit}>
               <textarea
                 name="content"
-                className="form-control"
+                className={classNames(Classes.INPUT, Classes.FILL)}
                 value={values.content}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              <button
+              <Button
                 type="submit"
-                className="btn btn-outline-secondary"
                 disabled={isSubmitting || values.content.trim() === ''}
-                style={{ marginTop: 10 }}
-              >
-                {isSubmitting ? 'Přidávám ...' : 'Přidat komentář'}
-              </button>
+                text={isSubmitting ? 'Přidávám ...' : 'Přidat komentář'}
+                style={{ marginTop: 7 }}
+              />
             </form>
           )}
         </Formik>
