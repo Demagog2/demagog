@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { Button, Classes, Intent } from '@blueprintjs/core';
 import { ApolloError } from 'apollo-client';
 import { Mutation, Query } from 'react-apollo';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
@@ -103,28 +104,27 @@ class StatementsSort extends React.Component<IProps, IState> {
 
   public render() {
     return (
-      <div role="main" style={{ marginTop: 15 }}>
-        <div className="float-right">
-          <Link to={`/admin/sources/${this.props.source.id}`} className="btn btn-secondary">
+      <div style={{ padding: '15px 0 40px 0' }}>
+        <div style={{ float: 'right' }}>
+          <Link to={`/admin/sources/${this.props.source.id}`} className={Classes.BUTTON}>
             Zpět na zdroj výroků
           </Link>
           <UpdateSourceStatementsOrderMutationComponent mutation={UpdateSourceStatementsOrder}>
             {(updateSourceStatementsOrder) => (
-              <button
-                type="button"
-                className="btn btn-primary"
+              <Button
                 disabled={this.state.isSubmitting}
+                intent={Intent.PRIMARY}
                 style={{ marginLeft: 7 }}
                 onClick={this.save(updateSourceStatementsOrder)}
-              >
-                {this.state.isSubmitting ? 'Ukládám ...' : 'Uložit'}
-              </button>
+                text={this.state.isSubmitting ? 'Ukládám ...' : 'Uložit'}
+              />
             )}
           </UpdateSourceStatementsOrderMutationComponent>
         </div>
 
-        <h3>Seřadit výroky ze zdroje {this.props.source.name}</h3>
-        <div style={{ margin: '30px 0' }}>
+        <h2>Seřadit výroky ze zdroje {this.props.source.name}</h2>
+
+        <div style={{ marginTop: 30 }}>
           <DragDropContext onDragEnd={this.onDragEnd}>
             <Droppable droppableId="droppable">
               {(droppableProvided) => (
