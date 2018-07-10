@@ -8,6 +8,7 @@ import { Mutation, Query } from 'react-apollo';
 import { connect, Dispatch } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Link, withRouter } from 'react-router-dom';
+import * as yup from 'yup';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import {
@@ -19,6 +20,7 @@ import {
 } from '../operation-result-types';
 import { CreateStatement } from '../queries/mutations';
 import { GetSource, GetSourceStatements } from '../queries/queries';
+import SelectComponentField from './forms/controls/SelectComponentField';
 import SelectField from './forms/controls/SelectField';
 import TextareaField from './forms/controls/TextareaField';
 import UserSelect from './forms/controls/UserSelect';
@@ -83,13 +85,9 @@ class StatementNew extends React.Component<IProps> {
               {(createStatement) => (
                 <Formik
                   initialValues={initialValues}
-                  validate={(values) => {
-                    const errors: { [key: string]: any } = {};
-                    if (values.content.trim() === '') {
-                      errors.content = 'Je třeba vyplnit znění výroku';
-                    }
-                    return errors;
-                  }}
+                  validationSchema={yup.object().shape({
+                    content: yup.string().required('Je třeba vyplnit znění výroku'),
+                  })}
                   onSubmit={(values, { setSubmitting }) => {
                     const note = values.note.trim();
 
@@ -119,7 +117,7 @@ class StatementNew extends React.Component<IProps> {
                       });
                   }}
                 >
-                  {({ values, touched, errors, handleChange, handleBlur, isSubmitting }) => (
+                  {({ isSubmitting }) => (
                     <div style={{ padding: '15px 0 40px 0' }}>
                       <Form>
                         <div style={{ float: 'right' }}>
@@ -151,21 +149,13 @@ class StatementNew extends React.Component<IProps> {
                               />
                             </FormGroup>
                             <FormGroup label="Řečník" name="speaker_id">
-                              <div className={Classes.SELECT}>
-                                <select
-                                  id="speaker_id"
-                                  name="speaker_id"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={values.speaker_id}
-                                >
-                                  {source.speakers.map((s) => (
-                                    <option key={s.id} value={s.id}>
-                                      {s.first_name} {s.last_name}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
+                              <SelectField
+                                name="speaker_id"
+                                options={source.speakers.map((s) => ({
+                                  label: `${s.first_name} ${s.last_name}`,
+                                  value: s.id,
+                                }))}
+                              />
                             </FormGroup>
                           </div>
                         </div>
@@ -176,14 +166,13 @@ class StatementNew extends React.Component<IProps> {
                           </div>
                           <div style={{ flex: '1 1' }}>
                             <FormGroup label="Ověřovatel" name="evaluator_id" optional>
-                              <SelectField name="evaluator_id">
+                              <SelectComponentField name="evaluator_id">
                                 {(renderProps) => <UserSelect {...renderProps} />}
-                              </SelectField>
+                              </SelectComponentField>
                             </FormGroup>
                             <FormGroup
                               label="Poznámka pro ověřování"
                               name="note"
-                              error={touched.note && errors.note}
                               helperText="Bude přidána jako první komentář v diskuzi k výroku."
                               optional
                             >

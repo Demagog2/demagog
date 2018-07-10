@@ -13,7 +13,7 @@ import SpeakerAvatar from '../SpeakerAvatar';
 import BodySelect from './controls/BodySelect';
 import DateField from './controls/DateField';
 import ImageField, { ImageValueType } from './controls/ImageField';
-import SelectField from './controls/SelectField';
+import SelectComponentField from './controls/SelectComponentField';
 import TextField from './controls/TextField';
 import FormGroup from './FormGroup';
 
@@ -132,9 +132,9 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
                         <div key={index} style={{ display: 'flex' }}>
                           <div style={{ flex: '1 1 300px' }}>
                             <FormGroup label="Strana/skupina" name={`memberships.${index}.body_id`}>
-                              <SelectField name={`memberships.${index}.body_id`}>
+                              <SelectComponentField name={`memberships.${index}.body_id`}>
                                 {(renderProps) => <BodySelect {...renderProps} />}
-                              </SelectField>
+                              </SelectComponentField>
                             </FormGroup>
                           </div>
                           <div style={{ flex: '0 1 190px', marginLeft: 15 }}>

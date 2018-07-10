@@ -11,7 +11,7 @@ import { GetSourceQuery, SourceInputType } from '../../operation-result-types';
 import DateField from './controls/DateField';
 import MediaPersonalitiesSelect from './controls/MediaPersonalitySelect';
 import MediumSelect from './controls/MediumSelect';
-import SelectField from './controls/SelectField';
+import SelectComponentField from './controls/SelectComponentField';
 import SpeakersSelect from './controls/SpeakersSelect';
 import TextareaField from './controls/TextareaField';
 import TextField from './controls/TextField';
@@ -105,18 +105,18 @@ export class SourceForm extends React.Component<ISourceFormProps> {
                 <div style={{ display: 'flex' }}>
                   <div style={{ flex: '1 1' }}>
                     <FormGroup name="medium_id" label="Pořad">
-                      <SelectField name="medium_id">
-                        {(selectInput) => <MediumSelect {...selectInput} />}
-                      </SelectField>
+                      <SelectComponentField name="medium_id">
+                        {(renderProps) => <MediumSelect {...renderProps} />}
+                      </SelectComponentField>
                     </FormGroup>
                   </div>
                   <div style={{ flex: '1 1', marginLeft: 15 }}>
                     <FormGroup name="media_personality_id" label="Moderátor">
-                      <SelectField name="media_personality_id">
-                        {(selectInput) => (
-                          <MediaPersonalitiesSelect mediumId={values.medium_id} {...selectInput} />
+                      <SelectComponentField name="media_personality_id">
+                        {(renderProps) => (
+                          <MediaPersonalitiesSelect mediumId={values.medium_id} {...renderProps} />
                         )}
-                      </SelectField>
+                      </SelectComponentField>
                     </FormGroup>
                   </div>
                 </div>
@@ -137,9 +137,9 @@ export class SourceForm extends React.Component<ISourceFormProps> {
               </div>
               <div style={{ flex: '1 1' }}>
                 <FormGroup name="speakers" label="Řečníci">
-                  <SelectField name="speakers">
-                    {(selectInput) => <SpeakersSelect {...selectInput} />}
-                  </SelectField>
+                  <SelectComponentField name="speakers">
+                    {(renderProps) => <SpeakersSelect {...renderProps} />}
+                  </SelectComponentField>
                 </FormGroup>
               </div>
             </div>

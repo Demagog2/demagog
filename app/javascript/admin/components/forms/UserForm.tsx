@@ -11,7 +11,7 @@ import { GetUserQuery, UserInputType } from '../../operation-result-types';
 import SpeakerAvatar from '../SpeakerAvatar';
 import ImageField, { ImageValueType } from './controls/ImageField';
 import RoleSelect from './controls/RoleSelect';
-import SelectField from './controls/SelectField';
+import SelectComponentField from './controls/SelectComponentField';
 import SwitchField from './controls/SwitchField';
 import TextareaField from './controls/TextareaField';
 import TextField from './controls/TextField';
@@ -129,9 +129,9 @@ export class UserForm extends React.Component<IUserFormProps> {
                   <SwitchField name="active" label="Aktivovaný uživatel" />
                 </div>
                 <FormGroup label="Přístupová práva" name="role_id">
-                  <SelectField name="role_id">
-                    {(selectInput) => <RoleSelect {...selectInput} />}
-                  </SelectField>
+                  <SelectComponentField name="role_id">
+                    {(renderProps) => <RoleSelect {...renderProps} />}
+                  </SelectComponentField>
                 </FormGroup>
               </div>
             </div>

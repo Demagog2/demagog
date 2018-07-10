@@ -1,55 +1,59 @@
 import * as React from 'react';
 
-// import { Colors } from '@blueprintjs/core';
+import { Classes, Colors } from '@blueprintjs/core';
 import { Field, FieldProps, getIn } from 'formik';
-// import Select, { ReactSelectProps } from 'react-select';
 
-// export interface ISelectInputProps extends ReactSelectProps {
-//   error?: object | false;
-// }
-
-// class SelectInput extends React.Component<ISelectInputProps> {
-//   public render() {
-//     return (
-//       <Select
-//         style={{
-//           borderColor: this.props.error ? Colors.RED3 : Colors.LIGHT_GRAY1,
-//         }}
-//       />
-//     );
-//   }
-// }
-
-interface ISelectFieldRenderProps {
-  error: object | false;
-  id: string;
-  name: string;
-  onChange: (value: any) => void;
-  onBlur: () => void;
-  value: any;
+interface ISelectInputProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  error?: object | false;
+  options: Array<{ label: string; value: any }>;
 }
 
-interface ISelectFieldProps {
+class SelectInput extends React.Component<ISelectInputProps> {
+  public render() {
+    const { error, options, style, ...restProps } = this.props;
+
+    const selectStyle = Object.assign(
+      error
+        ? {
+            boxShadow: `inset 0 0 3px ${Colors.RED3}`,
+          }
+        : {},
+      style || {},
+    );
+
+    return (
+      <div className={Classes.SELECT}>
+        <select style={selectStyle} {...restProps}>
+          {options.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      </div>
+    );
+  }
+}
+
+interface ISelectFieldProps extends ISelectInputProps {
   name: string;
-  children: (selectInputProps: ISelectFieldRenderProps) => React.ReactNode;
 }
 
 const SelectField = (props: ISelectFieldProps) => {
-  const { children, name } = props;
+  const { name, ...restProps } = props;
 
   return (
     <Field
       name={name}
-      render={({ field, form }: FieldProps) =>
-        children({
-          error: getIn(form.touched, name) && getIn(form.errors, name),
-          id: name,
-          name,
-          onChange: (value) => form.setFieldValue(name, value),
-          onBlur: () => form.setFieldTouched(name),
-          value: field.value,
-        })
-      }
+      render={({ field, form }: FieldProps) => (
+        <SelectInput
+          id={name}
+          name={name}
+          error={getIn(form.touched, name) && getIn(form.errors, name)}
+          {...field}
+          {...restProps}
+        />
+      )}
     />
   );
 };

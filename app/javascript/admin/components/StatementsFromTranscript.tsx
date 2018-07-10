@@ -9,6 +9,7 @@ import { isEqual } from 'lodash';
 import { DateTime } from 'luxon';
 import { Mutation, Query } from 'react-apollo';
 import { Link, RouteComponentProps } from 'react-router-dom';
+import * as yup from 'yup';
 
 import * as Slate from 'slate';
 import Plain from 'slate-plain-serializer';
@@ -25,6 +26,7 @@ import {
 import { CreateStatement } from '../queries/mutations';
 import { GetSource, GetSourceStatements } from '../queries/queries';
 import { displayDate, pluralize } from '../utils';
+import SelectComponentField from './forms/controls/SelectComponentField';
 import SelectField from './forms/controls/SelectField';
 import TextareaField from './forms/controls/TextareaField';
 import UserSelect from './forms/controls/UserSelect';
@@ -309,13 +311,9 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
         {(createStatement) => (
           <Formik
             initialValues={initialValues}
-            validate={(values) => {
-              const errors: { [key: string]: any } = {};
-              if (values.content.trim() === '') {
-                errors.content = 'Je třeba vyplnit znění výroku';
-              }
-              return errors;
-            }}
+            validationSchema={yup.object().shape({
+              content: yup.string().required('Je třeba vyplnit znění výroku'),
+            })}
             onSubmit={(values, { setSubmitting }) => {
               const note = values.note.trim();
 
@@ -352,7 +350,7 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
                 });
             }}
           >
-            {({ values, handleChange, handleBlur, isSubmitting }) => (
+            {({ isSubmitting }) => (
               <Form>
                 <Card
                   style={{
@@ -378,26 +376,18 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
                       <TextareaField name="content" rows={5} autoFocus />
                     </FormGroup>
                     <FormGroup label="Řečník" name="speaker_id">
-                      <div className={Classes.SELECT}>
-                        <select
-                          id="speaker"
-                          name="speaker_id"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.speaker_id}
-                        >
-                          {source.speakers.map((s) => (
-                            <option key={s.id} value={s.id}>
-                              {s.first_name} {s.last_name}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
+                      <SelectField
+                        name="speaker_id"
+                        options={source.speakers.map((s) => ({
+                          label: `${s.first_name} ${s.last_name}`,
+                          value: s.id,
+                        }))}
+                      />
                     </FormGroup>
                     <FormGroup label="Ověřovatel" name="evaluator_id" optional>
-                      <SelectField name="evaluator_id">
+                      <SelectComponentField name="evaluator_id">
                         {(renderProps) => <UserSelect {...renderProps} />}
-                      </SelectField>
+                      </SelectComponentField>
                     </FormGroup>
                     <FormGroup
                       label="Poznámka pro ověřování"
