@@ -16,7 +16,9 @@ DEMAGOG_IMAGE_SERVICE_URL=https://pacific-meadow-53023.herokuapp.com
 LEGACY_DATABASE_URL=mysql2://username:password@server/database
 
 # You can speed up your local full DB migration by setting path to local
-# image cache. Images will be downloaded from the image service only once.
+# image cache. Images will be downloaded from the image service to the cache
+# only once and then the migration will take images from the cache. This
+# setting is optional.
 MIGRATION_IMAGE_CACHE=/tmp/demagog_image_cache
 
 # S3 keys are needed for non-development environment only
