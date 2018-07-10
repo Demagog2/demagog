@@ -84,10 +84,11 @@ jobs:
             bundle exec rake test
 
       # run more tests!
-      - run:
-          name: run jest
-          command: |
-            yarn run jest
+      # TODO: uncomment when we have some JS tests
+      # - run:
+      #     name: run jest
+      #     command: |
+      #       yarn run jest
 
       # collect reports
       # - store_test_results:
