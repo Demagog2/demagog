@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { faBold } from '@fortawesome/free-solid-svg-icons';
+import { IconNames } from '@blueprintjs/icons';
 import * as Slate from 'slate';
 import { Rule } from 'slate-html-serializer';
 import { RenderMarkProps } from 'slate-react';
@@ -12,7 +12,7 @@ import ToolbarMarkButton from '../helperPlugins/ToolbarMarkButton';
 export default function Bold() {
   return {
     plugins: [Hotkey('mod+b', addBoldMark), RenderMark('bold', (props) => <BoldMark {...props} />)],
-    toolbarItem: ToolbarMarkButton(faBold, addBoldMark, hasBoldMark),
+    toolbarItem: ToolbarMarkButton(IconNames.BOLD, addBoldMark, hasBoldMark),
     htmlSerializerRule,
   };
 }

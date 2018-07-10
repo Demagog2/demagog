@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { Colors } from '@blueprintjs/core';
+
 import bodyLogoPlaceholder from 'images/admin/body_logo_placeholder.png';
 
 interface IArticleIllustrationProps {
@@ -12,7 +14,17 @@ export default function ArticleIllustration(props: IArticleIllustrationProps) {
 
   return (
     <div style={{ maxWidth: 106 }}>
-      <img src={src} alt={props.title} className="img-thumbnail" />
+      <img
+        src={src}
+        alt={props.title}
+        style={{
+          padding: 4,
+          border: `1px solid ${Colors.GRAY5}`,
+          borderRadius: 4,
+          maxWidth: '100%',
+          height: 'auto',
+        }}
+      />
     </div>
   );
 }

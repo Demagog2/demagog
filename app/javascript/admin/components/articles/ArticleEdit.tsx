@@ -27,15 +27,7 @@ interface IArticleEditProps extends RouteComponentProps<{ id: string }> {
   dispatch: Dispatch;
 }
 
-interface IArticleEditState {
-  submitting: boolean;
-}
-
-class ArticleEdit extends React.Component<IArticleEditProps, IArticleEditState> {
-  public state: IArticleEditState = {
-    submitting: false,
-  };
-
+class ArticleEdit extends React.Component<IArticleEditProps> {
   public onSuccess = () => {
     this.props.dispatch(addFlashMessage('Článek byl úspěšně uložen.', 'success'));
   };
@@ -53,8 +45,6 @@ class ArticleEdit extends React.Component<IArticleEditProps, IArticleEditState> 
 
     const id = this.getParamId();
 
-    this.setState({ submitting: true });
-
     let imageUpload: Promise<any> = Promise.resolve();
     if (illustration instanceof File) {
       imageUpload = uploadArticleIllustration(id, illustration);
@@ -62,11 +52,10 @@ class ArticleEdit extends React.Component<IArticleEditProps, IArticleEditState> 
       imageUpload = deleteArticleIllustration(id);
     }
 
-    imageUpload
+    return imageUpload
       .then(() => updateArticle({ variables: { id, articleInput } }))
       .then(() => this.onSuccess())
-      .catch((error) => this.onError(error))
-      .finally(() => this.setState({ submitting: false }));
+      .catch((error) => this.onError(error));
   };
 
   public getParamId = () => this.props.match.params.id;
@@ -97,9 +86,8 @@ class ArticleEdit extends React.Component<IArticleEditProps, IArticleEditState> 
                 {(updateArticle) => {
                   return (
                     <ArticleForm
-                      articleQuery={data}
+                      article={data.article}
                       onSubmit={this.onSubmit(updateArticle, data)}
-                      submitting={this.state.submitting}
                       title="Upravit článek"
                       backPath="/admin/articles"
                     />

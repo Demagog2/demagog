@@ -26,15 +26,7 @@ interface ISourceEditProps extends RouteComponentProps<{ id: string }> {
   dispatch: Dispatch;
 }
 
-interface ISourceEditState {
-  submitting: boolean;
-}
-
-class SourceEdit extends React.Component<ISourceEditProps, ISourceEditState> {
-  public state: ISourceEditState = {
-    submitting: false,
-  };
-
+class SourceEdit extends React.Component<ISourceEditProps> {
   public onSuccess = () => {
     this.props.dispatch(addFlashMessage('Zdroj výroků byl úspěšně uložen.', 'success'));
   };
@@ -48,11 +40,7 @@ class SourceEdit extends React.Component<ISourceEditProps, ISourceEditState> {
   public onSubmit = (updateSource: UpdateSourceMutationFn) => (sourceInput: SourceInputType) => {
     const id = this.getParamId();
 
-    this.setState({ submitting: true });
-
-    updateSource({ variables: { id, sourceInput } }).finally(() => {
-      this.setState({ submitting: false });
-    });
+    return updateSource({ variables: { id, sourceInput } });
   };
 
   public getParamId = () => parseInt(this.props.match.params.id, 10);
@@ -86,9 +74,8 @@ class SourceEdit extends React.Component<ISourceEditProps, ISourceEditState> {
                   return (
                     <SourceForm
                       backPath={`/admin/sources/${data.source.id}`}
-                      sourceQuery={data}
+                      source={data.source}
                       onSubmit={this.onSubmit(updateSource)}
-                      submitting={this.state.submitting}
                       title="Upravit zdroj"
                     />
                   );

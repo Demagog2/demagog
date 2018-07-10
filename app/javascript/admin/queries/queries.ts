@@ -213,7 +213,7 @@ export const GetBody = gql`
   }
 `;
 
-export const GetSpeakersBodies = gql`
+export const GetSpeakerBodies = gql`
   query GetSpeakerBodies {
     bodies(limit: 1000) {
       id

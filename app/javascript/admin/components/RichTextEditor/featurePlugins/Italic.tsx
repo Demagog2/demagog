@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { faItalic } from '@fortawesome/free-solid-svg-icons';
+import { IconNames } from '@blueprintjs/icons';
 import * as Slate from 'slate';
 import { Rule } from 'slate-html-serializer';
 import { RenderMarkProps } from 'slate-react';
@@ -15,7 +15,7 @@ export default function Italic() {
       Hotkey('mod+i', addItalicMark),
       RenderMark('italic', (props) => <ItalicMark {...props} />),
     ],
-    toolbarItem: ToolbarMarkButton(faItalic, addItalicMark, hasItalicMark),
+    toolbarItem: ToolbarMarkButton(IconNames.ITALIC, addItalicMark, hasItalicMark),
     htmlSerializerRule,
   };
 }

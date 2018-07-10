@@ -49,24 +49,20 @@ export interface MembershipInputType {
   id?: string | null,
   since?: string | null,
   until?: string | null,
-  body: MembershipBodyInputType,
-};
-
-export interface MembershipBodyInputType {
-  id: string,
+  body_id: string,
 };
 
 export interface UserInputType {
   email: string,
   active: boolean,
-  first_name?: string | null,
-  last_name?: string | null,
+  first_name: string,
+  last_name: string,
+  role_id: string,
   position_description?: string | null,
   bio?: string | null,
   phone?: string | null,
   order?: number | null,
   rank?: number | null,
-  role_id?: string | null,
 };
 
 export interface CreateStatementInputType {
@@ -309,10 +305,13 @@ export interface CreateUserMutation {
   // Add new user
   createUser:  {
     id: string,
-    first_name: string | null,
-    last_name: string | null,
+    first_name: string,
+    last_name: string,
+    email: string,
     avatar: string | null,
     active: boolean,
+    position_description: string | null,
+    bio: string | null,
     role:  {
       id: string,
       name: string,
@@ -329,10 +328,13 @@ export interface UpdateUserMutation {
   // Update existing user
   updateUser:  {
     id: string,
-    first_name: string | null,
-    last_name: string | null,
+    first_name: string,
+    last_name: string,
+    email: string,
     avatar: string | null,
     active: boolean,
+    position_description: string | null,
+    bio: string | null,
     role:  {
       id: string,
       name: string,
@@ -393,8 +395,8 @@ export interface UpdateStatementMutation {
       evaluation_status: string,
       evaluator:  {
         id: string,
-        first_name: string | null,
-        last_name: string | null,
+        first_name: string,
+        last_name: string,
       } | null,
       veracity:  {
         id: string,
@@ -426,8 +428,8 @@ export interface CreateCommentMutation {
     content: string,
     user:  {
       id: string,
-      first_name: string | null,
-      last_name: string | null,
+      first_name: string,
+      last_name: string,
     },
     created_at: GraphQLCustomScalar_DateTime,
   } | null,
@@ -577,8 +579,8 @@ export interface GetSourceStatementsQuery {
       evaluation_status: string,
       evaluator:  {
         id: string,
-        first_name: string | null,
-        last_name: string | null,
+        first_name: string,
+        last_name: string,
       } | null,
     },
     statement_transcript_position:  {
@@ -602,8 +604,8 @@ export interface GetUsersQuery {
   users:  Array< {
     id: string,
     email: string,
-    first_name: string | null,
-    last_name: string | null,
+    first_name: string,
+    last_name: string,
     avatar: string | null,
     active: boolean,
     bio: string | null,
@@ -623,8 +625,8 @@ export interface GetUserQuery {
   user:  {
     id: string,
     email: string,
-    first_name: string | null,
-    last_name: string | null,
+    first_name: string,
+    last_name: string,
     avatar: string | null,
     active: boolean,
     bio: string | null,
@@ -756,8 +758,8 @@ export interface GetStatementQuery {
       evaluation_status: string,
       evaluator:  {
         id: string,
-        first_name: string | null,
-        last_name: string | null,
+        first_name: string,
+        last_name: string,
       } | null,
       veracity:  {
         id: string,
@@ -796,8 +798,8 @@ export interface GetStatementCommentsQuery {
       content: string,
       user:  {
         id: string,
-        first_name: string | null,
-        last_name: string | null,
+        first_name: string,
+        last_name: string,
       },
       created_at: GraphQLCustomScalar_DateTime,
     } >,
@@ -815,8 +817,8 @@ export interface GetRolesQuery {
 export interface GetCurrentUserQuery {
   current_user:  {
     id: string,
-    first_name: string | null,
-    last_name: string | null,
+    first_name: string,
+    last_name: string,
     email: string,
     role:  {
       id: string,

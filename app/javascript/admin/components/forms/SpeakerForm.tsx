@@ -2,73 +2,77 @@
 
 import * as React from 'react';
 
-import { Button, Classes, FormGroup, Intent } from '@blueprintjs/core';
-import * as classNames from 'classnames';
+import { Button, Classes, Intent } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
+import { FieldArray, Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
+import * as yup from 'yup';
 
 import { GetSpeakerQuery, SpeakerInputType } from '../../operation-result-types';
 import SpeakerAvatar from '../SpeakerAvatar';
-import ImageInput, { ImageValueType } from './controls/ImageInput';
-import { Form } from './Form';
-
-import { MembershipForm } from './MembershipForm';
+import BodySelect from './controls/BodySelect';
+import DateField from './controls/DateField';
+import ImageField, { ImageValueType } from './controls/ImageField';
+import SelectField from './controls/SelectField';
+import TextField from './controls/TextField';
+import FormGroup from './FormGroup';
 
 export interface ISpeakerFormData extends SpeakerInputType {
   avatar: ImageValueType;
 }
 
-class SpeakerFormInternal extends Form<ISpeakerFormData> {}
-
 interface ISpeakerFormProps {
-  speakerQuery?: GetSpeakerQuery;
-  onSubmit: (formData: ISpeakerFormData) => void;
-  submitting: boolean;
+  speaker?: GetSpeakerQuery['speaker'];
+  onSubmit: (formData: ISpeakerFormData) => Promise<any>;
   title: string;
 }
 
-// tslint:disable-next-line:max-classes-per-file
 export class SpeakerForm extends React.Component<ISpeakerFormProps> {
-  public static defaultProps = {
-    speakerQuery: {
-      speaker: {
-        id: '',
-
-        first_name: '',
-        last_name: '',
-        avatar: null,
-        website_url: '',
-
-        memberships: [],
-      },
-    },
-  };
-
   public render() {
-    const { speakerQuery, submitting, title } = this.props;
+    const { speaker, title } = this.props;
 
-    if (!speakerQuery) {
-      return null;
-    }
-
-    const defaultValues: ISpeakerFormData = {
-      first_name: speakerQuery.speaker.first_name,
-      last_name: speakerQuery.speaker.last_name,
-      avatar: speakerQuery.speaker.avatar,
-      website_url: speakerQuery.speaker.website_url,
-      memberships: speakerQuery.speaker.memberships.map((m) => ({
-        id: m.id,
-        since: m.since,
-        until: m.until,
-        body: {
-          id: m.body.id,
-        },
-      })),
+    const initialValues = {
+      first_name: speaker ? speaker.first_name : '',
+      last_name: speaker ? speaker.last_name : '',
+      avatar: speaker ? speaker.avatar : null,
+      website_url: speaker ? speaker.website_url : '',
+      memberships: speaker
+        ? speaker.memberships.map((m) => ({
+            id: m.id,
+            body_id: m.body.id,
+            since: m.since,
+            until: m.until,
+          }))
+        : [],
     };
 
     return (
-      <SpeakerFormInternal defaultValues={defaultValues} onSubmit={this.props.onSubmit}>
-        {({ onInputChange, onImageChange, onAssociationChange }) => (
-          <div>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={yup.object().shape({
+          first_name: yup.string().required('Je třeba vyplnit jméno'),
+          last_name: yup.string().required('Je třeba vyplnit příjmení'),
+          memberships: yup.array().of(
+            yup.object().shape({
+              body_id: yup.mixed().notOneOf([null], 'Je třeba vybrat stranu či skupinu'),
+            }),
+          ),
+        })}
+        onSubmit={(values, { setSubmitting }) => {
+          const formData: ISpeakerFormData = values;
+
+          this.props
+            .onSubmit(formData)
+            .then(() => {
+              setSubmitting(false);
+            })
+            .catch(() => {
+              setSubmitting(false);
+            });
+        }}
+      >
+        {({ values, isSubmitting }) => (
+          <Form>
             <div style={{ float: 'right' }}>
               <Link to="/admin/speakers" className={Classes.BUTTON}>
                 Zpět
@@ -77,8 +81,8 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
                 type="submit"
                 intent={Intent.PRIMARY}
                 style={{ marginLeft: 7 }}
-                disabled={submitting}
-                text={submitting ? 'Ukládám ...' : 'Uložit'}
+                disabled={isSubmitting}
+                text={isSubmitting ? 'Ukládám…' : 'Uložit'}
               />
             </div>
 
@@ -91,49 +95,27 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
               <div style={{ flex: '1 1' }}>
                 <div style={{ display: 'flex' }}>
                   <div style={{ flex: '1 1' }}>
-                    <FormGroup label="Jméno" labelFor="first-name">
-                      <input
-                        id="first-name"
-                        className={classNames(Classes.INPUT, Classes.FILL)}
-                        type="text"
-                        dir="auto"
-                        defaultValue={defaultValues.first_name}
-                        onChange={onInputChange('first_name')}
-                      />
+                    <FormGroup label="Jméno" name="first_name">
+                      <TextField name="first_name" />
                     </FormGroup>
                   </div>
                   <div style={{ flex: '1 1', marginLeft: 15 }}>
-                    <FormGroup label="Přijmení" labelFor="last-name">
-                      <input
-                        id="last-name"
-                        className={classNames(Classes.INPUT, Classes.FILL)}
-                        type="text"
-                        dir="auto"
-                        defaultValue={defaultValues.last_name}
-                        onChange={onInputChange('last_name')}
-                      />
+                    <FormGroup label="Přijmení" name="last_name">
+                      <TextField name="last_name" />
                     </FormGroup>
                   </div>
                 </div>
 
-                <FormGroup label="Portrét">
-                  <ImageInput
-                    defaultValue={defaultValues.avatar}
-                    onChange={onImageChange('avatar')}
-                    renderImage={(src) => <SpeakerAvatar avatar={src} />}
-                  />
+                <FormGroup label="Portrét" name="avatar" optional>
+                  <ImageField name="avatar" renderImage={(src) => <SpeakerAvatar avatar={src} />} />
                 </FormGroup>
 
-                <FormGroup label="Respektovaný odkaz (wiki, nasipolitici)" labelFor="website-url">
-                  <input
-                    type="text"
-                    dir="auto"
-                    id="website-url"
-                    placeholder="http://www…"
-                    className={classNames(Classes.INPUT, Classes.FILL)}
-                    defaultValue={defaultValues.website_url || undefined}
-                    onChange={onInputChange('website_url')}
-                  />
+                <FormGroup
+                  label="Respektovaný odkaz (wiki, nasipolitici)"
+                  name="website_url"
+                  optional
+                >
+                  <TextField name="website_url" placeholder="http://www…" />
                 </FormGroup>
               </div>
             </div>
@@ -142,15 +124,54 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
                 <h4>Příslušnost ke stranám/skupinám</h4>
               </div>
               <div style={{ flex: '1 1' }}>
-                <MembershipForm
-                  memberships={defaultValues.memberships}
-                  onChange={onAssociationChange('memberships')}
+                <FieldArray
+                  name="memberships"
+                  render={(arrayHelpers) => (
+                    <div>
+                      {values.memberships.map((_0, index) => (
+                        <div key={index} style={{ display: 'flex' }}>
+                          <div style={{ flex: '1 1 300px' }}>
+                            <FormGroup label="Strana/skupina" name={`memberships.${index}.body_id`}>
+                              <SelectField name={`memberships.${index}.body_id`}>
+                                {(renderProps) => <BodySelect {...renderProps} />}
+                              </SelectField>
+                            </FormGroup>
+                          </div>
+                          <div style={{ flex: '0 1 190px', marginLeft: 15 }}>
+                            <FormGroup label="Od" name={`memberships.${index}.since`} optional>
+                              <DateField name={`memberships.${index}.since`} />
+                            </FormGroup>
+                          </div>
+                          <div style={{ flex: '0 1 190px', marginLeft: 15 }}>
+                            <FormGroup label="Do" name={`memberships.${index}.until`} optional>
+                              <DateField name={`memberships.${index}.until`} />
+                            </FormGroup>
+                          </div>
+                          <div style={{ flex: '0 0 30px', marginLeft: 15, paddingTop: 15 }}>
+                            <Button
+                              icon={IconNames.TRASH}
+                              onClick={() => arrayHelpers.remove(index)}
+                              minimal
+                              title="Odstranit příslušnost"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                      <Button
+                        onClick={() =>
+                          arrayHelpers.push({ body_id: null, since: null, until: null })
+                        }
+                        icon={IconNames.PLUS}
+                        text="Přidat příslušnost ke straně nebo skupině"
+                      />
+                    </div>
+                  )}
                 />
               </div>
             </div>
-          </div>
+          </Form>
         )}
-      </SpeakerFormInternal>
+      </Formik>
     );
   }
 }

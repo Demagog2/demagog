@@ -31,31 +31,21 @@ class UpdateUserMutationComponent extends Mutation<
 interface IUpdateUserMutationFn
   extends MutationFn<UpdateUserMutation, UpdateUserMutationVariables> {}
 
-interface ISpeakerEditProps extends RouteComponentProps<{ id: string }> {
+interface IUserEditProps extends RouteComponentProps<{ id: string }> {
   id: number;
   currentUser: IState['currentUser']['user'];
   dispatch: Dispatch;
 }
 
-interface ISpeakerEditState {
-  submitting: boolean;
-}
-
-class UserEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> {
-  public state = {
-    submitting: false,
-  };
-
-  private onFormSubmit = (
+class UserEdit extends React.Component<IUserEditProps> {
+  public onFormSubmit = (
     id: number,
     updateUser: IUpdateUserMutationFn,
     previousData: GetUserQueryData,
-  ) => (speakerFormData: IUserFormData) => {
-    const { avatar, ...userInput } = speakerFormData;
+  ) => (formData: IUserFormData) => {
+    const { avatar, ...userInput } = formData;
 
     // TODO: do not allow deactivating ourselves
-
-    this.setState({ submitting: true });
 
     // We want to first update the avatar and then run mutation so the avatar
     // gets automatically refresh in Apollo's cache from the mutation result data
@@ -66,19 +56,17 @@ class UserEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> {
       avatarPromise = deleteUserAvatar(id);
     }
 
-    avatarPromise
+    return avatarPromise
       .then(() => updateUser({ variables: { id, userInput } }))
       .then(() => {
-        this.setState({ submitting: false });
         this.onCompleted();
       })
       .catch((error) => {
-        this.setState({ submitting: false });
         this.onError(error);
       });
   };
 
-  private onCompleted = () => {
+  public onCompleted = () => {
     this.props.dispatch(addFlashMessage('Uložení proběhlo v pořádku', 'success'));
 
     if (this.props.currentUser && this.props.match.params.id === this.props.currentUser.id) {
@@ -87,16 +75,13 @@ class UserEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> {
     }
   };
 
-  private onError = (error: any) => {
+  public onError = (error: any) => {
     this.props.dispatch(addFlashMessage('Doško k chybě při uložení dat', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
 
-  // tslint:disable-next-line:member-ordering
   public render() {
-    const { submitting } = this.state;
-
     const id = parseInt(this.props.match.params.id, 10);
 
     return (
@@ -115,10 +100,10 @@ class UserEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> {
               <UpdateUserMutationComponent mutation={UpdateUser}>
                 {(updateUser) => (
                   <UserForm
-                    userQuery={data}
                     onSubmit={this.onFormSubmit(id, updateUser, data)}
-                    submitting={submitting}
+                    // submitting={submitting}
                     title="Upravit člena týmu"
+                    user={data.user}
                   />
                 )}
               </UpdateUserMutationComponent>

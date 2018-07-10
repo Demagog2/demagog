@@ -2,57 +2,76 @@
 
 import * as React from 'react';
 
-import { Button, Classes, FormGroup, Intent, Switch } from '@blueprintjs/core';
-import * as classNames from 'classnames';
+import { Button, Classes, Intent } from '@blueprintjs/core';
+import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
+import * as yup from 'yup';
 
 import { BodyInputType, GetBodyQuery } from '../../operation-result-types';
 import BodyLogo from '../BodyLogo';
-import DateInput from './controls/DateInput2';
-import ImageInput, { ImageValueType } from './controls/ImageInput';
-import { Form } from './Form';
+import DateField from './controls/DateField';
+import ImageField, { ImageValueType } from './controls/ImageField';
+import SwitchField from './controls/SwitchField';
+import TextField from './controls/TextField';
+import FormGroup from './FormGroup';
 
 export interface IBodyFormData extends BodyInputType {
   logo: ImageValueType;
 }
 
 interface IBodyProps {
-  bodyQuery?: GetBodyQuery;
-  onSubmit: (formData: IBodyFormData) => void;
-  submitting: boolean;
+  body?: GetBodyQuery['body'];
+  onSubmit: (formData: IBodyFormData) => Promise<any>;
   title: string;
 }
 
-class BodyInternalForm extends Form<IBodyFormData> {}
-
 export class BodyForm extends React.Component<IBodyProps> {
-  public static defaultProps = {
-    bodyQuery: {
-      body: {
-        founded_at: '',
-        id: '',
-        is_inactive: false,
-        is_party: true,
-        link: '',
-        logo: null,
-        name: '',
-        short_name: '',
-        terminated_at: '',
-      },
-    },
-  };
-
   public render() {
-    const { bodyQuery, submitting, title } = this.props;
+    const { body, title } = this.props;
 
-    if (!bodyQuery) {
-      return null;
-    }
+    const initialValues = body
+      ? body
+      : {
+          name: '',
+          short_name: '',
+          link: '',
+          logo: null,
+          is_party: true,
+          founded_at: null,
+          is_inactive: false,
+          terminated_at: null,
+        };
 
     return (
-      <BodyInternalForm defaultValues={bodyQuery.body} onSubmit={this.props.onSubmit}>
-        {({ onAssociationChange, onInputChange, onCheckboxChange, onImageChange }, data) => (
-          <div>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={yup.object().shape({
+          name: yup.string().required('Je třeba vyplnit název'),
+        })}
+        onSubmit={(values, { setSubmitting }) => {
+          const formData: IBodyFormData = {
+            name: values.name,
+            short_name: values.short_name,
+            link: values.link,
+            logo: values.logo,
+            is_party: values.is_party,
+            founded_at: values.founded_at,
+            is_inactive: values.is_inactive,
+            terminated_at: values.terminated_at,
+          };
+
+          this.props
+            .onSubmit(formData)
+            .then(() => {
+              setSubmitting(false);
+            })
+            .catch(() => {
+              setSubmitting(false);
+            });
+        }}
+      >
+        {({ values, isSubmitting }) => (
+          <Form>
             <div style={{ float: 'right' }}>
               <Link to="/admin/bodies" className={Classes.BUTTON}>
                 Zpět
@@ -61,8 +80,8 @@ export class BodyForm extends React.Component<IBodyProps> {
                 type="submit"
                 intent={Intent.PRIMARY}
                 style={{ marginLeft: 7 }}
-                disabled={submitting}
-                text={submitting ? 'Ukládám ...' : 'Uložit'}
+                disabled={isSubmitting}
+                text={isSubmitting ? 'Ukládám ...' : 'Uložit'}
               />
             </div>
 
@@ -73,49 +92,27 @@ export class BodyForm extends React.Component<IBodyProps> {
                 <h4>Základní údaje</h4>
               </div>
               <div style={{ flex: '1 1' }}>
-                <FormGroup label="Název" labelFor="name">
-                  <input
-                    type="text"
-                    id="name"
-                    className={classNames(Classes.INPUT, Classes.FILL)}
-                    onChange={onInputChange('name')}
-                    defaultValue={bodyQuery.body.name}
-                  />
+                <FormGroup label="Název" name="name">
+                  <TextField name="name" />
                 </FormGroup>
-                <FormGroup label="Zkrácený název" labelFor="short-name">
-                  <input
-                    type="text"
-                    id="short-name"
-                    className={Classes.INPUT}
-                    onChange={onInputChange('short_name')}
-                    defaultValue={bodyQuery.body.short_name || ''}
-                  />
+                <FormGroup label="Zkrácený název" name="short-name" optional>
+                  <TextField name="short_name" className={Classes.INPUT} />
                 </FormGroup>
+                <SwitchField
+                  name="is_party"
+                  label="Jde o politickou stranu"
+                  style={{ marginBottom: 20 }}
+                />
                 <FormGroup
                   label="Respekovaný odkaz obsahující popis (wikipedia, nasipolitici, atp.)"
-                  labelFor="link"
+                  name="link"
+                  optional
                 >
-                  <input
-                    type="text"
-                    id="link"
-                    className={classNames(Classes.INPUT, Classes.FILL)}
-                    onChange={onInputChange('link')}
-                    defaultValue={bodyQuery.body.link || ''}
-                  />
+                  <TextField name="link" />
                 </FormGroup>
-                <FormGroup label="Logo">
-                  <ImageInput
-                    defaultValue={bodyQuery.body.logo}
-                    onChange={onImageChange('logo')}
-                    renderImage={(src) => <BodyLogo logo={src} />}
-                  />
+                <FormGroup label="Logo" name="logo" optional>
+                  <ImageField name="logo" renderImage={(src) => <BodyLogo logo={src} />} />
                 </FormGroup>
-                <Switch
-                  name="is-party"
-                  label="Jde o politickou stranu"
-                  onChange={onCheckboxChange('is_party')}
-                  defaultChecked={bodyQuery.body.is_party}
-                />
               </div>
             </div>
 
@@ -124,32 +121,22 @@ export class BodyForm extends React.Component<IBodyProps> {
                 <h4>Vznik a zánik</h4>
               </div>
               <div style={{ flex: '1 1' }}>
-                <FormGroup label="Datum vzniku" labelFor="founded-at">
-                  <DateInput
-                    id="founded-at"
-                    value={data.founded_at || null}
-                    onChange={onAssociationChange('founded_at')}
-                  />
+                <FormGroup label="Datum vzniku" name="founded_at" optional>
+                  <DateField name="founded_at" />
                 </FormGroup>
-                <Switch
-                  name="is-inactive"
+                <SwitchField
+                  name="is_inactive"
                   label="Skupina zanikla / není aktivní"
-                  onChange={onCheckboxChange('is_inactive')}
-                  defaultChecked={bodyQuery.body.is_inactive}
+                  style={{ marginBottom: 20 }}
                 />
-                <FormGroup label="Datum zániku" labelFor="terminated-at">
-                  <DateInput
-                    disabled={!data.is_inactive}
-                    id="terminated-at"
-                    value={data.terminated_at || null}
-                    onChange={onAssociationChange('terminated_at')}
-                  />
+                <FormGroup label="Datum zániku" name="terminated_at" optional>
+                  <DateField disabled={!values.is_inactive} name="terminated_at" />
                 </FormGroup>
               </div>
             </div>
-          </div>
+          </Form>
         )}
-      </BodyInternalForm>
+      </Formik>
     );
   }
 }

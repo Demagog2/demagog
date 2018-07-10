@@ -13,11 +13,14 @@ import { ISpeakerFormData, SpeakerForm } from './forms/SpeakerForm';
 
 import {
   GetSpeakerQuery,
+  GetSpeakerQueryVariables,
   UpdateSpeakerMutation,
   UpdateSpeakerMutationVariables,
 } from '../operation-result-types';
 import { UpdateSpeaker } from '../queries/mutations';
 import { GetSpeaker } from '../queries/queries';
+
+class GetSpeakerQueryComponent extends Query<GetSpeakerQuery, GetSpeakerQueryVariables> {}
 
 class UpdateSpeakerMutationComponent extends Mutation<
   UpdateSpeakerMutation,
@@ -31,16 +34,8 @@ interface ISpeakerEditProps extends RouteComponentProps<{ id: string }> {
   dispatch: Dispatch;
 }
 
-interface ISpeakerEditState {
-  submitting: boolean;
-}
-
-class SpeakerEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> {
-  public state = {
-    submitting: false,
-  };
-
-  private onFormSubmit = (
+class SpeakerEdit extends React.Component<ISpeakerEditProps> {
+  public onFormSubmit = (
     id: number,
     updateSpeaker: IUpdateSpeakerMutationFn,
     previousData: GetSpeakerQuery,
@@ -58,7 +53,7 @@ class SpeakerEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> 
       avatarPromise = deleteSpeakerAvatar(id);
     }
 
-    avatarPromise
+    return avatarPromise
       .then(() => updateSpeaker({ variables: { id, speakerInput } }))
       .then(() => {
         this.setState({ submitting: false });
@@ -70,27 +65,24 @@ class SpeakerEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> 
       });
   };
 
-  private onCompleted = () => {
+  public onCompleted = () => {
     this.props.dispatch(addFlashMessage('Uložení proběhlo v pořádku', 'success'));
   };
 
-  private onError = (error: any) => {
+  public onError = (error: any) => {
     this.props.dispatch(addFlashMessage('Doško k chybě při uložení dat', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
 
-  // tslint:disable-next-line:member-ordering
   public render() {
-    const { submitting } = this.state;
-
     const id = parseInt(this.props.match.params.id, 10);
 
     return (
       <div style={{ padding: '15px 0 40px 0' }}>
-        <Query query={GetSpeaker} variables={{ id }}>
+        <GetSpeakerQueryComponent query={GetSpeaker} variables={{ id }}>
           {({ data, loading, error }) => {
-            if (loading) {
+            if (loading || !data) {
               return <Loading />;
             }
 
@@ -102,16 +94,15 @@ class SpeakerEdit extends React.Component<ISpeakerEditProps, ISpeakerEditState> 
               <UpdateSpeakerMutationComponent mutation={UpdateSpeaker}>
                 {(updateSpeaker) => (
                   <SpeakerForm
-                    speakerQuery={data}
+                    speaker={data.speaker}
                     onSubmit={this.onFormSubmit(id, updateSpeaker, data)}
-                    submitting={submitting}
                     title="Upravit osobu"
                   />
                 )}
               </UpdateSpeakerMutationComponent>
             );
           }}
-        </Query>
+        </GetSpeakerQueryComponent>
       </div>
     );
   }

@@ -1,13 +1,13 @@
 import * as React from 'react';
 
-import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Icon } from '@blueprintjs/core';
+import { IconName } from '@blueprintjs/icons';
 import * as Slate from 'slate';
 
 import { IToolbarItem } from '../toolbar';
 
 export default function ToolbarMarkButton(
-  icon: IconDefinition,
+  icon: IconName,
   change: (change: Slate.Change) => Slate.Change,
   isActive: (value: Slate.Value) => boolean,
 ): IToolbarItem {
@@ -21,8 +21,12 @@ export default function ToolbarMarkButton(
       };
 
       return (
-        <span style={{ cursor: 'pointer', padding: '5px 10px' }} onMouseDown={onMouseDown}>
-          <FontAwesomeIcon icon={icon} color={isActive(value) ? '#000' : '#aaa'} />
+        <span
+          style={{ cursor: 'pointer', display: 'inline-block', padding: '3px 10px' }}
+          onMouseDown={onMouseDown}
+        >
+          {/* <FontAwesomeIcon icon={icon} color={isActive(value) ? '#000' : '#aaa'} /> */}
+          <Icon icon={icon} color={isActive(value) ? '#000' : '#aaa'} />
         </span>
       );
     },

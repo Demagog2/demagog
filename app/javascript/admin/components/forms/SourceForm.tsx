@@ -2,43 +2,26 @@
 
 import * as React from 'react';
 
-import { Classes, FormGroup } from '@blueprintjs/core';
-// import { DateInput } from '@blueprintjs/datetime';
-import * as classNames from 'classnames';
-import { get } from 'lodash';
+import { Button, Classes, Intent } from '@blueprintjs/core';
+import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
+import * as yup from 'yup';
 
 import { GetSourceQuery, SourceInputType } from '../../operation-result-types';
-import DateInput from './controls/DateInput2';
-// import { Input } from './controls/Input';
+import DateField from './controls/DateField';
 import MediaPersonalitiesSelect from './controls/MediaPersonalitySelect';
 import MediumSelect from './controls/MediumSelect';
+import SelectField from './controls/SelectField';
 import SpeakersSelect from './controls/SpeakersSelect';
-// import { TextInput } from './controls/TextInput';
-import { Form } from './Form';
+import TextareaField from './controls/TextareaField';
+import TextField from './controls/TextField';
+import FormGroup from './FormGroup';
 
 interface ISourceFormProps {
   backPath: string;
-  sourceQuery?: GetSourceQuery;
-  onSubmit: (formData: SourceInputType) => void;
-  submitting: boolean;
+  source?: GetSourceQuery['source'];
+  onSubmit: (formData: SourceInputType) => Promise<any>;
   title: string;
-}
-
-class SourceInternalForm extends Form<SourceInputType> {}
-
-function sourceToSourceInput(sourceQuery: GetSourceQuery): SourceInputType {
-  const { source } = sourceQuery;
-
-  return {
-    name: source.name || '',
-    released_at: source.released_at,
-    transcript: source.transcript || '',
-    medium_id: get(source.medium, 'id'),
-    media_personality_id: get(source.media_personality, 'id'),
-    source_url: source.source_url,
-    speakers: source.speakers.map((speaker) => speaker.id),
-  };
 }
 
 export class SourceForm extends React.Component<ISourceFormProps> {
@@ -54,30 +37,59 @@ export class SourceForm extends React.Component<ISourceFormProps> {
   };
 
   public render() {
-    const { backPath, sourceQuery, submitting, title } = this.props;
+    const { backPath, source, title } = this.props;
 
-    if (!sourceQuery) {
-      return null;
-    }
-
-    const sourceInput = sourceToSourceInput(sourceQuery);
+    const initialValues = {
+      name: source ? source.name : '',
+      medium_id: source ? source.medium.id : null,
+      media_personality_id: source ? source.media_personality.id : null,
+      released_at: source ? source.released_at : null,
+      source_url: source ? source.source_url : '',
+      speakers: source ? source.speakers.map((s) => s.id) : [],
+      transcript: source && source.transcript ? source.transcript : '',
+    };
 
     return (
-      <SourceInternalForm defaultValues={sourceInput} onSubmit={this.props.onSubmit}>
-        {({ onInputChange, onAssociationChange }, data) => (
-          <div>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={yup.object().shape({
+          name: yup.string().required('Je třeba vyplnit název'),
+          medium_id: yup.mixed().notOneOf([null], 'Je třeba vybrat pořad'),
+          media_personality_id: yup.mixed().notOneOf([null], 'Je třeba vybrat moderátora'),
+          released_at: yup.mixed().notOneOf([null], 'Je třeba vyplnit datum publikace'),
+          speakers: yup.array().min(1, 'Je třeba vybrat alespoň jednoho řečníka'),
+        })}
+        onSubmit={(values, { setSubmitting }) => {
+          const formData: SourceInputType = {
+            ...values,
+
+            // released_at will always be a string, because null won't pass validation
+            released_at: values.released_at as string,
+          };
+
+          this.props
+            .onSubmit(formData)
+            .then(() => {
+              setSubmitting(false);
+            })
+            .catch(() => {
+              setSubmitting(false);
+            });
+        }}
+      >
+        {({ isSubmitting, values }) => (
+          <Form>
             <div style={{ float: 'right' }}>
               <Link to={backPath} className={Classes.BUTTON}>
                 Zpět
               </Link>
-              <button
+              <Button
                 type="submit"
-                className={classNames(Classes.BUTTON, Classes.INTENT_PRIMARY)}
+                intent={Intent.PRIMARY}
                 style={{ marginLeft: 7 }}
-                disabled={submitting}
-              >
-                {submitting ? 'Ukládám ...' : 'Uložit'}
-              </button>
+                disabled={isSubmitting}
+                text={isSubmitting ? 'Ukládám ...' : 'Uložit'}
+              />
             </div>
 
             <h2>{title}</h2>
@@ -87,55 +99,32 @@ export class SourceForm extends React.Component<ISourceFormProps> {
                 <h4>Základní údaje</h4>
               </div>
               <div style={{ flex: '1 1' }}>
-                <FormGroup label="Název" labelFor="name">
-                  <input
-                    id="name"
-                    className={classNames(Classes.INPUT, Classes.FILL)}
-                    type="text"
-                    dir="auto"
-                    defaultValue={sourceInput.name || ''}
-                    onChange={onInputChange('name')}
-                    required
-                  />
+                <FormGroup name="name" label="Název">
+                  <TextField name="name" />
                 </FormGroup>
                 <div style={{ display: 'flex' }}>
                   <div style={{ flex: '1 1' }}>
-                    <FormGroup label="Pořad" labelFor="medium">
-                      <MediumSelect
-                        id="medium"
-                        onChange={onAssociationChange('medium_id')}
-                        value={data.medium_id}
-                      />
+                    <FormGroup name="medium_id" label="Pořad">
+                      <SelectField name="medium_id">
+                        {(selectInput) => <MediumSelect {...selectInput} />}
+                      </SelectField>
                     </FormGroup>
                   </div>
                   <div style={{ flex: '1 1', marginLeft: 15 }}>
-                    <FormGroup label="Moderátor" labelFor="media-personality">
-                      <MediaPersonalitiesSelect
-                        id="media-personality"
-                        mediumId={data.medium_id}
-                        onChange={onAssociationChange('media_personality_id')}
-                        value={data.media_personality_id}
-                      />
+                    <FormGroup name="media_personality_id" label="Moderátor">
+                      <SelectField name="media_personality_id">
+                        {(selectInput) => (
+                          <MediaPersonalitiesSelect mediumId={values.medium_id} {...selectInput} />
+                        )}
+                      </SelectField>
                     </FormGroup>
                   </div>
                 </div>
-                <FormGroup label="Publikováno" labelFor="released-at">
-                  <DateInput
-                    id="released-at"
-                    value={data.released_at}
-                    onChange={onAssociationChange('released_at')}
-                  />
+                <FormGroup name="released_at" label="Publikováno">
+                  <DateField name="released_at" />
                 </FormGroup>
-                <FormGroup label="Odkaz" labelFor="source-url" requiredLabel>
-                  <input
-                    id="source-url"
-                    className={classNames(Classes.INPUT, Classes.FILL)}
-                    type="text"
-                    dir="auto"
-                    defaultValue={sourceInput.source_url || ''}
-                    onChange={onInputChange('source_url')}
-                    placeholder="http://www.server.cz/…"
-                  />
+                <FormGroup name="source_url" label="Odkaz" optional>
+                  <TextField name="source_url" placeholder="http://www…" />
                 </FormGroup>
               </div>
             </div>
@@ -147,12 +136,10 @@ export class SourceForm extends React.Component<ISourceFormProps> {
                 <p>Výroky v rámci tohoto zdroje půjde vytvořit jen pro osoby zde vybrané.</p>
               </div>
               <div style={{ flex: '1 1' }}>
-                <FormGroup label="Řečníci" labelFor="speakers">
-                  <SpeakersSelect
-                    id="speakers"
-                    value={data.speakers}
-                    onChange={onAssociationChange('speakers')}
-                  />
+                <FormGroup name="speakers" label="Řečníci">
+                  <SelectField name="speakers">
+                    {(selectInput) => <SpeakersSelect {...selectInput} />}
+                  </SelectField>
                 </FormGroup>
               </div>
             </div>
@@ -167,21 +154,14 @@ export class SourceForm extends React.Component<ISourceFormProps> {
                 </p>
               </div>
               <div style={{ flex: '1 1' }}>
-                <FormGroup label="Přepis" labelFor="transcript" requiredLabel>
-                  <textarea
-                    id="transcript"
-                    className={classNames(Classes.INPUT, Classes.FILL)}
-                    dir="auto"
-                    defaultValue={sourceInput.transcript || ''}
-                    onChange={onInputChange('transcript')}
-                    rows={15}
-                  />
+                <FormGroup name="transcript" label="Přepis" optional>
+                  <TextareaField name="transcript" rows={15} />
                 </FormGroup>
               </div>
             </div>
-          </div>
+          </Form>
         )}
-      </SourceInternalForm>
+      </Formik>
     );
   }
 }

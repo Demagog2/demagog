@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Alignment, Button, Colors, Navbar } from '@blueprintjs/core';
+import { Alignment, AnchorButton, Button, Colors, Navbar } from '@blueprintjs/core';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
@@ -32,7 +32,7 @@ function Header(props: IProps) {
             <Navbar.Divider />
           </>
         )}
-        <Button icon="log-out" minimal text="Odhlásit se" />
+        <AnchorButton icon="log-out" minimal text="Odhlásit se" href="/sign_out" />
       </Navbar.Group>
     </Navbar>
   );

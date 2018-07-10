@@ -316,6 +316,7 @@ class SourceDetail extends React.Component<IProps, IState> {
                             </Link>
                           </Menu>
                         }
+                        minimal
                         position={Position.BOTTOM_LEFT}
                       >
                         <Button icon={IconNames.PLUS} text="Přidat výrok" />

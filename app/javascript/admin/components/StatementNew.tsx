@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { Classes, FormGroup, Intent } from '@blueprintjs/core';
+import { Classes } from '@blueprintjs/core';
 import * as classNames from 'classnames';
-import { Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import { DateTime } from 'luxon';
 import { Mutation, Query } from 'react-apollo';
 import { connect, Dispatch } from 'react-redux';
@@ -19,7 +19,10 @@ import {
 } from '../operation-result-types';
 import { CreateStatement } from '../queries/mutations';
 import { GetSource, GetSourceStatements } from '../queries/queries';
+import SelectField from './forms/controls/SelectField';
+import TextareaField from './forms/controls/TextareaField';
 import UserSelect from './forms/controls/UserSelect';
+import FormGroup from './forms/FormGroup';
 import Loading from './Loading';
 
 class GetSourceQueryComponent extends Query<GetSourceQuery, GetSourceQueryVariables> {}
@@ -116,19 +119,9 @@ class StatementNew extends React.Component<IProps> {
                       });
                   }}
                 >
-                  {({
-                    values,
-                    touched,
-                    errors,
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    setFieldValue,
-                    setFieldTouched,
-                    isSubmitting,
-                  }) => (
+                  {({ values, touched, errors, handleChange, handleBlur, isSubmitting }) => (
                     <div style={{ padding: '15px 0 40px 0' }}>
-                      <form onSubmit={handleSubmit}>
+                      <Form>
                         <div style={{ float: 'right' }}>
                           <Link to={`/admin/sources/${source.id}`} className={Classes.BUTTON}>
                             Zpět na zdroj výroku
@@ -150,31 +143,17 @@ class StatementNew extends React.Component<IProps> {
                             <h4>Výrok</h4>
                           </div>
                           <div style={{ flex: '1 1' }}>
-                            <FormGroup
-                              label="Znění"
-                              labelFor="content"
-                              intent={
-                                touched.content && errors.content ? Intent.DANGER : Intent.NONE
-                              }
-                              helperText={touched.content && errors.content ? errors.content : ''}
-                            >
-                              <textarea
-                                id="content"
+                            <FormGroup label="Znění" name="content">
+                              <TextareaField
                                 name="content"
-                                className={classNames(Classes.INPUT, Classes.FILL, {
-                                  [Classes.INTENT_DANGER]: !!(touched.content && errors.content),
-                                })}
-                                placeholder="Vložte či vepište znění …"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.content}
+                                placeholder="Vložte či vepište znění…"
                                 rows={7}
                               />
                             </FormGroup>
-                            <FormGroup label="Řečník" labelFor="speaker">
+                            <FormGroup label="Řečník" name="speaker_id">
                               <div className={Classes.SELECT}>
                                 <select
-                                  id="speaker"
+                                  id="speaker_id"
                                   name="speaker_id"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -196,32 +175,23 @@ class StatementNew extends React.Component<IProps> {
                             <h4>Ověřování</h4>
                           </div>
                           <div style={{ flex: '1 1' }}>
-                            <FormGroup label="Ověřovatel" labelFor="evaluator">
-                              <UserSelect
-                                id="evaluator"
-                                onChange={(value) => setFieldValue('evaluator_id', value)}
-                                onBlur={() => setFieldTouched('evaluator_id')}
-                                value={values.evaluator_id}
-                              />
+                            <FormGroup label="Ověřovatel" name="evaluator_id" optional>
+                              <SelectField name="evaluator_id">
+                                {(renderProps) => <UserSelect {...renderProps} />}
+                              </SelectField>
                             </FormGroup>
                             <FormGroup
                               label="Poznámka pro ověřování"
-                              labelFor="note"
+                              name="note"
+                              error={touched.note && errors.note}
                               helperText="Bude přidána jako první komentář v diskuzi k výroku."
+                              optional
                             >
-                              <textarea
-                                id="note"
-                                name="note"
-                                className={classNames(Classes.INPUT, Classes.FILL)}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.note}
-                                rows={4}
-                              />
+                              <TextareaField name="note" rows={4} />
                             </FormGroup>
                           </div>
                         </div>
-                      </form>
+                      </Form>
                     </div>
                   )}
                 </Formik>

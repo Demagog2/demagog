@@ -2,9 +2,8 @@
 
 import * as React from 'react';
 
-import { Button, Card, Classes, FormGroup, Intent } from '@blueprintjs/core';
-import * as classNames from 'classnames';
-import { Formik } from 'formik';
+import { Button, Card, Classes, Intent } from '@blueprintjs/core';
+import { Form, Formik } from 'formik';
 import { List } from 'immutable';
 import { isEqual } from 'lodash';
 import { DateTime } from 'luxon';
@@ -26,7 +25,10 @@ import {
 import { CreateStatement } from '../queries/mutations';
 import { GetSource, GetSourceStatements } from '../queries/queries';
 import { displayDate, pluralize } from '../utils';
+import SelectField from './forms/controls/SelectField';
+import TextareaField from './forms/controls/TextareaField';
 import UserSelect from './forms/controls/UserSelect';
+import FormGroup from './forms/FormGroup';
 import Loading from './Loading';
 import StatementCard from './StatementCard';
 
@@ -350,18 +352,8 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
                 });
             }}
           >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
-              setFieldValue,
-              setFieldTouched,
-            }) => (
-              <form onSubmit={handleSubmit}>
+            {({ values, handleChange, handleBlur, isSubmitting }) => (
+              <Form>
                 <Card
                   style={{
                     // 1px margin so there is enough space for the card box-shadow
@@ -382,26 +374,10 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
                   <h5>Nový výrok</h5>
 
                   <div style={{ marginTop: 20 }}>
-                    <FormGroup
-                      label="Znění"
-                      labelFor="content"
-                      intent={touched.content && errors.content ? Intent.DANGER : Intent.NONE}
-                      helperText={touched.content && errors.content ? errors.content : ''}
-                    >
-                      <textarea
-                        id="content"
-                        name="content"
-                        className={classNames(Classes.INPUT, Classes.FILL, {
-                          [Classes.INTENT_DANGER]: !!(touched.content && errors.content),
-                        })}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.content}
-                        rows={5}
-                        autoFocus
-                      />
+                    <FormGroup label="Znění" name="content">
+                      <TextareaField name="content" rows={5} autoFocus />
                     </FormGroup>
-                    <FormGroup label="Řečník" labelFor="speaker">
+                    <FormGroup label="Řečník" name="speaker_id">
                       <div className={Classes.SELECT}>
                         <select
                           id="speaker"
@@ -418,32 +394,22 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
                         </select>
                       </div>
                     </FormGroup>
-                    <FormGroup label="Ověřovatel" labelFor="evaluator">
-                      <UserSelect
-                        id="evaluator"
-                        onChange={(value) => setFieldValue('evaluator_id', value)}
-                        onBlur={() => setFieldTouched('evaluator_id')}
-                        value={values.evaluator_id}
-                      />
+                    <FormGroup label="Ověřovatel" name="evaluator_id" optional>
+                      <SelectField name="evaluator_id">
+                        {(renderProps) => <UserSelect {...renderProps} />}
+                      </SelectField>
                     </FormGroup>
                     <FormGroup
                       label="Poznámka pro ověřování"
-                      labelFor="note"
+                      name="note"
                       helperText="Bude přidána jako první komentář v diskuzi k výroku."
+                      optional
                     >
-                      <textarea
-                        id="note"
-                        name="note"
-                        className={classNames(Classes.INPUT, Classes.FILL)}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.note}
-                        rows={4}
-                      />
+                      <TextareaField name="note" rows={4} />
                     </FormGroup>
                   </div>
                 </Card>
-              </form>
+              </Form>
             )}
           </Formik>
         )}

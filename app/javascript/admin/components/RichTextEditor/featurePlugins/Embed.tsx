@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { faCode } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Icon } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
 import { Rule } from 'slate-html-serializer';
 import { RenderNodeProps } from 'slate-react';
 
@@ -49,8 +49,11 @@ const toolbarItem: IToolbarItem = {
     };
 
     return (
-      <span style={{ cursor: 'pointer', padding: '5px 10px' }} onMouseDown={onMouseDown}>
-        <FontAwesomeIcon icon={faCode} color="#aaa" />
+      <span
+        style={{ cursor: 'pointer', display: 'inline-block', padding: '3px 10px' }}
+        onMouseDown={onMouseDown}
+      >
+        <Icon icon={IconNames.CODE} color="#aaa" />
       </span>
     );
   },

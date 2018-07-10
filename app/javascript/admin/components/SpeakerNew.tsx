@@ -24,23 +24,13 @@ interface ISpeakerNewProps extends RouteComponentProps<{}> {
   dispatch: Dispatch;
 }
 
-interface ISpeakerNewState {
-  submitting: boolean;
-}
-
-class SpeakerNew extends React.Component<ISpeakerNewProps, ISpeakerNewState> {
-  public state = {
-    submitting: false,
-  };
-
-  private onFormSubmit = (createSpeaker: ICreateSpeakerMutationFn) => (
+class SpeakerNew extends React.Component<ISpeakerNewProps> {
+  public onFormSubmit = (createSpeaker: ICreateSpeakerMutationFn) => (
     speakerFormData: ISpeakerFormData,
   ) => {
     const { avatar, ...speakerInput } = speakerFormData;
 
-    this.setState({ submitting: true });
-
-    createSpeaker({ variables: { speakerInput } })
+    return createSpeaker({ variables: { speakerInput } })
       .then((mutationResult) => {
         if (!mutationResult || !mutationResult.data || !mutationResult.data.createSpeaker) {
           return;
@@ -54,40 +44,31 @@ class SpeakerNew extends React.Component<ISpeakerNewProps, ISpeakerNewState> {
         }
 
         uploadPromise.then(() => {
-          this.setState({ submitting: false });
           this.onCompleted(speakerId);
         });
       })
       .catch((error) => {
-        this.setState({ submitting: false });
         this.onError(error);
       });
   };
 
-  private onCompleted = (speakerId: number) => {
+  public onCompleted = (speakerId: number) => {
     this.props.dispatch(addFlashMessage('Osoba byla úspěšně uložena.', 'success'));
     this.props.history.push(`/admin/speakers/edit/${speakerId}`);
   };
 
-  private onError = (error: any) => {
+  public onError = (error: any) => {
     this.props.dispatch(addFlashMessage('Při ukládání došlo k chybě.', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
 
-  // tslint:disable-next-line:member-ordering
   public render() {
-    const { submitting } = this.state;
-
     return (
       <div style={{ padding: '15px 0 40px 0' }}>
         <CreateSpeakerMutationComponent mutation={CreateSpeaker}>
           {(createSpeaker) => (
-            <SpeakerForm
-              onSubmit={this.onFormSubmit(createSpeaker)}
-              submitting={submitting}
-              title="Přidat novou osobu"
-            />
+            <SpeakerForm onSubmit={this.onFormSubmit(createSpeaker)} title="Přidat novou osobu" />
           )}
         </CreateSpeakerMutationComponent>
       </div>

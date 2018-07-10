@@ -24,23 +24,11 @@ interface IUserNewProps extends RouteComponentProps<{}> {
   dispatch: Dispatch;
 }
 
-interface IUserNewState {
-  submitting: boolean;
-}
+class UserNew extends React.Component<IUserNewProps> {
+  public onFormSubmit = (createUser: ICreateUserMutationFn) => (formData: IUserFormData) => {
+    const { avatar, ...userInput } = formData;
 
-class UserNew extends React.Component<IUserNewProps, IUserNewState> {
-  public state = {
-    submitting: false,
-  };
-
-  private onFormSubmit = (createUser: ICreateUserMutationFn) => (
-    speakerFormData: IUserFormData,
-  ) => {
-    const { avatar, ...userInput } = speakerFormData;
-
-    this.setState({ submitting: true });
-
-    createUser({ variables: { userInput } })
+    return createUser({ variables: { userInput } })
       .then((mutationResult) => {
         if (!mutationResult || !mutationResult.data || !mutationResult.data.createUser) {
           return;
@@ -54,38 +42,33 @@ class UserNew extends React.Component<IUserNewProps, IUserNewState> {
         }
 
         uploadPromise.then(() => {
-          this.setState({ submitting: false });
           this.onCompleted(userId);
         });
       })
       .catch((error) => {
-        this.setState({ submitting: false });
         this.onError(error);
       });
   };
 
-  private onCompleted = (speakerId: number) => {
+  public onCompleted = (userId: number) => {
     this.props.dispatch(addFlashMessage('Osoba byla úspěšně uložena.', 'success'));
-    this.props.history.push(`/admin/users/edit/${speakerId}`);
+    this.props.history.push(`/admin/users/edit/${userId}`);
   };
 
-  private onError = (error: any) => {
+  public onError = (error: any) => {
     this.props.dispatch(addFlashMessage('Při ukládání došlo k chybě.', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
 
-  // tslint:disable-next-line:member-ordering
   public render() {
-    const { submitting } = this.state;
-
     return (
       <div style={{ padding: '15px 0 40px 0' }}>
         <CreateUserMutationComponent mutation={CreateUser}>
           {(createUser) => (
             <UserForm
               onSubmit={this.onFormSubmit(createUser)}
-              submitting={submitting}
+              // submitting={submitting}
               title="Přidat nového člena týmu"
             />
           )}

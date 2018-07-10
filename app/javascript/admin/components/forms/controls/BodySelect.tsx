@@ -4,10 +4,10 @@ import { Colors } from '@blueprintjs/core';
 import { Query } from 'react-apollo';
 import Select, { Option } from 'react-select';
 
-import { GetRolesQuery } from '../../../operation-result-types';
-import { GetRoles } from '../../../queries/queries';
+import { GetSpeakerBodiesQuery } from '../../../operation-result-types';
+import { GetSpeakerBodies } from '../../../queries/queries';
 
-class GetRolesQueryComponent extends Query<GetRolesQuery> {}
+class GetSpeakerBodiesQueryComponent extends Query<GetSpeakerBodiesQuery> {}
 
 interface IProps {
   className?: string;
@@ -18,17 +18,17 @@ interface IProps {
   onBlur(): void;
 }
 
-export default class RoleSelect extends React.Component<IProps> {
+export default class BodySelect extends React.Component<IProps> {
   public render() {
     return (
-      <GetRolesQueryComponent query={GetRoles}>
+      <GetSpeakerBodiesQueryComponent query={GetSpeakerBodies}>
         {({ data, loading }) => {
           let options: Array<{ label: string; value: string }> = [];
 
           if (data && !loading) {
-            options = data.roles.map((r) => ({
-              label: r.name,
-              value: r.id,
+            options = data.bodies.map((b) => ({
+              label: `${b.name} (${b.short_name})`,
+              value: b.id,
             }));
           }
 
@@ -50,7 +50,7 @@ export default class RoleSelect extends React.Component<IProps> {
             />
           );
         }}
-      </GetRolesQueryComponent>
+      </GetSpeakerBodiesQueryComponent>
     );
   }
 }

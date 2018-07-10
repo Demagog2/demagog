@@ -253,7 +253,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                         (isApprovedAndNotPublished ||
                           isBeingEvaluatedAndEvaluationFilled ||
                           isApprovalNeeded)) ||
-                      (canEditAsEvaluator && isBeingEvaluated);
+                      (canEditAsEvaluator && isBeingEvaluatedAndEvaluationFilled);
 
                     let statusTooltipContent: string | null = null;
                     if (canEditEverything && isBeingEvaluated && !canEditStatus) {

@@ -83,6 +83,12 @@ body {
   }
 }
 
+.forms-controls-dateinput {
+  .DayPicker-Day--today {
+    font-weight: bold;
+    color: $red3;
+  }
+}
 
 /*
  * Utilities

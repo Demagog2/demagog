@@ -7,6 +7,7 @@ import { addFlashMessage } from '../actions/flashMessages';
 import { deleteBodyLogo, uploadBodyLogo } from '../api';
 import {
   GetBodyQuery,
+  GetBodyQueryVariables,
   UpdateBodyMutation,
   UpdateBodyMutationVariables,
 } from '../operation-result-types';
@@ -15,6 +16,8 @@ import { GetBody } from '../queries/queries';
 import Error from './Error';
 import { BodyForm, IBodyFormData } from './forms/BodyForm';
 import Loading from './Loading';
+
+class GetBodyQueryComponent extends Query<GetBodyQuery, GetBodyQueryVariables> {}
 
 class UpdateBodyMutationComponent extends Mutation<
   UpdateBodyMutation,
@@ -27,23 +30,13 @@ interface IBodyDetailProps extends RouteComponentProps<{ id: string }> {
   dispatch: Dispatch;
 }
 
-interface IBodyEditState {
-  submitting: boolean;
-}
-
-class BodyEdit extends React.Component<IBodyDetailProps, IBodyEditState> {
-  public state = {
-    submitting: false,
-  };
-
-  private onFormSubmit = (
+class BodyEdit extends React.Component<IBodyDetailProps> {
+  public onFormSubmit = (
     id: number,
     updateBody: IUpdateBodyMutationFn,
     previousData: GetBodyQuery,
   ) => (speakerFormData: IBodyFormData) => {
     const { logo, ...bodyInput } = speakerFormData;
-
-    this.setState({ submitting: true });
 
     // We want to first update the logo and then run mutation so the logo
     // gets automatically refreshed in Apollo's cache from the mutation result data
@@ -54,39 +47,34 @@ class BodyEdit extends React.Component<IBodyDetailProps, IBodyEditState> {
       logoPromise = deleteBodyLogo(id);
     }
 
-    logoPromise
+    return logoPromise
       .then(() => updateBody({ variables: { id, bodyInput } }))
       .then(() => {
-        this.setState({ submitting: false });
         this.onCompleted();
       })
       .catch((error) => {
-        this.setState({ submitting: false });
         this.onError(error);
       });
   };
 
-  private onCompleted = () => {
+  public onCompleted = () => {
     this.props.dispatch(addFlashMessage('Uložení proběhlo v pořádku', 'success'));
   };
 
-  private onError = (error: any) => {
+  public onError = (error: any) => {
     this.props.dispatch(addFlashMessage('Doško k chybě při uložení dat', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
 
-  // tslint:disable-next-line:member-ordering
   public render() {
-    const { submitting } = this.state;
-
     const id = parseInt(this.props.match.params.id, 10);
 
     return (
       <div style={{ padding: '15px 0 40px 0' }}>
-        <Query query={GetBody} variables={{ id }}>
+        <GetBodyQueryComponent query={GetBody} variables={{ id }}>
           {({ data, loading, error }) => {
-            if (loading) {
+            if (loading || !data) {
               return <Loading />;
             }
 
@@ -98,16 +86,15 @@ class BodyEdit extends React.Component<IBodyDetailProps, IBodyEditState> {
               <UpdateBodyMutationComponent mutation={UpdateBody}>
                 {(updateBody) => (
                   <BodyForm
-                    bodyQuery={data}
+                    body={data.body}
                     onSubmit={this.onFormSubmit(id, updateBody, data)}
-                    submitting={submitting}
                     title="Upravit stranu / skupinu"
                   />
                 )}
               </UpdateBodyMutationComponent>
             );
           }}
-        </Query>
+        </GetBodyQueryComponent>
       </div>
     );
   }

@@ -1,24 +1,28 @@
 import * as React from 'react';
 
-import { Button, IInputGroupProps } from '@blueprintjs/core';
+import { Button, IInputGroupProps, Intent } from '@blueprintjs/core';
 import { DateInput as BlueprintDateInput, IDatePickerLocaleUtils } from '@blueprintjs/datetime';
 import { IconNames } from '@blueprintjs/icons';
+import { Field, FieldProps, getIn } from 'formik';
 import { isKeyHotkey } from 'is-hotkey';
 import { DateTime } from 'luxon';
 
 const DISPLAY_FORMAT = 'd. M. yyyy';
 const PARSE_FORMATS = [DISPLAY_FORMAT, 'd.M.yyyy', 'd. M.yyyy', 'd.M. yyyy'];
 
-interface IProps {
+interface IDateInputProps {
   disabled?: boolean;
+  error?: object | false;
   value: string | null;
   id?: string;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement> & IInputGroupProps;
   onChange: (value: string | null) => any;
+  onBlur?: () => any;
 }
 
-const DateInput = (props: IProps) => (
+const DateInput = (props: IDateInputProps) => (
   <BlueprintDateInput
+    className="forms-controls-dateinput"
     canClearSelection={false}
     disabled={props.disabled}
     inputProps={{
@@ -32,6 +36,8 @@ const DateInput = (props: IProps) => (
           e.preventDefault();
         }
       },
+      onBlur: () => props.onBlur && props.onBlur(),
+      intent: props.error ? Intent.DANGER : Intent.NONE,
     }}
     value={props.value !== null ? DateTime.fromISO(props.value).toJSDate() : null}
     locale="cs"
@@ -55,10 +61,11 @@ const DateInput = (props: IProps) => (
         tabIndex={-1}
       />
     }
+    {...{
+      showActionsBar: true,
+    }}
   />
 );
-
-export default DateInput;
 
 function formatDate(date: Date): string {
   return DateTime.fromJSDate(date).toFormat(DISPLAY_FORMAT);
@@ -157,3 +164,29 @@ function getFirstDayOfWeek(locale) {
 function getMonths(locale) {
   return MONTHS[locale];
 }
+
+interface IDateFieldProps extends Partial<IDateInputProps> {
+  name: string;
+}
+
+const DateField = (props: IDateFieldProps) => {
+  const { name, ...restProps } = props;
+
+  return (
+    <Field
+      name={name}
+      render={({ field, form }: FieldProps) => (
+        <DateInput
+          id={name}
+          error={getIn(form.touched, name) && getIn(form.errors, name)}
+          onChange={(value) => form.setFieldValue(name, value)}
+          onBlur={() => form.setFieldTouched(name)}
+          value={field.value || null}
+          {...restProps}
+        />
+      )}
+    />
+  );
+};
+
+export default DateField;

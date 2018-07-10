@@ -1,5 +1,7 @@
-import gql from 'graphql-tag';
 import * as React from 'react';
+
+import { Colors } from '@blueprintjs/core';
+import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import Select, { Option } from 'react-select';
 
@@ -24,6 +26,7 @@ class GetMediaQueryComponent extends Query<IGetMediaQuery> {}
 interface IMediaSelectProps {
   id?: string;
   value?: string | null;
+  error?: object | false;
 
   onChange(value: string | null): void;
 }
@@ -50,6 +53,10 @@ export default class MediumSelect extends React.Component<IMediaSelectProps> {
               options={options}
               onChange={(option: Option<string>) => this.props.onChange(option.value || null)}
               placeholder="Vyberte pořad …"
+              clearable={false}
+              style={{
+                borderColor: this.props.error ? Colors.RED3 : '#cccccc',
+              }}
             />
           );
         }}

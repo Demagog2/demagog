@@ -7,15 +7,15 @@ Types::UserInputType = GraphQL::InputObjectType.define do
 
   argument :email, !types.String
   argument :active, !types.Boolean
+  argument :first_name, !types.String
+  argument :last_name, !types.String
+  argument :role_id, !types.ID
 
   # Optional fields
 
-  argument :first_name, types.String
-  argument :last_name, types.String
   argument :position_description, types.String
   argument :bio, types.String
   argument :phone, types.String
   argument :order, types.Int
   argument :rank, types.Int
-  argument :role_id, types.ID
 end

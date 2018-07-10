@@ -14,7 +14,7 @@ Mutations::CreateSpeaker = GraphQL::Field.define do
     speaker = args[:speaker_input].to_h
 
     speaker["memberships"] = speaker["memberships"].map do |mem|
-      Membership.new(body: Body.find(mem["body"]["id"]), since: mem["since"], until: mem["until"])
+      Membership.new(body: Body.find(mem["body_id"]), since: mem["since"], until: mem["until"])
     end
 
     Speaker.create!(speaker)

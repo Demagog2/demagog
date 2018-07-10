@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { faUnderline } from '@fortawesome/free-solid-svg-icons';
+import { IconNames } from '@blueprintjs/icons';
 import * as Slate from 'slate';
 import { Rule } from 'slate-html-serializer';
 import { RenderMarkProps } from 'slate-react';
@@ -15,7 +15,7 @@ export default function Underlined() {
       Hotkey('mod+u', addUnderlinedMark),
       RenderMark('underlined', (props) => <UnderlinedMark {...props} />),
     ],
-    toolbarItem: ToolbarMarkButton(faUnderline, addUnderlinedMark, hasUnderlinedMark),
+    toolbarItem: ToolbarMarkButton(IconNames.UNDERLINE, addUnderlinedMark, hasUnderlinedMark),
     htmlSerializerRule,
   };
 }

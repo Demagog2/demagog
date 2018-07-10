@@ -146,8 +146,11 @@ export const CreateUser = gql`
       id
       first_name
       last_name
+      email
       avatar
       active
+      position_description
+      bio
       role {
         id
         name
@@ -162,8 +165,11 @@ export const UpdateUser = gql`
       id
       first_name
       last_name
+      email
       avatar
       active
+      position_description
+      bio
       role {
         id
         name

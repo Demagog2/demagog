@@ -19,22 +19,12 @@ interface IBodyNewProps extends RouteComponentProps<{}> {
   dispatch: Dispatch;
 }
 
-interface IBodyNewState {
-  submitting: boolean;
-}
-
 // tslint:disable-next-line:max-classes-per-file
-class BodyNew extends React.Component<IBodyNewProps, IBodyNewState> {
-  public state = {
-    submitting: false,
-  };
-
-  private onFormSubmit = (createBody: ICreateBodyMutationFn) => (bodyFormData: IBodyFormData) => {
+class BodyNew extends React.Component<IBodyNewProps> {
+  public onFormSubmit = (createBody: ICreateBodyMutationFn) => (bodyFormData: IBodyFormData) => {
     const { logo, ...bodyInput } = bodyFormData;
 
-    this.setState({ submitting: true });
-
-    createBody({ variables: { bodyInput } })
+    return createBody({ variables: { bodyInput } })
       .then((mutationResult) => {
         if (!mutationResult || !mutationResult.data || !mutationResult.data.createBody) {
           return;
@@ -48,38 +38,32 @@ class BodyNew extends React.Component<IBodyNewProps, IBodyNewState> {
         }
 
         uploadPromise.then(() => {
-          this.setState({ submitting: false });
           this.onCompleted(bodyId);
         });
       })
       .catch((error) => {
-        this.setState({ submitting: false });
         this.onError(error);
       });
   };
 
-  private onCompleted = (bodyId: number) => {
+  public onCompleted = (bodyId: number) => {
     this.props.dispatch(addFlashMessage('Strana / skupina byla úspěšně uložena.', 'success'));
     this.props.history.push(`/admin/bodies/edit/${bodyId}`);
   };
 
-  private onError = (error: any) => {
+  public onError = (error: any) => {
     this.props.dispatch(addFlashMessage('Při ukládání došlo k chybě.', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
 
-  // tslint:disable-next-line:member-ordering
   public render() {
-    const { submitting } = this.state;
-
     return (
       <div style={{ padding: '15px 0 40px 0' }}>
         <BodyNewMutation mutation={CreateBody}>
           {(createBody) => (
             <BodyForm
               onSubmit={this.onFormSubmit(createBody)}
-              submitting={submitting}
               title="Přidat novou stranu / skupinu"
             />
           )}
