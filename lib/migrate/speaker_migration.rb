@@ -1,19 +1,17 @@
 # frozen_string_literal: true
 
+require "ruby-progressbar/outputs/null"
+
 require_relative "./helpers/duplication_tester"
 require_relative "./helpers/image_url_helper"
 
-class MissingPortrait
-  def id
-    nil
-  end
-end
-
 class SpeakerMigration
   attr_accessor :connection
+  attr_accessor :quiet
 
-  def initialize(connection)
+  def initialize(connection, quiet)
     self.connection = connection
+    self.quiet = quiet
 
     @duplication_tester = DuplicationTester.new
   end
@@ -63,7 +61,11 @@ class SpeakerMigration
       end
     end
 
-    progressbar = ProgressBar.create(format: "Migrating speaker avatars: %a %e |%b>>%i| %p%% %t", total: old_speakers.size)
+    progressbar = ProgressBar.create(
+      format: "Migrating speaker avatars: %e |%b>>%i| %p%% %t",
+      total: old_speakers.size,
+      output: quiet ? ProgressBar::Outputs::Null : $stdout
+    )
 
     old_speakers.each do |old_speaker|
       unless @duplication_tester.duplicate?(old_speaker["id"]) || old_speaker["fotografia"].empty?

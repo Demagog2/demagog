@@ -14,9 +14,11 @@ require_relative "./user_migration"
 
 class MigrationManager
   attr_accessor :connection
+  attr_accessor :quiet
 
-  def initialize(connection)
+  def initialize(connection, quiet)
     self.connection = connection
+    self.quiet = quiet
   end
 
   def perform
@@ -34,6 +36,12 @@ class MigrationManager
       UserMigration
     ]
 
-    tasks.each { |task| task.new(connection).perform }
+    tasks.each do |task|
+      puts "=== #{task.name} starting ===" unless quiet
+
+      task.new(connection, quiet).perform
+
+      puts "=== #{task.name} done ===" unless quiet
+    end
   end
 end

@@ -1,12 +1,16 @@
 # frozen_string_literal: true
 
+require "ruby-progressbar/outputs/null"
+
 require_relative "./helpers/image_url_helper"
 
 class ArticleMigration
   attr_accessor :connection
+  attr_accessor :quiet
 
-  def initialize(connection)
+  def initialize(connection, quiet)
     self.connection = connection
+    self.quiet = quiet
   end
 
   def perform
@@ -53,7 +57,11 @@ class ArticleMigration
       end
     end
 
-    progressbar = ProgressBar.create(format: "Migrating article illustrations part #1: %a %e |%b>>%i| %p%% %t", total: old_articles.size)
+    progressbar = ProgressBar.create(
+      format: "Migrating article illustrations part #1: %e |%b>>%i| %p%% %t",
+      total: old_articles.size,
+      output: quiet ? ProgressBar::Outputs::Null : $stdout
+    )
 
     old_articles.each do |old_article|
       unless old_article["obrazok"].empty?
@@ -106,7 +114,11 @@ class ArticleMigration
       )
     end
 
-    progressbar = ProgressBar.create(format: "Migrating article illustrations part #2: %a %e |%b>>%i| %p%% %t", total: old_articles.size)
+    progressbar = ProgressBar.create(
+      format: "Migrating article illustrations part #2: %e |%b>>%i| %p%% %t",
+      total: old_articles.size,
+      output: quiet ? ProgressBar::Outputs::Null : $stdout
+    )
 
     old_articles.each do |old_article|
       unless old_article["obrazok"].empty?

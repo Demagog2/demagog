@@ -2,9 +2,11 @@
 
 class SourceMigration
   attr_accessor :connection
+  attr_accessor :quiet
 
-  def initialize(connection)
+  def initialize(connection, quiet)
     self.connection = connection
+    self.quiet = quiet
   end
 
   def perform

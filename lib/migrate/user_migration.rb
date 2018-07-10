@@ -1,12 +1,16 @@
 # frozen_string_literal: true
 
+require "ruby-progressbar/outputs/null"
+
 require_relative "./helpers/image_url_helper"
 
 class UserMigration
   attr_accessor :connection
+  attr_accessor :quiet
 
-  def initialize(connection)
+  def initialize(connection, quiet)
     self.connection = connection
+    self.quiet = quiet
   end
 
   def perform
@@ -31,7 +35,11 @@ class UserMigration
       user.save!
     end
 
-    progressbar = ProgressBar.create(format: "Migrating user avatars: %a %e |%b>>%i| %p%% %t", total: old_users.size)
+    progressbar = ProgressBar.create(
+      format: "Migrating user avatars: %e |%b>>%i| %p%% %t",
+      total: old_users.size,
+      output: quiet ? ProgressBar::Outputs::Null : $stdout
+    )
 
     old_users.each do |old_user|
       unless old_user["fotografia"].empty?

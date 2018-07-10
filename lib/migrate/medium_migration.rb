@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
+require "ruby-progressbar/outputs/null"
+
 class MediumMigration
   attr_accessor :connection
+  attr_accessor :quiet
 
-  def initialize(connection)
+  def initialize(connection, quiet)
     self.connection = connection
+    self.quiet = quiet
   end
 
   def perform
@@ -23,7 +27,11 @@ class MediumMigration
       )
     end
 
-    progressbar = ProgressBar.create(format: "Migrating media logos: %a %e |%b>>%i| %p%% %t", total: old_media.size)
+    progressbar = ProgressBar.create(
+      format: "Migrating media logos: %e |%b>>%i| %p%% %t",
+      total: old_media.size,
+      output: quiet ? ProgressBar::Outputs::Null : $stdout
+    )
 
     old_media.each do |old_medium|
       unless old_medium["logo"].empty?

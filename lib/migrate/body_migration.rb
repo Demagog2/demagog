@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
+require "ruby-progressbar/outputs/null"
+
 class BodyMigration
   attr_accessor :connection
+  attr_accessor :quiet
 
-  def initialize(connection)
+  def initialize(connection, quiet)
     self.connection = connection
+    self.quiet = quiet
   end
 
   # Define IDs that do not represent a political party.
@@ -32,7 +36,11 @@ class BodyMigration
       body.save!
     end
 
-    progressbar = ProgressBar.create(format: "Migrating body logos: %a %e |%b>>%i| %p%% %t", total: old_parties.size)
+    progressbar = ProgressBar.create(
+      format: "Migrating body logos: %e |%b>>%i| %p%% %t",
+      total: old_parties.size,
+      output: quiet ? ProgressBar::Outputs::Null : $stdout
+    )
 
     old_parties.each do |old_party|
       unless old_party["logo"].empty?

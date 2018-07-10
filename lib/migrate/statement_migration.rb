@@ -5,9 +5,12 @@ require_relative "./helpers/duplication_tester"
 
 class StatementMigration
   attr_accessor :connection
+  attr_accessor :quiet
 
-  def initialize(connection)
+  def initialize(connection, quiet)
     self.connection = connection
+    self.quiet = quiet
+
     @tester = DuplicationTester.new
     @segment_cache = Hash.new
   end
