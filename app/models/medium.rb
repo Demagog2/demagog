@@ -5,7 +5,5 @@ class Medium < ApplicationRecord
   has_and_belongs_to_many :media_personalities
   belongs_to :attachment, optional: true
 
-  def logo
-    attachment
-  end
+  has_one_attached :logo
 end

@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
-class EmptyIllustration
-  def id
-    nil
-  end
-end
+require_relative "./helpers/image_url_helper"
 
 class ArticleMigration
   attr_accessor :connection
@@ -34,7 +30,6 @@ class ArticleMigration
       :user_id,
       :article_type_id,
       :source_id,
-      :illustration_id,
       :created_at,
       :updated_at
     ]
@@ -43,15 +38,6 @@ class ArticleMigration
 
     Article.bulk_insert(*keys) do |worker|
       old_articles.each do |old_article|
-        illustration = EmptyIllustration.new
-
-        if old_article["obrazok"] != ""
-          illustration = Attachment.create(
-            file: old_article["obrazok"],
-            attachment_type: Attachment::TYPE_ARTICLE_ILLUSTRATION
-          )
-        end
-
         worker.add([
           old_article["id"],
           old_article["nazov"],
@@ -61,11 +47,25 @@ class ArticleMigration
           old_article["id_user"],
           article_type.id,
           old_article["id"],
-          illustration.id,
           Time.now,
           Time.now
         ])
       end
+    end
+
+    progressbar = ProgressBar.create(format: "Migrating article illustrations part #1: %a %e |%b>>%i| %p%% %t", total: old_articles.size)
+
+    old_articles.each do |old_article|
+      unless old_article["obrazok"].empty?
+        path = "/data/diskusia/s/#{old_article["obrazok"]}"
+        article = Article.find(old_article["id"])
+
+        ImageUrlHelper.open_image(path) do |file|
+          article.illustration.attach io: file, filename: old_article["obrazok"]
+        end
+      end
+
+      progressbar.increment
     end
 
     # Necessary to generate slugs
@@ -82,15 +82,6 @@ class ArticleMigration
     article_type = ArticleType.find_by(name: "static")
 
     old_articles.each do |old_article|
-      illustration = EmptyIllustration.new
-
-      if old_article["obrazok"]
-        illustration = Attachment.create(
-          file: old_article["obrazok"],
-          attachment_type: Attachment::TYPE_ARTICLE_ILLUSTRATION
-        )
-      end
-
       article = Article.new(
         title: old_article["nazov"],
         slug: old_article["alias"],
@@ -98,7 +89,6 @@ class ArticleMigration
         published_at: old_article["timestamp"],
         published: old_article["status"] == 1,
         article_type: article_type,
-        illustration: illustration,
         updated_at: old_article["timestamp"]
       )
 
@@ -114,6 +104,21 @@ class ArticleMigration
         article: article,
         order: 1
       )
+    end
+
+    progressbar = ProgressBar.create(format: "Migrating article illustrations part #2: %a %e |%b>>%i| %p%% %t", total: old_articles.size)
+
+    old_articles.each do |old_article|
+      unless old_article["obrazok"].empty?
+        path = "/data/pages/s/#{old_article["obrazok"]}"
+        article = Article.find(old_article["id"])
+
+        ImageUrlHelper.open_image(path) do |file|
+          article.illustration.attach io: file, filename: old_article["obrazok"]
+        end
+      end
+
+      progressbar.increment
     end
   end
 end

@@ -71,6 +71,9 @@ gem "loofah", "~> 2.2.1"
 # Enable image processing for active storage
 gem "image_processing", "~> 1.2"
 
+# For migration progress display
+gem "ruby-progressbar"
+
 # Add skylight profiler
 # gem "skylight"
 

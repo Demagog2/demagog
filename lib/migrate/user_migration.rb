@@ -29,13 +29,21 @@ class UserMigration
       user.roles << Role.find_by(key: usertype_to_role_key(old_user["usertype"]))
 
       user.save!
+    end
 
+    progressbar = ProgressBar.create(format: "Migrating user avatars: %a %e |%b>>%i| %p%% %t", total: old_users.size)
+
+    old_users.each do |old_user|
       unless old_user["fotografia"].empty?
         path = "/data/users/s/#{old_user["fotografia"]}"
-        open(ImageUrlHelper.absolute_url(path)) do |file|
+        user = User.find(old_user["id"])
+
+        ImageUrlHelper.open_image(path) do |file|
           user.avatar.attach io: file, filename: old_user["fotografia"]
         end
       end
+
+      progressbar.increment
     end
   end
 

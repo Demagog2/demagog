@@ -417,6 +417,7 @@ DEPENDENCIES
   rails (~> 5.2)
   redis (~> 4.0, >= 4.0.1)
   rubocop-rails
+  ruby-progressbar
   sass-rails (~> 5.0)
   selenium-webdriver
   spring

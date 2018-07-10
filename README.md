@@ -15,6 +15,10 @@ Site configuration is done via .env file (see dotenv project).
 DEMAGOG_IMAGE_SERVICE_URL=https://pacific-meadow-53023.herokuapp.com
 LEGACY_DATABASE_URL=mysql2://username:password@server/database
 
+# You can speed up your local full DB migration by setting path to local
+# image cache. Images will be downloaded from the image service only once.
+MIGRATION_IMAGE_CACHE=/tmp/demagog_image_cache
+
 # S3 keys are needed for non-development environment only
 AMAZON_S3_ACCESS_KEY_ID=amazon-access-id
 AMAZON_S3_SECRET_ACCESS_KEY=amazon-secret-access-key

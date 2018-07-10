@@ -29,14 +29,22 @@ class BodyMigration
         is_party: is_party?(old_party["id"])
       )
 
-      if old_party["logo"]
-        body.attachment = Attachment.create(
-          attachment_type: Attachment::TYPE_PARTY_LOGO,
-          file: old_party["logo"]
-        )
+      body.save!
+    end
+
+    progressbar = ProgressBar.create(format: "Migrating body logos: %a %e |%b>>%i| %p%% %t", total: old_parties.size)
+
+    old_parties.each do |old_party|
+      unless old_party["logo"].empty?
+        path = "/data/politicke_strany/t/#{old_party["logo"]}"
+        body = Body.find(old_party["id"])
+
+        ImageUrlHelper.open_image(path) do |file|
+          body.logo.attach io: file, filename: old_party["logo"]
+        end
       end
 
-      body.save!
+      progressbar.increment
     end
   end
 end
