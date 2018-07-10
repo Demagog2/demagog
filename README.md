@@ -79,6 +79,9 @@ docker run --name redis -p 6379:6379 -d redis
 RAILS_ENV=migration bin/rails db:drop db:create db:migrate migration:run
 ```
 
+To suppress output of `migration:run` rake task, run it with rake argument like this:
+`migration:run['quiet']`
+
 ### Deployment instructions
 
 Deploy to production:
