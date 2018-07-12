@@ -53,8 +53,8 @@ export const GetMedia = gql`
 `;
 
 export const GetSources = gql`
-  query GetSources($name: String) {
-    sources(limit: 100, name: $name) {
+  query GetSources($name: String, $offset: Int, $limit: Int) {
+    sources(name: $name, offset: $offset, limit: $limit) {
       id
       name
       source_url

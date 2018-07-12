@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { Classes } from '@blueprintjs/core';
+import { Button, Classes } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import * as classNames from 'classnames';
 import { Query } from 'react-apollo';
@@ -74,7 +74,10 @@ class Sources extends React.Component<{}, IState> {
         </div>
 
         <div style={{ marginTop: 15 }}>
-          <GetSourcesQuery query={GetSources} variables={{ name: this.state.search }}>
+          <GetSourcesQuery
+            query={GetSources}
+            variables={{ name: this.state.search, offset: 0, limit: 50 }}
+          >
             {(props) => {
               if (props.loading) {
                 return <Loading />;
@@ -93,57 +96,82 @@ class Sources extends React.Component<{}, IState> {
               }
 
               return (
-                <table
-                  className={classNames(Classes.HTML_TABLE, Classes.HTML_TABLE_STRIPED)}
-                  style={{ width: '100%' }}
-                >
-                  <thead>
-                    <tr>
-                      <th scope="col" style={{ width: '60%' }}>
-                        Zdroj
-                      </th>
-                      <th scope="col">Zveřejněné výroky</th>
-                      <th scope="col" />
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {props.data.sources.map((source) => (
-                      <tr key={source.id}>
-                        <td>
-                          <div className={Classes.UI_TEXT_LARGE}>{source.name}</div>
-                          <div className={Classes.TEXT_MUTED} style={{ marginTop: 5 }}>
-                            {source.medium.name}, {displayDate(source.released_at)},{' '}
-                            {source.media_personality.name}
-                            {source.source_url && (
-                              <>
-                                , <a href={source.source_url}>odkaz</a>
-                              </>
-                            )}
-                          </div>
-                        </td>
-                        <td>
-                          <ul className={Classes.LIST_UNSTYLED} style={{ lineHeight: '1.5' }}>
-                            {source.speakers_statements_stats.map((stat, index) => (
-                              <li key={index}>
-                                {stat.speaker.first_name} {stat.speaker.last_name}:{' '}
-                                {stat.statements_published_count}
-                              </li>
-                            ))}
-                          </ul>
-
-                          {source.speakers_statements_stats.length === 0 && (
-                            <span className={Classes.TEXT_MUTED}>Zatím žádné</span>
-                          )}
-                        </td>
-                        <td style={{ textAlign: 'right' }}>
-                          <Link to={`/admin/sources/${source.id}`} className={Classes.BUTTON}>
-                            Na detail zdroje
-                          </Link>
-                        </td>
+                <React.Fragment>
+                  <table
+                    className={classNames(Classes.HTML_TABLE, Classes.HTML_TABLE_STRIPED)}
+                    style={{ width: '100%' }}
+                  >
+                    <thead>
+                      <tr>
+                        <th scope="col" style={{ width: '60%' }}>
+                          Zdroj
+                        </th>
+                        <th scope="col">Zveřejněné výroky</th>
+                        <th scope="col" />
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {props.data.sources.map((source) => (
+                        <tr key={source.id}>
+                          <td>
+                            <div className={Classes.UI_TEXT_LARGE}>{source.name}</div>
+                            <div className={Classes.TEXT_MUTED} style={{ marginTop: 5 }}>
+                              {source.medium.name}, {displayDate(source.released_at)},{' '}
+                              {source.media_personality.name}
+                              {source.source_url && (
+                                <>
+                                  , <a href={source.source_url}>odkaz</a>
+                                </>
+                              )}
+                            </div>
+                          </td>
+                          <td>
+                            <ul className={Classes.LIST_UNSTYLED} style={{ lineHeight: '1.5' }}>
+                              {source.speakers_statements_stats.map((stat, index) => (
+                                <li key={index}>
+                                  {stat.speaker.first_name} {stat.speaker.last_name}:{' '}
+                                  {stat.statements_published_count}
+                                </li>
+                              ))}
+                            </ul>
+
+                            {source.speakers_statements_stats.length === 0 && (
+                              <span className={Classes.TEXT_MUTED}>Zatím žádné</span>
+                            )}
+                          </td>
+                          <td style={{ textAlign: 'right' }}>
+                            <Link to={`/admin/sources/${source.id}`} className={Classes.BUTTON}>
+                              Na detail zdroje
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+
+                  <Button
+                    style={{ marginTop: 10 }}
+                    onClick={() =>
+                      props.fetchMore({
+                        variables: {
+                          offset: props.data && props.data.sources.length,
+                        },
+
+                        updateQuery: (prev, { fetchMoreResult }) => {
+                          if (!fetchMoreResult) {
+                            return prev;
+                          }
+
+                          return {
+                            ...prev,
+                            sources: [...prev.sources, ...fetchMoreResult.sources],
+                          };
+                        },
+                      })
+                    }
+                    text="Načíst další"
+                  />
+                </React.Fragment>
               );
             }}
           </GetSourcesQuery>

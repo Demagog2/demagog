@@ -543,6 +543,8 @@ export interface GetMediaQuery {
 
 export interface GetSourcesQueryVariables {
   name?: string | null,
+  offset?: number | null,
+  limit?: number | null,
 };
 
 export interface GetSourcesQuery {
