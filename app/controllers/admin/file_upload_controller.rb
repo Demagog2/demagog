@@ -77,6 +77,14 @@ class Admin::FileUploadController < ApplicationController
     end
   end
 
+  def upload_content_image
+    params.permit!
+
+    attach_picture :image, ContentImage.find(params[:id])
+
+    head :ok
+  end
+
   private
     def attach_picture(image_name, obj)
       obj.send(image_name).attach(

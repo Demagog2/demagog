@@ -42,7 +42,7 @@ class ImageInput extends React.Component<IImageInputProps, IImageInputState> {
 
         <div style={{ marginBottom: 10 }}>
           <Dropzone
-            accept="image/jpeg, image/png"
+            accept="image/jpeg, image/png, image/gif"
             multiple={false}
             onDrop={this.onDrop}
             style={{}}

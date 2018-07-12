@@ -26,6 +26,9 @@ Rails.application.routes.draw do
     post "/body-logo/:id" => "file_upload#upload_body_logo", as: :upload_body_logo
     delete "/body-logo/:id" => "file_upload#delete_body_logo", as: :delete_body_logo
 
+    # Image uploading of content images
+    post "/content-image/:id" => "file_upload#upload_content_image", as: :upload_content_image
+
     get "(/*all)" => "homepage#index"
   end
 

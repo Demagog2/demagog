@@ -28,6 +28,12 @@ export class SearchInput extends React.Component<IProps, IState> {
     };
   }
 
+  public componentDidUpdate(prevProps) {
+    if (prevProps.value !== this.props.value) {
+      this.setState({ value: this.props.value });
+    }
+  }
+
   public onInputChange = (e: React.FormEvent<HTMLInputElement>) => {
     this.setState({ value: e.currentTarget.value }, () => {
       this.debouncedOnChange(this.state.value);

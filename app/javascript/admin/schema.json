@@ -4117,6 +4117,33 @@
               "deprecationReason": null
             },
             {
+              "name": "createContentImage",
+              "description": "Add new content image",
+              "args": [
+                {
+                  "name": "content_image_input",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "ContentImageInputType",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "ContentImage",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "createSource",
               "description": "Add new source",
               "args": [
@@ -5783,6 +5810,31 @@
             },
             {
               "name": "statement_id",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "ContentImageInputType",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "user_id",
               "description": null,
               "type": {
                 "kind": "NON_NULL",

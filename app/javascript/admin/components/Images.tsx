@@ -1,17 +1,25 @@
 import * as React from 'react';
 
-import { Button, Classes, Dialog } from '@blueprintjs/core';
+import { AnchorButton, Button, Classes, Dialog, Intent } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
-import { Query } from 'react-apollo';
+import { Mutation, MutationFn, Query } from 'react-apollo';
+import Dropzone, { ImageFile } from 'react-dropzone';
 import { connect, Dispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
-import { GetContentImagesQuery, GetContentImagesQueryVariables } from '../operation-result-types';
-import { DeleteContentImage } from '../queries/mutations';
+import { uploadContentImage } from '../api';
+import apolloClient from '../apolloClient';
+import {
+  CreateContentImageMutation,
+  CreateContentImageMutationVariables,
+  GetContentImagesQuery,
+  GetContentImagesQueryVariables,
+} from '../operation-result-types';
+import { CreateContentImage, DeleteContentImage } from '../queries/mutations';
 import { GetContentImages } from '../queries/queries';
+import { IState as ReduxState } from '../reducers';
 import { displayDateTime } from '../utils';
 import Authorize from './Authorize';
 import { SearchInput } from './forms/controls/SearchInput';
@@ -23,7 +31,16 @@ class GetContentImagesQueryComponent extends Query<
   GetContentImagesQueryVariables
 > {}
 
+class CreateContentImageMutationComponent extends Mutation<
+  CreateContentImageMutation,
+  CreateContentImageMutationVariables
+> {}
+
+interface ICreateContentImageFn
+  extends MutationFn<CreateContentImageMutation, CreateContentImageMutationVariables> {}
+
 interface IProps {
+  currentUser: ReduxState['currentUser']['user'];
   dispatch: Dispatch;
 }
 
@@ -31,6 +48,7 @@ interface IState {
   search: string;
   confirmDeleteModalId: string | null;
   zoomedId: string | null;
+  isAdding: boolean;
 }
 
 class Images extends React.Component<IProps, IState> {
@@ -38,6 +56,7 @@ class Images extends React.Component<IProps, IState> {
     search: '',
     confirmDeleteModalId: null,
     zoomedId: null,
+    isAdding: false,
   };
 
   public onSearchChange = (search: string) => {
@@ -72,21 +91,80 @@ class Images extends React.Component<IProps, IState> {
     this.setState({ zoomedId: null });
   };
 
+  public onAddDrop = (createContentImage: ICreateContentImageFn) => (
+    acceptedFiles: ImageFile[],
+  ) => {
+    if (acceptedFiles.length === 1 && this.props.currentUser) {
+      const imageFile = acceptedFiles[0];
+      const input = {
+        user_id: this.props.currentUser.id,
+      };
+
+      this.setState({ isAdding: true });
+
+      createContentImage({ variables: { input } })
+        .then(
+          (mutationResult): Promise<any> | undefined => {
+            if (
+              !mutationResult ||
+              !mutationResult.data ||
+              !mutationResult.data.createContentImage
+            ) {
+              return;
+            }
+
+            const contentImageId = parseInt(mutationResult.data.createContentImage.id, 10);
+
+            return uploadContentImage(contentImageId, imageFile);
+          },
+        )
+        .then(() => {
+          // Refetch content images AFTER the upload so we get the filename and path
+          return apolloClient.query({
+            query: GetContentImages,
+            variables: { name: '' },
+            fetchPolicy: 'network-only',
+          });
+        })
+        .then(() => {
+          this.props.dispatch(addFlashMessage('Obrázek byl úspěšně nahrán.', 'success'));
+
+          this.setState({ search: '', isAdding: false });
+        })
+        .catch((error) => {
+          this.props.dispatch(addFlashMessage('Při nahrávání obrázku došlo k chybě.', 'error'));
+
+          this.setState({ isAdding: false });
+
+          console.error(error); // tslint:disable-line:no-console
+        });
+    }
+  };
+
   public render() {
     return (
       <div style={{ padding: '15px 0 40px 0' }}>
         <Authorize permissions={['images:add']}>
           <div style={{ float: 'right' }}>
-            <Link
-              className={classNames(
-                Classes.BUTTON,
-                Classes.INTENT_PRIMARY,
-                Classes.iconClass(IconNames.PLUS),
+            <CreateContentImageMutationComponent mutation={CreateContentImage}>
+              {(createContentImage) => (
+                <Dropzone
+                  accept="image/jpeg, image/png, image/gif"
+                  multiple={false}
+                  onDrop={this.onAddDrop(createContentImage)}
+                  className="dropzone"
+                  style={{}}
+                >
+                  <Button
+                    type="button"
+                    icon={IconNames.UPLOAD}
+                    intent={Intent.PRIMARY}
+                    disabled={this.state.isAdding}
+                    text={this.state.isAdding ? 'Nahrávám…' : 'Nahrát obrázek'}
+                  />
+                </Dropzone>
               )}
-              to="/admin/images/new"
-            >
-              Přidat obrázek
-            </Link>
+            </CreateContentImageMutationComponent>
           </div>
         </Authorize>
 
@@ -154,13 +232,7 @@ class Images extends React.Component<IProps, IState> {
                   )}
 
                   {zoomedContentImage && (
-                    <Dialog
-                      // className={this.props.data.themeName}
-                      // icon="info-sign"
-                      onClose={this.hideZoomed}
-                      title={zoomedContentImage.name}
-                      isOpen
-                    >
+                    <Dialog onClose={this.hideZoomed} title={zoomedContentImage.name} isOpen>
                       <img
                         src={zoomedContentImage.image}
                         style={{
@@ -213,9 +285,7 @@ class Images extends React.Component<IProps, IState> {
                         <th scope="col">Přidaný</th>
                         <th scope="col">Autor</th>
                         <th scope="col" />
-                        <Authorize permissions={['images:delete']}>
-                          <th scope="col" />
-                        </Authorize>
+                        <th scope="col" />
                       </tr>
                     </thead>
                     <tbody>
@@ -249,8 +319,14 @@ class Images extends React.Component<IProps, IState> {
                               Veřejný odkaz
                             </a>
                           </td>
-                          <Authorize permissions={['images:delete']}>
-                            <td>
+                          <td>
+                            <AnchorButton
+                              href={contentImage.image}
+                              download
+                              icon={IconNames.DOWNLOAD}
+                              title="Stáhnout"
+                            />
+                            <Authorize permissions={['images:delete']}>
                               <Button
                                 type="button"
                                 icon={IconNames.TRASH}
@@ -258,8 +334,8 @@ class Images extends React.Component<IProps, IState> {
                                 onClick={this.showConfirmDeleteModal(contentImage.id)}
                                 title="Smazat"
                               />
-                            </td>
-                          </Authorize>
+                            </Authorize>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -274,4 +350,8 @@ class Images extends React.Component<IProps, IState> {
   }
 }
 
-export default connect()(Images);
+const mapStateToProps = (state: ReduxState) => ({
+  currentUser: state.currentUser.user,
+});
+
+export default connect(mapStateToProps)(Images);
