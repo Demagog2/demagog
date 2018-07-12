@@ -16,7 +16,7 @@ const categories = [
       { to: '/admin/tags', title: 'Štítky', permissions: ['tags:view'] },
       { to: '/admin/sources', title: 'Výroky', enabled: true, permissions: ['sources:view'] },
       { to: '/admin/visualizations', title: 'Vizualizace', permissions: ['visualizations:view'] },
-      { to: '/admin/images', title: 'Obrázky', permissions: ['images:view'] },
+      { to: '/admin/images', title: 'Obrázky', enabled: true, permissions: ['images:view'] },
     ],
   },
   {

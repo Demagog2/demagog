@@ -365,3 +365,23 @@ export const GetCurrentUser = gql`
     }
   }
 `;
+
+export const GetContentImages = gql`
+  query GetContentImages($name: String) {
+    content_images(limit: 20, name: $name) {
+      total_count
+      items {
+        id
+        image
+        image_50x50
+        name
+        created_at
+        user {
+          id
+          first_name
+          last_name
+        }
+      }
+    }
+  }
+`;

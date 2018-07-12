@@ -6,6 +6,10 @@ require "ruby-progressbar/outputs/null"
 require_relative "./helpers/duplication_tester"
 require_relative "./helpers/image_url_helper"
 
+# These images are in statement explanation and do not exist on demagog
+# anymore, so we just ignore them
+NON_EXISTING_CONTENT_IMAGES = ["/data/images/jjj.jpg"]
+
 class StatementMigration
   attr_accessor :connection
   attr_accessor :quiet
@@ -165,7 +169,9 @@ class StatementMigration
         path = src[/\/data\/images\/.*$/]
         filename = path.match(/\/data\/images\/(.*)/)[1]
 
-        content_image = ContentImage.create!
+        next if NON_EXISTING_CONTENT_IMAGES.include?(path)
+
+        content_image = ContentImage.create!(created_at: statement.excerpted_at)
 
         ImageUrlHelper.open_image(path) do |file|
           content_image.image.attach io: file, filename: filename

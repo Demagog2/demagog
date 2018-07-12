@@ -2,6 +2,9 @@
 
 require "ruby-progressbar/outputs/null"
 
+# These logos do not exist on demagog anymore
+NON_EXISTING_BODY_LOGOS = ["/data/politicke_strany/t/13651759724702.jpg"]
+
 class BodyMigration
   attr_accessor :connection
   attr_accessor :quiet
@@ -45,10 +48,13 @@ class BodyMigration
     old_parties.each do |old_party|
       unless old_party["logo"].empty?
         path = "/data/politicke_strany/t/#{old_party["logo"]}"
-        body = Body.find(old_party["id"])
 
-        ImageUrlHelper.open_image(path) do |file|
-          body.logo.attach io: file, filename: old_party["logo"]
+        unless NON_EXISTING_BODY_LOGOS.include?(path)
+          body = Body.find(old_party["id"])
+
+          ImageUrlHelper.open_image(path) do |file|
+            body.logo.attach io: file, filename: old_party["logo"]
+          end
         end
       end
 

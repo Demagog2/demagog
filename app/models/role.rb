@@ -10,6 +10,8 @@ ALL_PERMISSIONS = [
   "bodies:edit",
 
   "images:view",
+  "images:add",
+  "images:delete",
 
   "media:view",
   "media:edit",
@@ -32,6 +34,7 @@ ALL_PERMISSIONS = [
   "statements:view-unapproved-evaluation",
   "statements:view-evaluation-as-evaluator",
   "statements:comments:add",
+  "statements:delete",
 
   "tags:view",
 
@@ -72,16 +75,31 @@ class Role < ApplicationRecord
         "visualizations:view",
       ]
     when PROOFREADER then [
+        "articles:view",
+        "bodies:view",
+        "images:view",
+        "images:add",
+        "media:view",
         "sources:view",
+        "speakers:view",
         "statements:edit-texts",
         "statements:view-unapproved-evaluation",
         "statements:comments:add",
+        "tags:view",
+        "visualizations:view",
       ]
     when INTERN then [
+        "bodies:view",
+        "images:view",
+        "images:add",
+        "media:view",
         "sources:view",
+        "speakers:view",
         "statements:edit-as-evaluator",
         "statements:view-evaluation-as-evaluator",
         "statements:comments:add",
+        "tags:view",
+        "visualizations:view",
       ]
     else raise Exception.new("Permissions for role #{key} have not been implemented yet")
     end

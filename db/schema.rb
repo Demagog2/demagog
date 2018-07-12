@@ -129,8 +129,10 @@ ActiveRecord::Schema.define(version: 2018_07_11_120744) do
   end
 
   create_table "content_images", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "title"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
+    t.datetime "deleted_at"
+    t.index ["user_id"], name: "index_content_images_on_user_id"
   end
 
   create_table "friendly_id_slugs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

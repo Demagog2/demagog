@@ -447,6 +447,15 @@ export interface UpdateSourceStatementsOrderMutation {
   } | null,
 };
 
+export interface DeleteContentImageMutationVariables {
+  id: string,
+};
+
+export interface DeleteContentImageMutation {
+  // Delete existing content image
+  deleteContentImage: string,
+};
+
 export interface GetArticleQueryVariables {
   id: string,
 };
@@ -826,5 +835,27 @@ export interface GetCurrentUserQuery {
       name: string,
       permissions: Array< string >,
     },
+  },
+};
+
+export interface GetContentImagesQueryVariables {
+  name?: string | null,
+};
+
+export interface GetContentImagesQuery {
+  content_images:  {
+    total_count: number,
+    items:  Array< {
+      id: string,
+      image: string,
+      image_50x50: string,
+      name: string,
+      created_at: GraphQLCustomScalar_DateTime,
+      user:  {
+        id: string,
+        first_name: string,
+        last_name: string,
+      } | null,
+    } >,
   },
 };

@@ -18,6 +18,7 @@ import BodyNew from './components/BodyNew';
 import FlashMessages from './components/FlashMessages';
 import Header from './components/Header';
 // import Home from './components/Home';
+import Images from './components/Images';
 import Loading from './components/Loading';
 import NotFound from './components/NotFound';
 import Sidebar from './components/Sidebar';
@@ -77,6 +78,8 @@ class App extends React.Component<IProps> {
                 <Route path="/admin/articles" exact component={Articles} />
                 <Route path="/admin/articles/new" exact component={ArticleNew} />
                 <Route path="/admin/articles/edit/:id" exact component={ArticleEdit} />
+
+                <Route path="/admin/images" exact component={Images} />
 
                 <Route path="/admin/sources" exact component={Sources} />
                 <Route path="/admin/sources/new" exact component={SourceNew} />

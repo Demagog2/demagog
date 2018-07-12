@@ -262,3 +262,9 @@ export const UpdateSourceStatementsOrder = gql`
     }
   }
 `;
+
+export const DeleteContentImage = gql`
+  mutation DeleteContentImage($id: ID!) {
+    deleteContentImage(id: $id)
+  }
+`;

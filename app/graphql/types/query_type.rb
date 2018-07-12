@@ -292,4 +292,32 @@ Types::QueryType = GraphQL::ObjectType.define do
       Role.all
     }
   end
+
+  ContentImagesResult = GraphQL::ObjectType.define do
+    name "ContentImagesResult"
+    field :total_count, !types.Int, hash_key: :total_count
+    field :items, !types[!Types::ContentImageType], hash_key: :items
+  end
+
+  field :content_images, !ContentImagesResult do
+    argument :limit, types.Int, default_value: 10
+    argument :offset, types.Int, default_value: 0
+    argument :name, types.String, default_value: nil
+
+    resolve -> (obj, args, ctx) {
+      raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+
+      content_images = ContentImage.all
+
+      content_images = content_images.matching_name(args[:name]) if args[:name].present?
+
+      {
+        total_count: content_images.count,
+        items: content_images
+          .offset(args[:offset])
+          .limit(args[:limit])
+          .order(created_at: :desc)
+      }
+    }
+  end
 end
