@@ -94,7 +94,10 @@ class Articles extends React.Component<IProps, IState> {
           />
         </div>
 
-        <GetArticlesQuery query={GetArticles} variables={{ title: this.state.search }}>
+        <GetArticlesQuery
+          query={GetArticles}
+          variables={{ title: this.state.search, limit: 50, offset: 0 }}
+        >
           {(props) => {
             if (props.loading) {
               return <Loading />;
@@ -111,6 +114,8 @@ class Articles extends React.Component<IProps, IState> {
             const confirmDeleteModalArticle = props.data.articles.find(
               (s) => s.id === confirmDeleteModalArticleId,
             );
+
+            const articlesLength = props.data.articles.length;
 
             return (
               <div style={{ marginTop: 15 }}>
@@ -130,55 +135,79 @@ class Articles extends React.Component<IProps, IState> {
                   />
                 )}
 
-                {props.data.articles.length > 0 && (
-                  <table
-                    className={classNames(Classes.HTML_TABLE, Classes.HTML_TABLE_STRIPED)}
-                    style={{ width: '100%' }}
-                  >
-                    <thead>
-                      <tr>
-                        <th scope="col">Titulek</th>
-                        <th scope="col" style={{ width: '25%' }}>
-                          Zveřejněný
-                        </th>
-                        <th scope="col" />
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {props.data.articles.map((article) => (
-                        <tr key={article.id}>
-                          <td>{article.title}</td>
-                          <td>
-                            {article.published ? 'Ano' : 'Ne'}&nbsp;
-                            {article.published_at && displayDate(article.published_at)}&nbsp;
-                            <a href={`/diskuze/${article.slug}`}>Odkaz</a>
-                          </td>
-                          <td>
-                            <div style={{ display: 'flex' }}>
-                              <Link
-                                to={`/admin/articles/edit/${article.id}`}
-                                className={classNames(
-                                  Classes.BUTTON,
-                                  Classes.iconClass(IconNames.EDIT),
-                                )}
-                              >
-                                Upravit
-                              </Link>
-                              <Button
-                                icon={IconNames.TRASH}
-                                style={{ marginLeft: 7 }}
-                                onClick={this.showConfirmDeleteModal(article.id)}
-                                title="Smazat"
-                              />
-                            </div>
-                          </td>
+                {articlesLength > 0 && (
+                  <React.Fragment>
+                    <table
+                      className={classNames(Classes.HTML_TABLE, Classes.HTML_TABLE_STRIPED)}
+                      style={{ width: '100%' }}
+                    >
+                      <thead>
+                        <tr>
+                          <th scope="col">Titulek</th>
+                          <th scope="col" style={{ width: '25%' }}>
+                            Zveřejněný
+                          </th>
+                          <th scope="col" />
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {props.data.articles.map((article) => (
+                          <tr key={article.id}>
+                            <td>{article.title}</td>
+                            <td>
+                              {article.published ? 'Ano' : 'Ne'}&nbsp;
+                              {article.published_at && displayDate(article.published_at)}&nbsp;
+                              <a href={`/diskuze/${article.slug}`}>Odkaz</a>
+                            </td>
+                            <td>
+                              <div style={{ display: 'flex' }}>
+                                <Link
+                                  to={`/admin/articles/edit/${article.id}`}
+                                  className={classNames(
+                                    Classes.BUTTON,
+                                    Classes.iconClass(IconNames.EDIT),
+                                  )}
+                                >
+                                  Upravit
+                                </Link>
+                                <Button
+                                  icon={IconNames.TRASH}
+                                  style={{ marginLeft: 7 }}
+                                  onClick={this.showConfirmDeleteModal(article.id)}
+                                  title="Smazat"
+                                />
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+
+                    <Button
+                      onClick={() =>
+                        props.fetchMore({
+                          variables: {
+                            offset: articlesLength,
+                          },
+
+                          updateQuery: (prev, { fetchMoreResult }) => {
+                            if (!fetchMoreResult) {
+                              return prev;
+                            }
+
+                            return {
+                              ...prev,
+                              articles: [...prev.articles, ...fetchMoreResult.articles],
+                            };
+                          },
+                        })
+                      }
+                      text="Načíst další"
+                    />
+                  </React.Fragment>
                 )}
 
-                {props.data.articles.length === 0 &&
+                {articlesLength === 0 &&
                   this.state.search !== '' && (
                     <p>Nenašli jsme žádný článek s názvem „{this.state.search}‟.</p>
                   )}

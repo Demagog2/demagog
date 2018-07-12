@@ -122,7 +122,9 @@ export interface CreateArticleMutationVariables {
 };
 
 export interface CreateArticleMutation {
-  // Add new article
+  /**
+   * Add new article
+   */
   createArticle:  {
     id: string,
     title: string,
@@ -135,7 +137,9 @@ export interface UpdateArticleMutationVariables {
 };
 
 export interface UpdateArticleMutation {
-  // Update existing article
+  /**
+   * Update existing article
+   */
   updateArticle:  {
     id: string,
     title: string,
@@ -147,7 +151,9 @@ export interface DeleteArticleMutationVariables {
 };
 
 export interface DeleteArticleMutation {
-  // Delete existing article
+  /**
+   * Delete existing article
+   */
   deleteArticle: string,
 };
 
@@ -156,7 +162,9 @@ export interface CreateSourceMutationVariables {
 };
 
 export interface CreateSourceMutation {
-  // Add new source
+  /**
+   * Add new source
+   */
   createSource:  {
     id: string,
     name: string,
@@ -169,7 +177,9 @@ export interface UpdateSourceMutationVariables {
 };
 
 export interface UpdateSourceMutation {
-  // Update existing source
+  /**
+   * Update existing source
+   */
   updateSource:  {
     id: string,
     name: string,
@@ -181,7 +191,9 @@ export interface DeleteSourceMutationVariables {
 };
 
 export interface DeleteSourceMutation {
-  // Delete existing source with all its statements
+  /**
+   * Delete existing source with all its statements
+   */
   deleteSource: string,
 };
 
@@ -190,7 +202,9 @@ export interface CreateBodyMutationVariables {
 };
 
 export interface CreateBodyMutation {
-  // Add new body
+  /**
+   * Add new body
+   */
   createBody:  {
     id: string,
     logo: string | null,
@@ -210,7 +224,9 @@ export interface UpdateBodyMutationVariables {
 };
 
 export interface UpdateBodyMutation {
-  // Update existing body
+  /**
+   * Update existing body
+   */
   updateBody:  {
     id: string,
     logo: string | null,
@@ -229,7 +245,9 @@ export interface DeleteBodyMutationVariables {
 };
 
 export interface DeleteBodyMutation {
-  // Delete existing body
+  /**
+   * Delete existing body
+   */
   deleteBody: string,
 };
 
@@ -238,7 +256,9 @@ export interface CreateSpeakerMutationVariables {
 };
 
 export interface CreateSpeakerMutation {
-  // Add new speaker
+  /**
+   * Add new speaker
+   */
   createSpeaker:  {
     id: string,
     first_name: string,
@@ -266,7 +286,9 @@ export interface UpdateSpeakerMutationVariables {
 };
 
 export interface UpdateSpeakerMutation {
-  // Update existing speaker
+  /**
+   * Update existing speaker
+   */
   updateSpeaker:  {
     id: string,
     first_name: string,
@@ -293,7 +315,9 @@ export interface DeleteSpeakerMutationVariables {
 };
 
 export interface DeleteSpeakerMutation {
-  // Delete existing speaker
+  /**
+   * Delete existing speaker
+   */
   deleteSpeaker: string,
 };
 
@@ -302,7 +326,9 @@ export interface CreateUserMutationVariables {
 };
 
 export interface CreateUserMutation {
-  // Add new user
+  /**
+   * Add new user
+   */
   createUser:  {
     id: string,
     first_name: string,
@@ -325,7 +351,9 @@ export interface UpdateUserMutationVariables {
 };
 
 export interface UpdateUserMutation {
-  // Update existing user
+  /**
+   * Update existing user
+   */
   updateUser:  {
     id: string,
     first_name: string,
@@ -347,7 +375,9 @@ export interface DeleteUserMutationVariables {
 };
 
 export interface DeleteUserMutation {
-  // Delete existing user
+  /**
+   * Delete existing user
+   */
   deleteUser: string,
 };
 
@@ -356,7 +386,9 @@ export interface CreateStatementMutationVariables {
 };
 
 export interface CreateStatementMutation {
-  // Add new statement
+  /**
+   * Add new statement
+   */
   createStatement:  {
     id: string,
     content: string,
@@ -374,7 +406,9 @@ export interface UpdateStatementMutationVariables {
 };
 
 export interface UpdateStatementMutation {
-  // Update existing statement
+  /**
+   * Update existing statement
+   */
   updateStatement:  {
     id: string,
     content: string,
@@ -413,7 +447,9 @@ export interface DeleteStatementMutationVariables {
 };
 
 export interface DeleteStatementMutation {
-  // Delete existing statement
+  /**
+   * Delete existing statement
+   */
   deleteStatement: string,
 };
 
@@ -422,7 +458,9 @@ export interface CreateCommentMutationVariables {
 };
 
 export interface CreateCommentMutation {
-  // Add new comment
+  /**
+   * Add new comment
+   */
   createComment:  {
     id: string,
     content: string,
@@ -441,7 +479,9 @@ export interface UpdateSourceStatementsOrderMutationVariables {
 };
 
 export interface UpdateSourceStatementsOrderMutation {
-  // Update order of statements in source
+  /**
+   * Update order of statements in source
+   */
   updateSourceStatementsOrder:  {
     id: string,
   } | null,
@@ -473,6 +513,8 @@ export interface GetArticleQuery {
 
 export interface GetArticlesQueryVariables {
   title?: string | null,
+  offset?: number | null,
+  limit?: number | null,
 };
 
 export interface GetArticlesQuery {
