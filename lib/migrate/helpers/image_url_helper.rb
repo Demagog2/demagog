@@ -13,6 +13,12 @@ class ImageUrlHelper
       image_service_url = "http://legacy.demagog.cz"
     end
 
+    # GIF images are not available on pacific meadow, so we force
+    # legacy.demagog.cz for them
+    if image_service_url == "https://pacific-meadow-53023.herokuapp.com" && path.end_with?(".gif")
+      image_service_url = "http://legacy.demagog.cz"
+    end
+
     image_service_url + path
   end
 
