@@ -49,6 +49,7 @@ interface IState {
   confirmDeleteModalId: string | null;
   zoomedId: string | null;
   isAdding: boolean;
+  isLoadingMore: boolean;
 }
 
 class Images extends React.Component<IProps, IState> {
@@ -57,6 +58,7 @@ class Images extends React.Component<IProps, IState> {
     confirmDeleteModalId: null,
     zoomedId: null,
     isAdding: false,
+    isLoadingMore: false,
   };
 
   public onSearchChange = (search: string) => {
@@ -181,9 +183,9 @@ class Images extends React.Component<IProps, IState> {
         <div style={{ marginTop: 15 }}>
           <GetContentImagesQueryComponent
             query={GetContentImages}
-            variables={{ name: this.state.search }}
+            variables={{ name: this.state.search, offset: 0, limit: 20 }}
           >
-            {({ data, loading, error }) => {
+            {({ data, loading, error, fetchMore }) => {
               if (loading || !data) {
                 return <Loading />;
               }
@@ -259,7 +261,12 @@ class Images extends React.Component<IProps, IState> {
                       <>
                         {' '}
                         <strong>
-                          prvních {Math.min(data.content_images.total_count, 20)} obrázků
+                          posledních{' '}
+                          {Math.min(
+                            data.content_images.total_count,
+                            data.content_images.items.length,
+                          )}{' '}
+                          obrázků
                         </strong>{' '}
                         z <strong>celkových {data.content_images.total_count}</strong>
                       </>
@@ -338,6 +345,45 @@ class Images extends React.Component<IProps, IState> {
                           </td>
                         </tr>
                       ))}
+                      {data.content_images.total_count > data.content_images.items.length && (
+                        <tr>
+                          <td colSpan={6} style={{ textAlign: 'center' }}>
+                            <Button
+                              type="button"
+                              text={this.state.isLoadingMore ? 'Nahrávám…' : 'Zobrazit další…'}
+                              disabled={this.state.isLoadingMore}
+                              large
+                              minimal
+                              onClick={() => {
+                                this.setState({ isLoadingMore: true });
+
+                                fetchMore({
+                                  variables: {
+                                    offset: data.content_images.items.length,
+                                  },
+                                  updateQuery: (prev, { fetchMoreResult }) => {
+                                    if (!fetchMoreResult) {
+                                      return prev;
+                                    }
+
+                                    return {
+                                      content_images: {
+                                        ...prev.content_images,
+                                        items: [
+                                          ...prev.content_images.items,
+                                          ...fetchMoreResult.content_images.items,
+                                        ],
+                                      },
+                                    };
+                                  },
+                                }).finally(() => {
+                                  this.setState({ isLoadingMore: false });
+                                });
+                              }}
+                            />
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </>

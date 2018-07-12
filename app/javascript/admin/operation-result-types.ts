@@ -459,7 +459,6 @@ export interface CreateContentImageMutation {
   // Add new content image
   createContentImage:  {
     id: string,
-    name: string,
     created_at: GraphQLCustomScalar_DateTime,
     user:  {
       id: string,
@@ -862,6 +861,8 @@ export interface GetCurrentUserQuery {
 
 export interface GetContentImagesQueryVariables {
   name?: string | null,
+  offset?: number | null,
+  limit?: number | null,
 };
 
 export interface GetContentImagesQuery {

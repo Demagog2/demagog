@@ -367,8 +367,8 @@ export const GetCurrentUser = gql`
 `;
 
 export const GetContentImages = gql`
-  query GetContentImages($name: String) {
-    content_images(limit: 20, name: $name) {
+  query GetContentImages($name: String, $offset: Int, $limit: Int) {
+    content_images(offset: $offset, limit: $limit, name: $name) {
       total_count
       items {
         id
