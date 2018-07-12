@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 require "date"
+require "ruby-progressbar/outputs/null"
+
 require_relative "./helpers/duplication_tester"
+require_relative "./helpers/image_url_helper"
 
 class StatementMigration
   attr_accessor :connection
@@ -20,6 +23,7 @@ class StatementMigration
 
     migrate_statements(old_statements)
     migrate_assessments(old_statements)
+    migrate_images_in_explanation()
     migrate_segments(old_statements)
   end
 
@@ -74,7 +78,6 @@ class StatementMigration
          1 => Assessment::STATUS_APPROVED
     }
   end
-
 
   def migrate_assessments(old_statements)
     keys = [
@@ -134,6 +137,52 @@ class StatementMigration
       )
 
       segment
+    end
+  end
+
+  def migrate_images_in_explanation
+    statements = Statement.unscoped.includes(:assessment)
+
+    progressbar = ProgressBar.create(
+      format: "Migrating statement explanation content images: %e |%b>>%i| %p%% %t",
+      total: statements.size,
+      output: quiet ? ProgressBar::Outputs::Null : $stdout
+    )
+
+    statements.each do |statement|
+      assessment = statement.assessment
+      img_src_matches = assessment.explanation_html.scan(/<img[^>]*src="([^"]+)"[^>]*>/)
+
+      img_src_matches.each do |img_src_match|
+        src = img_src_match[0]
+
+        is_demagog_upload_image = src.starts_with?("/data/images/") ||
+          src.starts_with?("http://demagog.cz/data/images/") ||
+          src.starts_with?("http://legacy.demagog.cz/data/images/")
+
+        next unless is_demagog_upload_image
+
+        path = src[/\/data\/images\/.*$/]
+        filename = path.match(/\/data\/images\/(.*)/)[1]
+
+        content_image = ContentImage.create!
+
+        ImageUrlHelper.open_image(path) do |file|
+          content_image.image.attach io: file, filename: filename
+        end
+
+        # Using polymorphic_url as it is the same as url_for, but allows
+        # generating only the path of url without host. Not using
+        # rails_blob_path, because url_for generates the permanent link
+        # decoupled from where the file actually is.
+        # See http://edgeguides.rubyonrails.org/active_storage_overview.html#linking-to-files
+        src_new = Rails.application.routes.url_helpers.polymorphic_url(content_image.image, only_path: true)
+
+        assessment.explanation_html = assessment.explanation_html.gsub(src, src_new)
+      end
+
+      assessment.save!
+      progressbar.increment
     end
   end
 

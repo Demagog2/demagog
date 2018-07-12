@@ -15,7 +15,7 @@ Types::SpeakerType = GraphQL::ObjectType.define do
     resolve -> (obj, args, ctx) do
       return nil unless obj.avatar.attached?
 
-      Rails.application.routes.url_helpers.rails_blob_path(obj.avatar, only_path: true)
+      Rails.application.routes.url_helpers.polymorphic_url(obj.avatar, only_path: true)
     end
   end
 

@@ -33,6 +33,8 @@ class ImageUrlHelper
       unless cache_hit
         FileUtils.mkdir_p cache_dir_path
         File.open(cache_file_path, "wb") do |file|
+          p path
+          p absolute_url
           file << open(absolute_url).read
         end
       end
