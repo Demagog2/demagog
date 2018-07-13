@@ -111,6 +111,7 @@ class StatementCard extends React.Component<IProps, IState> {
               <button
                 type="button"
                 className={Classes.BUTTON}
+                style={{ marginLeft: 7 }}
                 onClick={this.toggleConfirmDeleteModal}
               >
                 Smazat

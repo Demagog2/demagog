@@ -1580,30 +1580,6 @@
               "deprecationReason": null
             },
             {
-              "name": "speakers_statements_stats",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "SourceSpeakersStatementsStat",
-                      "ofType": null
-                    }
-                  }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "statements",
               "description": null,
               "args": [
@@ -1630,6 +1606,30 @@
                     "ofType": {
                       "kind": "OBJECT",
                       "name": "Statement",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "statements_counts_by_evaluation_status",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StatementsCountsByEvaluationStatusItemType",
                       "ofType": null
                     }
                   }
@@ -3473,19 +3473,19 @@
         },
         {
           "kind": "OBJECT",
-          "name": "SourceSpeakersStatementsStat",
+          "name": "StatementsCountsByEvaluationStatusItemType",
           "description": null,
           "fields": [
             {
-              "name": "speaker",
+              "name": "evaluation_status",
               "description": null,
               "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Speaker",
+                  "kind": "SCALAR",
+                  "name": "String",
                   "ofType": null
                 }
               },
@@ -3493,7 +3493,7 @@
               "deprecationReason": null
             },
             {
-              "name": "statements_published_count",
+              "name": "statements_count",
               "description": null,
               "args": [],
               "type": {

@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import { Button, Classes, Intent } from '@blueprintjs/core';
 import { Form, Formik } from 'formik';
+import { DateTime } from 'luxon';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
@@ -25,17 +26,6 @@ interface ISourceFormProps {
 }
 
 export class SourceForm extends React.Component<ISourceFormProps> {
-  public static defaultProps = {
-    sourceQuery: {
-      source: {
-        medium: {},
-        media_personality: {},
-        speakers: [],
-        released_at: null,
-      },
-    },
-  };
-
   public render() {
     const { backPath, source, title } = this.props;
 
@@ -43,7 +33,7 @@ export class SourceForm extends React.Component<ISourceFormProps> {
       name: source ? source.name : '',
       medium_id: source ? source.medium.id : null,
       media_personality_id: source ? source.media_personality.id : null,
-      released_at: source ? source.released_at : null,
+      released_at: source ? source.released_at : DateTime.local().toISODate(),
       source_url: source ? source.source_url : '',
       speakers: source ? source.speakers.map((s) => s.id) : [],
       transcript: source && source.transcript ? source.transcript : '',

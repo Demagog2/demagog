@@ -4,6 +4,7 @@ import {
   Button,
   Callout,
   Classes,
+  Colors,
   FormGroup,
   Intent,
   Position,
@@ -50,6 +51,13 @@ class UpdateStatementMutationComponent extends Mutation<
 > {}
 
 class GetStatementQueryComponent extends Query<GetStatementQuery> {}
+
+const VERACITY_COLORS = {
+  true: Colors.COBALT2,
+  untrue: Colors.RED3,
+  misleading: Colors.GOLD5,
+  unverifiable: Colors.BLUE5,
+};
 
 interface IProps extends RouteComponentProps<{ id: string }> {
   currentUser: ReduxState['currentUser']['user'];
@@ -370,19 +378,29 @@ class StatementDetail extends React.Component<IProps, IState> {
                                     />
                                   </FormGroup>
                                 ) : (
-                                  <div>
-                                    Hodnocení:{' '}
-                                    {statement.assessment.veracity &&
-                                      statement.assessment.veracity.name}
-                                  </div>
+                                  <p>
+                                    {!statement.assessment.veracity && 'Zatím nehodnoceno'}
+
+                                    {statement.assessment.veracity && (
+                                      <span
+                                        className={Classes.UI_TEXT_LARGE}
+                                        style={{
+                                          color: VERACITY_COLORS[statement.assessment.veracity.key],
+                                          fontWeight: 'bold',
+                                        }}
+                                      >
+                                        {statement.assessment.veracity.name}
+                                      </span>
+                                    )}
+                                  </p>
                                 )}
 
-                                <FormGroup
-                                  label="Odůvodnění zkráceně"
-                                  labelFor="assessment-short-explanation"
-                                  helperText="Maximálně na dlouhý tweet, tj. 280 znaků"
-                                >
-                                  {canEditExplanations ? (
+                                {canEditExplanations ? (
+                                  <FormGroup
+                                    label="Odůvodnění zkráceně"
+                                    labelFor="assessment-short-explanation"
+                                    helperText="Maximálně na dlouhý tweet, tj. 280 znaků"
+                                  >
                                     <textarea
                                       className={classNames(Classes.INPUT, Classes.FILL)}
                                       id="assessment-short-explanation"
@@ -392,13 +410,16 @@ class StatementDetail extends React.Component<IProps, IState> {
                                       onBlur={handleBlur}
                                       value={values.assessment.short_explanation || ''}
                                     />
-                                  ) : (
+                                  </FormGroup>
+                                ) : (
+                                  <>
+                                    <h6>Odůvodnění zkráceně</h6>
                                     <p>{values.assessment.short_explanation}</p>
-                                  )}
-                                </FormGroup>
+                                  </>
+                                )}
 
-                                <FormGroup label="Odůvodnění" labelFor="assessment-explanation">
-                                  {canEditExplanations ? (
+                                {canEditExplanations ? (
+                                  <FormGroup label="Odůvodnění" labelFor="assessment-explanation">
                                     <RichTextEditor
                                       value={values.assessment.explanation_slatejson}
                                       onChange={(value, html) => {
@@ -406,14 +427,17 @@ class StatementDetail extends React.Component<IProps, IState> {
                                         setFieldValue('assessment.explanation_html', html);
                                       }}
                                     />
-                                  ) : (
+                                  </FormGroup>
+                                ) : (
+                                  <>
+                                    <h6>Odůvodnění</h6>
                                     <div
                                       dangerouslySetInnerHTML={{
                                         __html: values.assessment.explanation_html || '',
                                       }}
                                     />
-                                  )}
-                                </FormGroup>
+                                  </>
+                                )}
                               </>
                             )}
                             {!canEditVeracity &&
@@ -573,34 +597,36 @@ class EvaluationStatusInput extends React.Component<IEvaluationStatusInputProps>
           content={tooltipContent || ''}
           position={Position.TOP}
         >
-          {value === ASSESSMENT_STATUS_BEING_EVALUATED && (
-            <Button
-              disabled={disabled}
-              onClick={this.onChange(ASSESSMENT_STATUS_APPROVAL_NEEDED)}
-              text="Posunout ke kontrole"
-            />
-          )}
-          {value === ASSESSMENT_STATUS_APPROVAL_NEEDED && (
-            <>
+          <>
+            {value === ASSESSMENT_STATUS_BEING_EVALUATED && (
+              <Button
+                disabled={disabled}
+                onClick={this.onChange(ASSESSMENT_STATUS_APPROVAL_NEEDED)}
+                text="Posunout ke kontrole"
+              />
+            )}
+            {value === ASSESSMENT_STATUS_APPROVAL_NEEDED && (
+              <>
+                <Button
+                  disabled={disabled}
+                  onClick={this.onChange(ASSESSMENT_STATUS_BEING_EVALUATED)}
+                  text="Vrátit ke zpracování"
+                />
+                <Button
+                  disabled={disabled}
+                  onClick={this.onChange(ASSESSMENT_STATUS_APPROVED)}
+                  text="Schválit"
+                />
+              </>
+            )}
+            {value === ASSESSMENT_STATUS_APPROVED && (
               <Button
                 disabled={disabled}
                 onClick={this.onChange(ASSESSMENT_STATUS_BEING_EVALUATED)}
                 text="Vrátit ke zpracování"
               />
-              <Button
-                disabled={disabled}
-                onClick={this.onChange(ASSESSMENT_STATUS_APPROVED)}
-                text="Schválit"
-              />
-            </>
-          )}
-          {value === ASSESSMENT_STATUS_APPROVED && (
-            <Button
-              disabled={disabled}
-              onClick={this.onChange(ASSESSMENT_STATUS_BEING_EVALUATED)}
-              text="Vrátit ke zpracování"
-            />
-          )}
+            )}
+          </>
         </Tooltip>
       </>
     );

@@ -190,6 +190,7 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                   overflow: 'scroll',
                   marginRight: 15,
                   paddingRight: 15,
+                  paddingBottom: 50,
                 }}
               >
                 <h5>Přepis:</h5>
@@ -204,7 +205,7 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                   />
                 )}
               </div>
-              <div style={{ flex: '1 0', overflow: 'scroll', marginLeft: 15 }}>
+              <div style={{ flex: '1 0', overflow: 'scroll', marginLeft: 15, paddingBottom: 50 }}>
                 {transcriptSelection === null &&
                   newStatementSelection === null && (
                     <>

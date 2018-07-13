@@ -67,13 +67,9 @@ export const GetSources = gql`
         id
         name
       }
-      speakers_statements_stats {
-        speaker {
-          id
-          first_name
-          last_name
-        }
-        statements_published_count
+      statements_counts_by_evaluation_status {
+        evaluation_status
+        statements_count
       }
       statements {
         id

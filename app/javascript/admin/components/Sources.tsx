@@ -5,20 +5,24 @@ import * as React from 'react';
 import { Button, Classes } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import * as classNames from 'classnames';
+import { compact } from 'lodash';
 import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 
-import { compact } from 'lodash';
+import {
+  ASSESSMENT_STATUS_APPROVAL_NEEDED,
+  ASSESSMENT_STATUS_APPROVED,
+  ASSESSMENT_STATUS_BEING_EVALUATED,
+} from '../constants';
 import {
   GetSourcesQuery as GetSourcesQueryResult,
   GetSourcesQueryVariables,
 } from '../operation-result-types';
 import { GetSources } from '../queries/queries';
+import { displayDate } from '../utils';
 import Authorize from './Authorize';
 import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
-
-import { displayDate } from '../utils';
 
 class GetSourcesQuery extends Query<GetSourcesQueryResult, GetSourcesQueryVariables> {}
 
@@ -106,46 +110,72 @@ class Sources extends React.Component<{}, IState> {
                         <th scope="col" style={{ width: '60%' }}>
                           Zdroj
                         </th>
-                        <th scope="col">Zveřejněné výroky</th>
+                        <th scope="col">
+                          Výroky<br />
+                          <small className={Classes.TEXT_MUTED}>
+                            ve zpracování/ke kontrole/schválené
+                          </small>
+                        </th>
                         <th scope="col" />
                       </tr>
                     </thead>
                     <tbody>
-                      {props.data.sources.map((source) => (
-                        <tr key={source.id}>
-                          <td>
-                            <div className={Classes.UI_TEXT_LARGE}>{source.name}</div>
-                            <div className={Classes.TEXT_MUTED} style={{ marginTop: 5 }}>
-                              {source.medium.name}, {displayDate(source.released_at)},{' '}
-                              {source.media_personality.name}
-                              {source.source_url && (
-                                <>
-                                  , <a href={source.source_url}>odkaz</a>
-                                </>
-                              )}
-                            </div>
-                          </td>
-                          <td>
-                            <ul className={Classes.LIST_UNSTYLED} style={{ lineHeight: '1.5' }}>
-                              {source.speakers_statements_stats.map((stat, index) => (
-                                <li key={index}>
-                                  {stat.speaker.first_name} {stat.speaker.last_name}:{' '}
-                                  {stat.statements_published_count}
-                                </li>
-                              ))}
-                            </ul>
+                      {props.data.sources.map((source) => {
+                        const statementsCountsMap = source.statements_counts_by_evaluation_status.reduce(
+                          (carry, item) => {
+                            return { ...carry, [item.evaluation_status]: item.statements_count };
+                          },
+                          {
+                            [ASSESSMENT_STATUS_BEING_EVALUATED]: 0,
+                            [ASSESSMENT_STATUS_APPROVAL_NEEDED]: 0,
+                            [ASSESSMENT_STATUS_APPROVED]: 0,
+                          },
+                        );
 
-                            {source.speakers_statements_stats.length === 0 && (
-                              <span className={Classes.TEXT_MUTED}>Zatím žádné</span>
-                            )}
-                          </td>
-                          <td style={{ textAlign: 'right' }}>
-                            <Link to={`/admin/sources/${source.id}`} className={Classes.BUTTON}>
-                              Na detail zdroje
-                            </Link>
-                          </td>
-                        </tr>
-                      ))}
+                        return (
+                          <tr key={source.id}>
+                            <td>
+                              <div className={Classes.UI_TEXT_LARGE}>{source.name}</div>
+                              <div className={Classes.TEXT_MUTED} style={{ marginTop: 5 }}>
+                                {source.medium.name}, {displayDate(source.released_at)},{' '}
+                                {source.media_personality.name}
+                                {source.source_url && (
+                                  <>
+                                    , <a href={source.source_url}>odkaz</a>
+                                  </>
+                                )}
+                              </div>
+                            </td>
+                            <td>
+                              {Object.keys(statementsCountsMap).map(
+                                (evaluationStatus, index, { length }) => (
+                                  <React.Fragment key={evaluationStatus}>
+                                    <span
+                                      style={{
+                                        fontWeight:
+                                          statementsCountsMap[evaluationStatus] > 0
+                                            ? 'bold'
+                                            : 'normal',
+                                      }}
+                                    >
+                                      {statementsCountsMap[evaluationStatus]}
+                                    </span>
+
+                                    {index < length - 1 && (
+                                      <span className={Classes.TEXT_MUTED}> / </span>
+                                    )}
+                                  </React.Fragment>
+                                ),
+                              )}
+                            </td>
+                            <td style={{ textAlign: 'right' }}>
+                              <Link to={`/admin/sources/${source.id}`} className={Classes.BUTTON}>
+                                Na detail zdroje
+                              </Link>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
 

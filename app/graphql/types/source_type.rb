@@ -29,29 +29,25 @@ Types::SourceType = GraphQL::ObjectType.define do
     }
   end
 
-  SourceSpeakersStatementsStatType = GraphQL::ObjectType.define do
-    name "SourceSpeakersStatementsStat"
+  StatementsCountsByEvaluationStatusItemType = GraphQL::ObjectType.define do
+    name "StatementsCountsByEvaluationStatusItemType"
 
-    field :speaker, !Types::SpeakerType, hash_key: :speaker
-    field :statements_published_count, !types.Int, hash_key: :statements_published_count
+    field :evaluation_status, !types.String, hash_key: :evaluation_status
+    field :statements_count, !types.Int, hash_key: :statements_count
   end
 
-  field :speakers_statements_stats, !types[!SourceSpeakersStatementsStatType] do
+  field :statements_counts_by_evaluation_status, !types[!StatementsCountsByEvaluationStatusItemType] do
     resolve ->(obj, args, ctx) {
-      stats = []
-
-      obj.speakers.each do |speaker|
-        statements_published_count = speaker.statements
-          .published
-          .where(source: obj)
-          .count
-
-        if statements_published_count > 0
-          stats << { speaker: speaker, statements_published_count: statements_published_count }
-        end
+      grouped = obj.statements.includes(:assessment).group_by do |statement|
+        statement.assessment.evaluation_status
       end
 
-      stats
+      grouped.keys.map do |evaluation_status|
+        {
+          evaluation_status: evaluation_status,
+          statements_count: grouped[evaluation_status].size
+        }
+      end
     }
   end
 end
