@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Button, Intent, Menu, MenuItem, Popover, Position } from '@blueprintjs/core';
+import { Button, Callout, Intent, Menu, MenuItem, Popover, Position } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { v4 as uuid } from 'uuid';
 
@@ -17,14 +17,14 @@ interface IAddSegmentProps {
 
 function RemoveSegment(props: { onRemove(): void }) {
   return (
-    <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 5 }}>
-      <Button
-        minimal
-        icon={IconNames.TRASH}
-        onClick={props.onRemove}
-        intent={Intent.DANGER}
-        text="Odstranit segment"
-      />
+    <div
+      style={{
+        position: 'absolute',
+        top: 2,
+        left: -45,
+      }}
+    >
+      <Button icon={IconNames.TRASH} onClick={props.onRemove} title="Odstranit segment" />
     </div>
   );
 }
@@ -58,22 +58,41 @@ class StatementSegment extends React.Component<
   ISegmentProps<IStatementsSegment>,
   { isOpen: boolean }
 > {
-  public state = {
-    isOpen: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isOpen: this.props.segment.statements.length === 0,
+    };
+  }
 
   public toggleDialog = () => this.setState({ isOpen: !this.state.isOpen });
 
   public render() {
     return (
-      <div style={{ marginBottom: 20 }}>
+      <div style={{ marginBottom: 20, position: 'relative' }}>
         <RemoveSegment onRemove={this.props.onRemove} />
 
-        {this.props.segment.statements.map((statement) => (
-          <Statement key={statement} id={statement} />
-        ))}
+        {this.props.segment.statements.length > 0 && (
+          <>
+            <h2
+              style={{
+                fontFamily: 'Lato, sans-serif',
+                color: '#3c325c',
+                fontSize: 20,
+                fontWeight: 700,
+                letterSpacing: '0.5px',
+                margin: '20px 0 10px 0',
+              }}
+            >
+              Výroky
+            </h2>
 
-        <Button text="Vyberte výroky…" onClick={this.toggleDialog} />
+            {this.props.segment.statements.map((statement) => (
+              <Statement key={statement} id={statement} />
+            ))}
+          </>
+        )}
 
         <SelectStatementsModal
           isOpen={this.state.isOpen}
@@ -94,19 +113,36 @@ class StatementSegment extends React.Component<
 
 function TextSegment(props: ISegmentProps<ITextSegment>) {
   return (
-    <div style={{ marginBottom: 20 }}>
+    <div style={{ marginBottom: 20, position: 'relative' }}>
       <RemoveSegment onRemove={props.onRemove} />
 
-      <RichTextEditor
-        value={props.segment.text_slatejson}
-        onChange={(json, html) => {
-          props.onChange({
-            ...props.segment,
-            text_html: html,
-            text_slatejson: json,
-          });
-        }}
-      />
+      {props.segment.text_html && !props.segment.text_slatejson ? (
+        <div>
+          <Callout intent={Intent.PRIMARY} icon={IconNames.INFO_SIGN} style={{ marginBottom: 10 }}>
+            Tento textový segment je ze staré administrace a pokud jej chcete změnit, musíte jej
+            smazat a vytvořit textový segment nový.
+          </Callout>
+
+          <div dangerouslySetInnerHTML={{ __html: props.segment.text_html }} />
+        </div>
+      ) : (
+        <RichTextEditor
+          value={props.segment.text_slatejson}
+          onChange={(json, html) => {
+            props.onChange({
+              ...props.segment,
+              text_html: html,
+              text_slatejson: json,
+            });
+          }}
+          contentsStyle={{
+            fontFamily: 'Lato, sans-serif',
+            fontSize: '16px',
+            lineHeight: '25.6px',
+            letterSpacing: '0.4px',
+          }}
+        />
+      )}
     </div>
   );
 }
@@ -161,7 +197,7 @@ export class SegmentManager extends React.Component<ISegmentManagerProps, ISegme
     };
   }
 
-  public addSegment = (segmentType: SegmentType): void => {
+  public addSegment = (segmentType: SegmentType, addToIndex?: number): void => {
     const segments = this.state.segments;
 
     const segment =
@@ -169,7 +205,14 @@ export class SegmentManager extends React.Component<ISegmentManagerProps, ISegme
         ? { id: uuid(), type: segmentType, text_html: '', text_slatejson: null }
         : { id: uuid(), type: segmentType, statements: [] };
 
-    this.updateSegments([...segments, segment]);
+    const newSegments = [...segments];
+    if (addToIndex !== undefined) {
+      newSegments.splice(addToIndex, 0, segment);
+    } else {
+      newSegments.push(segment);
+    }
+
+    this.updateSegments(newSegments);
   };
 
   public removeSegment = (id: string) => () => {
@@ -189,27 +232,25 @@ export class SegmentManager extends React.Component<ISegmentManagerProps, ISegme
   public render() {
     return (
       <div>
-        {this.state.segments.map((segment) => {
-          if (segment.type === 'text') {
-            return (
+        {this.state.segments.map((segment, segmentIndex) => (
+          <React.Fragment key={segment.id}>
+            <AddSegment onSelect={(segmentType) => this.addSegment(segmentType, segmentIndex)} />
+
+            {segment.type === 'text' ? (
               <TextSegment
-                key={segment.id}
                 segment={segment}
                 onRemove={this.removeSegment(segment.id)}
                 onChange={this.updateSegment(segment.id)}
               />
-            );
-          }
-
-          return (
-            <StatementSegment
-              key={segment.id}
-              segment={segment}
-              onRemove={this.removeSegment(segment.id)}
-              onChange={this.updateSegment(segment.id)}
-            />
-          );
-        })}
+            ) : (
+              <StatementSegment
+                segment={segment}
+                onRemove={this.removeSegment(segment.id)}
+                onChange={this.updateSegment(segment.id)}
+              />
+            )}
+          </React.Fragment>
+        ))}
 
         <AddSegment onSelect={this.addSegment} />
       </div>

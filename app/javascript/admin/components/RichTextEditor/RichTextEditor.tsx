@@ -59,6 +59,7 @@ const htmlSerializer = new HtmlSerializer({
 interface IProps {
   value: object | null;
   onChange: (value: object, html: string) => void;
+  contentsStyle?: object;
 }
 
 interface IState {
@@ -116,6 +117,7 @@ class RichTextEditor extends React.Component<IProps, IState> {
             plugins={plugins}
             spellCheck
             style={{
+              ...(this.props.contentsStyle || {}),
               minHeight: '200px',
             }}
             schema={schema}

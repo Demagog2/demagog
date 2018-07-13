@@ -82,8 +82,25 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
             <h2>{title}</h2>
 
             <div style={{ display: 'flex' }}>
-              <div style={{ flex: '2 2', overflow: 'hidden', padding: 10 }}>
-                <h2 style={{ marginBottom: 20 }}>
+              <div
+                style={{
+                  flex: '2 2',
+                  padding: 30,
+                  margin: 6,
+                  backgroundColor: '#f4f9fd',
+                  boxShadow: '0 0 6px #999',
+                }}
+              >
+                <h2
+                  style={{
+                    marginBottom: '24px 0 12px 0',
+                    // TODO: make sure Lato is loaded
+                    fontFamily: 'Lato, sans-serif',
+                    color: '#3c325c',
+                    fontSize: 24,
+                    fontWeight: 700,
+                  }}
+                >
                   <EditableText
                     placeholder="Upravit název…"
                     onChange={(value) => setFieldValue('title', value)}
@@ -91,7 +108,16 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                   />
                 </h2>
 
-                <div style={{ marginBottom: 20 }}>
+                <div
+                  style={{
+                    marginBottom: 20,
+                    fontFamily: 'Lato, sans-serif',
+                    color: '#282828',
+                    fontSize: '16.5px',
+                    lineHeight: '24.75px',
+                    fontWeight: 400,
+                  }}
+                >
                   <EditableText
                     maxLines={12}
                     minLines={3}
