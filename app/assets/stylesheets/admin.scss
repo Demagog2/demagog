@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+// Make sure we load the Lato font, so we can use it in previews
+@import "fonts";
+
+.google-signin-btn {
+  display: inline-block;
+
+  width: 191px;
+  height: 46px;
+
+  background-image: asset-url("buttons/btn_google_signin_dark_normal_web.png");
+
+  &:hover {
+    background-image: asset-url("buttons/btn_google_signin_dark_focus_web.png");
+  }
+
+  &:active {
+    background-image: asset-url("buttons/btn_google_signin_dark_pressed_web.png");
+  }
+}

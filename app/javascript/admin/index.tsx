@@ -2,6 +2,17 @@
 
 import 'whatwg-fetch';
 
+import 'normalize.css/normalize.css';
+
+import '@blueprintjs/core/lib/css/blueprint';
+import '@blueprintjs/datetime/lib/css/blueprint-datetime.css';
+import '@blueprintjs/icons/lib/css/blueprint-icons.css';
+
+import 'react-select/dist/react-select.css';
+
+import 'jquery';
+import 'jquery-ujs';
+
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
@@ -12,13 +23,6 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';
 
 import apolloClient from './apolloClient';
-
-// Blueprint icons needs to be here, because asset pipeline is not loading the Icons16
-// font family from Blueprint correctly
-import '@blueprintjs/icons/lib/css/blueprint-icons.css';
-
-import 'jquery';
-import 'jquery-ujs';
 
 import * as ActiveStorage from 'activestorage';
 

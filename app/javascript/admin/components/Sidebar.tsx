@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 
-import { Classes } from '@blueprintjs/core';
-import * as classNames from 'classnames';
+import { Classes, Colors } from '@blueprintjs/core';
+import { css, cx } from 'emotion';
 import { NavLink } from 'react-router-dom';
 
 import Authorize from './Authorize';
@@ -46,7 +46,17 @@ const categories = [
 export default function Sidebar() {
   return (
     <div style={{ flexBasis: 230, flexGrow: 0, flexShrink: 0 }}>
-      <div className="sidebar">
+      <div
+        className={css`
+          position: fixed;
+          height: 100vh;
+          width: 230px;
+          background-color: ${Colors.LIGHT_GRAY5};
+          box-shadow: 1px 0 0 rgba(16, 22, 26, 0.15);
+          overflow-y: auto;
+          padding: 0 15px;
+        `}
+      >
         {categories.map((category) => (
           <Authorize
             key={category.title}
@@ -55,9 +65,45 @@ export default function Sidebar() {
               [],
             )}
           >
-            <h6 className="sidebar-menu-title">{category.title}</h6>
+            <h6
+              className={css`
+                padding-left: 15px;
+                margin-top: 30px;
+                text-transform: uppercase;
+                color: ${Colors.GRAY2};
+                font-size: 11px;
+                font-weight: bold;
+              `}
+            >
+              {category.title}
+            </h6>
 
-            <ul className={classNames(Classes.LIST_UNSTYLED, 'sidebar-menu')}>
+            <ul
+              className={cx(
+                Classes.LIST_UNSTYLED,
+                css`
+                  .pt-menu-item {
+                    padding: 5px 15px;
+                  }
+
+                  .pt-menu-item.pt-active {
+                    background-color: transparent;
+                    color: ${Colors.BLUE3};
+                    font-weight: bold;
+                  }
+
+                  .pt-menu-item:hover {
+                    background-color: transparent;
+                    font-weight: bold;
+                  }
+
+                  .pt-menu-item.pt-disabled {
+                    background-color: transparent;
+                    font-weight: normal;
+                  }
+                `,
+              )}
+            >
               {category.links.map((link) => (
                 <Authorize key={link.to} permissions={link.permissions || []}>
                   <li>
@@ -72,7 +118,7 @@ export default function Sidebar() {
                     ) : (
                       <a
                         href=""
-                        className={classNames(Classes.MENU_ITEM, Classes.DISABLED)}
+                        className={cx(Classes.MENU_ITEM, Classes.DISABLED)}
                         onClick={(e) => e.preventDefault()}
                       >
                         <span>{link.title}</span>

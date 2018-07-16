@@ -1,8 +1,9 @@
 import * as React from 'react';
 
-import { Button, IInputGroupProps, Intent } from '@blueprintjs/core';
+import { Button, Colors, IInputGroupProps, Intent } from '@blueprintjs/core';
 import { DateInput as BlueprintDateInput, IDatePickerLocaleUtils } from '@blueprintjs/datetime';
 import { IconNames } from '@blueprintjs/icons';
+import { css } from 'emotion';
 import { Field, FieldProps, getIn } from 'formik';
 import { isKeyHotkey } from 'is-hotkey';
 import { DateTime } from 'luxon';
@@ -22,7 +23,14 @@ interface IDateInputProps {
 
 const DateInput = (props: IDateInputProps) => (
   <BlueprintDateInput
-    className="forms-controls-dateinput"
+    className={css`
+      .forms-controls-dateinput {
+        .DayPicker-Day--today {
+          font-weight: bold;
+          color: ${Colors.RED3};
+        }
+      }
+    `}
     canClearSelection={false}
     disabled={props.disabled}
     inputProps={{

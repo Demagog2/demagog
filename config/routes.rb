@@ -29,7 +29,7 @@ Rails.application.routes.draw do
     # Image uploading of content images
     post "/content-image/:id" => "file_upload#upload_content_image", as: :upload_content_image
 
-    get "(/*all)" => "homepage#index"
+    get "(/*all)" => "admin#index"
   end
 
   mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
