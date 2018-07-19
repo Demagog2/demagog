@@ -12,6 +12,7 @@ import {
   CreateArticleMutationVariables,
 } from '../../operation-result-types';
 import { CreateArticle } from '../../queries/mutations';
+import { GetArticles } from '../../queries/queries';
 import { ArticleForm } from '../forms/ArticleForm';
 
 class CreateArticleMutationComponent extends Mutation<
@@ -65,7 +66,11 @@ export class ArticleNew extends React.Component<ISourceNewProps> {
   public render() {
     return (
       <div style={{ padding: '15px 0 40px 0' }}>
-        <CreateArticleMutationComponent mutation={CreateArticle}>
+        <CreateArticleMutationComponent
+          mutation={CreateArticle}
+          // TODO: is there a nicer way of updating apollo cache after creating?
+          refetchQueries={[{ query: GetArticles, variables: { title: '', offset: 0, limit: 50 } }]}
+        >
           {(createArticle) => {
             return (
               <ArticleForm

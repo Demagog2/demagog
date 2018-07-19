@@ -23,6 +23,8 @@ import { SearchInput } from '../forms/controls/SearchInput';
 import Loading from '../Loading';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
 
+const ARTICLES_PER_PAGE = 50;
+
 const ARTICLE_TYPE_INTENT = {
   default: Intent.PRIMARY,
   static: Intent.WARNING,
@@ -106,7 +108,7 @@ class Articles extends React.Component<IProps, IState> {
 
         <GetArticlesQuery
           query={GetArticles}
-          variables={{ title: this.state.search, limit: 50, offset: 0 }}
+          variables={{ title: this.state.search, limit: ARTICLES_PER_PAGE, offset: 0 }}
         >
           {(props) => {
             if (props.loading) {
@@ -137,7 +139,14 @@ class Articles extends React.Component<IProps, IState> {
                     mutationProps={{
                       variables: { id: confirmDeleteModalArticleId },
                       refetchQueries: [
-                        { query: GetArticles, variables: { title: this.state.search } },
+                        {
+                          query: GetArticles,
+                          variables: {
+                            title: this.state.search,
+                            limit: ARTICLES_PER_PAGE,
+                            offset: 0,
+                          },
+                        },
                       ],
                       onCompleted: this.onDeleted,
                       onError: this.onDeleteError,

@@ -127,7 +127,25 @@ export interface CreateArticleMutation {
   // Add new article
   createArticle:  {
     id: string,
+    article_type: string,
     title: string,
+    slug: string,
+    perex: string | null,
+    published: boolean,
+    published_at: GraphQLCustomScalar_DateTime | null,
+    illustration: string | null,
+    segments:  Array< {
+      id: string,
+      segment_type: string,
+      text_html: string | null,
+      text_slatejson: GraphQLCustomScalar_JSON | null,
+      statements:  Array< {
+        id: string,
+      } >,
+    } > | null,
+    source:  {
+      id: string,
+    } | null,
   } | null,
 };
 
@@ -140,7 +158,25 @@ export interface UpdateArticleMutation {
   // Update existing article
   updateArticle:  {
     id: string,
+    article_type: string,
     title: string,
+    slug: string,
+    perex: string | null,
+    published: boolean,
+    published_at: GraphQLCustomScalar_DateTime | null,
+    illustration: string | null,
+    segments:  Array< {
+      id: string,
+      segment_type: string,
+      text_html: string | null,
+      text_slatejson: GraphQLCustomScalar_JSON | null,
+      statements:  Array< {
+        id: string,
+      } >,
+    } > | null,
+    source:  {
+      id: string,
+    } | null,
   } | null,
 };
 

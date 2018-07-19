@@ -4,7 +4,25 @@ export const CreateArticle = gql`
   mutation CreateArticle($articleInput: ArticleInputType!) {
     createArticle(article_input: $articleInput) {
       id
+      article_type
       title
+      slug
+      perex
+      published
+      published_at
+      illustration
+      segments {
+        id
+        segment_type
+        text_html
+        text_slatejson
+        statements {
+          id
+        }
+      }
+      source {
+        id
+      }
     }
   }
 `;
@@ -13,7 +31,25 @@ export const UpdateArticle = gql`
   mutation UpdateArticle($id: ID!, $articleInput: ArticleInputType!) {
     updateArticle(id: $id, article_input: $articleInput) {
       id
+      article_type
       title
+      slug
+      perex
+      published
+      published_at
+      illustration
+      segments {
+        id
+        segment_type
+        text_html
+        text_slatejson
+        statements {
+          id
+        }
+      }
+      source {
+        id
+      }
     }
   }
 `;
