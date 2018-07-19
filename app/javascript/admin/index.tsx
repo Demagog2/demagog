@@ -44,9 +44,11 @@ import rootReducer from './reducers';
 
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const epicMiddleware = createEpicMiddleware(rootEpic);
+const epicMiddleware = createEpicMiddleware();
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(epicMiddleware)));
+
+epicMiddleware.run(rootEpic);
 
 const render = (RootContainer) =>
   ReactDOM.render(
