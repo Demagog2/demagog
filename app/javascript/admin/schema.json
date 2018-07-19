@@ -581,16 +581,6 @@
                   "defaultValue": "10"
                 },
                 {
-                  "name": "article_type",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": "\"default\""
-                },
-                {
                   "name": "order",
                   "description": null,
                   "type": {
@@ -5579,6 +5569,20 @@
           "fields": null,
           "inputFields": [
             {
+              "name": "article_type",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
               "name": "title",
               "description": null,
               "type": {
@@ -5651,6 +5655,16 @@
                     "ofType": null
                   }
                 }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "source_id",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
               },
               "defaultValue": null
             }

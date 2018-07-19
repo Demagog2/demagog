@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { Button, Classes } from '@blueprintjs/core';
+import { Button, Classes, Icon, Intent, Tag } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
@@ -17,11 +17,21 @@ import {
 } from '../../operation-result-types';
 import { DeleteArticle } from '../../queries/mutations';
 import { GetArticles } from '../../queries/queries';
-import { displayDate } from '../../utils';
+import { displayDate, isSameOrAfterToday } from '../../utils';
 import Authorize from '../Authorize';
 import { SearchInput } from '../forms/controls/SearchInput';
 import Loading from '../Loading';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
+
+const ARTICLE_TYPE_INTENT = {
+  default: Intent.PRIMARY,
+  static: Intent.WARNING,
+};
+
+const ARTICLE_TYPE_LABEL = {
+  default: 'Ověřeno',
+  static: 'Komentář',
+};
 
 class GetArticlesQuery extends Query<GetArticlesQueryResult, GetArticlesQueryVariables> {}
 
@@ -144,9 +154,9 @@ class Articles extends React.Component<IProps, IState> {
                       <thead>
                         <tr>
                           <th scope="col">Titulek</th>
-                          <th scope="col" style={{ width: '25%' }}>
-                            Zveřejněný
-                          </th>
+                          <th scope="col">Typ článku</th>
+                          <th scope="col">Stav</th>
+                          <th scope="col" />
                           <th scope="col" />
                         </tr>
                       </thead>
@@ -155,9 +165,36 @@ class Articles extends React.Component<IProps, IState> {
                           <tr key={article.id}>
                             <td>{article.title}</td>
                             <td>
-                              {article.published ? 'Ano' : 'Ne'}&nbsp;
-                              {article.published_at && displayDate(article.published_at)}&nbsp;
-                              <a href={`/diskuze/${article.slug}`}>Odkaz</a>
+                              <Tag intent={ARTICLE_TYPE_INTENT[article.article_type]}>
+                                {ARTICLE_TYPE_LABEL[article.article_type]}
+                              </Tag>
+                            </td>
+                            <td>
+                              {article.published &&
+                                article.published_at &&
+                                isSameOrAfterToday(article.published_at) && (
+                                  <>Zveřejněný od {displayDate(article.published_at)}</>
+                                )}
+                              {article.published &&
+                                article.published_at &&
+                                !isSameOrAfterToday(article.published_at) && (
+                                  <>
+                                    <Icon icon={IconNames.TIME} /> Bude zveřejněný{' '}
+                                    {displayDate(article.published_at)}
+                                  </>
+                                )}
+                              {!article.published && (
+                                <span className={Classes.TEXT_MUTED}>Nezveřejněný</span>
+                              )}
+                            </td>
+                            <td>
+                              {article.published &&
+                                article.published_at &&
+                                isSameOrAfterToday(article.published_at) && (
+                                  <a href={`/diskuze/${article.slug}`} target="_blank">
+                                    Veřejný odkaz
+                                  </a>
+                                )}
                             </td>
                             <td>
                               <div style={{ display: 'flex' }}>

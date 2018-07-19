@@ -21,6 +21,11 @@ class Article < ApplicationRecord
 
   friendly_id :title, use: :slugged
 
+  scope :published, -> {
+    where(published: true)
+      .where("published_at <= NOW()")
+  }
+
   def set_defaults
     self.published ||= false
   end
@@ -38,16 +43,15 @@ class Article < ApplicationRecord
   end
 
   def self.cover_story
-    order(published_at: :desc)
-      .find_by(published: true)
+    published
+      .order(published_at: :desc)
+      .first
   end
 
   def self.create_article(article_input)
-    defaults = {
-      article_type: ArticleType.find_by(name: "default")
-    }
+    article = article_input.deep_symbolize_keys
 
-    article = defaults.merge(article_input.deep_symbolize_keys)
+    article[:article_type] = ArticleType.find_by!(name: article[:article_type])
 
     if article[:segments]
       article[:segments] = article[:segments].map do |seg|
@@ -65,6 +69,8 @@ class Article < ApplicationRecord
 
   def self.update_article(id, article_input)
     article = article_input.deep_symbolize_keys
+
+    article[:article_type] = ArticleType.find_by!(name: article[:article_type])
 
     article[:segments] = article[:segments].map do |seg|
       segment = ensure_segment(seg[:id])

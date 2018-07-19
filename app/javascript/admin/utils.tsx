@@ -16,6 +16,14 @@ export function displayDateTime(datetime: string): string {
     .toLocaleString(DateTime.DATETIME_MED);
 }
 
+export function isSameOrAfterToday(date: string): boolean {
+  return (
+    DateTime.fromISO(date)
+      .diffNow()
+      .as('seconds') <= 0
+  );
+}
+
 export function pluralize(count: number, one: string, twoToFour: string, others: string): string {
   if (count === 1) {
     return one;

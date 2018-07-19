@@ -84,12 +84,14 @@ class ArticleMigration
   end
 
   def migrate_static_pages
+    # parent=31 is "Komentare a #vyrokdne", which is parent which legacy used for
+    # all or non-factchecking articles
     old_articles = self.connection.query("
       SELECT *
       FROM static_pages
+      WHERE parent = 31
     ")
 
-    article_type_default = ArticleType.find_by(name: "default")
     article_type_static = ArticleType.find_by(name: "static")
 
     old_articles.each do |old_article|
@@ -99,8 +101,7 @@ class ArticleMigration
         perex: old_article["excerpt"],
         published_at: old_article["timestamp"],
         published: old_article["status"] == 1,
-        # parent=31 is "Komentare a #vyrokdne", which we want to migrate to normal article
-        article_type: old_article["parent"] == 31 ? article_type_default : article_type_static,
+        article_type: article_type_static,
         created_at: old_article["timestamp"],
         updated_at: old_article["timestamp"]
       )

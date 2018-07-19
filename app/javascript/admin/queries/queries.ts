@@ -3,6 +3,8 @@ import gql from 'graphql-tag';
 export const GetArticle = gql`
   query GetArticle($id: ID!) {
     article(id: $id) {
+      id
+      article_type
       title
       slug
       perex
@@ -18,6 +20,9 @@ export const GetArticle = gql`
           id
         }
       }
+      source {
+        id
+      }
     }
   }
 `;
@@ -26,6 +31,7 @@ export const GetArticles = gql`
   query GetArticles($title: String, $offset: Int, $limit: Int) {
     articles(include_unpublished: true, offset: $offset, limit: $limit, title: $title) {
       id
+      article_type
       title
       slug
       published
@@ -98,6 +104,24 @@ export const GetSource = gql`
         id
         first_name
         last_name
+      }
+    }
+  }
+`;
+
+export const GetSourcesForSelect = gql`
+  query GetSourcesForSelect {
+    sources(offset: 0, limit: 10000) {
+      id
+      name
+      released_at
+      medium {
+        id
+        name
+      }
+      media_personality {
+        id
+        name
       }
     }
   }

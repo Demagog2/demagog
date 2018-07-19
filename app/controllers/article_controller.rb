@@ -2,7 +2,7 @@
 
 class ArticleController < ApplicationController
   def index
-    @article = Article.friendly.find(params[:id])
+    @article = Article.published.friendly.find(params[:id])
 
     @users = User.where(active: true).order(rank: :asc, last_name: :asc) if params[:id] == "o-nas"
 

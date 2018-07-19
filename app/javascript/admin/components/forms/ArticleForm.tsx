@@ -6,14 +6,26 @@ import { Button, Classes, EditableText, Intent } from '@blueprintjs/core';
 import { Form, Formik } from 'formik';
 import { DateTime } from 'luxon';
 import { Link } from 'react-router-dom';
+import * as yup from 'yup';
 
 import { ArticleInputType, GetArticleQuery } from '../../operation-result-types';
 import ArticleIllustration from '../ArticleIllustration';
 import DateField from './controls/DateField';
 import ImageField, { ImageValueType } from './controls/ImageField';
 import { SegmentManager } from './controls/SegmentManager';
+import SelectComponentField from './controls/SelectComponentField';
+import SelectField from './controls/SelectField';
+import SourceSelect from './controls/SourceSelect';
 import SwitchField from './controls/SwitchField';
 import FormGroup from './FormGroup';
+
+const ARTICLE_TYPE_DEFAULT = 'default';
+const ARTICLE_TYPE_STATIC = 'static';
+
+const ARTICLE_TYPE_OPTIONS = [
+  { label: 'Ověřeno', value: ARTICLE_TYPE_DEFAULT },
+  { label: 'Komentář', value: ARTICLE_TYPE_STATIC },
+];
 
 export interface IArticleFormData extends ArticleInputType {
   illustration: ImageValueType;
@@ -31,6 +43,8 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
     const { article, backPath, title } = this.props;
 
     const initialValues = {
+      article_type: article ? article.article_type : ARTICLE_TYPE_DEFAULT,
+      source_id: article && article.source ? article.source.id : null,
       title: article ? article.title : '',
       perex: article && article.perex ? article.perex : '',
       segments:
@@ -51,8 +65,20 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
     return (
       <Formik
         initialValues={initialValues}
+        validationSchema={yup.object().shape({
+          article_type: yup.string().oneOf([ARTICLE_TYPE_DEFAULT, ARTICLE_TYPE_STATIC]),
+          source_id: yup.mixed().when('article_type', {
+            is: ARTICLE_TYPE_DEFAULT,
+            then: yup.mixed().notOneOf([null], 'Je třeba vybrat ověřovaný zdroj'),
+            otherwise: yup.mixed(),
+          }),
+        })}
         onSubmit={(values, { setSubmitting }) => {
           const formData: IArticleFormData = values;
+
+          if (formData.article_type === ARTICLE_TYPE_STATIC) {
+            formData.source_id = null;
+          }
 
           this.props
             .onSubmit(formData)
@@ -135,6 +161,18 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
               </div>
 
               <div style={{ flex: '1 1', marginLeft: 15 }}>
+                <FormGroup label="Typ článku" name="article_type">
+                  <SelectField name="article_type" options={ARTICLE_TYPE_OPTIONS} />
+                </FormGroup>
+
+                {values.article_type === ARTICLE_TYPE_DEFAULT && (
+                  <FormGroup label="Ověřovaný zdroj" name="source_id">
+                    <SelectComponentField name="source_id">
+                      {(renderProps) => <SourceSelect {...renderProps} />}
+                    </SelectComponentField>
+                  </FormGroup>
+                )}
+
                 <FormGroup label="Ilustrační obrázek" name="illustration">
                   <ImageField
                     name="illustration"

@@ -222,15 +222,12 @@ Types::QueryType = GraphQL::ObjectType.define do
   field :articles, !types[!Types::ArticleType] do
     argument :offset, types.Int, default_value: 0
     argument :limit, types.Int, default_value: 10
-    argument :article_type, types.String, default_value: "default"
     argument :order, types.String, default_value: "desc"
     argument :title, types.String
     argument :include_unpublished, types.Boolean, default_value: false
 
     resolve -> (obj, args, ctx) {
       articles = Article
-        .joins(:article_type)
-        .where(article_types: { name: args[:article_type] })
         .offset(args[:offset])
         .limit(args[:limit])
         .order(created_at: args[:order])
