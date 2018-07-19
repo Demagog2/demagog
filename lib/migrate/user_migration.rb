@@ -14,6 +14,11 @@ class UserMigration
   end
 
   def perform
+    migrate_users
+    add_missing_administrators
+  end
+
+  def migrate_users
     old_users = self.connection.query("SELECT user.*, usertype.usertype, usertype.rank, usertype_name
       FROM user LEFT JOIN usertype ON user.id_usertype = usertype.id")
 
@@ -52,6 +57,31 @@ class UserMigration
       end
 
       progressbar.increment
+    end
+  end
+
+  def add_missing_administrators
+    admins = [
+      {
+        first_name: "Jan",
+        last_name: "Vlček",
+        email: "vlki@vlki.cz",
+        active: true,
+      },
+      {
+        first_name: "Václav",
+        last_name: "Boháč",
+        email: "bohac.v@gmail.com",
+        active: true,
+      }
+    ]
+
+    admins.each do |admin_input|
+      next if User.find_by(email: admin_input["email"])
+
+      admin = User.new(admin_input)
+      admin.roles << Role.find_by(key: Role::ADMIN)
+      admin.save!
     end
   end
 
