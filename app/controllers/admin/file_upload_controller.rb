@@ -80,7 +80,8 @@ class Admin::FileUploadController < ApplicationController
   def upload_content_image
     params.permit!
 
-    attach_picture :image, ContentImage.find(params[:id])
+    content_image = ContentImage.new(user: current_user)
+    attach_picture :image, content_image
 
     head :ok
   end

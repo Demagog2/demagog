@@ -31,6 +31,5 @@ Types::MutationType = GraphQL::ObjectType.define do
 
   field :createComment, Mutations::CreateComment
 
-  field :createContentImage, Mutations::CreateContentImage
   field :deleteContentImage, Mutations::DeleteContentImage
 end

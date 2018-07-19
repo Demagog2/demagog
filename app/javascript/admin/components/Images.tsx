@@ -4,43 +4,30 @@ import { AnchorButton, Button, Classes, Dialog, Intent } from '@blueprintjs/core
 import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
-import { Mutation, MutationFn, Query } from 'react-apollo';
+import { Query } from 'react-apollo';
 import Dropzone, { ImageFile } from 'react-dropzone';
 import { connect, Dispatch } from 'react-redux';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import { uploadContentImage } from '../api';
 import apolloClient from '../apolloClient';
-import {
-  CreateContentImageMutation,
-  CreateContentImageMutationVariables,
-  GetContentImagesQuery,
-  GetContentImagesQueryVariables,
-} from '../operation-result-types';
-import { CreateContentImage, DeleteContentImage } from '../queries/mutations';
+import { GetContentImagesQuery, GetContentImagesQueryVariables } from '../operation-result-types';
+import { DeleteContentImage } from '../queries/mutations';
 import { GetContentImages } from '../queries/queries';
-import { IState as ReduxState } from '../reducers';
 import { displayDateTime } from '../utils';
 import Authorize from './Authorize';
 import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 
+const IMAGES_PER_PAGE = 20;
+
 class GetContentImagesQueryComponent extends Query<
   GetContentImagesQuery,
   GetContentImagesQueryVariables
 > {}
 
-class CreateContentImageMutationComponent extends Mutation<
-  CreateContentImageMutation,
-  CreateContentImageMutationVariables
-> {}
-
-interface ICreateContentImageFn
-  extends MutationFn<CreateContentImageMutation, CreateContentImageMutationVariables> {}
-
 interface IProps {
-  currentUser: ReduxState['currentUser']['user'];
   dispatch: Dispatch;
 }
 
@@ -93,48 +80,38 @@ class Images extends React.Component<IProps, IState> {
     this.setState({ zoomedId: null });
   };
 
-  public onAddDrop = (createContentImage: ICreateContentImageFn) => (
-    acceptedFiles: ImageFile[],
-  ) => {
-    if (acceptedFiles.length === 1 && this.props.currentUser) {
+  public onAddDrop = (acceptedFiles: ImageFile[]) => {
+    if (acceptedFiles.length === 1) {
       const imageFile = acceptedFiles[0];
-      const input = {
-        user_id: this.props.currentUser.id,
-      };
 
       this.setState({ isAdding: true });
 
-      createContentImage({ variables: { input } })
-        .then(
-          (mutationResult): Promise<any> | undefined => {
-            if (
-              !mutationResult ||
-              !mutationResult.data ||
-              !mutationResult.data.createContentImage
-            ) {
-              return;
-            }
-
-            const contentImageId = parseInt(mutationResult.data.createContentImage.id, 10);
-
-            return uploadContentImage(contentImageId, imageFile);
-          },
-        )
-        .then(() => {
-          // Refetch content images AFTER the upload so we get the filename and path
-          return apolloClient.query({
+      uploadContentImage(imageFile)
+        .then(() =>
+          apolloClient.query({
             query: GetContentImages,
-            variables: { name: '' },
+            variables: { name: '', offset: 0, limit: IMAGES_PER_PAGE },
             fetchPolicy: 'network-only',
-          });
-        })
+          }),
+        )
         .then(() => {
           this.props.dispatch(addFlashMessage('Obrázek byl úspěšně nahrán.', 'success'));
 
           this.setState({ search: '', isAdding: false });
         })
-        .catch((error) => {
-          this.props.dispatch(addFlashMessage('Při nahrávání obrázku došlo k chybě.', 'error'));
+        .catch((error: Response) => {
+          // HTTP code 413 is Request Entity Too Large, server returns it when uploaded
+          // image is too big
+          if (error.status === 413) {
+            this.props.dispatch(
+              addFlashMessage(
+                'Obrázek je větší než aktuální limit 1MB, zmenšete ho a nahrajte znovu.',
+                'warning',
+              ),
+            );
+          } else {
+            this.props.dispatch(addFlashMessage('Při nahrávání obrázku došlo k chybě.', 'error'));
+          }
 
           this.setState({ isAdding: false });
 
@@ -148,25 +125,21 @@ class Images extends React.Component<IProps, IState> {
       <div style={{ padding: '15px 0 40px 0' }}>
         <Authorize permissions={['images:add']}>
           <div style={{ float: 'right' }}>
-            <CreateContentImageMutationComponent mutation={CreateContentImage}>
-              {(createContentImage) => (
-                <Dropzone
-                  accept="image/jpeg, image/png, image/gif"
-                  multiple={false}
-                  onDrop={this.onAddDrop(createContentImage)}
-                  className="dropzone"
-                  style={{}}
-                >
-                  <Button
-                    type="button"
-                    icon={IconNames.UPLOAD}
-                    intent={Intent.PRIMARY}
-                    disabled={this.state.isAdding}
-                    text={this.state.isAdding ? 'Nahrávám…' : 'Nahrát obrázek'}
-                  />
-                </Dropzone>
-              )}
-            </CreateContentImageMutationComponent>
+            <Dropzone
+              accept="image/jpeg, image/png, image/gif"
+              multiple={false}
+              onDrop={this.onAddDrop}
+              className="dropzone"
+              style={{}}
+            >
+              <Button
+                type="button"
+                icon={IconNames.UPLOAD}
+                intent={Intent.PRIMARY}
+                disabled={this.state.isAdding}
+                text={this.state.isAdding ? 'Nahrávám…' : 'Nahrát obrázek'}
+              />
+            </Dropzone>
           </div>
         </Authorize>
 
@@ -183,7 +156,7 @@ class Images extends React.Component<IProps, IState> {
         <div style={{ marginTop: 15 }}>
           <GetContentImagesQueryComponent
             query={GetContentImages}
-            variables={{ name: this.state.search, offset: 0, limit: 20 }}
+            variables={{ name: this.state.search, offset: 0, limit: IMAGES_PER_PAGE }}
           >
             {({ data, loading, error, fetchMore }) => {
               if (loading || !data) {
@@ -224,6 +197,8 @@ class Images extends React.Component<IProps, IState> {
                             query: GetContentImages,
                             variables: {
                               name: this.state.search,
+                              offset: 0,
+                              limit: IMAGES_PER_PAGE,
                             },
                           },
                         ],
@@ -396,8 +371,4 @@ class Images extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: ReduxState) => ({
-  currentUser: state.currentUser.user,
-});
-
-export default connect(mapStateToProps)(Images);
+export default connect()(Images);

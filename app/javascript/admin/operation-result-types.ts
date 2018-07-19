@@ -117,10 +117,6 @@ export interface UpdateSourceStatementsOrderInputType {
   ordered_statement_ids?: Array< string > | null,
 };
 
-export interface ContentImageInputType {
-  user_id: string,
-};
-
 export interface CreateArticleMutationVariables {
   articleInput: ArticleInputType,
 };
@@ -448,23 +444,6 @@ export interface UpdateSourceStatementsOrderMutation {
   // Update order of statements in source
   updateSourceStatementsOrder:  {
     id: string,
-  } | null,
-};
-
-export interface CreateContentImageMutationVariables {
-  input: ContentImageInputType,
-};
-
-export interface CreateContentImageMutation {
-  // Add new content image
-  createContentImage:  {
-    id: string,
-    created_at: GraphQLCustomScalar_DateTime,
-    user:  {
-      id: string,
-      first_name: string,
-      last_name: string,
-    } | null,
   } | null,
 };
 

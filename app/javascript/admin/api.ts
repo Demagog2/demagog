@@ -55,4 +55,12 @@ export const deleteSpeakerAvatar = createImageDeleter('/admin/profile-picture/:i
 export const uploadBodyLogo = createImageUploader('/admin/body-logo/:id');
 export const deleteBodyLogo = createImageDeleter('/admin/body-logo/:id');
 
-export const uploadContentImage = createImageUploader('/admin/content-image/:id');
+export const uploadContentImage = (image: File): Promise<Response> => {
+  const formData = new FormData();
+  formData.append('file', image);
+
+  return callApi('/admin/content-image', {
+    method: 'POST',
+    body: formData,
+  });
+};
