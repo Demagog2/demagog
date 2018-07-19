@@ -211,11 +211,21 @@ Types::QueryType = GraphQL::ObjectType.define do
   field :article, !Types::ArticleType do
     argument :id, types.ID
     argument :slug, types.String
+    argument :include_unpublished, types.Boolean, default_value: false
 
     resolve -> (obj, args, ctx) {
-      articles = ctx[:current_user] ? Article : Article.where(published: true)
+      begin
+        if args[:include_unpublished]
+          # Public cannot access unpublished articles
+          raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
 
-      articles.friendly.find(args[:slug] || args[:id])
+          return Article.friendly.find(args[:slug] || args[:id])
+        end
+
+        Article.published.friendly.find(args[:slug] || args[:id])
+      rescue ActiveRecord::RecordNotFound => e
+        raise GraphQL::ExecutionError.new("Could not find Article with id=#{args[:id]} or slug=#{args[:slug]}")
+      end
     }
   end
 
@@ -227,12 +237,19 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :include_unpublished, types.Boolean, default_value: false
 
     resolve -> (obj, args, ctx) {
-      articles = Article
+      if args[:include_unpublished]
+        # Public cannot access unpublished articles
+        raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+
+        articles = Article.all
+      else
+        articles = Article.published
+      end
+
+      articles = articles
         .offset(args[:offset])
         .limit(args[:limit])
         .order(created_at: args[:order])
-
-      articles = articles.where(published: true) unless ctx[:current_user] && args[:include_unpublished]
 
       articles = articles.matching_title(args[:title]) if args[:title].present?
 

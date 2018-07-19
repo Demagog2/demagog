@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 export const GetArticle = gql`
   query GetArticle($id: ID!) {
-    article(id: $id) {
+    article(id: $id, include_unpublished: true) {
       id
       article_type
       title

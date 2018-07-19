@@ -13,6 +13,7 @@ import {
 import { UpdateSource } from '../queries/mutations';
 import { GetSource, GetSources } from '../queries/queries';
 import { SourceForm } from './forms/SourceForm';
+import Loading from './Loading';
 
 class SourceQuery extends Query<GetSourceQuery, GetSourceQueryVariables> {}
 class UpdateSourceMutationComponent extends Mutation<
@@ -53,7 +54,7 @@ class SourceEdit extends React.Component<ISourceEditProps> {
         <SourceQuery query={GetSource} variables={{ id }}>
           {({ data, loading }) => {
             if (loading) {
-              return 'Loading...';
+              return <Loading />;
             }
 
             if (!data) {

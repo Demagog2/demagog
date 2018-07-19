@@ -14,6 +14,7 @@ import {
 import { UpdateArticle } from '../../queries/mutations';
 import { GetArticle, GetArticles } from '../../queries/queries';
 import { ArticleForm } from '../forms/ArticleForm';
+import Loading from '../Loading';
 
 class ArticleQuery extends Query<GetArticleQuery, GetArticleQueryVariables> {}
 class UpdateArticleMutationComponent extends Mutation<
@@ -68,7 +69,7 @@ class ArticleEdit extends React.Component<IArticleEditProps> {
         <ArticleQuery query={GetArticle} variables={{ id }}>
           {({ data, loading }) => {
             if (loading) {
-              return 'Loading...';
+              return <Loading />;
             }
 
             if (!data) {
