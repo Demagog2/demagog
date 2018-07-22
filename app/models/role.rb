@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ALL_PERMISSIONS = [
+EXPERT_PERMISSIONS = [
   "articles:view",
   "articles:edit",
 
@@ -44,6 +44,10 @@ ALL_PERMISSIONS = [
   "visualizations:view",
 ]
 
+ADMIN_PERMISSIONS = EXPERT_PERMISSIONS + [
+  "admin:become-another-user"
+]
+
 class Role < ApplicationRecord
   ADMIN = "admin"
   EXPERT = "expert"
@@ -56,8 +60,8 @@ class Role < ApplicationRecord
   def permissions
     # Hardcoded now, can be turned into dynamic permissions assigning if needed
     case key
-    when ADMIN then ALL_PERMISSIONS
-    when EXPERT then ALL_PERMISSIONS
+    when ADMIN then ADMIN_PERMISSIONS
+    when EXPERT then EXPERT_PERMISSIONS
     when SOCIAL_MEDIA_MANAGER then [
         "articles:view",
         "availability:view",

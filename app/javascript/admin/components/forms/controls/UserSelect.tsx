@@ -28,7 +28,7 @@ interface IProps {
   disabled?: boolean;
   value?: string | null;
   onChange: (value: string | null) => void;
-  onBlur: () => void;
+  onBlur?: () => void;
 }
 
 export default class UserSelect extends React.Component<IProps> {

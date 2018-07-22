@@ -29,6 +29,9 @@ Rails.application.routes.draw do
     # Image uploading of content images
     post "/content-image" => "file_upload#upload_content_image", as: :upload_content_image
 
+    # Become another user
+    get "/become-another-user/:id" => "admin#become_another_user", as: :become_another_user
+
     get "(/*all)" => "admin#index"
   end
 
