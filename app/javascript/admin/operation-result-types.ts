@@ -61,6 +61,7 @@ export interface UserInputType {
   first_name: string,
   last_name: string,
   role_id: string,
+  email_notifications: boolean,
   position_description?: string | null,
   bio?: string | null,
   phone?: string | null,
@@ -355,6 +356,7 @@ export interface CreateUserMutation {
     active: boolean,
     position_description: string | null,
     bio: string | null,
+    email_notifications: boolean,
     role:  {
       id: string,
       name: string,
@@ -378,6 +380,7 @@ export interface UpdateUserMutation {
     active: boolean,
     position_description: string | null,
     bio: string | null,
+    email_notifications: boolean,
     role:  {
       id: string,
       name: string,
@@ -707,6 +710,7 @@ export interface GetUsersQuery {
     active: boolean,
     bio: string | null,
     position_description: string | null,
+    email_notifications: boolean,
     role:  {
       id: string,
       name: string,
@@ -728,6 +732,7 @@ export interface GetUserQuery {
     active: boolean,
     bio: string | null,
     position_description: string | null,
+    email_notifications: boolean,
     role:  {
       id: string,
       name: string,

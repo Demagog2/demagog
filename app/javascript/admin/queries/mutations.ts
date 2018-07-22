@@ -187,6 +187,7 @@ export const CreateUser = gql`
       active
       position_description
       bio
+      email_notifications
       role {
         id
         name
@@ -206,6 +207,7 @@ export const UpdateUser = gql`
       active
       position_description
       bio
+      email_notifications
       role {
         id
         name

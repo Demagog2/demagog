@@ -42,6 +42,7 @@ export class UserForm extends React.Component<IUserFormProps> {
           bio: '',
           role_id: null,
           position_description: '',
+          email_notifications: false,
         };
 
     return (
@@ -65,6 +66,7 @@ export class UserForm extends React.Component<IUserFormProps> {
             position_description: values.position_description,
             bio: values.bio,
             avatar: values.avatar,
+            email_notifications: values.email_notifications,
 
             // role_id will always be a string, because null won't pass validation
             role_id: values.role_id as string,
@@ -133,6 +135,17 @@ export class UserForm extends React.Component<IUserFormProps> {
                     {(renderProps) => <RoleSelect {...renderProps} />}
                   </SelectComponentField>
                 </FormGroup>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', marginTop: 15 }}>
+              <div style={{ flex: '0 0 200px' }}>
+                <h4>Upozornění</h4>
+              </div>
+              <div style={{ flex: '1 1' }}>
+                <div style={{ marginBottom: 15 }}>
+                  <SwitchField name="email_notifications" label="Posílat upozornění emailem" />
+                </div>
               </div>
             </div>
 

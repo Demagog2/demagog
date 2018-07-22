@@ -217,6 +217,9 @@ class Users extends React.Component<IProps, IUsersState> {
                           <br />
                           <span className={Classes.TEXT_MUTED}>Přístupová práva: </span>
                           {user.role.name}
+                          <br />
+                          <span className={Classes.TEXT_MUTED}>Posílat upozornění emailem: </span>
+                          {user.email_notifications ? 'Ano' : 'Ne'}
                         </Callout>
                       </div>
                     </div>
