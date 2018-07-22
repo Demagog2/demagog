@@ -32,6 +32,9 @@ Rails.application.routes.draw do
     # Become another user
     get "/become-another-user/:id" => "admin#become_another_user", as: :become_another_user
 
+    # We're using this from the notification email
+    get "/notification-open/:id" => "notification#open", as: :open_notification
+
     get "(/*all)" => "admin#index"
   end
 

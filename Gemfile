@@ -74,6 +74,9 @@ gem "image_processing", "~> 1.2"
 # For migration progress display
 gem "ruby-progressbar"
 
+# For cron jobs
+gem "whenever", require: false
+
 # Add skylight profiler
 # gem "skylight"
 

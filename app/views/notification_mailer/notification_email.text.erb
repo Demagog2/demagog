@@ -1,0 +1,10 @@
+Ahoj,
+
+<%= @notification.content %>
+
+<%= @notification.action_text %>:
+<%= url_for(:controller => '/admin/notification', :action => 'open', :id => @notification.id) %>
+
+Mrkni na to brzy, díky!
+
+Tvůj Demagogí 🤖

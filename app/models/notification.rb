@@ -17,4 +17,22 @@ class Notification < ApplicationRecord
       end
     end
   end
+
+  def self.email_unread_notifications
+    unread_notifications = Notification
+      .joins(:recipient)
+      .where(read_at: nil)
+      .where("notifications.created_at > ?", Time.now - 15.minutes)
+      .where(emailed_at: nil)
+      .where(users: { email_notifications: true })
+      .includes(:recipient)
+
+    unread_notifications.each do |notification|
+      puts "Sending notification #{notification.id} to #{notification.recipient.email}"
+
+      NotificationMailer.with(notification: notification).notification_email.deliver_now
+
+      notification.update!(emailed_at: Time.now)
+    end
+  end
 end
