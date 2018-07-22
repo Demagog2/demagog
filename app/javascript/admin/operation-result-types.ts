@@ -937,3 +937,21 @@ export interface GetContentImagesQuery {
     } >,
   },
 };
+
+export interface GetNotificationsQueryVariables {
+  includeRead?: boolean | null,
+};
+
+export interface GetNotificationsQuery {
+  notifications:  {
+    total_count: number,
+    items:  Array< {
+      id: string,
+      content: string,
+      action_link: string,
+      action_text: string,
+      created_at: GraphQLCustomScalar_DateTime,
+      read_at: GraphQLCustomScalar_DateTime | null,
+    } >,
+  },
+};

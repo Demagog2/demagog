@@ -21,6 +21,7 @@ import Header from './components/Header';
 import Images from './components/Images';
 import Loading from './components/Loading';
 import NotFound from './components/NotFound';
+import Notifications from './components/Notifications';
 import Sidebar from './components/Sidebar';
 
 import SpeakerEdit from './components/SpeakerEdit';
@@ -115,6 +116,8 @@ class App extends React.Component<IProps> {
                 <Route path="/admin/users" exact component={Users} />
                 <Route path="/admin/users/new" exact component={UserNew} />
                 <Route path="/admin/users/edit/:id" exact component={UserEdit} />
+
+                <Route path="/admin/notifications" exact component={Notifications} />
 
                 <Route component={NotFound} />
               </Switch>

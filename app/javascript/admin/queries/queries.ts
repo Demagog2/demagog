@@ -420,3 +420,19 @@ export const GetContentImages = gql`
     }
   }
 `;
+
+export const GetNotifications = gql`
+  query GetNotifications($includeRead: Boolean) {
+    notifications(include_read: $includeRead) {
+      total_count
+      items {
+        id
+        content
+        action_link
+        action_text
+        created_at
+        read_at
+      }
+    }
+  }
+`;

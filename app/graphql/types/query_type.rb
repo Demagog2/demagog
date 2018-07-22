@@ -281,6 +281,35 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
+  NotificationsResult = GraphQL::ObjectType.define do
+    name "NotificationsResult"
+    field :total_count, !types.Int, hash_key: :total_count
+    field :items, !types[!Types::NotificationType], hash_key: :items
+  end
+
+  field :notifications, !NotificationsResult do
+    argument :offset, types.Int, default_value: 0
+    argument :limit, types.Int, default_value: 10
+    argument :include_read, types.Boolean, default_value: false
+
+    resolve -> (obj, args, ctx) {
+      raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+
+      current_user = ctx[:current_user]
+      notifications = current_user.notifications
+
+      notifications = notifications.where(read_at: nil) unless args[:include_read]
+
+      {
+        total_count: notifications.count,
+        items: notifications
+          .offset(args[:offset])
+          .limit(args[:limit])
+          .order(created_at: :desc)
+      }
+    }
+  end
+
   field :users, !types[!Types::UserType] do
     argument :offset, types.Int, default_value: 0
     argument :limit, types.Int, default_value: 10
