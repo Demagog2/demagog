@@ -3,6 +3,10 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
+  def published_pages
+    Page.published
+  end
+
   def speaker_stats
     Stats::Speaker::StatsBuilderFactory.new.create(Settings)
   end

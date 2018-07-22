@@ -14,17 +14,20 @@
   ),
   Struct::Submenu.new(
     "O nás",
-    [
-      Struct::Link.new('O Demagog.cz', article_path("o-nas")),
-      Struct::Link.new('Jak hodnotíme?', article_path("jak-hodnotime-metodika")),
-      Struct::Link.new('Výtky k hodnocení', article_path("mam-vyhradu-k-hodnoceni-nebo-navrh-na-overeni-kam-se-mohu-obra")),
-      Struct::Link.new('Naše financování', article_path("jak-je-projekt-demagogcz-financovan")),
-      Struct::Link.new('Etický kodex', article_path("eticky-kodex-demagogcz")),
-      Struct::Link.new('Kontakty', article_path("kontakty")),
-      '<hr>',
-      Struct::Link.new('Nabízíme workshopy', article_path("workshopy-demagogcz")),
-      Struct::Link.new('Czech this out!', article_path("czech-this-out")),
-    ]
+    controller.published_pages.map do |page|
+      Struct::Link.new(page.title, page_url(slug: page.slug))
+    end
+    # [
+    #   Struct::Link.new('O Demagog.cz', article_path("o-nas")),
+    #   Struct::Link.new('Jak hodnotíme?', article_path("jak-hodnotime-metodika")),
+    #   Struct::Link.new('Výtky k hodnocení', article_path("mam-vyhradu-k-hodnoceni-nebo-navrh-na-overeni-kam-se-mohu-obra")),
+    #   Struct::Link.new('Naše financování', article_path("jak-je-projekt-demagogcz-financovan")),
+    #   Struct::Link.new('Etický kodex', article_path("eticky-kodex-demagogcz")),
+    #   Struct::Link.new('Kontakty', article_path("kontakty")),
+    #   '<hr>',
+    #   Struct::Link.new('Nabízíme workshopy', article_path("workshopy-demagogcz")),
+    #   Struct::Link.new('Czech this out!', article_path("czech-this-out")),
+    # ]
   )
 ]
 

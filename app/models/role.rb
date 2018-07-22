@@ -19,6 +19,7 @@ EXPERT_PERMISSIONS = [
   "menu:view",
 
   "pages:view",
+  "pages:edit",
 
   "sources:view",
   "sources:edit",

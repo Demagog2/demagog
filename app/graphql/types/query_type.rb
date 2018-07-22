@@ -259,6 +259,55 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
+  field :pages, !types[!Types::PageType] do
+    argument :offset, types.Int, default_value: 0
+    argument :limit, types.Int, default_value: 10
+    argument :order, types.String, default_value: "desc"
+    argument :title, types.String
+    argument :include_unpublished, types.Boolean, default_value: false
+
+    resolve -> (obj, args, ctx) {
+      if args[:include_unpublished]
+        # Public cannot access unpublished pages
+        raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+
+        pages = Page.all
+      else
+        pages = Page.published
+      end
+
+      pages = pages
+                   .offset(args[:offset])
+                   .limit(args[:limit])
+                   .order(created_at: args[:order])
+
+      pages = pages.matching_title(args[:title]) if args[:title].present?
+
+      pages
+    }
+  end
+
+  field :page, !Types::PageType do
+    argument :id, types.ID
+    argument :slug, types.String
+    argument :include_unpublished, types.Boolean, default_value: false
+
+    resolve -> (obj, args, ctx) {
+      begin
+        if args[:include_unpublished]
+          # Public cannot access unpublished articles
+          raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+
+          return Page.friendly.find(args[:slug] || args[:id])
+        end
+
+        Page.published.friendly.find(args[:slug] || args[:id])
+      rescue ActiveRecord::RecordNotFound => e
+        raise GraphQL::ExecutionError.new("Could not find Page with id=#{args[:id]} or slug=#{args[:slug]}")
+      end
+    }
+  end
+
   field :user, !Types::UserType do
     argument :id, !types.Int
 

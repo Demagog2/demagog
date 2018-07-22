@@ -1,5 +1,37 @@
 import gql from 'graphql-tag';
 
+export const CreatePage = gql`
+  mutation CreatePage($pageInput: PageInputType!) {
+    createPage(page_input: $pageInput) {
+      id
+      title
+      slug
+      published
+      text_html
+      text_slatejson
+    }
+  }
+`;
+
+export const UpdatePage = gql`
+  mutation UpdatePage($id: ID!, $pageInput: PageInputType!) {
+    updatePage(id: $id, page_input: $pageInput) {
+      id
+      title
+      slug
+      published
+      text_html
+      text_slatejson
+    }
+  }
+`;
+
+export const DeletePage = gql`
+  mutation DeletePage($id: ID!) {
+    deletePage(id: $id)
+  }
+`;
+
 export const CreateArticle = gql`
   mutation CreateArticle($articleInput: ArticleInputType!) {
     createArticle(article_input: $articleInput) {

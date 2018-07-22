@@ -37,7 +37,7 @@ const categories = [
     links: [
       { to: '/admin/users', title: 'Tým', enabled: true, permissions: ['users:view'] },
       { to: '/admin/availability', title: 'Dostupnost', permissions: ['availability:view'] },
-      { to: '/admin/pages', title: 'Stránky', permissions: ['pages:view'] },
+      { to: '/admin/pages', title: 'Stránky', enabled: true, permissions: ['pages:view'] },
       { to: '/admin/navigation', title: 'Menu', permissions: ['menu:view'] },
     ],
   },

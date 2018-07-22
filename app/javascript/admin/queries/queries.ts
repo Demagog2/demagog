@@ -1,5 +1,29 @@
 import gql from 'graphql-tag';
 
+export const GetPages = gql`
+  query GetPages($title: String, $offset: Int, $limit: Int) {
+    pages(include_unpublished: true, offset: $offset, limit: $limit, title: $title) {
+      id
+      title
+      slug
+      published
+    }
+  }
+`;
+
+export const GetPage = gql`
+  query GetPage($id: ID!) {
+    page(id: $id, include_unpublished: true) {
+      id
+      title
+      slug
+      published
+      text_html
+      text_slatejson
+    }
+  }
+`;
+
 export const GetArticle = gql`
   query GetArticle($id: ID!) {
     article(id: $id, include_unpublished: true) {
