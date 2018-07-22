@@ -422,8 +422,8 @@ export const GetContentImages = gql`
 `;
 
 export const GetNotifications = gql`
-  query GetNotifications($includeRead: Boolean) {
-    notifications(include_read: $includeRead) {
+  query GetNotifications($includeRead: Boolean, $offset: Int, $limit: Int) {
+    notifications(include_read: $includeRead, offset: $offset, limit: $limit) {
       total_count
       items {
         id

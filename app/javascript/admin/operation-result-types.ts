@@ -120,6 +120,10 @@ export interface UpdateSourceStatementsOrderInputType {
   ordered_statement_ids?: Array< string > | null,
 };
 
+export interface UpdateNotificationInputType {
+  read_at?: string | null,
+};
+
 export interface CreateArticleMutationVariables {
   articleInput: ArticleInputType,
 };
@@ -493,6 +497,19 @@ export interface DeleteContentImageMutationVariables {
 export interface DeleteContentImageMutation {
   // Delete existing content image
   deleteContentImage: string,
+};
+
+export interface UpdateNotificationMutationVariables {
+  id: string,
+  input: UpdateNotificationInputType,
+};
+
+export interface UpdateNotificationMutation {
+  // Update notification
+  updateNotification:  {
+    id: string,
+    read_at: GraphQLCustomScalar_DateTime | null,
+  } | null,
 };
 
 export interface GetArticleQueryVariables {
@@ -940,6 +957,8 @@ export interface GetContentImagesQuery {
 
 export interface GetNotificationsQueryVariables {
   includeRead?: boolean | null,
+  offset?: number | null,
+  limit?: number | null,
 };
 
 export interface GetNotificationsQuery {

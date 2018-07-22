@@ -304,3 +304,12 @@ export const DeleteContentImage = gql`
     deleteContentImage(id: $id)
   }
 `;
+
+export const UpdateNotification = gql`
+  mutation UpdateNotification($id: ID!, $input: UpdateNotificationInputType!) {
+    updateNotification(id: $id, input: $input) {
+      id
+      read_at
+    }
+  }
+`;

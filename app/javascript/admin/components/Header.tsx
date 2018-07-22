@@ -52,7 +52,7 @@ function Header(props: IProps) {
                     Classes.iconClass(IconNames.NOTIFICATIONS),
                     {
                       [Classes.MINIMAL]: data.notifications.total_count === 0,
-                      [Classes.INTENT_DANGER]: data.notifications.total_count > 0,
+                      [Classes.INTENT_PRIMARY]: data.notifications.total_count > 0,
                     },
                   )}
                 >

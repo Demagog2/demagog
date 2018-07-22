@@ -29,8 +29,8 @@ class Comment < ApplicationRecord
 
         notifications << Notification.new(
           content: "#{comment.user.first_name} #{comment.user.last_name} tě zmínil/a v komentáři „#{comment.display_content.truncate(40, omission: '…')}‟ u výroku #{comment.statement.speaker.first_name} #{comment.statement.speaker.last_name}: „#{comment.statement.content.truncate(25, omission: '…')}‟",
-          action_link: "",
-          action_text: "",
+          action_link: "/admin/statements/#{comment.statement.id}",
+          action_text: "Na detail výroku",
           recipient: recipient
         )
       end
@@ -38,8 +38,8 @@ class Comment < ApplicationRecord
       if comment.statement.source.expert
         notifications << Notification.new(
           content: "#{comment.user.first_name} #{comment.user.last_name} přidal/a komentář „#{comment.display_content.truncate(40, omission: '…')}‟ u tebou expertovaného výroku #{comment.statement.speaker.first_name} #{comment.statement.speaker.last_name}: „#{comment.statement.content.truncate(25, omission: '…')}‟",
-          action_link: "",
-          action_text: "",
+          action_link: "/admin/statements/#{comment.statement.id}",
+          action_text: "Na detail výroku",
           recipient: comment.statement.source.expert
         )
       end
@@ -47,8 +47,8 @@ class Comment < ApplicationRecord
       if comment.statement.assessment.evaluator
         notifications << Notification.new(
           content: "#{comment.user.first_name} #{comment.user.last_name} přidal/a komentář „#{comment.display_content.truncate(40, omission: '…')}‟ u tebou ověřovaného výroku #{comment.statement.speaker.first_name} #{comment.statement.speaker.last_name}: „#{comment.statement.content.truncate(25, omission: '…')}‟",
-          action_link: "",
-          action_text: "",
+          action_link: "/admin/statements/#{comment.statement.id}",
+          action_text: "Na detail výroku",
           recipient: comment.statement.assessment.evaluator
         )
       end
