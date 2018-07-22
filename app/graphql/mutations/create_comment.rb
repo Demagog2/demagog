@@ -11,9 +11,11 @@ Mutations::CreateComment = GraphQL::Field.define do
     Utils::Auth.authenticate(ctx)
     Utils::Auth.authorize(ctx, ["statements:comments:add"])
 
-    comment_input = args[:comment_input].to_h
-    comment_input["user"] = ctx[:current_user]
+    Comment.create_comment(args[:comment_input].to_h, ctx[:current_user])
 
-    Comment.create!(comment_input)
+    # comment_input = args[:comment_input].to_h
+    # comment_input["user"] = ctx[:current_user]
+
+    # Comment.create!(comment_input, ct)
   }
 end
