@@ -11,6 +11,7 @@ Types::SourceType = GraphQL::ObjectType.define do
   field :medium, !Types::MediumType
   field :media_personality, !Types::MediaPersonalityType
   field :speakers, !types[!Types::SpeakerType]
+  field :expert, Types::UserType
 
   field :statements, !types[!Types::StatementType] do
     argument :include_unpublished, types.Boolean, default_value: false

@@ -7,6 +7,7 @@ class Source < ApplicationRecord
   has_many :statement_transcript_positions
   has_and_belongs_to_many :speakers
   belongs_to :media_personality, optional: true
+  belongs_to :expert, class_name: "User", optional: true
 
   default_scope { where(deleted_at: nil) }
 

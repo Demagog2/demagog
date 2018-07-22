@@ -80,6 +80,11 @@ export const GetSources = gql`
       statements {
         id
       }
+      expert {
+        id
+        first_name
+        last_name
+      }
     }
   }
 `;
@@ -101,6 +106,11 @@ export const GetSource = gql`
         name
       }
       speakers {
+        id
+        first_name
+        last_name
+      }
+      expert {
         id
         first_name
         last_name
@@ -333,6 +343,11 @@ export const GetStatement = gql`
         media_personality {
           id
           name
+        }
+        expert {
+          id
+          first_name
+          last_name
         }
       }
       comments_count

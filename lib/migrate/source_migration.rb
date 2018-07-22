@@ -24,7 +24,8 @@ class SourceMigration
         media_personality: MediaPersonality.find(old_source["id_moderator"]),
         transcript: old_source["prepis_relacie"],
         released_at: old_source["datum"],
-        source_url: old_source["url_videozaznam"]
+        source_url: old_source["url_videozaznam"],
+        expert_id: old_source["id_user"]
       )
     end
   end

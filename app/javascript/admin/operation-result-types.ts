@@ -28,6 +28,7 @@ export interface SourceInputType {
   media_personality_id?: string | null,
   transcript: string,
   speakers: Array< string >,
+  expert_id?: string | null,
 };
 
 export interface BodyInputType {
@@ -581,6 +582,11 @@ export interface GetSourcesQuery {
     statements:  Array< {
       id: string,
     } >,
+    expert:  {
+      id: string,
+      first_name: string,
+      last_name: string,
+    } | null,
   } >,
 };
 
@@ -608,6 +614,11 @@ export interface GetSourceQuery {
       first_name: string,
       last_name: string,
     } >,
+    expert:  {
+      id: string,
+      first_name: string,
+      last_name: string,
+    } | null,
   },
 };
 
@@ -849,6 +860,11 @@ export interface GetStatementQuery {
         id: string,
         name: string,
       },
+      expert:  {
+        id: string,
+        first_name: string,
+        last_name: string,
+      } | null,
     },
     comments_count: number,
   },

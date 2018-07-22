@@ -5,10 +5,12 @@ import * as React from 'react';
 import { Button, Classes, Intent } from '@blueprintjs/core';
 import { Form, Formik } from 'formik';
 import { DateTime } from 'luxon';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
 import { GetSourceQuery, SourceInputType } from '../../operation-result-types';
+import { IState as ReduxState } from '../../reducers';
 import DateField from './controls/DateField';
 import MediaPersonalitiesSelect from './controls/MediaPersonalitySelect';
 import MediumSelect from './controls/MediumSelect';
@@ -16,6 +18,7 @@ import SelectComponentField from './controls/SelectComponentField';
 import SpeakersSelect from './controls/SpeakersSelect';
 import TextareaField from './controls/TextareaField';
 import TextField from './controls/TextField';
+import UserSelect from './controls/UserSelect';
 import FormGroup from './FormGroup';
 
 interface ISourceFormProps {
@@ -23,11 +26,13 @@ interface ISourceFormProps {
   source?: GetSourceQuery['source'];
   onSubmit: (formData: SourceInputType) => Promise<any>;
   title: string;
+
+  currentUser: ReduxState['currentUser']['user'];
 }
 
-export class SourceForm extends React.Component<ISourceFormProps> {
+class SourceForm extends React.Component<ISourceFormProps> {
   public render() {
-    const { backPath, source, title } = this.props;
+    const { backPath, currentUser, source, title } = this.props;
 
     const initialValues = {
       name: source ? source.name : '',
@@ -37,7 +42,13 @@ export class SourceForm extends React.Component<ISourceFormProps> {
       source_url: source ? source.source_url : '',
       speakers: source ? source.speakers.map((s) => s.id) : [],
       transcript: source && source.transcript ? source.transcript : '',
+      expert_id: source && source.expert ? source.expert.id : null,
     };
+
+    // When creating new source, prefill the expert with the current user
+    if (!source && currentUser) {
+      initialValues.expert_id = currentUser.id;
+    }
 
     return (
       <Formik
@@ -136,6 +147,23 @@ export class SourceForm extends React.Component<ISourceFormProps> {
 
             <div style={{ display: 'flex', marginTop: 30 }}>
               <div style={{ flex: '0 0 200px', marginRight: 15 }}>
+                <h4>Expert</h4>
+
+                <p>
+                  Vybraný expert bude dostávat notifikace při změnách výroků v rámci tohoto zdroje.
+                </p>
+              </div>
+              <div style={{ flex: '1 1' }}>
+                <FormGroup name="expert_id" label="Expert" optional>
+                  <SelectComponentField name="expert_id">
+                    {(renderProps) => <UserSelect {...renderProps} />}
+                  </SelectComponentField>
+                </FormGroup>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', marginTop: 30 }}>
+              <div style={{ flex: '0 0 200px', marginRight: 15 }}>
                 <h4>Přepis</h4>
 
                 <p>
@@ -155,3 +183,11 @@ export class SourceForm extends React.Component<ISourceFormProps> {
     );
   }
 }
+
+const mapStateToProps = (state: ReduxState) => ({
+  currentUser: state.currentUser.user,
+});
+
+const EnhancedSourceForm = connect(mapStateToProps)(SourceForm);
+
+export { EnhancedSourceForm as SourceForm };

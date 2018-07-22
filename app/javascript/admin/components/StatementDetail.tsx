@@ -469,6 +469,22 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                             <div className={classNames(Classes.FORM_GROUP, Classes.INLINE)}>
                               <label className={Classes.LABEL} style={{ flex: '1' }}>
+                                Expert pro zdroj
+                              </label>
+                              <div style={{ flex: '2' }}>
+                                {statement.source.expert ? (
+                                  <>
+                                    {statement.source.expert.first_name}{' '}
+                                    {statement.source.expert.last_name}
+                                  </>
+                                ) : (
+                                  <span className={Classes.TEXT_MUTED}>Nepřiřazený</span>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className={classNames(Classes.FORM_GROUP, Classes.INLINE)}>
+                              <label className={Classes.LABEL} style={{ flex: '1' }}>
                                 Ověřovatel/ka
                               </label>
                               <div style={{ flex: '2' }}>

@@ -183,6 +183,12 @@ class SourceDetail extends React.Component<IProps, IState> {
                       , <a href={source.source_url}>odkaz</a>
                     </>
                   )}
+                  {source.expert && (
+                    <>
+                      <br />
+                      Expert: {source.expert.first_name} {source.expert.last_name}
+                    </>
+                  )}
                 </span>
               </div>
 
