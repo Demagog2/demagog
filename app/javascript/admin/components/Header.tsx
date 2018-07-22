@@ -74,7 +74,9 @@ class Header extends React.Component<IProps, IState> {
 
             <GetNotificationsQueryComponent
               query={GetNotifications}
-              variables={{ includeRead: false }}
+              // offset & limit 0, because we only need the total_count
+              variables={{ includeRead: false, offset: 0, limit: 0 }}
+              pollInterval={5000}
             >
               {({ data, loading, error }) => {
                 if (loading || !data) {

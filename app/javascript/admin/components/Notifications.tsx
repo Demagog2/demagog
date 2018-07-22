@@ -48,7 +48,7 @@ class Notifications extends React.Component<IProps, IState> {
       refetchQueries: [
         {
           query: GetNotifications,
-          variables: { includeRead: false },
+          variables: { includeRead: false, limit: 0, offset: 0 },
         },
       ],
     });
@@ -63,6 +63,7 @@ class Notifications extends React.Component<IProps, IState> {
           <GetNotificationsQueryComponent
             query={GetNotifications}
             variables={{ includeRead: true, offset: 0, limit: 20 }}
+            fetchPolicy="network-only"
           >
             {({ data, loading, error, fetchMore }) => {
               if (loading || !data) {

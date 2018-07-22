@@ -99,4 +99,85 @@ class Assessment < ApplicationRecord
 
     false
   end
+
+  # Meant to be used after setting new attributes with assign_attributes, just
+  # before calling save! on the record
+  def create_notifications(current_user)
+    if user_id_changed?
+      notifications = []
+
+      if !user_id.nil?
+        evaluator = User.find(user_id)
+
+        notifications << Notification.new(
+          content: "#{current_user.display_in_notification} tě vybral/a jako ověřovatele/ku výroku #{statement.display_in_notification}",
+          action_link: "/admin/statements/#{statement.id}",
+          action_text: "Na detail výroku",
+          recipient: evaluator
+        )
+
+        if statement.source.expert
+          notifications << Notification.new(
+            content: "#{current_user.display_in_notification} vybral/a #{evaluator.display_in_notification} jako ověřovatele/ku tebou expertovaného výroku #{statement.display_in_notification}",
+            action_link: "/admin/statements/#{statement.id}",
+            action_text: "Na detail výroku",
+            recipient: statement.source.expert
+          )
+        end
+      end
+
+      if !user_id_was.nil?
+        evaluator_was = User.find(user_id_was)
+
+        notifications << Notification.new(
+          content: "#{current_user.display_in_notification} tě odebral/a z pozice ověřovatele/ky výroku #{statement.display_in_notification}",
+          action_link: "/admin/statements/#{statement.id}",
+          action_text: "Na detail výroku",
+          recipient: evaluator_was
+        )
+
+        if statement.source.expert
+          notifications << Notification.new(
+            content: "#{current_user.display_in_notification} odebral/a #{evaluator_was.display_in_notification} z pozice ověřovatele/ky tebou expertovaného výroku #{statement.display_in_notification}",
+            action_link: "/admin/statements/#{statement.id}",
+            action_text: "Na detail výroku",
+            recipient: statement.source.expert
+          )
+        end
+      end
+
+      Notification.create_notifications(notifications, current_user)
+    end
+
+    if evaluation_status_changed? && !evaluation_status_was.nil?
+      notifications = []
+
+      evaluation_status_label = case evaluation_status
+                                when STATUS_BEING_EVALUATED then "ve zpracování"
+                                when STATUS_APPROVAL_NEEDED then "ke kontrole"
+                                when STATUS_APPROVED then "schválený"
+                                else evaluation_status
+      end
+
+      if statement.source.expert
+        notifications << Notification.new(
+          content: "#{current_user.display_in_notification} změnil/a stav tebou expertovaného výroku #{statement.display_in_notification} na #{evaluation_status_label}",
+          action_link: "/admin/statements/#{statement.id}",
+          action_text: "Na detail výroku",
+          recipient: statement.source.expert
+        )
+      end
+
+      if user_id
+        notifications << Notification.new(
+          content: "#{current_user.display_in_notification} změnil/a stav tebou ověřovaného výroku #{statement.display_in_notification} na #{evaluation_status_label}",
+          action_link: "/admin/statements/#{statement.id}",
+          action_text: "Na detail výroku",
+          recipient: User.find(user_id)
+        )
+      end
+
+      Notification.create_notifications(notifications, current_user)
+    end
+  end
 end

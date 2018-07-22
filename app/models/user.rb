@@ -29,4 +29,8 @@ class User < ApplicationRecord
   def role_id=(value)
     self.roles = [Role.find(value)]
   end
+
+  def display_in_notification
+    "#{first_name} #{last_name}"
+  end
 end

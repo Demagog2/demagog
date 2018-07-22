@@ -33,6 +33,7 @@ Mutations::UpdateStatement = GraphQL::Field.define do
             raise Errors::NotAuthorizedError.new
           end
 
+          statement.assessment.create_notifications(ctx[:current_user])
           statement.assessment.save!
         end
 
@@ -42,6 +43,7 @@ Mutations::UpdateStatement = GraphQL::Field.define do
           raise Errors::NotAuthorizedError.new
         end
 
+        statement.create_notifications(ctx[:current_user])
         statement.save!
 
         statement
