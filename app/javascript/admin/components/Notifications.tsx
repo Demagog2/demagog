@@ -2,6 +2,8 @@ import * as React from 'react';
 
 import { Button, Classes } from '@blueprintjs/core';
 import * as classNames from 'classnames';
+import { distanceInWordsToNow } from 'date-fns';
+import * as dateFnsCsLocale from 'date-fns/locale/cs';
 import { DateTime } from 'luxon';
 import { Query } from 'react-apollo';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -99,6 +101,11 @@ class Notifications extends React.Component<IProps, IState> {
                             {notification.content}
                             <br />
                             <small className={Classes.TEXT_MUTED}>
+                              {distanceInWordsToNow(notification.created_at, {
+                                locale: dateFnsCsLocale,
+                                addSuffix: true,
+                              })}
+                              {' — '}
                               {displayDateTime(notification.created_at)}
                             </small>
                           </td>
