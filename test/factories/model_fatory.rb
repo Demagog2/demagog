@@ -29,12 +29,14 @@ FactoryBot.define do
       "Article title #{n}"
     end
 
+    perex "Lorem ipsum"
     source
     illustration
+    published true
     published_at { 1.day.ago }
 
     factory :fact_check do
-      association :article_type, factory: :article_type, name: "fact_check"
+      association :article_type, factory: :article_type, name: "default"
     end
 
     factory :static do

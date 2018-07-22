@@ -11,3 +11,6 @@ Role.create!(key: "expert", name: "Expert")
 Role.create!(key: "social_media_manager", name: "Síťař")
 Role.create!(key: "proofreader", name: "Korektor")
 Role.create!(key: "intern", name: "Stážista")
+
+ArticleType.create!(name: "default")
+ArticleType.create!(name: "static")

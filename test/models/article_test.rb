@@ -12,6 +12,7 @@ class ArticleTest < ActiveSupport::TestCase
     article_input = {
       title: "My article",
       perex: "Lorem ipsum sit dolor del amet...",
+      article_type: "default",
       segments: [
         {
           segment_type: "text",
@@ -45,6 +46,7 @@ class ArticleTest < ActiveSupport::TestCase
     article_input = {
       title: "My article",
       perex: "Lorem ipsum sit dolor del amet...",
+      article_type: "default",
       segments: [
         {
           segment_type: "text",
