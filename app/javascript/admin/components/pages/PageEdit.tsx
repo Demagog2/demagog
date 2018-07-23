@@ -67,7 +67,7 @@ class PageEdit extends React.Component<IPageEditProps> {
               <UpdatePageMutationComponent
                 mutation={UpdatePage}
                 refetchQueries={[
-                  { query: GetPages, variables: { name: null } },
+                  { query: GetPages, variables: { name: null, offset: 0, limit: 15 } },
                   { query: GetPage, variables: { id } },
                 ]}
               >

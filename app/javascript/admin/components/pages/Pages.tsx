@@ -21,7 +21,7 @@ import Error from '../Error';
 import Loading from '../Loading';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
 
-const PAGES_PER_PAGE = 15;
+export const PAGES_PER_PAGE = 15;
 
 interface IProps {
   dispatch: Dispatch;
