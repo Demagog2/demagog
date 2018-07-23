@@ -21,7 +21,7 @@ interface IPageNewProps extends RouteComponentProps<{}> {
 
 export class PageNew extends React.Component<IPageNewProps> {
   public onSuccess = (pageId: string) => {
-    this.props.dispatch(addFlashMessage('stránka byl úspěšně uložena.', 'success'));
+    this.props.dispatch(addFlashMessage('Stránka byl úspěšně uložena.', 'success'));
 
     this.props.history.push(`/admin/pages/edit/${pageId}`);
   };
@@ -38,7 +38,7 @@ export class PageNew extends React.Component<IPageNewProps> {
         <CreatePageMutationComponent
           mutation={CreatePage}
           // TODO: is there a nicer way of updating apollo cache after creating?
-          refetchQueries={[{ query: GetPages, variables: { title: '', offset: 0, limit: 50 } }]}
+          refetchQueries={[{ query: GetPages, variables: { title: '', offset: 0, limit: 15 } }]}
           onCompleted={(data) => data.createPage && this.onSuccess(data.createPage.id)}
           onError={this.onError}
         >
