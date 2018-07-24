@@ -1014,16 +1014,6 @@
                   "defaultValue": "10"
                 },
                 {
-                  "name": "order",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": "\"desc\""
-                },
-                {
                   "name": "title",
                   "description": null,
                   "type": {
@@ -1548,6 +1538,16 @@
                     "ofType": null
                   },
                   "defaultValue": "false"
+                },
+                {
+                  "name": "role",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
                 }
               ],
               "type": {

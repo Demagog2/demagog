@@ -496,6 +496,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                               <div style={{ flex: '2' }}>
                                 {/* TODO: add tooltip to explain when the user select is disabled? */}
                                 <UserSelect
+                                  role="expert"
                                   disabled={!canEditEvaluator}
                                   onChange={(value) =>
                                     setFieldValue('assessment.evaluator_id', value)

@@ -4,8 +4,8 @@ import { Query } from 'react-apollo';
 import Select, { Option } from 'react-select';
 
 const GET_USERS = gql`
-  query {
-    users(limit: 200) {
+  query GetUsersForUserSelect($role: String) {
+    users(limit: 200, role: $role) {
       id
       first_name
       last_name
@@ -27,6 +27,7 @@ interface IProps {
   id?: string;
   disabled?: boolean;
   value?: string | null;
+  role?: string;
   onChange: (value: string | null) => void;
   onBlur?: () => void;
 }
@@ -34,7 +35,7 @@ interface IProps {
 export default class UserSelect extends React.Component<IProps> {
   public render() {
     return (
-      <GetUsersQueryComponent query={GET_USERS}>
+      <GetUsersQueryComponent query={GET_USERS} variables={{ role: this.props.role }}>
         {({ data, loading }) => {
           let options: Array<{ label: string; value: string }> = [];
 

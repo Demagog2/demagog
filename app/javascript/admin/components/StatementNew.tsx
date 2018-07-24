@@ -167,7 +167,7 @@ class StatementNew extends React.Component<IProps> {
                           <div style={{ flex: '1 1' }}>
                             <FormGroup label="Ověřovatel" name="evaluator_id" optional>
                               <SelectComponentField name="evaluator_id">
-                                {(renderProps) => <UserSelect {...renderProps} />}
+                                {(renderProps) => <UserSelect role="expert" {...renderProps} />}
                               </SelectComponentField>
                             </FormGroup>
                             <FormGroup
