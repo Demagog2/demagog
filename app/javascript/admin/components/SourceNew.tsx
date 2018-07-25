@@ -49,7 +49,7 @@ export class SourceNew extends React.Component<ISourceNewProps> {
           mutation={CreateSource}
           onCompleted={this.onSuccess}
           onError={this.onError}
-          refetchQueries={[{ query: GetSources, variables: { name: null } }]}
+          refetchQueries={[{ query: GetSources, variables: { name: '', offset: 0, limit: 50 } }]}
         >
           {(createSource) => {
             return (

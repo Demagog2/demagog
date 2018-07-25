@@ -67,7 +67,7 @@ class SourceEdit extends React.Component<ISourceEditProps> {
                 onCompleted={this.onSuccess}
                 onError={this.onError}
                 refetchQueries={[
-                  { query: GetSources, variables: { name: null } },
+                  { query: GetSources, variables: { name: '', offset: 0, limit: 50 } },
                   { query: GetSource, variables: { id } },
                 ]}
               >
