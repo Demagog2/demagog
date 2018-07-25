@@ -78,6 +78,7 @@
     "zurb-foundation-5": "^5.4.7"
   },
   "devDependencies": {
+    "apollo-codegen": "0.19.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "jest": "^22.4.3",
