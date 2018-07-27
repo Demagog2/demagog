@@ -206,15 +206,18 @@ p.lead {
     margin-top: 0;
   }
 
-  .quote {
+  blockquote {
     letter-spacing: 0.05em;
-    margin-bottom: 0.5em;
+    margin: 0 0 0.5rem;
+    text-indent: -0.4rem;
+  }
 
-    b {
-      font-style: normal;
-      text-transform: uppercase;
-      font-size: 90%;
-    }
+  blockquote::before {
+    content: '„';
+  }
+
+  blockquote::after {
+    content: '“';
   }
 
   .permalink,
@@ -251,10 +254,9 @@ p.lead {
   .veracity {
     @include veracity;
 
-    font-size: var(--medium-typesize);
     font-weight: bold;
     margin-bottom: 0.5rem;
-    margin-left: -1.7rem;
+    margin-left: 0.2rem;
   }
 
   table {
@@ -332,7 +334,7 @@ p.lead {
 .label {
   text-transform: uppercase;
   font-weight: bold;
-  font-size: 80%;
+  font-size: 90%;
 
   &.factcheck { color: var(--true); }
   &.editorial { color: var(--orange); }

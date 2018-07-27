@@ -6,20 +6,18 @@
     </a>
   <% end %>
 
-
-
-  <p class="veracity <%= statement.approved_assessment.veracity.default_name %>">
-    <%= statement.approved_assessment.veracity.name %>
+  <h3>
+    <% unless local_assigns[:non_attributed] %><%= statement.speaker.full_name %><% end %>
+    <span class="veracity <%= statement.approved_assessment.veracity.default_name %>">
+      <%= statement.approved_assessment.veracity.name %>
+    </span>
 
     <% if statement.important? %>
       <span class="label important">důležitý výrok</span>
     <% end %>
-  </p>
+  </h3>
 
-  <p class="quote">
-    <% unless local_assigns[:non_attributed] %><b><%= statement.speaker.full_name %></b>:<% end %>
-    „<%= content_to_html(statement.content) %>“
-  </p>
+  <blockquote><%= content_to_html(statement.content.gsub(/^[„““ ”\"\s]+|[„““ ”\"\s]+$/, '')) %></blockquote>
 
   <p class="utils">
     <a class="permalink" href="<%= statement_path(statement.id) %>">trvalý odkaz</a>
