@@ -37,7 +37,8 @@
 
   hr {
     margin: 0;
-    border: 0.5px solid white;
+    border: solid white;
+    border-width: 0 0 1px;
   }
 
   li,
@@ -61,7 +62,7 @@
     color: var(--white);
     background-color: var(--violet);
     display: block;
-    padding: var(--gap);
+    padding: 1rem;
     text-decoration: none;
     transition: all .125s ease-in-out;
     -webkit-transition: all .125s ease-in-out;

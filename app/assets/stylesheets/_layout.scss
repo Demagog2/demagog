@@ -78,7 +78,8 @@
   }
 
   article,
-  nav.pagination {
+  nav.pagination,
+  .full-width {
     grid-column: 1 / -1;
   }
 
