@@ -405,6 +405,18 @@ p.lead {
   }
 }
 
+a.stats-box:hover {
+  text-decoration: none;
+
+  .name {
+    text-decoration: underline;
+  }
+
+  .portrait {
+    box-shadow: 0 0 0 3px var(--orange)
+  }
+}
+
 .author {
   display: grid;
   grid-template-columns: var(--large-portrait) 1fr;
@@ -444,7 +456,7 @@ article.preview {
   .speakers {
     float: right;
     max-width: 35%;
-    margin: 0 0 -1rem 0.5rem;
+    margin: 0 0 -0.5rem 0.5rem;
   }
 }
 
