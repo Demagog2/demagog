@@ -5,7 +5,7 @@ class HomepageController < ApplicationController
     unless params[:page].present?
       @cover_story = Article.cover_story
       @interesting_statements = Statement.interesting_statements
-    else 
+    else
       @page_number = params[:page]
     end
 
