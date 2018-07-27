@@ -2,8 +2,13 @@
 
 class HomepageController < ApplicationController
   def index
-    @cover_story = Article.cover_story
-    @interesting_statements = Statement.interesting_statements
+    unless params[:page].present?
+      @cover_story = Article.cover_story
+      @interesting_statements = Statement.interesting_statements
+    else 
+      @page_number = params[:page]
+    end
+
     @articles = Article
       .published
       .order(published_at: :desc)

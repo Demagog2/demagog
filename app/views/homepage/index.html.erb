@@ -1,7 +1,13 @@
 <%= render partial: "cover_story" %>
 
-<%= render partial: "interesting_statements" %>
-<%= render partial: "darujme" %>
+<% if @interesting_statements %>
+  <%= render partial: "interesting_statements" %>
+  <%= render partial: "darujme" %>
+<% end %>
+
+<% if @page_number %>
+  <p class="full-width"><b>Strana <%= @page_number %></b> z archivu článků:</p>
+<% end %>
 
 <% @articles.drop(1).each do |article| %>
   <%= render partial: "article/preview", object: article, as: :article %>
