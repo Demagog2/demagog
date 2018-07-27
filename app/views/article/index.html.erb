@@ -28,7 +28,7 @@
   <aside class="meta">
     <p>
       <% if @article.source %>
-        <%= @article.source.medium.name %>
+        <b><%= @article.source.medium.name %></b>
         <% if @article.source.source_url %>
             (<a class="ext" href="<%= @article.source.source_url %>">záznam</a>)
         <% end %>

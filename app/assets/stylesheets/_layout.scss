@@ -47,8 +47,8 @@
   }
 
   .box {
-    margin: 0 -3rem;
-    padding: 3rem;
+    margin: 0 -2rem;
+    padding: 2rem 2rem 1rem;
   }
 
   #darujme-widget {
@@ -90,6 +90,10 @@
     grid-column: 1 / 7;
   }
 
+  #supporters, #partners {
+    margin-top: 6rem;
+  }
+
   #interesting-statements {
     display: grid;
     grid-column: 1 / 9;
@@ -98,7 +102,7 @@
 
     h2 {
       grid-column: span 2;
-      margin: 0;
+      margin: 0 0 1rem;
     }
   }
 
