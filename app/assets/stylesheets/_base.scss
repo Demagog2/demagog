@@ -58,7 +58,11 @@ a:hover {
 }
 
 footer {
-  padding: 3rem 15px;
+  overflow: hidden;
+}
+
+footer p {
+  grid-column: 1 / -1;
 }
 
 h1 {
