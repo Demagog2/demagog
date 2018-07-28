@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { Colors, Icon, Popover, Position } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
+import * as copy from 'copy-to-clipboard';
 import * as Slate from 'slate';
 import { Rule } from 'slate-html-serializer';
 import { RenderNodeProps } from 'slate-react';
@@ -63,23 +64,35 @@ const toolbarItem: IToolbarItem = {
 
         const href = link.data.get('href');
 
-        const newHref = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):', href);
+        let newHref = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):', href);
         if (newHref === null || newHref === '') {
           return;
         }
 
+        if (!newHref.startsWith('http')) {
+          newHref = 'http://' + newHref;
+        }
+
         change.call(setLinkHref, newHref);
       } else if (value.isExpanded) {
-        const href = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):');
+        let href = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):');
         if (href === null || href === '') {
           return;
         }
 
+        if (!href.startsWith('http')) {
+          href = 'http://' + href;
+        }
+
         change.call(wrapLink, href);
       } else {
-        const href = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):');
+        let href = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):');
         if (href === null || href === '') {
           return;
+        }
+
+        if (!href.startsWith('http')) {
+          href = 'http://' + href;
         }
 
         const text = window.prompt('Vložte text odkazu (např. Demagog):');
@@ -117,12 +130,22 @@ const LinkNode = (props: RenderNodeProps) => {
     window.open(href, '_blank');
   };
 
+  const onCopyMouseDown = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+
+    copy(href);
+  };
+
   const onEditMouseDown = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
 
-    const newHref = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):', href);
+    let newHref = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):', href);
     if (newHref === null || newHref === '') {
       return;
+    }
+
+    if (!newHref.startsWith('http')) {
+      newHref = 'http://' + newHref;
     }
 
     if (editor.props.onChange) {
@@ -147,10 +170,14 @@ const LinkNode = (props: RenderNodeProps) => {
             {href}
           </a>{' '}
           –{' '}
+          <a href="#" onMouseDown={onCopyMouseDown}>
+            Kopírovat odkaz
+          </a>
+          {' | '}
           <a href="#" onMouseDown={onEditMouseDown}>
             Změnit
-          </a>{' '}
-          |{' '}
+          </a>
+          {' | '}
           <a href="#" onMouseDown={onRemoveMouseDown}>
             Odstranit
           </a>
