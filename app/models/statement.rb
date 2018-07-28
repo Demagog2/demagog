@@ -107,56 +107,6 @@ class Statement < ApplicationRecord
     changed_attributes.empty?
   end
 
-  # Meant to be used after setting new attributes with assign_attributes, just
-  # before calling save! on the record
-  def create_notifications(current_user)
-    if published_changed? && !published_was.nil?
-      notifications = []
-
-      if published
-        if source.expert
-          notifications << Notification.new(
-            content: "#{current_user.display_in_notification} zveřejnil/a tebou expertovaný výrok #{display_in_notification}",
-            action_link: "/admin/statements/#{id}",
-            action_text: "Na detail výroku",
-            recipient: source.expert
-          )
-        end
-
-        if assessment.user_id
-          notifications << Notification.new(
-            content: "#{current_user.display_in_notification} zveřejnil/a tebou ověřovaný výrok #{display_in_notification}",
-            action_link: "/admin/statements/#{id}",
-            action_text: "Na detail výroku",
-            recipient: User.find(assessment.user_id)
-          )
-        end
-      end
-
-      if published_was
-        if source.expert
-          notifications << Notification.new(
-            content: "#{current_user.display_in_notification} vzal/a zpět zveřejnění tebou expertovaného výroku #{display_in_notification}",
-            action_link: "/admin/statements/#{id}",
-            action_text: "Na detail výroku",
-            recipient: source.expert
-          )
-        end
-
-        if assessment.user_id
-          notifications << Notification.new(
-            content: "#{current_user.display_in_notification} vzal/a zpět zveřejnění tebou ověřovaného výroku #{display_in_notification}",
-            action_link: "/admin/statements/#{id}",
-            action_text: "Na detail výroku",
-            recipient: User.find(assessment.user_id)
-          )
-        end
-      end
-
-      Notification.create_notifications(notifications, current_user)
-    end
-  end
-
   def display_in_notification
     "#{speaker.first_name} #{speaker.last_name}: „#{content.truncate(50, omission: '…')}‟"
   end

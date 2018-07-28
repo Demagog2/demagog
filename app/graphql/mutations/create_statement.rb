@@ -18,7 +18,6 @@ Mutations::CreateStatement = GraphQL::Field.define do
 
     Statement.transaction do
       statement = Statement.new(statement_input)
-      statement.create_notifications(ctx[:current_user])
       statement.save!
 
       if transcript_position_input
