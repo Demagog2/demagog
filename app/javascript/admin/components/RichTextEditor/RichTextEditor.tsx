@@ -3,14 +3,16 @@ import * as React from 'react';
 import * as Slate from 'slate';
 import HtmlSerializer from 'slate-html-serializer';
 import { Editor } from 'slate-react';
+import SoftBreak from 'slate-soft-break';
 
 import Bold from './featurePlugins/Bold';
 import Embed from './featurePlugins/Embed';
+import Header from './featurePlugins/Header';
 import Image from './featurePlugins/Image';
 import Italic from './featurePlugins/Italic';
 import Link from './featurePlugins/Link';
+import List from './featurePlugins/List';
 import Paragraph from './featurePlugins/Paragraph';
-import Underlined from './featurePlugins/Underlined';
 
 import schema from './schema';
 import { toolbarDivider } from './toolbar';
@@ -19,26 +21,35 @@ const bold = Bold();
 const embed = Embed();
 const image = Image();
 const italic = Italic();
+const header = Header();
 const link = Link();
+const list = List();
 const paragraph = Paragraph();
-const underlined = Underlined();
 
 const plugins = [
+  SoftBreak({
+    shift: true,
+  }),
+
   ...bold.plugins,
   ...embed.plugins,
+  ...header.plugins,
   ...image.plugins,
   ...italic.plugins,
   ...link.plugins,
+  ...list.plugins,
   ...paragraph.plugins,
-  ...underlined.plugins,
 ];
 
 const toolbar = [
   bold.toolbarItem,
   italic.toolbarItem,
-  underlined.toolbarItem,
+  toolbarDivider,
+  header.toolbarItem,
   toolbarDivider,
   link.toolbarItem,
+  toolbarDivider,
+  ...list.toolbarItems,
   toolbarDivider,
   image.toolbarItem,
   embed.toolbarItem,
@@ -48,11 +59,12 @@ const htmlSerializer = new HtmlSerializer({
   rules: [
     bold.htmlSerializerRule,
     embed.htmlSerializerRule,
+    header.htmlSerializerRule,
     image.htmlSerializerRule,
     italic.htmlSerializerRule,
     link.htmlSerializerRule,
+    list.htmlSerializerRule,
     paragraph.htmlSerializerRule,
-    underlined.htmlSerializerRule,
   ],
 });
 

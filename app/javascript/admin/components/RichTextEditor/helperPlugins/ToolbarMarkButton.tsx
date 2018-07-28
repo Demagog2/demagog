@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Icon } from '@blueprintjs/core';
+import { Colors, Icon } from '@blueprintjs/core';
 import { IconName } from '@blueprintjs/icons';
 import * as Slate from 'slate';
 
@@ -25,8 +25,7 @@ export default function ToolbarMarkButton(
           style={{ cursor: 'pointer', display: 'inline-block', padding: '3px 10px' }}
           onMouseDown={onMouseDown}
         >
-          {/* <FontAwesomeIcon icon={icon} color={isActive(value) ? '#000' : '#aaa'} /> */}
-          <Icon icon={icon} color={isActive(value) ? '#000' : '#aaa'} />
+          <Icon icon={icon} color={isActive(value) ? Colors.DARK_GRAY4 : Colors.GRAY4} />
         </span>
       );
     },

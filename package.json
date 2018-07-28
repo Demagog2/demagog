@@ -68,6 +68,7 @@
     "slate-html-serializer": "^0.6.7",
     "slate-react": "^0.12.6",
     "slate-schema-violations": "^0.1.14",
+    "slate-soft-break": "^0.6.1",
     "ts-jest": "^22.4.5",
     "ts-loader": "^3.5.0",
     "typescript": "^2.8.3",

@@ -8043,6 +8043,10 @@ slate-schema-violations@^0.1.14:
   version "0.1.14"
   resolved "https://registry.yarnpkg.com/slate-schema-violations/-/slate-schema-violations-0.1.14.tgz#b5e9015cc54922185098b7329b84eca92aefd982"
 
+slate-soft-break@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/slate-soft-break/-/slate-soft-break-0.6.1.tgz#b5e9ccf3cb876168c10266428274e2523b0d3dd9"
+
 slate@^0.33.6:
   version "0.33.6"
   resolved "https://registry.yarnpkg.com/slate/-/slate-0.33.6.tgz#0c7cb193cc5adeecec5c81e2ec0c86ab23dd6755"

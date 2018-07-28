@@ -1,10 +1,9 @@
 import * as Slate from 'slate';
 import { LAST_CHILD_TYPE_INVALID } from 'slate-schema-violations';
-import * as yup from 'yup';
 
 export default Slate.Schema.fromJSON({
   document: {
-    nodes: [{ types: ['paragraph', 'image', 'embed'] }],
+    nodes: [{ types: ['paragraph', 'unordered-list', 'ordered-list', 'image', 'embed', 'header'] }],
 
     // We want to make sure there is a line after embed or image, because users
     // cannot create new line themselves
@@ -12,17 +11,37 @@ export default Slate.Schema.fromJSON({
     normalize: (change, reason, { node }) => {
       switch (reason) {
         case LAST_CHILD_TYPE_INVALID: {
-          const paragraph = Slate.Block.create('paragraph');
+          const paragraph = Slate.Block.fromJSON({
+            type: 'paragraph',
+            nodes: [{ object: 'text', leaves: [{ text: '' }] }],
+          } as any);
           return change.insertNodeByKey(node.key, node.nodes.size, paragraph);
         }
       }
     },
   },
   blocks: {
+    // tslint:disable-next-line:object-literal-key-quotes
     paragraph: {
       nodes: [{ objects: ['text', 'inline'] }],
-      marks: [{ type: 'bold' }, { type: 'italic' }, { type: 'underlined' }],
+      marks: [{ type: 'bold' }, { type: 'italic' }],
     },
+    'unordered-list': {
+      nodes: [{ types: ['list-item'] }],
+    },
+    'ordered-list': {
+      nodes: [{ types: ['list-item'] }],
+    },
+    'list-item': {
+      nodes: [{ objects: ['text', 'inline'] }],
+      marks: [{ type: 'bold' }, { type: 'italic' }],
+    },
+    // tslint:disable-next-line:object-literal-key-quotes
+    header: {
+      nodes: [{ objects: ['text', 'inline'] }],
+      marks: [],
+    },
+    // tslint:disable-next-line:object-literal-key-quotes
     embed: {
       isVoid: true,
       data: {
@@ -30,15 +49,11 @@ export default Slate.Schema.fromJSON({
         code: (code) => !!code,
       },
     },
+    // tslint:disable-next-line:object-literal-key-quotes
     image: {
       isVoid: true,
       data: {
-        src: (src) =>
-          src &&
-          yup
-            .string()
-            .url()
-            .isValidSync(src),
+        src: (src) => !!src,
       },
     },
   },

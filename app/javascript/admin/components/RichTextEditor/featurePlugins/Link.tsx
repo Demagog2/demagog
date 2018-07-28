@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Icon, Popover, Position } from '@blueprintjs/core';
+import { Colors, Icon, Popover, Position } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import * as Slate from 'slate';
 import { Rule } from 'slate-html-serializer';
@@ -101,7 +101,7 @@ const toolbarItem: IToolbarItem = {
         style={{ cursor: 'pointer', display: 'inline-block', padding: '3px 10px' }}
         onMouseDown={onMouseDown}
       >
-        <Icon icon={IconNames.LINK} color="#aaa" />
+        <Icon icon={IconNames.LINK} color={Colors.GRAY4} />
       </span>
     );
   },

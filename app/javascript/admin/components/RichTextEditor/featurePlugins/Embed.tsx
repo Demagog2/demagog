@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Icon } from '@blueprintjs/core';
+import { Colors, Icon } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { Rule } from 'slate-html-serializer';
 import { RenderNodeProps } from 'slate-react';
@@ -53,7 +53,7 @@ const toolbarItem: IToolbarItem = {
         style={{ cursor: 'pointer', display: 'inline-block', padding: '3px 10px' }}
         onMouseDown={onMouseDown}
       >
-        <Icon icon={IconNames.CODE} color="#aaa" />
+        <Icon icon={IconNames.CODE} color={Colors.GRAY4} />
       </span>
     );
   },
