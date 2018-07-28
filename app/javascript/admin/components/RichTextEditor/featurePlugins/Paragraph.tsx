@@ -37,4 +37,13 @@ const htmlSerializerRule: Rule = {
       return <p>{children}</p>;
     }
   },
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() === 'p') {
+      return {
+        object: 'block',
+        type: 'paragraph',
+        nodes: next(el.childNodes),
+      };
+    }
+  },
 };

@@ -427,6 +427,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                         setFieldValue('assessment.explanation_slatejson', value);
                                         setFieldValue('assessment.explanation_html', html);
                                       }}
+                                      statementExplanation
                                     />
                                   </FormGroup>
                                 ) : (

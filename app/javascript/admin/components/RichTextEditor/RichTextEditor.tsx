@@ -15,7 +15,7 @@ import List from './featurePlugins/List';
 import Paragraph from './featurePlugins/Paragraph';
 
 import schema from './schema';
-import { toolbarDivider } from './toolbar';
+import { IToolbarItem, toolbarDivider } from './toolbar';
 
 const bold = Bold();
 const embed = Embed();
@@ -26,52 +26,11 @@ const link = Link();
 const list = List();
 const paragraph = Paragraph();
 
-const plugins = [
-  SoftBreak({
-    shift: true,
-  }),
-
-  ...bold.plugins,
-  ...embed.plugins,
-  ...header.plugins,
-  ...image.plugins,
-  ...italic.plugins,
-  ...link.plugins,
-  ...list.plugins,
-  ...paragraph.plugins,
-];
-
-const toolbar = [
-  bold.toolbarItem,
-  italic.toolbarItem,
-  toolbarDivider,
-  header.toolbarItem,
-  toolbarDivider,
-  link.toolbarItem,
-  toolbarDivider,
-  ...list.toolbarItems,
-  toolbarDivider,
-  image.toolbarItem,
-  embed.toolbarItem,
-];
-
-const htmlSerializer = new HtmlSerializer({
-  rules: [
-    bold.htmlSerializerRule,
-    embed.htmlSerializerRule,
-    header.htmlSerializerRule,
-    image.htmlSerializerRule,
-    italic.htmlSerializerRule,
-    link.htmlSerializerRule,
-    list.htmlSerializerRule,
-    paragraph.htmlSerializerRule,
-  ],
-});
-
 interface IProps {
   value: object | null;
   onChange: (value: object, html: string) => void;
   contentsStyle?: object;
+  statementExplanation?: boolean;
 }
 
 interface IState {
@@ -79,17 +38,62 @@ interface IState {
 }
 
 class RichTextEditor extends React.Component<IProps, IState> {
+  public htmlSerializer: HtmlSerializer;
+  public toolbar: IToolbarItem[];
+  public plugins: any[];
+
   constructor(props: IProps) {
     super(props);
 
     this.state = {
       value: props.value !== null ? Slate.Value.fromJSON(props.value) : DEFAULT_VALUE,
     };
+
+    this.htmlSerializer = new HtmlSerializer({
+      rules: [
+        bold.htmlSerializerRule,
+        embed.htmlSerializerRule,
+        ...(props.statementExplanation ? [] : [header.htmlSerializerRule]),
+        image.htmlSerializerRule,
+        italic.htmlSerializerRule,
+        link.htmlSerializerRule,
+        list.htmlSerializerRule,
+        paragraph.htmlSerializerRule,
+      ],
+    });
+
+    this.toolbar = [
+      bold.toolbarItem,
+      italic.toolbarItem,
+      toolbarDivider,
+      ...(props.statementExplanation ? [] : [header.toolbarItem, toolbarDivider]),
+      link.toolbarItem,
+      toolbarDivider,
+      ...list.toolbarItems,
+      toolbarDivider,
+      image.toolbarItem,
+      embed.toolbarItem,
+    ];
+
+    this.plugins = [
+      SoftBreak({
+        shift: true,
+      }),
+
+      ...bold.plugins,
+      ...embed.plugins,
+      ...(props.statementExplanation ? [] : header.plugins),
+      ...image.plugins,
+      ...italic.plugins,
+      ...link.plugins,
+      ...list.plugins,
+      ...paragraph.plugins,
+    ];
   }
 
   public onChange = ({ value }: Slate.Change) => {
     if (value.document !== this.state.value.document) {
-      this.props.onChange(value.toJSON(), htmlSerializer.serialize(value));
+      this.props.onChange(value.toJSON(), this.htmlSerializer.serialize(value));
     }
 
     this.setState({ value });
@@ -100,7 +104,7 @@ class RichTextEditor extends React.Component<IProps, IState> {
     if (transfer.type !== 'html') {
       return;
     }
-    const { document } = htmlSerializer.deserialize((transfer as any).html);
+    const { document } = this.htmlSerializer.deserialize((transfer as any).html);
     change.insertFragment(document);
     return true;
   };
@@ -116,7 +120,7 @@ class RichTextEditor extends React.Component<IProps, IState> {
             borderRadius: '.25rem .25rem 0 0',
           }}
         >
-          {toolbar.map((item, index) => (
+          {this.toolbar.map((item, index) => (
             <span key={index}>
               {item.renderItem({
                 onChange: this.onChange,
@@ -137,7 +141,7 @@ class RichTextEditor extends React.Component<IProps, IState> {
             value={this.state.value}
             onChange={this.onChange}
             onPaste={this.onPaste}
-            plugins={plugins}
+            plugins={this.plugins}
             spellCheck
             style={{
               ...(this.props.contentsStyle || {}),
