@@ -118,12 +118,18 @@ export class PageForm extends React.Component<IPageFormProps> {
                       setFieldValue('text_html', html);
                       setFieldValue('text_slatejson', json);
                     }}
-                    contentsStyle={{
-                      fontFamily: 'Lato, sans-serif',
-                      fontSize: '16px',
-                      lineHeight: '25.6px',
-                      letterSpacing: '0.4px',
-                    }}
+                    className={css`
+                      font-family: 'Lato', sans-serif;
+                      font-size: 16px;
+                      line-height: 25.6px;
+                      letter-spacing: 0.4px;
+
+                      h2 {
+                        margin: 15px 0 8px 0;
+                        font-size: 18px;
+                        font-weight: 700px;
+                      }
+                    `}
                   />
                 )}
               </div>

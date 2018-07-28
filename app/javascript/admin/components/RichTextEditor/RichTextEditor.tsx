@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { css, cx } from 'emotion';
 import * as Slate from 'slate';
 import HtmlSerializer from 'slate-html-serializer';
 import { Editor, getEventTransfer } from 'slate-react';
@@ -29,7 +30,7 @@ const paragraph = Paragraph();
 interface IProps {
   value: object | null;
   onChange: (value: object, html: string) => void;
-  contentsStyle?: object;
+  className?: string;
   statementExplanation?: boolean;
 }
 
@@ -143,10 +144,12 @@ class RichTextEditor extends React.Component<IProps, IState> {
             onPaste={this.onPaste}
             plugins={this.plugins}
             spellCheck
-            style={{
-              ...(this.props.contentsStyle || {}),
-              minHeight: '200px',
-            }}
+            className={cx(
+              this.props.className,
+              css`
+                min-height: 200px;
+              `,
+            )}
             schema={schema}
           />
         </div>
