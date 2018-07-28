@@ -34,4 +34,13 @@ const htmlSerializerRule: Rule = {
       return <strong>{children}</strong>;
     }
   },
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() === 'b' || el.tagName.toLowerCase() === 'strong') {
+      return {
+        object: 'mark',
+        type: 'strong',
+        nodes: next(el.childNodes),
+      };
+    }
+  },
 };

@@ -156,7 +156,7 @@ const LinkNode = (props: RenderNodeProps) => {
           </a>
         </div>
       }
-      isOpen={isSelected}
+      isOpen={isSelected && editor.value.isCollapsed}
       position={Position.BOTTOM_LEFT}
     >
       <a {...attributes} href={href} style={{ textDecoration: 'underline', cursor: 'text' }}>
@@ -170,6 +170,18 @@ const htmlSerializerRule: Rule = {
   serialize(object, children) {
     if (object.object === 'inline' && object.type === 'link') {
       return <a href={object.data.get('href')}>{children}</a>;
+    }
+  },
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() === 'a') {
+      return {
+        object: 'inline',
+        type: 'link',
+        nodes: next(el.childNodes),
+        data: {
+          href: el.getAttribute('href'),
+        },
+      };
     }
   },
 };

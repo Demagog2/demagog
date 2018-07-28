@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import * as Slate from 'slate';
 import HtmlSerializer from 'slate-html-serializer';
-import { Editor } from 'slate-react';
+import { Editor, getEventTransfer } from 'slate-react';
 import SoftBreak from 'slate-soft-break';
 
 import Bold from './featurePlugins/Bold';
@@ -95,6 +95,16 @@ class RichTextEditor extends React.Component<IProps, IState> {
     this.setState({ value });
   };
 
+  public onPaste = (event: Event, change: Slate.Change) => {
+    const transfer = getEventTransfer(event);
+    if (transfer.type !== 'html') {
+      return;
+    }
+    const { document } = htmlSerializer.deserialize((transfer as any).html);
+    change.insertFragment(document);
+    return true;
+  };
+
   public render() {
     return (
       <div>
@@ -126,6 +136,7 @@ class RichTextEditor extends React.Component<IProps, IState> {
           <Editor
             value={this.state.value}
             onChange={this.onChange}
+            onPaste={this.onPaste}
             plugins={plugins}
             spellCheck
             style={{

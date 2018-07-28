@@ -132,4 +132,27 @@ const htmlSerializerRule: Rule = {
       return <li>{children}</li>;
     }
   },
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() === 'ol') {
+      return {
+        object: 'block',
+        type: 'ordered-list',
+        nodes: next(el.childNodes),
+      };
+    }
+    if (el.tagName.toLowerCase() === 'ul') {
+      return {
+        object: 'block',
+        type: 'unordered-list',
+        nodes: next(el.childNodes),
+      };
+    }
+    if (el.tagName.toLowerCase() === 'li') {
+      return {
+        object: 'block',
+        type: 'list-item',
+        nodes: next(el.childNodes),
+      };
+    }
+  },
 };

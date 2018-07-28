@@ -37,4 +37,13 @@ const htmlSerializerRule: Rule = {
       return <em>{children}</em>;
     }
   },
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() === 'i' || el.tagName.toLowerCase() === 'em') {
+      return {
+        object: 'mark',
+        type: 'italic',
+        nodes: next(el.childNodes),
+      };
+    }
+  },
 };

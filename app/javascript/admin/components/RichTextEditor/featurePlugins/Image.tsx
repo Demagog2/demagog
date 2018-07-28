@@ -78,4 +78,17 @@ const htmlSerializerRule: Rule = {
       return <img src={object.data.get('src')} alt="" />;
     }
   },
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() === 'img') {
+      return {
+        object: 'block',
+        type: 'image',
+        isVoid: true,
+        nodes: next(el.childNodes),
+        data: {
+          src: el.getAttribute('src'),
+        },
+      };
+    }
+  },
 };

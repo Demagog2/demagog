@@ -82,4 +82,13 @@ const htmlSerializerRule: Rule = {
       return <h2>{children}</h2>;
     }
   },
+  deserialize(el, next) {
+    if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(el.tagName.toLowerCase())) {
+      return {
+        object: 'block',
+        type: 'header',
+        nodes: next(el.childNodes),
+      };
+    }
+  },
 };
