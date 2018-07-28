@@ -127,7 +127,7 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
               <div>
                 <div style={{ float: 'right' }}>
                   <Link to={`/admin/sources/${source.id}`} className={Classes.BUTTON}>
-                    Zpět na detail zdroje
+                    Zpět na diskuzi
                   </Link>
                 </div>
 

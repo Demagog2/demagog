@@ -25,7 +25,7 @@ interface ISourceNewProps extends RouteComponentProps<{}> {
 
 export class SourceNew extends React.Component<ISourceNewProps> {
   public onSuccess = (source: CreateSourceMutation) => {
-    this.props.dispatch(addFlashMessage('Zdroj výroků byl úspěšně uložen.', 'success'));
+    this.props.dispatch(addFlashMessage('Diskuze úspěšně uložena.', 'success'));
 
     if (source.createSource) {
       this.props.history.push(`/admin/sources/${source.createSource.id}`);
@@ -33,7 +33,7 @@ export class SourceNew extends React.Component<ISourceNewProps> {
   };
 
   public onError = (error) => {
-    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání zdroje výroků', 'error'));
+    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání diskuze', 'error'));
     // tslint:disable-next-line:no-console
     console.error(error);
   };
@@ -56,7 +56,7 @@ export class SourceNew extends React.Component<ISourceNewProps> {
               <SourceForm
                 backPath="/admin/sources"
                 onSubmit={this.onSubmit(createSource)}
-                title="Přidat nový zdroj"
+                title="Přidat novou diskuzi"
               />
             );
           }}

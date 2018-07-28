@@ -73,12 +73,14 @@ class SourceDetail extends React.Component<IProps, IState> {
   };
 
   public onDeleted = () => {
-    this.props.dispatch(addFlashMessage('Zdroj včetně jeho výroků byl úspěšně smazán.', 'success'));
+    this.props.dispatch(
+      addFlashMessage('Diskuze včetně jejích výroků byla úspěšně smazána.', 'success'),
+    );
     this.props.history.push(`/admin/sources`);
   };
 
   public onDeleteError = (error: ApolloError) => {
-    this.props.dispatch(addFlashMessage('Doško k chybě při mazání zdroje', 'error'));
+    this.props.dispatch(addFlashMessage('Doško k chybě při mazání diskuze', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
@@ -124,9 +126,9 @@ class SourceDetail extends React.Component<IProps, IState> {
             <div style={{ padding: '15px 0 40px 0' }}>
               {this.state.showConfirmDeleteModal && (
                 <ConfirmDeleteModal
-                  message={`Opravdu chcete smazat zdroj ${
+                  message={`Opravdu chcete smazat diskuzi ${
                     source.name
-                  } se všemi výroky, které k němu patří?`}
+                  } se všemi výroky, které k ní patří?`}
                   onCancel={this.toggleConfirmDeleteModal}
                   mutation={DeleteSource}
                   mutationProps={{
@@ -159,7 +161,7 @@ class SourceDetail extends React.Component<IProps, IState> {
                         className={Classes.BUTTON}
                         style={{ marginLeft: 7 }}
                       >
-                        Upravit údaje o zdroji
+                        Upravit údaje o diskuzi
                       </Link>
                       <button
                         type="button"
@@ -167,7 +169,7 @@ class SourceDetail extends React.Component<IProps, IState> {
                         style={{ marginLeft: 7 }}
                         onClick={this.toggleConfirmDeleteModal}
                       >
-                        Smazat zdroj
+                        Smazat diskuzi
                       </button>
                     </>
                   </Authorize>

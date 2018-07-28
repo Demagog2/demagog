@@ -134,7 +134,7 @@ class SourceForm extends React.Component<ISourceFormProps> {
               <div style={{ flex: '0 0 200px', marginRight: 15 }}>
                 <h4>Řečníci</h4>
 
-                <p>Výroky v rámci tohoto zdroje půjde vytvořit jen pro osoby zde vybrané.</p>
+                <p>Výroky v rámci této diskuze půjde vytvořit jen pro osoby zde vybrané.</p>
               </div>
               <div style={{ flex: '1 1' }}>
                 <FormGroup name="speakers" label="Řečníci">
@@ -150,7 +150,7 @@ class SourceForm extends React.Component<ISourceFormProps> {
                 <h4>Expert</h4>
 
                 <p>
-                  Vybraný expert bude dostávat notifikace při změnách výroků v rámci tohoto zdroje.
+                  Vybraný expert bude dostávat notifikace při změnách výroků v rámci této diskuze.
                 </p>
               </div>
               <div style={{ flex: '1 1' }}>

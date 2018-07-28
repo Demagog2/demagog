@@ -62,7 +62,7 @@ class Sources extends React.Component<{}, IState> {
               )}
               to="/admin/sources/new"
             >
-              Přidat zdroj výroků
+              Přidat novou diskuzi
             </Link>
           </div>
         </Authorize>
@@ -71,7 +71,7 @@ class Sources extends React.Component<{}, IState> {
 
         <div style={{ marginTop: 15 }}>
           <SearchInput
-            placeholder="Hledat dle názvu zdroje …"
+            placeholder="Hledat dle názvu diskuze…"
             onChange={this.onSearchChange}
             value={this.state.search}
           />
@@ -96,7 +96,7 @@ class Sources extends React.Component<{}, IState> {
               }
 
               if (this.state.search !== '' && props.data.sources.length === 0) {
-                return <p>Nenašli jsme žádný zdroj s názvem „{this.state.search}‟.</p>;
+                return <p>Nenašli jsme žádnou diskuzi s názvem „{this.state.search}‟.</p>;
               }
 
               return (
@@ -108,7 +108,7 @@ class Sources extends React.Component<{}, IState> {
                     <thead>
                       <tr>
                         <th scope="col" style={{ width: '50%' }}>
-                          Zdroj
+                          Diskuze
                         </th>
                         <th scope="col">Expert</th>
                         <th scope="col">
@@ -180,7 +180,7 @@ class Sources extends React.Component<{}, IState> {
                             </td>
                             <td style={{ textAlign: 'right' }}>
                               <Link to={`/admin/sources/${source.id}`} className={Classes.BUTTON}>
-                                Na detail zdroje
+                                Na detail diskuze
                               </Link>
                             </td>
                           </tr>

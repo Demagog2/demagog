@@ -122,7 +122,7 @@ class StatementNew extends React.Component<IProps> {
                       <Form>
                         <div style={{ float: 'right' }}>
                           <Link to={`/admin/sources/${source.id}`} className={Classes.BUTTON}>
-                            Zpět na zdroj výroku
+                            Zpět na diskuzi
                           </Link>
                           <button
                             type="submit"

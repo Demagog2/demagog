@@ -302,7 +302,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                             to={`/admin/sources/${statement.source.id}`}
                             className={Classes.BUTTON}
                           >
-                            Zpět na zdroj výroku
+                            Zpět na diskuzi
                           </Link>
                         </div>
 
@@ -343,7 +343,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                               <p>{newlinesToBr(values.content)}</p>
                             )}
                             <p className={Classes.TEXT_MUTED}>
-                              Zdroj: {statement.source.medium.name},{' '}
+                              Diskuze: {statement.source.medium.name},{' '}
                               {displayDate(statement.source.released_at)},{' '}
                               {statement.source.media_personality.name}
                               {statement.source.source_url && (
@@ -475,7 +475,7 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                             <div className={classNames(Classes.FORM_GROUP, Classes.INLINE)}>
                               <label className={Classes.LABEL} style={{ flex: '1' }}>
-                                Expert pro zdroj
+                                Expert pro diskuzi
                               </label>
                               <div style={{ flex: '2' }}>
                                 {statement.source.expert ? (

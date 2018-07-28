@@ -69,7 +69,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
           article_type: yup.string().oneOf([ARTICLE_TYPE_DEFAULT, ARTICLE_TYPE_STATIC]),
           source_id: yup.mixed().when('article_type', {
             is: ARTICLE_TYPE_DEFAULT,
-            then: yup.mixed().notOneOf([null], 'Je třeba vybrat ověřovaný zdroj'),
+            then: yup.mixed().notOneOf([null], 'Je třeba vybrat ověřovanou diskuzi'),
             otherwise: yup.mixed(),
           }),
         })}
@@ -166,7 +166,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                 </FormGroup>
 
                 {values.article_type === ARTICLE_TYPE_DEFAULT && (
-                  <FormGroup label="Ověřovaný zdroj" name="source_id">
+                  <FormGroup label="Ověřovaná diskuze" name="source_id">
                     <SelectComponentField name="source_id">
                       {(renderProps) => <SourceSelect {...renderProps} />}
                     </SelectComponentField>

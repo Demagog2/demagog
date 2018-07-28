@@ -29,11 +29,11 @@ interface ISourceEditProps extends RouteComponentProps<{ id: string }> {
 
 class SourceEdit extends React.Component<ISourceEditProps> {
   public onSuccess = () => {
-    this.props.dispatch(addFlashMessage('Zdroj výroků byl úspěšně uložen.', 'success'));
+    this.props.dispatch(addFlashMessage('Diskuze byla úspěšně uložena.', 'success'));
   };
 
   public onError = (error) => {
-    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání zdroje výroků', 'error'));
+    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání diskuze', 'error'));
     // tslint:disable-next-line:no-console
     console.error(error);
   };
@@ -77,7 +77,7 @@ class SourceEdit extends React.Component<ISourceEditProps> {
                       backPath={`/admin/sources/${data.source.id}`}
                       source={data.source}
                       onSubmit={this.onSubmit(updateSource)}
-                      title="Upravit zdroj"
+                      title="Upravit údaje o diskuzi"
                     />
                   );
                 }}

@@ -107,7 +107,7 @@ class StatementsSort extends React.Component<IProps, IState> {
       <div style={{ padding: '15px 0 40px 0' }}>
         <div style={{ float: 'right' }}>
           <Link to={`/admin/sources/${this.props.source.id}`} className={Classes.BUTTON}>
-            Zpět na zdroj výroků
+            Zpět na diskuzi
           </Link>
           <UpdateSourceStatementsOrderMutationComponent mutation={UpdateSourceStatementsOrder}>
             {(updateSourceStatementsOrder) => (
@@ -122,7 +122,7 @@ class StatementsSort extends React.Component<IProps, IState> {
           </UpdateSourceStatementsOrderMutationComponent>
         </div>
 
-        <h2>Seřadit výroky ze zdroje {this.props.source.name}</h2>
+        <h2>Seřadit výroky z diskuze {this.props.source.name}</h2>
 
         <div style={{ marginTop: 30 }}>
           <DragDropContext onDragEnd={this.onDragEnd}>

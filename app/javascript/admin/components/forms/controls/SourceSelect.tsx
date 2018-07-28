@@ -54,7 +54,7 @@ export default class SourceSelect extends React.Component<IProps> {
                 option.value && this.props.onChange(option.value)
               }
               onBlur={this.props.onBlur}
-              placeholder="Vyberte zdroj…"
+              placeholder="Vyberte diskuzi…"
               clearable={false}
               style={{
                 borderColor: this.props.error ? Colors.RED3 : '#cccccc',
