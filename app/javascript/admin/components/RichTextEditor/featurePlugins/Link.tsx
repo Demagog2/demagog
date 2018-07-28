@@ -51,6 +51,14 @@ const hasLinks = (value: Slate.Value) =>
 const getLink = (value: Slate.Value) =>
   value.inlines.find((inline) => (inline ? inline.type === 'link' : false));
 
+const ensureProtocol = (href: string) => {
+  if (!href.startsWith('http') && !href.startsWith('mailto:')) {
+    return 'http://' + href;
+  }
+
+  return href;
+};
+
 const toolbarItem: IToolbarItem = {
   renderItem(props) {
     const { onChange, value } = props;
@@ -64,35 +72,23 @@ const toolbarItem: IToolbarItem = {
 
         const href = link.data.get('href');
 
-        let newHref = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):', href);
+        const newHref = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):', href);
         if (newHref === null || newHref === '') {
           return;
         }
 
-        if (!newHref.startsWith('http')) {
-          newHref = 'http://' + newHref;
-        }
-
-        change.call(setLinkHref, newHref);
+        change.call(setLinkHref, ensureProtocol(newHref));
       } else if (value.isExpanded) {
-        let href = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):');
+        const href = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):');
         if (href === null || href === '') {
           return;
         }
 
-        if (!href.startsWith('http')) {
-          href = 'http://' + href;
-        }
-
-        change.call(wrapLink, href);
+        change.call(wrapLink, ensureProtocol(href));
       } else {
-        let href = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):');
+        const href = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):');
         if (href === null || href === '') {
           return;
-        }
-
-        if (!href.startsWith('http')) {
-          href = 'http://' + href;
         }
 
         const text = window.prompt('Vložte text odkazu (např. Demagog):');
@@ -103,7 +99,7 @@ const toolbarItem: IToolbarItem = {
         change
           .insertText(text)
           .extend(0 - text.length)
-          .call(wrapLink, href);
+          .call(wrapLink, ensureProtocol(href));
       }
 
       onChange(change);
@@ -139,17 +135,13 @@ const LinkNode = (props: RenderNodeProps) => {
   const onEditMouseDown = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
 
-    let newHref = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):', href);
+    const newHref = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):', href);
     if (newHref === null || newHref === '') {
       return;
     }
 
-    if (!newHref.startsWith('http')) {
-      newHref = 'http://' + newHref;
-    }
-
     if (editor.props.onChange) {
-      editor.props.onChange(editor.value.change().call(setLinkHref, newHref));
+      editor.props.onChange(editor.value.change().call(setLinkHref, ensureProtocol(newHref)));
     }
   };
 
