@@ -3,6 +3,7 @@
 require "ruby-progressbar/outputs/null"
 require "time"
 
+require_relative "./helpers/html_content_helper"
 require_relative "./helpers/image_url_helper"
 
 class ArticleMigration
@@ -110,7 +111,7 @@ class ArticleMigration
 
       segment = Segment.create!(
         segment_type: "text",
-        text_html: old_article["obsah"],
+        text_html: HtmlContentHelper.to_clean_html(old_article["obsah"]),
         created_at: old_article["timestamp"],
         updated_at: old_article["timestamp"]
       )

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Button, Callout, Intent, Menu, MenuItem, Popover, Position } from '@blueprintjs/core';
+import { Button, Menu, MenuItem, Popover, Position } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { css } from 'emotion';
 import { v4 as uuid } from 'uuid';
@@ -117,46 +117,29 @@ function TextSegment(props: ISegmentProps<ITextSegment>) {
     <div style={{ marginBottom: 20, position: 'relative' }}>
       <RemoveSegment onRemove={props.onRemove} />
 
-      {props.segment.text_html && !props.segment.text_slatejson ? (
-        <div>
-          <Callout intent={Intent.PRIMARY} icon={IconNames.INFO_SIGN} style={{ marginBottom: 10 }}>
-            Tento textový segment je ze staré administrace a pokud jej chcete změnit, musíte jej
-            smazat a vytvořit textový segment nový.
-          </Callout>
+      <RichTextEditor
+        value={props.segment.text_slatejson}
+        html={props.segment.text_html}
+        onChange={(json, html) => {
+          props.onChange({
+            ...props.segment,
+            text_html: html,
+            text_slatejson: json,
+          });
+        }}
+        className={css`
+          font-family: 'Lato', sans-serif;
+          font-size: 16px;
+          line-height: 25.6px;
+          letter-spacing: 0.4px;
 
-          <div
-            dangerouslySetInnerHTML={{ __html: props.segment.text_html }}
-            className={css`
-              img {
-                max-width: 100%;
-              }
-            `}
-          />
-        </div>
-      ) : (
-        <RichTextEditor
-          value={props.segment.text_slatejson}
-          onChange={(json, html) => {
-            props.onChange({
-              ...props.segment,
-              text_html: html,
-              text_slatejson: json,
-            });
-          }}
-          className={css`
-            font-family: 'Lato', sans-serif;
-            font-size: 16px;
-            line-height: 25.6px;
-            letter-spacing: 0.4px;
-
-            h2 {
-              margin: 15px 0 8px 0;
-              font-size: 18px;
-              font-weight: 700px;
-            }
-          `}
-        />
-      )}
+          h2 {
+            margin: 15px 0 8px 0;
+            font-size: 18px;
+            font-weight: 700px;
+          }
+        `}
+      />
     </div>
   );
 }

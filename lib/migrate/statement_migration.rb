@@ -4,6 +4,7 @@ require "date"
 require "ruby-progressbar/outputs/null"
 
 require_relative "./helpers/duplication_tester"
+require_relative "./helpers/html_content_helper"
 require_relative "./helpers/image_url_helper"
 
 # These images are in statement explanation and do not exist on demagog
@@ -104,7 +105,7 @@ class StatementMigration
 
         worker.add([
           old_statement["id"],
-          old_statement["odovodnenie"],
+          HtmlContentHelper.to_clean_html(old_statement["odovodnenie"]),
           veracity_id,
           evaluation_status[old_statement["status"]],
           old_statement["id_user"],

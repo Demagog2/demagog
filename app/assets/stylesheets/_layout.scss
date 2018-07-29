@@ -21,6 +21,10 @@
   }
 
   article img {
+    max-width: 100%;
+  }
+
+  article iframe {
     width: 100%;
   }
 
@@ -34,7 +38,13 @@
 }
 
 @media (min-width: 900px) {
-  article img { width: 100%; }
+  article img {
+    max-width: 100%;
+  }
+
+  article iframe {
+    width: 100%;
+  }
 
   article.preview {
     display: grid;

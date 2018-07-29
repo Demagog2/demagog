@@ -134,17 +134,25 @@ const htmlSerializerRule: Rule = {
   },
   deserialize(el, next) {
     if (el.tagName.toLowerCase() === 'ol') {
+      const listItemsChildren = (Array.from((el.childNodes as any).values()) as Element[]).filter(
+        (node) => node.nodeName === 'LI',
+      );
+
       return {
         object: 'block',
         type: 'ordered-list',
-        nodes: next(el.childNodes),
+        nodes: next(listItemsChildren),
       };
     }
     if (el.tagName.toLowerCase() === 'ul') {
+      const listItemsChildren = (Array.from((el.childNodes as any).values()) as Element[]).filter(
+        (node) => node.nodeName === 'LI',
+      );
+
       return {
         object: 'block',
         type: 'unordered-list',
-        nodes: next(el.childNodes),
+        nodes: next(listItemsChildren),
       };
     }
     if (el.tagName.toLowerCase() === 'li') {

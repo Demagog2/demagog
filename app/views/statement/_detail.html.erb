@@ -17,7 +17,7 @@
     <% end %>
   </h3>
 
-  <blockquote><%= content_to_html(statement.content.gsub(/^[„““ ”\"\s]+|[„““ ”\"\s]+$/, '')) %></blockquote>
+  <blockquote><%= content_to_html(statement.content) %></blockquote>
 
   <p class="utils">
     <a class="permalink" href="<%= statement_path(statement.id) %>">trvalý odkaz</a>

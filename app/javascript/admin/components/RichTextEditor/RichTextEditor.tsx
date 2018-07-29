@@ -32,6 +32,7 @@ interface IProps {
   onChange: (value: object, html: string) => void;
   className?: string;
   statementExplanation?: boolean;
+  html?: string | null;
 }
 
 interface IState {
@@ -46,10 +47,6 @@ class RichTextEditor extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
-    this.state = {
-      value: props.value !== null ? Slate.Value.fromJSON(props.value) : DEFAULT_VALUE,
-    };
-
     this.htmlSerializer = new HtmlSerializer({
       rules: [
         bold.htmlSerializerRule,
@@ -62,6 +59,19 @@ class RichTextEditor extends React.Component<IProps, IState> {
         paragraph.htmlSerializerRule,
       ],
     });
+
+    let value;
+    if (props.value !== null) {
+      value = Slate.Value.fromJSON(props.value);
+    } else if (props.html) {
+      value = this.htmlSerializer.deserialize(props.html);
+    } else {
+      value = DEFAULT_VALUE;
+    }
+
+    this.state = {
+      value,
+    };
 
     this.toolbar = [
       bold.toolbarItem,

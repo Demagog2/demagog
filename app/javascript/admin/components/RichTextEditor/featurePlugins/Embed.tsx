@@ -76,4 +76,17 @@ const htmlSerializerRule: Rule = {
       return <div dangerouslySetInnerHTML={{ __html: object.data.get('code') }} />;
     }
   },
+  deserialize(el: Element, next) {
+    if (el.tagName.toLowerCase() === 'iframe') {
+      return {
+        object: 'block',
+        type: 'embed',
+        isVoid: true,
+        nodes: next(el.childNodes),
+        data: {
+          code: el.outerHTML,
+        },
+      };
+    }
+  },
 };

@@ -423,6 +423,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                   <FormGroup label="Odůvodnění" labelFor="assessment-explanation">
                                     <RichTextEditor
                                       value={values.assessment.explanation_slatejson}
+                                      html={values.assessment.explanation_html}
                                       onChange={(value, html) => {
                                         setFieldValue('assessment.explanation_slatejson', value);
                                         setFieldValue('assessment.explanation_html', html);

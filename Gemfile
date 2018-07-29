@@ -77,6 +77,10 @@ gem "ruby-progressbar"
 # For cron jobs
 gem "whenever", require: false
 
+gem "nokogiri"
+
+gem "htmlbeautifier"
+
 # Add skylight profiler
 # gem "skylight"
 

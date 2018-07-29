@@ -38,7 +38,7 @@ const htmlSerializerRule: Rule = {
     if (el.tagName.toLowerCase() === 'b' || el.tagName.toLowerCase() === 'strong') {
       return {
         object: 'mark',
-        type: 'strong',
+        type: 'bold',
         nodes: next(el.childNodes),
       };
     }

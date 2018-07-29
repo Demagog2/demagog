@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "./helpers/html_content_helper"
+
 class PageMigration
   attr_accessor :connection
   attr_accessor :quiet
@@ -28,7 +30,7 @@ class PageMigration
       page = Page.new(
         title: old_page["nazov"],
         slug: old_page["alias"],
-        text_html: old_page["obsah"],
+        text_html: HtmlContentHelper.to_clean_html(old_page["obsah"]),
         published: old_page["status"] == 1,
         created_at: old_page["timestamp"],
         updated_at: old_page["timestamp"]

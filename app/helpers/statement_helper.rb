@@ -2,6 +2,6 @@
 
 module StatementHelper
   def content_to_html(content)
-    content.gsub(/\n/, "<br>").html_safe
+    content.gsub(/^[„““”\"]+|[„““”\"]+$/, "").gsub(/\n/, "<br>").html_safe
   end
 end

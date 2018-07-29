@@ -2,8 +2,7 @@
 
 import * as React from 'react';
 
-import { Button, Callout, Classes, EditableText, Intent } from '@blueprintjs/core';
-import { IconNames } from '@blueprintjs/icons';
+import { Button, Classes, EditableText, Intent } from '@blueprintjs/core';
 import { css } from 'emotion';
 import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
@@ -83,55 +82,26 @@ export class PageForm extends React.Component<IPageFormProps> {
                   />
                 </h2>
 
-                {values.text_html && !values.text_slatejson ? (
-                  <div>
-                    <Callout
-                      intent={Intent.PRIMARY}
-                      icon={IconNames.INFO_SIGN}
-                      style={{ marginBottom: 10 }}
-                    >
-                      Tento obsah stránky je ze staré administrace a teď jej neumíme nabídnout k
-                      přímé editaci. Pokud obsah chcete editovat, smažte ho následujícím tlačítkem a
-                      vložte obsah znovu.
-                      <Button
-                        onClick={() => {
-                          setFieldValue('text_html', '');
-                        }}
-                        text="Smazat obsah ze staré administrace"
-                        style={{ display: 'block', marginTop: 10 }}
-                      />
-                    </Callout>
+                <RichTextEditor
+                  value={values.text_slatejson}
+                  html={values.text_html}
+                  onChange={(json, html) => {
+                    setFieldValue('text_html', html);
+                    setFieldValue('text_slatejson', json);
+                  }}
+                  className={css`
+                    font-family: 'Lato', sans-serif;
+                    font-size: 16px;
+                    line-height: 25.6px;
+                    letter-spacing: 0.4px;
 
-                    <div
-                      dangerouslySetInnerHTML={{ __html: values.text_html }}
-                      className={css`
-                        img {
-                          max-width: 100%;
-                        }
-                      `}
-                    />
-                  </div>
-                ) : (
-                  <RichTextEditor
-                    value={values.text_slatejson}
-                    onChange={(json, html) => {
-                      setFieldValue('text_html', html);
-                      setFieldValue('text_slatejson', json);
-                    }}
-                    className={css`
-                      font-family: 'Lato', sans-serif;
-                      font-size: 16px;
-                      line-height: 25.6px;
-                      letter-spacing: 0.4px;
-
-                      h2 {
-                        margin: 15px 0 8px 0;
-                        font-size: 18px;
-                        font-weight: 700px;
-                      }
-                    `}
-                  />
-                )}
+                    h2 {
+                      margin: 15px 0 8px 0;
+                      font-size: 18px;
+                      font-weight: 700px;
+                    }
+                  `}
+                />
               </div>
 
               <div style={{ flex: '1 1', marginLeft: 15 }}>
