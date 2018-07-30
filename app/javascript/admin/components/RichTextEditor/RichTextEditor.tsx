@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { css, cx } from 'emotion';
+import { isEqual } from 'lodash';
 import * as Slate from 'slate';
 import HtmlSerializer from 'slate-html-serializer';
 import { Editor, getEventTransfer } from 'slate-react';
@@ -100,6 +101,26 @@ class RichTextEditor extends React.Component<IProps, IState> {
       ...list.plugins,
       ...paragraph.plugins,
     ];
+  }
+
+  public componentDidUpdate(prevProps: IProps) {
+    if (
+      (prevProps.value !== this.props.value &&
+        !isEqual(this.props.value, this.state.value.toJSON())) ||
+      (prevProps.html !== this.props.html &&
+        this.props.html !== this.htmlSerializer.serialize(this.state.value))
+    ) {
+      let value;
+      if (this.props.value !== null) {
+        value = Slate.Value.fromJSON(this.props.value);
+      } else if (this.props.html) {
+        value = this.htmlSerializer.deserialize(this.props.html);
+      } else {
+        value = DEFAULT_VALUE;
+      }
+
+      this.setState({ value });
+    }
   }
 
   public onChange = ({ value }: Slate.Change) => {

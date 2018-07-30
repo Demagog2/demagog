@@ -157,7 +157,7 @@ const LinkNode = (props: RenderNodeProps) => {
     <Popover
       autoFocus={false}
       content={
-        <div style={{ zIndex: 10000, padding: '5px 10px', maxWidth: 400 }} className="small">
+        <div style={{ zIndex: 10000, padding: '5px 10px', maxWidth: 600 }} className="small">
           <a href={href} onMouseDown={onLinkMouseDown}>
             {href}
           </a>{' '}

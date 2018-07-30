@@ -37,20 +37,20 @@ interface IProps {
   statementId: string;
 }
 
-class StatementComments extends React.Component<IProps> {
+class StatementComments extends React.PureComponent<IProps> {
   public render() {
     return (
       <GetStatementCommentsQueryComponent
         query={GetStatementComments}
         variables={{ id: parseInt(this.props.statementId, 10) }}
-        pollInterval={5000}
+        pollInterval={20350} // Little more than 20s so it does not sync with other polls
       >
         {({ data, loading, error, refetch }) => {
           if (error) {
             console.error(error); // tslint:disable-line:no-console
           }
 
-          if (loading) {
+          if (loading && (!data || !data.statement)) {
             return <Loading />;
           }
 

@@ -46,6 +46,12 @@ import Loading from './Loading';
 import RichTextEditor from './RichTextEditor';
 import StatementComments from './StatementComments';
 
+// Little more than 10s so it does not sync with other polls
+const GET_STATEMENT_POLL_INTERVAL = 10150;
+
+const IS_EDITING_DEBOUNCE_TIMEOUT = 10000;
+const UPDATE_STATEMENT_DEBOUNCE_TIMEOUT = 2000;
+
 class UpdateStatementMutationComponent extends Mutation<
   UpdateStatementMutation,
   UpdateStatementMutationVariables
@@ -71,7 +77,8 @@ interface IState {
 }
 
 class StatementDetail extends React.Component<IProps, IState> {
-  public savedMessageTimeoutId: number | null = null;
+  public updateStatementTimeoutId: number | null = null;
+  public updateStatementPromise: Promise<any> | null = null;
   public isEditingTimeoutId: number | null = null;
 
   public state: IState = {
@@ -79,27 +86,14 @@ class StatementDetail extends React.Component<IProps, IState> {
   };
 
   public componentWillUnmount() {
-    if (this.savedMessageTimeoutId !== null) {
-      window.clearTimeout(this.savedMessageTimeoutId);
+    // TODO: what if there are pending changes?
+    if (this.updateStatementTimeoutId !== null) {
+      window.clearTimeout(this.updateStatementTimeoutId);
     }
-
     if (this.isEditingTimeoutId !== null) {
       window.clearTimeout(this.isEditingTimeoutId);
     }
   }
-
-  public onFormEdit = () => {
-    this.setState({ isEditing: true });
-
-    if (this.isEditingTimeoutId !== null) {
-      window.clearTimeout(this.isEditingTimeoutId);
-    }
-
-    this.isEditingTimeoutId = window.setTimeout(() => {
-      this.setState({ isEditing: false });
-      this.isEditingTimeoutId = null;
-    }, 10000);
-  };
 
   public render() {
     const statementId = this.props.match.params.id;
@@ -108,9 +102,8 @@ class StatementDetail extends React.Component<IProps, IState> {
       <GetStatementQueryComponent
         query={GetStatement}
         variables={{ id: parseInt(statementId, 10) }}
-        pollInterval={5000}
       >
-        {({ data, loading, error }) => {
+        {({ data, loading, error, stopPolling, startPolling }) => {
           if (error) {
             console.error(error); // tslint:disable-line:no-console
           }
@@ -154,62 +147,82 @@ class StatementDetail extends React.Component<IProps, IState> {
             enableReinitialize = false;
           }
 
+          if (!this.state.isEditing) {
+            startPolling(GET_STATEMENT_POLL_INTERVAL);
+          }
+
           return (
             <UpdateStatementMutationComponent mutation={UpdateStatement}>
               {(updateStatement) => (
                 <Formik
                   initialValues={initialValues}
                   enableReinitialize={enableReinitialize}
-                  onSubmit={(values, { setSubmitting, setStatus, resetForm }) => {
-                    this.onFormEdit();
+                  onSubmit={(values, { setSubmitting, resetForm }) => {
+                    stopPolling();
+                    this.setState({ isEditing: true });
 
-                    const statementInput: UpdateStatementInputType = {};
+                    if (this.isEditingTimeoutId !== null) {
+                      window.clearTimeout(this.isEditingTimeoutId);
+                    }
 
-                    const paths = [
-                      'assessment.veracity_id',
-                      'assessment.short_explanation',
-                      'assessment.evaluator_id',
-                      'assessment.evaluation_status',
-                      'assessment.explanation_slatejson',
-                      'assessment.explanation_html',
-                      'published',
-                      'content',
-                      'important',
-                    ];
+                    this.isEditingTimeoutId = window.setTimeout(() => {
+                      startPolling(GET_STATEMENT_POLL_INTERVAL);
+                      this.setState({ isEditing: false });
+                      this.isEditingTimeoutId = null;
+                    }, IS_EDITING_DEBOUNCE_TIMEOUT);
 
-                    paths.forEach((path) => {
-                      if (!isEqual(get(initialValues, path), get(values, path))) {
-                        set(statementInput, path, get(values, path));
-                      }
-                    });
+                    if (this.updateStatementTimeoutId !== null) {
+                      window.clearTimeout(this.updateStatementTimeoutId);
+                      this.updateStatementTimeoutId = null;
+                    }
 
-                    updateStatement({
-                      variables: { id: parseInt(statement.id, 10), statementInput },
-                    })
-                      .then(() => {
-                        setSubmitting(false);
+                    this.updateStatementTimeoutId = window.setTimeout(() => {
+                      this.updateStatementTimeoutId = null;
 
-                        setStatus('saved');
-                        if (this.savedMessageTimeoutId !== null) {
-                          window.clearTimeout(this.savedMessageTimeoutId);
+                      setSubmitting(true);
+
+                      const statementInput: UpdateStatementInputType = {};
+
+                      const paths = [
+                        'assessment.veracity_id',
+                        'assessment.short_explanation',
+                        'assessment.evaluator_id',
+                        'assessment.evaluation_status',
+                        'assessment.explanation_slatejson',
+                        'assessment.explanation_html',
+                        'published',
+                        'content',
+                        'important',
+                      ];
+
+                      paths.forEach((path) => {
+                        if (!isEqual(get(initialValues, path), get(values, path))) {
+                          set(statementInput, path, get(values, path));
                         }
-                        this.savedMessageTimeoutId = window.setTimeout(() => {
-                          setStatus(null);
-                          this.savedMessageTimeoutId = null;
-                        }, 5000);
-                      })
-                      .catch((mutationError: ApolloError) => {
-                        setSubmitting(false);
-                        resetForm();
-
-                        this.props.dispatch(
-                          addFlashMessage(
-                            'Nepodařilo se uložit tvoji poslední změnu, zkus to prosím znovu',
-                            'error',
-                          ),
-                        );
-                        console.error(mutationError); // tslint:disable-line:no-console
                       });
+
+                      this.updateStatementPromise = updateStatement({
+                        variables: { id: parseInt(statement.id, 10), statementInput },
+                      })
+                        .then(() => {
+                          setSubmitting(false);
+                        })
+                        .catch((mutationError: ApolloError) => {
+                          setSubmitting(false);
+                          resetForm();
+
+                          this.props.dispatch(
+                            addFlashMessage(
+                              'Nepodařilo se uložit tvoji poslední změnu, zkus to prosím znovu',
+                              'error',
+                            ),
+                          );
+                          console.error(mutationError); // tslint:disable-line:no-console
+                        })
+                        .finally(() => {
+                          this.updateStatementPromise = null;
+                        });
+                    }, UPDATE_STATEMENT_DEBOUNCE_TIMEOUT);
                   }}
                 >
                   {({
@@ -220,7 +233,6 @@ class StatementDetail extends React.Component<IProps, IState> {
                     setFieldTouched,
                     submitForm,
                     isSubmitting,
-                    status,
                   }) => {
                     const canEditEverything = this.props.isAuthorized(['statements:edit']);
                     const canEditAsEvaluator =
@@ -292,7 +304,6 @@ class StatementDetail extends React.Component<IProps, IState> {
                     return (
                       <div style={{ padding: '15px 0 40px 0' }}>
                         <FormikAutoSave
-                          debounceWait={500}
                           submitForm={submitForm}
                           values={values}
                           initialValues={initialValues}
@@ -314,12 +325,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                               className={Classes.TEXT_MUTED}
                               style={{ marginLeft: 20, marginTop: 12 }}
                             >
-                              {!status && !isSubmitting && 'Změny jsou ukládány automaticky'}
-                              {status &&
-                                status === 'saved' &&
-                                !isSubmitting &&
-                                'Změny úspěšně uloženy'}
-                              {isSubmitting && 'Ukládám změny ...'}
+                              {isSubmitting ? 'Ukládám změny ...' : 'Změny úspěšně uloženy'}
                             </div>
                           )}
                         </div>
@@ -343,7 +349,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                               <p>{newlinesToBr(values.content)}</p>
                             )}
                             <p className={Classes.TEXT_MUTED}>
-                              Diskuze: {statement.source.medium.name},{' '}
+                              Diskuze: {statement.source.name}, {statement.source.medium.name},{' '}
                               {displayDate(statement.source.released_at)},{' '}
                               {statement.source.media_personality.name}
                               {statement.source.source_url && (
@@ -465,7 +471,15 @@ class StatementDetail extends React.Component<IProps, IState> {
                               </label>
                               <div style={{ flex: '2' }}>
                                 <EvaluationStatusInput
-                                  disabled={!canEditStatus}
+                                  disabled={
+                                    !canEditStatus ||
+                                    // If initialValues and values states are not the same, it means
+                                    // that there was a status change at it is not propagated to server yet,
+                                    // so we wait for the propagation, because we cannot skip the evaluation
+                                    // states when doing graphql mutations.
+                                    initialValues.assessment.evaluation_status !==
+                                      values.assessment.evaluation_status
+                                  }
                                   tooltipContent={statusTooltipContent}
                                   value={values.assessment.evaluation_status}
                                   onChange={(value) =>
