@@ -64,7 +64,7 @@ Rails.application.configure do
   # TODO: Replace configuration with :amazon
   # config.active_storage.service = :amazon
 
-  config.active_storage.service = :local
+  config.active_storage.service = :amazon
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store

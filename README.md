@@ -26,6 +26,7 @@ AMAZON_S3_ACCESS_KEY_ID=amazon-access-id
 AMAZON_S3_SECRET_ACCESS_KEY=amazon-secret-access-key
 AMAZON_S3_REGION=region
 AMAZON_S3_BUCKET=bucket-name
+AMAZON_S3_ENDPOINT=https://example.com
 
 # Sendgrid SMTP service (only for production)
 SENDGRID_USERNAME=sendgrid-username
