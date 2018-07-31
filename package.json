@@ -6,8 +6,8 @@
     "lint": "tslint 'app/javascript/**/*.{ts,tsx}'"
   },
   "dependencies": {
-    "@blueprintjs/core": "^2.3.1",
-    "@blueprintjs/datetime": "^2.0.3",
+    "@blueprintjs/core": "^3.0.1",
+    "@blueprintjs/datetime": "^3.0.0",
     "@rails/webpacker": "3.4",
     "@types/classnames": "^2.2.4",
     "@types/enzyme": "^3.1.10",

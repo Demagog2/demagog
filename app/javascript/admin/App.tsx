@@ -34,6 +34,10 @@ import PageEdit from './components/pages/PageEdit';
 import PageNew from './components/pages/PageNew';
 import Pages from './components/pages/Pages';
 
+import Media from './components/media/Media';
+import MediumEdit from './components/media/MediumEdit';
+import MediumNew from './components/media/MediumNew';
+
 import SourceDetail from './components/SourceDetail';
 import SourceEdit from './components/SourceEdit';
 import SourceNew from './components/SourceNew';
@@ -128,6 +132,10 @@ class App extends React.Component<IProps> {
                 <Route path="/admin/speakers" exact component={Speakers} />
                 <Route path="/admin/speakers/new" exact component={SpeakerNew} />
                 <Route path="/admin/speakers/edit/:id" exact component={SpeakerEdit} />
+
+                <Route path="/admin/media" exact component={Media} />
+                <Route path="/admin/media/new" exact component={MediumNew} />
+                <Route path="/admin/media/edit/:id" exact component={MediumEdit} />
 
                 <Route path="/admin/pages" exact component={Pages} />
                 <Route path="/admin/pages/new" exact component={PageNew} />

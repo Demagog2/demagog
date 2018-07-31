@@ -390,7 +390,7 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                                     {statement.assessment.veracity && (
                                       <span
-                                        className={Classes.UI_TEXT_LARGE}
+                                        className={Classes.TEXT_LARGE}
                                         style={{
                                           color: VERACITY_COLORS[statement.assessment.veracity.key],
                                           fontWeight: 'bold',

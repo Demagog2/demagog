@@ -28,13 +28,19 @@ Types::QueryType = GraphQL::ObjectType.define do
   end
 
   field :media, !types[!Types::MediumType] do
+    argument :name, types.String
+
     resolve -> (obj, args, ctx) {
-      Medium.order(name: :asc)
+      media = Medium.order(name: :asc)
+
+      media = media.matching_name(args[:name]) if args[:name]
+
+      media
     }
   end
 
   field :medium, !Types::MediumType do
-    argument :id, !types.Int
+    argument :id, !types.ID
 
     resolve -> (obj, args, ctx) {
       begin

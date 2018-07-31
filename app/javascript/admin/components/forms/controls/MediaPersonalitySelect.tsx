@@ -34,6 +34,7 @@ interface IMediaSelectProps {
   value?: string | null;
   error?: object | false;
   mediumId?: string | null;
+  mediumOptional?: boolean;
   onChange(value: string | null): void;
 }
 
@@ -62,7 +63,7 @@ export default class MediaPersonalitiesSelect extends React.Component<IMediaSele
           return (
             <Select
               id={this.props.id}
-              disabled={!this.props.mediumId}
+              disabled={!this.props.mediumOptional && !this.props.mediumId}
               value={this.props.value || undefined}
               isLoading={loading}
               options={options}

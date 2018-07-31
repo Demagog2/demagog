@@ -136,7 +136,7 @@ class Sources extends React.Component<{}, IState> {
                         return (
                           <tr key={source.id}>
                             <td>
-                              <div className={Classes.UI_TEXT_LARGE}>{source.name}</div>
+                              <div className={Classes.TEXT_LARGE}>{source.name}</div>
                               <div className={Classes.TEXT_MUTED} style={{ marginTop: 5 }}>
                                 {source.medium.name}, {displayDate(source.released_at)},{' '}
                                 {source.media_personality.name}

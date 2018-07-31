@@ -19,3 +19,16 @@
     background-image: asset-url("buttons/btn_google_signin_dark_pressed_web.png");
   }
 }
+
+.media {
+  .media-collapsible-list-item::after {
+    display: inline-block;
+    content: ", ";
+    padding: 0;
+    margin-right: 5px;
+  }
+
+  .media-collapsible-list-item::after:last-child::after {
+    display: none;
+  }
+}

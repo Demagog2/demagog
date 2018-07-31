@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_24_101724) do
+ActiveRecord::Schema.define(version: 2018_07_31_205322) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -154,6 +154,7 @@ ActiveRecord::Schema.define(version: 2018_07_24_101724) do
     t.bigint "attachment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
     t.index ["attachment_id"], name: "index_media_on_attachment_id"
   end
 
@@ -171,6 +172,7 @@ ActiveRecord::Schema.define(version: 2018_07_24_101724) do
     t.bigint "attachment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
     t.index ["attachment_id"], name: "index_media_personalities_on_attachment_id"
   end
 

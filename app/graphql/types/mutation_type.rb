@@ -15,6 +15,10 @@ Types::MutationType = GraphQL::ObjectType.define do
   field :updateUser, Mutations::UpdateUser
   field :deleteUser, Mutations::DeleteUser
 
+  field :createMedium, Mutations::CreateMedium
+  field :updateMedium, Mutations::UpdateMedium
+  field :deleteMedium, Mutations::DeleteMedium
+
   field :createSource, Mutations::CreateSource
   field :updateSource, Mutations::UpdateSource
   field :deleteSource, Mutations::DeleteSource

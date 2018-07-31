@@ -1,6 +1,15 @@
 /* tslint:disable */
 //  This file was automatically generated and should not be edited.
 
+export interface MediumInputType {
+  name: string,
+  media_personalities: Array< MediumMediaPersonalitiesInputType | null >,
+};
+
+export interface MediumMediaPersonalitiesInputType {
+  media_personality_id: string,
+};
+
 export interface PageInputType {
   title: string,
   slug?: string | null,
@@ -131,6 +140,46 @@ export interface UpdateSourceStatementsOrderInputType {
 
 export interface UpdateNotificationInputType {
   read_at?: string | null,
+};
+
+export interface CreateMediumMutationVariables {
+  mediumInput: MediumInputType,
+};
+
+export interface CreateMediumMutation {
+  // Add new medium
+  createMedium:  {
+    id: string,
+    name: string,
+    personalities:  Array< {
+      name: string,
+    } >,
+  } | null,
+};
+
+export interface UpdateMediumMutationVariables {
+  id: string,
+  mediumInput: MediumInputType,
+};
+
+export interface UpdateMediumMutation {
+  // Update existing medium
+  updateMedium:  {
+    id: string,
+    name: string,
+    personalities:  Array< {
+      name: string,
+    } >,
+  } | null,
+};
+
+export interface DeleteMediumMutationVariables {
+  id: string,
+};
+
+export interface DeleteMediumMutation {
+  // Delete existing medium
+  deleteMedium: string,
 };
 
 export interface CreatePageMutationVariables {
@@ -648,11 +697,34 @@ export interface GetMediaPersonalitiesQuery {
   } >,
 };
 
+export interface GetMediaQueryVariables {
+  name?: string | null,
+};
+
 export interface GetMediaQuery {
   media:  Array< {
     id: string,
     name: string,
+    personalities:  Array< {
+      id: string,
+      name: string,
+    } >,
   } >,
+};
+
+export interface GetMediumQueryVariables {
+  id: string,
+};
+
+export interface GetMediumQuery {
+  medium:  {
+    id: string,
+    name: string,
+    personalities:  Array< {
+      id: string,
+      name: string,
+    } >,
+  },
 };
 
 export interface GetSourcesQueryVariables {

@@ -29,7 +29,7 @@ const categories = [
         enabled: true,
         permissions: ['bodies:view'],
       },
-      { to: '/admin/media', title: 'Pořady', permissions: ['media:view'] },
+      { to: '/admin/media', title: 'Pořady', enabled: true, permissions: ['media:view'] },
     ],
   },
   {

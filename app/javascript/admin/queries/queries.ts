@@ -74,10 +74,27 @@ export const GetMediaPersonalities = gql`
 `;
 
 export const GetMedia = gql`
-  query GetMedia {
-    media {
+  query GetMedia($name: String) {
+    media(name: $name) {
       id
       name
+      personalities {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const GetMedium = gql`
+  query GetMedium($id: ID!) {
+    medium(id: $id) {
+      id
+      name
+      personalities {
+        id
+        name
+      }
     }
   }
 `;
