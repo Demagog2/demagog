@@ -64,8 +64,16 @@ class Statement < ApplicationRecord
   }
 
   def self.interesting_statements
-    limit(4)
-      .published
+    order(excerpted_at: :desc)
+      .where(published: true)
+      .joins(:assessment)
+      .where.not(assessments: {
+        veracity_id: nil
+      })
+      .where(assessments: {
+        evaluation_status: Assessment::STATUS_APPROVED
+      })
+      .limit(4)
       .includes(:speaker)
       .where(important: true)
   end
