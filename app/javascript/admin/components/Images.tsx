@@ -143,7 +143,7 @@ class Images extends React.Component<IProps, IState> {
           </div>
         </Authorize>
 
-        <h2>Obrázky</h2>
+        <h2 className={Classes.HEADING}>Obrázky</h2>
 
         <div style={{ marginTop: 15 }}>
           <SearchInput

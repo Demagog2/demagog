@@ -122,7 +122,7 @@ class StatementsSort extends React.Component<IProps, IState> {
           </UpdateSourceStatementsOrderMutationComponent>
         </div>
 
-        <h2>Seřadit výroky z diskuze {this.props.source.name}</h2>
+        <h2 className={Classes.HEADING}>Seřadit výroky z diskuze {this.props.source.name}</h2>
 
         <div style={{ marginTop: 30 }}>
           <DragDropContext onDragEnd={this.onDragEnd}>
@@ -142,7 +142,7 @@ class StatementsSort extends React.Component<IProps, IState> {
                           )}
                         >
                           <div style={{ flex: '1 0' }}>
-                            <h5>
+                            <h5 className={Classes.HEADING}>
                               {statement.speaker.first_name} {statement.speaker.last_name}
                             </h5>
                           </div>

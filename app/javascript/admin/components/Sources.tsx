@@ -67,7 +67,7 @@ class Sources extends React.Component<{}, IState> {
           </div>
         </Authorize>
 
-        <h2>Výroky</h2>
+        <h2 className={Classes.HEADING}>Výroky</h2>
 
         <div style={{ marginTop: 15 }}>
           <SearchInput

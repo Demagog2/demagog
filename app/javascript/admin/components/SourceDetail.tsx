@@ -175,7 +175,7 @@ class SourceDetail extends React.Component<IProps, IState> {
                   </Authorize>
                 </div>
 
-                <h2>{source.name}</h2>
+                <h2 className={Classes.HEADING}>{source.name}</h2>
 
                 <span>
                   {source.medium.name}, {displayDate(source.released_at)},{' '}

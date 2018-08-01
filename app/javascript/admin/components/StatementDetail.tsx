@@ -318,7 +318,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                         </div>
 
                         <div style={{ display: 'flex' }}>
-                          <h2>Detail výroku</h2>
+                          <h2 className={Classes.HEADING}>Detail výroku</h2>
 
                           {canEditSomething && (
                             <div
@@ -332,7 +332,7 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                         <div style={{ display: 'flex', marginTop: 20, marginBottom: 30 }}>
                           <div style={{ flex: '2 0' }}>
-                            <h5>
+                            <h5 className={Classes.HEADING}>
                               {statement.speaker.first_name} {statement.speaker.last_name}
                             </h5>
                             {canEditStatementContent ? (
@@ -420,7 +420,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                   </FormGroup>
                                 ) : (
                                   <>
-                                    <h6>Odůvodnění zkráceně</h6>
+                                    <h6 className={Classes.HEADING}>Odůvodnění zkráceně</h6>
                                     <p>{values.assessment.short_explanation}</p>
                                   </>
                                 )}
@@ -439,7 +439,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                   </FormGroup>
                                 ) : (
                                   <>
-                                    <h6>Odůvodnění</h6>
+                                    <h6 className={Classes.HEADING}>Odůvodnění</h6>
                                     <div
                                       dangerouslySetInnerHTML={{
                                         __html: values.assessment.explanation_html || '',
@@ -469,7 +469,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                               <label className={Classes.LABEL} style={{ flex: '1' }}>
                                 Stav
                               </label>
-                              <div style={{ flex: '2' }}>
+                              <div style={{ flex: '2', paddingTop: 6 }}>
                                 <EvaluationStatusInput
                                   disabled={
                                     !canEditStatus ||
@@ -491,9 +491,9 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                             <div className={classNames(Classes.FORM_GROUP, Classes.INLINE)}>
                               <label className={Classes.LABEL} style={{ flex: '1' }}>
-                                Expert pro diskuzi
+                                Expert
                               </label>
-                              <div style={{ flex: '2' }}>
+                              <div style={{ flex: '2', paddingTop: 6 }}>
                                 {statement.source.expert ? (
                                   <>
                                     {statement.source.expert.first_name}{' '}
@@ -506,7 +506,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                             </div>
 
                             <div className={classNames(Classes.FORM_GROUP, Classes.INLINE)}>
-                              <label className={Classes.LABEL} style={{ flex: '1' }}>
+                              <label className={Classes.LABEL} style={{ flex: '1', paddingTop: 2 }}>
                                 Ověřovatel/ka
                               </label>
                               <div style={{ flex: '2' }}>
@@ -525,6 +525,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                             <div
                               className={classNames(Classes.FORM_GROUP, Classes.INLINE)}
                               style={{
+                                marginBottom: 0,
                                 // flex-start needed to align switch with tooltip and without label correctly
                                 alignItems: 'flex-start',
                               }}
@@ -537,25 +538,30 @@ class StatementDetail extends React.Component<IProps, IState> {
                                 Zvěřejněný
                               </label>
                               <div className={Classes.FORM_CONTENT} style={{ flex: '2' }}>
-                                <Tooltip
-                                  disabled={canEditPublished}
-                                  content="Aby šel výrok zveřejnit, musí být ve schváleném stavu"
-                                  position={Position.TOP}
-                                >
-                                  <Switch
-                                    id="published"
-                                    name="published"
-                                    checked={values.published}
-                                    onChange={handleChange}
-                                    large
-                                    disabled={!canEditPublished}
-                                  />
-                                </Tooltip>
+                                <div style={{ display: 'inline-block' }}>
+                                  <Tooltip
+                                    disabled={canEditPublished}
+                                    content="Aby šel výrok zveřejnit, musí být ve schváleném stavu"
+                                    position={Position.TOP}
+                                  >
+                                    <Switch
+                                      id="published"
+                                      name="published"
+                                      checked={values.published}
+                                      onChange={handleChange}
+                                      disabled={!canEditPublished}
+                                    />
+                                  </Tooltip>
+                                </div>
 
                                 {values.published && (
                                   <a
                                     href={`/vyrok/${statement.id}`}
-                                    style={{ display: 'inline-block', marginTop: 6 }}
+                                    style={{
+                                      display: 'inline-block',
+                                      marginTop: 6,
+                                      verticalAlign: 'top',
+                                    }}
                                   >
                                     Veřejný odkaz
                                   </a>
@@ -568,6 +574,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                             <div
                               className={classNames(Classes.FORM_GROUP, Classes.INLINE)}
                               style={{
+                                marginBottom: 0,
                                 // flex-start needed to align switch without label correctly
                                 alignItems: 'flex-start',
                               }}
@@ -586,7 +593,6 @@ class StatementDetail extends React.Component<IProps, IState> {
                                   name="important"
                                   checked={values.important}
                                   onChange={handleChange}
-                                  large
                                 />
                               </div>
                             </div>

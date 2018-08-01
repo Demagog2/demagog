@@ -93,11 +93,11 @@ class SourceForm extends React.Component<ISourceFormProps> {
               />
             </div>
 
-            <h2>{title}</h2>
+            <h2 className={Classes.HEADING}>{title}</h2>
 
             <div style={{ display: 'flex', marginTop: 30 }}>
               <div style={{ flex: '0 0 200px', marginRight: 15 }}>
-                <h4>Základní údaje</h4>
+                <h4 className={Classes.HEADING}>Základní údaje</h4>
               </div>
               <div style={{ flex: '1 1' }}>
                 <FormGroup name="name" label="Název">
@@ -132,7 +132,7 @@ class SourceForm extends React.Component<ISourceFormProps> {
 
             <div style={{ display: 'flex', marginTop: 30 }}>
               <div style={{ flex: '0 0 200px', marginRight: 15 }}>
-                <h4>Řečníci</h4>
+                <h4 className={Classes.HEADING}>Řečníci</h4>
 
                 <p>Výroky v rámci této diskuze půjde vytvořit jen pro osoby zde vybrané.</p>
               </div>
@@ -147,7 +147,7 @@ class SourceForm extends React.Component<ISourceFormProps> {
 
             <div style={{ display: 'flex', marginTop: 30 }}>
               <div style={{ flex: '0 0 200px', marginRight: 15 }}>
-                <h4>Expert</h4>
+                <h4 className={Classes.HEADING}>Expert</h4>
 
                 <p>
                   Vybraný expert bude dostávat notifikace při změnách výroků v rámci této diskuze.
@@ -164,7 +164,7 @@ class SourceForm extends React.Component<ISourceFormProps> {
 
             <div style={{ display: 'flex', marginTop: 30 }}>
               <div style={{ flex: '0 0 200px', marginRight: 15 }}>
-                <h4>Přepis</h4>
+                <h4 className={Classes.HEADING}>Přepis</h4>
 
                 <p>
                   Je-li dostupný, doporučujeme vyplnit, protože usnaďňuje vytváření výroků

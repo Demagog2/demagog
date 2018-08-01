@@ -85,11 +85,11 @@ export class BodyForm extends React.Component<IBodyProps> {
               />
             </div>
 
-            <h2>{title}</h2>
+            <h2 className={Classes.HEADING}>{title}</h2>
 
             <div style={{ display: 'flex', marginTop: 30 }}>
               <div style={{ flex: '0 0 200px', marginRight: 15 }}>
-                <h4>Základní údaje</h4>
+                <h4 className={Classes.HEADING}>Základní údaje</h4>
               </div>
               <div style={{ flex: '1 1' }}>
                 <FormGroup label="Název" name="name">
@@ -118,7 +118,7 @@ export class BodyForm extends React.Component<IBodyProps> {
 
             <div style={{ display: 'flex', marginTop: 30 }}>
               <div style={{ flex: '0 0 200px', marginRight: 15 }}>
-                <h4>Vznik a zánik</h4>
+                <h4 className={Classes.HEADING}>Vznik a zánik</h4>
               </div>
               <div style={{ flex: '1 1' }}>
                 <FormGroup label="Datum vzniku" name="founded_at" optional>

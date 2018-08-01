@@ -53,7 +53,7 @@ export class PageForm extends React.Component<IPageFormProps> {
               />
             </div>
 
-            <h2>{title}</h2>
+            <h2 className={Classes.HEADING}>{title}</h2>
 
             <div style={{ display: 'flex' }}>
               <div

@@ -105,7 +105,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
               />
             </div>
 
-            <h2>{title}</h2>
+            <h2 className={Classes.HEADING}>{title}</h2>
 
             <div style={{ display: 'flex' }}>
               <div

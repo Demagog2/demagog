@@ -66,14 +66,17 @@ export default function Sidebar() {
             )}
           >
             <h6
-              className={css`
-                padding-left: 15px;
-                margin-top: 30px;
-                text-transform: uppercase;
-                color: ${Colors.GRAY2};
-                font-size: 11px;
-                font-weight: bold;
-              `}
+              className={cx(
+                Classes.HEADING,
+                css`
+                  padding-left: 15px;
+                  margin-top: 30px;
+                  text-transform: uppercase;
+                  color: ${Colors.GRAY2};
+                  font-size: 11px !important;
+                  font-weight: bold;
+                `,
+              )}
             >
               {category.title}
             </h6>
@@ -82,22 +85,22 @@ export default function Sidebar() {
               className={cx(
                 Classes.LIST_UNSTYLED,
                 css`
-                  .pt-menu-item {
+                  .${Classes.MENU_ITEM} {
                     padding: 5px 15px;
                   }
 
-                  .pt-menu-item.pt-active {
+                  .${Classes.MENU_ITEM}.${Classes.ACTIVE} {
                     background-color: transparent;
                     color: ${Colors.BLUE3};
                     font-weight: bold;
                   }
 
-                  .pt-menu-item:hover {
+                  .${Classes.MENU_ITEM + ':hover'} {
                     background-color: transparent;
                     font-weight: bold;
                   }
 
-                  .pt-menu-item.pt-disabled {
+                  .${Classes.MENU_ITEM}.${Classes.DISABLED} {
                     background-color: transparent;
                     font-weight: normal;
                   }

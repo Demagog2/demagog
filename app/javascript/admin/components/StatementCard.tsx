@@ -119,7 +119,7 @@ class StatementCard extends React.Component<IProps, IState> {
             </Authorize>
           </div>
 
-          <h5>
+          <h5 className={Classes.HEADING}>
             {statement.speaker.first_name} {statement.speaker.last_name}
           </h5>
 

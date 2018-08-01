@@ -85,7 +85,7 @@ class Bodies extends React.Component<IProps, IState> {
           </div>
         </Authorize>
 
-        <h2>Strany a skupiny</h2>
+        <h2 className={Classes.HEADING}>Strany a skupiny</h2>
 
         <div style={{ marginTop: 15 }}>
           <SearchInput
@@ -159,7 +159,7 @@ class Bodies extends React.Component<IProps, IState> {
                           </div>
                         </Authorize>
 
-                        <h5>
+                        <h5 className={Classes.HEADING}>
                           {body.name} ({body.short_name})
                         </h5>
 

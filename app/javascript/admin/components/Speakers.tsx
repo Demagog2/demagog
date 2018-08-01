@@ -85,7 +85,7 @@ class Speakers extends React.Component<IProps, IState> {
           </div>
         </Authorize>
 
-        <h2>Lidé</h2>
+        <h2 className={Classes.HEADING}>Lidé</h2>
 
         <div style={{ marginTop: 15 }}>
           <SearchInput
@@ -164,7 +164,7 @@ class Speakers extends React.Component<IProps, IState> {
                           </div>
                         </Authorize>
 
-                        <h5>
+                        <h5 className={Classes.HEADING}>
                           {speaker.first_name} {speaker.last_name}
                         </h5>
 

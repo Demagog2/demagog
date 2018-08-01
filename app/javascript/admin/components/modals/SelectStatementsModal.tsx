@@ -1,6 +1,9 @@
-import { Button, Dialog, Intent } from '@blueprintjs/core';
 import * as React from 'react';
+
+import { Button, Classes, Dialog, Intent } from '@blueprintjs/core';
+import { cx } from 'emotion';
 import { Query } from 'react-apollo';
+
 import { GetSourcesQuery, GetSourcesQueryVariables } from '../../operation-result-types';
 import { GetSources } from '../../queries/queries';
 import Error from '../Error';
@@ -21,7 +24,7 @@ export class SelectStatementsModal extends React.Component<{
         onClose={this.props.toggleDialog}
         title="Vyberte výroky"
       >
-        <div className="pt-dialog-body">
+        <div className={Classes.DIALOG_BODY}>
           <GetSourcesQueryComponent query={GetSources}>
             {({ data, loading, error }) => {
               if (loading) {
@@ -37,7 +40,7 @@ export class SelectStatementsModal extends React.Component<{
               }
 
               return (
-                <table className="pt-html-table pt-interactive">
+                <table className={cx(Classes.HTML_TABLE, Classes.INTERACTIVE)}>
                   <thead>
                     <tr>
                       <th>Název</th>
@@ -71,8 +74,8 @@ export class SelectStatementsModal extends React.Component<{
             }}
           </GetSourcesQueryComponent>
         </div>
-        <div className="pt-dialog-footer">
-          <div className="pt-dialog-footer-actions">
+        <div className={Classes.DIALOG_FOOTER}>
+          <div className={Classes.DIALOG_FOOTER_ACTIONS}>
             <Button intent={Intent.NONE} onClick={this.props.toggleDialog} text="Zavřít" />
           </div>
         </div>

@@ -134,11 +134,11 @@ class StatementNew extends React.Component<IProps> {
                           </button>
                         </div>
 
-                        <h2>Přidat nový výrok</h2>
+                        <h2 className={Classes.HEADING}>Přidat nový výrok</h2>
 
                         <div style={{ display: 'flex', marginTop: 30 }}>
                           <div style={{ flex: '0 0 200px', marginRight: 15 }}>
-                            <h4>Výrok</h4>
+                            <h4 className={Classes.HEADING}>Výrok</h4>
                           </div>
                           <div style={{ flex: '1 1' }}>
                             <FormGroup label="Znění" name="content">
@@ -162,7 +162,7 @@ class StatementNew extends React.Component<IProps> {
 
                         <div style={{ display: 'flex', marginTop: 30 }}>
                           <div style={{ flex: '0 0 200px', marginRight: 15 }}>
-                            <h4>Ověřování</h4>
+                            <h4 className={Classes.HEADING}>Ověřování</h4>
                           </div>
                           <div style={{ flex: '1 1' }}>
                             <FormGroup label="Ověřovatel" name="evaluator_id" optional>

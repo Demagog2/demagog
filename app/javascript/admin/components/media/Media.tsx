@@ -84,7 +84,7 @@ class Media extends React.Component<IProps, IState> {
           </div>
         </Authorize>
 
-        <h2>Pořady</h2>
+        <h2 className={Classes.HEADING}>Pořady</h2>
 
         <div style={{ marginTop: 15 }}>
           <SearchInput

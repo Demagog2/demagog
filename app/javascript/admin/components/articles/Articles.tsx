@@ -96,7 +96,7 @@ class Articles extends React.Component<IProps, IState> {
           </div>
         </Authorize>
 
-        <h2>Články</h2>
+        <h2 className={Classes.HEADING}>Články</h2>
 
         <div style={{ marginTop: 15 }}>
           <SearchInput

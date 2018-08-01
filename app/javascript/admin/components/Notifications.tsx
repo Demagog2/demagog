@@ -59,7 +59,7 @@ class Notifications extends React.Component<IProps, IState> {
   public render() {
     return (
       <div style={{ padding: '15px 0 40px 0' }}>
-        <h2>Upozornění</h2>
+        <h2 className={Classes.HEADING}>Upozornění</h2>
 
         <div style={{ marginTop: 15 }}>
           <GetNotificationsQueryComponent

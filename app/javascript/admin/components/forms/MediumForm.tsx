@@ -72,11 +72,11 @@ export class MediumForm extends React.Component<ISpeakerFormProps> {
               />
             </div>
 
-            <h2>{title}</h2>
+            <h2 className={Classes.HEADING}>{title}</h2>
 
             <div style={{ display: 'flex', marginTop: 30 }}>
               <div style={{ flex: '0 0 200px' }}>
-                <h4>Základní údaje</h4>
+                <h4 className={Classes.HEADING}>Základní údaje</h4>
               </div>
               <div style={{ flex: '1 1' }}>
                 <div style={{ display: 'flex' }}>
@@ -90,7 +90,7 @@ export class MediumForm extends React.Component<ISpeakerFormProps> {
             </div>
             <div style={{ display: 'flex', marginTop: 30 }}>
               <div style={{ flex: '0 0 200px' }}>
-                <h4>Moderátoři</h4>
+                <h4 className={Classes.HEADING}>Moderátoři</h4>
               </div>
               <div style={{ flex: '1 1' }}>
                 <FieldArray

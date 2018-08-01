@@ -131,7 +131,7 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                   </Link>
                 </div>
 
-                <h2>{source.name}</h2>
+                <h2 className={Classes.HEADING}>{source.name}</h2>
 
                 <span>
                   {source.medium.name}, {displayDate(source.released_at)},{' '}
@@ -199,7 +199,7 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                   paddingBottom: 50,
                 }}
               >
-                <h5>Přepis:</h5>
+                <h5 className={Classes.HEADING}>Přepis:</h5>
                 {source.transcript && (
                   <TranscriptText
                     onSelectedStatementsChange={this.onSelectedStatementsChange}
@@ -225,7 +225,7 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                         <>
                           {selectedStatements.length === 0 && (
                             <>
-                              <h5>
+                              <h5 className={Classes.HEADING}>
                                 {statementsWithPositions.length}
                                 {pluralize(
                                   statementsWithPositions.length,
@@ -376,7 +376,7 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
                     />
                   </div>
 
-                  <h5>Nový výrok</h5>
+                  <h5 className={Classes.HEADING}>Nový výrok</h5>
 
                   <div style={{ marginTop: 20 }}>
                     <FormGroup label="Znění" name="content">

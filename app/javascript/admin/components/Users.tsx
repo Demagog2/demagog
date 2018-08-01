@@ -93,7 +93,7 @@ class Users extends React.Component<IProps, IUsersState> {
           </div>
         </Authorize>
 
-        <h2>Tým</h2>
+        <h2 className={Classes.HEADING}>Tým</h2>
 
         <div style={{ marginTop: 15 }}>
           <Switch
@@ -204,11 +204,11 @@ class Users extends React.Component<IProps, IUsersState> {
                           </div>
                         </Authorize>
 
-                        <h5>
+                        <h5 className={Classes.HEADING}>
                           {user.first_name} {user.last_name}
                         </h5>
 
-                        <h6>{user.position_description}</h6>
+                        <h6 className={Classes.HEADING}>{user.position_description}</h6>
                         <p>{user.bio && newlinesToBr(user.bio)}</p>
 
                         <Callout>

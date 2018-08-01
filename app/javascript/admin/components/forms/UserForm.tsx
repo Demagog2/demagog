@@ -97,11 +97,11 @@ export class UserForm extends React.Component<IUserFormProps> {
               />
             </div>
 
-            <h2>{title}</h2>
+            <h2 className={Classes.HEADING}>{title}</h2>
 
             <div style={{ display: 'flex', marginTop: 30 }}>
               <div style={{ flex: '0 0 200px' }}>
-                <h4>Základní údaje</h4>
+                <h4 className={Classes.HEADING}>Základní údaje</h4>
               </div>
               <div style={{ flex: '1 1' }}>
                 <FormGroup label="Jméno" name="first_name">
@@ -117,7 +117,7 @@ export class UserForm extends React.Component<IUserFormProps> {
 
             <div style={{ display: 'flex', marginTop: 15 }}>
               <div style={{ flex: '0 0 200px' }}>
-                <h4>Přístup do administrace</h4>
+                <h4 className={Classes.HEADING}>Přístup do administrace</h4>
               </div>
               <div style={{ flex: '1 1' }}>
                 <FormGroup
@@ -140,7 +140,7 @@ export class UserForm extends React.Component<IUserFormProps> {
 
             <div style={{ display: 'flex', marginTop: 15 }}>
               <div style={{ flex: '0 0 200px' }}>
-                <h4>Upozornění</h4>
+                <h4 className={Classes.HEADING}>Upozornění</h4>
               </div>
               <div style={{ flex: '1 1' }}>
                 <div style={{ marginBottom: 15 }}>
@@ -151,7 +151,7 @@ export class UserForm extends React.Component<IUserFormProps> {
 
             <div style={{ display: 'flex', marginTop: 15 }}>
               <div style={{ flex: '0 0 200px' }}>
-                <h4>Veřejný profil</h4>
+                <h4 className={Classes.HEADING}>Veřejný profil</h4>
               </div>
               <div style={{ flex: '1 1' }}>
                 <FormGroup label="Portrét" name="avatar" optional>
