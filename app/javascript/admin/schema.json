@@ -2183,6 +2183,18 @@
               "deprecationReason": "Replaced by 'body', as not all speakers must be members of a political party"
             },
             {
+              "name": "portrait",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": true,
+              "deprecationReason": "Replaced by 'body', as not all speakers must be members of a political party"
+            },
+            {
               "name": "statements",
               "description": null,
               "args": [

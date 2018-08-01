@@ -19,6 +19,17 @@ Types::SpeakerType = GraphQL::ObjectType.define do
     end
   end
 
+  # Seznam uses portrait of speaker, we need to keep it till they update it
+  field :portrait, types.String do
+    deprecation_reason "Replaced by 'body', as not all speakers must be members of a political party"
+
+    resolve -> (obj, args, ctx) do
+      return nil unless obj.avatar.attached?
+
+      Rails.application.routes.url_helpers.polymorphic_url(obj.avatar, only_path: true)
+    end
+  end
+
   field :statements, !types[Types::StatementType] do
     argument :limit, types.Int, default_value: 10
     argument :offset, types.Int, default_value: 0
