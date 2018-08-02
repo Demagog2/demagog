@@ -24,11 +24,11 @@
         <% end %>
       </span>
 
-      <% if article.article_type.name == "default" and article.source %>
-          <i><%= article.source.medium.name %></i>,
+      <% if article.article_type.name == "default" %>
+          <i><%= article.source.medium.name %>, <%= raw(l(article.source.released_at, format: :long)) %></i>
       <% end %>
 
-      <% if article.published_at.present? %>
+      <% if article.article_type.name == "static" %>
         <i><%= raw(l(article.published_at, format: :long)) %></i>
       <% end %>
 

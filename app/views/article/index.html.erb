@@ -34,8 +34,8 @@
         <% end %>
         <br>
         Moderátor: <%= @article.source.media_personality.name %><br>
+        <%= raw(l(@article.source.released_at, format: :long)) %>
       <% end %>
-      Publikováno <%= @article.published_at ? raw(l(@article.published_at, format: :long)) : "Dosud nepublikováno" %>
     </p>
 
     <% @article.unique_speakers.each do |speaker| %>

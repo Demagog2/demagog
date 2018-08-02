@@ -39,9 +39,9 @@ cs:
     - pátek
     - sobota
     formats:
-      default: "%d. %m. %Y"
-      long: "%d. %B %Y"
-      short: "%d %b"
+      default: "%-d. %-m. %Y"
+      long: "%-d. %B %Y"
+      short: "%-d %b"
     month_names:
     -
     - ledna
