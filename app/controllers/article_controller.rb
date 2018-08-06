@@ -10,13 +10,14 @@ class ArticleController < ApplicationController
 
     @article = Article.published.friendly.find(params[:slug])
 
-    return unless Rails.env.production?
+    # return unless Rails.env.production?
 
-    expires_in 1.hour, public: true
-    if stale? @article, public: true
-      respond_to do |format|
-        format.html
-      end
-    end
+    # TODO: revisit cache headers and do properly
+    # expires_in 1.hour, public: true
+    # if stale? @article, public: true
+    #   respond_to do |format|
+    #     format.html
+    #   end
+    # end
   end
 end

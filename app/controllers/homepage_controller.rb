@@ -14,8 +14,9 @@ class HomepageController < ApplicationController
       .order(published_at: :desc)
       .page(params[:page])
 
-    return unless Rails.env.production?
+    # return unless Rails.env.production?
 
-    expires_in 1.hour, public: true
+    # TODO: revisit cache headers and do properly
+    # expires_in 1.hour, public: true
   end
 end
