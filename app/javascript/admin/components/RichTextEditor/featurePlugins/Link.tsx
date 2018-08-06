@@ -122,19 +122,20 @@ const LinkNode = (props: RenderNodeProps) => {
   const href = node.data.get('href');
 
   const onLinkMouseDown = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
     window.open(href, '_blank');
+
+    event.preventDefault();
+    return false;
   };
 
   const onCopyMouseDown = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-
     copy(href);
+
+    event.preventDefault();
+    return false;
   };
 
   const onEditMouseDown = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-
     const newHref = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):', href);
     if (newHref === null || newHref === '') {
       return;
@@ -143,14 +144,18 @@ const LinkNode = (props: RenderNodeProps) => {
     if (editor.props.onChange) {
       editor.props.onChange(editor.value.change().call(setLinkHref, ensureProtocol(newHref)));
     }
+
+    event.preventDefault();
+    return false;
   };
 
   const onRemoveMouseDown = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-
     if (editor.props.onChange) {
       editor.props.onChange(editor.value.change().call(unwrapLink));
     }
+
+    event.preventDefault();
+    return false;
   };
 
   return (
