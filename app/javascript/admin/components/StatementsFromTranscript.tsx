@@ -330,7 +330,7 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
                 source_id: source.id,
                 important: false,
                 published: false,
-                count_in_statistics: false,
+                count_in_statistics: true,
                 excerpted_at: DateTime.utc().toISO(),
                 assessment: {
                   evaluator_id: values.evaluator_id,

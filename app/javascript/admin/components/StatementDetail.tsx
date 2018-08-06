@@ -263,6 +263,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                     const canEditEvaluator = canEditEverything && isBeingEvaluated;
                     const canEditPublished = canEditEverything && isApproved;
                     const canEditImportant = canEditEverything;
+                    const canEditCountInStatistics = canEditEverything;
 
                     const isApprovedAndNotPublished = isApproved && !values.published;
                     const isBeingEvaluatedAndEvaluationFilled =
@@ -475,12 +476,13 @@ class StatementDetail extends React.Component<IProps, IState> {
                                 <EvaluationStatusInput
                                   disabled={
                                     !canEditStatus ||
-                                    // If initialValues and values states are not the same, it means
-                                    // that there was a status change at it is not propagated to server yet,
+                                    // If initialValues and values status or published are not the same, it means
+                                    // that there was a param change and it is not propagated to server yet,
                                     // so we wait for the propagation, because we cannot skip the evaluation
                                     // states when doing graphql mutations.
                                     initialValues.assessment.evaluation_status !==
-                                      values.assessment.evaluation_status
+                                      values.assessment.evaluation_status ||
+                                    initialValues.published !== values.published
                                   }
                                   tooltipContent={statusTooltipContent}
                                   value={values.assessment.evaluation_status}
@@ -524,30 +526,10 @@ class StatementDetail extends React.Component<IProps, IState> {
                               </div>
                             </div>
 
-                            <div className={classNames(Classes.FORM_GROUP, Classes.INLINE)}>
-                              <label
-                                htmlFor="count_in_statistics"
-                                className={Classes.LABEL}
-                                style={{ flex: '1' }}
-                              >
-                                Započítat do statistik
-                              </label>
-                              <div className={Classes.FORM_CONTENT} style={{ flex: '2' }}>
-                                <Switch
-                                  id="count_in_statistics"
-                                  name="count_in_statistics"
-                                  checked={values.count_in_statistics}
-                                  onChange={handleChange}
-                                  large
-                                  disabled={!canEditPublished}
-                                />
-                              </div>
-                            </div>
-
                             <div
                               className={classNames(Classes.FORM_GROUP, Classes.INLINE)}
                               style={{
-                                marginBottom: 0,
+                                marginBottom: 5,
                                 // flex-start needed to align switch with tooltip and without label correctly
                                 alignItems: 'flex-start',
                               }}
@@ -595,8 +577,30 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                             <div
                               className={classNames(Classes.FORM_GROUP, Classes.INLINE)}
+                              style={{ marginTop: 10, marginBottom: 10 }}
+                            >
+                              <label
+                                htmlFor="count_in_statistics"
+                                className={classNames(Classes.LABEL, Classes.INLINE)}
+                                style={{ flex: '1' }}
+                              >
+                                Ve&nbsp;statistikách
+                              </label>
+                              <div className={Classes.FORM_CONTENT} style={{ flex: '2' }}>
+                                <Switch
+                                  id="count_in_statistics"
+                                  name="count_in_statistics"
+                                  checked={values.count_in_statistics}
+                                  onChange={handleChange}
+                                  disabled={!canEditCountInStatistics}
+                                />
+                              </div>
+                            </div>
+
+                            <div
+                              className={classNames(Classes.FORM_GROUP, Classes.INLINE)}
                               style={{
-                                marginBottom: 0,
+                                marginBottom: 10,
                                 // flex-start needed to align switch without label correctly
                                 alignItems: 'flex-start',
                               }}
