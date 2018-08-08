@@ -128,6 +128,13 @@ const LinkNode = (props: RenderNodeProps) => {
     return false;
   };
 
+  // Lets make sure the link won't open in the same window by
+  // preventing default click behaviour
+  const onLinkClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    return false;
+  };
+
   const onCopyMouseDown = (event: React.MouseEvent<HTMLAnchorElement>) => {
     copy(href);
 
@@ -163,7 +170,7 @@ const LinkNode = (props: RenderNodeProps) => {
       autoFocus={false}
       content={
         <div style={{ zIndex: 10000, padding: '5px 10px', maxWidth: 600 }} className="small">
-          <a href={href} onMouseDown={onLinkMouseDown}>
+          <a href={href} onMouseDown={onLinkMouseDown} onClick={onLinkClick}>
             {href}
           </a>{' '}
           –{' '}
