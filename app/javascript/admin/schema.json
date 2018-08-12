@@ -591,16 +591,6 @@
                   "defaultValue": "10"
                 },
                 {
-                  "name": "order",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": "\"desc\""
-                },
-                {
                   "name": "title",
                   "description": null,
                   "type": {

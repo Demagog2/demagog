@@ -239,7 +239,6 @@ Types::QueryType = GraphQL::ObjectType.define do
   field :articles, !types[!Types::ArticleType] do
     argument :offset, types.Int, default_value: 0
     argument :limit, types.Int, default_value: 10
-    argument :order, types.String, default_value: "desc"
     argument :title, types.String
     argument :include_unpublished, types.Boolean, default_value: false
 
@@ -257,7 +256,7 @@ Types::QueryType = GraphQL::ObjectType.define do
         .includes(:article_type)
         .offset(args[:offset])
         .limit(args[:limit])
-        .order(created_at: args[:order])
+        .order("IFNULL(published_at, created_at) DESC")
 
       articles = articles.matching_title(args[:title]) if args[:title].present?
 
