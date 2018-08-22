@@ -36,7 +36,8 @@
         <span class="drop-icon"><%= submenu.name %> ▾</span>
         <label title="Toggle Drop-down" class="drop-icon" for="sm<%= index %>"><%= submenu.name %> ▾</label>
         <input type="checkbox" id="sm<%= index %>">
-        <ul class="sub-menu">
+        <%# list-style: none is because of IE bug, see https://twitter.com/fremycompany/status/950856311083683840 %>
+        <ul class="sub-menu" style="list-style: none">
           <% submenu.items.each do |item| %>
             <% if (item.is_a? String) %>
               <%= raw item %>
