@@ -46,12 +46,10 @@ class Speaker < ApplicationRecord
     end
   end
 
-  def statements_by_veracity(veracity_id)
+  def published_statements_by_veracity(veracity_id)
     statements
       .published
-      .joins(:assessments)
       .where(assessments: {
-        evaluation_status: Assessment::STATUS_APPROVED,
         veracity_id: veracity_id
       })
   end

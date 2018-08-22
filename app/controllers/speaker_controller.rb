@@ -21,9 +21,9 @@ class SpeakerController < ApplicationController
   private
     def get_speaker_statements(speaker)
       statements = if params[:veracity]
-        speaker.statements_by_veracity(params[:veracity])
+        speaker.published_statements_by_veracity(params[:veracity])
       else
-        speaker.statements.published
+        speaker.published_statements
       end
 
       statements.page(params[:page])
