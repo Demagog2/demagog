@@ -394,6 +394,9 @@ export const GetStatement = gql`
           last_name
         }
       }
+      statement_transcript_position {
+        id
+      }
       comments_count
     }
   }

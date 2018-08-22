@@ -1041,6 +1041,9 @@ export interface GetStatementQuery {
         last_name: string,
       } | null,
     },
+    statement_transcript_position:  {
+      id: string,
+    } | null,
     comments_count: number,
   },
 };

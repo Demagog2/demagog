@@ -360,6 +360,20 @@ class StatementDetail extends React.Component<IProps, IState> {
                                   , <a href={statement.source.source_url}>odkaz</a>
                                 </>
                               )}
+                              {' — '}
+                              {statement.statement_transcript_position ? (
+                                <Link
+                                  to={`/admin/sources/${
+                                    statement.source.id
+                                  }/statements-from-transcript?highlightStatementId=${
+                                    statement.id
+                                  }`}
+                                >
+                                  Ukázat výrok v kontextu přepisu
+                                </Link>
+                              ) : (
+                                <>Výrok nelze ukázat v kontextu přepisu, je vytvořený ručně</>
+                              )}
                             </p>
 
                             <hr

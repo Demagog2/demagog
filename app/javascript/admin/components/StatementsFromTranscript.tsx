@@ -7,7 +7,9 @@ import { Form, Formik } from 'formik';
 import { List } from 'immutable';
 import { isEqual } from 'lodash';
 import { DateTime } from 'luxon';
+import * as queryString from 'query-string';
 import { Mutation, Query } from 'react-apollo';
+import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import * as yup from 'yup';
 
@@ -15,6 +17,7 @@ import * as Slate from 'slate';
 import Plain from 'slate-plain-serializer';
 import { Editor } from 'slate-react';
 
+import { isAuthorized } from '../authorization';
 import {
   CreateStatementInputType,
   CreateStatementMutation,
@@ -25,7 +28,9 @@ import {
 } from '../operation-result-types';
 import { CreateStatement } from '../queries/mutations';
 import { GetSource, GetSourceStatements } from '../queries/queries';
+import { IState as ReduxState } from '../reducers';
 import { displayDate, pluralize } from '../utils';
+import Authorize from './Authorize';
 import SelectComponentField from './forms/controls/SelectComponentField';
 import SelectField from './forms/controls/SelectField';
 import TextareaField from './forms/controls/TextareaField';
@@ -54,7 +59,9 @@ interface ITranscriptSelection {
   endOffset: number;
 }
 
-interface IProps extends RouteComponentProps<{ sourceId: string }> {}
+interface IProps extends RouteComponentProps<{ sourceId: string }> {
+  isAuthorized: (permissions: string[]) => boolean;
+}
 
 interface IState {
   transcriptSelection: ITranscriptSelection | null;
@@ -97,7 +104,6 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
     this.setState({ selectedStatements });
   };
 
-  // tslint:disable-next-line:member-ordering
   public render() {
     return (
       <GetSourceQueryComponent
@@ -161,6 +167,8 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
   public renderTranscriptWithStatements(source) {
     const { newStatementSelection, selectedStatements, transcriptSelection } = this.state;
 
+    const canAddStatements = this.props.isAuthorized(['statements:add']);
+
     return (
       <GetSourceStatementsQueryComponent
         query={GetSourceStatements}
@@ -188,6 +196,21 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
             );
           }
 
+          let startCursor: { line: number; offset: number } | null = null;
+          const queryParams = queryString.parse(this.props.location.search);
+          if (queryParams.highlightStatementId) {
+            const highlightStatement = statementsWithPositions.find(
+              (s) => s.id === queryParams.highlightStatementId,
+            );
+
+            if (highlightStatement && highlightStatement.statement_transcript_position) {
+              startCursor = {
+                line: highlightStatement.statement_transcript_position.start_line,
+                offset: highlightStatement.statement_transcript_position.start_offset,
+              };
+            }
+          }
+
           return (
             <div style={{ flex: '1 0', display: 'flex', marginTop: 30 }}>
               <div
@@ -208,64 +231,67 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                     statements={statementsWithPositions}
                     transcript={source.transcript}
                     newStatementSelection={newStatementSelection}
+                    startCursor={startCursor}
                   />
                 )}
               </div>
               <div style={{ flex: '1 0', overflow: 'scroll', marginLeft: 15, paddingBottom: 50 }}>
-                {transcriptSelection === null &&
-                  newStatementSelection === null && (
-                    <>
-                      {statementsWithPositions.length === 0 && (
-                        <p>
-                          Začněte označením části přepisu, ze které chcete vytvořit první výrok.
-                        </p>
-                      )}
+                {(!canAddStatements ||
+                  (transcriptSelection === null && newStatementSelection === null)) && (
+                  <>
+                    {statementsWithPositions.length === 0 && (
+                      <p>Začněte označením části přepisu, ze které chcete vytvořit první výrok.</p>
+                    )}
 
-                      {statementsWithPositions.length > 0 && (
-                        <>
-                          {selectedStatements.length === 0 && (
-                            <>
-                              <h5 className={Classes.HEADING}>
-                                {statementsWithPositions.length}
-                                {pluralize(
-                                  statementsWithPositions.length,
-                                  ' výrok',
-                                  ' výroky',
-                                  ' výroků',
-                                )}
-                              </h5>
-                              <p>
-                                Klikněte do označené části v přepisu k zobrazení pouze výroku k ní
-                                se vztahujícího. Pokud chcete vytvořit nový výrok, označte část
-                                přepisu, ze které jej chcete vytvořit.
-                              </p>
-                            </>
-                          )}
+                    {statementsWithPositions.length > 0 && (
+                      <>
+                        {selectedStatements.length === 0 && (
+                          <>
+                            <h5 className={Classes.HEADING}>
+                              {statementsWithPositions.length}
+                              {pluralize(
+                                statementsWithPositions.length,
+                                ' výrok',
+                                ' výroky',
+                                ' výroků',
+                              )}
+                            </h5>
+                            <p>
+                              Klikněte do označené části v přepisu k zobrazení pouze výroku k ní se
+                              vztahujícího.{' '}
+                              <Authorize permissions={['statements:add']}>
+                                Pokud chcete vytvořit nový výrok, označte část přepisu, ze které jej
+                                chcete vytvořit.
+                              </Authorize>
+                            </p>
+                          </>
+                        )}
 
-                          <div style={{ marginTop: 20 }}>
-                            {statementsToDisplay.map((statement) => (
-                              <div
-                                style={{
-                                  // 1px margin so there is enough space for the card box-shadow
-                                  margin: 1,
+                        <div style={{ marginTop: 20 }}>
+                          {statementsToDisplay.map((statement) => (
+                            <div
+                              style={{
+                                // 1px margin so there is enough space for the card box-shadow
+                                margin: 1,
+                              }}
+                              key={statement.id}
+                            >
+                              <StatementCard
+                                onDeleted={() => {
+                                  refetch({ sourceId: parseInt(source.id, 10) });
                                 }}
-                                key={statement.id}
-                              >
-                                <StatementCard
-                                  onDeleted={() => {
-                                    refetch({ sourceId: parseInt(source.id, 10) });
-                                  }}
-                                  statement={statement}
-                                />
-                              </div>
-                            ))}
-                          </div>
-                        </>
-                      )}
-                    </>
-                  )}
+                                statement={statement}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </>
+                )}
 
-                {transcriptSelection !== null &&
+                {canAddStatements &&
+                  transcriptSelection !== null &&
                   newStatementSelection === null && (
                     <Button
                       intent={Intent.PRIMARY}
@@ -275,17 +301,18 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                     />
                   )}
 
-                {newStatementSelection !== null && (
-                  <NewStatementForm
-                    onStatementCreated={() => {
-                      refetch({ sourceId: parseInt(source.id, 10) });
-                      this.closeNewStatementForm();
-                    }}
-                    onRequestClose={this.closeNewStatementForm}
-                    selection={newStatementSelection}
-                    source={source}
-                  />
-                )}
+                {canAddStatements &&
+                  newStatementSelection !== null && (
+                    <NewStatementForm
+                      onStatementCreated={() => {
+                        refetch({ sourceId: parseInt(source.id, 10) });
+                        this.closeNewStatementForm();
+                      }}
+                      onRequestClose={this.closeNewStatementForm}
+                      selection={newStatementSelection}
+                      source={source}
+                    />
+                  )}
               </div>
             </div>
           );
@@ -422,6 +449,7 @@ interface ITranscriptTextProps {
   statements: any[];
   transcript: string;
   newStatementSelection: null | ITranscriptSelection;
+  startCursor: { line: number; offset: number } | null;
 }
 
 interface ITranscriptTextState {
@@ -432,14 +460,29 @@ class TranscriptText extends React.Component<ITranscriptTextProps, ITranscriptTe
   constructor(props: ITranscriptTextProps) {
     super(props);
 
-    let value = deserializeTranscript(props.transcript);
-    value = addMarksFromStatements(value.change(), props.statements, props.selectedStatements)
-      .value;
+    let change = deserializeTranscript(props.transcript).change();
+
+    change = addMarksFromStatements(change, props.statements, props.selectedStatements);
+
+    if (props.startCursor !== null) {
+      // We first move cursor to the end, let the editor render and then move
+      // the cursor to the specified start cursor. This way we make sure that
+      // the start cursor is at the top of the scroll window and user won't
+      // miss it.
+      change = moveToEnd(change);
+      setTimeout(this.moveToStartCursor, 0);
+    }
 
     this.state = {
-      value,
+      value: change.value,
     };
   }
+
+  public moveToStartCursor = () => {
+    if (this.props.startCursor) {
+      this.onChange(moveToStartCursor(this.state.value.change(), this.props.startCursor));
+    }
+  };
 
   public componentDidUpdate(prevProps) {
     if (
@@ -548,6 +591,7 @@ class TranscriptText extends React.Component<ITranscriptTextProps, ITranscriptTe
 
     return (
       <Editor
+        autoFocus
         value={value}
         onChange={this.onChange}
         onKeyDown={this.onKeyDown}
@@ -636,6 +680,33 @@ const addMarksFromStatements = (
   return change.setValue({ decorations });
 };
 
+const moveToEnd = (change: Slate.Change): Slate.Change => {
+  const blocks = change.value.document.getBlocks();
+
+  if (blocks) {
+    change = (change as any).moveToEndOf(blocks.last());
+  }
+
+  return change;
+};
+
+const moveToStartCursor = (
+  change: Slate.Change,
+  startCursor: { line: number; offset: number },
+): Slate.Change => {
+  const blocks = change.value.document.getBlocks();
+
+  if (blocks) {
+    blocks.forEach((block) => {
+      if (block && block.data.get('line') === startCursor.line) {
+        change = (change as any).moveToStartOf(block).move(startCursor.offset);
+      }
+    });
+  }
+
+  return change;
+};
+
 const findInlineNodeByLineNumber = (document: Slate.Document, line: number): Slate.Inline => {
   const nodes = document.filterDescendants(
     (node: Slate.Node) => node.object === 'block' && node.data.get('line') === line,
@@ -696,4 +767,8 @@ const removeDecorationsWithMarkType = (
   }) as List<Slate.Range>;
 };
 
-export default StatementsFromTranscript;
+const mapStateToProps = (state: ReduxState) => ({
+  isAuthorized: isAuthorized(state.currentUser.user),
+});
+
+export default connect(mapStateToProps)(StatementsFromTranscript);
