@@ -1,3 +1,6 @@
+// Provided by webpack's DefinePlugin
+declare var CHANGELOG_LAST_UPDATE_DATE: string;
+
 // Allow loading image modules in React code
 declare module '*.gif';
 declare module '*.jpg';

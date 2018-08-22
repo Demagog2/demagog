@@ -133,6 +133,23 @@ export default function Sidebar() {
             </ul>
           </Authorize>
         ))}
+
+        <div
+          className={cx(
+            Classes.TEXT_MUTED,
+            css`
+              margin-top: 25px;
+              padding: 0 15px;
+            `,
+          )}
+        >
+          <small>
+            Poslední změny:<br />
+            <a href="https://github.com/Demagog2/demagog/blob/master/CHANGELOG-cs.md">
+              {CHANGELOG_LAST_UPDATE_DATE}
+            </a>
+          </small>
+        </div>
       </div>
     </div>
   );
