@@ -10,3 +10,4 @@ Tady píšeme, co se stalo nového v Demagog aplikaci. Struktura inspirována pr
 - Zobrazování rozbalovacího menu v MS Edge ([#177](https://github.com/Demagog2/demagog/issues/177))
 - Divný bílý blok na detailu politika v MS Edge ([#178](https://github.com/Demagog2/demagog/issues/178))
 - Menu ikona zobrazující se jako box v Chrome na Androidu ([#179](https://github.com/Demagog2/demagog/issues/179))
+- Odkazy ze Seznamu na výroky vybraného hodnocení ([#193](https://github.com/Demagog2/demagog/issues/193))
