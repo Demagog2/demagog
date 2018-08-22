@@ -28,7 +28,11 @@
 %>
 
 <nav id="main-menu" role="navigation">
-  <label for="tm" id="toggle-menu"><span class="drop-icon">Menu ☰</span></label>
+  <label for="tm" id="toggle-menu">
+    <span class="drop-icon">
+      Menu <img src="<%= asset_path("hamburger-icon.svg") %>" alt="Menu icon" class="hamburger-icon">
+    </span>
+  </label>
   <input type="checkbox" id="tm">
   <ul>
     <% @nav.each_with_index do |submenu, index| %>
