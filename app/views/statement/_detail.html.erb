@@ -1,29 +1,41 @@
 <article class="statement <% if statement.important? %>important-statement<% end %>" id="<%= statement.id %>">
+  <a href="<%= speaker_path(statement.speaker.id) %>" class="speaker">
+    <%= render(partial: 'shared/portrait', object: statement.speaker, as: :speaker) %>
+    <h3><%= statement.speaker.full_name %></h3>
+  </a>
 
-  <% unless local_assigns[:non_attributed] %>
-    <a href="<%= speaker_path(statement.speaker.id) %>" class="speaker">
-      <%= render(partial: 'shared/portrait', object: statement.speaker, as: :speaker) %>
-    </a>
-  <% end %>
+  <div class="statement-content">
+    <blockquote><%= content_to_html(statement.content) %></blockquote>
 
-  <h3>
-    <% unless local_assigns[:non_attributed] %><%= statement.speaker.full_name %><% end %>
-    <span class="veracity <%= statement.approved_assessment.veracity.default_name %>">
-      <%= statement.approved_assessment.veracity.name %>
-    </span>
+    <div class="veracity-and-links">
+      <span class="veracity <%= statement.approved_assessment.veracity.default_name %>">
+        <%= statement.approved_assessment.veracity.name %>
+      </span>
 
-    <% if statement.important? %>
-      <span class="label important">důležitý výrok</span>
+      <% if statement.approved_assessment.short_explanation.nil? %>
+        <a href="#" class="show-reasons">
+          <span class="collapsed">zobrazit odůvodnění</span>
+          <span class="open">skrýt odůvodnění</span>
+        </a>
+      <% end %>
+
+      <a class="permalink" href="<%= statement_path(statement.id) %>">trvalý odkaz</a>
+    </div>
+
+    <% if statement.approved_assessment.short_explanation.nil? %>
+      <section class="reasons">
+        <%= raw(statement.approved_assessment.explanation_html) %>
+      </section>
+    <% else %>
+      <section class="reasons-short">
+        <p>
+          <%= statement.approved_assessment.short_explanation %>
+        </p>
+      </section>
+
+      <a href="<%= statement_path(statement.id) %>" class="show-full-explanation">
+        <span>Číst&nbsp;celé&nbsp;odůvodnění&nbsp;&rarr;</span>
+      </a>
     <% end %>
-  </h3>
-
-  <blockquote><%= content_to_html(statement.content) %></blockquote>
-
-  <p class="utils">
-    <a class="permalink" href="<%= statement_path(statement.id) %>">trvalý odkaz</a>
-  </p>
-
-  <section class="reasons">
-    <%= raw(statement.approved_assessment.explanation_html) %>
-  </section>
+  </div>
 </article>
