@@ -5,7 +5,13 @@
   </a>
 
   <div class="statement-content">
-    <blockquote><%= content_to_html(statement.content) %></blockquote>
+    <blockquote>
+      <%= content_to_html(statement.content) %>
+
+      <% if statement.important? %>
+        <span class="important-statement-icon" title="Důležitý výrok">!</span>
+      <% end %>
+    </blockquote>
 
     <div class="veracity-and-links">
       <span class="veracity <%= statement.approved_assessment.veracity.default_name %>">

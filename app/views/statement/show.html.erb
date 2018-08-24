@@ -1,38 +1,45 @@
-<section class="statement-detail">
-  <h1>Tento výrok byl ověřen jako
-    <span class="veracity glyphicons <%= @statement.approved_assessment.veracity.default_name %>">
-      <i></i> <%= @statement.approved_assessment.veracity.name.downcase %>
-    </span>
-  </h1>
+<section class="statement-detail <% if @statement.important? %>important-statement<% end %>">
+  <a href="<%= speaker_path(@statement.speaker.id) %>" class="speaker">
+    <%= render(partial: 'shared/portrait', object: @statement.speaker, as: :speaker) %>
+    <span class="name"><%= @statement.speaker.full_name %></span>
+  </a>
 
-  <blockquote>
-    <b><%= @statement.speaker.full_name %>:</b> <%= content_to_html(@statement.content) %>
+  <div class="statement-content">
+    <blockquote>
+      <%= content_to_html(@statement.content) %>
+
+      <% if @statement.important? %>
+        <span class="important-statement-sign">
+          <span class="important-statement-icon">!</span><br>
+          Důležitý výrok
+        </span>
+      <% end %>
+    </blockquote>
     <cite><%= @statement.source.medium.name %>, <%= raw(l(@statement.source.released_at, format: :long)) %></cite>
-  </blockquote>
+
+    <h1>
+      Tento výrok byl ověřen jako
+      <span class="veracity glyphicons <%= @statement.approved_assessment.veracity.default_name %>">
+        <i></i> <%= @statement.approved_assessment.veracity.name.downcase %>
+      </span>
+    </h1>
+
+    <article>
+      <h2>Odůvodnění</h2>
+      <section class="reasons">
+        <% unless @statement.approved_assessment.short_explanation.nil? %>
+          <p><%= @statement.approved_assessment.short_explanation %></p>
+        <% end %>
+
+        <%= raw(@statement.approved_assessment.explanation_html) %>
+      </section>
+    </article>
+
+    <aside>
+      <h1>Výrok jsme zmínili</h1>
+      <% @statement.articles.each do |article| %>
+        <%= render(partial: 'article/preview', object: article, as: :article) %>
+      <% end %>
+    </aside>
+  </div>
 </section>
-
-<article>
-  <h2>Odůvodnění</h2>
-  <section class="reasons">
-    <%= raw(@statement.approved_assessment.explanation_html) %>
-  </section>
-</article>
-
-<aside class="meta">
-  <%=
-    render(
-      partial: "shared/speaker_stat",
-      locals: {
-        speaker: @statement.speaker,
-        stats: @stats
-      }
-    )
-  %>
-
-  <h2>Zmíněno</h2>
-  <ul class="bare-list">
-  <% @statement.articles.each do |article| %>
-    <li><%= link_to(article.title, article_path(article)) %></li>
-  <% end %>
-  </ul>
-</aside>

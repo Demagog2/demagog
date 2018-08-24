@@ -44,14 +44,29 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   [].slice.call(document.querySelectorAll('.statement')).forEach(function(statement) {
-    if (statement.querySelector('.reasons-short')) {
-      return;
+    var blockquote = statement.querySelector('.statement-content > blockquote');
+
+    // 44px means that the quote is one-liner
+    if (blockquote.clientHeight === 44) {
+      statement.classList.add('oneliner-statement');
     }
 
-    var link = statement.querySelector('.show-reasons');
-    link.addEventListener('click', showAssessment);
+    if (!statement.querySelector('.reasons-short')) {
+      var link = statement.querySelector('.show-reasons');
+      link.addEventListener('click', showAssessment);
 
-    if (!statement.classList.contains('important-statement')) statement.classList.add('collapsed');
+      if (!statement.classList.contains('important-statement'))
+        statement.classList.add('collapsed');
+    }
+  });
+
+  [].slice.call(document.querySelectorAll('.statement-detail')).forEach(function(statementDetail) {
+    var blockquote = statementDetail.querySelector('.statement-content > blockquote');
+
+    // 63px means that the quote is one-liner
+    if (blockquote.clientHeight === 63) {
+      statementDetail.classList.add('oneliner-statement');
+    }
   });
 
   /**

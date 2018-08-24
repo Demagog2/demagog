@@ -1,8 +1,8 @@
 <article class="preview">
   <a title="<%= article.title %>" href="<%= article_path(article) %>" class="illustration">
-      <% if article.illustration.attached? %>
-        <img class="lazy-load" data-src="<%= url_for(article.illustration) %>">
-      <% end %>
+    <% if article.illustration.attached? %>
+      <img class="lazy-load" data-src="<%= url_for(article.illustration) %>">
+    <% end %>
   </a>
 
   <div>

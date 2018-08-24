@@ -111,21 +111,21 @@ blockquote {
   letter-spacing: 0.025em;
   margin-left: 0;
 
-  cite {
-    display: block;
-    font-size: inherit;
-    color: #3c325c;
-    font-style: italic;
-
-    &::before {
-      content: '— ';
-    }
-  }
-
   b {
     font-size: 90%;
     font-style: normal;
     text-transform: uppercase;
+  }
+}
+
+cite {
+  display: block;
+  font-size: inherit;
+  color: #3c325c;
+  font-style: italic;
+
+  &::before {
+    content: '— ';
   }
 }
 
@@ -248,19 +248,56 @@ p.lead {
     margin: 0;
     letter-spacing: 0;
 
+    // CSS-only arrow pointing to the portrait
     &:after {
+      content: " ";
+
+      position: absolute;
       right: 100%;
       top: 34px;
-      border: solid transparent;
-      content: " ";
       height: 0;
       width: 0;
-      position: absolute;
-      pointer-events: none;
-      border-color: rgba(179, 141, 213, 0);
+
+      margin-top: -10px;
+
+      border: solid transparent;
       border-right-color: var(--statement-background);
       border-width: 10px;
-      margin-top: -10px;
+
+      pointer-events: none;
+    }
+
+    .important-statement-icon {
+      position: absolute;
+      right: 0;
+      top: 50%;
+
+      margin-top: -36px;
+      padding: 0 16px;
+
+      color: var(--orange);
+      font-size: 45px;
+      font-weight: 900;
+    }
+  }
+
+  &.oneliner-statement blockquote {
+    &:after {
+      top: 22px;
+    }
+
+    .important-statement-icon {
+      margin-top: -26px;
+      font-size: 30px;
+    }
+  }
+
+  &.important-statement blockquote {
+    background: var(--statement-important-background);
+    padding-right: 45px;
+
+    &:after {
+      border-right-color: var(--statement-important-background);
     }
   }
 
@@ -361,19 +398,142 @@ p.lead {
 }
 
 .statement-detail {
-  blockquote {
-    font-size: var(--medium-typesize);
+  .speaker {
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 1rem;
+
+    .portrait  {
+      width: var(--large-portrait);
+      height: var(--large-portrait);
+      margin: 0 1rem;
+      vertical-align: middle;
+    }
+
+    .name {
+      display: inline-block;
+      margin: 0.5rem 0;
+
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--violet);
+    }
+
+    &:hover {
+      text-decoration: none;
+
+      .portrait {
+        box-shadow: 0 0 0 3px var(--orange);
+      }
+
+      .name {
+        color: var(--orange);
+      }
+    }
   }
 
-  .veracity {
-    @include veracity;
+  .statement-content {
+    blockquote {
+      position: relative;
+      border-radius: 5px;
+      background: var(--statement-background);
+      padding: 15px 25px 20px;
+      margin: 0;
 
-    white-space: nowrap;
+      font-size: 18px;
+
+      // CSS-only arrow pointing to the portrait
+      &:after {
+        content: " ";
+
+        position: absolute;
+        right: 100%;
+        top: 50px;
+        height: 0;
+        width: 0;
+
+        margin-top: -13px;
+
+        border: solid transparent;
+        border-right-color: var(--statement-background);
+        border-width: 13px;
+
+        pointer-events: none;
+      }
+
+      .important-statement-sign {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        width: 90px;
+
+        margin-top: -42px;
+
+        text-align: center;
+
+        color: var(--orange);
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+
+        .important-statement-icon {
+          font-size: 45px;
+          line-height: 1;
+        }
+      }
+    }
+
+    cite {
+      margin: 0.8rem 25px;
+
+      font-size: 18px;
+      color: #6E658A;
+    }
+
+    & > h1 {
+      margin-top: 4rem;
+      margin-bottom: 2rem;
+
+      .veracity {
+        @include veracity;
+
+        margin-left: 0.25rem;
+        white-space: nowrap;
+      }
+    }
+
+    aside {
+      margin-top: 4rem;
+
+      & > h1 {
+        margin-bottom: 2rem;
+      }
+    }
   }
 
-  h1 .veracity {
-    margin-left: 0.25rem;
-    text-transform: uppercase;
+  &.important-statement blockquote {
+    background: var(--statement-important-background);
+    padding-right: 90px;
+
+    &:after {
+      border-right-color: var(--statement-important-background);
+    }
+  }
+
+  &.oneliner-statement blockquote {
+    margin-top: 18px;
+
+    &:after {
+      top: 32px;
+    }
+
+    .important-statement-sign {
+      margin-top: -38px;
+
+      .important-statement-icon {
+        display: none;
+      }
+    }
   }
 }
 
@@ -494,18 +654,16 @@ article.speaker-detail {
     display: grid;
     grid-template-columns: var(--large-portrait) 1fr;
     grid-column-gap: var(--gap);
+
+    .portrait {
+      width: var(--large-portrait);
+      height: var(--large-portrait);
+    }
   }
 
   h1 {
     margin: 1rem 0 0.5rem;
   }
-
-  .portrait {
-    width: var(--large-portrait);
-    height: var(--large-portrait);
-  }
-
-  
 }
 
 article.preview {
