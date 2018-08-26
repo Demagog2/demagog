@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_31_205322) do
+ActiveRecord::Schema.define(version: 2018_08_26_075824) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -331,6 +331,7 @@ ActiveRecord::Schema.define(version: 2018_07_31_205322) do
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
     t.boolean "email_notifications", default: false
+    t.boolean "user_public", default: false
   end
 
   create_table "users_roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
