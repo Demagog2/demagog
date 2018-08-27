@@ -29,10 +29,5 @@ module Demagog
 
     # Needed to be able to use JSON type in GraphQL
     config.action_controller.permit_all_parameters = true
-
-    # Setup error logging to Sentry.io
-    Raven.configure do |config|
-      config.dsn = "https://36809645e61d4c28a05e4b0dd678c5d7:8ea9811047984128855cd2043944b744@sentry.io/1234606"
-    end
   end
 end
