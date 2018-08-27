@@ -51,7 +51,6 @@
     "luxon": "^1.2.1",
     "prop-types": "^15.6.0",
     "query-string": "^6.1.0",
-    "raven-js": "^3.26.4",
     "react": "^16.4.0",
     "react-apollo": "^2.1.6",
     "react-beautiful-dnd": "^7.1.3",
