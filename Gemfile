@@ -87,6 +87,8 @@ gem "htmlbeautifier"
 # Add skylight profiler
 # gem "skylight"
 
+gem "sentry-raven"
+
 # Use Capistrano for deployment
 group :development do
   gem "capistrano", require: false

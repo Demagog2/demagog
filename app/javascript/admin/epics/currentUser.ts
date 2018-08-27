@@ -1,4 +1,5 @@
 import { ApolloQueryResult } from 'apollo-client';
+import * as Raven from 'raven-js';
 import { ActionsObservable, ofType } from 'redux-observable';
 import { switchMap } from 'rxjs/operators';
 
@@ -22,6 +23,8 @@ export default (action$: ActionsObservable<Action>) =>
         .then((result: ApolloQueryResult<GetCurrentUserQuery>) => {
           if (result.errors) {
             console.error(result.errors); // tslint:disable-line:no-console
+            Raven.captureException(new Error(JSON.stringify(result.errors)));
+
             return fetchCurrentUserFailure();
           }
 
@@ -29,6 +32,8 @@ export default (action$: ActionsObservable<Action>) =>
         })
         .catch((error) => {
           console.error(error); // tslint:disable-line:no-console
+          Raven.captureException(error);
+
           return fetchCurrentUserFailure();
         }),
     ),
