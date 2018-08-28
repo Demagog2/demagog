@@ -456,6 +456,7 @@ export interface CreateUserMutation {
     position_description: string | null,
     bio: string | null,
     email_notifications: boolean,
+    user_public: boolean,
     role:  {
       id: string,
       name: string,
@@ -480,6 +481,32 @@ export interface UpdateUserMutation {
     position_description: string | null,
     bio: string | null,
     email_notifications: boolean,
+    user_public: boolean,
+    role:  {
+      id: string,
+      name: string,
+    },
+  } | null,
+};
+
+export interface UpdateUserPublicityMutationVariables {
+  id: number,
+  userPublicity: boolean,
+};
+
+export interface UpdateUserPublicityMutation {
+  // Update user publicity
+  updateUserPublicity:  {
+    id: string,
+    first_name: string,
+    last_name: string,
+    email: string,
+    avatar: string | null,
+    active: boolean,
+    position_description: string | null,
+    bio: string | null,
+    email_notifications: boolean,
+    user_public: boolean,
     role:  {
       id: string,
       name: string,
@@ -863,6 +890,7 @@ export interface GetUsersQuery {
     bio: string | null,
     position_description: string | null,
     email_notifications: boolean,
+    user_public: boolean,
     role:  {
       id: string,
       name: string,
@@ -885,6 +913,7 @@ export interface GetUserQuery {
     bio: string | null,
     position_description: string | null,
     email_notifications: boolean,
+    user_public: boolean,
     role:  {
       id: string,
       name: string,

@@ -250,6 +250,7 @@ export const CreateUser = gql`
       position_description
       bio
       email_notifications
+      user_public
       role {
         id
         name
@@ -270,6 +271,28 @@ export const UpdateUser = gql`
       position_description
       bio
       email_notifications
+      user_public
+      role {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const UpdateUserPublicity = gql`
+  mutation UpdateUserPublicity($id: Int!, $userPublicity: Boolean!) {
+    updateUserPublicity(id: $id, user_public: $userPublicity) {
+      id
+      first_name
+      last_name
+      email
+      avatar
+      active
+      position_description
+      bio
+      email_notifications
+      user_public
       role {
         id
         name

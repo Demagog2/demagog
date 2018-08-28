@@ -226,6 +226,7 @@ export const GetUsers = gql`
       bio
       position_description
       email_notifications
+      user_public
       role {
         id
         name
@@ -246,6 +247,7 @@ export const GetUser = gql`
       bio
       position_description
       email_notifications
+      user_public
       role {
         id
         name
