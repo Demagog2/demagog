@@ -12,6 +12,6 @@ Mutations::UpdateUserPublicity = GraphQL::Field.define do
     Utils::Auth.authenticate(ctx)
     Utils::Auth.authorize(ctx, ["users:edit-user-public"])
 
-    User.update(args[:id], user_public: args[:user_public].to_b)
+    User.update(args[:id], user_public: args[:user_public])
   }
 end

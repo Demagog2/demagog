@@ -6,7 +6,7 @@ import { Button, Callout, Card, Classes, Colors, Switch } from '@blueprintjs/cor
 import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import { connect, Dispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -15,7 +15,7 @@ import {
   GetUsersQuery as GetUsersQueryData,
   GetUsersQueryVariables,
 } from '../operation-result-types';
-import { DeleteUser } from '../queries/mutations';
+import { DeleteUser, UpdateUserPublicity } from '../queries/mutations';
 import { GetUsers } from '../queries/queries';
 import { newlinesToBr } from '../utils';
 import Authorize from './Authorize';
@@ -169,7 +169,14 @@ class Users extends React.Component<IProps, IUsersState> {
                       </div>
                       <div style={{ flex: '1 1', marginLeft: 15 }}>
                         <Authorize permissions={['users:edit']}>
-                          <div style={{ float: 'right', display: 'flex' }}>
+                          <div
+                            style={{
+                              float: 'right',
+                              display: 'flex',
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                            }}
+                          >
                             <Link
                               to={`/admin/users/edit/${user.id}`}
                               className={classNames(
@@ -194,6 +201,53 @@ class Users extends React.Component<IProps, IUsersState> {
                                 text="Aktivovat"
                               />
                             )}
+                            <Authorize permissions={['users:edit-user-public']}>
+                              <Mutation
+                                mutation={UpdateUserPublicity}
+                                onCompleted={() =>
+                                  this.props.dispatch(
+                                    addFlashMessage(
+                                      'Viditelnost uživatele na stránce "O nás" byla upravena',
+                                      'success',
+                                    ),
+                                  )
+                                }
+                                onError={() =>
+                                  this.props.dispatch(
+                                    addFlashMessage(
+                                      'Došlo k chybě při ukládaní změny viditelnosti',
+                                      'error',
+                                    ),
+                                  )
+                                }
+                              >
+                                {(updateUserPublicity) =>
+                                  user.user_public ? (
+                                    <Button
+                                      icon={IconNames.EYE_OFF}
+                                      style={{ marginLeft: 7 }}
+                                      text="Skrýt v O nás"
+                                      onClick={() =>
+                                        updateUserPublicity({
+                                          variables: { id: Number(user.id), userPublicity: false },
+                                        })
+                                      }
+                                    />
+                                  ) : (
+                                    <Button
+                                      icon={IconNames.EYE_ON}
+                                      style={{ marginLeft: 7 }}
+                                      text="Zobrazit v O nás"
+                                      onClick={() =>
+                                        updateUserPublicity({
+                                          variables: { id: Number(user.id), userPublicity: true },
+                                        })
+                                      }
+                                    />
+                                  )
+                                }
+                              </Mutation>
+                            </Authorize>
                             <Button
                               type="button"
                               icon={IconNames.TRASH}
@@ -220,6 +274,11 @@ class Users extends React.Component<IProps, IUsersState> {
                           <br />
                           <span className={Classes.TEXT_MUTED}>Posílat upozornění emailem: </span>
                           {user.email_notifications ? 'Ano' : 'Ne'}
+                          <Authorize permissions={['users:edit-user-public']}>
+                            <br />
+                            <span className={Classes.TEXT_MUTED}>Zobrazit v O nás:&nbsp;</span>
+                            {user.user_public ? 'Ano' : 'Ne'}
+                          </Authorize>
                         </Callout>
                       </div>
                     </div>
