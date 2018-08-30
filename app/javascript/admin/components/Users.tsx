@@ -6,7 +6,7 @@ import { Button, Callout, Card, Classes, Colors, Switch } from '@blueprintjs/cor
 import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
-import { Query, Mutation } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import { connect, Dispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
