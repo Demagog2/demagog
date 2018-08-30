@@ -1,0 +1,9 @@
+<article class="full-text">
+  <h1><%= @page.title %></h1>
+
+  <section class="segment">
+    <%= raw(@page.text_html) %>
+  </section>
+
+  <%= render('shared/authors') %>
+</article>
