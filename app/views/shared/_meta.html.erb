@@ -14,7 +14,7 @@
     { href: rss_index_path(format: :atom), type: 'application/rss+xml', title: 'RSS' },
   ],
   image_src: defined?(@article) ?
-      @article.illustration.attached? ? url_for(@article.illustration) : nil :
+      @article.illustration.attached? ? polymorphic_url(@article.illustration) : nil :
       asset_path("apple-touch-icon.png"),
   icon: [
     { href: asset_path('favicon.png'), sizes: '64x64', type: 'image/png' },
