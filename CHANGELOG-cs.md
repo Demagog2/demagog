@@ -1,6 +1,14 @@
 # Changelog
 
-Tady píšeme, co se stalo nového v Demagog aplikaci. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
+Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
+
+## 6. září 2018
+### Opraveno
+- Zobrazování ilustračního obrázku článku při sdílení na Facebooku ([#205](https://github.com/Demagog2/demagog/pull/205))
+
+## 30. srpna 2018
+### Opraveno
+- Stránka [O nás](https://demagog.cz/stranka/o-nas) zase zobrazuje členy týmu Demagog, zda-li tam mají být jde ovládat přes sekci Tým v administraci ([#153](https://github.com/Demagog2/demagog/issues/153))
 
 ## 22. srpna 2018
 ### Přidáno
