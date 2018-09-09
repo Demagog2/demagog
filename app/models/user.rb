@@ -35,20 +35,16 @@ class User < ApplicationRecord
   end
 
   def self.update_users_rank(ordered_user_ids)
-    users = []
-
     User.transaction do
       User.update_all(rank: nil)
 
       unless ordered_user_ids.nil?
         ordered_user_ids.each_with_index do |user_id, index|
-          user = User.find(user_id)
-          user.update!(rank: index)
-          users << user
+          User.find(user_id).update!(rank: index)
         end
       end
     end
 
-    users
+    User.all
   end
 end
