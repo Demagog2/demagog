@@ -51,12 +51,16 @@ document.addEventListener('DOMContentLoaded', () => {
       statement.classList.add('oneliner-statement');
     }
 
-    if (!statement.querySelector('.reasons-short')) {
-      var link = statement.querySelector('.show-reasons');
-      link.addEventListener('click', showAssessment);
+    var link = statement.querySelector('.show-reasons');
+    link.addEventListener('click', showAssessment);
 
-      if (!statement.classList.contains('important-statement'))
-        statement.classList.add('collapsed');
+    // Show the full explanation only when short explanation is not present
+    // and the statement is marked as important.
+    if (
+      !statement.classList.contains('important-statement') ||
+      statement.querySelector('.reasons-short')
+    ) {
+      statement.classList.add('collapsed');
     }
   });
 

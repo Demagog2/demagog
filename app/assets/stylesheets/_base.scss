@@ -350,15 +350,11 @@ p.lead {
 
   .reasons-short {
     margin-top: 0.4rem;
+    margin-bottom: 0.3rem;
 
     p {
       margin: 0;
     }
-  }
-
-  .show-full-explanation {
-    display: inline-block;
-    margin-top: 0.4rem;
   }
 
   .show-reasons .collapsed { display: none; }

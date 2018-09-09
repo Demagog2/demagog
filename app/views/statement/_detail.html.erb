@@ -28,20 +28,21 @@
       <a class="permalink" href="<%= statement_path(statement.id) %>">trvalý odkaz</a>
     </div>
 
-    <% if statement.approved_assessment.short_explanation.nil? %>
-      <section class="reasons">
-        <%= raw(statement.approved_assessment.explanation_html) %>
-      </section>
-    <% else %>
+    <% unless statement.approved_assessment.short_explanation.nil? %>
       <section class="reasons-short">
         <p>
           <%= statement.approved_assessment.short_explanation %>
         </p>
       </section>
 
-      <a href="<%= statement_path(statement.id) %>" class="show-full-explanation">
-        <span>Číst&nbsp;celé&nbsp;odůvodnění&nbsp;&rarr;</span>
+      <a href="#" class="show-reasons">
+        <span class="collapsed">zobrazit&nbsp;celé&nbsp;odůvodnění</span>
+        <span class="open">skrýt&nbsp;celé&nbsp;odůvodnění</span>
       </a>
     <% end %>
+
+    <section class="reasons">
+      <%= raw(statement.approved_assessment.explanation_html) %>
+    </section>
   </div>
 </article>
