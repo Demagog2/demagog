@@ -2,6 +2,10 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 9. září 2018
+### Změněno
+- Celé odůvodnění jde u zkráceného odůvodnění zobrazit kliknutím hned u výroku bez nutnosti skočit na separátní stránku výroku ([#208](https://github.com/Demagog2/demagog/pull/208))
+
 ## 6. září 2018
 ### Opraveno
 - Zobrazování ilustračního obrázku článku při sdílení na Facebooku ([#205](https://github.com/Demagog2/demagog/pull/205))
