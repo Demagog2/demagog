@@ -3,6 +3,9 @@
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## 9. září 2018
+### Přidáno
+- Přes administraci (Tým — Seřadit na stránce „O nás“) lze měnit pořadí členů týmu na stránce O nás ([#210](https://github.com/Demagog2/demagog/pull/210))
+
 ### Změněno
 - Celé odůvodnění jde kliknutím zobrazit hned u zkráceného odůvodnění výroku bez nutnosti skočit na separátní stránku výroku ([#208](https://github.com/Demagog2/demagog/pull/208))
 
