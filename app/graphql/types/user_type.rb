@@ -14,7 +14,7 @@ Types::UserType = GraphQL::ObjectType.define do
 
   field :order, types.Int
   field :active, !types.Boolean
-  field :rang, types.Int
+  field :rank, types.Int
   field :role, !Types::RoleType
   field :email_notifications, !types.Boolean
   field :user_public, !types.Boolean

@@ -629,11 +629,17 @@ a.stats-box:hover {
   }
 }
 
+.authors {
+  > h2 {
+    margin-bottom: 1.5rem;
+  }
+}
+
 .author {
   display: grid;
   grid-template-columns: var(--large-portrait) 1fr;
   grid-column-gap: var(--gap);
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 
   .portrait {
     width: var(--large-portrait);

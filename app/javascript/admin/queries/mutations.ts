@@ -301,6 +301,15 @@ export const UpdateUserPublicity = gql`
   }
 `;
 
+export const UpdateUsersRank = gql`
+  mutation UpdateUsersRank($input: UpdateUsersRankInputType!) {
+    updateUsersRank(input: $input) {
+      id
+      rank
+    }
+  }
+`;
+
 export const DeleteUser = gql`
   mutation DeleteUser($id: ID!) {
     deleteUser(id: $id)

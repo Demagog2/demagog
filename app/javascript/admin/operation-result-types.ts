@@ -86,6 +86,10 @@ export interface UserInputType {
   rank?: number | null,
 };
 
+export interface UpdateUsersRankInputType {
+  ordered_user_ids?: Array< string > | null,
+};
+
 export interface CreateStatementInputType {
   content: string,
   excerpted_at: string,
@@ -514,6 +518,18 @@ export interface UpdateUserPublicityMutation {
   } | null,
 };
 
+export interface UpdateUsersRankMutationVariables {
+  input: UpdateUsersRankInputType,
+};
+
+export interface UpdateUsersRankMutation {
+  // Update rank (order of users on about us page)
+  updateUsersRank:  Array< {
+    id: string,
+    rank: number | null,
+  } > | null,
+};
+
 export interface DeleteUserMutationVariables {
   id: string,
 };
@@ -891,6 +907,7 @@ export interface GetUsersQuery {
     position_description: string | null,
     email_notifications: boolean,
     user_public: boolean,
+    rank: number | null,
     role:  {
       id: string,
       name: string,

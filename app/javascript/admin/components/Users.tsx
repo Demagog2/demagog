@@ -6,6 +6,7 @@ import { Button, Callout, Card, Classes, Colors, Switch } from '@blueprintjs/cor
 import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
+import { css } from 'emotion';
 import { Mutation, Query } from 'react-apollo';
 import { connect, Dispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -79,11 +80,17 @@ class Users extends React.Component<IProps, IUsersState> {
       <div style={{ padding: '15px 0 40px 0' }}>
         <Authorize permissions={['users:edit']}>
           <div style={{ float: 'right' }}>
+            <Link className={Classes.BUTTON} to="/admin/users/sort-on-about-us-page" role="button">
+              Seřadit na stránce „O nás“
+            </Link>
             <Link
               className={classNames(
                 Classes.BUTTON,
                 Classes.INTENT_PRIMARY,
                 Classes.iconClass(IconNames.PLUS),
+                css`
+                  margin-left: 7px;
+                `,
               )}
               to="/admin/users/new"
               role="button"

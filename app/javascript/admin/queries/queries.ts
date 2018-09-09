@@ -227,6 +227,7 @@ export const GetUsers = gql`
       position_description
       email_notifications
       user_public
+      rank
       role {
         id
         name
