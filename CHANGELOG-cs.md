@@ -2,6 +2,10 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 10. září 2018
+### Přidáno
+- Na detailu diskuze jde vyfiltrovat ještě nepřiřazené výroky ([#212](https://github.com/Demagog2/demagog/pull/212))
+
 ## 9. září 2018
 ### Přidáno
 - Přes administraci (Tým — Seřadit na stránce „O nás“) lze měnit pořadí členů týmu na stránce O nás ([#210](https://github.com/Demagog2/demagog/pull/210))
