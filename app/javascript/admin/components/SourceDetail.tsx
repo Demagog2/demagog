@@ -274,18 +274,28 @@ class SourceDetail extends React.Component<IProps, IState> {
             return carry;
           }, {});
 
-          let evaluatorFilterOptions = Object.keys(evaluators).map((evaluatorId) => ({
-            value: evaluatorId,
-            label: `${evaluators[evaluatorId].first_name} ${evaluators[evaluatorId].last_name}`,
-            count: data.statements.filter(
-              (statement) =>
-                statement.assessment.evaluator && statement.assessment.evaluator.id === evaluatorId,
-            ).length,
-            active:
-              statementsFilter !== null &&
-              statementsFilter.field === 'assessment.evaluator.id' &&
-              statementsFilter.value === evaluatorId,
-          }));
+          type IEvaluatorFilterOptions = Array<{
+            value: string | null;
+            label: string;
+            count: number;
+            active: boolean;
+          }>;
+
+          let evaluatorFilterOptions: IEvaluatorFilterOptions = Object.keys(evaluators).map(
+            (evaluatorId) => ({
+              value: evaluatorId,
+              label: `${evaluators[evaluatorId].first_name} ${evaluators[evaluatorId].last_name}`,
+              count: data.statements.filter(
+                (statement) =>
+                  statement.assessment.evaluator &&
+                  statement.assessment.evaluator.id === evaluatorId,
+              ).length,
+              active:
+                statementsFilter !== null &&
+                statementsFilter.field === 'assessment.evaluator.id' &&
+                statementsFilter.value === evaluatorId,
+            }),
+          );
 
           evaluatorFilterOptions = orderBy(
             evaluatorFilterOptions,
@@ -293,9 +303,24 @@ class SourceDetail extends React.Component<IProps, IState> {
             ['desc', 'asc'],
           );
 
+          const statementsWithoutEvaluator = data.statements.filter(
+            (statement) => !statement.assessment.evaluator,
+          );
+          if (statementsWithoutEvaluator.length > 0) {
+            evaluatorFilterOptions.unshift({
+              value: null,
+              label: 'Nepřiřazené',
+              count: statementsWithoutEvaluator.length,
+              active:
+                statementsFilter !== null &&
+                statementsFilter.field === 'assessment.evaluator.id' &&
+                statementsFilter.value === null,
+            });
+          }
+
           const statementsToDisplay = data.statements.filter((statement) => {
             if (statementsFilter !== null) {
-              return get(statement, statementsFilter.field) === statementsFilter.value;
+              return get(statement, statementsFilter.field, null) === statementsFilter.value;
             } else {
               return true;
             }
@@ -381,7 +406,7 @@ class SourceDetail extends React.Component<IProps, IState> {
                     <MenuDivider title="Filtrovat dle ověřovatele" />
                     {evaluatorFilterOptions.map((option) => (
                       <MenuItem
-                        key={option.value}
+                        key={option.value !== null ? option.value : 'null'}
                         active={option.active}
                         text={`${option.label} (${option.count})`}
                         onClick={this.onStatementsFilterClick(
