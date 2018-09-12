@@ -327,7 +327,10 @@ class SourceDetail extends React.Component<IProps, IState> {
             const groupedByVeracity = groupBy(
               speakerStatements,
               (statement) =>
-                statement.assessment.veracity ? statement.assessment.veracity.key : 'notset',
+                statement.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED &&
+                statement.assessment.veracity
+                  ? statement.assessment.veracity.key
+                  : 'notset',
             );
 
             return {
