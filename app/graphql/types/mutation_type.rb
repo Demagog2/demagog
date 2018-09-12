@@ -44,4 +44,5 @@ Types::MutationType = GraphQL::ObjectType.define do
   field :deleteContentImage, Mutations::DeleteContentImage
 
   field :updateNotification, Mutations::UpdateNotification
+  field :markUnreadNotificationsAsRead, Mutations::MarkUnreadNotificationsAsRead
 end

@@ -35,4 +35,12 @@ class Notification < ApplicationRecord
       notification.update!(emailed_at: Time.now)
     end
   end
+
+  def self.mark_unread_as_read(current_user)
+    unread_notifications_ids = current_user.notifications.where(read_at: nil).pluck(:id)
+
+    notifications = current_user.notifications.where(id: unread_notifications_ids)
+    notifications.update_all(read_at: Time.now)
+    notifications
+  end
 end

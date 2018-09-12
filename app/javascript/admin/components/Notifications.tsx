@@ -1,16 +1,19 @@
 import * as React from 'react';
 
 import { Button, Classes } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
 import * as classNames from 'classnames';
 import { distanceInWordsToNow } from 'date-fns';
 import * as dateFnsCsLocale from 'date-fns/locale/cs';
 import { DateTime } from 'luxon';
-import { Query } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
+import { connect, Dispatch } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
+import { addFlashMessage } from '../actions/flashMessages';
 import apolloClient from '../apolloClient';
 import { GetNotificationsQuery, GetNotificationsQueryVariables } from '../operation-result-types';
-import { UpdateNotification } from '../queries/mutations';
+import { MarkUnreadNotificationsAsRead, UpdateNotification } from '../queries/mutations';
 import { GetNotifications } from '../queries/queries';
 import { displayDateTime } from '../utils';
 import Loading from './Loading';
@@ -20,7 +23,9 @@ class GetNotificationsQueryComponent extends Query<
   GetNotificationsQueryVariables
 > {}
 
-interface IProps extends RouteComponentProps<{}> {}
+interface IProps extends RouteComponentProps<{}> {
+  dispatch: Dispatch;
+}
 
 interface IState {
   isLoadingMore: boolean;
@@ -59,6 +64,47 @@ class Notifications extends React.Component<IProps, IState> {
   public render() {
     return (
       <div style={{ padding: '15px 0 40px 0' }}>
+        <div style={{ float: 'right' }}>
+          <Mutation
+            mutation={MarkUnreadNotificationsAsRead}
+            onCompleted={() => {
+              this.props.dispatch(
+                addFlashMessage('Všechny upozornění úspěšně označeny za přečtené', 'success'),
+              );
+            }}
+            onError={() =>
+              this.props.dispatch(
+                addFlashMessage('Došlo k chybě při označování upozornění jako přečtené', 'error'),
+              )
+            }
+            update={(cache) => {
+              // Reset unread notifications count in the header to zero
+              const data = {
+                notifications: {
+                  items: [],
+                  total_count: 0,
+                  __typename: 'NotificationsResult',
+                },
+              };
+              cache.writeQuery({
+                query: GetNotifications,
+                variables: { includeRead: false, offset: 0, limit: 0 },
+                data,
+              });
+            }}
+          >
+            {(markUnreadNotificationsAsRead, { loading }) => (
+              <button
+                className={classNames(Classes.BUTTON, Classes.iconClass(IconNames.TICK))}
+                onClick={() => markUnreadNotificationsAsRead()}
+                disabled={loading}
+              >
+                {loading ? 'Označuji všechny jako přečtené…' : 'Označit všechny jako přečtené'}
+              </button>
+            )}
+          </Mutation>
+        </div>
+
         <h2 className={Classes.HEADING}>Upozornění</h2>
 
         <div style={{ marginTop: 15 }}>
@@ -162,4 +208,4 @@ class Notifications extends React.Component<IProps, IState> {
   }
 }
 
-export default withRouter(Notifications);
+export default connect()(withRouter(Notifications));

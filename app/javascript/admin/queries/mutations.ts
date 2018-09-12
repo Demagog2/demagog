@@ -409,3 +409,12 @@ export const UpdateNotification = gql`
     }
   }
 `;
+
+export const MarkUnreadNotificationsAsRead = gql`
+  mutation MarkUnreadNotificationsAsRead {
+    markUnreadNotificationsAsRead {
+      id
+      read_at
+    }
+  }
+`;

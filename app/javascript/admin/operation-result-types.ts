@@ -657,6 +657,14 @@ export interface UpdateNotificationMutation {
   } | null,
 };
 
+export interface MarkUnreadNotificationsAsReadMutation {
+  // Mark all unread notifications of current user as read
+  markUnreadNotificationsAsRead:  Array< {
+    id: string,
+    read_at: GraphQLCustomScalar_DateTime | null,
+  } > | null,
+};
+
 export interface GetPagesQueryVariables {
   title?: string | null,
   offset?: number | null,
