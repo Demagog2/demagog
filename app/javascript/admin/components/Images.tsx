@@ -4,6 +4,7 @@ import { AnchorButton, Button, Classes, Dialog, Intent } from '@blueprintjs/core
 import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
+import * as copy from 'copy-to-clipboard';
 import { Query } from 'react-apollo';
 import Dropzone, { ImageFile } from 'react-dropzone';
 import { connect, Dispatch } from 'react-redux';
@@ -118,6 +119,21 @@ class Images extends React.Component<IProps, IState> {
           console.error(error); // tslint:disable-line:no-console
         });
     }
+  };
+
+  public copyImageUrlToClipboard = (
+    contentImage: GetContentImagesQuery['content_images']['items'][0],
+  ) => () => {
+    const url = `${document.location.protocol}//${document.location.host}${contentImage.image}`;
+
+    copy(url);
+
+    this.props.dispatch(
+      addFlashMessage(
+        `Odkaz na obrázek ${contentImage.name} úspěšně zkopírován do schránky.`,
+        'success',
+      ),
+    );
   };
 
   public render() {
@@ -302,11 +318,19 @@ class Images extends React.Component<IProps, IState> {
                             </a>
                           </td>
                           <td>
+                            <Button
+                              type="button"
+                              icon={IconNames.CLIPBOARD}
+                              style={{ marginLeft: 7 }}
+                              onClick={this.copyImageUrlToClipboard(contentImage)}
+                              text="Kopírovat odkaz"
+                            />
                             <AnchorButton
                               href={contentImage.image}
                               download
                               icon={IconNames.DOWNLOAD}
-                              title="Stáhnout"
+                              style={{ marginLeft: 7 }}
+                              text="Stáhnout"
                             />
                             <Authorize permissions={['images:delete']}>
                               <Button
