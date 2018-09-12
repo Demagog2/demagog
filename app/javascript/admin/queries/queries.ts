@@ -200,6 +200,9 @@ export const GetSourceStatements = gql`
           first_name
           last_name
         }
+        veracity {
+          key
+        }
       }
       statement_transcript_position {
         id

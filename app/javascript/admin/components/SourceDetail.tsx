@@ -5,6 +5,7 @@ import * as React from 'react';
 import {
   Button,
   Classes,
+  Colors,
   Menu,
   MenuDivider,
   MenuItem,
@@ -14,7 +15,8 @@ import {
 } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
-import { get, orderBy } from 'lodash';
+import { css } from 'emotion';
+import { get, groupBy, orderBy } from 'lodash';
 import { Query } from 'react-apollo';
 import { connect, Dispatch } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
@@ -202,7 +204,7 @@ class SourceDetail extends React.Component<IProps, IState> {
     );
   }
 
-  public renderStatements(source) {
+  public renderStatements(source: GetSourceQuery['source']) {
     const { statementsFilter } = this.state;
 
     return (
@@ -318,6 +320,26 @@ class SourceDetail extends React.Component<IProps, IState> {
             });
           }
 
+          const veracitiesBySpeaker = source.speakers.map((speaker) => {
+            const speakerStatements = data.statements.filter(
+              (statement) => statement.speaker.id === speaker.id,
+            );
+            const groupedByVeracity = groupBy(
+              speakerStatements,
+              (statement) =>
+                statement.assessment.veracity ? statement.assessment.veracity.key : 'notset',
+            );
+
+            return {
+              speaker,
+              trueCount: get(groupedByVeracity, 'true.length', 0),
+              untrueCount: get(groupedByVeracity, 'untrue.length', 0),
+              misleadingCount: get(groupedByVeracity, 'misleading.length', 0),
+              unverifiableCount: get(groupedByVeracity, 'unverifiable.length', 0),
+              notsetCount: get(groupedByVeracity, 'notset.length', 0),
+            };
+          });
+
           const statementsToDisplay = data.statements.filter((statement) => {
             if (statementsFilter !== null) {
               return get(statement, statementsFilter.field, null) === statementsFilter.value;
@@ -414,6 +436,28 @@ class SourceDetail extends React.Component<IProps, IState> {
                           option.value,
                         )}
                       />
+                    ))}
+                  </div>
+
+                  <div
+                    className={css`
+                      background-color: ${Colors.LIGHT_GRAY5};
+                      padding: 15px 15px 5px 15px;
+                      margin-top: 20px;
+                    `}
+                  >
+                    {veracitiesBySpeaker.map((stat) => (
+                      <p key={stat.speaker.id}>
+                        <strong>
+                          {stat.speaker.first_name} {stat.speaker.last_name}
+                        </strong>
+                        <br />
+                        {stat.trueCount} pravda<br />
+                        {stat.untrueCount} nepravda<br />
+                        {stat.misleadingCount} zavádějící<br />
+                        {stat.unverifiableCount} neověřitelné<br />
+                        {stat.notsetCount} se ještě ověřuje
+                      </p>
                     ))}
                   </div>
                 </div>

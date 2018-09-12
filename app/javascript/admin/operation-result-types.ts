@@ -877,6 +877,9 @@ export interface GetSourceStatementsQuery {
         first_name: string,
         last_name: string,
       } | null,
+      veracity:  {
+        key: GraphQLCustomScalar_VeracityKey,
+      } | null,
     },
     statement_transcript_position:  {
       id: string,
