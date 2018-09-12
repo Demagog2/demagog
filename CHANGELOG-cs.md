@@ -3,6 +3,7 @@
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## 12. září 2018
+- Přidáno: U obrázků přibylo tlačítko na zkopírování odkazu obrázku do schránky ([#164](https://github.com/Demagog2/demagog/issues/164))
 - Přidáno: Tlačítko na označení všech nepřečtených upozornění jako přečtené nad seznam všech upozornění ([#215](https://github.com/Demagog2/demagog/issues/215))
 - Změněno: Zkrácené odůvodnění už nejde napsat delší než 280 znaků a počet znaků se zobrazuje pod políčkem ([#168](https://github.com/Demagog2/demagog/issues/168))
 - Přidáno: Na detailu diskuze v administraci jsou vidět počty pravd/nepravd/atd. jednotlivých řečníků ([#213](https://github.com/Demagog2/demagog/issues/213))
