@@ -3,6 +3,7 @@
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## 12. září 2018
+- Změněno: Zkrácené odůvodnění už nejde napsat delší než 280 znaků a počet znaků se zobrazuje pod políčkem ([#168](https://github.com/Demagog2/demagog/issues/168))
 - Přidáno: Na detailu diskuze v administraci jsou vidět počty pravd/nepravd/atd. jednotlivých řečníků ([#213](https://github.com/Demagog2/demagog/issues/213))
 
 ## 10. září 2018
