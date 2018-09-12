@@ -423,7 +423,14 @@ class StatementDetail extends React.Component<IProps, IState> {
                                   <FormGroup
                                     label="Odůvodnění zkráceně"
                                     labelFor="assessment-short-explanation"
-                                    helperText="Maximálně na dlouhý tweet, tj. 280 znaků"
+                                    helperText={
+                                      'Maximálně na dlouhý tweet, tj. 280 znaků' +
+                                      (values.assessment.short_explanation
+                                        ? `. Aktuálně ${
+                                            values.assessment.short_explanation.length
+                                          } znaků.`
+                                        : '')
+                                    }
                                   >
                                     <textarea
                                       className={classNames(Classes.INPUT, Classes.FILL)}
@@ -433,6 +440,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={values.assessment.short_explanation || ''}
+                                      maxLength={280}
                                     />
                                   </FormGroup>
                                 ) : (
