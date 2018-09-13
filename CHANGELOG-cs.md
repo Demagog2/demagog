@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 13. září 2018
+- Přidáno: Tip, že jde ostatní z týmu zmiňovat pomocí @ při přidávání komentáře u výroku ([#220](https://github.com/Demagog2/demagog/issues/220))
+
 ## 12. září 2018
 - Přidáno: U obrázků přibylo tlačítko na zkopírování odkazu obrázku do schránky ([#164](https://github.com/Demagog2/demagog/issues/164))
 - Přidáno: Tlačítko na označení všech nepřečtených upozornění jako přečtené nad seznam všech upozornění ([#215](https://github.com/Demagog2/demagog/issues/215))
