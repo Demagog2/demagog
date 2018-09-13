@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { Button, Classes } from '@blueprintjs/core';
+import anchorme from 'anchorme';
 import { css, cx } from 'emotion';
 import { Formik } from 'formik';
 import { Mutation, Query } from 'react-apollo';
@@ -72,12 +73,15 @@ class StatementComments extends React.PureComponent<IProps> {
                     style={{ marginTop: 3 }}
                     className={css`
                       margin-top: 3px;
+                      word-break: break-word;
 
                       span.highlight {
                         background-color: rgb(206, 230, 249);
                       }
                     `}
-                    dangerouslySetInnerHTML={{ __html: highlightMentions(comment.content) }}
+                    dangerouslySetInnerHTML={{
+                      __html: highlightMentions(nicerLinks(comment.content)),
+                    }}
                   />
                 </div>
               ))}
@@ -100,6 +104,17 @@ class StatementComments extends React.PureComponent<IProps> {
 
 const highlightMentions = (commentContent: string) =>
   commentContent.replace(/@\[([^\]]+)\]\([^\)]+\)/g, '<span class="highlight">$1</span>');
+
+const nicerLinks = (commentContent: string) =>
+  anchorme(commentContent, {
+    truncate: [30, 15],
+    attributes: [{ name: 'target', value: '_blank' }],
+    // Bugfix for percent being encoded twice, see https://github.com/alexcorvi/anchorme.js/issues/49
+    exclude: (urlObj) => {
+      urlObj.encoded = urlObj.encoded.replace(/%25/g, '%');
+      return false;
+    },
+  });
 
 interface IAddCommentFormProps {
   statementId: string;
@@ -218,6 +233,7 @@ const CommentInput = (props: ICommentInputProps) => {
                   lineHeight: 1.28581,
                   padding: 10,
                   minHeight: 80,
+                  wordBreak: 'break-word',
                 },
               },
               // tslint:disable-next-line:object-literal-key-quotes

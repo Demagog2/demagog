@@ -30,6 +30,7 @@
     "@types/uuid": "^3.4.3",
     "@types/yup": "^0.24.7",
     "activestorage": "^5.2.0",
+    "anchorme": "^1.1.2",
     "apollo-client": "2.3.4",
     "apollo-client-preset": "^1.0.6",
     "apollo-link": "1.2.2",
