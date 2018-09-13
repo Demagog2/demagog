@@ -3,6 +3,10 @@
 // Make sure we load the Lato font, so we can use it in previews
 @import "fonts";
 
+body {
+  min-width: 768px;
+}
+
 .google-signin-btn {
   display: inline-block;
 
