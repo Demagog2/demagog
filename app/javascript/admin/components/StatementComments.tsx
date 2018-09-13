@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Button, Classes } from '@blueprintjs/core';
-import { css } from 'emotion';
+import { css, cx } from 'emotion';
 import { Formik } from 'formik';
 import { Mutation, Query } from 'react-apollo';
 import { Mention, MentionsInput } from 'react-mentions';
@@ -137,15 +137,32 @@ const AddCommentForm = (props: IAddCommentFormProps) => {
         >
           {({ values, handleSubmit, isSubmitting, setFieldValue }) => (
             <form onSubmit={handleSubmit}>
-              <CommentInput
-                onChange={(value) => setFieldValue('content', value)}
-                value={values.content}
-              />
+              <div
+                className={cx(
+                  Classes.FORM_GROUP,
+                  css`
+                    margin-bottom: 0;
+                  `,
+                )}
+              >
+                <CommentInput
+                  onChange={(value) => setFieldValue('content', value)}
+                  value={values.content}
+                />
+                {values.content.trim() !== '' && (
+                  <div className={Classes.FORM_HELPER_TEXT}>
+                    Tip: Můžeš zmínit kohokoli z týmu — stačí napsat @ a vybrat koho. Také dostane
+                    upozornění na tvůj komentář.
+                  </div>
+                )}
+              </div>
               <Button
                 type="submit"
                 disabled={isSubmitting || values.content.trim() === ''}
-                text={isSubmitting ? 'Přidávám ...' : 'Přidat komentář'}
-                style={{ marginTop: 7 }}
+                text={isSubmitting ? 'Přidávám …' : 'Přidat komentář'}
+                className={css`
+                  margin-top: 7px;
+                `}
               />
             </form>
           )}
@@ -226,7 +243,6 @@ const CommentInput = (props: ICommentInputProps) => {
             <Mention
               trigger="@"
               data={suggestions}
-              // renderSuggestion={(_0, _1, highlightedDisplay) => <div>{highlightedDisplay}</div>}
               style={{
                 backgroundColor: 'rgb(206, 230, 249)',
               }}
