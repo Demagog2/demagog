@@ -26,20 +26,24 @@
             <% @article.unique_speakers.each do |speaker| %>
               <div class="speaker-veracities-filter">
                 <% stats = controller.article_stats.build(@article, speaker) %>
+
                 <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
+
                 <div class="speaker-veracities-filter-content">
                   <h3 class="name"><%= speaker.full_name %></h3>
                   <ul class="stats-buttons">
                     <% [:true, :untrue, :misleading, :unverifiable].each do |veracity_key| %>
                       <% veracity_label = { true: "Pravda", untrue: "Nepravda", misleading: "Zavádějící", unverifiable: "Neověřitelné" }[veracity_key] %>
                       <% veracity_url_value = { true: "pravda", untrue: "nepravda", misleading: "zavadejici", unverifiable: "neoveritelne" }[veracity_key] %>
-                      <li class="<%= "active" if @statements_filters[:speaker_id] == speaker.id && @statements_filters[:veracity_key] == veracity_key %>">
+                      <% is_active = @statements_filters[:speaker_id] == speaker.id && @statements_filters[:veracity_key] == veracity_key %>
+                      <li class="<%= "active" if is_active %>">
                         <% if stats[veracity_key].zero? %>
                           <a title="<%= veracity_label %>" class="<%= veracity_key %> none">
                             <%= stats[veracity_key] %> <span class="hidden">&times; <%= veracity_label %></span>
                           </a>
                         <% else %>
-                          <a href="<%= article_path(@article, { recnik: speaker.id, hodnoceni: veracity_url_value }) %>" title="<%= veracity_label %>" class="<%= veracity_key %>">
+                          <% link = is_active ? article_path(@article) : article_path(@article, { recnik: speaker.id, hodnoceni: veracity_url_value }) %>
+                          <a href="<%= link %>" title="<%= veracity_label %>" class="<%= veracity_key %>">
                             <%= stats[veracity_key] %> <span class="hidden">&times; <%= veracity_label %></span>
                           </a>
                         <% end %>
@@ -47,6 +51,7 @@
                     <% end %>
                   </ul>
                 </div>
+
               </div>
             <% end %>
           </div>
