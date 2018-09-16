@@ -9,6 +9,31 @@ class ArticleController < ApplicationController
     end
 
     @article = Article.published.friendly.find(params[:slug])
+    @article_type = @article.article_type.name == "default" ? "factcheck" : "editorial"
+
+    @statements_filters = {}
+    if @article_type == "factcheck"
+      if params[:recnik]
+        @statements_filters[:speaker_id] = params[:recnik].to_i
+      end
+
+      if params[:hodnoceni]
+        @statements_filters[:veracity_key] = case params[:hodnoceni]
+                                             when "pravda"
+                                               :true
+                                             when "nepravda"
+                                               :untrue
+                                             when "zavadejici"
+                                               :misleading
+                                             when "neoveritelne"
+                                               :unverifiable
+                                             else
+                                               nil
+        end
+      end
+    end
+
+    p @statements_filters
 
     # return unless Rails.env.production?
 

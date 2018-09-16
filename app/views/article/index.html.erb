@@ -1,9 +1,16 @@
 <% content_for(:title, @article.title) %>
-<% @article_type = @article.article_type.name == "default" ? "factcheck" : "editorial" %>
 
 <article class="full-text">
   <h1><%= @article.title %></h1>
   <p class="lead"><%= raw(@article.perex) %></p>
+
+  <% if @article_type == "factcheck" && @article.source %>
+    <p class="lead">
+      <span class="label factcheck">Ověřili jsme</span><br>
+      <%= @article.source.medium.name %> ze dne <%= raw(l(@article.source.released_at, format: :long)) %>
+      (moderátor <%= @article.source.media_personality.name %><% if @article.source.source_url %>, <a class="ext" href="<%= @article.source.source_url %>">záznam</a><% end %>)
+    </p>
+  <% end %>
 
   <section class="segment">
     <% @article.segments.each do |segment| %>
@@ -11,40 +18,42 @@
         <%= raw(segment.text_html) %>
       <% else %>
         <% if @article.segments.size === 1 %>
-          <h2 class="filters">Výroky</h2>
+          <h2><%= segment.all_published_statements.count %> ověřených výroků</h2>
+
+          <div class="statements-filters">
+            <span>Filtrujte výroky dle hodnocení</span>
+
+            <% @article.unique_speakers.each do |speaker| %>
+              <div class="speaker-veracities-filter">
+                <% stats = controller.article_stats.build(@article, speaker) %>
+                <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
+                <div class="speaker-veracities-filter-content">
+                  <h3 class="name"><%= speaker.full_name %></h3>
+                  <ul class="stats-buttons">
+                    <% [:true, :untrue, :misleading, :unverifiable].each do |veracity_key| %>
+                      <% veracity_label = { true: "Pravda", untrue: "Nepravda", misleading: "Zavádějící", unverifiable: "Neověřitelné" }[veracity_key] %>
+                      <% veracity_url_value = { true: "pravda", untrue: "nepravda", misleading: "zavadejici", unverifiable: "neoveritelne" }[veracity_key] %>
+                      <li class="<%= "active" if @statements_filters[:speaker_id] == speaker.id && @statements_filters[:veracity_key] == veracity_key %>">
+                        <% if stats[veracity_key].zero? %>
+                          <a title="<%= veracity_label %>" class="<%= veracity_key %> none">
+                            <%= stats[veracity_key] %> <span class="hidden">&times; <%= veracity_label %></span>
+                          </a>
+                        <% else %>
+                          <a href="<%= article_path(@article, { recnik: speaker.id, hodnoceni: veracity_url_value }) %>" title="<%= veracity_label %>" class="<%= veracity_key %>">
+                            <%= stats[veracity_key] %> <span class="hidden">&times; <%= veracity_label %></span>
+                          </a>
+                        <% end %>
+                      </li>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+            <% end %>
+          </div>
         <% end %>
 
-        <%= render(partial: "statement/detail", collection: segment.published_statements, as: :statement) %>
+        <%= render(partial: "statement/detail", collection: segment.filtered_published_statements(@statements_filters), as: :statement) %>
       <% end %>
     <% end %>
   </section>
-
-  <% if @users %>
-    <%= render(partial: "shared/authors") %>
-  <% end %>
 </article>
-
-<% if @article_type == "factcheck" %>
-  <aside class="meta">
-    <p>
-      <% if @article.source %>
-        <b><%= @article.source.medium.name %></b>
-        <% if @article.source.source_url %>
-            (<a class="ext" href="<%= @article.source.source_url %>">záznam</a>)
-        <% end %>
-        <br>
-        Moderátor: <%= @article.source.media_personality.name %><br>
-        <%= raw(l(@article.source.released_at, format: :long)) %>
-      <% end %>
-    </p>
-
-    <% @article.unique_speakers.each do |speaker| %>
-      <%= render(
-        partial: "shared/speaker_stat",
-        locals: {
-          speaker: speaker,
-          stats: controller.article_stats.build(@article, speaker)
-        }) %>
-    <% end %>
-  </aside>
-<% end %>

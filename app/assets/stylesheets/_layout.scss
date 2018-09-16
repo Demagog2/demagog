@@ -1,3 +1,17 @@
+@media (max-width: 449.9px) {
+  .statements-filters {
+    .speaker-veracities-filter {
+      .portrait {
+        display: none;
+      }
+
+      .speaker-veracities-filter-content {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
 @media (max-width: 899.9px) {
   :root {
     --large-portrait: 80px;
@@ -135,7 +149,7 @@
   }
 
   article {
-    grid-column: 1 / 8;
+    grid-column: 3 / 11;
   }
 
   .speakers-list {

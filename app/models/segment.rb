@@ -14,7 +14,27 @@ class Segment < ApplicationRecord
     segment_type == Segment::TYPE_TEXT
   end
 
-  def published_statements
+  def all_published_statements
     statements.published_important_first
+  end
+
+  def filtered_published_statements(statements_filters)
+    filtered = statements.published_important_first
+
+    if statements_filters[:speaker_id]
+      filtered = filtered.where(speaker_id: statements_filters[:speaker_id])
+    end
+
+    if statements_filters[:veracity_key]
+      filtered = filtered
+        .joins(assessment: :veracity)
+        .where(assessments: {
+          veracities: {
+            key: statements_filters[:veracity_key]
+          }
+        })
+    end
+
+    filtered
   end
 end
