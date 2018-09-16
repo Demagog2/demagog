@@ -690,9 +690,13 @@ article.preview {
     display: flex;
     margin: 1rem 0 0 0;
 
-    .portrait {
+    .portrait-wrapper {
       flex: 0 0 80px;
-      height: 80px;
+
+      .portrait {
+        margin-top: 3px;
+        margin-left: 5px;
+      }
     }
 
     .speaker-veracities-filter-content {

@@ -27,7 +27,9 @@
               <div class="speaker-veracities-filter">
                 <% stats = controller.article_stats.build(@article, speaker) %>
 
-                <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
+                <div class="portrait-wrapper">
+                  <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
+                </div>
 
                 <div class="speaker-veracities-filter-content">
                   <h3 class="name"><%= speaker.full_name %></h3>
