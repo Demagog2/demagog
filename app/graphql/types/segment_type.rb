@@ -10,7 +10,7 @@ Types::SegmentType = GraphQL::ObjectType.define do
 
   field :statements, !types[!Types::StatementType] do
     resolve ->(obj, args, ctx) {
-      obj.published_statements
+      obj.all_published_statements
     }
   end
 end
