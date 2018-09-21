@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 21. září 2018
+- Přidáno: V seznamu výroků na detailu diskuze se u výroků ve zpracování zobrazuje délka odůvodnění ve znacích pro rychlý přehled, jestli se s výrokem něco děje ([#236](https://github.com/Demagog2/demagog/pull/236))
+
 ## 13. září 2018
 - Přidáno: Odkazy v komentářích u výroku jsou zobrazeny klikatelné a pro přehlednost zkrácené s trojtečkou uprostřed. Dlouhé odkazy se správně zalamují v políčku komentáře. ([#221](https://github.com/Demagog2/demagog/issues/221))
 - Přidáno: Tip, že jde ostatní z týmu zmiňovat pomocí @ při přidávání komentáře u výroku ([#220](https://github.com/Demagog2/demagog/issues/220))
