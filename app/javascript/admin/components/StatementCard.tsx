@@ -7,7 +7,7 @@ import { connect, Dispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
-import { ASSESSMENT_STATUS_LABELS, ASSESSMENT_STATUS_BEING_EVALUATED } from '../constants';
+import { ASSESSMENT_STATUS_BEING_EVALUATED, ASSESSMENT_STATUS_LABELS } from '../constants';
 import { DeleteStatement } from '../queries/mutations';
 import { newlinesToBr, pluralize } from '../utils';
 import Authorize from './Authorize';
