@@ -7,7 +7,7 @@ import { connect, Dispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
-import { ASSESSMENT_STATUS_LABELS } from '../constants';
+import { ASSESSMENT_STATUS_LABELS, ASSESSMENT_STATUS_BEING_EVALUATED } from '../constants';
 import { DeleteStatement } from '../queries/mutations';
 import { newlinesToBr, pluralize } from '../utils';
 import Authorize from './Authorize';
@@ -30,6 +30,8 @@ interface IStatement {
       first_name: string | null;
       last_name: string | null;
     };
+    short_explanation_characters_length: number;
+    explanation_characters_length: number;
   };
   statement_transcript_position: null | {
     start_line: number;
@@ -128,6 +130,20 @@ class StatementCard extends React.Component<IProps, IState> {
           <small className={Classes.TEXT_MUTED}>
             {statement.published && <>Zveřejněný{' · '}</>}
             Stav: {ASSESSMENT_STATUS_LABELS[assessment.evaluation_status]}
+            {assessment.evaluation_status === ASSESSMENT_STATUS_BEING_EVALUATED && (
+              <>
+                {assessment.short_explanation_characters_length === 0 &&
+                assessment.explanation_characters_length === 0 ? (
+                  <> (odůvodnění zatím prázdné)</>
+                ) : (
+                  <>
+                    {' '}
+                    (odůvodnění zkrácené: {assessment.short_explanation_characters_length} znaků,
+                    celé: {assessment.explanation_characters_length} znaků)
+                  </>
+                )}
+              </>
+            )}
             {assessment.evaluator && (
               <>
                 {' · '}

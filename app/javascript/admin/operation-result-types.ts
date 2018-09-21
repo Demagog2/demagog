@@ -888,6 +888,8 @@ export interface GetSourceStatementsQuery {
       veracity:  {
         key: GraphQLCustomScalar_VeracityKey,
       } | null,
+      short_explanation_characters_length: number,
+      explanation_characters_length: number,
     },
     statement_transcript_position:  {
       id: string,

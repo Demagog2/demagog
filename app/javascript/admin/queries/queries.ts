@@ -203,6 +203,8 @@ export const GetSourceStatements = gql`
         veracity {
           key
         }
+        short_explanation_characters_length
+        explanation_characters_length
       }
       statement_transcript_position {
         id

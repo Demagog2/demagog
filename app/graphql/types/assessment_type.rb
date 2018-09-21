@@ -7,6 +7,8 @@ Types::AssessmentType = GraphQL::ObjectType.define do
   field :evaluation_status, !types.String
   field :statement, !Types::StatementType
   field :evaluator, Types::UserType
+  field :short_explanation_characters_length, !types.Int
+  field :explanation_characters_length, !types.Int
 
   field :veracity, Types::VeracityType do
     resolve -> (obj, args, ctx) do

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "nokogiri"
+
 class AssessmentValidator < ActiveModel::Validator
   def validate(assessment)
     if assessment.evaluation_status_changed? && !assessment.evaluation_status_was.nil?
@@ -51,6 +53,17 @@ class Assessment < ApplicationRecord
 
   def unapproved?
     evaluation_status != STATUS_APPROVED
+  end
+
+  def short_explanation_characters_length
+    return 0 if short_explanation.nil?
+    short_explanation.length
+  end
+
+  def explanation_characters_length
+    return 0 if explanation_html.nil?
+    fragment = Nokogiri::HTML.fragment(explanation_html)
+    fragment.text.length
   end
 
   # Meant to be used after setting new attributes with assign_attributes, just
