@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 23. září 2018
+- Opraveno: Seznam výroků v diskuzi dokáže zobrazit víc než 100 výroků ([#237](https://github.com/Demagog2/demagog/pull/237))
+
 ## 21. září 2018
 - Přidáno: V seznamu výroků na detailu diskuze se u výroků ve zpracování zobrazuje délka odůvodnění ve znacích pro rychlý přehled, jestli se s výrokem něco děje ([#236](https://github.com/Demagog2/demagog/pull/236))
 
