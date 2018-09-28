@@ -13,6 +13,7 @@ import {
   ASSESSMENT_STATUS_APPROVAL_NEEDED,
   ASSESSMENT_STATUS_APPROVED,
   ASSESSMENT_STATUS_BEING_EVALUATED,
+  ASSESSMENT_STATUS_PROOFREADING_NEEDED,
 } from '../constants';
 import {
   GetSourcesQuery as GetSourcesQueryResult,
@@ -114,7 +115,7 @@ class Sources extends React.Component<{}, IState> {
                         <th scope="col">
                           Výroky<br />
                           <small className={Classes.TEXT_MUTED}>
-                            ve zpracování/ke kontrole/schválené
+                            ve zpracování/ke kontrole/ke korektuře/schválené
                           </small>
                         </th>
                         <th scope="col" />
@@ -129,6 +130,7 @@ class Sources extends React.Component<{}, IState> {
                           {
                             [ASSESSMENT_STATUS_BEING_EVALUATED]: 0,
                             [ASSESSMENT_STATUS_APPROVAL_NEEDED]: 0,
+                            [ASSESSMENT_STATUS_PROOFREADING_NEEDED]: 0,
                             [ASSESSMENT_STATUS_APPROVED]: 0,
                           },
                         );

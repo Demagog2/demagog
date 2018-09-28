@@ -116,6 +116,15 @@ class AssessmentTest < ActiveSupport::TestCase
     assert !assessment.is_user_authorized_to_save(user)
   end
 
+  test "proofreader should be authorized to change status to approved in proofreading_needed state" do
+    assessment = create(:assessment, :proofreading_needed)
+    user = create(:user, :proofreader)
+
+    assessment.evaluation_status = Assessment::STATUS_APPROVED
+
+    assert assessment.is_user_authorized_to_save(user)
+  end
+
   test "admin should be authorized to view unapproved assessment evaluation" do
     assessment = create(:assessment, :being_evaluated)
     user = create(:user, :admin)

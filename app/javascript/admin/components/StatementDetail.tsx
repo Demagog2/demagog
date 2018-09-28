@@ -28,6 +28,7 @@ import {
   ASSESSMENT_STATUS_APPROVED,
   ASSESSMENT_STATUS_BEING_EVALUATED,
   ASSESSMENT_STATUS_LABELS,
+  ASSESSMENT_STATUS_PROOFREADING_NEEDED,
 } from '../constants';
 import {
   GetStatementQuery,
@@ -242,7 +243,9 @@ class StatementDetail extends React.Component<IProps, IState> {
                       this.props.currentUser !== null &&
                       this.props.currentUser.id === values.assessment.evaluator_id &&
                       this.props.isAuthorized(['statements:edit-as-evaluator']);
-                    const canEditTexts = this.props.isAuthorized(['statements:edit-texts']);
+                    const canEditAsProofreader = this.props.isAuthorized([
+                      'statements:edit-as-proofreader',
+                    ]);
 
                     const isApproved =
                       values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED;
@@ -250,15 +253,17 @@ class StatementDetail extends React.Component<IProps, IState> {
                       values.assessment.evaluation_status === ASSESSMENT_STATUS_BEING_EVALUATED;
                     const isApprovalNeeded =
                       values.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVAL_NEEDED;
+                    const isProofreadingNeeded =
+                      values.assessment.evaluation_status === ASSESSMENT_STATUS_PROOFREADING_NEEDED;
 
                     const canEditStatementContent =
-                      ((canEditEverything || canEditTexts) && !isApproved) ||
+                      ((canEditEverything || canEditAsProofreader) && !isApproved) ||
                       (canEditAsEvaluator && isBeingEvaluated);
                     const canEditVeracity =
                       (canEditEverything && !isApproved) ||
                       (canEditAsEvaluator && isBeingEvaluated);
                     const canEditExplanations =
-                      ((canEditEverything || canEditTexts) && !isApproved) ||
+                      ((canEditEverything || canEditAsProofreader) && !isApproved) ||
                       (canEditAsEvaluator && isBeingEvaluated);
                     const canEditEvaluator = canEditEverything && isBeingEvaluated;
                     const canEditPublished = canEditEverything && isApproved;
@@ -276,7 +281,9 @@ class StatementDetail extends React.Component<IProps, IState> {
                       (canEditEverything &&
                         (isApprovedAndNotPublished ||
                           isBeingEvaluatedAndEvaluationFilled ||
-                          isApprovalNeeded)) ||
+                          isApprovalNeeded ||
+                          isProofreadingNeeded)) ||
+                      (canEditAsProofreader && isProofreadingNeeded) ||
                       (canEditAsEvaluator && isBeingEvaluatedAndEvaluationFilled);
 
                     let statusTooltipContent: string | null = null;
@@ -698,6 +705,20 @@ class EvaluationStatusInput extends React.Component<IEvaluationStatusInputProps>
               />
             )}
             {value === ASSESSMENT_STATUS_APPROVAL_NEEDED && (
+              <>
+                <Button
+                  disabled={disabled}
+                  onClick={this.onChange(ASSESSMENT_STATUS_BEING_EVALUATED)}
+                  text="Vrátit ke zpracování"
+                />
+                <Button
+                  disabled={disabled}
+                  onClick={this.onChange(ASSESSMENT_STATUS_PROOFREADING_NEEDED)}
+                  text="Posunout ke korektuře"
+                />
+              </>
+            )}
+            {value === ASSESSMENT_STATUS_PROOFREADING_NEEDED && (
               <>
                 <Button
                   disabled={disabled}

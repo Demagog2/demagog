@@ -33,8 +33,6 @@ class ArticleController < ApplicationController
       end
     end
 
-    p @statements_filters
-
     # return unless Rails.env.production?
 
     # TODO: revisit cache headers and do properly

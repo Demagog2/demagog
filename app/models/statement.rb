@@ -107,10 +107,10 @@ class Statement < ApplicationRecord
 
     texts_allowed_attributes = ["content"]
     texts_allowed_changes =
-      [Assessment::STATUS_BEING_EVALUATED, Assessment::STATUS_APPROVAL_NEEDED].include?(assessment.evaluation_status) &&
+      [Assessment::STATUS_BEING_EVALUATED, Assessment::STATUS_APPROVAL_NEEDED, Assessment::STATUS_PROOFREADING_NEEDED].include?(assessment.evaluation_status) &&
       (changed_attributes.keys - texts_allowed_attributes).empty?
 
-    if texts_allowed_changes && permissions.include?("statements:edit-texts")
+    if texts_allowed_changes && permissions.include?("statements:edit-as-proofreader")
       return true
     end
 

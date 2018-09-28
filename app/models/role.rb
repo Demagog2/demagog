@@ -30,7 +30,7 @@ EXPERT_PERMISSIONS = [
   "statements:add",
   "statements:edit", # Allows editing of everything in statement
   "statements:edit-as-evaluator", # Allows editing in being_evaluated status by evaluator
-  "statements:edit-texts", # Allows editing only texts, for proofreaders
+  "statements:edit-as-proofreader", # Allows editing only texts and changing status to approved, for proofreaders
   "statements:sort",
   "statements:view-unapproved-evaluation",
   "statements:view-evaluation-as-evaluator",
@@ -88,7 +88,7 @@ class Role < ApplicationRecord
         "media:view",
         "sources:view",
         "speakers:view",
-        "statements:edit-texts",
+        "statements:edit-as-proofreader",
         "statements:view-unapproved-evaluation",
         "statements:comments:add",
         "tags:view",

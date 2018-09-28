@@ -16,8 +16,12 @@ class AssessmentValidator < ActiveModel::Validator
           assessment.errors[:evaluation_status] << "To be able to change status to #{Assessment::STATUS_APPROVAL_NEEDED}, please fill veracity, short_explanation, and explanation"
         end
       when Assessment::STATUS_APPROVAL_NEEDED
+        if assessment.evaluation_status != Assessment::STATUS_BEING_EVALUATED && assessment.evaluation_status != Assessment::STATUS_PROOFREADING_NEEDED
+          assessment.errors[:evaluation_status] << "Can change status either to #{Assessment::STATUS_BEING_EVALUATED} or #{Assessment::STATUS_PROOFREADING_NEEDED} when assessment has status #{Assessment::STATUS_APPROVAL_NEEDED}"
+        end
+      when Assessment::STATUS_PROOFREADING_NEEDED
         if assessment.evaluation_status != Assessment::STATUS_BEING_EVALUATED && assessment.evaluation_status != Assessment::STATUS_APPROVED
-          assessment.errors[:evaluation_status] << "Can change status either to #{Assessment::STATUS_BEING_EVALUATED} or #{Assessment::STATUS_APPROVED} when assessment has status #{Assessment::STATUS_APPROVAL_NEEDED}"
+          assessment.errors[:evaluation_status] << "Can change status either to #{Assessment::STATUS_BEING_EVALUATED} or #{Assessment::STATUS_APPROVED} when assessment has status #{Assessment::STATUS_PROOFREADING_NEEDED}"
         end
       when Assessment::STATUS_APPROVED
         if assessment.evaluation_status != Assessment::STATUS_BEING_EVALUATED
@@ -39,6 +43,7 @@ class Assessment < ApplicationRecord
 
   STATUS_BEING_EVALUATED = "being_evaluated"
   STATUS_APPROVAL_NEEDED = "approval_needed"
+  STATUS_PROOFREADING_NEEDED = "proofreading_needed"
   STATUS_APPROVED = "approved"
 
   belongs_to :evaluator, class_name: "User", foreign_key: "user_id", optional: true
@@ -92,11 +97,12 @@ class Assessment < ApplicationRecord
     texts_allowed_attributes = [
       "explanation_html",
       "explanation_slatejson",
-      "short_explanation",
+      "short_explanation"
     ]
     texts_allowed_changes = unapproved? && (changed_attributes.keys - texts_allowed_attributes).empty?
+    proofreader_allowed_changes = texts_allowed_changes || (evaluation_status_was == STATUS_PROOFREADING_NEEDED)
 
-    if texts_allowed_changes && permissions.include?("statements:edit-texts")
+    if proofreader_allowed_changes && permissions.include?("statements:edit-as-proofreader")
       return true
     end
 
@@ -168,6 +174,7 @@ class Assessment < ApplicationRecord
       evaluation_status_label = case evaluation_status
                                 when STATUS_BEING_EVALUATED then "ve zpracování"
                                 when STATUS_APPROVAL_NEEDED then "ke kontrole"
+                                when STATUS_PROOFREADING_NEEDED then "ke korektuře"
                                 when STATUS_APPROVED then "schválený"
                                 else evaluation_status
       end

@@ -102,6 +102,10 @@ FactoryBot.define do
     trait :approval_needed do
       evaluation_status Assessment::STATUS_APPROVAL_NEEDED
     end
+
+    trait :proofreading_needed do
+      evaluation_status Assessment::STATUS_PROOFREADING_NEEDED
+    end
   end
 
   factory :veracity do

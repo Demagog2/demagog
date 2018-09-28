@@ -201,6 +201,7 @@ export const GetSourceStatements = gql`
           last_name
         }
         veracity {
+          id
           key
         }
         short_explanation_characters_length
