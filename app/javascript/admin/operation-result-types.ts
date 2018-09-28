@@ -635,6 +635,21 @@ export interface UpdateSourceStatementsOrderMutation {
   } | null,
 };
 
+export interface PublishApprovedSourceStatementsMutationVariables {
+  id: string,
+};
+
+export interface PublishApprovedSourceStatementsMutation {
+  // Publish all approved statements from source
+  publishApprovedSourceStatements:  {
+    id: string,
+    statements:  Array< {
+      id: string,
+      published: boolean,
+    } >,
+  } | null,
+};
+
 export interface DeleteContentImageMutationVariables {
   id: string,
 };

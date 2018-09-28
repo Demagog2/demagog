@@ -6,6 +6,8 @@ import {
   Button,
   Classes,
   Colors,
+  Dialog,
+  Intent,
   Menu,
   MenuDivider,
   MenuItem,
@@ -17,7 +19,7 @@ import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
 import { css } from 'emotion';
 import { get, groupBy, orderBy } from 'lodash';
-import { Query } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import { connect, Dispatch } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
@@ -33,7 +35,7 @@ import {
   GetSourceStatementsQuery,
   GetSourceStatementsQueryVariables,
 } from '../operation-result-types';
-import { DeleteSource } from '../queries/mutations';
+import { DeleteSource, PublishApprovedSourceStatements } from '../queries/mutations';
 import { GetSource, GetSources, GetSourceStatements } from '../queries/queries';
 import { displayDate } from '../utils';
 import Authorize from './Authorize';
@@ -60,6 +62,7 @@ interface IProps extends RouteComponentProps<{ sourceId: string }> {
 
 interface IState {
   showConfirmDeleteModal: boolean;
+  showMassStatementsPublishModal: boolean;
   statementsFilter: null | {
     field: string;
     value: any;
@@ -69,11 +72,16 @@ interface IState {
 class SourceDetail extends React.Component<IProps, IState> {
   public state: IState = {
     showConfirmDeleteModal: false,
+    showMassStatementsPublishModal: false,
     statementsFilter: null,
   };
 
   public toggleConfirmDeleteModal = () => {
     this.setState({ showConfirmDeleteModal: !this.state.showConfirmDeleteModal });
+  };
+
+  public toggleMassStatementsPublishModal = () => {
+    this.setState({ showMassStatementsPublishModal: !this.state.showMassStatementsPublishModal });
   };
 
   public onDeleted = () => {
@@ -85,6 +93,25 @@ class SourceDetail extends React.Component<IProps, IState> {
 
   public onDeleteError = (error: ApolloError) => {
     this.props.dispatch(addFlashMessage('Doško k chybě při mazání diskuze', 'error'));
+
+    console.error(error); // tslint:disable-line:no-console
+  };
+
+  public onMassStatementsPublishCompleted = () => {
+    this.props.dispatch(
+      addFlashMessage(
+        'Úspěšně zveřejněny všechny schválené a dosud nezveřejněné výroky.',
+        'success',
+      ),
+    );
+
+    this.setState({
+      showMassStatementsPublishModal: false,
+    });
+  };
+
+  public onMassStatementsPublishError = (error: ApolloError) => {
+    this.props.dispatch(addFlashMessage('Doško k chybě při zveřejňování výroků', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
@@ -355,6 +382,16 @@ class SourceDetail extends React.Component<IProps, IState> {
 
           return (
             <>
+              {this.state.showMassStatementsPublishModal && (
+                <MassStatementsPublishModal
+                  source={source}
+                  statements={data.statements}
+                  onCancel={this.toggleMassStatementsPublishModal}
+                  onCompleted={this.onMassStatementsPublishCompleted}
+                  onError={this.onMassStatementsPublishError}
+                />
+              )}
+
               <Authorize permissions={['statements:add', 'statements:sort']}>
                 <div style={{ display: 'flex', marginTop: 30 }}>
                   <div style={{ flex: '0 0 220px', marginRight: 15 }}>
@@ -384,16 +421,22 @@ class SourceDetail extends React.Component<IProps, IState> {
                     </Authorize>
                   </div>
                   <div style={{ flex: '1 1' }}>
-                    <Authorize permissions={['statements:sort']}>
-                      <div style={{ float: 'right' }}>
+                    <div style={{ float: 'right' }}>
+                      <Authorize permissions={['statements:edit']}>
+                        <Button onClick={this.toggleMassStatementsPublishModal}>
+                          Zveřejnit všechny schválené výroky
+                        </Button>
+                      </Authorize>
+                      <Authorize permissions={['statements:sort']}>
                         <Link
                           to={`/admin/sources/${source.id}/statements-sort`}
                           className={Classes.BUTTON}
+                          style={{ marginLeft: 7 }}
                         >
                           Seřadit výroky
                         </Link>
-                      </div>
-                    </Authorize>
+                      </Authorize>
+                    </div>
                   </div>
                 </div>
               </Authorize>
@@ -485,6 +528,66 @@ class SourceDetail extends React.Component<IProps, IState> {
           );
         }}
       </GetSourceStatementsQueryComponent>
+    );
+  }
+}
+
+interface IMassStatementsPublishModalProps {
+  statements: GetSourceStatementsQuery['statements'];
+  source: GetSourceQuery['source'];
+  onCancel: () => any;
+  onCompleted: () => any;
+  onError: (error: ApolloError) => any;
+}
+
+class MassStatementsPublishModal extends React.Component<IMassStatementsPublishModalProps> {
+  public render() {
+    const { source, statements, onCancel, onCompleted, onError } = this.props;
+
+    const approvedAndNotPublished = statements.filter(
+      (s) => s.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED && !s.published,
+    );
+
+    return (
+      <Dialog isOpen onClose={onCancel} title="Opravdu zveřejnit?">
+        <div className={Classes.DIALOG_BODY}>
+          {approvedAndNotPublished.length > 0 ? (
+            <>
+              Opravdu chceš zveřejnit všech {approvedAndNotPublished.length} schválených a
+              nezveřejněných výroků v rámci této diskuze?
+            </>
+          ) : (
+            <>V rámci diskuze teď nemáš žádné schválené a nezveřejněné výroky.</>
+          )}
+        </div>
+        <div className={Classes.DIALOG_FOOTER}>
+          <div className={Classes.DIALOG_FOOTER_ACTIONS}>
+            <Button text="Zpět" onClick={onCancel} />
+            {approvedAndNotPublished.length > 0 && (
+              <Mutation mutation={PublishApprovedSourceStatements} variables={{ id: source.id }}>
+                {(mutate, { loading }) => (
+                  <Button
+                    intent={Intent.PRIMARY}
+                    onClick={() =>
+                      mutate()
+                        // Adding the onCompleted/onError callbacks here, because on Apollo's Mutation
+                        // component they don't work in this setup for some reason :/
+                        .then(onCompleted)
+                        .catch(onError)
+                    }
+                    text={
+                      loading
+                        ? 'Zveřejňuju …'
+                        : `Zveřejnit ${approvedAndNotPublished.length} výroků`
+                    }
+                    disabled={loading}
+                  />
+                )}
+              </Mutation>
+            )}
+          </div>
+        </div>
+      </Dialog>
     );
   }
 }

@@ -395,6 +395,18 @@ export const UpdateSourceStatementsOrder = gql`
   }
 `;
 
+export const PublishApprovedSourceStatements = gql`
+  mutation PublishApprovedSourceStatements($id: ID!) {
+    publishApprovedSourceStatements(id: $id) {
+      id
+      statements {
+        id
+        published
+      }
+    }
+  }
+`;
+
 export const DeleteContentImage = gql`
   mutation DeleteContentImage($id: ID!) {
     deleteContentImage(id: $id)

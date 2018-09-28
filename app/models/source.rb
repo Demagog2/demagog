@@ -29,4 +29,20 @@ class Source < ApplicationRecord
     statements.reload
     self
   end
+
+  def publish_approved_statements
+    Source.transaction do
+      approved_unpublished_statements = statements
+        .where(published: false)
+        .joins(:assessment)
+        .where(assessments: {
+          evaluation_status: Assessment::STATUS_APPROVED
+        })
+
+      approved_unpublished_statements.update_all(published: true)
+
+      statements.reload
+      self
+    end
+  end
 end
