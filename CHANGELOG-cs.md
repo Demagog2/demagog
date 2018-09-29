@@ -3,6 +3,7 @@
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## 29. září 2018
+- Přidáno: Upozornění jde označit za přečtené i zpátky jako nepřečtené z jejich přehledu ([#234](https://github.com/Demagog2/demagog/issues/234))
 - Změněno: Filtry výroků na veřejném detailu článku posunuty doleva pro přehlednost na desktopu a přidán odkaz na zrušení filtrů ([#244](https://github.com/Demagog2/demagog/pull/244))
 
 ## 28. září 2018
