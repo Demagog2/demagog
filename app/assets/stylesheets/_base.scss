@@ -703,51 +703,48 @@ article.preview {
 
     .speaker-veracities-filter-content {
       flex: 1 1 auto;
-      margin: 0 0 0.7rem 1rem;
+      margin: 0 0 0.7rem 0.7rem;
 
       .name {
         font-weight: 700;
-        margin: 0 0 0.5rem 0;
+        margin: 0.4rem 0 0.1rem 0;
       }
 
       .stats-buttons {
         font-weight: bold;
         font-size: 20px;
-        margin: 0;
+        margin: 0 0 0 -0.5rem;
         padding: 0;
         display: flex;
 
         li {
+          flex: 0 0 auto;
           list-style: none;
-          padding: 0 0.2em 0 0;
+          padding: 0;
 
           a {
-            border: 1px solid #CBCDD9;
-            padding: 0.5rem 0.7rem;
+            display: block;
+            padding: 0.3rem 0.5rem;
+            border-radius: 5px;
 
             @include veracity;
             margin-left: 0;
 
             &:hover, &:focus {
-              border-color: var(--orange);
+              background-color: #FFE0D6;
               text-decoration: none;
             }
           }
 
           &.active a {
-            border-color: var(--orange);
             background-color: #FFE0D6;
-
-            &:hover, &:focus {
-              border-color: var(--violet);
-            }
           }
 
           .none {
             color: #ddd !important;
 
             &:hover, &:focus {
-              border-color: #CBCDD9;
+              background-color: transparent;
             }
           }
 
