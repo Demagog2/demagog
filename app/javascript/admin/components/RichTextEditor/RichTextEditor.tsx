@@ -15,6 +15,7 @@ import Italic from './featurePlugins/Italic';
 import Link from './featurePlugins/Link';
 import List from './featurePlugins/List';
 import Paragraph from './featurePlugins/Paragraph';
+import SpecialCharacters from './featurePlugins/SpecialCharacters';
 
 import schema from './schema';
 import { IToolbarItem, toolbarDivider } from './toolbar';
@@ -27,6 +28,7 @@ const header = Header();
 const link = Link();
 const list = List();
 const paragraph = Paragraph();
+const specialCharacters = SpecialCharacters();
 
 interface IProps {
   value: object | null;
@@ -85,6 +87,8 @@ class RichTextEditor extends React.Component<IProps, IState> {
       toolbarDivider,
       image.toolbarItem,
       embed.toolbarItem,
+      toolbarDivider,
+      specialCharacters.toolbarItem,
     ];
 
     this.plugins = [
