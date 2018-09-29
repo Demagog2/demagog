@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import { Button, Classes } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import * as classNames from 'classnames';
 import { distanceInWordsToNow } from 'date-fns';
 import * as dateFnsCsLocale from 'date-fns/locale/cs';
+import { css, cx } from 'emotion';
 import { DateTime } from 'luxon';
 import { Mutation, Query } from 'react-apollo';
 import { connect, Dispatch } from 'react-redux';
@@ -38,7 +38,13 @@ class Notifications extends React.Component<IProps, IState> {
 
   public handleNotificationClick = (
     notification: GetNotificationsQuery['notifications']['items'][0],
-  ) => () => {
+  ) => (event: React.MouseEvent<Element>) => {
+    const targetElement = event.target as Element;
+    if (targetElement.closest('button')) {
+      // That's click on the "mark as read/unread button", lets do nothing
+      return;
+    }
+
     if (notification.read_at) {
       this.props.history.push(notification.action_link);
     } else {
@@ -52,6 +58,19 @@ class Notifications extends React.Component<IProps, IState> {
     return apolloClient.mutate({
       mutation: UpdateNotification,
       variables: { id: notification.id, input: { read_at: DateTime.local().toISOTime() } },
+      refetchQueries: [
+        {
+          query: GetNotifications,
+          variables: { includeRead: false, limit: 0, offset: 0 },
+        },
+      ],
+    });
+  };
+
+  public markAsUnread = (notification) => {
+    return apolloClient.mutate({
+      mutation: UpdateNotification,
+      variables: { id: notification.id, input: { read_at: null } },
       refetchQueries: [
         {
           query: GetNotifications,
@@ -95,7 +114,7 @@ class Notifications extends React.Component<IProps, IState> {
           >
             {(markUnreadNotificationsAsRead, { loading }) => (
               <button
-                className={classNames(Classes.BUTTON, Classes.iconClass(IconNames.TICK))}
+                className={cx(Classes.BUTTON, Classes.iconClass(IconNames.TICK))}
                 onClick={() => markUnreadNotificationsAsRead()}
                 disabled={loading}
               >
@@ -126,21 +145,19 @@ class Notifications extends React.Component<IProps, IState> {
               return (
                 <>
                   <table
-                    className={classNames(
-                      Classes.HTML_TABLE,
-                      Classes.HTML_TABLE_BORDERED,
-
-                      Classes.INTERACTIVE,
-                    )}
+                    className={cx(Classes.HTML_TABLE, Classes.INTERACTIVE)}
                     style={{ width: '100%' }}
                   >
                     <tbody>
                       {data.notifications.items.map((notification) => (
                         <tr
                           key={notification.id}
-                          style={{
-                            backgroundColor: notification.read_at ? 'transparent' : '#cdecff',
-                          }}
+                          className={css`
+                            td {
+                              border-bottom: 1px solid rgba(16, 22, 26, 0.15);
+                            }
+                            background-color: ${notification.read_at ? 'transparent' : '#cdecff'};
+                          `}
                           onClick={this.handleNotificationClick(notification)}
                         >
                           <td>
@@ -154,6 +171,24 @@ class Notifications extends React.Component<IProps, IState> {
                               {' — '}
                               {displayDateTime(notification.created_at)}
                             </small>
+                          </td>
+                          <td>
+                            <Button
+                              type="button"
+                              text={
+                                notification.read_at
+                                  ? 'Označit za nepřečtené'
+                                  : 'Označit za přečtené'
+                              }
+                              className={css`
+                                white-space: nowrap;
+                              `}
+                              onClick={() =>
+                                notification.read_at
+                                  ? this.markAsUnread(notification)
+                                  : this.markAsRead(notification)
+                              }
+                            />
                           </td>
                         </tr>
                       ))}
