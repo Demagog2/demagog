@@ -681,10 +681,12 @@ article.preview {
 }
 
 .statements-filters {
-  border-top: 1px solid #D3D6E0;
-  border-bottom: 1px solid #D3D6E0;
-  margin: 1rem 0 3rem;
-  padding: 1rem 0;
+  margin-top: 2.15rem;
+
+  > label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
 
   .speaker-veracities-filter {
     display: flex;
@@ -701,7 +703,7 @@ article.preview {
 
     .speaker-veracities-filter-content {
       flex: 1 1 auto;
-      margin: 0 0 0.7rem 1.5rem;
+      margin: 0 0 0.7rem 1rem;
 
       .name {
         font-weight: 700;
@@ -755,5 +757,9 @@ article.preview {
         }
       }
     }
+  }
+
+  .clear-filters {
+    margin-left: 1rem;
   }
 }

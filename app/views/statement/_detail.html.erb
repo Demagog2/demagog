@@ -1,4 +1,7 @@
-<article class="statement <% if statement.important? %>important-statement<% end %>" id="<%= statement.id %>">
+<article
+  class="statement <% if statement.important? %>important-statement<% end %>"
+  id="<%= statement.id %>"
+>
   <a href="<%= speaker_path(statement.speaker.id) %>" class="speaker">
     <%= render(partial: 'shared/portrait', object: statement.speaker, as: :speaker) %>
     <h3><%= statement.speaker.full_name %></h3>

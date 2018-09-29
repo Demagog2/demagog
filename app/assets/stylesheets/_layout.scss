@@ -206,6 +206,36 @@
     grid-column: 9 / -1;
   }
 
+  article.detail {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-column-gap: var(--gap);
+
+    section.intro {
+      grid-column: 3 / 11;
+    }
+
+    section.segment-text {
+      grid-column: 3 / 11;
+    }
+
+    section.segment-statements_set {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-column-gap: var(--gap);
+
+      .statements-filters {
+        grid-column: 1 / 6;
+      }
+
+      .statements-list {
+        grid-column: 6 / -1;
+      }
+    }
+  }
+
   article.preview {
     grid-column: 1 / -1;
   }
