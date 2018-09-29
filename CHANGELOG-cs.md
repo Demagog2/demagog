@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 29. září 2018
+- Změněno: Filtry výroků na veřejném detailu článku posunuty doleva pro přehlednost na desktopu a přidán odkaz na zrušení filtrů ([#244](https://github.com/Demagog2/demagog/pull/244))
+
 ## 28. září 2018
 - Přidáno: Tlačítko "Zveřejnit všechny schválené výroky" k seznamu výroků diskuze ([#241](https://github.com/Demagog2/demagog/issues/241))
 - Přidáno: Stav ke korektuře pro lepší integraci korektorů do redakčního procesu ([#239](https://github.com/Demagog2/demagog/issues/239))
