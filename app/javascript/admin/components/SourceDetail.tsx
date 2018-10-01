@@ -17,7 +17,7 @@ import {
 } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
-import { css } from 'emotion';
+import { css, cx } from 'emotion';
 import { get, groupBy, orderBy } from 'lodash';
 import { Mutation, Query } from 'react-apollo';
 import { connect, Dispatch } from 'react-redux';
@@ -182,11 +182,36 @@ class SourceDetail extends React.Component<IProps, IState> {
 
               <div>
                 <div style={{ float: 'right' }}>
-                  <Link to="/admin/sources" className={Classes.BUTTON}>
-                    Zpět
-                  </Link>
                   <Authorize permissions={['sources:edit']}>
-                    <>
+                    <Popover
+                      content={
+                        <Menu>
+                          <Link
+                            to={`/admin/sources/edit/${source.id}`}
+                            className={cx(Classes.MENU_ITEM, Classes.iconClass(IconNames.EDIT))}
+                          >
+                            Upravit údaje
+                          </Link>
+                          <button
+                            type="button"
+                            className={cx(
+                              Classes.MENU_ITEM,
+                              Classes.INTENT_DANGER,
+                              Classes.iconClass(IconNames.TRASH),
+                            )}
+                            onClick={this.toggleConfirmDeleteModal}
+                          >
+                            Smazat…
+                          </button>
+                        </Menu>
+                      }
+                      minimal
+                      position={Position.BOTTOM_LEFT}
+                    >
+                      <Button text="Diskuzi…" />
+                    </Popover>
+
+                    {/* <>
                       <Link
                         to={`/admin/sources/edit/${source.id}`}
                         className={Classes.BUTTON}
@@ -202,8 +227,11 @@ class SourceDetail extends React.Component<IProps, IState> {
                       >
                         Smazat diskuzi
                       </button>
-                    </>
+                    </> */}
                   </Authorize>
+                  <Link to="/admin/sources" className={Classes.BUTTON} style={{ marginLeft: 7 }}>
+                    Zpět na seznam diskuzí
+                  </Link>
                 </div>
 
                 <h2 className={Classes.HEADING}>{source.name}</h2>
@@ -416,7 +444,7 @@ class SourceDetail extends React.Component<IProps, IState> {
                         minimal
                         position={Position.BOTTOM_LEFT}
                       >
-                        <Button icon={IconNames.PLUS} text="Přidat výrok" />
+                        <Button icon={IconNames.PLUS} text="Přidat výrok…" />
                       </Popover>
                     </Authorize>
                   </div>
@@ -424,7 +452,7 @@ class SourceDetail extends React.Component<IProps, IState> {
                     <div style={{ float: 'right' }}>
                       <Authorize permissions={['statements:edit']}>
                         <Button onClick={this.toggleMassStatementsPublishModal}>
-                          Zveřejnit všechny schválené výroky
+                          Zveřejnit všechny schválené výroky…
                         </Button>
                       </Authorize>
                       <Authorize permissions={['statements:sort']}>

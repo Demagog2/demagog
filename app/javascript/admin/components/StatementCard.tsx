@@ -1,7 +1,9 @@
 import * as React from 'react';
 
 import { Card, Classes } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
+import { cx } from 'emotion';
 import { truncate } from 'lodash';
 import { connect, Dispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -112,12 +114,11 @@ class StatementCard extends React.Component<IProps, IState> {
             <Authorize permissions={['statements:delete']}>
               <button
                 type="button"
-                className={Classes.BUTTON}
+                className={cx(Classes.BUTTON, Classes.iconClass(IconNames.TRASH))}
                 style={{ marginLeft: 7 }}
                 onClick={this.toggleConfirmDeleteModal}
-              >
-                Smazat
-              </button>
+                title="Smazat výrok"
+              />
             </Authorize>
           </div>
 
