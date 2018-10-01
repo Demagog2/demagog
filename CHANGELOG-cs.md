@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 1. říjen 2018
+- Změneno: Tlačítko smazat diskuzi schováno do podmenu, aby se nedalo omylem stisknout ([#233](https://github.com/Demagog2/demagog/issues/233))
+
 ## 29. září 2018
 - Přidáno: V toolbaru editoru přibyla možnost vkládání speciálních znaků, hlavně českých uvozovek „ a ‟, které se jinak na klávesnici špatně píší ([#228](https://github.com/Demagog2/demagog/issues/228))
 - Přidáno: Upozornění jde označit za přečtené i zpátky jako nepřečtené z jejich přehledu ([#234](https://github.com/Demagog2/demagog/issues/234))
