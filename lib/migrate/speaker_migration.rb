@@ -57,7 +57,6 @@ class SpeakerMigration
                      Time.now,
                      Time.now
                    ])
-
       end
     end
 

@@ -116,7 +116,7 @@ class StatementTest < ActiveSupport::TestCase
 
     statement.assign_attributes(content: "Changed content", important: true)
 
-    assert !statement.is_user_authorized_to_save(user)
+    assert_not statement.is_user_authorized_to_save(user)
   end
 
   test "proofreader should be authorized to change content when in unapproved state" do
@@ -136,7 +136,7 @@ class StatementTest < ActiveSupport::TestCase
 
     statement.assign_attributes(important: true)
 
-    assert !statement.is_user_authorized_to_save(user)
+    assert_not statement.is_user_authorized_to_save(user)
   end
 
   test "intern should be authorized to edit content of statement they are evaluating" do
@@ -159,6 +159,6 @@ class StatementTest < ActiveSupport::TestCase
 
     statement.assign_attributes(content: "Changed content")
 
-    assert !statement.is_user_authorized_to_save(user)
+    assert_not statement.is_user_authorized_to_save(user)
   end
 end
