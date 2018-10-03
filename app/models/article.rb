@@ -41,7 +41,11 @@ class Article < ApplicationRecord
   end
 
   def unique_speakers
-    speakers.distinct
+    [] unless source
+
+    source.speakers
+      .distinct
+      .order(last_name: :asc, first_name: :asc)
   end
 
   def self.cover_story

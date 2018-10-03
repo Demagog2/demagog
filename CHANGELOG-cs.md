@@ -2,7 +2,10 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
-## 1. říjen 2018
+## 2. října 2018
+- Opraveno: U článku veřejně zobrazujeme i řečníka bez výroků (tj. se samými nulami) ([#251](https://github.com/Demagog2/demagog/pull/251))
+
+## 1. října 2018
 - Změneno: Tlačítko smazat diskuzi schováno do podmenu, aby se nedalo omylem stisknout ([#233](https://github.com/Demagog2/demagog/issues/233))
 
 ## 29. září 2018
