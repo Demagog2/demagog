@@ -64,6 +64,19 @@
 
               </div>
             <% end %>
+
+            <% if @article_type == "factcheck" && @article.source && @article.source.id == 559 %>
+              <div style="margin-top: 70px;max-width: 318px;">
+                <a href="https://demagogtv.cz/kandidati-na-senatory-pavel-dungl-a-lukas-wagenknecht" style="display: block;max-width: 233px;overflow: hidden;border-radius: 10px;position: relative;">
+                  <img src="<%= url_for(@article.illustration) %>" style="width: 100%">
+                  <img src="<%= asset_path('demagogtv-play-overlay.png') %>" style="position: absolute;top: 50%;left: 50%;margin: -35px 0 0 -33px;">
+                </a>
+                <a href="https://demagogtv.cz/kandidati-na-senatory-pavel-dungl-a-lukas-wagenknecht" style="display: block;margin-top: 6px;">Zhlédnout debatu na DemagogTV →</a>
+                <p style="margin-top: 3px;">
+                  Propojili jsme videozáznamy debat s&nbsp;výroky tak, že v&nbsp;čase vyřčení naskočí hodnocení od Demagog.cz.
+                </p>
+              </div>
+            <% end %>
           </div>
         <% end %>
 
