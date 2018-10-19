@@ -136,6 +136,10 @@
 
   article {
     grid-column: 3 / 11;
+
+    &.is-speaker-overview {
+      grid-column: 1 / 9;
+    }
   }
 
   .speakers-list {
