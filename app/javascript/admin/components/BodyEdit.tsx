@@ -12,7 +12,7 @@ import {
   UpdateBodyMutationVariables,
 } from '../operation-result-types';
 import { UpdateBody } from '../queries/mutations';
-import { GetBody } from '../queries/queries';
+import { GetBodies, GetBody, GetSpeakerBodies } from '../queries/queries';
 import Error from './Error';
 import { BodyForm, IBodyFormData } from './forms/BodyForm';
 import Loading from './Loading';
@@ -83,7 +83,13 @@ class BodyEdit extends React.Component<IBodyDetailProps> {
             }
 
             return (
-              <UpdateBodyMutationComponent mutation={UpdateBody}>
+              <UpdateBodyMutationComponent
+                mutation={UpdateBody}
+                refetchQueries={[
+                  { query: GetSpeakerBodies },
+                  { query: GetBodies, variables: { name: '' } },
+                ]}
+              >
                 {(updateBody) => (
                   <BodyForm
                     body={data.body}
