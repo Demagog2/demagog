@@ -13,12 +13,14 @@ services:
     restart: always
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - db-data-volume:/var/lib/mysql
 
   webpacker:
     image: ${DOCKER_IMAGE_NAME-demagog}
     command: ["bin/webpack-dev-server"]
     volumes:
-      - .:/opt/demagog:cached
+      - .:/app:cached
     ports:
       - 3035:3035
 
@@ -36,4 +38,7 @@ services:
       - 3000:3000
     command: bundle exec rails s -b 0.0.0.0
     volumes:
-      - .:/opt/demagog:cached
+      - .:/app:cached
+
+volumes:
+    db-data-volume:
