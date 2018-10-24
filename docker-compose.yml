@@ -6,6 +6,13 @@ services:
       - 6379:6379
     restart: always
 
+  elasticsearch:
+    image: elasticsearch:6.4.1
+    ports:
+      - 9200:9200
+      - 9300:9300
+    restart: always
+
   db:
     image: mysql:5.7.23
     ports:
@@ -34,6 +41,7 @@ services:
       - db
       - webpacker
       - redis
+      - elasticsearch
     ports:
       - 3000:3000
     command: bundle exec rails s -b 0.0.0.0
