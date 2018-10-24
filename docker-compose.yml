@@ -1,0 +1,32 @@
+version: '3.0'
+services:
+  db:
+    image: mysql:5.7.23
+    ports:
+      - 3306:3306
+    restart: always
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+
+  webpacker:
+    image: ${DOCKER_IMAGE_NAME-demagog}
+    command: ["bin/webpack-dev-server"]
+    volumes:
+      - .:/opt/demagog:cached
+    ports:
+      - 3035:3035
+
+  web:
+    image: ${DOCKER_IMAGE_NAME-demagog}
+    build:
+      context: .
+      args:
+        precompileassets: 'not'
+    links:
+      - db
+      - webpacker
+    ports:
+      - 3000:3000
+    command: bundle exec rails s -b 0.0.0.0
+    volumes:
+      - .:/opt/demagog:cached
