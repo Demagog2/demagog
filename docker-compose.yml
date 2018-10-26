@@ -26,8 +26,11 @@ services:
   webpacker:
     image: ${DOCKER_IMAGE_NAME-demagog}
     command: ["bin/webpack-dev-server"]
+    env_file:
+      - .env.webpacker
     volumes:
-      - .:/app:cached
+      - ./app:/app/app
+      - ./public:/app/public
     ports:
       - 3035:3035
 
@@ -39,14 +42,19 @@ services:
         precompileassets: 'not'
     links:
       - db
-      - webpacker
       - redis
       - elasticsearch
+      - webpacker
     ports:
       - 3000:3000
+    environment:
+      DB_HOST: db
+      WEBPACKER_DEV_SERVER_HOST: webpacker
+
     command: bundle exec rails s -b 0.0.0.0
     volumes:
-      - .:/app:cached
+      - ./app:/app/app
+      - ./public:/app/public
 
 volumes:
     db-data-volume:
