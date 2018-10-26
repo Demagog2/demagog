@@ -4,7 +4,33 @@ Political fact checking website. For more information see http://demagog.cz/o-na
 
 ### Ruby version
 
-2.5.1
+2.5.3
+
+## Setup
+
+Demagog can be run, tested and developed fully in the docker environment
+
+## First run
+```
+docker-compose build
+docker-compose up
+```
+
+## Setting up database
+```
+docker-compose exec web rails db:create db:migrate db:seed
+```
+
+## Running tests
+```
+docker-compose exec web rails test
+docker-compose exec web yarn test
+```
+
+## Rebuilding single service
+```
+docker-compose up -d --no-deps --build <service_name>
+```
 
 ## Configuration
 
@@ -66,13 +92,6 @@ It's used to cache:
 
 * speaker statistics
 * speaker statistics for debate (article)
-
-Assuming we use docker for
-```sh
-docker pull redis:alpine
-
-docker run --name redis -p 6379:6379 -d redis
-```
 
 ### Migration from legacy DB
 
