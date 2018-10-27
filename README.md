@@ -8,7 +8,7 @@ Political fact checking website. For more information see http://demagog.cz/o-na
 
 ## Setup
 
-Demagog can be run, tested and developed fully in the docker environment
+Demagog can be run, tested and fully developed in the [docker](https://www.docker.com/) environment
 
 ## First run
 ```
@@ -24,7 +24,7 @@ docker-compose exec web rails db:create db:migrate db:seed
 ## Running tests
 ```
 docker-compose exec web rails test
-docker-compose exec web yarn test
+docker-compose exec web yarn jest
 ```
 
 ## Rebuilding single service
@@ -76,10 +76,7 @@ Run guard-livereload server with `guard`.
 ## Generating Apollo flow types
 
 ```sh
-npm install -g apollo-codegen
-bin/rails server
-apollo-codegen introspect-schema http://localhost:3000/graphql --output schema.json
-apollo-codegen generate **/*.tsx --schema schema.json --target typescript --output operation-result-types.ts
+docker-compose exec web rails apollo:types
 ```
 
 ### Services (job queues, cache servers, search engines, etc.)
@@ -92,15 +89,6 @@ It's used to cache:
 
 * speaker statistics
 * speaker statistics for debate (article)
-
-### Migration from legacy DB
-
-```sh
-RAILS_ENV=migration bin/rails db:drop db:create db:migrate migration:run
-```
-
-To suppress output of `migration:run` rake task, run it with rake argument like this:
-`migration:run['quiet']`
 
 ### Deployment instructions
 
