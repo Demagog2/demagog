@@ -2,7 +2,8 @@ import * as React from 'react';
 
 import { Colors, Icon } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { Rule } from 'slate-html-serializer';
+import * as Slate from 'slate';
+import * as SlateHtmlSerializer from 'slate-html-serializer';
 import { RenderNodeProps } from 'slate-react';
 
 import { IToolbarItem } from '../toolbar';
@@ -11,9 +12,11 @@ export default function Image() {
   return {
     plugins: [
       {
-        renderNode: (props: RenderNodeProps) => {
-          if (props.node.type === 'image') {
+        renderNode: (props: RenderNodeProps, _, next: () => void) => {
+          if (props.node.object === 'block' && props.node.type === 'image') {
             return <ImageNode {...props} />;
+          } else {
+            return next();
           }
         },
       },
@@ -23,17 +26,16 @@ export default function Image() {
   };
 }
 
-function insertImage(change, src) {
-  return change.insertBlock({
+function insertImage(editor: Slate.Editor, src: string) {
+  editor.insertBlock({
     type: 'image',
-    isVoid: true,
     data: { src },
   });
 }
 
 const toolbarItem: IToolbarItem = {
   renderItem(props) {
-    const { onChange, value } = props;
+    const { onCommand } = props;
 
     const onMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
       event.preventDefault();
@@ -43,9 +45,9 @@ const toolbarItem: IToolbarItem = {
         return;
       }
 
-      const change = value.change().call(insertImage, src);
-
-      onChange(change);
+      onCommand((editor) => {
+        insertImage(editor, src);
+      });
     };
 
     return (
@@ -60,19 +62,19 @@ const toolbarItem: IToolbarItem = {
 };
 
 const ImageNode = (props: RenderNodeProps) => {
-  const { attributes, node, isSelected } = props;
+  const { attributes, node, isFocused } = props;
 
-  const src = node.data.get('src');
+  const src = (node as Slate.Block).data.get('src');
   const style = {
     marginBottom: '1rem',
     maxWidth: '100%',
-    boxShadow: isSelected ? '0 0 2px' : 'none',
+    boxShadow: isFocused ? '0 0 2px' : 'none',
   };
 
   return <img src={src} style={style} alt="" {...attributes} />;
 };
 
-const htmlSerializerRule: Rule = {
+const htmlSerializerRule: SlateHtmlSerializer.Rule = {
   serialize(object) {
     if (object.object === 'block' && object.type === 'image') {
       return <img src={object.data.get('src')} alt="" />;
@@ -83,7 +85,6 @@ const htmlSerializerRule: Rule = {
       return {
         object: 'block',
         type: 'image',
-        isVoid: true,
         nodes: next(el.childNodes),
         data: {
           src: el.getAttribute('src'),

@@ -3,8 +3,9 @@ import * as React from 'react';
 import { Colors, Icon, Popover, Position } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import * as copy from 'copy-to-clipboard';
+import { css } from 'emotion';
 import * as Slate from 'slate';
-import { Rule } from 'slate-html-serializer';
+import * as SlateHtmlSerializer from 'slate-html-serializer';
 import { RenderNodeProps } from 'slate-react';
 
 import { IToolbarItem } from '../toolbar';
@@ -13,9 +14,11 @@ export default function Bold() {
   return {
     plugins: [
       {
-        renderNode: (props: RenderNodeProps) => {
-          if (props.node.type === 'link') {
+        renderNode: (props: RenderNodeProps, _, next: () => void) => {
+          if (props.node.object === 'inline' && props.node.type === 'link') {
             return <LinkNode {...props} />;
+          } else {
+            return next();
           }
         },
       },
@@ -25,21 +28,21 @@ export default function Bold() {
   };
 }
 
-const wrapLink = (change: Slate.Change, href: string) => {
-  return change
+const wrapLink = (editor: Slate.Editor, href: string) => {
+  return editor
     .wrapInline({
       type: 'link',
       data: { href },
     })
-    .collapseToEnd();
+    .moveToEnd();
 };
 
-const unwrapLink = (change: Slate.Change) => {
-  return change.unwrapInline('link');
+const unwrapLink = (editor: Slate.Editor) => {
+  return editor.unwrapInline('link');
 };
 
-const setLinkHref = (change: Slate.Change, href: string) => {
-  return change.setInlines({
+const setLinkHref = (editor: Slate.Editor, href: string) => {
+  return editor.setInlines({
     type: 'link',
     data: { href },
   });
@@ -61,11 +64,10 @@ const ensureProtocol = (href: string) => {
 
 const toolbarItem: IToolbarItem = {
   renderItem(props) {
-    const { onChange, value } = props;
+    const { onCommand, value } = props;
 
     const onMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
       event.preventDefault();
-      const change = value.change();
 
       if (hasLinks(value)) {
         const link = getLink(value);
@@ -77,14 +79,18 @@ const toolbarItem: IToolbarItem = {
           return;
         }
 
-        change.call(setLinkHref, ensureProtocol(newHref));
-      } else if (value.isExpanded) {
+        onCommand((editor) => {
+          setLinkHref(editor, ensureProtocol(newHref));
+        });
+      } else if (value.selection.isExpanded) {
         const href = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):');
         if (href === null || href === '') {
           return;
         }
 
-        change.call(wrapLink, ensureProtocol(href));
+        onCommand((editor) => {
+          wrapLink(editor, ensureProtocol(href));
+        });
       } else {
         const href = window.prompt('Vložte URL odkazu (např. https://demagog.cz/):');
         if (href === null || href === '') {
@@ -96,13 +102,11 @@ const toolbarItem: IToolbarItem = {
           return;
         }
 
-        change
-          .insertText(text)
-          .extend(0 - text.length)
-          .call(wrapLink, ensureProtocol(href));
+        onCommand((editor) => {
+          editor.insertText(text).moveFocusBackward(text.length);
+          wrapLink(editor, ensureProtocol(href));
+        });
       }
-
-      onChange(change);
     };
 
     return (
@@ -119,7 +123,7 @@ const toolbarItem: IToolbarItem = {
 const LinkNode = (props: RenderNodeProps) => {
   const { children, attributes, node, isSelected, editor } = props;
 
-  const href = node.data.get('href');
+  const href = (node as Slate.Inline).data.get('href');
 
   const onLinkMouseDown = (event: React.MouseEvent<HTMLAnchorElement>) => {
     window.open(href, '_blank');
@@ -148,18 +152,20 @@ const LinkNode = (props: RenderNodeProps) => {
       return;
     }
 
-    if (editor.props.onChange) {
-      editor.props.onChange(editor.value.change().call(setLinkHref, ensureProtocol(newHref)));
-    }
+    // if (editor.props.onChange) {
+    //   editor.props.onChange(editor.value.change().call(setLinkHref, ensureProtocol(newHref)));
+    // }
+    setLinkHref(editor, ensureProtocol(newHref));
 
     event.preventDefault();
     return false;
   };
 
   const onRemoveMouseDown = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    if (editor.props.onChange) {
-      editor.props.onChange(editor.value.change().call(unwrapLink));
-    }
+    // if (editor.props.onChange) {
+    //   editor.props.onChange(editor.value.change().call(unwrapLink));
+    // }
+    unwrapLink(editor);
 
     event.preventDefault();
     return false;
@@ -187,8 +193,16 @@ const LinkNode = (props: RenderNodeProps) => {
           </a>
         </div>
       }
-      isOpen={isSelected && editor.value.isCollapsed}
+      isOpen={isSelected && editor.value.selection.isCollapsed}
       position={Position.BOTTOM_LEFT}
+      targetClassName={css`
+        /*
+          Blueprint adds inline-block to the popover-target, which results
+          in link not wrapping when it is long. !important is needed to
+          override the Blueprint.
+        */
+        display: inline !important;
+      `}
     >
       <a {...attributes} href={href} style={{ textDecoration: 'underline', cursor: 'text' }}>
         {children}
@@ -197,7 +211,7 @@ const LinkNode = (props: RenderNodeProps) => {
   );
 };
 
-const htmlSerializerRule: Rule = {
+const htmlSerializerRule: SlateHtmlSerializer.Rule = {
   serialize(object, children) {
     if (object.object === 'inline' && object.type === 'link') {
       return <a href={object.data.get('href')}>{children}</a>;

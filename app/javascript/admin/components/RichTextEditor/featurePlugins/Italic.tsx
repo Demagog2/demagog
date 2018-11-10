@@ -2,25 +2,25 @@ import * as React from 'react';
 
 import { IconNames } from '@blueprintjs/icons';
 import * as Slate from 'slate';
-import { Rule } from 'slate-html-serializer';
+import * as SlateHtmlSerializer from 'slate-html-serializer';
 import { RenderMarkProps } from 'slate-react';
 
 import Hotkey from '../helperPlugins/Hotkey';
 import RenderMark from '../helperPlugins/RenderMark';
-import ToolbarMarkButton from '../helperPlugins/ToolbarMarkButton';
+import MarkButtonToolbarItem from '../toolbar/MarkButtonToolbarItem';
 
 export default function Italic() {
   return {
     plugins: [
-      Hotkey('mod+i', addItalicMark),
+      Hotkey('mod+i', toggleItalicMark),
       RenderMark('italic', (props) => <ItalicMark {...props} />),
     ],
-    toolbarItem: ToolbarMarkButton(IconNames.ITALIC, addItalicMark, hasItalicMark),
+    toolbarItem: MarkButtonToolbarItem(IconNames.ITALIC, toggleItalicMark, hasItalicMark),
     htmlSerializerRule,
   };
 }
 
-const addItalicMark = (change: Slate.Change) => change.toggleMark('italic');
+const toggleItalicMark = (editor: Slate.Editor) => editor.toggleMark('italic');
 
 const hasItalicMark = (value: Slate.Value) =>
   value.activeMarks.some((mark) => (mark ? mark.type === 'italic' : false));
@@ -31,7 +31,7 @@ const ItalicMark = (props: RenderMarkProps) => {
   return <em {...attributes}>{children}</em>;
 };
 
-const htmlSerializerRule: Rule = {
+const htmlSerializerRule: SlateHtmlSerializer.Rule = {
   serialize(object, children) {
     if (object.object === 'mark' && object.type === 'italic') {
       return <em>{children}</em>;

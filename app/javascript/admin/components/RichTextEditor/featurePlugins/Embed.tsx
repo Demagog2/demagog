@@ -2,7 +2,8 @@ import * as React from 'react';
 
 import { Colors, Icon } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { Rule } from 'slate-html-serializer';
+import * as Slate from 'slate';
+import * as SlateHtmlSerializer from 'slate-html-serializer';
 import { RenderNodeProps } from 'slate-react';
 
 import { IToolbarItem } from '../toolbar';
@@ -11,9 +12,11 @@ export default function Embed() {
   return {
     plugins: [
       {
-        renderNode: (props: RenderNodeProps) => {
-          if (props.node.type === 'embed') {
+        renderNode: (props: RenderNodeProps, _, next: () => void) => {
+          if (props.node.object === 'block' && props.node.type === 'embed') {
             return <EmbedNode {...props} />;
+          } else {
+            return next();
           }
         },
       },
@@ -23,17 +26,16 @@ export default function Embed() {
   };
 }
 
-function insertEmbed(change, code) {
-  return change.insertBlock({
+function insertEmbed(editor: Slate.Editor, code: string) {
+  editor.insertBlock({
     type: 'embed',
-    isVoid: true,
     data: { code },
   });
 }
 
 const toolbarItem: IToolbarItem = {
   renderItem(props) {
-    const { onChange, value } = props;
+    const { onCommand } = props;
 
     const onMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
       event.preventDefault();
@@ -43,9 +45,9 @@ const toolbarItem: IToolbarItem = {
         return;
       }
 
-      const change = value.change().call(insertEmbed, code);
-
-      onChange(change);
+      onCommand((editor) => {
+        insertEmbed(editor, code);
+      });
     };
 
     return (
@@ -62,7 +64,7 @@ const toolbarItem: IToolbarItem = {
 const EmbedNode = (props: RenderNodeProps) => {
   const { attributes, node, isSelected } = props;
 
-  const code = node.data.get('code');
+  const code = (node as Slate.Block).data.get('code');
   const style = isSelected
     ? { boxShadow: '0 0 2px', marginBottom: '1rem' }
     : { marginBottom: '1rem' };
@@ -70,7 +72,7 @@ const EmbedNode = (props: RenderNodeProps) => {
   return <div style={style} {...attributes} dangerouslySetInnerHTML={{ __html: code }} />;
 };
 
-const htmlSerializerRule: Rule = {
+const htmlSerializerRule: SlateHtmlSerializer.Rule = {
   serialize(object) {
     if (object.object === 'block' && object.type === 'embed') {
       return <div dangerouslySetInnerHTML={{ __html: object.data.get('code') }} />;
@@ -81,7 +83,6 @@ const htmlSerializerRule: Rule = {
       return {
         object: 'block',
         type: 'embed',
-        isVoid: true,
         nodes: next(el.childNodes),
         data: {
           code: el.outerHTML,

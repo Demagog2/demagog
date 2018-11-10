@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Colors, Icon } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import * as Slate from 'slate';
-import { Rule } from 'slate-html-serializer';
+import * as SlateHtmlSerializer from 'slate-html-serializer';
 import { RenderNodeProps } from 'slate-react';
 
 import { IToolbarItem } from '../toolbar';
@@ -12,15 +12,15 @@ export default function List() {
   return {
     plugins: [
       {
-        renderNode: (props: RenderNodeProps) => {
-          if (props.node.type === 'unordered-list') {
+        renderNode: (props: RenderNodeProps, _, next: () => void) => {
+          if (props.node.object === 'block' && props.node.type === 'unordered-list') {
             return <UnorderedListNode {...props} />;
-          }
-          if (props.node.type === 'ordered-list') {
+          } else if (props.node.object === 'block' && props.node.type === 'ordered-list') {
             return <OrderedListNode {...props} />;
-          }
-          if (props.node.type === 'list-item') {
+          } else if (props.node.object === 'block' && props.node.type === 'list-item') {
             return <ListItemNode {...props} />;
+          } else {
+            return next();
           }
         },
       },
@@ -43,41 +43,47 @@ const isType = (value: Slate.Value, type: 'unordered-list' | 'ordered-list') => 
 
 const onToolbarItemMouseDown = (
   value: Slate.Value,
-  onChange: (change: Slate.Change) => void,
+  onCommand: (command: (editor: Slate.Editor) => void) => void,
   type: 'unordered-list' | 'ordered-list',
 ) => (event: React.MouseEvent<HTMLSpanElement>) => {
   event.preventDefault();
-  const change = value.change();
 
   if (isList(value) && isType(value, type)) {
-    (change as any).withoutNormalization((c) => {
-      c.setBlocks('paragraph')
-        .unwrapBlock('unordered-list')
-        .unwrapBlock('ordered-list');
+    onCommand((editor) => {
+      editor.withoutNormalizing(() => {
+        editor
+          .setBlocks('paragraph')
+          .unwrapBlock('unordered-list')
+          .unwrapBlock('ordered-list');
+      });
     });
   } else if (isList(value)) {
-    (change as any).withoutNormalization((c) => {
-      c.unwrapBlock(type === 'unordered-list' ? 'ordered-list' : 'unordered-list').wrapBlock(type);
+    onCommand((editor) => {
+      editor.withoutNormalizing(() => {
+        editor
+          .unwrapBlock(type === 'unordered-list' ? 'ordered-list' : 'unordered-list')
+          .wrapBlock(type);
+      });
     });
   } else {
-    (change as any).withoutNormalization((c) => {
-      c.setBlocks('list-item').wrapBlock(type);
+    onCommand((editor) => {
+      editor.withoutNormalizing(() => {
+        editor.setBlocks('list-item').wrapBlock(type);
+      });
     });
   }
-
-  onChange(change);
 };
 
 const unorderedListToolbarItem: IToolbarItem = {
   renderItem: (props) => {
-    const { onChange, value } = props;
+    const { onCommand, value } = props;
 
     const isActive = isList(value) && isType(value, 'unordered-list');
 
     return (
       <span
         style={{ cursor: 'pointer', display: 'inline-block', padding: '3px 10px' }}
-        onMouseDown={onToolbarItemMouseDown(value, onChange, 'unordered-list')}
+        onMouseDown={onToolbarItemMouseDown(value, onCommand, 'unordered-list')}
       >
         <Icon icon={IconNames.PROPERTIES} color={isActive ? Colors.DARK_GRAY4 : Colors.GRAY4} />
       </span>
@@ -87,14 +93,14 @@ const unorderedListToolbarItem: IToolbarItem = {
 
 const orderedListToolbarItem: IToolbarItem = {
   renderItem: (props) => {
-    const { onChange, value } = props;
+    const { onCommand, value } = props;
 
     const isActive = isList(value) && isType(value, 'ordered-list');
 
     return (
       <span
         style={{ cursor: 'pointer', display: 'inline-block', padding: '3px 10px' }}
-        onMouseDown={onToolbarItemMouseDown(value, onChange, 'ordered-list')}
+        onMouseDown={onToolbarItemMouseDown(value, onCommand, 'ordered-list')}
       >
         <Icon icon={IconNames.NUMBERED_LIST} color={isActive ? Colors.DARK_GRAY4 : Colors.GRAY4} />
       </span>
@@ -120,7 +126,7 @@ const ListItemNode = (props: RenderNodeProps) => {
   return <li {...attributes}>{children}</li>;
 };
 
-const htmlSerializerRule: Rule = {
+const htmlSerializerRule: SlateHtmlSerializer.Rule = {
   serialize(object, children) {
     if (object.object === 'block' && object.type === 'unordered-list') {
       return <ul>{children}</ul>;

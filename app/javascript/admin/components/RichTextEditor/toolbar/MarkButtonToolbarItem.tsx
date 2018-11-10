@@ -4,20 +4,20 @@ import { Colors, Icon } from '@blueprintjs/core';
 import { IconName } from '@blueprintjs/icons';
 import * as Slate from 'slate';
 
-import { IToolbarItem } from '../toolbar';
+import { IToolbarItem } from './index';
 
-export default function ToolbarMarkButton(
+export default function MarkButtonToolbarItem(
   icon: IconName,
-  change: (change: Slate.Change) => Slate.Change,
+  commandOnClick: (editor: Slate.Editor) => void,
   isActive: (value: Slate.Value) => boolean,
 ): IToolbarItem {
   return {
     renderItem(props) {
-      const { onChange, value } = props;
+      const { onCommand, value } = props;
 
       const onMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
         event.preventDefault();
-        onChange(value.change().call(change));
+        onCommand(commandOnClick);
       };
 
       return (

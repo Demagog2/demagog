@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { Button, Card, Classes, Intent } from '@blueprintjs/core';
 import { Form, Formik } from 'formik';
-import { List } from 'immutable';
+import * as Immutable from 'immutable';
 import { isEqual } from 'lodash';
 import { DateTime } from 'luxon';
 import * as queryString from 'query-string';
@@ -14,8 +14,8 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import * as yup from 'yup';
 
 import * as Slate from 'slate';
-import Plain from 'slate-plain-serializer';
-import { Editor } from 'slate-react';
+import SlatePlainSerializer from 'slate-plain-serializer';
+import { Editor, RenderMarkProps } from 'slate-react';
 
 import { isAuthorized } from '../authorization';
 import {
@@ -457,32 +457,43 @@ interface ITranscriptTextState {
 }
 
 class TranscriptText extends React.Component<ITranscriptTextProps, ITranscriptTextState> {
+  public editor: Slate.Editor;
+
   constructor(props: ITranscriptTextProps) {
     super(props);
 
-    let change = deserializeTranscript(props.transcript).change();
+    let value = deserializeTranscript(props.transcript);
 
-    change = addMarksFromStatements(change, props.statements, props.selectedStatements);
+    value = addMarksFromStatements(value, props.statements, props.selectedStatements);
 
-    if (props.startCursor !== null) {
+    this.state = {
+      value,
+    };
+  }
+
+  public componentDidMount() {
+    if (this.props.startCursor !== null) {
+      const startCursor = this.props.startCursor;
+
       // We first move cursor to the end, let the editor render and then move
       // the cursor to the specified start cursor. This way we make sure that
       // the start cursor is at the top of the scroll window and user won't
       // miss it.
-      change = moveToEnd(change);
-      setTimeout(this.moveToStartCursor, 0);
-    }
+      this.editor.command('moveToEndOfDocument');
+      setTimeout(() => {
+        const blocks = this.editor.value.document.getBlocks();
 
-    this.state = {
-      value: change.value,
-    };
+        if (blocks) {
+          const block = blocks.find((b) => (b ? b.data.get('line') === startCursor.line : false));
+
+          if (block) {
+            this.editor.command('moveToStartOfNode', block);
+            this.editor.command('moveForward', startCursor.offset);
+          }
+        }
+      }, 0);
+    }
   }
-
-  public moveToStartCursor = () => {
-    if (this.props.startCursor) {
-      this.onChange(moveToStartCursor(this.state.value.change(), this.props.startCursor));
-    }
-  };
 
   public componentDidUpdate(prevProps) {
     if (
@@ -494,43 +505,33 @@ class TranscriptText extends React.Component<ITranscriptTextProps, ITranscriptTe
       // requestAnimationFrame here, otherwise the change of Slate value
       // does not happen
       requestAnimationFrame(() => {
-        let change = this.state.value.change();
-
-        change = highlightNewStatementSelection(change, this.props.newStatementSelection);
-        change = addMarksFromStatements(
-          change,
-          this.props.statements,
-          this.props.selectedStatements,
-        );
-
-        this.onChange(change);
+        let value = this.state.value;
+        value = highlightNewStatementSelection(value, this.props.newStatementSelection);
+        value = addMarksFromStatements(value, this.props.statements, this.props.selectedStatements);
+        this.setState({ value });
       });
     }
   }
 
-  public onChange = (change: Slate.Change) => {
+  public onChange = (change: {
+    operations: Immutable.List<Slate.Operation>;
+    value: Slate.Value;
+  }) => {
     this.setState({ value: change.value }, () => {
       const value = this.state.value;
-
-      if (!value.selection.anchorKey || !value.selection.focusKey) {
+      if (!value.selection.anchor.key || !value.selection.focus.key) {
         return;
       }
-
-      const selectionText = Plain.serialize(value.set('document', value.fragment));
-
-      const anchorBlock = value.document.getClosestBlock(value.selection.anchorKey);
-      const focusBlock = value.document.getClosestBlock(value.selection.focusKey);
-
+      const selectionText = SlatePlainSerializer.serialize(value.set('document', value.fragment));
+      const anchorBlock = value.document.getClosestBlock(value.selection.anchor.key);
+      const focusBlock = value.document.getClosestBlock(value.selection.focus.key);
       if (!anchorBlock || !focusBlock) {
         return;
       }
-
       let startLine = anchorBlock.data.get('line');
-      let startOffset = value.selection.anchorOffset;
-
+      let startOffset = value.selection.anchor.offset;
       let endLine = focusBlock.data.get('line');
-      let endOffset = value.selection.focusOffset;
-
+      let endOffset = value.selection.focus.offset;
       // Anchor and focus are according to the start and end of user's selection,
       // so we need to sort them by line and offset if we want to always have the
       // start before end
@@ -541,8 +542,7 @@ class TranscriptText extends React.Component<ITranscriptTextProps, ITranscriptTe
       if (startOffset > endOffset) {
         [startOffset, endOffset] = [endOffset, startOffset];
       }
-
-      if (value.isFocused && selectionText !== '') {
+      if (value.selection.isFocused && selectionText !== '') {
         this.props.onSelectionChange({
           text: selectionText,
           startLine,
@@ -553,15 +553,12 @@ class TranscriptText extends React.Component<ITranscriptTextProps, ITranscriptTe
       } else {
         this.props.onSelectionChange(null);
       }
-
       if (selectionText === '') {
         const cursorLine = startLine;
         const cursorOffset = startOffset;
-
         const selectedStatements = this.props.statements.filter((statement) => {
           if (statement.statement_transcript_position) {
             const position = statement.statement_transcript_position;
-
             return (
               position.start_line <= cursorLine &&
               (position.start_line === cursorLine ? position.start_offset <= cursorOffset : true) &&
@@ -569,10 +566,8 @@ class TranscriptText extends React.Component<ITranscriptTextProps, ITranscriptTe
               (position.end_line === cursorLine ? position.end_offset >= startOffset : true)
             );
           }
-
           return false;
         });
-
         this.props.onSelectedStatementsChange(selectedStatements.map((statement) => statement.id));
       } else {
         this.props.onSelectedStatementsChange([]);
@@ -580,10 +575,8 @@ class TranscriptText extends React.Component<ITranscriptTextProps, ITranscriptTe
     });
   };
 
-  public onKeyDown = (event: Event) => {
-    // By this we prevent the user from changing the transcript
-    event.preventDefault();
-    return true;
+  public onKeyDown = () => {
+    // By not calling next() here, we prevent the user from changing the transcript
   };
 
   public render() {
@@ -591,6 +584,7 @@ class TranscriptText extends React.Component<ITranscriptTextProps, ITranscriptTe
 
     return (
       <Editor
+        ref={(editor) => editor && (this.editor = editor.controller)}
         autoFocus
         value={value}
         onChange={this.onChange}
@@ -600,7 +594,7 @@ class TranscriptText extends React.Component<ITranscriptTextProps, ITranscriptTe
     );
   }
 
-  public renderMark = (props) => {
+  public renderMark = (props: RenderMarkProps) => {
     const { children, mark, attributes } = props;
 
     if ((mark.type as string).startsWith('statement-')) {
@@ -629,7 +623,7 @@ class TranscriptText extends React.Component<ITranscriptTextProps, ITranscriptTe
 }
 
 const deserializeTranscript = (transcript: string): Slate.Value => {
-  const valueJSON = Plain.deserialize(transcript, { toJSON: true });
+  const valueJSON = SlatePlainSerializer.deserialize(transcript, { toJSON: true });
 
   // Add line numbers to data of line block nodes
   valueJSON.document.nodes.forEach((node, index) => {
@@ -643,68 +637,47 @@ const deserializeTranscript = (transcript: string): Slate.Value => {
 };
 
 const addMarksFromStatements = (
-  change: Slate.Change,
+  value: Slate.Value,
   statements: any[],
   selectedIds: string[],
-): Slate.Change => {
-  let decorations = change.value.decorations || List();
+): Slate.Value => {
+  let decorations = value.decorations || Immutable.List();
   decorations = removeDecorationsWithMarkType(decorations, 'statement-');
 
   statements.forEach((statement: any) => {
     if (statement.statement_transcript_position) {
       const position = statement.statement_transcript_position;
 
-      const startInlineNode = findInlineNodeByLineNumber(
-        change.value.document,
-        position.start_line,
-      );
-      const endInlineNode = findInlineNodeByLineNumber(change.value.document, position.end_line);
+      const startInlineNode = findInlineNodeByLineNumber(value.document, position.start_line);
+      const endInlineNode = findInlineNodeByLineNumber(value.document, position.end_line);
 
       decorations = decorations.push(
-        Slate.Range.fromJSON({
-          anchorKey: startInlineNode.key,
-          anchorOffset: position.start_offset,
-          focusKey: endInlineNode.key,
-          focusOffset: position.end_offset,
-          marks: [
-            {
-              type: `statement-${statement.id}`,
-              data: { selected: selectedIds.includes(statement.id) },
-            },
-          ],
+        Slate.Decoration.fromJSON({
+          anchor: {
+            key: startInlineNode.key,
+            offset: position.start_offset,
+            object: 'point',
+          },
+          focus: {
+            key: endInlineNode.key,
+            offset: position.end_offset,
+            object: 'point',
+          },
+          mark: {
+            type: `statement-${statement.id}`,
+            data: { selected: selectedIds.includes(statement.id) },
+          },
         }),
       );
     }
   });
 
-  return change.setValue({ decorations });
-};
-
-const moveToEnd = (change: Slate.Change): Slate.Change => {
-  const blocks = change.value.document.getBlocks();
-
-  if (blocks) {
-    change = (change as any).moveToEndOf(blocks.last());
-  }
-
-  return change;
-};
-
-const moveToStartCursor = (
-  change: Slate.Change,
-  startCursor: { line: number; offset: number },
-): Slate.Change => {
-  const blocks = change.value.document.getBlocks();
-
-  if (blocks) {
-    blocks.forEach((block) => {
-      if (block && block.data.get('line') === startCursor.line) {
-        change = (change as any).moveToStartOf(block).move(startCursor.offset);
-      }
-    });
-  }
-
-  return change;
+  return Slate.Value.create({
+    document: value.document,
+    selection: value.selection,
+    data: value.data,
+    decorations,
+  });
 };
 
 const findInlineNodeByLineNumber = (document: Slate.Document, line: number): Slate.Inline => {
@@ -722,49 +695,55 @@ const findInlineNodeByLineNumber = (document: Slate.Document, line: number): Sla
 };
 
 const highlightNewStatementSelection = (
-  change: Slate.Change,
+  value: Slate.Value,
   newStatementSelection: ITranscriptSelection | null,
-): Slate.Change => {
-  let decorations = change.value.decorations || List();
+): Slate.Value => {
+  let decorations = value.decorations || Immutable.List();
   decorations = removeDecorationsWithMarkType(decorations, 'new-statement');
 
   if (newStatementSelection !== null) {
     const startInlineNode = findInlineNodeByLineNumber(
-      change.value.document,
+      value.document,
       newStatementSelection.startLine,
     );
-    const endInlineNode = findInlineNodeByLineNumber(
-      change.value.document,
-      newStatementSelection.endLine,
-    );
+    const endInlineNode = findInlineNodeByLineNumber(value.document, newStatementSelection.endLine);
 
     decorations = decorations.push(
-      Slate.Range.fromJSON({
-        anchorKey: startInlineNode.key,
-        anchorOffset: newStatementSelection.startOffset,
-        focusKey: endInlineNode.key,
-        focusOffset: newStatementSelection.endOffset,
-        marks: [{ type: 'new-statement' }],
+      Slate.Decoration.fromJSON({
+        anchor: {
+          key: startInlineNode.key,
+          offset: newStatementSelection.startOffset,
+          object: 'point',
+        },
+        focus: {
+          key: endInlineNode.key,
+          offset: newStatementSelection.endOffset,
+          object: 'point',
+        },
+        mark: { type: 'new-statement' },
       }),
     );
   }
 
-  return change.setValue({ decorations });
+  return Slate.Value.create({
+    document: value.document,
+    selection: value.selection,
+    data: value.data,
+    decorations,
+  });
 };
 
 const removeDecorationsWithMarkType = (
-  decorations: List<Slate.Range>,
+  decorations: Immutable.List<Slate.Decoration>,
   markTypeStartsWith: string,
-): List<Slate.Range> => {
+): Immutable.List<Slate.Decoration> => {
   return decorations.filter((decoration) => {
-    if (!decoration || !decoration.marks) {
+    if (!decoration || !decoration.mark) {
       return false;
     }
 
-    return !!decoration.marks.find(
-      (mark) => (mark ? !mark.type.startsWith(markTypeStartsWith) : false),
-    );
-  }) as List<Slate.Range>;
+    return !decoration.mark.type.startsWith(markTypeStartsWith);
+  }) as Immutable.List<Slate.Decoration>;
 };
 
 const mapStateToProps = (state: ReduxState) => ({

@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import { css, cx } from 'emotion';
-import { isEqual } from 'lodash';
+import * as Immutable from 'immutable';
+import { debounce, isEqual } from 'lodash';
 import * as Slate from 'slate';
 import HtmlSerializer from 'slate-html-serializer';
 import { Editor, getEventTransfer } from 'slate-react';
@@ -18,7 +19,8 @@ import Paragraph from './featurePlugins/Paragraph';
 import SpecialCharacters from './featurePlugins/SpecialCharacters';
 
 import schema from './schema';
-import { IToolbarItem, toolbarDivider } from './toolbar';
+import { IToolbarItem } from './toolbar';
+import ToolbarDivider from './toolbar/ToolbarDivider';
 
 const bold = Bold();
 const embed = Embed();
@@ -29,6 +31,7 @@ const link = Link();
 const list = List();
 const paragraph = Paragraph();
 const specialCharacters = SpecialCharacters();
+const toolbarDivider = ToolbarDivider();
 
 interface IProps {
   value: object | null;
@@ -43,9 +46,11 @@ interface IState {
 }
 
 class RichTextEditor extends React.Component<IProps, IState> {
+  public editor: Slate.Editor;
   public htmlSerializer: HtmlSerializer;
   public toolbar: IToolbarItem[];
   public plugins: any[];
+  public debouncedPropagateChange: () => void;
 
   constructor(props: IProps) {
     super(props);
@@ -63,13 +68,13 @@ class RichTextEditor extends React.Component<IProps, IState> {
       ],
     });
 
-    let value;
+    let value: Slate.Value;
     if (props.value !== null) {
       value = Slate.Value.fromJSON(props.value);
     } else if (props.html) {
       value = this.htmlSerializer.deserialize(props.html);
     } else {
-      value = DEFAULT_VALUE;
+      value = Slate.Value.fromJSON(DEFAULT_VALUE);
     }
 
     this.state = {
@@ -105,6 +110,8 @@ class RichTextEditor extends React.Component<IProps, IState> {
       ...list.plugins,
       ...paragraph.plugins,
     ];
+
+    this.debouncedPropagateChange = debounce(this.propagateChange, 200);
   }
 
   public componentDidUpdate(prevProps: IProps) {
@@ -114,35 +121,45 @@ class RichTextEditor extends React.Component<IProps, IState> {
       (prevProps.html !== this.props.html &&
         this.props.html !== this.htmlSerializer.serialize(this.state.value))
     ) {
-      let value;
+      let value: Slate.Value;
       if (this.props.value !== null) {
         value = Slate.Value.fromJSON(this.props.value);
       } else if (this.props.html) {
         value = this.htmlSerializer.deserialize(this.props.html);
       } else {
-        value = DEFAULT_VALUE;
+        value = Slate.Value.fromJSON(DEFAULT_VALUE);
       }
 
       this.setState({ value });
     }
   }
 
-  public onChange = ({ value }: Slate.Change) => {
-    if (value.document !== this.state.value.document) {
-      this.props.onChange(value.toJSON(), this.htmlSerializer.serialize(value));
+  public onChange = (change: {
+    operations: Immutable.List<Slate.Operation>;
+    value: Slate.Value;
+  }) => {
+    if (change.value.document !== this.state.value.document) {
+      this.debouncedPropagateChange();
     }
 
-    this.setState({ value });
+    this.setState({ value: change.value });
   };
 
-  public onPaste = (event: Event, change: Slate.Change) => {
+  public propagateChange = () => {
+    this.props.onChange(this.state.value.toJSON(), this.htmlSerializer.serialize(this.state.value));
+  };
+
+  public handleToolbarCommand = (command: (editor: Slate.Editor) => void) => {
+    this.editor.command(command as any);
+  };
+
+  public onPaste = (event: Event, editor: Slate.Editor, next: () => void) => {
     const transfer = getEventTransfer(event);
     if (transfer.type !== 'html') {
-      return;
+      return next();
     }
     const { document } = this.htmlSerializer.deserialize((transfer as any).html);
-    change.insertFragment(document);
-    return true;
+    editor.insertFragment(document);
   };
 
   public render() {
@@ -159,7 +176,7 @@ class RichTextEditor extends React.Component<IProps, IState> {
           {this.toolbar.map((item, index) => (
             <span key={index}>
               {item.renderItem({
-                onChange: this.onChange,
+                onCommand: this.handleToolbarCommand,
                 value: this.state.value,
               })}
             </span>
@@ -174,6 +191,7 @@ class RichTextEditor extends React.Component<IProps, IState> {
           }}
         >
           <Editor
+            ref={(editor) => editor && (this.editor = editor.controller)}
             value={this.state.value}
             onChange={this.onChange}
             onPaste={this.onPaste}
@@ -185,7 +203,7 @@ class RichTextEditor extends React.Component<IProps, IState> {
                 min-height: 200px;
               `,
             )}
-            schema={schema}
+            schema={schema as any}
           />
         </div>
       </div>
@@ -193,7 +211,7 @@ class RichTextEditor extends React.Component<IProps, IState> {
   }
 }
 
-const DEFAULT_VALUE = Slate.Value.fromJSON({
+const DEFAULT_VALUE: Slate.ValueJSON = {
   document: {
     nodes: [
       {
@@ -212,6 +230,6 @@ const DEFAULT_VALUE = Slate.Value.fromJSON({
       },
     ],
   },
-});
+};
 
 export default RichTextEditor;

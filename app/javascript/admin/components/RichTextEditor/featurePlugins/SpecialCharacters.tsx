@@ -16,15 +16,14 @@ const SPECIAL_CHARACTERS = ['€', '£', '¥', '„', '‟', '½', '±', '×'];
 
 const toolbarItem: IToolbarItem = {
   renderItem(props) {
-    const { onChange, value } = props;
+    const { onCommand } = props;
 
     const onSpecialCharacterMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
       event.preventDefault();
-      const change = value.change();
 
-      change.insertText(event.currentTarget.innerText);
-
-      onChange(change);
+      onCommand((editor) => {
+        editor.insertText(event.currentTarget.innerText);
+      });
     };
 
     return (
