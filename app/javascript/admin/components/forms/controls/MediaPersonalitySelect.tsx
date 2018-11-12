@@ -67,7 +67,9 @@ export default class MediaPersonalitiesSelect extends React.Component<IMediaSele
               value={this.props.value || undefined}
               isLoading={loading}
               options={options}
-              onChange={(option: Option<string>) => this.props.onChange(option.value || null)}
+              onChange={(option: Option<string>) =>
+                this.props.onChange(option && option.value ? option.value : null)
+              }
               placeholder="Vyberte moderátora …"
               noResultsText="Žádný moderátor nenalezen"
               style={{
