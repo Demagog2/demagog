@@ -1,4 +1,4 @@
-import * as Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import * as Slate from 'slate';
 import { LAST_CHILD_TYPE_INVALID } from 'slate-schema-violations';
 
@@ -34,7 +34,7 @@ export default {
         }
       }
 
-      captureAsRavenWarning(error);
+      logNormalizeError(error);
     },
   },
   blocks: {
@@ -43,26 +43,26 @@ export default {
       nodes: [{ match: [{ object: 'text' }, { object: 'inline' }] }],
       marks: [{ type: 'bold' }, { type: 'italic' }],
       normalize: (_, error) => {
-        captureAsRavenWarning(error);
+        logNormalizeError(error);
       },
     },
     'unordered-list': {
       nodes: [{ match: { type: 'list-item' } }],
       normalize: (_, error) => {
-        captureAsRavenWarning(error);
+        logNormalizeError(error);
       },
     },
     'ordered-list': {
       nodes: [{ match: { type: 'list-item' } }],
       normalize: (_, error) => {
-        captureAsRavenWarning(error);
+        logNormalizeError(error);
       },
     },
     'list-item': {
       nodes: [{ match: [{ object: 'text' }, { object: 'inline' }] }],
       marks: [{ type: 'bold' }, { type: 'italic' }],
       normalize: (_, error) => {
-        captureAsRavenWarning(error);
+        logNormalizeError(error);
       },
     },
     // tslint:disable-next-line:object-literal-key-quotes
@@ -70,7 +70,7 @@ export default {
       nodes: [{ match: [{ object: 'text' }, { object: 'inline' }] }],
       marks: [],
       normalize: (_, error) => {
-        captureAsRavenWarning(error);
+        logNormalizeError(error);
       },
     },
     // tslint:disable-next-line:object-literal-key-quotes
@@ -81,7 +81,7 @@ export default {
         code: (code) => !!code,
       },
       normalize: (_, error) => {
-        captureAsRavenWarning(error);
+        logNormalizeError(error);
       },
     },
     // tslint:disable-next-line:object-literal-key-quotes
@@ -91,7 +91,7 @@ export default {
         src: (src) => !!src,
       },
       normalize: (_, error) => {
-        captureAsRavenWarning(error);
+        logNormalizeError(error);
       },
     },
   },
@@ -99,22 +99,21 @@ export default {
     link: {
       nodes: [{ match: { object: 'text' } }],
       normalize: (_, error) => {
-        captureAsRavenWarning(error);
+        logNormalizeError(error);
       },
     },
   },
 };
 
-function captureAsRavenWarning(error: Slate.SlateError) {
-  Raven.captureException(`RichTextEditor schema normalize error ${error.message}`, {
-    level: 'warning',
-    extra: {
-      rule: error.rule && JSON.stringify(error.rule),
-      mark: error.mark && JSON.stringify((error.mark as Slate.Mark).toJS()),
-      node: error.node && JSON.stringify((error.node as Slate.Node).toJS()),
-      child: error.child && JSON.stringify((error.child as Slate.Node).toJS()),
-      parent: error.parent && JSON.stringify((error.parent as Slate.Node).toJS()),
-    },
+function logNormalizeError(error: Slate.SlateError) {
+  Sentry.withScope((scope) => {
+    scope.setLevel(Sentry.Severity.Warning);
+    scope.setExtra('rule', error.rule && JSON.stringify(error.rule));
+    scope.setExtra('mark', error.mark && JSON.stringify((error.mark as Slate.Mark).toJS()));
+    scope.setExtra('node', error.node && JSON.stringify((error.node as Slate.Node).toJS()));
+    scope.setExtra('child', error.child && JSON.stringify((error.child as Slate.Node).toJS()));
+    scope.setExtra('parent', error.parent && JSON.stringify((error.parent as Slate.Node).toJS()));
+    Sentry.captureException(`RichTextEditor schema normalize error ${error.message}`);
   });
 
   // Log to console for easier debugging

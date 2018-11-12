@@ -2,8 +2,10 @@
 
 import 'whatwg-fetch';
 
-import * as Raven from 'raven-js';
-Raven.config('https://8a23e3e572a242059ecd4aa01ff8fbd2@sentry.io/1234584').install();
+import * as Sentry from '@sentry/browser';
+Sentry.init({
+  dsn: 'https://8a23e3e572a242059ecd4aa01ff8fbd2@sentry.io/1234584',
+});
 
 import 'normalize.css/normalize.css';
 
