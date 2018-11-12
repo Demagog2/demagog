@@ -124,7 +124,11 @@ class Images extends React.Component<IProps, IState> {
   public copyImageUrlToClipboard = (
     contentImage: GetContentImagesQuery['content_images']['items'][0],
   ) => () => {
-    const url = `${document.location.protocol}//${document.location.host}${contentImage.image}`;
+    const hostname =
+      document && document.location
+        ? `${document.location.protocol}//${document.location.host}`
+        : '';
+    const url = `${hostname}${contentImage.image}`;
 
     copy(url);
 
