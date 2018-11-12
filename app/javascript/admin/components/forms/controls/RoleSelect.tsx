@@ -2,12 +2,15 @@ import * as React from 'react';
 
 import { Colors } from '@blueprintjs/core';
 import { Query } from 'react-apollo';
-import Select, { Option } from 'react-select';
+import Select from 'react-select';
 
 import { GetRolesQuery } from '../../../operation-result-types';
 import { GetRoles } from '../../../queries/queries';
 
-class GetRolesQueryComponent extends Query<GetRolesQuery> {}
+interface ISelectOption {
+  label: string;
+  value: string;
+}
 
 interface IProps {
   className?: string;
@@ -21,9 +24,9 @@ interface IProps {
 export default class RoleSelect extends React.Component<IProps> {
   public render() {
     return (
-      <GetRolesQueryComponent query={GetRoles}>
+      <Query<GetRolesQuery> query={GetRoles}>
         {({ data, loading }) => {
-          let options: Array<{ label: string; value: string }> = [];
+          let options: ISelectOption[] = [];
 
           if (data && !loading) {
             options = data.roles.map((r) => ({
@@ -33,24 +36,29 @@ export default class RoleSelect extends React.Component<IProps> {
           }
 
           return (
-            <Select
+            <Select<ISelectOption>
               id={this.props.id}
-              value={this.props.value || undefined}
+              value={options.filter(({ value }) => value === this.props.value)}
               isLoading={loading}
               options={options}
-              onChange={(option: Option<string>) =>
-                option.value && this.props.onChange(option.value)
-              }
+              onChange={(selectedOption) => {
+                if (selectedOption) {
+                  this.props.onChange((selectedOption as ISelectOption).value);
+                }
+              }}
               onBlur={this.props.onBlur}
               placeholder="Vyberte…"
-              clearable={false}
-              style={{
-                borderColor: this.props.error ? Colors.RED3 : '#cccccc',
+              isClearable={false}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  borderColor: this.props.error ? Colors.RED3 : '#cccccc',
+                }),
               }}
             />
           );
         }}
-      </GetRolesQueryComponent>
+      </Query>
     );
   }
 }

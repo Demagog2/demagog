@@ -1,7 +1,8 @@
-import gql from 'graphql-tag';
 import * as React from 'react';
+
+import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import Select, { Option } from 'react-select';
+import Select from 'react-select';
 
 const GET_USERS = gql`
   query GetUsersForUserSelect($roles: [String!]) {
@@ -13,7 +14,7 @@ const GET_USERS = gql`
   }
 `;
 
-interface IGetUsersQuery {
+interface IGetUsersForUserSelectQuery {
   users: Array<{
     id: string;
     first_name: string;
@@ -21,7 +22,10 @@ interface IGetUsersQuery {
   }>;
 }
 
-class GetUsersQueryComponent extends Query<IGetUsersQuery> {}
+interface ISelectOption {
+  label: string;
+  value: string;
+}
 
 interface IProps {
   id?: string;
@@ -35,9 +39,9 @@ interface IProps {
 export default class UserSelect extends React.Component<IProps> {
   public render() {
     return (
-      <GetUsersQueryComponent query={GET_USERS} variables={{ roles: this.props.roles }}>
+      <Query<IGetUsersForUserSelectQuery> query={GET_USERS} variables={{ roles: this.props.roles }}>
         {({ data, loading }) => {
-          let options: Array<{ label: string; value: string }> = [];
+          let options: ISelectOption[] = [];
 
           if (data && !loading) {
             options = data.users.map((user) => ({
@@ -47,21 +51,26 @@ export default class UserSelect extends React.Component<IProps> {
           }
 
           return (
-            <Select
+            <Select<ISelectOption>
               id={this.props.id}
-              value={this.props.value || undefined}
+              value={options.filter(({ value }) => value === this.props.value)}
               isLoading={loading}
               options={options}
-              onChange={(option: Option<string>) =>
-                this.props.onChange((option && option.value) || null)
-              }
+              onChange={(selectedOption) => {
+                if (selectedOption) {
+                  this.props.onChange((selectedOption as ISelectOption).value);
+                } else {
+                  this.props.onChange(null);
+                }
+              }}
+              isClearable
               onBlur={this.props.onBlur}
               placeholder="Vyberte …"
-              disabled={this.props.disabled || false}
+              isDisabled={this.props.disabled || false}
             />
           );
         }}
-      </GetUsersQueryComponent>
+      </Query>
     );
   }
 }

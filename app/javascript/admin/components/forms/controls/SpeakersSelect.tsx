@@ -23,7 +23,10 @@ interface IGetSpeakersQuery {
   }>;
 }
 
-class GetSpeakersQueryComponent extends Query<IGetSpeakersQuery> {}
+interface ISelectOption {
+  label: string;
+  value: string;
+}
 
 interface IProps {
   id?: string;
@@ -36,9 +39,9 @@ interface IProps {
 export default class SpeakersSelect extends React.Component<IProps> {
   public render() {
     return (
-      <GetSpeakersQueryComponent query={GET_SPEAKERS}>
+      <Query<IGetSpeakersQuery> query={GET_SPEAKERS}>
         {({ data, loading }) => {
-          let options: Array<{ label: string; value: string }> = [];
+          let options: ISelectOption[] = [];
 
           if (data && !loading) {
             options = data.speakers.map((s) => ({
@@ -48,24 +51,28 @@ export default class SpeakersSelect extends React.Component<IProps> {
           }
 
           return (
-            <Select
+            <Select<ISelectOption>
               id={this.props.id}
-              multi
-              value={this.props.value}
+              isMulti
+              value={options.filter(({ value }) => this.props.value.includes(value))}
               isLoading={loading}
               options={options}
-              onChange={(selectedOptions: Array<{ value: string }>) =>
+              onChange={(selectedOptions: ISelectOption[]) =>
                 this.props.onChange(selectedOptions.map((o) => o.value))
               }
+              isClearable
               onBlur={this.props.onBlur}
               placeholder="Vyberte řečníky …"
-              style={{
-                borderColor: this.props.error ? Colors.RED3 : '#cccccc',
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  borderColor: this.props.error ? Colors.RED3 : '#cccccc',
+                }),
               }}
             />
           );
         }}
-      </GetSpeakersQueryComponent>
+      </Query>
     );
   }
 }

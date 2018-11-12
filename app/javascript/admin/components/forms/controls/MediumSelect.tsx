@@ -2,11 +2,14 @@ import * as React from 'react';
 
 import { Colors } from '@blueprintjs/core';
 import { Query } from 'react-apollo';
-import Select, { Option } from 'react-select';
+import Select from 'react-select';
 import { GetMediaQuery } from '../../../operation-result-types';
 import { GetMedia } from '../../../queries/queries';
 
-class GetMediaQueryComponent extends Query<GetMediaQuery> {}
+interface ISelectOption {
+  label: string;
+  value: string;
+}
 
 interface IMediaSelectProps {
   id?: string;
@@ -19,9 +22,9 @@ interface IMediaSelectProps {
 export default class MediumSelect extends React.Component<IMediaSelectProps> {
   public render() {
     return (
-      <GetMediaQueryComponent query={GetMedia} variables={{ name: '' }}>
+      <Query<GetMediaQuery> query={GetMedia} variables={{ name: '' }}>
         {({ data, loading }) => {
-          let options: Array<{ label: string; value: string }> = [];
+          let options: ISelectOption[] = [];
 
           if (data && !loading) {
             options = data.media.map((mp) => ({
@@ -31,21 +34,30 @@ export default class MediumSelect extends React.Component<IMediaSelectProps> {
           }
 
           return (
-            <Select
+            <Select<ISelectOption>
               id={this.props.id}
-              value={this.props.value || undefined}
+              value={options.filter(({ value }) => value === this.props.value)}
               isLoading={loading}
               options={options}
-              onChange={(option: Option<string>) => this.props.onChange(option.value || null)}
+              onChange={(selectedOption) => {
+                if (selectedOption) {
+                  this.props.onChange((selectedOption as ISelectOption).value);
+                } else {
+                  this.props.onChange(null);
+                }
+              }}
               placeholder="Vyberte pořad …"
-              clearable={false}
-              style={{
-                borderColor: this.props.error ? Colors.RED3 : '#cccccc',
+              isClearable={false}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  borderColor: this.props.error ? Colors.RED3 : '#cccccc',
+                }),
               }}
             />
           );
         }}
-      </GetMediaQueryComponent>
+      </Query>
     );
   }
 }

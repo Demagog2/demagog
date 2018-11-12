@@ -2,12 +2,15 @@ import * as React from 'react';
 
 import { Colors } from '@blueprintjs/core';
 import { Query } from 'react-apollo';
-import Select, { Option } from 'react-select';
+import Select from 'react-select';
 
 import { GetSpeakerBodiesQuery } from '../../../operation-result-types';
 import { GetSpeakerBodies } from '../../../queries/queries';
 
-class GetSpeakerBodiesQueryComponent extends Query<GetSpeakerBodiesQuery> {}
+interface ISelectOption {
+  label: string;
+  value: string;
+}
 
 interface IProps {
   className?: string;
@@ -21,9 +24,9 @@ interface IProps {
 export default class BodySelect extends React.Component<IProps> {
   public render() {
     return (
-      <GetSpeakerBodiesQueryComponent query={GetSpeakerBodies}>
+      <Query<GetSpeakerBodiesQuery> query={GetSpeakerBodies}>
         {({ data, loading }) => {
-          let options: Array<{ label: string; value: string }> = [];
+          let options: ISelectOption[] = [];
 
           if (data && !loading) {
             options = data.bodies.map((b) => ({
@@ -35,22 +38,27 @@ export default class BodySelect extends React.Component<IProps> {
           return (
             <Select
               id={this.props.id}
-              value={this.props.value || undefined}
+              value={options.filter(({ value }) => value === this.props.value)}
               isLoading={loading}
               options={options}
-              onChange={(option: Option<string>) =>
-                option.value && this.props.onChange(option.value)
-              }
+              onChange={(selectedOption) => {
+                if (selectedOption) {
+                  this.props.onChange((selectedOption as ISelectOption).value);
+                }
+              }}
               onBlur={this.props.onBlur}
               placeholder="Vyberte…"
-              clearable={false}
-              style={{
-                borderColor: this.props.error ? Colors.RED3 : '#cccccc',
+              isClearable={false}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  borderColor: this.props.error ? Colors.RED3 : '#cccccc',
+                }),
               }}
             />
           );
         }}
-      </GetSpeakerBodiesQueryComponent>
+      </Query>
     );
   }
 }

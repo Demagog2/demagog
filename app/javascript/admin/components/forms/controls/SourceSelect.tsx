@@ -4,13 +4,16 @@ import { Colors } from '@blueprintjs/core';
 import { omit } from 'lodash';
 import { Query } from 'react-apollo';
 import * as isEqual from 'react-fast-compare';
-import Select, { Option } from 'react-select';
+import Select from 'react-select';
 
 import { GetSourcesForSelectQuery } from '../../../operation-result-types';
 import { GetSourcesForSelect } from '../../../queries/queries';
 import { displayDate } from '../../../utils';
 
-class GetSourcesForSelectQueryComponent extends Query<GetSourcesForSelectQuery> {}
+interface ISelectOption {
+  label: string;
+  value: string;
+}
 
 interface IProps {
   className?: string;
@@ -31,9 +34,9 @@ export default class SourceSelect extends React.Component<IProps> {
 
   public render() {
     return (
-      <GetSourcesForSelectQueryComponent query={GetSourcesForSelect}>
+      <Query<GetSourcesForSelectQuery> query={GetSourcesForSelect}>
         {({ data, loading }) => {
-          let options: Array<{ label: string; value: string }> = [];
+          let options: ISelectOption[] = [];
 
           if (data && !loading) {
             options = data.sources.map((s) => ({
@@ -45,24 +48,29 @@ export default class SourceSelect extends React.Component<IProps> {
           }
 
           return (
-            <Select
+            <Select<ISelectOption>
               id={this.props.id}
-              value={this.props.value || undefined}
+              value={options.filter(({ value }) => value === this.props.value)}
               isLoading={loading}
               options={options}
-              onChange={(option: Option<string>) =>
-                option.value && this.props.onChange(option.value)
-              }
+              onChange={(selectedOption) => {
+                if (selectedOption) {
+                  this.props.onChange((selectedOption as ISelectOption).value);
+                }
+              }}
               onBlur={this.props.onBlur}
               placeholder="Vyberte diskuzi…"
-              clearable={false}
-              style={{
-                borderColor: this.props.error ? Colors.RED3 : '#cccccc',
+              isClearable={false}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  borderColor: this.props.error ? Colors.RED3 : '#cccccc',
+                }),
               }}
             />
           );
         }}
-      </GetSourcesForSelectQueryComponent>
+      </Query>
     );
   }
 }

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import Select, { Option } from 'react-select';
+import Select from 'react-select';
 
 const GET_VERACITIES = gql`
   query {
@@ -22,7 +22,10 @@ interface IGetVeracitiesQuery {
   }>;
 }
 
-class GetVeracitiesQueryComponent extends Query<IGetVeracitiesQuery> {}
+interface ISelectOption {
+  name: string;
+  value: string;
+}
 
 interface IProps {
   id?: string;
@@ -35,33 +38,38 @@ interface IProps {
 export default class VeracitySelect extends React.Component<IProps> {
   public render() {
     return (
-      <GetVeracitiesQueryComponent query={GET_VERACITIES}>
+      <Query<IGetVeracitiesQuery> query={GET_VERACITIES}>
         {({ data, loading }) => {
-          let options: Array<{ label: string; value: string }> = [];
+          let options: ISelectOption[] = [];
 
           if (data && !loading) {
             options = data.veracities.map((veracity) => ({
-              label: veracity.name,
+              name: veracity.name,
               value: veracity.id,
             }));
           }
 
           return (
-            <Select
+            <Select<ISelectOption>
               id={this.props.id}
-              value={this.props.value || undefined}
+              value={options.filter(({ value }) => value === this.props.value)}
               isLoading={loading}
               options={options}
-              onChange={(option: Option<string>) =>
-                this.props.onChange((option && option.value) || null)
-              }
+              onChange={(selectedOption) => {
+                if (selectedOption) {
+                  this.props.onChange((selectedOption as ISelectOption).value);
+                } else {
+                  this.props.onChange(null);
+                }
+              }}
+              isClearable
               onBlur={this.props.onBlur}
               placeholder="Zatím nehodnoceno"
-              disabled={this.props.disabled || false}
+              isDisabled={this.props.disabled || false}
             />
           );
         }}
-      </GetVeracitiesQueryComponent>
+      </Query>
     );
   }
 }

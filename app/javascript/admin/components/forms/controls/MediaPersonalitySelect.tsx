@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Colors } from '@blueprintjs/core';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import Select, { Option } from 'react-select';
+import Select from 'react-select';
 
 export const GET_MEDIA_PERSONALITIES = gql`
   query {
@@ -27,7 +27,10 @@ interface IGetMediaPersonalitiesQuery {
   }>;
 }
 
-class MediaPersonalitiesQueryComponent extends Query<IGetMediaPersonalitiesQuery> {}
+interface ISelectOption {
+  label: string;
+  value: string;
+}
 
 interface IMediaSelectProps {
   id?: string;
@@ -41,9 +44,9 @@ interface IMediaSelectProps {
 export default class MediaPersonalitiesSelect extends React.Component<IMediaSelectProps> {
   public render() {
     return (
-      <MediaPersonalitiesQueryComponent query={GET_MEDIA_PERSONALITIES}>
+      <Query<IGetMediaPersonalitiesQuery> query={GET_MEDIA_PERSONALITIES}>
         {({ data, loading }) => {
-          let options: Array<{ label: string; value: string }> = [];
+          let options: ISelectOption[] = [];
 
           if (data && !loading) {
             let mediaPersonalities = data.media_personalities;
@@ -61,22 +64,36 @@ export default class MediaPersonalitiesSelect extends React.Component<IMediaSele
           }
 
           return (
-            <Select
+            <Select<ISelectOption>
               id={this.props.id}
-              disabled={!this.props.mediumOptional && !this.props.mediumId}
-              value={this.props.value || undefined}
+              isDisabled={!this.props.mediumOptional && !this.props.mediumId}
+              value={options.filter(({ value }) => value === this.props.value)}
               isLoading={loading}
               options={options}
-              onChange={(option: Option<string>) => this.props.onChange(option.value || null)}
+              onChange={(selectedOption) => {
+                if (selectedOption) {
+                  this.props.onChange((selectedOption as ISelectOption).value);
+                } else {
+                  this.props.onChange(null);
+                }
+              }}
+              isClearable
               placeholder="Vyberte moderátora …"
-              noResultsText="Žádný moderátor nenalezen"
-              style={{
-                borderColor: this.props.error ? Colors.RED3 : '#cccccc',
+              noOptionsMessage={({ inputValue }) =>
+                inputValue
+                  ? `Žádný moderátor jména ${inputValue} nenalezen`
+                  : 'Žádný moderátor nenalezen'
+              }
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  borderColor: this.props.error ? Colors.RED3 : '#cccccc',
+                }),
               }}
             />
           );
         }}
-      </MediaPersonalitiesQueryComponent>
+      </Query>
     );
   }
 }

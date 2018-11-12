@@ -13,8 +13,6 @@ import '@blueprintjs/core/lib/css/blueprint';
 import '@blueprintjs/datetime/lib/css/blueprint-datetime.css';
 import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 
-import 'react-select/dist/react-select.css';
-
 import 'jquery';
 import 'jquery-ujs';
 
