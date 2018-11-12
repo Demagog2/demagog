@@ -259,15 +259,17 @@
 
 "@types/lodash@^4.14.108":
   version "4.14.108"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.108.tgz#02656af3add2e5b3174f830862c47421c00ef817"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.108.tgz#02656azf3add2e5b3174f830862c47421c00ef817"
+  integrity sha1-AmVq863S5bMXT4MIYsR0IcAO+Bc=
 
 "@types/luxon@^0.5.2":
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-0.5.2.tgz#3a12e672cfde45a83fc92b8b11ba91db0622e6fc"
 
 "@types/node@*":
-  version "10.0.6"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.0.6.tgz#c0bce8e539bf34c1b850c13ff46bead2fecc2e58"
+  version "10.12.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.5.tgz#7e7ea1a9b34d2c8d704cb0b755dffbcda34741ad"
+  integrity sha512-GzdHjq3t3eGLMv92Al90Iq+EoLL+86mPfQhuglbBFO7HiLdC/rkt+zrzJJumAiBF6nsrBWhou22rPW663AAyFw==
 
 "@types/prop-types@*":
   version "15.5.6"
@@ -394,8 +396,9 @@
   integrity sha512-iK/FYmlhQOE6xHUB/dsXeCp4UWmJeI1ZxlLe+2u8KmCy+si1TDu+3+ioEO90rNgTAjm25Cwr+C0t5n8rFnE/NA==
 
 "@types/zen-observable@^0.5.3":
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.5.3.tgz#91b728599544efbb7386d8b6633693a3c2e7ade5"
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.5.4.tgz#b863a4191e525206819e008097ebf0fb2e3a1cdc"
+  integrity sha512-sW6xN96wUak4tgc89d0tbTg7QDGYhGv5hvQIS6h4mRCd8h2btiZ80loPU8cyLwsBbA4ZeQt0FjvUhJ4rNhdsGg==
 
 abab@^1.0.4:
   version "1.0.4"
