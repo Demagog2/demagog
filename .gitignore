@@ -10,8 +10,9 @@
 # Ignore vim tmp files
 *.swp
 
-# Ignore idea files
+# Ignore editor files
 /.idea
+/.vscode
 
 # Ignore local env properties
 /.env
