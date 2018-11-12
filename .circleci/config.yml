@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/ruby:2.4.1-node
+      - image: circleci/ruby:2.4-node
         environment:
           DB_HOST: 127.0.0.1
           RAILS_ENV: test
@@ -39,10 +39,6 @@ jobs:
           name: install dependencies
           command: |
             bundle install --jobs=4 --retry=3 --path vendor/bundle
-
-      - run:
-          name: Upgrade Yarn
-          command: npm install -g yarn
 
       - run:
           name: Yarn Install
