@@ -6,8 +6,8 @@
     "lint": "tslint 'app/javascript/**/*.{ts,tsx}'"
   },
   "dependencies": {
-    "@blueprintjs/core": "^3.0.1",
-    "@blueprintjs/datetime": "^3.0.0",
+    "@blueprintjs/core": "~3.8.0",
+    "@blueprintjs/datetime": "^3.3.1",
     "@rails/webpacker": "3.4",
     "@sentry/browser": "^4.3.0",
     "@types/classnames": "^2.2.4",
@@ -30,7 +30,7 @@
     "@types/slate-html-serializer": "^0.6.2",
     "@types/slate-react": "^0.20.1",
     "@types/uuid": "^3.4.3",
-    "@types/yup": "^0.24.7",
+    "@types/yup": "^0.26.1",
     "activestorage": "^5.2.0",
     "anchorme": "^1.1.2",
     "apollo-client": "2.3.4",
@@ -77,11 +77,11 @@
     "slate-soft-break": "^0.9.0",
     "ts-jest": "^22.4.5",
     "ts-loader": "^3.5.0",
-    "typescript": "^3.0.3",
+    "typescript": "^3.1.6",
     "uuid": "^3.2.1",
     "webpack": "3.10.0",
     "whatwg-fetch": "^2.0.4",
-    "yup": "^0.25.1",
+    "yup": "^0.26.6",
     "zurb-foundation-5": "^5.4.7"
   },
   "devDependencies": {
