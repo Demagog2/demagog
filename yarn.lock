@@ -8097,9 +8097,9 @@ slate-soft-break@^0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/slate-soft-break/-/slate-soft-break-0.9.0.tgz#7fb2a22eb8600717ee299f7866469cb9c705a53d"
 
-slate@^0.44.4:
-  version "0.44.4"
-  resolved "https://registry.yarnpkg.com/slate/-/slate-0.44.4.tgz#b8b82c2d906805aaed42e86ad331963246386aa4"
+slate@^0.44.5:
+  version "0.44.5"
+  resolved "https://registry.yarnpkg.com/slate/-/slate-0.44.5.tgz#31186421bc4af28ea21ec59ac140e3e21ee8e134"
   dependencies:
     debug "^3.1.0"
     direction "^0.1.5"
