@@ -41,7 +41,7 @@ export default {
     // tslint:disable-next-line:object-literal-key-quotes
     paragraph: {
       nodes: [{ match: [{ object: 'text' }, { object: 'inline' }] }],
-      marks: [{ match: [{ type: 'bold' }, { type: 'italic' }] }],
+      marks: [{ type: 'bold' }, { type: 'italic' }],
       normalize: (_, error) => {
         captureAsRavenWarning(error);
       },
@@ -60,7 +60,7 @@ export default {
     },
     'list-item': {
       nodes: [{ match: [{ object: 'text' }, { object: 'inline' }] }],
-      marks: [{ match: [{ type: 'bold' }, { type: 'italic' }] }],
+      marks: [{ type: 'bold' }, { type: 'italic' }],
       normalize: (_, error) => {
         captureAsRavenWarning(error);
       },
@@ -106,12 +106,24 @@ export default {
 };
 
 function captureAsRavenWarning(error: Slate.SlateError) {
-  Raven.captureException(`RichTextEditor schema error ${error.message}`, {
+  Raven.captureException(`RichTextEditor schema normalize error ${error.message}`, {
     level: 'warning',
     extra: {
+      rule: error.rule && JSON.stringify(error.rule),
+      mark: error.mark && JSON.stringify((error.mark as Slate.Mark).toJS()),
       node: error.node && JSON.stringify((error.node as Slate.Node).toJS()),
       child: error.child && JSON.stringify((error.child as Slate.Node).toJS()),
       parent: error.parent && JSON.stringify((error.parent as Slate.Node).toJS()),
     },
+  });
+
+  // Log to console for easier debugging
+  // tslint:disable-next-line:no-console
+  console.warn(`RichTextEditor schema normalize error ${error.message}`, {
+    error,
+    mark: error.mark && (error.mark as Slate.Mark).toJS(),
+    node: error.node && (error.node as Slate.Node).toJS(),
+    child: error.child && (error.child as Slate.Node).toJS(),
+    parent: error.parent && (error.parent as Slate.Node).toJS(),
   });
 }
