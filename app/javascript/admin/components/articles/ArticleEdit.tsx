@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Mutation, MutationFn, Query } from 'react-apollo';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { addFlashMessage } from '../../actions/flashMessages';
 import { deleteArticleIllustration, uploadArticleIllustration } from '../../api';
@@ -24,9 +24,7 @@ class UpdateArticleMutationComponent extends Mutation<
 
 type UpdateArticleMutationFn = MutationFn<UpdateArticleMutation, UpdateArticleMutationVariables>;
 
-interface IArticleEditProps extends RouteComponentProps<{ id: string }> {
-  dispatch: Dispatch;
-}
+interface IArticleEditProps extends RouteComponentProps<{ id: string }>, DispatchProp {}
 
 class ArticleEdit extends React.Component<IArticleEditProps> {
   public onSuccess = () => {

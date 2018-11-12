@@ -5,7 +5,7 @@ import * as classNames from 'classnames';
 import { Form, Formik } from 'formik';
 import { DateTime } from 'luxon';
 import { Mutation, Query } from 'react-apollo';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Link, withRouter } from 'react-router-dom';
 import * as yup from 'yup';
@@ -34,9 +34,7 @@ class CreateStatementMutationComponent extends Mutation<
   CreateStatementMutationVariables
 > {}
 
-interface IProps extends RouteComponentProps<{ sourceId: string }> {
-  dispatch: Dispatch;
-}
+interface IProps extends RouteComponentProps<{ sourceId: string }>, DispatchProp {}
 
 // tslint:disable-next-line:max-classes-per-file
 class StatementNew extends React.Component<IProps> {

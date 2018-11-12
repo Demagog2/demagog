@@ -5,7 +5,7 @@ import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
 import { cx } from 'emotion';
 import { truncate } from 'lodash';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
@@ -44,8 +44,7 @@ interface IStatement {
   comments_count: number;
 }
 
-interface IProps {
-  dispatch: Dispatch;
+interface IProps extends DispatchProp {
   onDeleted?: () => void;
   refetchQueriesAfterDelete?: object[];
   statement: IStatement;

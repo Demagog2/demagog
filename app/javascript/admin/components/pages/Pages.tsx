@@ -3,7 +3,7 @@ import { IconNames } from '@blueprintjs/icons';
 import * as classNames from 'classnames';
 import * as React from 'react';
 import { Query } from 'react-apollo';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import {
@@ -24,10 +24,6 @@ import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
 // Lets just load all of them, there shouldn't be hundreds of them
 const PAGES_PER_PAGE = 100;
 
-interface IProps {
-  dispatch: Dispatch;
-}
-
 interface IState {
   search: string;
   confirmDeleteModalPageId: string | null;
@@ -35,7 +31,7 @@ interface IState {
 
 class GetPagesQuery extends Query<GetPagesQueryResult, GetPagesQueryVariables> {}
 
-class Pages extends React.Component<IProps, IState> {
+class Pages extends React.Component<DispatchProp, IState> {
   public state = {
     search: '',
     confirmDeleteModalPageId: null,

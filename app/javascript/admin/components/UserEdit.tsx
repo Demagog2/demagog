@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Mutation, MutationFn, Query } from 'react-apollo';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
 import { fetchCurrentUser } from '../actions/currentUser';
@@ -31,10 +31,9 @@ class UpdateUserMutationComponent extends Mutation<
 interface IUpdateUserMutationFn
   extends MutationFn<UpdateUserMutation, UpdateUserMutationVariables> {}
 
-interface IUserEditProps extends RouteComponentProps<{ id: string }> {
+interface IUserEditProps extends RouteComponentProps<{ id: string }>, DispatchProp {
   id: number;
   currentUser: IState['currentUser']['user'];
-  dispatch: Dispatch;
 }
 
 class UserEdit extends React.Component<IUserEditProps> {

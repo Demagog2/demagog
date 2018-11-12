@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Mutation, MutationFn } from 'react-apollo';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
@@ -16,9 +16,7 @@ class BodyNewMutation extends Mutation<CreateBodyMutation, CreateBodyMutationVar
 interface ICreateBodyMutationFn
   extends MutationFn<CreateBodyMutation, CreateBodyMutationVariables> {}
 
-interface IBodyNewProps extends RouteComponentProps<{}> {
-  dispatch: Dispatch;
-}
+interface IBodyNewProps extends RouteComponentProps<{}>, DispatchProp {}
 
 // tslint:disable-next-line:max-classes-per-file
 class BodyNew extends React.Component<IBodyNewProps> {

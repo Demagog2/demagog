@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Mutation, MutationFn, Query } from 'react-apollo';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
 import { addFlashMessage } from '../actions/flashMessages';
@@ -26,9 +26,7 @@ class UpdateBodyMutationComponent extends Mutation<
 interface IUpdateBodyMutationFn
   extends MutationFn<UpdateBodyMutation, UpdateBodyMutationVariables> {}
 
-interface IBodyDetailProps extends RouteComponentProps<{ id: string }> {
-  dispatch: Dispatch;
-}
+interface IBodyDetailProps extends RouteComponentProps<{ id: string }>, DispatchProp {}
 
 class BodyEdit extends React.Component<IBodyDetailProps> {
   public onFormSubmit = (

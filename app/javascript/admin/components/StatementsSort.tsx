@@ -4,7 +4,7 @@ import { Button, Classes, Intent } from '@blueprintjs/core';
 import { ApolloError } from 'apollo-client';
 import { Mutation, Query } from 'react-apollo';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Link, withRouter } from 'react-router-dom';
 
@@ -42,10 +42,9 @@ interface IStatement {
   };
 }
 
-interface IProps {
+interface IProps extends DispatchProp {
   source: ISource;
   statements: IStatement[];
-  dispatch: Dispatch;
   onCompleted: () => void;
 }
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Mutation, MutationFn, Query } from 'react-apollo';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { addFlashMessage } from '../actions/flashMessages';
 import {
@@ -23,9 +23,7 @@ class UpdateSourceMutationComponent extends Mutation<
 
 type UpdateSourceMutationFn = MutationFn<UpdateSourceMutation, UpdateSourceMutationVariables>;
 
-interface ISourceEditProps extends RouteComponentProps<{ id: string }> {
-  dispatch: Dispatch;
-}
+interface ISourceEditProps extends RouteComponentProps<{ id: string }>, DispatchProp {}
 
 class SourceEdit extends React.Component<ISourceEditProps> {
   public onSuccess = () => {

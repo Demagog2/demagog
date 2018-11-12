@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Classes, Intent, Overlay, Toast } from '@blueprintjs/core';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 
 import { removeFlashMessage } from '../actions/flashMessages';
 
@@ -14,8 +14,7 @@ const TYPE_TO_INTENT = {
   warning: Intent.WARNING,
 };
 
-interface IFlashMessagesProps {
-  dispatch: Dispatch;
+interface IFlashMessagesProps extends DispatchProp {
   messages: Array<{
     id: string;
     message: string;

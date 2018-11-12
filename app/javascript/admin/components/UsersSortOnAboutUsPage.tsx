@@ -5,7 +5,7 @@ import { ApolloError } from 'apollo-client';
 import { sortBy } from 'lodash';
 import { Mutation, Query } from 'react-apollo';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
@@ -26,8 +26,7 @@ class UpdateUsersRankMutationComponent extends Mutation<
   UpdateUsersRankMutationVariables
 > {}
 
-interface IUsersSortOnAboutUsPageProps {
-  dispatch: Dispatch;
+interface IUsersSortOnAboutUsPageProps extends DispatchProp {
   users: GetUsersQuery['users'];
   isLoading: boolean;
 }

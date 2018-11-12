@@ -7,7 +7,7 @@ import * as dateFnsCsLocale from 'date-fns/locale/cs';
 import { css, cx } from 'emotion';
 import { DateTime } from 'luxon';
 import { Mutation, Query } from 'react-apollo';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
@@ -23,9 +23,7 @@ class GetNotificationsQueryComponent extends Query<
   GetNotificationsQueryVariables
 > {}
 
-interface IProps extends RouteComponentProps<{}> {
-  dispatch: Dispatch;
-}
+interface IProps extends RouteComponentProps<{}>, DispatchProp {}
 
 interface IState {
   isLoadingMore: boolean;

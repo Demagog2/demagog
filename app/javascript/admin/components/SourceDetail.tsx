@@ -20,7 +20,7 @@ import { ApolloError } from 'apollo-client';
 import { css, cx } from 'emotion';
 import { get, groupBy, orderBy } from 'lodash';
 import { Mutation, Query } from 'react-apollo';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
@@ -56,9 +56,7 @@ const STATUS_FILTER_LABELS = {
   [ASSESSMENT_STATUS_APPROVED]: 'Schválené',
 };
 
-interface IProps extends RouteComponentProps<{ sourceId: string }> {
-  dispatch: Dispatch;
-}
+interface IProps extends RouteComponentProps<{ sourceId: string }>, DispatchProp {}
 
 interface IState {
   showConfirmDeleteModal: boolean;

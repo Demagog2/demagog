@@ -7,7 +7,7 @@ import * as classNames from 'classnames';
 import * as copy from 'copy-to-clipboard';
 import { Query } from 'react-apollo';
 import Dropzone, { ImageFile } from 'react-dropzone';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import { uploadContentImage } from '../api';
@@ -28,9 +28,7 @@ class GetContentImagesQueryComponent extends Query<
   GetContentImagesQueryVariables
 > {}
 
-interface IProps {
-  dispatch: Dispatch;
-}
+interface IProps extends DispatchProp<any> {}
 
 interface IState {
   search: string;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Mutation } from 'react-apollo';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { addFlashMessage } from '../../actions/flashMessages';
@@ -15,9 +15,7 @@ class CreatePageMutationComponent extends Mutation<
   CreatePageMutationVariables
 > {}
 
-interface IPageNewProps extends RouteComponentProps<{}> {
-  dispatch: Dispatch;
-}
+interface IPageNewProps extends RouteComponentProps<{}>, DispatchProp {}
 
 export class PageNew extends React.Component<IPageNewProps> {
   public onSuccess = (pageId: string) => {

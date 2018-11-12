@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Mutation, MutationFn } from 'react-apollo';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
@@ -20,9 +20,7 @@ class CreateUserMutationComponent extends Mutation<
 interface ICreateUserMutationFn
   extends MutationFn<CreateUserMutation, CreateUserMutationVariables> {}
 
-interface IUserNewProps extends RouteComponentProps<{}> {
-  dispatch: Dispatch;
-}
+interface IUserNewProps extends RouteComponentProps<{}>, DispatchProp {}
 
 class UserNew extends React.Component<IUserNewProps> {
   public onFormSubmit = (createUser: ICreateUserMutationFn) => (formData: IUserFormData) => {

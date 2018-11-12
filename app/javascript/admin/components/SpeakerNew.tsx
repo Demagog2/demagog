@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Mutation, MutationFn } from 'react-apollo';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
@@ -20,9 +20,7 @@ class CreateSpeakerMutationComponent extends Mutation<
 interface ICreateSpeakerMutationFn
   extends MutationFn<CreateSpeakerMutation, CreateSpeakerMutationVariables> {}
 
-interface ISpeakerNewProps extends RouteComponentProps<{}> {
-  dispatch: Dispatch;
-}
+interface ISpeakerNewProps extends RouteComponentProps<{}>, DispatchProp {}
 
 class SpeakerNew extends React.Component<ISpeakerNewProps> {
   public onFormSubmit = (createSpeaker: ICreateSpeakerMutationFn) => (

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Mutation, MutationFn, Query } from 'react-apollo';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
 import { addFlashMessage } from '../actions/flashMessages';
@@ -29,9 +29,8 @@ class UpdateSpeakerMutationComponent extends Mutation<
 interface IUpdateSpeakerMutationFn
   extends MutationFn<UpdateSpeakerMutation, UpdateSpeakerMutationVariables> {}
 
-interface ISpeakerEditProps extends RouteComponentProps<{ id: string }> {
+interface ISpeakerEditProps extends RouteComponentProps<{ id: string }>, DispatchProp {
   id: number;
-  dispatch: Dispatch;
 }
 
 class SpeakerEdit extends React.Component<ISpeakerEditProps> {

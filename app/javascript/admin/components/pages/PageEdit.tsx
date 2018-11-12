@@ -1,7 +1,9 @@
 import * as React from 'react';
+
 import { Mutation, MutationFn, Query } from 'react-apollo';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
+
 import { addFlashMessage } from '../../actions/flashMessages';
 import {
   GetPageQuery,
@@ -23,9 +25,7 @@ class UpdatePageMutationComponent extends Mutation<
 
 type UpdatePageMutationFn = MutationFn<UpdatePageMutation, UpdatePageMutationVariables>;
 
-interface IPageEditProps extends RouteComponentProps<{ id: string }> {
-  dispatch: Dispatch;
-}
+interface IPageEditProps extends RouteComponentProps<{ id: string }>, DispatchProp {}
 
 class PageEdit extends React.Component<IPageEditProps> {
   public onSuccess = () => {

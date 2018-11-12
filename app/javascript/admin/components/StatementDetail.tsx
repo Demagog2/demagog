@@ -18,7 +18,7 @@ import { css } from 'emotion';
 import { Formik } from 'formik';
 import { get, isEqual, set } from 'lodash';
 import { Mutation, Query } from 'react-apollo';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
@@ -67,9 +67,8 @@ const VERACITY_COLORS = {
   unverifiable: Colors.BLUE5,
 };
 
-interface IProps extends RouteComponentProps<{ id: string }> {
+interface IProps extends RouteComponentProps<{ id: string }>, DispatchProp {
   currentUser: ReduxState['currentUser']['user'];
-  dispatch: Dispatch;
   isAuthorized: (permissions: string[]) => boolean;
 }
 

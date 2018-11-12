@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Mutation, MutationFn } from 'react-apollo';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { addFlashMessage } from '../../actions/flashMessages';
@@ -22,9 +22,7 @@ class CreateMediumMutationComponent extends Mutation<
 
 type CreateMediumMutationFn = MutationFn<CreateMediumMutation, CreateMediumMutationVariables>;
 
-interface ISourceNewProps extends RouteComponentProps<{}> {
-  dispatch: Dispatch;
-}
+interface ISourceNewProps extends RouteComponentProps<{}>, DispatchProp {}
 
 export class MediumNew extends React.Component<ISourceNewProps> {
   public onSuccess = (mediumId: string) => {

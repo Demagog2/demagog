@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Mutation, MutationFn, Query } from 'react-apollo';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { addFlashMessage } from '../../actions/flashMessages';
 import {
@@ -24,9 +24,7 @@ class UpdateMediumMutationComponent extends Mutation<
 
 type UpdateMediumMutationFn = MutationFn<UpdateMediumMutation, UpdateMediumMutationVariables>;
 
-interface IMediumEditProps extends RouteComponentProps<{ id: string }> {
-  dispatch: Dispatch;
-}
+interface IMediumEditProps extends RouteComponentProps<{ id: string }>, DispatchProp {}
 
 class MediumEdit extends React.Component<IMediumEditProps> {
   public onSuccess = () => {

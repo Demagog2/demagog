@@ -7,7 +7,7 @@ import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
 import { Query } from 'react-apollo';
-import { connect, Dispatch } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
@@ -26,9 +26,7 @@ import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 
 class GetBodiesQuery extends Query<GetBodiesQueryResult, GetBodiesQueryVariables> {}
 
-interface IProps {
-  dispatch: Dispatch;
-}
+interface IProps extends DispatchProp<any> {}
 
 interface IState {
   search: string;
