@@ -23,7 +23,7 @@ interface IGetVeracitiesQuery {
 }
 
 interface ISelectOption {
-  name: string;
+  label: string;
   value: string;
 }
 
@@ -44,7 +44,7 @@ export default class VeracitySelect extends React.Component<IProps> {
 
           if (data && !loading) {
             options = data.veracities.map((veracity) => ({
-              name: veracity.name,
+              label: veracity.name,
               value: veracity.id,
             }));
           }
