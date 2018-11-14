@@ -1,6 +1,10 @@
 /* tslint:disable */
 //  This file was automatically generated and should not be edited.
 
+export interface MediaPersonalityInputType {
+  name: string,
+};
+
 export interface MediumInputType {
   name: string,
   media_personalities: Array< MediumMediaPersonalitiesInputType | null >,
@@ -144,6 +148,40 @@ export interface UpdateSourceStatementsOrderInputType {
 
 export interface UpdateNotificationInputType {
   read_at?: string | null,
+};
+
+export interface CreateMediaPersonalityMutationVariables {
+  mediaPersonalityInput: MediaPersonalityInputType,
+};
+
+export interface CreateMediaPersonalityMutation {
+  // Add new media personality
+  createMediaPersonality:  {
+    id: string,
+    name: string,
+  } | null,
+};
+
+export interface UpdateMediaPersonalityMutationVariables {
+  id: string,
+  mediaPersonalityInput: MediaPersonalityInputType,
+};
+
+export interface UpdateMediaPersonalityMutation {
+  // Update existing media personality
+  updateMediaPersonality:  {
+    id: string,
+    name: string,
+  } | null,
+};
+
+export interface DeleteMediaPersonalityMutationVariables {
+  id: string,
+};
+
+export interface DeleteMediaPersonalityMutation {
+  // Delete existing media personality
+  deleteMediaPersonality: string,
 };
 
 export interface CreateMediumMutationVariables {
@@ -756,11 +794,26 @@ export interface GetArticlesQuery {
   } >,
 };
 
+export interface GetMediaPersonalitiesQueryVariables {
+  name?: string | null,
+};
+
 export interface GetMediaPersonalitiesQuery {
   media_personalities:  Array< {
     id: string,
     name: string,
   } >,
+};
+
+export interface GetMediaPersonalityQueryVariables {
+  id: string,
+};
+
+export interface GetMediaPersonalityQuery {
+  media_personality:  {
+    id: string,
+    name: string,
+  },
 };
 
 export interface GetMediaQueryVariables {

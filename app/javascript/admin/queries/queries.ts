@@ -65,8 +65,17 @@ export const GetArticles = gql`
 `;
 
 export const GetMediaPersonalities = gql`
-  query GetMediaPersonalities {
-    media_personalities {
+  query GetMediaPersonalities($name: String) {
+    media_personalities(name: $name) {
+      id
+      name
+    }
+  }
+`;
+
+export const GetMediaPersonality = gql`
+  query GetMediaPersonality($id: ID!) {
+    media_personality(id: $id) {
       id
       name
     }

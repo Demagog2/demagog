@@ -30,6 +30,12 @@ const categories = [
         permissions: ['bodies:view'],
       },
       { to: '/admin/media', title: 'Pořady', enabled: true, permissions: ['media:view'] },
+      {
+        to: '/admin/media-personalities',
+        title: 'Mediální osobnosti',
+        enabled: true,
+        permissions: ['media-personalities:view'],
+      },
     ],
   },
   {

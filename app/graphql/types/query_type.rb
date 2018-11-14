@@ -52,8 +52,26 @@ Types::QueryType = GraphQL::ObjectType.define do
   end
 
   field :media_personalities, !types[!Types::MediaPersonalityType] do
+    argument :name, types.String
+
     resolve -> (obj, args, ctx) {
-      MediaPersonality.order(name: :asc)
+      media_personalities = MediaPersonality.order(name: :asc)
+
+      media_personalities = media_personalities.matching_name(args[:name]) if args[:name].present?
+
+      media_personalities
+    }
+  end
+
+  field :media_personality, !Types::MediaPersonalityType do
+    argument :id, !types.ID
+
+    resolve -> (obj, args, ctx) {
+      begin
+        MediaPersonality.find(args[:id])
+      rescue ActiveRecord::RecordNotFound => e
+        raise GraphQL::ExecutionError.new("Could not find MediaPersonality with id=#{args[:id]}")
+      end
     }
   end
 

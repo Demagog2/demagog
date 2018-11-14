@@ -16,6 +16,9 @@ EXPERT_PERMISSIONS = [
   "media:view",
   "media:edit",
 
+  "media-personalities:view",
+  "media-personalities:edit",
+
   "menu:view",
 
   "pages:view",
@@ -70,6 +73,7 @@ class Role < ApplicationRecord
         "bodies:view",
         "images:view",
         "media:view",
+        "media-personalities:view",
         "menu:view",
         "pages:view",
         "sources:view",
@@ -86,6 +90,7 @@ class Role < ApplicationRecord
         "images:view",
         "images:add",
         "media:view",
+        "media-personalities:view",
         "sources:view",
         "speakers:view",
         "statements:edit-as-proofreader",
@@ -99,6 +104,7 @@ class Role < ApplicationRecord
         "images:view",
         "images:add",
         "media:view",
+        "media-personalities:view",
         "sources:view",
         "speakers:view",
         "statements:edit-as-evaluator",

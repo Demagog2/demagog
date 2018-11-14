@@ -1,5 +1,29 @@
 import gql from 'graphql-tag';
 
+export const CreateMediaPersonality = gql`
+  mutation CreateMediaPersonality($mediaPersonalityInput: MediaPersonalityInputType!) {
+    createMediaPersonality(media_personality_input: $mediaPersonalityInput) {
+      id
+      name
+    }
+  }
+`;
+
+export const UpdateMediaPersonality = gql`
+  mutation UpdateMediaPersonality($id: ID!, $mediaPersonalityInput: MediaPersonalityInputType!) {
+    updateMediaPersonality(id: $id, media_personality_input: $mediaPersonalityInput) {
+      id
+      name
+    }
+  }
+`;
+
+export const DeleteMediaPersonality = gql`
+  mutation DeleteMediaPersonality($id: ID!) {
+    deleteMediaPersonality(id: $id)
+  }
+`;
+
 export const CreateMedium = gql`
   mutation CreateMedium($mediumInput: MediumInputType!) {
     createMedium(medium_input: $mediumInput) {

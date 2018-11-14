@@ -38,6 +38,10 @@ import Media from './components/media/Media';
 import MediumEdit from './components/media/MediumEdit';
 import MediumNew from './components/media/MediumNew';
 
+import MediaPersonalities from './components/mediaPersonalities/MediaPersonalities';
+import MediaPersonalityEdit from './components/mediaPersonalities/MediaPersonalityEdit';
+import MediaPersonalityNew from './components/mediaPersonalities/MediaPersonalityNew';
+
 import SourceDetail from './components/SourceDetail';
 import SourceEdit from './components/SourceEdit';
 import SourceNew from './components/SourceNew';
@@ -136,6 +140,18 @@ class App extends React.Component<IProps> {
                 <Route path="/admin/media" exact component={Media} />
                 <Route path="/admin/media/new" exact component={MediumNew} />
                 <Route path="/admin/media/edit/:id" exact component={MediumEdit} />
+
+                <Route path="/admin/media-personalities" exact component={MediaPersonalities} />
+                <Route
+                  path="/admin/media-personalities/new"
+                  exact
+                  component={MediaPersonalityNew}
+                />
+                <Route
+                  path="/admin/media-personalities/edit/:id"
+                  exact
+                  component={MediaPersonalityEdit}
+                />
 
                 <Route path="/admin/pages" exact component={Pages} />
                 <Route path="/admin/pages/new" exact component={PageNew} />
