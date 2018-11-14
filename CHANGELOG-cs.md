@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 14. listopadu 2018
+- Přidáno: Sekce pro správu mediálních osobností
+
 ## 2. října 2018
 - Opraveno: U článku veřejně zobrazujeme i řečníka bez výroků (tj. se samými nulami) ([#251](https://github.com/Demagog2/demagog/pull/251))
 
