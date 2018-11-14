@@ -28,13 +28,13 @@ interface ISourceNewProps extends RouteComponentProps<{}>, DispatchProp {}
 
 export class MediaPersonalityNew extends React.Component<ISourceNewProps> {
   public onSuccess = (mediumId: string) => {
-    this.props.dispatch(addFlashMessage('Mediální osobnost byla úspěšně uložena.', 'success'));
+    this.props.dispatch(addFlashMessage('Moderátor byl úspěšně uložen.', 'success'));
 
     this.props.history.push(`/admin/media-personalities/edit/${mediumId}`);
   };
 
   public onError = (error) => {
-    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání mediální osobnosti.', 'error'));
+    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání moderátora.', 'error'));
     // tslint:disable-next-line:no-console
     console.error(error);
   };

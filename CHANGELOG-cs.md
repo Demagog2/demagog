@@ -4,6 +4,7 @@ Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [K
 
 ## 14. listopadu 2018
 - Přidáno: Sekce pro správu mediálních osobností
+- Upraveno: Mediální osobnosti přejmenovány na moderátory
 
 ## 2. října 2018
 - Opraveno: U článku veřejně zobrazujeme i řečníka bez výroků (tj. se samými nulami) ([#251](https://github.com/Demagog2/demagog/pull/251))

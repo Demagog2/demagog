@@ -34,11 +34,11 @@ interface IMediaPersonalityEditProps extends RouteComponentProps<{ id: string }>
 
 class MediaPersonalityEdit extends React.Component<IMediaPersonalityEditProps> {
   public onSuccess = () => {
-    this.props.dispatch(addFlashMessage('Mediální osobnost byla úspěšně uložena.', 'success'));
+    this.props.dispatch(addFlashMessage('Moderátor byl úspěšně uložen.', 'success'));
   };
 
   public onError = (error) => {
-    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání mediální osobnosti.', 'error'));
+    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání moderátora.', 'error'));
     // tslint:disable-next-line:no-console
     console.error(error);
   };

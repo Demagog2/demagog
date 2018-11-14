@@ -32,7 +32,7 @@ const categories = [
       { to: '/admin/media', title: 'Pořady', enabled: true, permissions: ['media:view'] },
       {
         to: '/admin/media-personalities',
-        title: 'Mediální osobnosti',
+        title: 'Moderátoři',
         enabled: true,
         permissions: ['media-personalities:view'],
       },

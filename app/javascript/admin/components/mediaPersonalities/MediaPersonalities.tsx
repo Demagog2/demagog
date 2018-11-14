@@ -47,12 +47,12 @@ class Media extends React.Component<IProps, IState> {
   };
 
   private onDeleted = () => {
-    this.props.dispatch(addFlashMessage('Mediální osobnost byla úspěšně smazána.', 'success'));
+    this.props.dispatch(addFlashMessage('Moderátor byl úspěšně smazán.', 'success'));
     this.hideConfirmDeleteModal();
   };
 
   private onDeleteError = (error: ApolloError) => {
-    this.props.dispatch(addFlashMessage('Doško k chybě při mazání mediální osobnosti.', 'error'));
+    this.props.dispatch(addFlashMessage('Doško k chybě při mazání moderátora.', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
@@ -78,7 +78,7 @@ class Media extends React.Component<IProps, IState> {
           </div>
         </Authorize>
 
-        <h2 className={Classes.HEADING}>Mediální osobnosti</h2>
+        <h2 className={Classes.HEADING}>Moderátoři</h2>
 
         <div style={{ marginTop: 15 }}>
           <SearchInput
@@ -144,7 +144,7 @@ class Media extends React.Component<IProps, IState> {
                     >
                       <thead>
                         <tr>
-                          <th scope="col">Název mediální osobnosti</th>
+                          <th scope="col">Název moderátora</th>
                           <th scope="col" />
                         </tr>
                       </thead>
