@@ -41,7 +41,7 @@ class Article < ApplicationRecord
   end
 
   def unique_speakers
-    [] unless source
+    return [] unless source
 
     source.speakers
       .distinct

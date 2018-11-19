@@ -12,6 +12,12 @@
         (moderátor <%= @article.source.media_personality.name %><% if @article.source.source_url %>, <a class="ext" href="<%= @article.source.source_url %>">záznam</a><% end %>)
       </p>
     <% end %>
+
+    <% if @article_type == "editorial" %>
+      <p>
+        <span class="label editorial">Komentář</span> <i><%= raw(l(@article.published_at, format: :long)) %></i>
+      </p>
+    <% end %>
   </section>
 
   <% @article.segments.each do |segment| %>
