@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 19. listopadu 2018
+- Přidáno: U komentářů se veřejně zobrazuje datum zveřejnění ([#277](https://github.com/Demagog2/demagog/issues/277))
+
 ## 14. listopadu 2018
 - Přidáno: Sekce pro správu mediálních osobností
 - Upraveno: Mediální osobnosti přejmenovány na moderátory
