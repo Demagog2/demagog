@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 23. prosince 2018
+- Opraveno: Při vkládání textu zkopírovaného z Google Docs by se už neměl ztrácet text a mělo by se správně přenášet formátování tučně a kurzíva ([#235](https://github.com/Demagog2/demagog/issues/235))
+
 ## 19. listopadu 2018
 - Přidáno: U komentářů se veřejně zobrazuje datum zveřejnění ([#277](https://github.com/Demagog2/demagog/issues/277))
 
