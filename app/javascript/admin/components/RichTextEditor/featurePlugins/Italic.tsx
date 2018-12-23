@@ -37,8 +37,15 @@ const htmlSerializerRule: SlateHtmlSerializer.Rule = {
       return <em>{children}</em>;
     }
   },
-  deserialize(el, next) {
-    if (el.tagName.toLowerCase() === 'i' || el.tagName.toLowerCase() === 'em') {
+  deserialize(el: HTMLElement, next) {
+    const isITag = el.tagName.toLowerCase() === 'i';
+    const isEmTag = el.tagName.toLowerCase() === 'em';
+
+    // Google Docs does not use semantic <i> or <em> for italic text, but <span> with
+    // font-style:italic style attribute
+    const isValidSpanTag = el.tagName.toLowerCase() === 'span' && el.style.fontStyle === 'italic';
+
+    if (isITag || isEmTag || isValidSpanTag) {
       return {
         object: 'mark',
         type: 'italic',

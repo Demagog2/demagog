@@ -37,8 +37,21 @@ const htmlSerializerRule: SlateHtmlSerializer.Rule = {
       return <strong>{children}</strong>;
     }
   },
-  deserialize(el, next) {
-    if (el.tagName.toLowerCase() === 'b' || el.tagName.toLowerCase() === 'strong') {
+  deserialize(el: HTMLElement, next) {
+    // Google Docs wraps copied text in <b style="font-weight: normal;"></b> even
+    // when the text is not bold, so lets ignore such b tag
+    const isValidBTag = el.tagName.toLowerCase() === 'b' && el.style.fontWeight !== 'normal';
+
+    const isStrongTag = el.tagName.toLowerCase() === 'strong';
+
+    // Google Docs does not use semantic <b> or <strong> for bold text, but <span> with
+    // font-weight style attribute
+    const isValidSpanTag =
+      el.tagName.toLowerCase() === 'span' &&
+      el.style.fontWeight !== null &&
+      el.style.fontWeight.match(/^(700|900|bold|bolder)$/);
+
+    if (isValidBTag || isStrongTag || isValidSpanTag) {
       return {
         object: 'mark',
         type: 'bold',

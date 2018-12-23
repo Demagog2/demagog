@@ -138,7 +138,7 @@ const htmlSerializerRule: SlateHtmlSerializer.Rule = {
       return <li>{children}</li>;
     }
   },
-  deserialize(el, next) {
+  deserialize(el: HTMLElement, next) {
     if (el.tagName.toLowerCase() === 'ol') {
       const listItemsChildren = (Array.from((el.childNodes as any).values()) as Element[]).filter(
         (node) => node.nodeName === 'LI',
@@ -162,10 +162,18 @@ const htmlSerializerRule: SlateHtmlSerializer.Rule = {
       };
     }
     if (el.tagName.toLowerCase() === 'li') {
+      let childNodes = el.childNodes;
+
+      // Google Docs wraps text inside <li> tags also to <p> tag, which is
+      // invalid in our schema, so lets skip the <p> tag right here
+      if (el.childNodes.length === 1 && el.childNodes.item(0).nodeName === 'P') {
+        childNodes = el.childNodes.item(0).childNodes;
+      }
+
       return {
         object: 'block',
         type: 'list-item',
-        nodes: next(el.childNodes),
+        nodes: next(childNodes),
       };
     }
   },
