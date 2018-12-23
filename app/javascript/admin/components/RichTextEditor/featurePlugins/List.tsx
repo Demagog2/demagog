@@ -139,28 +139,19 @@ const htmlSerializerRule: SlateHtmlSerializer.Rule = {
     }
   },
   deserialize(el: HTMLElement, next) {
-    if (el.tagName.toLowerCase() === 'ol') {
-      const listItemsChildren = (Array.from((el.childNodes as any).values()) as Element[]).filter(
-        (node) => node.nodeName === 'LI',
-      );
+    if (el.tagName.toLowerCase().match(/^(ol|ul)$/)) {
+      // We take all descendant <li> tags, so even if there is a deep nesting
+      // of lists, we take all the list items and do not lose any. Note that
+      // we lose the nesting here, because our schema does not support lists nesting.
+      const itemsNodes = Array.from(el.querySelectorAll('li')) as Element[];
 
       return {
         object: 'block',
-        type: 'ordered-list',
-        nodes: next(listItemsChildren),
+        type: el.tagName.toLowerCase() === 'ol' ? 'ordered-list' : 'unordered-list',
+        nodes: next(itemsNodes),
       };
     }
-    if (el.tagName.toLowerCase() === 'ul') {
-      const listItemsChildren = (Array.from((el.childNodes as any).values()) as Element[]).filter(
-        (node) => node.nodeName === 'LI',
-      );
 
-      return {
-        object: 'block',
-        type: 'unordered-list',
-        nodes: next(listItemsChildren),
-      };
-    }
     if (el.tagName.toLowerCase() === 'li') {
       let childNodes = el.childNodes;
 
