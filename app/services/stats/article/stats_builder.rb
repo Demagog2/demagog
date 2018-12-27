@@ -23,7 +23,10 @@ module Stats::Article
     end
 
     def invalidate(article)
-      article.speakers.each do |speaker|
+      source = article.source
+      return unless source
+
+      source.speakers.each do |speaker|
         key = cache_key(article, speaker)
 
         @cache.del(key)
@@ -36,8 +39,13 @@ module Stats::Article
       # @param [Speaker] speaker
       # @return [Array<Statement>]
       def statements(article, speaker)
-        speaker.statements.relevant_for_statistics
-          .joins(:articles).where(articles: { id: [article.id] })
+        result = []
+
+        article.segments.source_statements_type_only.each do |segment|
+          result << segment.source.statements.relevant_for_statistics.where(speaker_id: speaker.id).all
+        end
+
+        result
       end
 
       # @param [Array<Statement>] statements

@@ -8,14 +8,10 @@ class Article < ApplicationRecord
   after_initialize :set_defaults
 
   belongs_to :article_type
-  belongs_to :source, optional: true
   belongs_to :user, optional: true
   belongs_to :document, class_name: "Attachment", optional: true
   has_many :article_has_segments, dependent: :destroy
   has_many :segments, through: :article_has_segments
-  has_many :statements, through: :segments
-  has_many :speakers, through: :statements
-  has_many :attachments, through: :speakers
 
   after_update :invalidate_caches
 
@@ -40,10 +36,16 @@ class Article < ApplicationRecord
     self.user
   end
 
+  def source
+    source_statements_segment = segments.source_statements_type_only.first
+    source_statements_segment ? source_statements_segment.source : nil
+  end
+
   def unique_speakers
     return [] unless source
 
-    source.speakers
+    source
+      .speakers
       .distinct
       .order(last_name: :asc, first_name: :asc)
   end

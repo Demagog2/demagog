@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_30_081830) do
+ActiveRecord::Schema.define(version: 2018_12_27_144013) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -58,7 +58,6 @@ ActiveRecord::Schema.define(version: 2018_08_30_081830) do
     t.boolean "published"
     t.bigint "user_id"
     t.bigint "article_type_id"
-    t.bigint "source_id"
     t.integer "illustration_id"
     t.integer "document_id"
     t.datetime "created_at", null: false
@@ -67,7 +66,6 @@ ActiveRecord::Schema.define(version: 2018_08_30_081830) do
     t.index ["article_type_id"], name: "index_articles_on_article_type_id"
     t.index ["document_id"], name: "index_articles_on_document_id"
     t.index ["illustration_id"], name: "index_articles_on_illustration_id"
-    t.index ["source_id"], name: "index_articles_on_source_id"
     t.index ["user_id"], name: "index_articles_on_user_id"
   end
 
@@ -226,22 +224,13 @@ ActiveRecord::Schema.define(version: 2018_08_30_081830) do
     t.string "name"
   end
 
-  create_table "segment_has_statements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "segment_id"
-    t.bigint "statement_id"
-    t.integer "order"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["segment_id"], name: "index_segment_has_statements_on_segment_id"
-    t.index ["statement_id"], name: "index_segment_has_statements_on_statement_id"
-  end
-
   create_table "segments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "segment_type"
     t.text "text_html", limit: 4294967295
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "text_slatejson"
+    t.bigint "source_id"
   end
 
   create_table "sources", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

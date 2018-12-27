@@ -24,7 +24,7 @@
         <% end %>
       </span>
 
-      <% if article.article_type.name == "default" %>
+      <% if article.article_type.name == "default" && article.source %>
           <i><%= article.source.medium.name %>, <%= raw(l(article.source.released_at, format: :long)) %></i>
       <% end %>
 
