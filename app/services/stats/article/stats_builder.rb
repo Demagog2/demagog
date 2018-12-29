@@ -26,7 +26,7 @@ module Stats::Article
       article.segments.source_statements_type_only.each do |segment|
         segment.source.speakers.each do |speaker|
           key = cache_key(article, speaker)
-  
+
           @cache.del(key)
         end
       end
