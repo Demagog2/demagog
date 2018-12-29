@@ -65,9 +65,11 @@ class Article < ApplicationRecord
       article[:segments] = article[:segments].map do |seg|
         if seg[:segment_type] == Segment::TYPE_TEXT
           Segment.new(segment_type: seg[:segment_type], text_html: seg[:text_html], text_slatejson: seg[:text_slatejson])
+        elsif seg[:segment_type] == Segment::TYPE_SOURCE_STATEMENTS
+          source = Source.find(seg[:source_id])
+          Segment.new(segment_type: seg[:segment_type], source: source)
         else
-          statements = Statement.where(id: seg[:statements])
-          Segment.new(segment_type: seg[:segment_type], statements: statements)
+          raise "Creating segment of type #{seg[:segment_type]} is not implemented"
         end
       end
     end
@@ -89,11 +91,13 @@ class Article < ApplicationRecord
           text_html: seg[:text_html],
           text_slatejson: seg[:text_slatejson]
         )
-      else
+      elsif seg[:segment_type] == Segment::TYPE_SOURCE_STATEMENTS
         segment.assign_attributes(
           segment_type: seg[:segment_type],
-          statements: Statement.where(id: seg[:statements])
+          source: Source.find(seg[:source_id])
         )
+      else
+        raise "Updating segment of type #{seg[:segment_type]} is not implemented"
       end
 
       segment

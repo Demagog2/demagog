@@ -37,7 +37,7 @@
 
     <aside>
       <h1>Výrok jsme zmínili</h1>
-      <% @statement.articles.each do |article| %>
+      <% @statement.mentioning_articles.each do |article| %>
         <%= render(partial: 'article/preview', object: article, as: :article) %>
       <% end %>
     </aside>

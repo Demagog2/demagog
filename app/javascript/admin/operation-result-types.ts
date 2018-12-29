@@ -38,7 +38,7 @@ export interface SegmentInputType {
   segment_type: string,
   text_html?: string | null,
   text_slatejson?: GraphQLCustomScalar_JSON | null,
-  statements?: Array< string > | null,
+  source_id?: string | null,
 };
 
 export interface SourceInputType {
@@ -767,9 +767,9 @@ export interface GetArticleQuery {
       segment_type: string,
       text_html: string | null,
       text_slatejson: GraphQLCustomScalar_JSON | null,
-      statements:  Array< {
+      source:  {
         id: string,
-      } >,
+      } | null,
     } > | null,
     source:  {
       id: string,
@@ -931,6 +931,7 @@ export interface GetSourcesForSelectQuery {
 
 export interface GetSourceStatementsQueryVariables {
   sourceId: number,
+  includeUnpublished?: boolean | null,
 };
 
 export interface GetSourceStatementsQuery {
@@ -956,7 +957,9 @@ export interface GetSourceStatementsQuery {
       veracity:  {
         id: string,
         key: GraphQLCustomScalar_VeracityKey,
+        name: string,
       } | null,
+      short_explanation: string | null,
       short_explanation_characters_length: number,
       explanation_characters_length: number,
     },

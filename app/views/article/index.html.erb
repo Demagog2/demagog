@@ -24,7 +24,7 @@
     <section class="segment-<%= segment.segment_type %>">
       <% if segment.is_text? %>
         <%= raw(segment.text_html) %>
-      <% else %>
+      <% elsif segment.is_source_statements? %>
         <% if @article.segments.size === 1 %>
           <div class="statements-filters">
             <label>Filtrujte výroky dle hodnocení</label>

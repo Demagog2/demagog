@@ -7,5 +7,5 @@ Types::SegmentInputType = GraphQL::InputObjectType.define do
   argument :segment_type, !types.String
   argument :text_html, types.String
   argument :text_slatejson, Types::Scalars::JsonType
-  argument :statements, types[!types.ID]
+  argument :source_id, types.ID
 end

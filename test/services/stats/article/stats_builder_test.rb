@@ -13,8 +13,9 @@ class ArticleStatsBuilderTest < ActiveSupport::TestCase
       misleading: 0
     }
 
-    speaker = get_speaker
-    article = get_article(speaker.statements)
+    source = get_source
+    speaker = get_speaker(source)
+    article = get_article(source)
 
     assert_equal(expected_stats, stats_builder.build(article, speaker))
   end
@@ -23,8 +24,9 @@ class ArticleStatsBuilderTest < ActiveSupport::TestCase
     store = Store::HashStore.new
     stats_builder = Stats::Article::StatsBuilder.new Stats::StatsCache.new store
 
-    speaker = get_speaker
-    article = get_article(speaker.statements)
+    source = get_source
+    speaker = get_speaker(source)
+    article = get_article(source)
 
     stats_builder.build(article, speaker)
 
@@ -34,14 +36,18 @@ class ArticleStatsBuilderTest < ActiveSupport::TestCase
   end
 
   private
-    def get_speaker
-      source = create(:source)
-
-      create(:speaker, statement_source: source)
+    def get_source
+      create(:source)
     end
 
-    def get_article(statements)
-      segment = create(:segment, statements: statements)
+    def get_speaker(source)
+      speaker = create(:speaker, statement_source: source)
+      source.speakers << speaker
+      speaker
+    end
+
+    def get_article(source)
+      segment = create(:segment_source_statements, source: source)
 
       create(:fact_check, segments: [segment])
     end

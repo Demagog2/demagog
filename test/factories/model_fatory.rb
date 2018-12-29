@@ -16,10 +16,6 @@ FactoryBot.define do
     medium
     media_personality
     released_at { 1.week.ago }
-
-    after(:create) do |source|
-      create_list(:fact_check, 1, source: source)
-    end
   end
 
   factory :article_type
@@ -30,7 +26,6 @@ FactoryBot.define do
     end
 
     perex "Lorem ipsum"
-    source
     illustration
     published true
     published_at { 1.day.ago }
@@ -44,7 +39,15 @@ FactoryBot.define do
     end
   end
 
-  factory :segment
+  factory :segment do
+    factory :segment_text do
+      segment_type "text"
+    end
+
+    factory :segment_source_statements do
+      segment_type "source_statements"
+    end
+  end
 
   factory :body do
     transient do

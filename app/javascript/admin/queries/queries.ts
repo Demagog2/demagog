@@ -40,7 +40,7 @@ export const GetArticle = gql`
         segment_type
         text_html
         text_slatejson
-        statements {
+        source {
           id
         }
       }
@@ -189,8 +189,8 @@ export const GetSourcesForSelect = gql`
 
 // TODO: add pagination and control limit
 export const GetSourceStatements = gql`
-  query GetSourceStatements($sourceId: Int!) {
-    statements(limit: 200, source: $sourceId, include_unpublished: true) {
+  query GetSourceStatements($sourceId: Int!, $includeUnpublished: Boolean) {
+    statements(limit: 200, source: $sourceId, include_unpublished: $includeUnpublished) {
       id
       content
       important
@@ -212,7 +212,9 @@ export const GetSourceStatements = gql`
         veracity {
           id
           key
+          name
         }
+        short_explanation
         short_explanation_characters_length
         explanation_characters_length
       }

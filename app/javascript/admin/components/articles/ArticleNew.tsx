@@ -13,7 +13,7 @@ import {
 } from '../../operation-result-types';
 import { CreateArticle } from '../../queries/mutations';
 import { GetArticles } from '../../queries/queries';
-import { ArticleForm } from '../forms/ArticleForm';
+import { ArticleForm } from './ArticleForm';
 
 class CreateArticleMutationComponent extends Mutation<
   CreateArticleMutation,

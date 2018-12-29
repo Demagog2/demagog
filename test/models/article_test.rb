@@ -5,7 +5,8 @@ require "test_helper"
 class ArticleTest < ActiveSupport::TestCase
   setup do
     @article_type = create(:article_type, name: "default")
-    @statements = create_list(:statement, 3)
+    @source = create(:source)
+    @statements = create_list(:statement, 3, source: @source)
   end
 
   test "create article" do
@@ -19,8 +20,8 @@ class ArticleTest < ActiveSupport::TestCase
           text_html: "<p>Lorem ipsum...</p>"
         },
         {
-          segment_type: "statements_set",
-          statements: @statements.map(&:id)
+          segment_type: "source_statements",
+          source_id: @source.id
         }
       ]
     }
@@ -35,8 +36,9 @@ class ArticleTest < ActiveSupport::TestCase
       assert_equal "<p>Lorem ipsum...</p>", segment.text_html
 
       segment = article.segments.second
-      assert_equal "statements_set", segment.segment_type
-      assert_equal @statements.size, segment.statements.size
+      assert_equal "source_statements", segment.segment_type
+      assert_equal @source.id, segment.source.id
+      assert_equal @statements.size, segment.all_published_statements.size
     end
   end
 
@@ -53,8 +55,8 @@ class ArticleTest < ActiveSupport::TestCase
           text_html: "<p>Lorem ipsum...</p>"
         },
         {
-          segment_type: "statements_set",
-          statements: @statements.map(&:id)
+          segment_type: "source_statements",
+          source_id: @source.id
         }
       ]
     }
@@ -69,8 +71,9 @@ class ArticleTest < ActiveSupport::TestCase
       assert_equal "<p>Lorem ipsum...</p>", segment.text_html
 
       segment = article.segments.second
-      assert_equal "statements_set", segment.segment_type
-      assert_equal @statements.size, segment.statements.size
+      assert_equal "source_statements", segment.segment_type
+      assert_equal @source.id, segment.source.id
+      assert_equal @statements.size, segment.all_published_statements.size
     end
   end
 end

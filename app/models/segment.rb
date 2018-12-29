@@ -21,13 +21,13 @@ class Segment < ApplicationRecord
   end
 
   def all_published_statements
-    raise "Segment statements are available only for source_statements type" unless is_source_statements?
+    return [] unless is_source_statements?
 
     source.statements.published_important_first
   end
 
   def filtered_published_statements(statements_filters)
-    raise "Segment statements are available only for source_statements type" unless is_source_statements?
+    return [] unless is_source_statements?
 
     filtered = source.statements.published_important_first
 

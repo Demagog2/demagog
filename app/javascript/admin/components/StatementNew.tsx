@@ -77,7 +77,10 @@ class StatementNew extends React.Component<IProps> {
             <CreateStatementMutationComponent
               mutation={CreateStatement}
               refetchQueries={[
-                { query: GetSourceStatements, variables: { sourceId: parseInt(source.id, 10) } },
+                {
+                  query: GetSourceStatements,
+                  variables: { sourceId: parseInt(source.id, 10), includeUnpublished: true },
+                },
               ]}
             >
               {(createStatement) => (

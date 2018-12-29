@@ -172,7 +172,7 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
     return (
       <GetSourceStatementsQueryComponent
         query={GetSourceStatements}
-        variables={{ sourceId: parseInt(source.id, 10) }}
+        variables={{ sourceId: parseInt(source.id, 10), includeUnpublished: true }}
       >
         {({ data, loading, refetch }) => {
           if (!data || !data.statements) {

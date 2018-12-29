@@ -23,13 +23,12 @@ module Stats::Article
     end
 
     def invalidate(article)
-      source = article.source
-      return unless source
-
-      source.speakers.each do |speaker|
-        key = cache_key(article, speaker)
-
-        @cache.del(key)
+      article.segments.source_statements_type_only.each do |segment|
+        segment.source.speakers.each do |speaker|
+          key = cache_key(article, speaker)
+  
+          @cache.del(key)
+        end
       end
     end
 
@@ -42,6 +41,10 @@ module Stats::Article
         result = []
 
         article.segments.source_statements_type_only.each do |segment|
+          # When invalidating, we are using the source.speakers list, so
+          # we use the same list also here to be consistent
+          return unless segment.source.speakers.include?(speaker)
+
           result << segment.source.statements.relevant_for_statistics.where(speaker_id: speaker.id).all
         end
 

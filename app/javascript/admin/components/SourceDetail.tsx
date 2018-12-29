@@ -265,7 +265,7 @@ class SourceDetail extends React.Component<IProps, IState> {
     return (
       <GetSourceStatementsQueryComponent
         query={GetSourceStatements}
-        variables={{ sourceId: parseInt(source.id, 10) }}
+        variables={{ sourceId: parseInt(source.id, 10), includeUnpublished: true }}
       >
         {({ data, loading, error, refetch }) => {
           if (error) {

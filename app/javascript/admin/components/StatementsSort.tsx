@@ -203,7 +203,10 @@ class StatementsSortContainer extends React.Component<IStatementsSortContainerPr
         {({ data: sourceData, loading: sourceLoading }) => (
           <GetSourceStatementsQueryComponent
             query={GetSourceStatements}
-            variables={{ sourceId: parseInt(this.props.match.params.sourceId, 10) }}
+            variables={{
+              sourceId: parseInt(this.props.match.params.sourceId, 10),
+              includeUnpublished: true,
+            }}
           >
             {({ data: statementsData, loading: statementsLoading, refetch: statementsRefetch }) => {
               if (sourceLoading || statementsLoading) {

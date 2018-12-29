@@ -2,22 +2,31 @@
 
 import * as React from 'react';
 
-import { Button, Classes, EditableText, Intent } from '@blueprintjs/core';
-import { Form, Formik } from 'formik';
+import {
+  Button,
+  Classes,
+  EditableText,
+  Intent,
+  Menu,
+  MenuItem,
+  Popover,
+  Position,
+} from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
+import { Field, FieldArray, FieldProps, Form, Formik } from 'formik';
 import { DateTime } from 'luxon';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
 import { ArticleInputType, GetArticleQuery } from '../../operation-result-types';
-import ArticleIllustration from '../ArticleIllustration';
-import DateField from './controls/DateField';
-import ImageField, { ImageValueType } from './controls/ImageField';
-import { SegmentManager } from './controls/SegmentManager';
-import SelectComponentField from './controls/SelectComponentField';
-import SelectField from './controls/SelectField';
-import SourceSelect from './controls/SourceSelect';
-import SwitchField from './controls/SwitchField';
-import FormGroup from './FormGroup';
+import DateField from '../forms/controls/DateField';
+import ImageField, { ImageValueType } from '../forms/controls/ImageField';
+import SelectField from '../forms/controls/SelectField';
+import SwitchField from '../forms/controls/SwitchField';
+import FormGroup from '../forms/FormGroup';
+import ArticleIllustration from './ArticleIllustration';
+import ArticleSourceStatementsSegment from './ArticleSourceStatementsSegment';
+import ArticleTextSegment from './ArticleTextSegment';
 
 const ARTICLE_TYPE_DEFAULT = 'default';
 const ARTICLE_TYPE_STATIC = 'static';
@@ -26,6 +35,8 @@ const ARTICLE_TYPE_OPTIONS = [
   { label: 'Ověřeno', value: ARTICLE_TYPE_DEFAULT },
   { label: 'Komentář', value: ARTICLE_TYPE_STATIC },
 ];
+
+type SegmentType = 'text' | 'source_statements';
 
 export interface IArticleFormData extends ArticleInputType {
   illustration: ImageValueType;
@@ -44,17 +55,16 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
 
     const initialValues = {
       article_type: article ? article.article_type : ARTICLE_TYPE_DEFAULT,
-      source_id: article && article.source ? article.source.id : null,
       title: article ? article.title : '',
       perex: article && article.perex ? article.perex : '',
       segments:
         article && article.segments
           ? article.segments.map((s) => ({
               id: s.id,
-              segment_type: s.segment_type,
+              segment_type: s.segment_type as SegmentType,
               text_html: s.text_html,
               text_slatejson: s.text_slatejson,
-              statements: s.statements.map((statement) => statement.id),
+              source_id: s.source ? s.source.id : null,
             }))
           : [],
       illustration: article ? article.illustration : null,
@@ -67,18 +77,9 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
         initialValues={initialValues}
         validationSchema={yup.object().shape({
           article_type: yup.string().oneOf([ARTICLE_TYPE_DEFAULT, ARTICLE_TYPE_STATIC]),
-          source_id: yup.mixed().when('article_type', {
-            is: ARTICLE_TYPE_DEFAULT,
-            then: yup.mixed().notOneOf([null], 'Je třeba vybrat ověřovanou diskuzi'),
-            otherwise: yup.mixed(),
-          }),
         })}
         onSubmit={(values, { setSubmitting }) => {
           const formData: IArticleFormData = values;
-
-          if (formData.article_type === ARTICLE_TYPE_STATIC) {
-            formData.source_id = null;
-          }
 
           this.props
             .onSubmit(formData)
@@ -154,9 +155,45 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                   />
                 </div>
 
-                <SegmentManager
-                  defaultValue={values.segments}
-                  onChange={(value) => setFieldValue('segments', value)}
+                <FieldArray
+                  name="segments"
+                  render={(arrayHelpers) => (
+                    <div>
+                      {values.segments.map((segment, index) => (
+                        <div key={`${segment.id}-${index}`}>
+                          <AddSegmentButton
+                            onAdd={(type) => arrayHelpers.insert(index, createNewSegment(type))}
+                          />
+
+                          <Field
+                            name={`segments.${index}`}
+                            render={({ field, form }: FieldProps) => (
+                              <>
+                                {segment.segment_type === 'text' && (
+                                  <ArticleTextSegment
+                                    segment={field.value}
+                                    onChange={(value) => form.setFieldValue(field.name, value)}
+                                    onRemove={() => arrayHelpers.remove(index)}
+                                  />
+                                )}
+
+                                {segment.segment_type === 'source_statements' && (
+                                  <ArticleSourceStatementsSegment
+                                    segment={field.value}
+                                    onChange={(value) => form.setFieldValue(field.name, value)}
+                                    onRemove={() => arrayHelpers.remove(index)}
+                                  />
+                                )}
+                              </>
+                            )}
+                          />
+                        </div>
+                      ))}
+                      <AddSegmentButton
+                        onAdd={(type) => arrayHelpers.push(createNewSegment(type))}
+                      />
+                    </div>
+                  )}
                 />
               </div>
 
@@ -164,14 +201,6 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                 <FormGroup label="Typ článku" name="article_type">
                   <SelectField name="article_type" options={ARTICLE_TYPE_OPTIONS} />
                 </FormGroup>
-
-                {values.article_type === ARTICLE_TYPE_DEFAULT && (
-                  <FormGroup label="Ověřovaná diskuze" name="source_id">
-                    <SelectComponentField name="source_id">
-                      {(renderProps) => <SourceSelect {...renderProps} />}
-                    </SelectComponentField>
-                  </FormGroup>
-                )}
 
                 <FormGroup label="Ilustrační obrázek" name="illustration">
                   <ImageField
@@ -198,4 +227,36 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
       </Formik>
     );
   }
+}
+
+interface IAddSegmentButtonProps {
+  onAdd(type: SegmentType): void;
+}
+
+function AddSegmentButton(props: IAddSegmentButtonProps) {
+  return (
+    <div style={{ marginBottom: 10 }}>
+      <Popover
+        content={
+          <Menu>
+            <MenuItem text="Textový segment" onClick={() => props.onAdd('text')} />
+            <MenuItem text="Výrokový segment" onClick={() => props.onAdd('source_statements')} />
+          </Menu>
+        }
+        position={Position.BOTTOM_RIGHT}
+        minimal
+      >
+        <Button icon={IconNames.PLUS} text="Přidat segment článku…" />
+      </Popover>
+    </div>
+  );
+}
+
+function createNewSegment(type: SegmentType) {
+  return {
+    segment_type: type,
+    text_html: null,
+    text_slatejson: null,
+    source_id: null,
+  };
 }

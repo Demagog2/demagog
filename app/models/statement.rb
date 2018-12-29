@@ -117,15 +117,16 @@ class Statement < ApplicationRecord
     "#{speaker.first_name} #{speaker.last_name}: „#{content.truncate(50, omission: '…')}‟"
   end
 
+  def mentioning_articles
+    Article.joins(:segments).where(segments: { source_id: source.id }).distinct.order(published_at: :desc)
+  end
+
   private
     def invalidate_caches
       Stats::Speaker::StatsBuilderFactory.new.create(Settings).invalidate(speaker)
 
-      source.segments.each do |segment|
-        segment.articles.each do |article|
-          puts "Invalidate article ##{article.id}"
-          Stats::Article::StatsBuilderFactory.new.create(Settings).invalidate(article)
-        end
+      mentioning_articles.each do |article|
+        Stats::Article::StatsBuilderFactory.new.create(Settings).invalidate(article)
       end
     end
 end

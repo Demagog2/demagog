@@ -1,7 +1,9 @@
 import * as React from 'react';
+
 import { Mutation, MutationFn, Query } from 'react-apollo';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
+
 import { addFlashMessage } from '../../actions/flashMessages';
 import { deleteArticleIllustration, uploadArticleIllustration } from '../../api';
 import {
@@ -13,8 +15,8 @@ import {
 } from '../../operation-result-types';
 import { UpdateArticle } from '../../queries/mutations';
 import { GetArticle, GetArticles } from '../../queries/queries';
-import { ArticleForm } from '../forms/ArticleForm';
 import Loading from '../Loading';
+import { ArticleForm } from './ArticleForm';
 
 class ArticleQuery extends Query<GetArticleQuery, GetArticleQueryVariables> {}
 class UpdateArticleMutationComponent extends Mutation<
