@@ -57,6 +57,9 @@ AMAZON_S3_ENDPOINT=https://example.com
 # Sendgrid SMTP service (only for production)
 SENDGRID_USERNAME=sendgrid-username
 SENDGRID_PASSWORD=sendgrid-password
+
+# Sentry.io project to log to (only for production)
+SENTRY_DSN=sentry-dsn
 ```
 
 ## Dev setup from legacy DB
