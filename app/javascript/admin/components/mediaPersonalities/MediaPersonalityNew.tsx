@@ -71,7 +71,7 @@ export class MediaPersonalityNew extends React.Component<ISourceNewProps> {
             return (
               <MediaPersonalityForm
                 onSubmit={this.onSubmit(createMedium)}
-                title="Přidat novou mediální osobnost"
+                title="Přidat nové moderátory"
               />
             );
           }}

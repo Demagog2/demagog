@@ -9,7 +9,7 @@ Types::SourceType = GraphQL::ObjectType.define do
   field :source_url, types.String
   field :transcript, types.String
   field :medium, !Types::MediumType
-  field :media_personality, !Types::MediaPersonalityType
+  field :media_personalities, !types[!Types::MediaPersonalityType]
   field :speakers, !types[!Types::SpeakerType]
   field :expert, Types::UserType
 

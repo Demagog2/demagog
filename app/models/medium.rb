@@ -4,7 +4,6 @@ class Medium < ApplicationRecord
   default_scope { where(deleted_at: nil) }
 
   has_many :sources
-  has_and_belongs_to_many :media_personalities
   belongs_to :attachment, optional: true
 
   has_one_attached :logo
@@ -16,18 +15,25 @@ class Medium < ApplicationRecord
   def self.create_medium(medium_input)
     medium = medium_input.deep_symbolize_keys
 
-    ids = medium[:media_personalities].map { |m| m[:media_personality_id] }
-    medium[:media_personalities] = MediaPersonality.where(id: ids)
-
     Medium.create! medium
   end
 
   def self.update_medium(id, medium_input)
     medium = medium_input.deep_symbolize_keys
 
-    ids = medium[:media_personalities].map { |m| m[:media_personality_id] }
-    medium[:media_personalities] = MediaPersonality.where(id: ids)
-
     Medium.update id, medium
+  end
+
+  def self.delete_medium(id)
+    medium = Medium.find(id)
+
+    if medium.sources.size > 0
+      medium.errors.add(:base, :is_linked_to_some_sources,
+        message: "cannot be deleted if it is linked to some sources")
+      raise ActiveModel::ValidationError.new(medium)
+    end
+
+    medium.deleted_at = Time.now
+    medium.save!
   end
 end

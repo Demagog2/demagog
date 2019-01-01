@@ -4,6 +4,7 @@ cs:
     errors:
       messages:
         record_invalid: 'Validace je neúspešná: %{errors}'
+        model_invalid: 'Validace je neúspešná: %{errors}'
         restrict_dependent_destroy:
           has_one: Nemůžu smazat položku protože existuje závislá/ý/é %{record}
           has_many: Nemůžu smazat položku protože existuje závislé/ý %{record}

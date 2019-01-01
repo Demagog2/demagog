@@ -87,10 +87,6 @@ export const GetMedia = gql`
     media(name: $name) {
       id
       name
-      personalities {
-        id
-        name
-      }
     }
   }
 `;
@@ -100,10 +96,6 @@ export const GetMedium = gql`
     medium(id: $id) {
       id
       name
-      personalities {
-        id
-        name
-      }
     }
   }
 `;
@@ -119,7 +111,7 @@ export const GetSources = gql`
         id
         name
       }
-      media_personality {
+      media_personalities {
         id
         name
       }
@@ -151,7 +143,7 @@ export const GetSource = gql`
         id
         name
       }
-      media_personality {
+      media_personalities {
         id
         name
       }
@@ -176,10 +168,6 @@ export const GetSourcesForSelect = gql`
       name
       released_at
       medium {
-        id
-        name
-      }
-      media_personality {
         id
         name
       }
@@ -404,7 +392,7 @@ export const GetStatement = gql`
           id
           name
         }
-        media_personality {
+        media_personalities {
           id
           name
         }

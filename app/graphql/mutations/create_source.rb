@@ -17,6 +17,10 @@ Mutations::CreateSource = GraphQL::Field.define do
       Speaker.find(speaker_id)
     end
 
+    source["media_personalities"] = source["media_personalities"].map do |media_personality_id|
+      MediaPersonality.find(media_personality_id)
+    end
+
     Source.create!(source)
   }
 end

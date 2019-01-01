@@ -140,8 +140,10 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                 <h2 className={Classes.HEADING}>{source.name}</h2>
 
                 <span>
-                  {source.medium.name}, {displayDate(source.released_at)},{' '}
-                  {source.media_personality.name}
+                  {source.medium.name} ze dne {displayDate(source.released_at)}
+                  {source.media_personalities.length > 0 && (
+                    <>, {source.media_personalities.map((p) => p.name).join(' & ')}</>
+                  )}
                   {source.source_url && (
                     <>
                       , <a href={source.source_url}>odkaz</a>

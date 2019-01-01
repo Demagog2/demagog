@@ -10,9 +10,6 @@ export const GET_MEDIA_PERSONALITIES = gql`
     media_personalities {
       id
       name
-      media {
-        id
-      }
     }
   }
 `;
@@ -21,9 +18,6 @@ interface IGetMediaPersonalitiesQuery {
   media_personalities: Array<{
     id: string;
     name: string;
-    media: Array<{
-      id: string;
-    }>;
   }>;
 }
 
@@ -32,16 +26,15 @@ interface ISelectOption {
   value: string;
 }
 
-interface IMediaSelectProps {
+interface IProps {
   id?: string;
-  value?: string | null;
+  value: string[];
   error?: object | false;
-  mediumId?: string | null;
-  mediumOptional?: boolean;
-  onChange(value: string | null): void;
+  onChange(value: string[]): void;
+  onBlur?(): void;
 }
 
-export default class MediaPersonalitiesSelect extends React.Component<IMediaSelectProps> {
+export default class MediaPersonalitiesSelect extends React.Component<IProps> {
   public render() {
     return (
       <Query<IGetMediaPersonalitiesQuery> query={GET_MEDIA_PERSONALITIES}>
@@ -49,15 +42,7 @@ export default class MediaPersonalitiesSelect extends React.Component<IMediaSele
           let options: ISelectOption[] = [];
 
           if (data && !loading) {
-            let mediaPersonalities = data.media_personalities;
-
-            if (this.props.mediumId) {
-              mediaPersonalities = mediaPersonalities.filter((mp) =>
-                mp.media.find((m) => m.id === this.props.mediumId),
-              );
-            }
-
-            options = mediaPersonalities.map((mp) => ({
+            options = data.media_personalities.map((mp) => ({
               label: mp.name,
               value: mp.id,
             }));
@@ -66,19 +51,16 @@ export default class MediaPersonalitiesSelect extends React.Component<IMediaSele
           return (
             <Select<ISelectOption>
               id={this.props.id}
-              isDisabled={!this.props.mediumOptional && !this.props.mediumId}
-              value={options.filter(({ value }) => value === this.props.value)}
+              isMulti
+              value={options.filter(({ value }) => this.props.value.includes(value))}
               isLoading={loading}
               options={options}
-              onChange={(selectedOption) => {
-                if (selectedOption) {
-                  this.props.onChange((selectedOption as ISelectOption).value);
-                } else {
-                  this.props.onChange(null);
-                }
-              }}
+              onChange={(selectedOptions: ISelectOption[]) =>
+                this.props.onChange(selectedOptions.map((o) => o.value))
+              }
               isClearable
-              placeholder="Vyberte moderátora …"
+              placeholder="Vyberte moderátory …"
+              onBlur={this.props.onBlur}
               noOptionsMessage={({ inputValue }) =>
                 inputValue
                   ? `Žádný moderátor jména ${inputValue} nenalezen`

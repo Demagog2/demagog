@@ -52,6 +52,16 @@ class Media extends React.Component<IProps, IState> {
   };
 
   private onDeleteError = (error: ApolloError) => {
+    if (error.message.match(/cannot be deleted if it is linked to some sources/)) {
+      this.props.dispatch(
+        addFlashMessage(
+          'Moderátory nelze smazat, protože jsou už přiřazeni k nějaké diskuzi s výroky.',
+          'warning',
+        ),
+      );
+      return;
+    }
+
     this.props.dispatch(addFlashMessage('Doško k chybě při mazání moderátora.', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
@@ -73,7 +83,7 @@ class Media extends React.Component<IProps, IState> {
               )}
               to="/admin/media-personalities/new"
             >
-              Přidat mediální osobnost
+              Přidat moderátory
             </Link>
           </div>
         </Authorize>
@@ -115,7 +125,7 @@ class Media extends React.Component<IProps, IState> {
               <div style={{ marginTop: 15 }}>
                 {confirmDeleteModalMediaPersonality && (
                   <ConfirmDeleteModal
-                    message={`Opravdu chcete smazat mediální osobnost „${
+                    message={`Opravdu chcete smazat moderátora/ku „${
                       confirmDeleteModalMediaPersonality.name
                     }‟?`}
                     onCancel={this.hideConfirmDeleteModal}
@@ -144,7 +154,7 @@ class Media extends React.Component<IProps, IState> {
                     >
                       <thead>
                         <tr>
-                          <th scope="col">Název moderátora</th>
+                          <th scope="col" />
                           <th scope="col" />
                         </tr>
                       </thead>
@@ -180,7 +190,7 @@ class Media extends React.Component<IProps, IState> {
 
                 {mediaLength === 0 &&
                   this.state.search !== '' && (
-                    <p>Nenašli jsme mediální osobnost se jménem „{this.state.search}‟.</p>
+                    <p>Nenašli jsme žádné moderátory jména či příjmení „{this.state.search}‟.</p>
                   )}
               </div>
             );

@@ -37,7 +37,7 @@ class SourceForm extends React.Component<ISourceFormProps> {
     const initialValues = {
       name: source ? source.name : '',
       medium_id: source ? source.medium.id : null,
-      media_personality_id: source ? source.media_personality.id : null,
+      media_personalities: source ? source.media_personalities.map((p) => p.id) : [],
       released_at: source ? source.released_at : DateTime.local().toISODate(),
       source_url: source ? source.source_url : '',
       speakers: source ? source.speakers.map((s) => s.id) : [],
@@ -56,7 +56,6 @@ class SourceForm extends React.Component<ISourceFormProps> {
         validationSchema={yup.object().shape({
           name: yup.string().required('Je třeba vyplnit název'),
           medium_id: yup.mixed().notOneOf([null], 'Je třeba vybrat pořad'),
-          media_personality_id: yup.mixed().notOneOf([null], 'Je třeba vybrat moderátora'),
           released_at: yup.mixed().notOneOf([null], 'Je třeba vyplnit datum publikace'),
           speakers: yup.array().min(1, 'Je třeba vybrat alespoň jednoho řečníka'),
         })}
@@ -78,7 +77,7 @@ class SourceForm extends React.Component<ISourceFormProps> {
             });
         }}
       >
-        {({ isSubmitting, values }) => (
+        {({ isSubmitting }) => (
           <Form>
             <div style={{ float: 'right' }}>
               <Link to={backPath} className={Classes.BUTTON}>
@@ -109,15 +108,21 @@ class SourceForm extends React.Component<ISourceFormProps> {
                       <SelectComponentField name="medium_id">
                         {(renderProps) => <MediumSelect {...renderProps} />}
                       </SelectComponentField>
+                      <div className={Classes.FORM_HELPER_TEXT}>
+                        Chybí ti v seznamu pořad? Přidej si ho přes agendu{' '}
+                        <Link to="/admin/media">Pořady</Link>.
+                      </div>
                     </FormGroup>
                   </div>
                   <div style={{ flex: '1 1', marginLeft: 15 }}>
-                    <FormGroup name="media_personality_id" label="Moderátor">
-                      <SelectComponentField name="media_personality_id">
-                        {(renderProps) => (
-                          <MediaPersonalitiesSelect mediumId={values.medium_id} {...renderProps} />
-                        )}
+                    <FormGroup name="media_personalities" label="Moderátoři">
+                      <SelectComponentField name="media_personalities">
+                        {(renderProps) => <MediaPersonalitiesSelect {...renderProps} />}
                       </SelectComponentField>
+                      <div className={Classes.FORM_HELPER_TEXT}>
+                        Chybí ti v seznamu moderátoři? Přidej si je přes agendu{' '}
+                        <Link to="/admin/media-personalities">Moderátoři</Link>.
+                      </div>
                     </FormGroup>
                   </div>
                 </div>

@@ -140,8 +140,10 @@ class Sources extends React.Component<{}, IState> {
                             <td>
                               <div className={Classes.TEXT_LARGE}>{source.name}</div>
                               <div className={Classes.TEXT_MUTED} style={{ marginTop: 5 }}>
-                                {source.medium.name}, {displayDate(source.released_at)},{' '}
-                                {source.media_personality.name}
+                                {source.medium.name} ze dne {displayDate(source.released_at)}
+                                {source.media_personalities.length > 0 && (
+                                  <>, {source.media_personalities.map((p) => p.name).join(' & ')}</>
+                                )}
                                 {source.source_url && (
                                   <>
                                     , <a href={source.source_url}>odkaz</a>

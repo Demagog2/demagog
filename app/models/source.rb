@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 class Source < ApplicationRecord
-  belongs_to :medium, optional: true
   has_many :segments
   has_many :statements
   has_many :statement_transcript_positions
   has_and_belongs_to_many :speakers
-  belongs_to :media_personality, optional: true
+  belongs_to :medium, optional: true
+  has_and_belongs_to_many :media_personalities, join_table: "sources_media_personalities"
   belongs_to :expert, class_name: "User", optional: true
 
   default_scope { where(deleted_at: nil) }

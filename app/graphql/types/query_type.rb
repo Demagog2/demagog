@@ -82,7 +82,7 @@ Types::QueryType = GraphQL::ObjectType.define do
 
     resolve -> (obj, args, ctx) {
       sources = Source
-        .includes(:medium, :media_personality)
+        .includes(:medium, :media_personalities)
         .order(released_at: :desc)
         .offset(args[:offset])
         .limit(args[:limit])

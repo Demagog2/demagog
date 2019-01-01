@@ -7,11 +7,6 @@ export interface MediaPersonalityInputType {
 
 export interface MediumInputType {
   name: string,
-  media_personalities: Array< MediumMediaPersonalitiesInputType | null >,
-};
-
-export interface MediumMediaPersonalitiesInputType {
-  media_personality_id: string,
 };
 
 export interface PageInputType {
@@ -193,9 +188,6 @@ export interface CreateMediumMutation {
   createMedium:  {
     id: string,
     name: string,
-    personalities:  Array< {
-      name: string,
-    } >,
   } | null,
 };
 
@@ -209,9 +201,6 @@ export interface UpdateMediumMutation {
   updateMedium:  {
     id: string,
     name: string,
-    personalities:  Array< {
-      name: string,
-    } >,
   } | null,
 };
 
@@ -824,10 +813,6 @@ export interface GetMediaQuery {
   media:  Array< {
     id: string,
     name: string,
-    personalities:  Array< {
-      id: string,
-      name: string,
-    } >,
   } >,
 };
 
@@ -839,10 +824,6 @@ export interface GetMediumQuery {
   medium:  {
     id: string,
     name: string,
-    personalities:  Array< {
-      id: string,
-      name: string,
-    } >,
   },
 };
 
@@ -862,10 +843,10 @@ export interface GetSourcesQuery {
       id: string,
       name: string,
     },
-    media_personality:  {
+    media_personalities:  Array< {
       id: string,
       name: string,
-    },
+    } >,
     statements_counts_by_evaluation_status:  Array< {
       evaluation_status: string,
       statements_count: number,
@@ -896,10 +877,10 @@ export interface GetSourceQuery {
       id: string,
       name: string,
     },
-    media_personality:  {
+    media_personalities:  Array< {
       id: string,
       name: string,
-    },
+    } >,
     speakers:  Array< {
       id: string,
       first_name: string,
@@ -919,10 +900,6 @@ export interface GetSourcesForSelectQuery {
     name: string,
     released_at: string,
     medium:  {
-      id: string,
-      name: string,
-    },
-    media_personality:  {
       id: string,
       name: string,
     },
@@ -1162,10 +1139,10 @@ export interface GetStatementQuery {
         id: string,
         name: string,
       },
-      media_personality:  {
+      media_personalities:  Array< {
         id: string,
         name: string,
-      },
+      } >,
       expert:  {
         id: string,
         first_name: string,

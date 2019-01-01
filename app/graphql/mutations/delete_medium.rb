@@ -13,10 +13,10 @@ Mutations::DeleteMedium = GraphQL::Field.define do
     id = args[:id].to_i
 
     begin
-      Medium.update(id, deleted_at: Time.now)
+      Medium.delete_medium(id)
 
       id
-    rescue ActiveRecord::RecordNotFound => e
+    rescue ActiveRecord::RecordNotFound, ActiveModel::ValidationError => e
       raise GraphQL::ExecutionError.new(e.to_s)
     end
   }

@@ -9,7 +9,9 @@
       <p class="lead">
         <span class="label factcheck">Ověřili jsme</span><br>
         <%= @article.source.medium.name %> ze dne <%= raw(l(@article.source.released_at, format: :long)) %>
-        (moderátor <%= @article.source.media_personality.name %><% if @article.source.source_url %>, <a class="ext" href="<%= @article.source.source_url %>">záznam</a><% end %>)
+        <% if @article.source.media_personalities.size > 0 %>
+          (<%= @article.source.media_personalities.size > 1 ? "moderátoři" : "moderátor" %> <%= @article.source.media_personalities.pluck(:name).to_sentence %><% unless @article.source.source_url.empty? %>, <a class="ext" href="<%= @article.source.source_url %>">záznam</a><% end %>)
+        <% end %>
       </p>
     <% end %>
 

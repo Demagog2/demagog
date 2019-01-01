@@ -29,9 +29,6 @@ export const CreateMedium = gql`
     createMedium(medium_input: $mediumInput) {
       id
       name
-      personalities {
-        name
-      }
     }
   }
 `;
@@ -41,9 +38,6 @@ export const UpdateMedium = gql`
     updateMedium(id: $id, medium_input: $mediumInput) {
       id
       name
-      personalities {
-        name
-      }
     }
   }
 `;

@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { Boundary, Button, Classes, CollapsibleList, MenuItem } from '@blueprintjs/core';
+import { Button, Classes } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
@@ -50,12 +50,22 @@ class Media extends React.Component<IProps, IState> {
   };
 
   private onDeleted = () => {
-    this.props.dispatch(addFlashMessage('Článek byl úspěšně smazán.', 'success'));
+    this.props.dispatch(addFlashMessage('Pořad byl úspěšně smazán.', 'success'));
     this.hideConfirmDeleteModal();
   };
 
   private onDeleteError = (error: ApolloError) => {
-    this.props.dispatch(addFlashMessage('Doško k chybě při mazání článku.', 'error'));
+    if (error.message.match(/cannot be deleted if it is linked to some sources/)) {
+      this.props.dispatch(
+        addFlashMessage(
+          'Pořad nelze smazat, protože je pro něj vytvořena už nějaká diskuze s výroky.',
+          'warning',
+        ),
+      );
+      return;
+    }
+
+    this.props.dispatch(addFlashMessage('Doško k chybě při mazání pořadu.', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
@@ -143,7 +153,6 @@ class Media extends React.Component<IProps, IState> {
                       <thead>
                         <tr>
                           <th scope="col">Název pořadu</th>
-                          <th scope="col">Moderátoři</th>
                           <th scope="col" />
                         </tr>
                       </thead>
@@ -151,7 +160,6 @@ class Media extends React.Component<IProps, IState> {
                         {props.data.media.map((medium) => (
                           <tr key={medium.id}>
                             <td>{medium.name}</td>
-                            <td>{this.renderMediaPersonalities(medium.personalities)}</td>
                             <td>
                               <div style={{ display: 'flex' }}>
                                 <Link
@@ -187,24 +195,6 @@ class Media extends React.Component<IProps, IState> {
           }}
         </GetMediaQuery>
       </div>
-    );
-  }
-
-  private renderMediaPersonalities(
-    mediaPersonalities: GetMediaQueryResult['media'][0]['personalities'],
-  ) {
-    return (
-      <CollapsibleList
-        className={Classes.BREADCRUMBS}
-        dropdownTarget={<span className={Classes.BREADCRUMBS_COLLAPSED} />}
-        visibleItemRenderer={(props) => <span>{props.text}</span>}
-        visibleItemClassName="media-collapsible-list-item"
-        collapseFrom={Boundary.END}
-      >
-        {mediaPersonalities.map((mediaPersonality) => (
-          <MenuItem key={mediaPersonality.name} text={mediaPersonality.name} />
-        ))}
-      </CollapsibleList>
     );
   }
 }

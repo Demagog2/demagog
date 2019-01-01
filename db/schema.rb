@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_29_172905) do
+ActiveRecord::Schema.define(version: 2018_12_31_132102) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -156,13 +156,6 @@ ActiveRecord::Schema.define(version: 2018_12_29_172905) do
     t.index ["attachment_id"], name: "index_media_on_attachment_id"
   end
 
-  create_table "media_media_personalities", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "medium_id"
-    t.bigint "media_personality_id"
-    t.index ["media_personality_id"], name: "index_media_media_personalities_on_media_personality_id"
-    t.index ["medium_id"], name: "index_media_media_personalities_on_medium_id"
-  end
-
   create_table "media_personalities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "kind"
     t.string "name"
@@ -240,12 +233,17 @@ ActiveRecord::Schema.define(version: 2018_12_29_172905) do
     t.bigint "medium_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "media_personality_id"
     t.string "name", null: false
     t.datetime "deleted_at"
     t.bigint "expert_id"
-    t.index ["media_personality_id"], name: "index_sources_on_media_personality_id"
     t.index ["medium_id"], name: "index_sources_on_medium_id"
+  end
+
+  create_table "sources_media_personalities", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "source_id"
+    t.bigint "media_personality_id"
+    t.index ["media_personality_id"], name: "index_sources_media_personalities_on_media_personality_id"
+    t.index ["source_id"], name: "index_sources_media_personalities_on_source_id"
   end
 
   create_table "sources_speakers", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

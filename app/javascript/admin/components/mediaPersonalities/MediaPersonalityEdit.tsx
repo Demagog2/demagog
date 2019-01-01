@@ -84,7 +84,7 @@ class MediaPersonalityEdit extends React.Component<IMediaPersonalityEditProps> {
                     <MediaPersonalityForm
                       mediaPersonality={data.media_personality}
                       onSubmit={this.onSubmit(updateMediaPersonality)}
-                      title="Upravit mediální osobnost"
+                      title="Upravit moderátory"
                     />
                   );
                 }}

@@ -13,10 +13,10 @@ Mutations::DeleteMediaPersonality = GraphQL::Field.define do
     id = args[:id].to_i
 
     begin
-      MediaPersonality.update(id, deleted_at: Time.now)
+      MediaPersonality.delete_media_personality(id)
 
       id
-    rescue ActiveRecord::RecordNotFound => e
+    rescue ActiveRecord::RecordNotFound, ActiveModel::ValidationError => e
       raise GraphQL::ExecutionError.new(e.to_s)
     end
   }

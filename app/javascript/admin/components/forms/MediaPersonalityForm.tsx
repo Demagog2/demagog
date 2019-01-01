@@ -29,7 +29,7 @@ export class MediaPersonalityForm extends React.Component<IMediaPersonalityFormP
       <Formik
         initialValues={initialValues}
         validationSchema={yup.object().shape({
-          name: yup.string().required('Je třeba vyplnit jméno moderátora'),
+          name: yup.string().required('Je třeba vyplnit jméno a příjmení moderátora'),
         })}
         onSubmit={(values, { setSubmitting }) => {
           const formData: MediaPersonalityInputType = values;
@@ -64,7 +64,7 @@ export class MediaPersonalityForm extends React.Component<IMediaPersonalityFormP
               <div style={{ flex: '1 1' }}>
                 <div style={{ display: 'flex' }}>
                   <div style={{ flex: '1 1' }}>
-                    <FormGroup label="Jméno" name="name">
+                    <FormGroup label="Jméno a příjmení" name="name">
                       <TextField name="name" />
                     </FormGroup>
                   </div>

@@ -358,9 +358,16 @@ class StatementDetail extends React.Component<IProps, IState> {
                               <p>{newlinesToBr(values.content)}</p>
                             )}
                             <p className={Classes.TEXT_MUTED}>
-                              Diskuze: {statement.source.name}, {statement.source.medium.name},{' '}
-                              {displayDate(statement.source.released_at)},{' '}
-                              {statement.source.media_personality.name}
+                              Diskuze: {statement.source.name}, {statement.source.medium.name} ze
+                              dne {displayDate(statement.source.released_at)}
+                              {statement.source.media_personalities.length > 0 && (
+                                <>
+                                  ,{' '}
+                                  {statement.source.media_personalities
+                                    .map((p) => p.name)
+                                    .join(' & ')}
+                                </>
+                              )}
                               {statement.source.source_url && (
                                 <>
                                   , <a href={statement.source.source_url}>odkaz</a>

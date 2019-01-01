@@ -40,9 +40,7 @@ export default class SourceSelect extends React.Component<IProps> {
 
           if (data && !loading) {
             options = data.sources.map((s) => ({
-              label: `${s.name} (${displayDate(s.released_at)}, ${s.medium.name}, ${
-                s.media_personality.name
-              })`,
+              label: `${s.name} (${displayDate(s.released_at)}, ${s.medium.name})`,
               value: s.id,
             }));
           }
