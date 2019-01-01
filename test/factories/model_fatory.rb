@@ -14,8 +14,11 @@ FactoryBot.define do
   factory :source do
     name "Source name"
     medium
-    media_personality
     released_at { 1.week.ago }
+
+    after(:create) do |source|
+      create(:media_personality, sources: [source])
+    end
   end
 
   factory :article_type
