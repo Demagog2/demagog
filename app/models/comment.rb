@@ -35,14 +35,15 @@ class Comment < ApplicationRecord
         )
       end
 
-      if comment.statement.source.expert
-        notifications << Notification.new(
-          content: "#{comment.user.display_in_notification} přidal/a komentář #{comment.display_in_notification} u tebou expertovaného výroku #{comment.statement.display_in_notification}",
-          action_link: "/admin/statements/#{comment.statement.id}",
-          action_text: "Na detail výroku",
-          recipient: comment.statement.source.expert
-        )
-      end
+      # Temporarily commented out, because we are finetuning the notifications for expert
+      # if comment.statement.source.expert
+      #   notifications << Notification.new(
+      #     content: "#{comment.user.display_in_notification} přidal/a komentář #{comment.display_in_notification} u tebou expertovaného výroku #{comment.statement.display_in_notification}",
+      #     action_link: "/admin/statements/#{comment.statement.id}",
+      #     action_text: "Na detail výroku",
+      #     recipient: comment.statement.source.expert
+      #   )
+      # end
 
       if comment.statement.assessment.evaluator
         notifications << Notification.new(

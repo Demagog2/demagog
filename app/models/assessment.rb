@@ -179,7 +179,9 @@ class Assessment < ApplicationRecord
                                 else evaluation_status
       end
 
-      if statement.source.expert
+      # Temporarily sending notification to expert only when status is changed to
+      # approval_needed, because we are finetuning the notifications
+      if statement.source.expert && evaluation_status == STATUS_APPROVAL_NEEDED
         notifications << Notification.new(
           content: "#{current_user.display_in_notification} změnil/a stav tebou expertovaného výroku #{statement.display_in_notification} na #{evaluation_status_label}",
           action_link: "/admin/statements/#{statement.id}",
