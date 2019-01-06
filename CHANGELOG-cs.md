@@ -6,7 +6,10 @@ Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [K
 - Změneno: U diskuze odteď jde přidat libovolné množství moderátorů ([#165](https://github.com/Demagog2/demagog/issues/165))
 
 ## 3. ledna 2019
-- Změneno: Expert dostává méně notifikací z expertovaných výroků — už nedostanepři komentáři, ve kterém není zmíněn, a při změně stavu jen pokud je nový stav "ke kontrole" ([#291](https://github.com/Demagog2/demagog/pull/291))
+- Změneno: Expert dostává méně notifikací z expertovaných výroků — už nedostane při komentáři, ve kterém není zmíněn, a při změně stavu jen pokud je nový stav "ke kontrole" ([#291](https://github.com/Demagog2/demagog/pull/291))
+
+## 29. prosince 2018
+- Opraveno: Při přidání nového výroku do diskuze zveřejněné v článku už není třeba odstranit a znovu přidat výrokový segment, aby se výrok v článku objevil ([#187](https://github.com/Demagog2/demagog/issues/187)
 
 ## 23. prosince 2018
 - Opraveno: Při vkládání textu zkopírovaného z Google Docs by se už neměl ztrácet text a mělo by se správně přenášet formátování tučně a kurzíva ([#235](https://github.com/Demagog2/demagog/issues/235))
