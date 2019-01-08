@@ -32,9 +32,11 @@
         <i><%= raw(l(article.published_at, format: :long)) %></i>
       <% end %>
 
-      &mdash;
+      <% if article.perex %>
+        &mdash;
 
-      <%= strip_tags(article.perex).truncate(230) %>
+        <%= strip_tags(article.perex).truncate(230) %>
+      <% end %>
 
       <a href="<%= article_path(article) %>">
           <span>Číst&nbsp;dál&nbsp;&rarr;</span>

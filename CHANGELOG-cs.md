@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 8. ledna 2019
+- Opraveno: Článek se korektně zobrazí i když není vyplněný perex ([#293](https://github.com/Demagog2/demagog/issues/293))
+
 ## 6. ledna 2019
 - Změneno: U diskuze odteď jde přidat libovolné množství moderátorů ([#165](https://github.com/Demagog2/demagog/issues/165))
 
