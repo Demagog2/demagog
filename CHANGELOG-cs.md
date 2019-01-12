@@ -2,14 +2,17 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 12. ledna 2019
+- Změněno: Statistiky řečníků podle hodnocení na detailu diskuze v administraci se počítají už pro výroky ke korektuře, ne pouze pro schválené ([#258](https://github.com/Demagog2/demagog/issues/258))
+
 ## 8. ledna 2019
 - Opraveno: Článek se korektně zobrazí i když není vyplněný perex ([#293](https://github.com/Demagog2/demagog/issues/293))
 
 ## 6. ledna 2019
-- Změneno: U diskuze odteď jde přidat libovolné množství moderátorů ([#165](https://github.com/Demagog2/demagog/issues/165))
+- Změněno: U diskuze odteď jde přidat libovolné množství moderátorů ([#165](https://github.com/Demagog2/demagog/issues/165))
 
 ## 3. ledna 2019
-- Změneno: Expert dostává méně notifikací z expertovaných výroků — už nedostane při komentáři, ve kterém není zmíněn, a při změně stavu jen pokud je nový stav "ke kontrole" ([#291](https://github.com/Demagog2/demagog/pull/291))
+- Změněno: Expert dostává méně notifikací z expertovaných výroků — už nedostane při komentáři, ve kterém není zmíněn, a při změně stavu jen pokud je nový stav "ke kontrole" ([#291](https://github.com/Demagog2/demagog/pull/291))
 
 ## 29. prosince 2018
 - Opraveno: Při přidání nového výroku do diskuze zveřejněné v článku už není třeba odstranit a znovu přidat výrokový segment, aby se výrok v článku objevil ([#187](https://github.com/Demagog2/demagog/issues/187)
@@ -28,7 +31,7 @@ Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [K
 - Opraveno: U článku veřejně zobrazujeme i řečníka bez výroků (tj. se samými nulami) ([#251](https://github.com/Demagog2/demagog/pull/251))
 
 ## 1. října 2018
-- Změneno: Tlačítko smazat diskuzi schováno do podmenu, aby se nedalo omylem stisknout ([#233](https://github.com/Demagog2/demagog/issues/233))
+- Změněno: Tlačítko smazat diskuzi schováno do podmenu, aby se nedalo omylem stisknout ([#233](https://github.com/Demagog2/demagog/issues/233))
 
 ## 29. září 2018
 - Přidáno: V toolbaru editoru přibyla možnost vkládání speciálních znaků, hlavně českých uvozovek „ a ‟, které se jinak na klávesnici špatně píší ([#228](https://github.com/Demagog2/demagog/issues/228))
