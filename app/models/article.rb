@@ -77,13 +77,13 @@ class Article < ApplicationRecord
     Article.create! article
   end
 
-  def self.update_article(id, article_input)
+  def self.update_article(article_id, article_input)
     article = article_input.deep_symbolize_keys
 
     article[:article_type] = ArticleType.find_by!(name: article[:article_type])
 
     article[:segments] = article[:segments].map do |seg|
-      segment = ensure_segment(seg[:id])
+      segment = ensure_segment(seg[:id], article_id)
 
       if seg[:segment_type] == Segment::TYPE_TEXT
         segment.assign_attributes(
@@ -106,13 +106,15 @@ class Article < ApplicationRecord
     Article.transaction do
       article[:segments].each(&:save)
 
-      Article.update(id, article)
+      Article.update(article_id, article)
     end
   end
 
-  def self.ensure_segment(id)
+  def self.ensure_segment(segment_id, article_id)
+    article = Article.find(article_id)
+
     begin
-      Segment.find(id)
+      article.segments.find(segment_id)
     rescue ActiveRecord::RecordNotFound => err
       Segment.new
     end
