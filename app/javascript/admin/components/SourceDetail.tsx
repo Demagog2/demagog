@@ -381,14 +381,22 @@ class SourceDetail extends React.Component<IProps, IState> {
             const speakerStatements = data.statements.filter(
               (statement) => statement.speaker.id === speaker.id,
             );
-            const groupedByVeracity = groupBy(
-              speakerStatements,
-              (statement) =>
-                statement.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED &&
-                statement.assessment.veracity
-                  ? statement.assessment.veracity.key
-                  : 'notset',
-            );
+            const groupedByVeracity = groupBy(speakerStatements, (statement) => {
+              switch (statement.assessment.evaluation_status) {
+                case ASSESSMENT_STATUS_APPROVED:
+                // When statement is already in proofreading state, the veracity won't
+                // change, so we can already include it in the stats as well
+                case ASSESSMENT_STATUS_PROOFREADING_NEEDED:
+                  if (statement.assessment.veracity === null) {
+                    throw new Error(`Expected non-null veracity for statement #${statement.id}`);
+                  }
+
+                  return statement.assessment.veracity.key;
+
+                default:
+                  return 'being-evaluated';
+              }
+            });
 
             return {
               speaker,
@@ -396,7 +404,7 @@ class SourceDetail extends React.Component<IProps, IState> {
               untrueCount: get(groupedByVeracity, 'untrue.length', 0),
               misleadingCount: get(groupedByVeracity, 'misleading.length', 0),
               unverifiableCount: get(groupedByVeracity, 'unverifiable.length', 0),
-              notsetCount: get(groupedByVeracity, 'notset.length', 0),
+              beingEvaluatedCount: get(groupedByVeracity, 'being-evaluated.length', 0),
             };
           });
 
@@ -532,7 +540,7 @@ class SourceDetail extends React.Component<IProps, IState> {
                         {stat.untrueCount} nepravda<br />
                         {stat.misleadingCount} zavádějící<br />
                         {stat.unverifiableCount} neověřitelné<br />
-                        {stat.notsetCount} se ještě ověřuje
+                        {stat.beingEvaluatedCount} se ještě ověřuje
                       </p>
                     ))}
                   </div>
