@@ -41,7 +41,7 @@ export interface SourceInputType {
   released_at: string,
   source_url?: string | null,
   medium_id?: string | null,
-  media_personality_id?: string | null,
+  media_personalities: Array< string >,
   transcript: string,
   speakers: Array< string >,
   expert_id?: string | null,
@@ -580,6 +580,13 @@ export interface CreateStatementMutation {
     speaker:  {
       id: string,
     },
+    source:  {
+      id: string,
+      statements_counts_by_evaluation_status:  Array< {
+        evaluation_status: string,
+        statements_count: number,
+      } >,
+    },
   } | null,
 };
 
@@ -618,6 +625,13 @@ export interface UpdateStatementMutation {
         key: GraphQLCustomScalar_VeracityKey,
         name: string,
       } | null,
+    },
+    source:  {
+      id: string,
+      statements_counts_by_evaluation_status:  Array< {
+        evaluation_status: string,
+        statements_count: number,
+      } >,
     },
     comments_count: number,
   } | null,
@@ -880,6 +894,10 @@ export interface GetSourceQuery {
     media_personalities:  Array< {
       id: string,
       name: string,
+    } >,
+    statements_counts_by_evaluation_status:  Array< {
+      evaluation_status: string,
+      statements_count: number,
     } >,
     speakers:  Array< {
       id: string,

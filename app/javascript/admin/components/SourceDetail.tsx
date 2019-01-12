@@ -269,7 +269,7 @@ class SourceDetail extends React.Component<IProps, IState> {
         query={GetSourceStatements}
         variables={{ sourceId: parseInt(source.id, 10), includeUnpublished: true }}
       >
-        {({ data, loading, error, refetch }) => {
+        {({ data, loading, error }) => {
           if (error) {
             console.error(error); // tslint:disable-line:no-console
           }
@@ -550,9 +550,19 @@ class SourceDetail extends React.Component<IProps, IState> {
                     <StatementCard
                       key={statement.id}
                       statement={statement}
-                      onDeleted={() => {
-                        refetch({ sourceId: parseInt(source.id, 10) });
-                      }}
+                      refetchQueriesAfterDelete={[
+                        {
+                          query: GetSource,
+                          variables: { id: parseInt(this.props.match.params.sourceId, 10) },
+                        },
+                        {
+                          query: GetSourceStatements,
+                          variables: {
+                            sourceId: parseInt(source.id, 10),
+                            includeUnpublished: true,
+                          },
+                        },
+                      ]}
                     />
                   ))}
                   {statementsToDisplay.length === 0 && (

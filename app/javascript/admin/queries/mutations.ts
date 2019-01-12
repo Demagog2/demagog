@@ -344,6 +344,13 @@ export const CreateStatement = gql`
       speaker {
         id
       }
+      source {
+        id
+        statements_counts_by_evaluation_status {
+          evaluation_status
+          statements_count
+        }
+      }
     }
   }
 `;
@@ -377,6 +384,13 @@ export const UpdateStatement = gql`
           id
           key
           name
+        }
+      }
+      source {
+        id
+        statements_counts_by_evaluation_status {
+          evaluation_status
+          statements_count
         }
       }
       comments_count

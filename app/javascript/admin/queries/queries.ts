@@ -147,6 +147,10 @@ export const GetSource = gql`
         id
         name
       }
+      statements_counts_by_evaluation_status {
+        evaluation_status
+        statements_count
+      }
       speakers {
         id
         first_name
