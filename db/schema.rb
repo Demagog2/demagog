@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_31_132102) do
+ActiveRecord::Schema.define(version: 2019_01_21_125541) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -154,6 +154,13 @@ ActiveRecord::Schema.define(version: 2018_12_31_132102) do
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
     t.index ["attachment_id"], name: "index_media_on_attachment_id"
+  end
+
+  create_table "media_media_personalities", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "medium_id"
+    t.bigint "media_personality_id"
+    t.index ["media_personality_id"], name: "index_media_media_personalities_on_media_personality_id"
+    t.index ["medium_id"], name: "index_media_media_personalities_on_medium_id"
   end
 
   create_table "media_personalities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -320,6 +327,7 @@ ActiveRecord::Schema.define(version: 2018_12_31_132102) do
     t.string "last_sign_in_ip"
     t.boolean "email_notifications", default: false
     t.boolean "user_public", default: false
+    t.datetime "deleted_at"
   end
 
   create_table "users_roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

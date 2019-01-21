@@ -3,6 +3,7 @@
 class User < ApplicationRecord
   devise :trackable, :omniauthable, omniauth_providers: [:google_oauth2]
 
+  default_scope { where(deleted_at: nil) }
   scope :active, -> { where(active: true) }
 
   has_and_belongs_to_many :roles, join_table: :users_roles

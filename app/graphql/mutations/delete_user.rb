@@ -14,7 +14,7 @@ Mutations::DeleteUser = GraphQL::Field.define do
     id = args[:id].to_i
 
     begin
-      User.destroy(id)
+      User.update(id, deleted_at: Time.now)
       id
     rescue ActiveRecord::RecordNotFound => e
       raise GraphQL::ExecutionError.new(e.to_s)
