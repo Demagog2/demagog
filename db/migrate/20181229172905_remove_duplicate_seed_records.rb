@@ -11,8 +11,8 @@ class RemoveDuplicateSeedRecords < ActiveRecord::Migration[5.2]
 
     # Article types
     preserve_article_type_ids = []
-    preserve_article_type_ids << ArticleType.find_by(name: "default").id
-    preserve_article_type_ids << ArticleType.find_by(name: "static").id
+    preserve_article_type_ids << ArticleType.find_by(name: "default").id if ArticleType.find_by(name: "default")
+    preserve_article_type_ids << ArticleType.find_by(name: "static").id if ArticleType.find_by(name: "static")
     ArticleType.where.not(id: preserve_article_type_ids).delete_all
   end
 end

@@ -52,8 +52,10 @@ class SourcesMediaPersonalities < ActiveRecord::Migration[5.2]
 
     # Remove media personality "Jiné", which was used when there was
     # no media personality to be assigned
-    media_personality_other = MediaPersonality.where(name: "Jiné").first
-    media_personality_other.sources.clear
-    media_personality_other.delete
+    media_personality_other = MediaPersonality.find_by(name: "Jiné")
+    if media_personality_other
+      media_personality_other.sources.clear
+      media_personality_other.delete
+    end
   end
 end

@@ -156,13 +156,6 @@ ActiveRecord::Schema.define(version: 2019_01_21_125541) do
     t.index ["attachment_id"], name: "index_media_on_attachment_id"
   end
 
-  create_table "media_media_personalities", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "medium_id"
-    t.bigint "media_personality_id"
-    t.index ["media_personality_id"], name: "index_media_media_personalities_on_media_personality_id"
-    t.index ["medium_id"], name: "index_media_media_personalities_on_medium_id"
-  end
-
   create_table "media_personalities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "kind"
     t.string "name"
