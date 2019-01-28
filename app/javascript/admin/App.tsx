@@ -19,7 +19,6 @@ import BodyNew from './components/BodyNew';
 
 import FlashMessages from './components/FlashMessages';
 import Header from './components/Header';
-// import Home from './components/Home';
 import Images from './components/Images';
 import Loading from './components/Loading';
 import NotFound from './components/NotFound';
@@ -94,8 +93,6 @@ class App extends React.Component<IProps> {
             <main style={{ flexGrow: 1, flexShrink: 1, paddingLeft: 30, paddingRight: 30 }}>
               <FlashMessages />
               <Switch>
-                {/* TODO: replace when we have something useful at home screen */}
-                {/* <Route path="/admin" exact component={Home} /> */}
                 <Route path="/admin" exact>
                   <Redirect to="/admin/sources" />
                 </Route>
