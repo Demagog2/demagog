@@ -12,6 +12,7 @@ import { ISpeakerFormData, SpeakerForm } from './forms/SpeakerForm';
 
 import { CreateSpeakerMutation, CreateSpeakerMutationVariables } from '../operation-result-types';
 import { CreateSpeaker } from '../queries/mutations';
+import { GetSpeakers } from '../queries/queries';
 
 class CreateSpeakerMutationComponent extends Mutation<
   CreateSpeakerMutation,
@@ -64,7 +65,10 @@ class SpeakerNew extends React.Component<ISpeakerNewProps> {
   public render() {
     return (
       <div style={{ padding: '15px 0 40px 0' }}>
-        <CreateSpeakerMutationComponent mutation={CreateSpeaker}>
+        <CreateSpeakerMutationComponent
+          mutation={CreateSpeaker}
+          refetchQueries={[{ query: GetSpeakers, variables: { name: '' } }]}
+        >
           {(createSpeaker) => (
             <SpeakerForm onSubmit={this.onFormSubmit(createSpeaker)} title="Přidat novou osobu" />
           )}

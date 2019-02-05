@@ -2,7 +2,7 @@ require "open-uri"
 
 class MigrationToUserAvatar < ActiveRecord::Migration[5.2]
   def up
-    User.all.each do |user|
+    User.unscoped.all.each do |user|
       next if user.portrait.nil? || user.portrait.file.empty? || user.avatar.attached?
 
       begin

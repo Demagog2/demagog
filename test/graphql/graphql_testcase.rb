@@ -19,7 +19,7 @@ class GraphQLTestCase < ActiveSupport::TestCase
     end
 
     def authenticated_user_context
-      @user = @user || create(:user)
+      @user = @user || create(:user, :admin)
 
       { current_user: @user }
     end

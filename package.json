@@ -8,7 +8,7 @@
   "dependencies": {
     "@blueprintjs/core": "~3.8.0",
     "@blueprintjs/datetime": "^3.3.1",
-    "@rails/webpacker": "3.4",
+    "@rails/webpacker": "https://github.com/rails/webpacker",
     "@sentry/browser": "^4.3.0",
     "@types/classnames": "^2.2.4",
     "@types/enzyme": "^3.1.10",
@@ -76,10 +76,10 @@
     "slate-schema-violations": "^0.1.39",
     "slate-soft-break": "^0.9.0",
     "ts-jest": "^22.4.5",
-    "ts-loader": "^3.5.0",
+    "ts-loader": "5.3.3",
     "typescript": "^3.1.6",
     "uuid": "^3.2.1",
-    "webpack": "3.10.0",
+    "webpack": "4.29.0",
     "whatwg-fetch": "^3.0.0",
     "yup": "^0.26.6",
     "zurb-foundation-5": "^5.4.7"
@@ -89,13 +89,15 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "jest": "^22.4.3",
+    "postcss-cssnext": "^3.1.0",
     "prettier": "^1.13.4",
     "stylelint": "^9.2.0",
     "stylelint-config-standard": "^18.2.0",
     "stylelint-scss": "^3.0.1",
     "tslint": "^5.11.0",
     "tslint-plugin-prettier": "^2.0.0",
-    "webpack-dev-server": "2.11.2"
+    "webpack-cli": "^3.2.1",
+    "webpack-dev-server": "^3.1.14"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/config/jest/jest.setup.js",

@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 21. ledna 2019
+- Opraveno: Odstranění uživatelé neblokují změnu ověřovatele výroku
+
 ## 12. ledna 2019
 - Opraveno: Statistiky (ve zpracování/...) na seznamu diskuzí v administraci se již aktualizují při změnách výroků bez nutnosti reloadu ([#225](https://github.com/Demagog2/demagog/issues/225))
 - Změněno: Statistiky řečníků podle hodnocení na detailu diskuze v administraci se počítají už pro výroky ke korektuře, ne pouze pro schválené ([#258](https://github.com/Demagog2/demagog/issues/258))

@@ -125,43 +125,51 @@ class Assessment < ApplicationRecord
     if user_id_changed?
       notifications = []
 
-      if !user_id.nil?
-        evaluator = User.find(user_id)
+      unless user_id.nil?
+        begin
+          evaluator = User.find(user_id)
 
-        notifications << Notification.new(
-          content: "#{current_user.display_in_notification} tě vybral/a jako ověřovatele/ku výroku #{statement.display_in_notification}",
-          action_link: "/admin/statements/#{statement.id}",
-          action_text: "Na detail výroku",
-          recipient: evaluator
-        )
-
-        if statement.source.expert
           notifications << Notification.new(
-            content: "#{current_user.display_in_notification} vybral/a #{evaluator.display_in_notification} jako ověřovatele/ku tebou expertovaného výroku #{statement.display_in_notification}",
+            content: "#{current_user.display_in_notification} tě vybral/a jako ověřovatele/ku výroku #{statement.display_in_notification}",
             action_link: "/admin/statements/#{statement.id}",
             action_text: "Na detail výroku",
-            recipient: statement.source.expert
+            recipient: evaluator
           )
+
+          if statement.source.expert
+            notifications << Notification.new(
+              content: "#{current_user.display_in_notification} vybral/a #{evaluator.display_in_notification} jako ověřovatele/ku tebou expertovaného výroku #{statement.display_in_notification}",
+              action_link: "/admin/statements/#{statement.id}",
+              action_text: "Na detail výroku",
+              recipient: statement.source.expert
+            )
+          end
+        rescue ActiveRecord::RecordNotFound
+          logger.debug "User #{user_id} not found. Notification not send."
         end
       end
 
-      if !user_id_was.nil?
-        evaluator_was = User.find(user_id_was)
+      unless user_id_was.nil?
+        begin
+          evaluator_was = User.find(user_id_was)
 
-        notifications << Notification.new(
-          content: "#{current_user.display_in_notification} tě odebral/a z pozice ověřovatele/ky výroku #{statement.display_in_notification}",
-          action_link: "/admin/statements/#{statement.id}",
-          action_text: "Na detail výroku",
-          recipient: evaluator_was
-        )
-
-        if statement.source.expert
           notifications << Notification.new(
-            content: "#{current_user.display_in_notification} odebral/a #{evaluator_was.display_in_notification} z pozice ověřovatele/ky tebou expertovaného výroku #{statement.display_in_notification}",
+            content: "#{current_user.display_in_notification} tě odebral/a z pozice ověřovatele/ky výroku #{statement.display_in_notification}",
             action_link: "/admin/statements/#{statement.id}",
             action_text: "Na detail výroku",
-            recipient: statement.source.expert
+            recipient: evaluator_was
           )
+
+          if statement.source.expert
+            notifications << Notification.new(
+              content: "#{current_user.display_in_notification} odebral/a #{evaluator_was.display_in_notification} z pozice ověřovatele/ky tebou expertovaného výroku #{statement.display_in_notification}",
+              action_link: "/admin/statements/#{statement.id}",
+              action_text: "Na detail výroku",
+              recipient: statement.source.expert
+            )
+          end
+        rescue ActiveRecord::RecordNotFound
+          logger.debug "User #{user_id_was} not found. Notification not send."
         end
       end
 

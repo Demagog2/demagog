@@ -323,6 +323,7 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.string "last_sign_in_ip"
     t.boolean "email_notifications", default: false
     t.boolean "user_public", default: false
+    t.datetime "deleted_at"
   end
 
   create_table "users_roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
