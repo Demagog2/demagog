@@ -10,8 +10,7 @@ class Article < ApplicationRecord
   belongs_to :article_type
   belongs_to :user, optional: true
   belongs_to :document, class_name: "Attachment", optional: true
-  has_many :article_has_segments, dependent: :destroy
-  has_many :segments, through: :article_has_segments
+  has_many :segments, -> { order(order: :asc) }
 
   after_update :invalidate_caches
 
@@ -82,19 +81,21 @@ class Article < ApplicationRecord
 
     article[:article_type] = ArticleType.find_by!(name: article[:article_type])
 
-    article[:segments] = article[:segments].map do |seg|
+    article[:segments] = article[:segments].map.with_index(0) do |seg, order|
       segment = ensure_segment(seg[:id], article_id)
 
       if seg[:segment_type] == Segment::TYPE_TEXT
         segment.assign_attributes(
           segment_type: seg[:segment_type],
           text_html: seg[:text_html],
-          text_slatejson: seg[:text_slatejson]
+          text_slatejson: seg[:text_slatejson],
+          order: order
         )
       elsif seg[:segment_type] == Segment::TYPE_SOURCE_STATEMENTS
         segment.assign_attributes(
           segment_type: seg[:segment_type],
-          source: Source.find(seg[:source_id])
+          source: Source.find(seg[:source_id]),
+          order: order
         )
       else
         raise "Updating segment of type #{seg[:segment_type]} is not implemented"

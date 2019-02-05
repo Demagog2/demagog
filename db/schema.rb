@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_31_132102) do
+ActiveRecord::Schema.define(version: 2019_02_05_214955) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -224,6 +224,9 @@ ActiveRecord::Schema.define(version: 2018_12_31_132102) do
     t.datetime "updated_at", null: false
     t.text "text_slatejson"
     t.bigint "source_id"
+    t.bigint "article_id"
+    t.integer "order"
+    t.index ["article_id"], name: "index_segments_on_article_id"
   end
 
   create_table "sources", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -337,4 +340,5 @@ ActiveRecord::Schema.define(version: 2018_12_31_132102) do
     t.string "key"
   end
 
+  add_foreign_key "segments", "articles"
 end

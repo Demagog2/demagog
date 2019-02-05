@@ -4,9 +4,8 @@ class Segment < ApplicationRecord
   TYPE_TEXT = "text"
   TYPE_SOURCE_STATEMENTS = "source_statements"
 
-  has_many :article_has_segments
-  has_many :articles, through: :article_has_segments
   belongs_to :source, optional: true
+  belongs_to :article, optional: true
 
   scope :source_statements_type_only, -> {
     where(segment_type: Segment::TYPE_SOURCE_STATEMENTS)
