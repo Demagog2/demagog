@@ -120,10 +120,10 @@ class StatementMigration
   def dependency_to_segment(source_id)
     return @segment_cache[source_id] if @segment_cache[source_id]
 
-    article_has_segment = ArticleHasSegment.find_by(article: source_id)
+    segment = Segment.find_by(article: source_id)
 
-    if article_has_segment
-      @segment_cache[source_id] = article_has_segment.segment
+    if segment
+      @segment_cache[source_id] = segment
     else
       article = Article.find(source_id)
 
@@ -133,13 +133,7 @@ class StatementMigration
         segment_type: Segment::TYPE_STATEMENTS_SET
       )
 
-      @segment_cache[source_id] = segment
-
-      ArticleHasSegment.create!(
-        article: article,
-        segment: segment,
-        order: 1
-      )
+      article.segments << segment
 
       segment
     end
@@ -206,11 +200,11 @@ class StatementMigration
         segment = dependency_to_segment(old_statement["id_diskusia"])
 
         worker.add([
-          segment.id,
-          old_statement["id"],
-          Time.now,
-          Time.now
-        ])
+                     segment.id,
+                     old_statement["id"],
+                     Time.now,
+                     Time.now
+                   ])
       end
     end
   end

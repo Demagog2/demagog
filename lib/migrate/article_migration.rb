@@ -107,22 +107,14 @@ class ArticleMigration
         updated_at: old_article["timestamp"]
       )
 
-      article.save!
-
-      segment = Segment.create!(
+      article.segments << Segment.create!(
         segment_type: "text",
         text_html: HtmlContentHelper.to_clean_html(old_article["obsah"]),
         created_at: old_article["timestamp"],
         updated_at: old_article["timestamp"]
       )
 
-      ArticleHasSegment.create!(
-        segment: segment,
-        article: article,
-        order: 1,
-        created_at: old_article["timestamp"],
-        updated_at: old_article["timestamp"]
-      )
+      article.save!
     end
 
     progressbar = ProgressBar.create(
