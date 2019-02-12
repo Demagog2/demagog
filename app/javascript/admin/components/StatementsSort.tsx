@@ -21,6 +21,7 @@ import {
 import { UpdateSourceStatementsOrder } from '../queries/mutations';
 import { GetSource, GetSourceStatements } from '../queries/queries';
 import { newlinesToBr } from '../utils';
+import { reorder } from '../utils/array';
 import Loading from './Loading';
 
 class UpdateSourceStatementsOrderMutationComponent extends Mutation<
@@ -159,14 +160,6 @@ class StatementsSort extends React.Component<IProps, IState> {
       </div>
     );
   }
-}
-
-function reorder<T>(list: T[], startIndex: number, endIndex: number): T[] {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result;
 }
 
 const getItemStyle = (isDragging, draggableStyle) => ({

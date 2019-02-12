@@ -19,6 +19,7 @@ import {
 import { UpdateUsersRank } from '../queries/mutations';
 import { GetUsers } from '../queries/queries';
 import { newlinesToBr } from '../utils';
+import { reorder } from '../utils/array';
 import SpeakerAvatar from './SpeakerAvatar';
 
 class UpdateUsersRankMutationComponent extends Mutation<
@@ -153,14 +154,6 @@ class UsersSortOnAboutUsPage extends React.Component<
 }
 
 const EnhancedUsersSortOnAboutUsPage = connect()(UsersSortOnAboutUsPage);
-
-function reorder<T>(list: T[], startIndex: number, endIndex: number): T[] {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result;
-}
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   userSelect: 'none',
