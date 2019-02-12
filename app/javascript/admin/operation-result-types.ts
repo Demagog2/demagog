@@ -40,7 +40,7 @@ export interface SourceInputType {
   name: string,
   released_at: string,
   source_url?: string | null,
-  medium_id?: string | null,
+  medium_id: string,
   media_personalities: Array< string >,
   transcript: string,
   speakers: Array< string >,

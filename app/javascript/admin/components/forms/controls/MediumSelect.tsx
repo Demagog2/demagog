@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { Colors } from '@blueprintjs/core';
+import { isEmpty } from 'lodash';
 import { Query } from 'react-apollo';
 import Select from 'react-select';
 import { GetMediaQuery } from '../../../operation-result-types';
@@ -40,14 +41,13 @@ export default class MediumSelect extends React.Component<IMediaSelectProps> {
               isLoading={loading}
               options={options}
               onChange={(selectedOption) => {
-                if (selectedOption) {
-                  this.props.onChange((selectedOption as ISelectOption).value);
-                } else {
+                if (isEmpty(selectedOption)) {
                   this.props.onChange(null);
+                } else {
+                  this.props.onChange((selectedOption as ISelectOption).value);
                 }
               }}
               placeholder="Vyberte pořad …"
-              isClearable={false}
               styles={{
                 control: (base) => ({
                   ...base,

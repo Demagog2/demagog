@@ -55,13 +55,16 @@ class SourceForm extends React.Component<ISourceFormProps> {
         initialValues={initialValues}
         validationSchema={yup.object().shape({
           name: yup.string().required('Je třeba vyplnit název'),
-          medium_id: yup.mixed().notOneOf([null], 'Je třeba vybrat pořad'),
-          released_at: yup.mixed().notOneOf([null], 'Je třeba vyplnit datum publikace'),
+          medium_id: yup.mixed().notOneOf([null, ''], 'Je třeba vybrat pořad'),
+          released_at: yup.mixed().notOneOf([null, ''], 'Je třeba vyplnit datum publikace'),
           speakers: yup.array().min(1, 'Je třeba vybrat alespoň jednoho řečníka'),
         })}
         onSubmit={(values, { setSubmitting }) => {
           const formData: SourceInputType = {
             ...values,
+
+            // medium_id will always be a string, because null won't pass validation
+            medium_id: values.medium_id as string,
 
             // released_at will always be a string, because null won't pass validation
             released_at: values.released_at as string,
