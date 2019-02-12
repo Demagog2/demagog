@@ -7,8 +7,8 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import Sources from '../Sources';
 
-import rootReducer from '../../reducers';
 import { GetSources } from '../../queries/queries';
+import rootReducer from '../../reducers';
 
 const initialState = {
   currentUser: {
