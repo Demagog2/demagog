@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { Button, Classes } from '@blueprintjs/core';
+import { Button, Classes, NonIdealState } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import * as classNames from 'classnames';
 import { compact } from 'lodash';
@@ -89,7 +89,13 @@ class Sources extends React.Component<{}, IState> {
               }
 
               if (props.error) {
-                return <h1>{props.error}</h1>;
+                return (
+                  <NonIdealState
+                    icon={IconNames.ERROR}
+                    title="Došlo k chybě při načítání seznamu zdrojů"
+                    description="Kontaktujte správce systému"
+                  />
+                );
               }
 
               if (!props.data) {
