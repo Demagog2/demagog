@@ -13,4 +13,13 @@ class Admin::AdminController < ApplicationController
 
     redirect_to "/admin"
   end
+
+  def test_login
+    # Make sure it is not runnable in production
+    return head :not_found if Rails.env.production?
+
+    sign_in(:user, User.find(params[:id]))
+
+    head :ok
+  end
 end

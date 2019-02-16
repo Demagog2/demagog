@@ -36,6 +36,12 @@ Rails.application.routes.draw do
     # We're using this from the notification email
     get "/notification-open/:id" => "notification#open", as: :open_notification
 
+    # For development and testing we need a way to login as somebody even when
+    # we don't have access to their Google account
+    unless Rails.env.production?
+      get "/test-login/:id" => "admin#test_login", as: :test_login
+    end
+
     get "(/*all)" => "admin#index"
   end
 
