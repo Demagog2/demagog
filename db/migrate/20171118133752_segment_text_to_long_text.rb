@@ -1,9 +1,11 @@
 class SegmentTextToLongText < ActiveRecord::Migration[5.1]
   def up
-    change_column :segments, :text, :longtext
+    # PostgreSQL does not have longtext, in pg text is unlimited
+    # change_colongtextlumn :segments, :text, :longtext
   end
 
   def down
-    change_column :segments, :text, :text
+    # PostgreSQL does not have longtext, in pg text is unlimited
+    # change_column :segments, :text, :text
   end
 end

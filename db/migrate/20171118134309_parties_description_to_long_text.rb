@@ -1,9 +1,11 @@
 class PartiesDescriptionToLongText < ActiveRecord::Migration[5.1]
   def up
-    change_column :parties, :description, :longtext
+    # PostgreSQL does not have longtext, in pg text is unlimited
+    # change_column :parties, :description, :longtext
   end
 
   def down
-    change_column :parties, :description, :text
+    # PostgreSQL does not have longtext, in pg text is unlimited
+    # change_column :parties, :description, :text
   end
 end

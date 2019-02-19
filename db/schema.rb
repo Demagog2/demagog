@@ -12,7 +12,10 @@
 
 ActiveRecord::Schema.define(version: 2019_02_05_214955) do
 
-  create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
@@ -22,7 +25,7 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "active_storage_blobs", force: :cascade do |t|
     t.string "key", null: false
     t.string "filename", null: false
     t.string "content_type"
@@ -33,7 +36,7 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "article_has_segments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "article_has_segments", force: :cascade do |t|
     t.integer "order"
     t.bigint "article_id"
     t.bigint "segment_id"
@@ -43,14 +46,14 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.index ["segment_id"], name: "index_article_has_segments_on_segment_id"
   end
 
-  create_table "article_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "article_types", force: :cascade do |t|
     t.string "name"
     t.text "template"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "articles", force: :cascade do |t|
     t.string "title"
     t.string "slug"
     t.text "perex"
@@ -69,14 +72,14 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.index ["user_id"], name: "index_articles_on_user_id"
   end
 
-  create_table "articles_tags", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "articles_tags", id: false, force: :cascade do |t|
     t.bigint "tag_id"
     t.bigint "article_id"
     t.index ["article_id"], name: "index_articles_tags_on_article_id"
     t.index ["tag_id"], name: "index_articles_tags_on_tag_id"
   end
 
-  create_table "assessments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "assessments", force: :cascade do |t|
     t.text "explanation_html"
     t.string "evaluation_status"
     t.datetime "evaluated_at"
@@ -92,7 +95,7 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.index ["veracity_id"], name: "index_assessments_on_veracity_id"
   end
 
-  create_table "attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "attachments", force: :cascade do |t|
     t.string "attachment_type"
     t.string "file"
     t.text "description"
@@ -101,10 +104,10 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "bodies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "bodies", force: :cascade do |t|
     t.string "name"
     t.string "short_name"
-    t.text "description", limit: 4294967295
+    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "attachment_id"
@@ -116,7 +119,7 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.index ["attachment_id"], name: "index_bodies_on_attachment_id"
   end
 
-  create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "comments", force: :cascade do |t|
     t.text "content", null: false
     t.bigint "user_id", null: false
     t.bigint "statement_id", null: false
@@ -126,14 +129,14 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
-  create_table "content_images", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "content_images", force: :cascade do |t|
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "deleted_at"
     t.index ["user_id"], name: "index_content_images_on_user_id"
   end
 
-  create_table "friendly_id_slugs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
     t.string "sluggable_type", limit: 50
@@ -145,7 +148,7 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
-  create_table "media", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "media", force: :cascade do |t|
     t.string "kind"
     t.string "name"
     t.text "description"
@@ -156,7 +159,7 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.index ["attachment_id"], name: "index_media_on_attachment_id"
   end
 
-  create_table "media_personalities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "media_personalities", force: :cascade do |t|
     t.string "kind"
     t.string "name"
     t.text "description"
@@ -167,7 +170,7 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.index ["attachment_id"], name: "index_media_personalities_on_attachment_id"
   end
 
-  create_table "memberships", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "memberships", force: :cascade do |t|
     t.bigint "body_id"
     t.bigint "speaker_id"
     t.date "since"
@@ -178,7 +181,7 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.index ["speaker_id"], name: "index_memberships_on_speaker_id"
   end
 
-  create_table "menu_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "menu_items", force: :cascade do |t|
     t.string "title"
     t.string "kind", null: false
     t.bigint "page_id"
@@ -187,7 +190,7 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.index ["page_id"], name: "index_menu_items_on_page_id"
   end
 
-  create_table "notifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "notifications", force: :cascade do |t|
     t.text "content", null: false
     t.string "action_link", null: false
     t.string "action_text", null: false
@@ -198,7 +201,7 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.index ["recipient_id"], name: "index_notifications_on_recipient_id"
   end
 
-  create_table "pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "pages", force: :cascade do |t|
     t.string "title"
     t.string "slug"
     t.boolean "published"
@@ -210,16 +213,16 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.string "template"
   end
 
-  create_table "roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "roles", force: :cascade do |t|
     t.string "key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
   end
 
-  create_table "segments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "segments", force: :cascade do |t|
     t.string "segment_type"
-    t.text "text_html", limit: 4294967295
+    t.text "text_html"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "text_slatejson"
@@ -229,8 +232,8 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.index ["article_id"], name: "index_segments_on_article_id"
   end
 
-  create_table "sources", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.text "transcript", limit: 4294967295
+  create_table "sources", force: :cascade do |t|
+    t.text "transcript"
     t.string "source_url"
     t.date "released_at"
     t.bigint "medium_id"
@@ -242,21 +245,21 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.index ["medium_id"], name: "index_sources_on_medium_id"
   end
 
-  create_table "sources_media_personalities", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "sources_media_personalities", id: false, force: :cascade do |t|
     t.bigint "source_id"
     t.bigint "media_personality_id"
     t.index ["media_personality_id"], name: "index_sources_media_personalities_on_media_personality_id"
     t.index ["source_id"], name: "index_sources_media_personalities_on_source_id"
   end
 
-  create_table "sources_speakers", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "sources_speakers", id: false, force: :cascade do |t|
     t.bigint "source_id"
     t.bigint "speaker_id"
     t.index ["source_id"], name: "index_sources_speakers_on_source_id"
     t.index ["speaker_id"], name: "index_sources_speakers_on_speaker_id"
   end
 
-  create_table "speakers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "speakers", force: :cascade do |t|
     t.string "before_name"
     t.string "first_name"
     t.string "last_name"
@@ -268,7 +271,7 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "statement_transcript_positions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "statement_transcript_positions", force: :cascade do |t|
     t.bigint "statement_id"
     t.bigint "source_id"
     t.integer "start_line", null: false
@@ -279,7 +282,7 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.index ["statement_id"], name: "index_statement_transcript_positions_on_statement_id"
   end
 
-  create_table "statements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "statements", force: :cascade do |t|
     t.text "content"
     t.datetime "excerpted_at"
     t.boolean "important"
@@ -295,7 +298,7 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.index ["speaker_id"], name: "index_statements_on_speaker_id"
   end
 
-  create_table "tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "tags", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.boolean "is_policy_area"
@@ -303,7 +306,7 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.text "position_description"
@@ -326,14 +329,14 @@ ActiveRecord::Schema.define(version: 2019_02_05_214955) do
     t.datetime "deleted_at"
   end
 
-  create_table "users_roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "users_roles", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "role_id"
     t.index ["role_id"], name: "index_users_roles_on_role_id"
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
-  create_table "veracities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "veracities", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.datetime "created_at", null: false

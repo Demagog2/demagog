@@ -14,15 +14,11 @@ services:
     restart: always
 
   db:
-    image: mysql:5.7.23
+    image: postgres:11.2
     ports:
-      - 3306:3306
+      - 5432:5432
     restart: always
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-    volumes:
-      - db-data-volume:/var/lib/mysql
-
+    
   webpacker:
     image: ${DOCKER_IMAGE_NAME-demagog}
     command: ["bin/webpack-dev-server"]
@@ -40,7 +36,7 @@ services:
       context: .
       args:
         precompileassets: 'not'
-    links:
+    depends_on:
       - db
       - redis
       - elasticsearch

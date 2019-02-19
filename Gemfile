@@ -14,8 +14,8 @@ gem "dotenv-rails"
 gem "rails", "~> 5.2"
 # Add possibility for bulk insert to Active Record models
 gem "bulk_insert"
-# Use MySQL as the database for Active Record
-gem "mysql2"
+# Use Postgresql as the database for Active Record
+gem "pg"
 # Use Unicorn as the app server
 gem "unicorn"
 # Use SCSS for stylesheets
