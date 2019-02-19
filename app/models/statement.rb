@@ -26,9 +26,9 @@ class Statement < ApplicationRecord
         :statement_transcript_position
       )
       .order(
-        Arel.sql("source_order DESC NULLS LAST"),
-        Arel.sql("statement_transcript_positions.start_line DESC NULLS LAST"),
-        Arel.sql("statement_transcript_positions.start_offset DESC NULLS LAST"),
+        Arel.sql("source_order ASC NULLS LAST"),
+        Arel.sql("statement_transcript_positions.start_line ASC NULLS LAST"),
+        Arel.sql("statement_transcript_positions.start_offset ASC NULLS LAST"),
         "excerpted_at ASC"
       )
   }
@@ -54,7 +54,7 @@ class Statement < ApplicationRecord
     # We first call order and then the published scope so the important DESC
     # order rule is used first and then the ones from scope ordered
     # (source_order, etc.)
-    order(important: :desc).published
+    order(important: :asc).published
   }
 
   def self.interesting_statements

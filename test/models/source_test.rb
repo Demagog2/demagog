@@ -13,7 +13,7 @@ class SourceTest < ActiveSupport::TestCase
     ordered_ids = source.statements.map { |s| s.id }
     source.update_statements_source_order(ordered_ids)
 
-    source.statements.each_with_index do |s, i|
+    source.statements.order(source_order: :asc).each_with_index do |s, i|
       assert_equal i, s.source_order
     end
   end
