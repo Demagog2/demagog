@@ -274,7 +274,7 @@ Types::QueryType = GraphQL::ObjectType.define do
         .includes(:article_type)
         .offset(args[:offset])
         .limit(args[:limit])
-        .order("IFNULL(published_at, created_at) DESC")
+        .order("COALESCE(published_at, created_at) DESC")
 
       articles = articles.matching_title(args[:title]) if args[:title].present?
 
