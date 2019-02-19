@@ -26,13 +26,9 @@ class Statement < ApplicationRecord
         :statement_transcript_position
       )
       .order(
-        # -column DESC means we sort in ascending order, but we want NULL values at the end
-        # See https://stackoverflow.com/questions/2051602/mysql-orderby-a-number-nulls-last
-        # It means that when user provides manual sorting in source_order columns, it will be
-        # used first and rest of the statements will be after
-        Arel.sql("- source_order DESC"),
-        Arel.sql("- statement_transcript_positions.start_line DESC"),
-        Arel.sql("- statement_transcript_positions.start_offset DESC"),
+        Arel.sql("source_order DESC NULLS LAST"),
+        Arel.sql("statement_transcript_positions.start_line DESC NULLS LAST"),
+        Arel.sql("statement_transcript_positions.start_offset DESC NULLS LAST"),
         "excerpted_at ASC"
       )
   }
