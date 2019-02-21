@@ -16,13 +16,13 @@ import {
   Position,
 } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
+import * as Sentry from '@sentry/browser';
 import { ApolloError } from 'apollo-client';
 import { css, cx } from 'emotion';
 import { get, groupBy, orderBy } from 'lodash';
 import { Mutation, Query } from 'react-apollo';
 import { connect, DispatchProp } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import * as Sentry from '@sentry/browser';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import {
