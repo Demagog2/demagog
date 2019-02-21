@@ -22,6 +22,7 @@ import { get, groupBy, orderBy } from 'lodash';
 import { Mutation, Query } from 'react-apollo';
 import { connect, DispatchProp } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
+import * as Sentry from '@sentry/browser';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import {
@@ -388,7 +389,18 @@ class SourceDetail extends React.Component<IProps, IState> {
                 // change, so we can already include it in the stats as well
                 case ASSESSMENT_STATUS_PROOFREADING_NEEDED:
                   if (statement.assessment.veracity === null) {
-                    throw new Error(`Expected non-null veracity for statement #${statement.id}`);
+                    // If the statement does not have veracity set in proofreading or approved
+                    // state, don't fail and just log this to sentry
+                    Sentry.withScope((scope) => {
+                      scope.setLevel(Sentry.Severity.Warning);
+                      Sentry.captureException(
+                        `Expected non-null veracity for statement #${statement.id}`,
+                      );
+                    });
+                    // tslint:disable-next-line:no-console
+                    console.warn(`Expected non-null veracity for statement #${statement.id}`);
+
+                    return 'being-evaluated';
                   }
 
                   return statement.assessment.veracity.key;
