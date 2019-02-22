@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 22. února 2019
+- Opraveno: Lze uploadovat obrázek — ať už obsahový, k článku, nebo kdekoliv jinde ([#316](https://github.com/Demagog2/demagog/pull/316))
+
 ## 19. února 2019
 - Migrace na nový databázový systém - postgresql
 
