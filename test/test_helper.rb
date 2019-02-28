@@ -18,4 +18,15 @@ class ActiveSupport::TestCase
     def ensure_veracities
       [:true, :untrue, :misleading, :unverifiable].each { |key| create(key) }
     end
+
+
+    def assert_discardable(subject)
+      assert subject.is_a?(ActiveRecord::Base), "Subject expected to be instance of a model class"
+      assert subject.respond_to?(:discard), "Missing `include Discardable` in the model class?"
+
+      subject.discard
+
+      assert_not_nil subject.deleted_at
+      assert subject.discarded?
+    end
 end

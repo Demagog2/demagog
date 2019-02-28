@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  include Discardable
+
   devise :trackable, :omniauthable, omniauth_providers: [:google_oauth2]
 
-  default_scope { where(deleted_at: nil) }
+  default_scope { kept }
   scope :active, -> { where(active: true) }
 
   has_and_belongs_to_many :roles, join_table: :users_roles

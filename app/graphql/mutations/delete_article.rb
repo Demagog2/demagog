@@ -13,7 +13,7 @@ Mutations::DeleteArticle = GraphQL::Field.define do
     id = args[:id].to_i
 
     begin
-      Article.update(id, deleted_at: Time.now)
+      Article.discard(id)
 
       id
     rescue ActiveRecord::RecordNotFound => e

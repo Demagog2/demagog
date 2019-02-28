@@ -2,8 +2,9 @@
 
 class Article < ApplicationRecord
   extend FriendlyId
+  include Discardable
 
-  default_scope { where(deleted_at: nil) }
+  default_scope { kept }
 
   after_initialize :set_defaults
 

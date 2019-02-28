@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class Medium < ApplicationRecord
-  default_scope { where(deleted_at: nil) }
+  include Discardable
+
+  default_scope { kept }
 
   has_many :sources
   belongs_to :attachment, optional: true
@@ -33,7 +35,6 @@ class Medium < ApplicationRecord
       raise ActiveModel::ValidationError.new(medium)
     end
 
-    medium.deleted_at = Time.now
-    medium.save!
+    medium.discard
   end
 end

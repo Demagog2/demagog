@@ -3,7 +3,7 @@
 require "test_helper"
 
 class MediaPersonalityTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "soft deletes" do
+    assert_discardable create(:media_personality)
+  end
 end

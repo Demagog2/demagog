@@ -2,6 +2,7 @@
 
 class Statement < ApplicationRecord
   include ActiveModel::Dirty
+  include Discardable
 
   belongs_to :speaker
   belongs_to :source, optional: true
@@ -16,11 +17,11 @@ class Statement < ApplicationRecord
   default_scope {
     # We keep here only soft-delete, ordering cannot be here because
     # of has_many :through relations which use statements
-    where(deleted_at: nil)
+    kept
   }
 
   scope :ordered, -> {
-    where(deleted_at: nil)
+    kept
       .left_outer_joins(
         # Doing left outer join so it returns also statements without transcript position
         :statement_transcript_position

@@ -3,6 +3,10 @@
 require "test_helper"
 
 class SourceTest < ActiveSupport::TestCase
+  test "soft delete" do
+    assert_discardable create(:source)
+  end
+
   test "update_statements_source_order should set source_order to index of ordered ids" do
     source = create(:source)
     create_list(:statement, 10, source: source)

@@ -14,7 +14,7 @@ Mutations::DeleteStatement = GraphQL::Field.define do
     id = args[:id].to_i
 
     begin
-      Statement.update(id, deleted_at: Time.now)
+      Statement.discard(id)
       id
     rescue ActiveRecord::RecordNotFound => e
       raise GraphQL::ExecutionError.new(e.to_s)

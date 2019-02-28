@@ -3,7 +3,7 @@
 require "test_helper"
 
 class PageTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "soft delete" do
+    assert_discardable create(:page)
+  end
 end

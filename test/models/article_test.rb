@@ -9,6 +9,10 @@ class ArticleTest < ActiveSupport::TestCase
     @statements = create_list(:statement, 3, source: @source)
   end
 
+  test "soft delete" do
+    assert_discardable create(:static)
+  end
+
   test "create article" do
     article_input = {
       title: "My article",

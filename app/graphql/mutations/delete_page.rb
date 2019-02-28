@@ -13,7 +13,7 @@ Mutations::DeletePage = GraphQL::Field.define do
     id = args[:id].to_i
 
     begin
-      Page.update(id, deleted_at: Time.now)
+      Page.discard(id)
 
       id
     rescue ActiveRecord::RecordNotFound => e

@@ -15,8 +15,8 @@ Mutations::DeleteSource = GraphQL::Field.define do
 
     begin
       Source.transaction do
-        source = Source.update(id, deleted_at: Time.now)
-        source.statements.update_all(deleted_at: Time.now)
+        source = Source.discard(id)
+        source.statements.discard_all
       end
 
       id

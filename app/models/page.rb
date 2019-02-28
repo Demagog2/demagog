@@ -2,8 +2,9 @@
 
 class Page < ApplicationRecord
   extend FriendlyId
+  include Discardable
 
-  default_scope { where(deleted_at: nil) }
+  default_scope { kept }
 
   scope :published, -> {
     where(published: true)

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Source < ApplicationRecord
+  include Discardable
+
   has_many :segments
   has_many :statements
   has_many :statement_transcript_positions
@@ -9,7 +11,7 @@ class Source < ApplicationRecord
   has_and_belongs_to_many :media_personalities, join_table: "sources_media_personalities"
   belongs_to :expert, class_name: "User", optional: true
 
-  default_scope { where(deleted_at: nil) }
+  default_scope { kept }
 
   def self.matching_name(name)
     where("name LIKE ?", "%#{name}%")

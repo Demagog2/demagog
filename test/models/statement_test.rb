@@ -3,6 +3,10 @@
 require "test_helper"
 
 class StatementTest < ActiveSupport::TestCase
+  test "soft delete" do
+    assert_discardable create(:statement)
+  end
+
   test "#published" do
     statements = Statement.published
 

@@ -3,6 +3,10 @@
 require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
+  test "soft delete" do
+    assert_discardable create(:user)
+  end
+
   test "setting role_id replaces existing role" do
     user = create(:user, roles: [Role.find_by(key: Role::ADMIN)])
 

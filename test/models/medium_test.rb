@@ -3,6 +3,10 @@
 require "test_helper"
 
 class MediumTest < ActiveSupport::TestCase
+  test "soft delete" do
+    assert_discardable create(:medium)
+  end
+
   test "matching name" do
     %w{Foo Bar}.each { |name| create(:medium, name: name) }
 
