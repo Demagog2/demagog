@@ -114,6 +114,8 @@ GEM
       railties (>= 4.1.0, < 6.0)
       responders
       warden (~> 1.2.3)
+    discard (1.0.0)
+      activerecord (>= 4.2, < 6)
     dotenv (2.4.0)
     dotenv-rails (2.4.0)
       dotenv (= 2.4.0)
@@ -405,6 +407,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   config
   devise
+  discard (~> 1.0)
   dotenv-rails
   factory_bot_rails
   ffi (~> 1.9.24)

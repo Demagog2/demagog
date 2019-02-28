@@ -32,6 +32,8 @@ gem "webpacker", ">= 4.0.x"
 gem "graphql"
 # Allow CORS setup
 gem "rack-cors", require: "rack/cors"
+# Unified model soft delete API
+gem "discard", "~> 1.0"
 
 # Use CoffeeScript for .coffee assets and views
 gem "coffee-rails", "~> 4.2"
