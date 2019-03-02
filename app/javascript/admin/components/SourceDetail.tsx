@@ -25,6 +25,7 @@ import { connect, DispatchProp } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
+import apolloClient from '../apolloClient';
 import {
   ASSESSMENT_STATUS_APPROVAL_NEEDED,
   ASSESSMENT_STATUS_APPROVED,
@@ -393,6 +394,7 @@ class SourceDetail extends React.Component<IProps, IState> {
                     // state, don't fail and just log this to sentry
                     Sentry.withScope((scope) => {
                       scope.setLevel(Sentry.Severity.Warning);
+                      scope.setExtra('apollo_cache', JSON.stringify(apolloClient.extract()));
                       Sentry.captureException(
                         `Expected non-null veracity for statement #${statement.id}`,
                       );
