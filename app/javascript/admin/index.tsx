@@ -65,7 +65,10 @@ const render = (RootContainer) =>
     document.getElementById('app-root'),
   );
 
-render(App);
+// #app-root element is not present on the admin login page
+if (document.getElementById('app-root') !== null) {
+  render(App);
+}
 
 if ((module as any).hot) {
   (module as any).hot.accept('./App', () => render(App));
