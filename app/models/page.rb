@@ -13,6 +13,6 @@ class Page < ApplicationRecord
   friendly_id :title, use: :slugged
 
   def self.matching_title(title)
-    where("title ILIKE ?", "%#{title}%")
+    where("title ILIKE ? OR UNACCENT(title) ILIKE ?", "%#{title}%", "%#{title}%")
   end
 end

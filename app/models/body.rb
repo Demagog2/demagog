@@ -14,7 +14,10 @@ class Body < ApplicationRecord
   end
 
   def self.matching_name(name)
-    where("name ILIKE ? OR short_name ILIKE ?", "%#{name}%", "%#{name}%")
+    where(
+      "name ILIKE ? OR UNACCENT(name) ILIKE ? OR short_name ILIKE ? OR UNACCENT(short_name) ILIKE ?",
+      "%#{name}%", "%#{name}%", "%#{name}%", "%#{name}%"
+    )
   end
 
   def self.min_members(count)

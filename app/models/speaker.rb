@@ -25,7 +25,11 @@ class Speaker < ApplicationRecord
   end
 
   def self.matching_name(name)
-    where("first_name ILIKE ? OR last_name ILIKE ?", "%#{name}%", "%#{name}%")
+    where(
+      "first_name || ' ' || last_name ILIKE ? OR UNACCENT(first_name || ' ' || last_name) ILIKE ?",
+      "%#{name}%",
+      "%#{name}%"
+    )
   end
 
   def published_statements

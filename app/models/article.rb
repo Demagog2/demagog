@@ -29,7 +29,7 @@ class Article < ApplicationRecord
   end
 
   def self.matching_title(title)
-    where("title ILIKE ?", "%#{title}%")
+    where("title ILIKE ? OR UNACCENT(title) ILIKE ?", "%#{title}%", "%#{title}%")
   end
 
   def author

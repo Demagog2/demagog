@@ -38,7 +38,11 @@ class User < ApplicationRecord
   end
 
   def self.matching_name(name)
-    where("first_name ILIKE ? OR last_name ILIKE ?", "%#{name}%", "%#{name}%")
+    where(
+      "first_name || ' ' || last_name ILIKE ? OR UNACCENT(first_name || ' ' || last_name) ILIKE ?",
+      "%#{name}%",
+      "%#{name}%"
+    )
   end
 
   def self.update_users_rank(ordered_user_ids)

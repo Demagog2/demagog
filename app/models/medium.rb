@@ -11,7 +11,7 @@ class Medium < ApplicationRecord
   has_one_attached :logo
 
   def self.matching_name(name)
-    where("name ILIKE ?", "%#{name}%")
+    where("name ILIKE ? OR UNACCENT(name) ILIKE ?", "%#{name}%", "%#{name}%")
   end
 
   def self.create_medium(medium_input)

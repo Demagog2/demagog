@@ -14,7 +14,7 @@ class Source < ApplicationRecord
   default_scope { kept }
 
   def self.matching_name(name)
-    where("name ILIKE ?", "%#{name}%")
+    where("name ILIKE ? OR UNACCENT(name) ILIKE ?", "%#{name}%", "%#{name}%")
   end
 
   def update_statements_source_order(ordered_statement_ids)

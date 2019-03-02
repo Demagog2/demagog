@@ -15,4 +15,16 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 1, user.roles.size
     assert_equal Role::EXPERT, user.roles.first.key
   end
+
+  test "#matching_name should search in unaccented version of the name" do
+    user = create(:user, first_name: "Jiří", last_name: "Stříbrný")
+
+    assert_equal(user, User.matching_name("jiri stribrny").first)
+  end
+
+  test "#matching_name should search in accented version of the name" do
+    user = create(:user, first_name: "Jiří", last_name: "Stříbrný")
+
+    assert_equal(user, User.matching_name("Jiří Stříbrný").first)
+  end
 end
