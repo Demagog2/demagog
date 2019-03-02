@@ -12,6 +12,6 @@ class RedirectController < ApplicationController
       return redirect_to page_url(page), status: 301
     end
 
-    render status: 404
+    raise ActionController::RoutingError.new("Nothing found for url #{request.path}")
   end
 end

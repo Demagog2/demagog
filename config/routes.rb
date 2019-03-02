@@ -64,6 +64,12 @@ Rails.application.routes.draw do
   # Shortcut redirect
   get "workshopy", to: redirect("/diskuze/workshopy-demagogcz")
 
+  # We are using these only to generate public/404.html and public/500.html files
+  unless Rails.env.production?
+    get "error/404" => "error#not_found"
+    get "error/500" => "error#internal_server_error"
+  end
+
   # Redirects from legacy web server
   get "diskusie/:id/:slug" => "redirect#index", as: "redirect_discussion"
   get ":slug" => "redirect#index", as: "redirect_static"
