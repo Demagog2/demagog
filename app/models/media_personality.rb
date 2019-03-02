@@ -9,7 +9,7 @@ class MediaPersonality < ApplicationRecord
   belongs_to :attachment, optional: true
 
   def self.matching_name(name)
-    where("name LIKE ?", "%#{name}%")
+    where("name ILIKE ?", "%#{name}%")
   end
 
   def self.delete_media_personality(id)

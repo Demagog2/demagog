@@ -37,6 +37,10 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def self.matching_name(name)
+    where("first_name ILIKE ? OR last_name ILIKE ?", "%#{name}%", "%#{name}%")
+  end
+
   def self.update_users_rank(ordered_user_ids)
     User.transaction do
       User.update_all(rank: nil)

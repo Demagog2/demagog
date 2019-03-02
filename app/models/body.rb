@@ -13,6 +13,10 @@ class Body < ApplicationRecord
       .order(last_name: :asc)
   end
 
+  def self.matching_name(name)
+    where("name ILIKE ? OR short_name ILIKE ?", "%#{name}%", "%#{name}%")
+  end
+
   def self.min_members(count)
     joins(:memberships)
       .where(memberships: { until: nil })

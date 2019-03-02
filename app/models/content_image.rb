@@ -14,6 +14,6 @@ class ContentImage < ApplicationRecord
 
   def self.matching_name(name)
     joins(:image_blob)
-      .where("filename LIKE ?", "%#{name}%")
+      .where("filename ILIKE ?", "%#{name}%")
   end
 end

@@ -11,7 +11,7 @@ class Medium < ApplicationRecord
   has_one_attached :logo
 
   def self.matching_name(name)
-    where("name LIKE ?", "%#{name}%")
+    where("name ILIKE ?", "%#{name}%")
   end
 
   def self.create_medium(medium_input)

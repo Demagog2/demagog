@@ -220,8 +220,7 @@ Types::QueryType = GraphQL::ObjectType.define do
 
       bodies = bodies.where(is_party: args[:is_party]) unless args[:is_party].nil?
 
-      bodies =
-        bodies.where("name LIKE ? OR short_name LIKE ?", "%#{args[:name]}%", "%#{args[:name]}%") unless args[:name].nil?
+      bodies = bodies.matching_name(args[:name]) if args[:name].present?
 
       bodies
     }
@@ -400,8 +399,7 @@ Types::QueryType = GraphQL::ObjectType.define do
 
       users = users.joins(:roles).where(roles: { key: args[:roles] }) if args[:roles]
 
-      users =
-        users.where("first_name LIKE ? OR last_name LIKE ?", "%#{args[:name]}%", "%#{args[:name]}%") unless args[:name].nil?
+      users = users.matching_name(args[:name]) if args[:name].present?
 
       users
     }
