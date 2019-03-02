@@ -20,6 +20,7 @@ import * as Sentry from '@sentry/browser';
 import { ApolloError } from 'apollo-client';
 import { css, cx } from 'emotion';
 import { get, groupBy, orderBy } from 'lodash';
+import * as queryString from 'query-string';
 import { Mutation, Query } from 'react-apollo';
 import { connect, DispatchProp } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
@@ -75,6 +76,44 @@ class SourceDetail extends React.Component<IProps, IState> {
     showMassStatementsPublishModal: false,
     statementsFilter: null,
   };
+  private removeHistoryListener: null | (() => void);
+
+  public componentDidMount() {
+    this.removeHistoryListener = this.props.history.listen((location) => {
+      this.updateStatementsFilterFromLocation(location);
+    });
+    this.updateStatementsFilterFromLocation(this.props.history.location);
+  }
+
+  public componentWillUnmount() {
+    if (this.removeHistoryListener !== null) {
+      this.removeHistoryListener();
+      this.removeHistoryListener = null;
+    }
+  }
+
+  public updateStatementsFilterFromLocation(location) {
+    if (!location.search) {
+      this.setState({ statementsFilter: null });
+      return;
+    }
+
+    const queryParams = queryString.parse(location.search);
+    if (!queryParams.filter) {
+      return;
+    }
+
+    let filter;
+    try {
+      filter = JSON.parse(queryParams.filter);
+    } catch (e) {
+      return;
+    }
+
+    if (filter.field !== undefined && filter.value !== undefined) {
+      this.setState({ statementsFilter: { field: filter.field, value: filter.value } });
+    }
+  }
 
   public toggleConfirmDeleteModal = () => {
     this.setState({ showConfirmDeleteModal: !this.state.showConfirmDeleteModal });
@@ -119,14 +158,28 @@ class SourceDetail extends React.Component<IProps, IState> {
   public onStatementsFilterClick = (field: string, value: any) => (
     event: React.MouseEvent<HTMLAnchorElement>,
   ) => {
-    this.setState({ statementsFilter: { field, value } });
+    const statementsFilter = { field, value };
+
+    this.setState({ statementsFilter }, () => {
+      // Make sure we update the url after the state is changed
+      // so the location change listener can detect that the state
+      // is already set
+      this.props.history.push(
+        this.props.history.location.pathname +
+          '?filter=' +
+          encodeURIComponent(JSON.stringify(statementsFilter)),
+      );
+    });
 
     event.preventDefault();
     return false;
   };
 
   public onCancelStatementsFilterClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    this.setState({ statementsFilter: null });
+    this.setState({ statementsFilter: null }, () => {
+      // Reset the search part of location
+      this.props.history.push(this.props.history.location.pathname);
+    });
 
     event.preventDefault();
     return false;
