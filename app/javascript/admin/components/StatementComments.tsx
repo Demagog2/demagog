@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Button, Classes } from '@blueprintjs/core';
 import anchorme from 'anchorme';
-import { differenceInHours, distanceInWords, format } from 'date-fns';
+import { format, isToday, isYesterday } from 'date-fns';
 import * as dateFnsCsLocale from 'date-fns/locale/cs';
 import { css, cx } from 'emotion';
 import { Formik } from 'formik';
@@ -68,7 +68,7 @@ class StatementComments extends React.PureComponent<IProps> {
                     {comment.user.first_name} {comment.user.last_name}
                   </strong>
                   <small className={Classes.TEXT_MUTED} style={{ marginLeft: 10 }}>
-                    <FormatCreatedAt createdAt={comment.created_at} />
+                    {formatCreatedAt(comment.created_at)}
                   </small>
                   <p
                     style={{ marginTop: 3 }}
@@ -272,41 +272,15 @@ const CommentInput = (props: ICommentInputProps) => {
   );
 };
 
-class FormatCreatedAt extends React.Component<{ createdAt: string }, { now: Date }> {
-  public state = {
-    now: new Date(),
-  };
-  private refreshInterval: any | null = null;
-
-  public componentDidMount() {
-    this.refreshInterval = setInterval(() => {
-      this.setState({ now: new Date() });
-    }, 60000);
+const formatCreatedAt = (createdAt: string) => {
+  let datePart = format(createdAt, 'dd D. M. YYYY', { locale: dateFnsCsLocale });
+  if (isToday(createdAt)) {
+    datePart = 'dnes';
+  } else if (isYesterday(createdAt)) {
+    datePart = 'včera';
   }
 
-  public componentWillUnmount() {
-    clearInterval(this.refreshInterval);
-  }
-
-  public render() {
-    const { createdAt } = this.props;
-    const { now } = this.state;
-
-    const formatted = format(createdAt, 'dd D. M. YYYY H:mm', {
-      locale: dateFnsCsLocale,
-    });
-
-    return differenceInHours(now, createdAt) <= 24 ? (
-      <abbr title={formatted}>
-        {distanceInWords(now, createdAt, {
-          locale: dateFnsCsLocale,
-          addSuffix: true,
-        })}
-      </abbr>
-    ) : (
-      formatted
-    );
-  }
-}
+  return datePart + format(createdAt, ' H:mm', { locale: dateFnsCsLocale });
+};
 
 export default StatementComments;
