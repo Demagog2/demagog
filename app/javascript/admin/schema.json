@@ -3915,7 +3915,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "OBJECT",
-                    "name": "Segment",
+                    "name": "ArticleSegment",
                     "ofType": null
                   }
                 }
@@ -4071,7 +4071,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "Segment",
+          "name": "ArticleSegment",
           "description": null,
           "fields": [
             {
@@ -6806,7 +6806,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "SegmentInputType",
+                    "name": "ArticleSegmentInputType",
                     "ofType": null
                   }
                 }
@@ -6830,7 +6830,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "SegmentInputType",
+          "name": "ArticleSegmentInputType",
           "description": null,
           "fields": null,
           "inputFields": [

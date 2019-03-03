@@ -47,7 +47,7 @@ class ArticleStatsBuilderTest < ActiveSupport::TestCase
     end
 
     def get_article(source)
-      segment = create(:segment_source_statements, source: source)
+      segment = create(:article_segment_source_statements, source: source)
 
       create(:fact_check, segments: [segment])
     end

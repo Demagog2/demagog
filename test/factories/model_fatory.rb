@@ -42,12 +42,12 @@ FactoryBot.define do
     end
   end
 
-  factory :segment do
-    factory :segment_text do
+  factory :article_segment do
+    factory :article_segment_text do
       segment_type "text"
     end
 
-    factory :segment_source_statements do
+    factory :article_segment_source_statements do
       segment_type "source_statements"
     end
   end

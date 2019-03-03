@@ -24,11 +24,11 @@ export interface ArticleInputType {
   slug?: string | null,
   published?: boolean | null,
   published_at?: string | null,
-  segments?: Array< SegmentInputType > | null,
+  segments?: Array< ArticleSegmentInputType > | null,
   source_id?: string | null,
 };
 
-export interface SegmentInputType {
+export interface ArticleSegmentInputType {
   id?: string | null,
   segment_type: string,
   text_html?: string | null,

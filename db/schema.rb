@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_02_184817) do
+ActiveRecord::Schema.define(version: 2019_03_03_191709) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,14 +37,16 @@ ActiveRecord::Schema.define(version: 2019_03_02_184817) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "article_has_segments", force: :cascade do |t|
-    t.integer "order"
-    t.bigint "article_id"
-    t.bigint "segment_id"
+  create_table "article_segments", force: :cascade do |t|
+    t.string "segment_type"
+    t.text "text_html"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["article_id"], name: "index_article_has_segments_on_article_id"
-    t.index ["segment_id"], name: "index_article_has_segments_on_segment_id"
+    t.text "text_slatejson"
+    t.bigint "source_id"
+    t.bigint "article_id"
+    t.integer "order"
+    t.index ["article_id"], name: "index_article_segments_on_article_id"
   end
 
   create_table "article_types", force: :cascade do |t|
@@ -221,18 +223,6 @@ ActiveRecord::Schema.define(version: 2019_03_02_184817) do
     t.string "name"
   end
 
-  create_table "segments", force: :cascade do |t|
-    t.string "segment_type"
-    t.text "text_html"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text "text_slatejson"
-    t.bigint "source_id"
-    t.bigint "article_id"
-    t.integer "order"
-    t.index ["article_id"], name: "index_segments_on_article_id"
-  end
-
   create_table "sources", force: :cascade do |t|
     t.text "transcript"
     t.string "source_url"
@@ -345,5 +335,5 @@ ActiveRecord::Schema.define(version: 2019_03_02_184817) do
     t.string "key"
   end
 
-  add_foreign_key "segments", "articles"
+  add_foreign_key "article_segments", "articles"
 end

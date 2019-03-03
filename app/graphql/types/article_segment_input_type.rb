@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-Types::SegmentInputType = GraphQL::InputObjectType.define do
-  name "SegmentInputType"
+Types::ArticleSegmentInputType = GraphQL::InputObjectType.define do
+  name "ArticleSegmentInputType"
 
   argument :id, types.ID
   argument :segment_type, !types.String

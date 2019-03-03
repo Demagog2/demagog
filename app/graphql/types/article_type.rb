@@ -55,9 +55,9 @@ Types::ArticleType = GraphQL::ObjectType.define do
     end
   end
 
-  field :segments, types[!Types::SegmentType] do
+  field :segments, types[!Types::ArticleSegmentType] do
     resolve -> (obj, args, ctx) do
-      obj.segments
+      obj.segments.ordered
     end
   end
 end

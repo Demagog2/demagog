@@ -1,22 +1,26 @@
 # frozen_string_literal: true
 
-class Segment < ApplicationRecord
+class ArticleSegment < ApplicationRecord
   TYPE_TEXT = "text"
   TYPE_SOURCE_STATEMENTS = "source_statements"
 
   belongs_to :source, optional: true
   belongs_to :article, optional: true
 
+  scope :ordered, -> {
+    order(order: :asc)
+  }
+
   scope :source_statements_type_only, -> {
-    where(segment_type: Segment::TYPE_SOURCE_STATEMENTS)
+    where(segment_type: ArticleSegment::TYPE_SOURCE_STATEMENTS)
   }
 
   def is_text?
-    segment_type == Segment::TYPE_TEXT
+    segment_type == ArticleSegment::TYPE_TEXT
   end
 
   def is_source_statements?
-    segment_type == Segment::TYPE_SOURCE_STATEMENTS
+    segment_type == ArticleSegment::TYPE_SOURCE_STATEMENTS
   end
 
   def all_published_statements

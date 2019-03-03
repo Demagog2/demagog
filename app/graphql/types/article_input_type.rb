@@ -9,6 +9,6 @@ Types::ArticleInputType = GraphQL::InputObjectType.define do
   argument :slug, types.String
   argument :published, types.Boolean
   argument :published_at, types.String
-  argument :segments, types[!Types::SegmentInputType]
+  argument :segments, types[!Types::ArticleSegmentInputType]
   argument :source_id, types.ID
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-Types::SegmentType = GraphQL::ObjectType.define do
-  name "Segment"
+Types::ArticleSegmentType = GraphQL::ObjectType.define do
+  name "ArticleSegment"
 
   field :id, !types.ID
   field :segment_type, !types.String
