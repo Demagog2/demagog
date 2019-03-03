@@ -145,6 +145,7 @@ FactoryBot.define do
     published true
     count_in_statistics true
     excerpted_at { 1.month.ago }
+    important false
 
     after(:create) do |statement|
       create(:assessment, statement: statement, veracity: create(:true))

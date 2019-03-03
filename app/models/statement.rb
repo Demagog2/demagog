@@ -55,7 +55,7 @@ class Statement < ApplicationRecord
     # We first call order and then the published scope so the important DESC
     # order rule is used first and then the ones from scope ordered
     # (source_order, etc.)
-    order(important: :asc).published
+    order(important: :desc).published
   }
 
   def self.interesting_statements
