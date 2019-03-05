@@ -36,6 +36,9 @@ Rails.application.routes.draw do
     # We're using this from the notification email
     get "/notification-open/:id" => "notification#open", as: :open_notification
 
+    # Admin service policy - necessary for OAuth
+    get "/policy" => "admin#policy"
+
     # For development and testing we need a way to login as somebody even when
     # we don't have access to their Google account
     unless Rails.env.production?

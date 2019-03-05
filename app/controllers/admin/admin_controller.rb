@@ -6,6 +6,9 @@ class Admin::AdminController < ApplicationController
   def index
   end
 
+  def policy
+  end
+
   def become_another_user
     return head :not_found unless current_user && current_user.role.permissions.include?("admin:become-another-user")
 
