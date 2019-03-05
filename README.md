@@ -102,20 +102,15 @@ cap production deploy
 
 Stop production unicorn:
 ```sh
-cap production rvm:hook unicorn:reload
-```
-
-Reload production unicorn:
-```sh
-cap production rvm:hook unicorn:reload
-```
-
-Stop production unicorn:
-```sh
 cap production rvm:hook unicorn:stop
 ```
 
 Start production unicorn:
 ```sh
 cap production rvm:hook unicorn:start
+```
+
+Reload production unicorn:
+```sh
+cap production rvm:hook unicorn:reload
 ```
