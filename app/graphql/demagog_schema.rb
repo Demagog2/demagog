@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-DemagogSchema = GraphQL::Schema.define do
-  query(Types::QueryType)
-  mutation(Types::MutationType)
+class DemagogSchema < GraphQL::Schema
+  query Types::QueryType
+  mutation Types::MutationType
 end
+

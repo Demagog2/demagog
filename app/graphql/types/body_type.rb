@@ -1,48 +1,49 @@
 # frozen_string_literal: true
 
-Types::BodyType = GraphQL::ObjectType.define do
-  name "Body"
+module Types
+  class BodyType < BaseObject
+    field :id, ID, null: false
+    field :name, String, null: false
+    field :short_name, String, null: true
+    field :is_party, Boolean, null: false
 
-  field :id, !types.ID
-  field :name, !types.String
-  field :short_name, types.String
-  field :is_party, !types.Boolean do
-    resolve -> (obj, args, ctx) do
-      obj.is_party.nil? || obj.is_party == true
+    def is_party
+      object.is_party.nil? || object.is_party == true
     end
-  end
-  field :is_inactive, !types.Boolean
-  field :link, types.String
 
-  field :founded_at, types.String
-  field :terminated_at, types.String
+    field :is_inactive, Boolean, null: false
+    field :link, String, null: true
 
-  field :members, !types[Types::SpeakerType] do
-    argument :limit, types.Int, default_value: 10
-    argument :offset, types.Int, default_value: 0
+    field :founded_at, String, null: true
+    field :terminated_at, String, null: true
 
-    resolve ->(obj, args, ctx) {
-      obj.current_members.limit(args[:limit]).offset(args[:offset])
-    }
-  end
-
-  field :logo, types.String do
-    resolve -> (obj, args, ctx) do
-      return nil unless obj.logo.attached?
-
-      Rails.application.routes.url_helpers.polymorphic_url(obj.logo, only_path: true)
+    field :members, [Types::SpeakerType], null: false do
+      argument :limit, Int, default_value: 10, required: false
+      argument :offset, Int, default_value: 0, required: false
     end
-  end
 
-  field :legacy_logo, types.String do
-    deprecation_reason "Logo url from legacy demagog"
+    def members(args)
+      object.current_members.limit(args[:limit]).offset(args[:offset])
+    end
 
-    resolve -> (obj, args, ctx) do
-      return nil if obj.attachment.nil?
+    field :logo, String, null: true
 
-      return nil if obj.attachment.file.empty?
+    def logo
+      return nil unless object.logo.attached?
 
-      Class.new.extend(ApplicationHelper).body_logo(obj.attachment)
+      Rails.application.routes.url_helpers.polymorphic_url(object.logo, only_path: true)
+    end
+
+    field :legacy_logo, String, null: true,
+          deprecation_reason: "Logo url from legacy demagog"
+
+    def legacy_logo
+      return nil if object.attachment.nil?
+
+      return nil if object.attachment.file.empty?
+
+      Class.new.extend(ApplicationHelper).body_logo(object.attachment)
     end
   end
 end
+

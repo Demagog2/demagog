@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-Types::StatementTranscriptPositionType = GraphQL::ObjectType.define do
-    name "StatementTranscriptPosition"
-
-    field :id, !types.ID
-    field :start_line, !types.Int
-    field :start_offset, !types.Int
-    field :end_line, !types.Int
-    field :end_offset, !types.Int
-    field :source, !Types::SourceType
-    field :statement, !Types::StatementType
+module Types
+  class StatementTranscriptPositionType < BaseObject
+    field :id, ID, null: false
+    field :start_line, Int, null: false
+    field :start_offset, Int, null: false
+    field :end_line, Int, null: false
+    field :end_offset, Int, null: false
+    field :source, Types::SourceType, null: false
+    field :statement, Types::StatementType, null: false
   end
+end

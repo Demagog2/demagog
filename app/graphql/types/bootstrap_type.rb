@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-Types::BootstrapType = GraphQL::ObjectType.define do
-  name "Bootstrap"
-
-  field :image_server_url, !types.String
+module Types
+  class BootstrapType < BaseObject
+    field :image_server_url, String, null: false
+  end
 end

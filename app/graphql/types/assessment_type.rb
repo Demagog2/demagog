@@ -1,59 +1,60 @@
 # frozen_string_literal: true
 
-Types::AssessmentType = GraphQL::ObjectType.define do
-  name "Assessment"
+module Types
+  class AssessmentType < BaseObject
+    field :id, ID, null: false
+    field :evaluation_status, String, null: false
+    field :statement, Types::StatementType, null: false
+    field :evaluator, Types::UserType, null: true
+    field :short_explanation_characters_length, Int, null: false
+    field :explanation_characters_length, Int, null: false
 
-  field :id, !types.ID
-  field :evaluation_status, !types.String
-  field :statement, !Types::StatementType
-  field :evaluator, Types::UserType
-  field :short_explanation_characters_length, !types.Int
-  field :explanation_characters_length, !types.Int
+    field :veracity, Types::VeracityType, null: true
 
-  field :veracity, Types::VeracityType do
-    resolve -> (obj, args, ctx) do
-      unless obj.is_user_authorized_to_view_evaluation(ctx[:current_user])
+    def veracity
+      unless object.is_user_authorized_to_view_evaluation(context[:current_user])
         return nil
       end
 
-      obj.veracity
+      object.veracity
     end
-  end
 
-  field :short_explanation, types.String do
-    resolve -> (obj, args, ctx) do
-      unless obj.is_user_authorized_to_view_evaluation(ctx[:current_user])
+    field :short_explanation, String , null: true
+
+    def short_explanation
+      unless object.is_user_authorized_to_view_evaluation(context[:current_user])
         return nil
       end
 
-      obj.short_explanation
+      object.short_explanation
     end
-  end
 
-  field :explanation_html, types.String do
-    resolve -> (obj, args, ctx) do
-      unless obj.is_user_authorized_to_view_evaluation(ctx[:current_user])
+    field :explanation_html, String , null: true
+
+    def explanation_html
+      unless object.is_user_authorized_to_view_evaluation(context[:current_user])
         return nil
       end
 
-      obj.explanation_html
+      object.explanation_html
     end
-  end
 
-  field :explanation_slatejson, Types::Scalars::JsonType do
-    resolve -> (obj, args, ctx) do
-      unless obj.is_user_authorized_to_view_evaluation(ctx[:current_user])
+    field :explanation_slatejson, Types::Scalars::JsonType, null: true
+
+    def explanation_slatejson
+      unless object.is_user_authorized_to_view_evaluation(context[:current_user])
         return nil
       end
 
-      obj.explanation_slatejson
+      object.explanation_slatejson
     end
-  end
 
-  field :explanation, types.String do
-    description "Alias for explanation_html"
-    resolve -> (obj, args, ctx) do
-      obj.explanation_html
+    field :explanation, String , null: true do
+      description "Alias for explanation_html"
+    end
+
+    def explanation
+      object.explanation_html
     end
   end
 end

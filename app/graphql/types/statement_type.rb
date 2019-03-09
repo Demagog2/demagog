@@ -1,33 +1,29 @@
 # frozen_string_literal: true
 
-Types::StatementType = GraphQL::ObjectType.define do
-  name "Statement"
+module Types
+  class StatementType < BaseObject
+    field :id, ID, null: false
+    field :content, String, null: false
+    field :excerpted_at, String, null: false
+    field :important, Boolean, null: false
+    field :speaker, Types::SpeakerType, null: false
+    field :source, Types::SourceType, null: false
+    field :source_order, Int, null: true
+    field :statement_transcript_position, Types::StatementTranscriptPositionType, null: true
+    field :assessment, Types::AssessmentType, null: false
+    field :published, Boolean, null: false
+    field :count_in_statistics, Boolean, null: false
 
-  field :id, !types.ID
-  field :content, !types.String
-  field :excerpted_at, !types.String
-  field :important, !types.Boolean
-  field :speaker, !Types::SpeakerType
-  field :source, !Types::SourceType
-  field :source_order, types.Int
-  field :statement_transcript_position, Types::StatementTranscriptPositionType
-  field :assessment, !Types::AssessmentType
-  field :published, !types.Boolean
-  field :count_in_statistics, !types.Boolean
-
-  field :comments, !types[!Types::CommentType] do
-    resolve -> (obj, args, ctx) {
+    field :comments, [Types::CommentType], null: false, resolve: ->(obj, args, ctx) do
       raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
 
       obj.comments.ordered
-    }
-  end
+    end
 
-  field :comments_count, !types.Int do
-    resolve -> (obj, args, ctx) {
+    field :comments_count, Int, null: false, resolve: ->(obj, args, ctx) do
       raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
 
       obj.comments.size
-    }
+    end
   end
 end

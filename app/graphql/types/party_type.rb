@@ -1,20 +1,21 @@
 # frozen_string_literal: true
 
-Types::PartyType = GraphQL::ObjectType.define do
-  name "Party"
+module Types
+  class PartyType < BaseObject
+    field :id, ID, null: false
+    field :name, String, null: false
+    field :short_name, String, null: true
+    field :description, String, null: false
 
-  field :id, !types.ID
-  field :name, !types.String
-  field :short_name, types.String
-  field :description, !types.String
+    # TODO: Attachment
+    field :members, [Types::SpeakerType], null: false do
+      argument :limit, Int, default_value: 10, required: false
+      argument :offset, Int, default_value: 0, required: false
+    end
 
-  # TODO: Attachment
-  field :members, !types[Types::SpeakerType] do
-    argument :limit, types.Int, default_value: 10
-    argument :offset, types.Int, default_value: 0
-
-    resolve ->(obj, args, ctx) {
-      obj.current_members.limit(args[:limit]).offset(args[:offset])
-    }
+    def members(args)
+      object.current_members.limit(args[:limit]).offset(args[:offset])
+    end
   end
 end
+
