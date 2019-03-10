@@ -47,7 +47,7 @@ class SourceTypeStatementsTest < GraphQLTestCase
     query_string = "
       query {
         source(id: #{source.id}) {
-          statements(include_unpublished: true) {
+          statements(includeUnpublished: true) {
             id
             published
           }
@@ -66,7 +66,7 @@ class SourceTypeStatementsTest < GraphQLTestCase
     query_string = "
       query {
         source(id: #{source.id}) {
-          statements(include_unpublished: true) {
+          statements(includeUnpublished: true) {
             id
             published
           }

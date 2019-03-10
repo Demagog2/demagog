@@ -38,7 +38,7 @@ class QueryTypeStatementTest < GraphQLTestCase
 
     query_string = "
       query {
-        statement(id: #{statement.id}, include_unpublished: true) {
+        statement(id: #{statement.id}, includeUnpublished: true) {
           id
         }
       }"
@@ -53,7 +53,7 @@ class QueryTypeStatementTest < GraphQLTestCase
 
     query_string = "
       query {
-        statement(id: #{statement.id}, include_unpublished: true) {
+        statement(id: #{statement.id}, includeUnpublished: true) {
           id
         }
       }"

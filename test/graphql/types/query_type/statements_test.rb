@@ -39,7 +39,7 @@ class QueryTypeStatementsTest < GraphQLTestCase
 
     query_string = "
       query {
-        statements(include_unpublished: true) {
+        statements(includeUnpublished: true) {
           id
           published
         }
@@ -55,7 +55,7 @@ class QueryTypeStatementsTest < GraphQLTestCase
 
     query_string = "
       query {
-        statements(include_unpublished: true) {
+        statements(includeUnpublished: true) {
           id
           published
         }

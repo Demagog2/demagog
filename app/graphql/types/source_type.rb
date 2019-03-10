@@ -26,9 +26,9 @@ module Types
         # Public cannot access unpublished statements
         raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
-        statements = obj.statements.ordered
+        statements = object.statements.ordered
       else
-        statements = obj.statements.published
+        statements = object.statements.published
       end
 
       statements

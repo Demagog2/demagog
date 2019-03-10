@@ -309,50 +309,50 @@ class Types::QueryType < GraphQL::Schema::Object
   #     pages
   #   }
   # end
-  #
-  # field :page, !Types::PageType do
-  #   argument :id, types.ID
-  #   argument :slug, types.String
-  #   argument :include_unpublished, types.Boolean, default_value: false
-  #
-  #   resolve -> (obj, args, ctx) {
-  #     begin
-  #       if args[:include_unpublished]
-  #         # Public cannot access unpublished articles
-  #         raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
-  #
-  #         return Page.friendly.find(args[:slug] || args[:id])
-  #       end
-  #
-  #       Page.published.friendly.find(args[:slug] || args[:id])
-  #     rescue ActiveRecord::RecordNotFound => e
-  #       raise GraphQL::ExecutionError.new("Could not find Page with id=#{args[:id]} or slug=#{args[:slug]}")
-  #     end
-  #   }
-  # end
-  #
-  # field :user, !Types::UserType do
-  #   argument :id, !types.Int
-  #
-  #   resolve -> (obj, args, ctx) {
-  #     raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
-  #
-  #     begin
-  #       User.find(args[:id])
-  #     rescue ActiveRecord::RecordNotFound => e
-  #       raise GraphQL::ExecutionError.new("Could not find User with id=#{args[:id]}")
-  #     end
-  #   }
-  # end
-  #
-  # field :current_user, !Types::UserType do
-  #   resolve -> (obj, args, ctx) {
-  #     raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
-  #
-  #     ctx[:current_user]
-  #   }
-  # end
-  #
+
+  field :page, Types::PageType, null: false do
+    argument :id, ID, required: false
+    argument :slug, String, required: false
+    argument :include_unpublished, Boolean, default_value: false, required: false
+  end
+
+  def page(args)
+    begin
+      if args[:include_unpublished]
+        # Public cannot access unpublished articles
+        raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+        return Page.friendly.find(args[:slug] || args[:id])
+      end
+
+      Page.published.friendly.find(args[:slug] || args[:id])
+    rescue ActiveRecord::RecordNotFound => e
+      raise GraphQL::ExecutionError.new("Could not find Page with id=#{args[:id]} or slug=#{args[:slug]}")
+    end
+  end
+
+  field :user, Types::UserType, null: false do
+    argument :id, Int, required: false
+  end
+
+  def user(id:)
+    raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+    begin
+      User.kept.find(id)
+    rescue ActiveRecord::RecordNotFound
+      raise GraphQL::ExecutionError.new("Could not find User with id=#{id}")
+    end
+  end
+
+  field :current_user, Types::UserType, null: false
+
+  def current_user
+    raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+    context[:current_user]
+  end
+
   # field :notifications, !Types::NotificationsResult do
   #   argument :offset, types.Int, default_value: 0
   #   argument :limit, types.Int, default_value: 10
@@ -376,39 +376,39 @@ class Types::QueryType < GraphQL::Schema::Object
   #   }
   # end
   #
-  # field :users, !types[!Types::UserType] do
-  #   argument :offset, types.Int, default_value: 0
-  #   argument :limit, types.Int, default_value: 10
-  #   argument :name, types.String
-  #   argument :include_inactive, types.Boolean, default_value: false
-  #   argument :roles, types[!types.String]
-  #
-  #   resolve -> (obj, args, ctx) {
-  #     raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
-  #
-  #     users = User
-  #       .limit(args[:limit])
-  #       .offset(args[:offset])
-  #       .order(last_name: :asc, first_name: :asc)
-  #
-  #     users = users.where(active: true) unless args[:include_inactive]
-  #
-  #     users = users.joins(:roles).where(roles: { key: args[:roles] }) if args[:roles]
-  #
-  #     users = users.matching_name(args[:name]) if args[:name].present?
-  #
-  #     users
-  #   }
-  # end
-  #
-  # field :roles, !types[!Types::RoleType] do
-  #   resolve -> (obj, args, ctx) {
-  #     raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
-  #
-  #     Role.all
-  #   }
-  # end
-  #
+  field :users, [Types::UserType], null: false do
+    argument :offset, Int, default_value: 0, required: false
+    argument :limit, Int, default_value: 10, required: false
+    argument :name, String, required: false
+    argument :include_inactive, Boolean, default_value: false, required: false
+    argument :roles, [String], required: false
+  end
+
+  def users(args)
+    raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+    users = User.kept
+      .order(last_name: :asc, first_name: :asc)
+      .limit(args[:limit])
+      .offset(args[:offset])
+
+    users = users.where(active: true) unless args[:include_inactive]
+
+    users = users.joins(:roles).where(roles: { key: args[:roles] }) if args[:roles]
+
+    users = users.matching_name(args[:name]) if args[:name].present?
+
+    users
+  end
+
+  field :roles, [Types::RoleType], null: false
+
+  def roles
+    raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+    Role.all
+  end
+
   # ContentImagesResult = GraphQL::ObjectType.define do
   #   name "ContentImagesResult"
   #   field :total_count, !types.Int, hash_key: :total_count

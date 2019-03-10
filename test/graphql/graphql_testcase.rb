@@ -18,13 +18,17 @@ class GraphQLTestCase < ActiveSupport::TestCase
       DemagogSchema.execute(query_string, kwargs)
     end
 
-    def authenticated_user_context
-      @user = @user || create(:user, :admin)
+    def authenticated_user_context(options = {})
+      @user ||= options.fetch(:user) { create(:user, :admin) }
 
       { current_user: @user }
     end
 
     def assert_auth_needed_error(result)
-      assert_same "You must be logged in to be able to access this", result["errors"][0]["message"]
+      assert_graphql_error "You must be logged in to be able to access this", result
+    end
+
+    def assert_graphql_error(message, result)
+      assert_equal message, result["errors"][0]["message"]
     end
 end

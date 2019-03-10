@@ -1,32 +1,32 @@
 # frozen_string_literal: true
 
-Types::UserType = GraphQL::ObjectType.define do
-  name "User"
+module Types
+  class UserType < BaseObject
+    field :id, ID, null: false
 
-  field :id, !types.ID
+    field :first_name, String, null: false
+    field :last_name, String, null: false
+    field :email, String, null: false
+    field :phone, String, null: true
+    field :bio, String, null: true
+    field :position_description, String, null: true
 
-  field :first_name, !types.String
-  field :last_name, !types.String
-  field :email, !types.String
-  field :phone, types.String
-  field :bio, types.String
-  field :position_description, types.String
+    field :order, Int, null: true
+    field :active, Boolean, null: false
+    field :rank, Int, null: true
+    field :role, Types::RoleType, null: false
+    field :email_notifications, Boolean, null: false
+    field :user_public, Boolean, null: false
 
-  field :order, types.Int
-  field :active, !types.Boolean
-  field :rank, types.Int
-  field :role, !Types::RoleType
-  field :email_notifications, !types.Boolean
-  field :user_public, !types.Boolean
+    field :created_at, String, null: false
+    field :updated_at, String, null: true
 
-  field :created_at, !types.String
-  field :updated_at, types.String
+    field :avatar, String, null: true
 
-  field :avatar, types.String do
-    resolve -> (obj, args, ctx) do
-      return nil unless obj.avatar.attached?
+    def avatar
+      return nil unless object.avatar.attached?
 
-      Rails.application.routes.url_helpers.polymorphic_url(obj.avatar, only_path: true)
+      Rails.application.routes.url_helpers.polymorphic_url(object.avatar, only_path: true)
     end
   end
 end
