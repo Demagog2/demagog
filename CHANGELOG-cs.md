@@ -2,6 +2,12 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 14. března 2019
+- Změněno: NFNZ mezi podporovateli, předchozí US embassy a Visegrad fund skryti
+
+## 13. března 2019
+- Změněno: Partner Zákony pro lidi nahrazen Nadačním fondem nezávislé žurnalistiky
+
 ## 6. března 2019
 - Změněno: Deprekováno Google+ API pro přihlašování do administrace ([#337](https://github.com/Demagog2/demagog/pull/337))
 - Změněno: Přidána stránka s ochranou soukromí - https://demagog.cz/admin/policy
