@@ -19,6 +19,7 @@ class GraphqlController < ApplicationController
       current_user: current_user
     }
     result = DemagogSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    log_public_api_access(query, variables) unless current_user
     render json: result
   end
 
@@ -40,5 +41,9 @@ class GraphqlController < ApplicationController
       else
         raise ArgumentError, "Unexpected parameter: #{ambiguous_param}"
       end
+    end
+
+    def log_public_api_access(query, variables)
+      PublicApiAccess.log(request.remote_ip, request.user_agent, query, variables)
     end
 end
