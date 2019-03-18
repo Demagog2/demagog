@@ -79,6 +79,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :limit, types.Int, default_value: 10
     argument :offset, types.Int, default_value: 0
     argument :name, types.String
+    argument :include_ones_without_published_statements, types.Boolean, default_value: false
 
     resolve -> (obj, args, ctx) {
       sources = Source
@@ -87,9 +88,21 @@ Types::QueryType = GraphQL::ObjectType.define do
         .offset(args[:offset])
         .limit(args[:limit])
 
-      sources = sources.matching_name(args[:name]) if args[:name].present?
+      if args[:name].present?
+        # Source name is internal
+        raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
 
-      sources
+        sources = sources.matching_name(args[:name])
+      end
+
+      if args[:include_ones_without_published_statements]
+        # Public cannot access sources without published statements
+        raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+
+        return sources
+      end
+
+      sources.select { |source| source.statements.published.count > 0 }
     }
   end
 

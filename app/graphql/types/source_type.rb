@@ -4,7 +4,6 @@ Types::SourceType = GraphQL::ObjectType.define do
   name "Source"
 
   field :id, !types.ID
-  field :name, !types.String
   field :released_at, !types.String
   field :source_url, types.String
   field :transcript, types.String
@@ -12,6 +11,15 @@ Types::SourceType = GraphQL::ObjectType.define do
   field :media_personalities, !types[!Types::MediaPersonalityType]
   field :speakers, !types[!Types::SpeakerType]
   field :expert, Types::UserType
+
+  field :name, !types.String do
+    resolve ->(obj, args, ctx) {
+      # Source name is internal
+      raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+
+      obj.name
+    }
+  end
 
   field :statements, !types[!Types::StatementType] do
     argument :include_unpublished, types.Boolean, default_value: false
