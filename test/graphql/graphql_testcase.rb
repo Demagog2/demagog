@@ -5,17 +5,17 @@ require "test_helper"
 class GraphQLTestCase < ActiveSupport::TestCase
   protected
     def execute(query_string, **kwargs)
-      result = DemagogSchema.execute(query_string, kwargs)
+      result = execute_with_errors(query_string, **kwargs)
 
-      if result["errors"]
-        raise RuntimeError.new(result["errors"])
-      end
+      raise RuntimeError.new(result.errors) if result.errors
 
       result
     end
 
     def execute_with_errors(query_string, **kwargs)
-      DemagogSchema.execute(query_string, kwargs)
+      response = DemagogSchema.execute(query_string, kwargs)
+      # Convert nested hash to an object
+      JSON.parse(response.to_json, object_class: OpenStruct)
     end
 
     def authenticated_user_context(options = {})

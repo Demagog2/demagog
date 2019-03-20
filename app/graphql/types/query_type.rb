@@ -282,33 +282,33 @@ class Types::QueryType < GraphQL::Schema::Object
   #     articles
   #   }
   # end
-  #
-  # field :pages, !types[!Types::PageType] do
-  #   argument :offset, types.Int, default_value: 0
-  #   argument :limit, types.Int, default_value: 10
-  #   argument :title, types.String
-  #   argument :include_unpublished, types.Boolean, default_value: false
-  #
-  #   resolve -> (obj, args, ctx) {
-  #     if args[:include_unpublished]
-  #       # Public cannot access unpublished pages
-  #       raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
-  #
-  #       pages = Page.all
-  #     else
-  #       pages = Page.published
-  #     end
-  #
-  #     pages = pages
-  #                  .offset(args[:offset])
-  #                  .limit(args[:limit])
-  #                  .order(title: :asc)
-  #
-  #     pages = pages.matching_title(args[:title]) if args[:title].present?
-  #
-  #     pages
-  #   }
-  # end
+
+  field :pages, [Types::PageType], null: false do
+    argument :offset, Int, default_value: 0, required: false
+    argument :limit, Int, default_value: 10, required: false
+    argument :title, String, required: false
+    argument :include_unpublished, Boolean, default_value: false, required: false
+  end
+
+  def pages(args)
+    if args[:include_unpublished]
+      # Public cannot access unpublished pages
+      raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+      pages = Page.kept
+    else
+      pages = Page.kept.published
+    end
+
+    pages = pages
+              .offset(args[:offset])
+              .limit(args[:limit])
+              .order(title: :asc)
+
+    pages = pages.matching_title(args[:title]) if args[:title].present?
+
+    pages
+  end
 
   field :page, Types::PageType, null: false do
     argument :id, ID, required: false
