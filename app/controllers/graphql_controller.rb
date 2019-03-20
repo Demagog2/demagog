@@ -44,7 +44,7 @@ class GraphqlController < ApplicationController
 
       render json: { error: { message: e.message, backtrace: e.backtrace }, data: {} }, status: 500
     end
-  
+
     def log_public_api_access(query, variables)
       PublicApiAccess.log(request.remote_ip, request.user_agent, query, variables)
     end

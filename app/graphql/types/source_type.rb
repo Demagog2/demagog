@@ -23,7 +23,6 @@ module Types
     end
 
     def statements(args)
-
       if args[:include_unpublished]
         # Public cannot access unpublished statements
         raise Errors::AuthenticationNeededError.new unless context[:current_user]
