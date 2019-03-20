@@ -3,6 +3,10 @@
 require "graphql/graphql_testcase"
 
 class QueryTypeSpeakersTest < GraphQLTestCase
+  setup do
+    ensure_veracities
+  end
+
   test "speakers with portrait, body and stats should be returnable (Seznam.cz integration query)" do
     source = create(:source)
     speaker = create(:speaker, statement_source: source)
@@ -27,15 +31,15 @@ class QueryTypeSpeakersTest < GraphQLTestCase
       }
     "
 
-    result = execute_with_errors(query_string).to_h
-    assert result["data"]["speakers"].size == 1
+    result = execute(query_string)
+    assert_equal 1, result["data"]["speakers"].size
 
     result_speaker = result["data"]["speakers"][0]
-    assert result_speaker["first_name"] == "John"
-    assert result_speaker["last_name"] == "Doe"
-    assert result_speaker["stats"]["misleading"] == 0
-    assert result_speaker["stats"]["true"] == 3
-    assert result_speaker["stats"]["untrue"] == 0
-    assert result_speaker["stats"]["unverifiable"] == 0
+    assert_equal "John", result_speaker["first_name"]
+    assert_equal "Doe", result_speaker["last_name"]
+    assert_equal 0, result_speaker["stats"]["misleading"]
+    assert_equal 3, result_speaker["stats"]["true"]
+    assert_equal 0, result_speaker["stats"]["untrue"]
+    assert_equal 0, result_speaker["stats"]["unverifiable"]
   end
 end

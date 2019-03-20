@@ -5,7 +5,9 @@ module Types
     field :id, ID, null: false
     field :before_name, String, null: false
     field :first_name, String, null: false
+    field :first_name, String, null: false, camelize: false, deprecation_reason: "switch to camelCase version"
     field :last_name, String, null: false
+    field :last_name, String, null: false, camelize: false, deprecation_reason: "switch to camelCase version"
     field :after_name, String, null: false
     field :bio, String, null: false
     field :website_url, String, null: false

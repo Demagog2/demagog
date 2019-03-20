@@ -29,6 +29,7 @@ class GraphQLTestCase < ActiveSupport::TestCase
     end
 
     def assert_graphql_error(message, result)
-      assert_equal message, result["errors"][0]["message"]
+      assert_not_nil result.errors
+      assert_equal message, result.errors.first.message
     end
 end

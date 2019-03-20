@@ -3,6 +3,10 @@
 require "test_helper"
 
 class SourceStatsBuilderTest < ActiveSupport::TestCase
+  setup do
+    ensure_veracities
+  end
+
   test "building source stats" do
     stats_builder = Stats::Source::StatsBuilder.new Stats::StatsCache.new Store::HashStore.new
 

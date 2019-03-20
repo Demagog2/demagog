@@ -3,6 +3,10 @@
 require "graphql/graphql_testcase"
 
 class QueryTypeVeracitiesTest < GraphQLTestCase
+  setup do
+    ensure_veracities
+  end
+
   test "should return all veracities" do
     query_string = "
       query {

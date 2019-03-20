@@ -265,33 +265,33 @@ class Types::QueryType < GraphQL::Schema::Object
     end
   end
 
-  # field :articles, !types[!Types::ArticleType] do
-  #   argument :offset, types.Int, default_value: 0
-  #   argument :limit, types.Int, default_value: 10
-  #   argument :title, types.String
-  #   argument :include_unpublished, types.Boolean, default_value: false
-  #
-  #   resolve -> (obj, args, ctx) {
-  #     if args[:include_unpublished]
-  #       # Public cannot access unpublished articles
-  #       raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
-  #
-  #       articles = Article.all
-  #     else
-  #       articles = Article.published
-  #     end
-  #
-  #     articles = articles
-  #       .includes(:article_type)
-  #       .offset(args[:offset])
-  #       .limit(args[:limit])
-  #       .order("COALESCE(published_at, created_at) DESC")
-  #
-  #     articles = articles.matching_title(args[:title]) if args[:title].present?
-  #
-  #     articles
-  #   }
-  # end
+  field :articles, [Types::ArticleType], null: false do
+    argument :offset, Int, default_value: 0, required: false
+    argument :limit, Int, default_value: 10, required: false
+    argument :title, String, required: false
+    argument :include_unpublished, Boolean, default_value: false, required: false
+  end
+
+  def articles(args)
+    if args[:include_unpublished]
+      # Public cannot access unpublished articles
+      raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+      articles = Article.kept
+    else
+      articles = Article.kept.published
+    end
+
+    articles = articles
+                 .includes(:article_type)
+                 .offset(args[:offset])
+                 .limit(args[:limit])
+                 .order(Arel.sql("COALESCE(published_at, created_at) DESC"))
+
+    articles = articles.matching_title(args[:title]) if args[:title].present?
+
+    articles
+  end
 
   field :pages, [Types::PageType], null: false do
     argument :offset, Int, default_value: 0, required: false
@@ -329,7 +329,7 @@ class Types::QueryType < GraphQL::Schema::Object
   def page(args)
     begin
       if args[:include_unpublished]
-        # Public cannot access unpublished articles
+        # Public cannot access unpublished pages
         raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
         return Page.friendly.find(args[:slug] || args[:id])

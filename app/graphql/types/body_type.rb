@@ -5,6 +5,7 @@ module Types
     field :id, ID, null: false
     field :name, String, null: false
     field :short_name, String, null: true
+    field :short_name, String, null: true, camelize: false, deprecation_reason: "switch to camelCase version"
     field :is_party, Boolean, null: false
 
     def is_party

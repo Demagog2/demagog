@@ -30,6 +30,6 @@ class SourceTypeNameTest < GraphQLTestCase
 
     result = execute(query_string, context: authenticated_user_context)
 
-    assert_equal "Test source", result["data"]["source"]["name"]
+    assert_equal "Test source", result.data.source.name
   end
 end

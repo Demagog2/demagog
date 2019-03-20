@@ -17,7 +17,7 @@ class QueryTypeSourcesTest < GraphQLTestCase
 
     result = execute(query_string)
 
-    assert_equal 0, result["data"]["sources"].size
+    assert_equal 0, result.data.sources.size
   end
 
   test "sources including the ones without published statements should not be accessible to unauthenticated" do
@@ -27,7 +27,7 @@ class QueryTypeSourcesTest < GraphQLTestCase
 
     query_string = "
       query {
-        sources(include_ones_without_published_statements: true) {
+        sources(includeOnesWithoutPublishedStatements: true) {
           id
         }
       }"
@@ -44,14 +44,14 @@ class QueryTypeSourcesTest < GraphQLTestCase
 
     query_string = "
       query {
-        sources(include_ones_without_published_statements: true) {
+        sources(includeOnesWithoutPublishedStatements: true) {
           id
         }
       }"
 
     result = execute(query_string, context: authenticated_user_context)
 
-    assert_equal 1, result["data"]["sources"].size
+    assert_equal 1, result.data.sources.size
   end
 
   test "sources should not be searchable by name by unauthenticated" do
@@ -86,7 +86,7 @@ class QueryTypeSourcesTest < GraphQLTestCase
 
     result = execute(query_string, context: authenticated_user_context)
 
-    assert_equal 1, result["data"]["sources"].size
-    assert_equal "Test source", result["data"]["sources"][0]["name"]
+    assert_equal 1, result.data.sources.size
+    assert_equal "Test source", result.data.sources.first.name
   end
 end

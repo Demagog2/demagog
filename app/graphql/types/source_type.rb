@@ -8,7 +8,6 @@ module Types
 
   class SourceType < BaseObject
     field :id, ID, null: false
-    # TODO: Make sure source name is internal
     field :name, String, null: false
     field :released_at, String, null: false
     field :source_url, String, null: true
@@ -20,6 +19,12 @@ module Types
 
     field :statements, [Types::StatementType], null: false do
       argument :include_unpublished, Boolean, required: false, default_value: false
+    end
+
+    def name
+      raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+      object.name
     end
 
     def statements(args)

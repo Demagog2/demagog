@@ -3,6 +3,10 @@
 require "test_helper"
 
 class SpeakerControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    ensure_veracities
+  end
+
   test "should get index" do
     create(:party)
 
