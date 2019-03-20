@@ -110,11 +110,15 @@ class Assessment < ApplicationRecord
   end
 
   def is_user_authorized_to_view_evaluation(user)
-    permissions = user.role.permissions
-
+    # Evaluation of approved assessment is always viewable
     return true if approved?
-    return true if permissions.include?("statements:view-unapproved-evaluation")
-    return true if permissions.include?("statements:view-evaluation-as-evaluator") && user.id == user_id
+
+    # Otherwise it is viewable only to authenticated users with proper permissions
+    if user
+      permissions = user.role.permissions
+      return true if permissions.include?("statements:view-unapproved-evaluation")
+      return true if permissions.include?("statements:view-evaluation-as-evaluator") && user.id == user_id
+    end
 
     false
   end

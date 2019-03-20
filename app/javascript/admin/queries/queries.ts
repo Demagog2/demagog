@@ -102,7 +102,12 @@ export const GetMedium = gql`
 
 export const GetSources = gql`
   query GetSources($name: String, $offset: Int, $limit: Int) {
-    sources(name: $name, offset: $offset, limit: $limit) {
+    sources(
+      name: $name
+      offset: $offset
+      limit: $limit
+      include_ones_without_published_statements: true
+    ) {
       id
       name
       source_url
@@ -167,7 +172,7 @@ export const GetSource = gql`
 
 export const GetSourcesForSelect = gql`
   query GetSourcesForSelect {
-    sources(offset: 0, limit: 10000) {
+    sources(offset: 0, limit: 10000, include_ones_without_published_statements: true) {
       id
       name
       released_at

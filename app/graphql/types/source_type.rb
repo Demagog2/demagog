@@ -8,6 +8,7 @@ module Types
 
   class SourceType < BaseObject
     field :id, ID, null: false
+    # TODO: Make sure source name is internal
     field :name, String, null: false
     field :released_at, String, null: false
     field :source_url, String, null: true
@@ -22,6 +23,7 @@ module Types
     end
 
     def statements(args)
+
       if args[:include_unpublished]
         # Public cannot access unpublished statements
         raise Errors::AuthenticationNeededError.new unless context[:current_user]

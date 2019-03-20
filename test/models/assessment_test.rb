@@ -160,4 +160,16 @@ class AssessmentTest < ActiveSupport::TestCase
 
     assert assessment.is_user_authorized_to_view_evaluation(user)
   end
+
+  test "unauthenticated user should be authorized to view approved assessment evaluation" do
+    assessment = create(:assessment)
+
+    assert assessment.is_user_authorized_to_view_evaluation(nil)
+  end
+
+  test "unauthenticated user should not be authorized to view unapproved assessment evaluation" do
+    assessment = create(:assessment, :being_evaluated)
+
+    assert_not assessment.is_user_authorized_to_view_evaluation(nil)
+  end
 end

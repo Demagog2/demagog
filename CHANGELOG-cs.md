@@ -2,6 +2,19 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 18. března 2019
+- Změněno: Deaktivovaný uživatel je okamžitě odhlášen ([#350](https://github.com/Demagog2/demagog/pull/350))
+- Změněno: Omezen přístup k diskuzím pro veřejnost skrz GraphQL tak, abychom neleakovali interní data ([#349](https://github.com/Demagog2/demagog/pull/349))
+
+## 17. března 2019
+- Přidáno: Stránka "API pro vývojáře" s dokumentací GraphQL API ([#346](https://github.com/Demagog2/demagog/pull/346))
+
+## 14. března 2019
+- Změněno: NFNZ mezi podporovateli, předchozí US embassy a Visegrad fund skryti
+
+## 13. března 2019
+- Změněno: Partner Zákony pro lidi nahrazen Nadačním fondem nezávislé žurnalistiky
+
 ## 6. března 2019
 - Změněno: Deprekováno Google+ API pro přihlašování do administrace ([#337](https://github.com/Demagog2/demagog/pull/337))
 - Změněno: Přidána stránka s ochranou soukromí - https://demagog.cz/admin/policy

@@ -1,7 +1,7 @@
 <% content_for(:title, @page.title) %>
 
-<% if @page.template == 'about_us' %>
-  <%= render('page/templates/about_us', page: @page) %>
+<% if @page.template %>
+  <%= render("page/templates/#{@page.template}", page: @page) %>
 <% else %>
   <%= render('page/templates/default', page: @page) %>
 <% end %>
