@@ -215,7 +215,6 @@ class Types::QueryType < GraphQL::Schema::Object
     argument :offset, Int, required: false, default_value: 0
     argument :is_party, Boolean, required: false, default_value: nil
     argument :name, String, required: false, default_value: nil
-
   end
 
   def bodies(args)

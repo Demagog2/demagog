@@ -31,7 +31,7 @@ class QueryTypeRolesTest < GraphQLTestCase
     result = execute(query_string, context: authenticated_user_context)
 
     expected = %w(admin expert social_media_manager proofreader intern).sort
-    actual = result["data"]["roles"].map { |r| r["key"] }.sort
+    actual = result.data.roles.map { |r| r.key }.sort
 
     assert_equal expected, actual
   end

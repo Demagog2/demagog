@@ -14,7 +14,7 @@ class DeleteUserMutationTestCase < GraphQLTestCase
 
     result = execute(query_string, context: authenticated_user_context)
 
-    assert result["data"]["deleteUser"], user.id
+    assert result.data.deleteUser, user.id
 
     assert_raise(Exception) do
       User.find(user.id)

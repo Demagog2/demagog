@@ -15,7 +15,7 @@ class QueryTypeStatementsTest < GraphQLTestCase
 
     result = execute(query_string)
 
-    assert_equal 10, result["data"]["statements"].size
+    assert_equal 10, result.data.statements.size
   end
 
   test "statements should return only published without any args" do
@@ -31,7 +31,7 @@ class QueryTypeStatementsTest < GraphQLTestCase
 
     result = execute(query_string)
 
-    assert result["data"]["statements"].all? { |s| s["published"] }
+    assert result.data.statements.all? { |s| s.published }
   end
 
   test "statements return error when trying to get unpublished without auth" do
@@ -63,6 +63,6 @@ class QueryTypeStatementsTest < GraphQLTestCase
 
     result = execute(query_string, context: authenticated_user_context)
 
-    assert result["data"]["statements"].any? { |s| !s["published"] }
+    assert result.data.statements.any? { |s| !s.published }
   end
 end

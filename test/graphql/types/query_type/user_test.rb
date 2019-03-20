@@ -33,7 +33,7 @@ class QueryTypeUserTest < GraphQLTestCase
     result = execute(query_string, context: authenticated_user_context(user: user))
 
     expected = user.full_name
-    actual = "#{result["data"]["user"]["firstName"]} #{result["data"]["user"]["lastName"]}"
+    actual = "#{result.data.user.firstName} #{result.data.user.lastName}"
 
     assert_equal expected, actual
   end

@@ -18,7 +18,7 @@ class SourceTypeStatementsTest < GraphQLTestCase
 
     result = execute(query_string)
 
-    assert result["data"]["source"]["statements"].size > 0
+    assert result.data.source.statements.size > 0
   end
 
   test "source statements should return only published without any args" do
@@ -37,7 +37,7 @@ class SourceTypeStatementsTest < GraphQLTestCase
 
     result = execute(query_string)
 
-    assert result["data"]["source"]["statements"].all? { |s| s["published"] }
+    assert result.data.source.statements.all? { |s| s.published }
   end
 
   test "source statements return error when trying to get unpublished without auth" do
@@ -75,6 +75,6 @@ class SourceTypeStatementsTest < GraphQLTestCase
 
     result = execute(query_string, context: authenticated_user_context)
 
-    assert result["data"]["source"]["statements"].any? { |s| !s["published"] }
+    assert result.data.source.statements.any? { |s| !s.published }
   end
 end

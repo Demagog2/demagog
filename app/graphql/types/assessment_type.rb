@@ -19,7 +19,7 @@ module Types
       object.veracity
     end
 
-    field :short_explanation, String , null: true
+    field :short_explanation, String, null: true
 
     def short_explanation
       unless object.is_user_authorized_to_view_evaluation(context[:current_user])
@@ -29,7 +29,7 @@ module Types
       object.short_explanation
     end
 
-    field :explanation_html, String , null: true
+    field :explanation_html, String, null: true
 
     def explanation_html
       unless object.is_user_authorized_to_view_evaluation(context[:current_user])
@@ -49,7 +49,7 @@ module Types
       object.explanation_slatejson
     end
 
-    field :explanation, String , null: true do
+    field :explanation, String, null: true do
       description "Alias for explanation_html"
     end
 

@@ -33,7 +33,7 @@ class QueryTypeUsersTest < GraphQLTestCase
     result = execute(query_string, context: authenticated_user_context(user: user))
 
     expected = [user.full_name]
-    actual = result["data"]["users"].map { |r| "#{r["firstName"]} #{r["lastName"]}" }
+    actual = result.data.users.map { |r| "#{r.firstName} #{r.lastName}" }
 
     assert_equal expected, actual
   end
@@ -54,7 +54,7 @@ class QueryTypeUsersTest < GraphQLTestCase
     result = execute(query_string, context: authenticated_user_context(user: active_user))
 
     expected = [inactive_user.full_name, active_user.full_name]
-    actual = result["data"]["users"].map { |r| "#{r["firstName"]} #{r["lastName"]}" }
+    actual = result.data.users.map { |r| "#{r.firstName} #{r.lastName}" }
 
     assert_equal expected, actual
   end
@@ -76,7 +76,7 @@ class QueryTypeUsersTest < GraphQLTestCase
     result = execute(query_string, context: authenticated_user_context(user: admin_user))
 
     expected = [expert_user.full_name, admin_user.full_name]
-    actual = result["data"]["users"].map { |r| "#{r["firstName"]} #{r["lastName"]}" }
+    actual = result.data.users.map { |r| "#{r.firstName} #{r.lastName}" }
 
     assert_equal expected, actual
   end
@@ -98,7 +98,7 @@ class QueryTypeUsersTest < GraphQLTestCase
     result = execute(query_string, context: authenticated_user_context(user: user))
 
     expected = [user.full_name]
-    actual = result["data"]["users"].map { |r| "#{r["firstName"]} #{r["lastName"]}" }
+    actual = result.data.users.map { |r| "#{r.firstName} #{r.lastName}" }
 
     assert_equal expected, actual
   end
@@ -120,7 +120,7 @@ class QueryTypeUsersTest < GraphQLTestCase
     result = execute(query_string, context: authenticated_user_context(user: user))
 
     expected = [user.full_name]
-    actual = result["data"]["users"].map { |r| "#{r["firstName"]} #{r["lastName"]}" }
+    actual = result.data.users.map { |r| "#{r.firstName} #{r.lastName}" }
 
     assert_equal expected, actual
   end

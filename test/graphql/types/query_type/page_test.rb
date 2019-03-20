@@ -17,7 +17,7 @@ class QueryTypePageTest < GraphQLTestCase
     result = execute(query_string, context: authenticated_user_context)
 
     expected = page.title
-    actual = result["data"]["page"]["title"]
+    actual = result.data.page.title
 
     assert_equal expected, actual
   end
@@ -36,7 +36,7 @@ class QueryTypePageTest < GraphQLTestCase
     result = execute(query_string, context: authenticated_user_context)
 
     expected = page.title
-    actual = result["data"]["page"]["title"]
+    actual = result.data.page.title
 
     assert_equal expected, actual
   end
@@ -69,7 +69,7 @@ class QueryTypePageTest < GraphQLTestCase
     result = execute(query_string, context: authenticated_user_context)
 
     expected = page.title
-    actual = result["data"]["page"]["title"]
+    actual = result.data.page.title
 
     assert_equal expected, actual
   end
@@ -88,7 +88,7 @@ class QueryTypePageTest < GraphQLTestCase
     result = execute(query_string, context: authenticated_user_context)
 
     expected = page.title
-    actual = result["data"]["page"]["title"]
+    actual = result.data.page.title
 
     assert_equal expected, actual
   end
