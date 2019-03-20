@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-Types::MediumType = GraphQL::ObjectType.define do
-  name "Medium"
-
-  field :id, !types.ID
-  field :name, !types.String
+module Types
+  class MediumType < BaseObject
+    field :id, ID, null: false
+    field :name, String, null: false
+  end
 end

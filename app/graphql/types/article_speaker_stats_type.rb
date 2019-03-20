@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-Types::ArticleSpeakerStatsType = GraphQL::ObjectType.define do
-  name "ArticleSpeakerStats"
-
-  field :speaker, !Types::SpeakerType
-  field :stats, !Types::StatsType
+module Types
+  class ArticleSpeakerStatsType < BaseObject
+    field :speaker, Types::SpeakerType, null: true
+    field :stats, Types::StatsType , null: true
+  end
 end

@@ -1,17 +1,16 @@
 # frozen_string_literal: true
 
-Types::ArticleSegmentType = GraphQL::ObjectType.define do
-  name "ArticleSegment"
+module Types
+  class ArticleSegmentType < BaseObject
+    field :id, ID, null: false
+    field :segment_type, String, null: false
+    field :text_html, String, null: true
+    field :text_slatejson, Types::Scalars::JsonType, null: true
+    field :source, Types::SourceType, null: true
+    field :statements, [Types::StatementType], null: false
 
-  field :id, !types.ID
-  field :segment_type, !types.String
-  field :text_html, types.String
-  field :text_slatejson, Types::Scalars::JsonType
-  field :source, Types::SourceType
-
-  field :statements, !types[!Types::StatementType] do
-    resolve -> (obj, args, ctx) do
-      obj.all_published_statements
+    def statements
+      object.all_published_statements
     end
   end
 end

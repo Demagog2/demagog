@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-Types::NotificationType = GraphQL::ObjectType.define do
-  name "Notification"
-
-  field :id, !types.ID
-  field :content, !types.String
-  field :action_link, !types.String
-  field :action_text, !types.String
-  field :recipient, !Types::UserType
-  field :created_at, !Types::Scalars::DateTimeType
-  field :read_at, Types::Scalars::DateTimeType
+module Types
+  class NotificationType < BaseObject
+    field :id, ID, null: false
+    field :content, String, null: false
+    field :action_link, String, null: false
+    field :action_text, String, null: false
+    field :recipient, Types::UserType, null: false
+    field :created_at, Types::Scalars::DateTimeType, null: false
+    field :read_at, Types::Scalars::DateTimeType, null: true
+  end
 end

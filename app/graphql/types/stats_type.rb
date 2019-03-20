@@ -1,30 +1,26 @@
 # frozen_string_literal: true
 
-Types::StatsType = GraphQL::ObjectType.define do
-  name "Stats"
+module Types
+  class StatsType < BaseObject
+    field :true, Int, null: true
+    field :untrue, Int, null: true
+    field :misleading, Int, null: true
+    field :unverifiable, Int, null: true
 
-  field :true, types.Int do
-    resolve ->(obj, args, ctx) {
-      obj[:true]
-    }
-  end
+    def true
+      object[:true]
+    end
 
-  field :untrue, types.Int do
-    resolve ->(obj, args, ctx) {
-      obj[:untrue]
-    }
-  end
+    def untrue
+      object[:untrue]
+    end
 
+    def misleading
+      object[:misleading]
+    end
 
-  field :misleading, types.Int do
-    resolve ->(obj, args, ctx) {
-      obj[:misleading]
-    }
-  end
-
-  field :unverifiable, types.Int do
-    resolve ->(obj, args, ctx) {
-      obj[:unverifiable]
-    }
+    def unverifiable
+      object[:unverifiable]
+    end
   end
 end

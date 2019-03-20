@@ -227,33 +227,33 @@ class Types::QueryType < GraphQL::Schema::Object
     bodies
   end
 
-  # field :veracities, !types[!Types::VeracityType] do
-  #   resolve -> (obj, args, ctx) {
-  #     Veracity.all
-  #   }
-  # end
-  #
-  # field :article, !Types::ArticleType do
-  #   argument :id, types.ID
-  #   argument :slug, types.String
-  #   argument :include_unpublished, types.Boolean, default_value: false
-  #
-  #   resolve -> (obj, args, ctx) {
-  #     begin
-  #       if args[:include_unpublished]
-  #         # Public cannot access unpublished articles
-  #         raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
-  #
-  #         return Article.friendly.find(args[:slug] || args[:id])
-  #       end
-  #
-  #       Article.published.friendly.find(args[:slug] || args[:id])
-  #     rescue ActiveRecord::RecordNotFound => e
-  #       raise GraphQL::ExecutionError.new("Could not find Article with id=#{args[:id]} or slug=#{args[:slug]}")
-  #     end
-  #   }
-  # end
-  #
+  field :veracities, [Types::VeracityType], null: false
+
+  def veracities
+    Veracity.all
+  end
+
+  field :article, Types::ArticleType, null: false do
+    argument :id, ID, required: false
+    argument :slug, String, required: false
+    argument :include_unpublished, Boolean, default_value: false, required: false
+  end
+
+  def article(args)
+    begin
+      if args[:include_unpublished]
+        # Public cannot access unpublished articles
+        raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+        return Article.friendly.find(args[:slug] || args[:id])
+      end
+
+      Article.published.friendly.find(args[:slug] || args[:id])
+    rescue ActiveRecord::RecordNotFound => e
+      raise GraphQL::ExecutionError.new("Could not find Article with id=#{args[:id]} or slug=#{args[:slug]}")
+    end
+  end
+
   # field :articles, !types[!Types::ArticleType] do
   #   argument :offset, types.Int, default_value: 0
   #   argument :limit, types.Int, default_value: 10
