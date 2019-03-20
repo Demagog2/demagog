@@ -3,6 +3,6 @@
 module Types
   class ArticleSpeakerStatsType < BaseObject
     field :speaker, Types::SpeakerType, null: true
-    field :stats, Types::StatsType , null: true
+    field :stats, Types::StatsType, null: true
   end
 end
