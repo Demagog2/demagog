@@ -6,11 +6,19 @@ Types::SourceType = GraphQL::ObjectType.define do
   field :id, !types.ID
   field :released_at, !types.String
   field :source_url, types.String
-  field :transcript, types.String
   field :medium, !Types::MediumType
   field :media_personalities, !types[!Types::MediaPersonalityType]
   field :speakers, !types[!Types::SpeakerType]
   field :expert, Types::UserType
+
+  field :transcript, types.String do
+    resolve ->(obj, args, ctx) {
+      # Transcript is mostly from Newton Media and cannot be offered publicly
+      raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+
+      obj.transcript
+    }
+  end
 
   field :name, !types.String do
     resolve ->(obj, args, ctx) {
