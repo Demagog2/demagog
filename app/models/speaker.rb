@@ -2,6 +2,8 @@
 
 class Speaker < ApplicationRecord
   has_many :memberships, dependent: :destroy
+  has_one :current_membership, -> { current }, class_name: "Membership"
+  has_one :body, through: :current_membership
   has_many :bodies, through: :memberships
   has_many :statements
   has_many :assessments, through: :statements
@@ -38,16 +40,6 @@ class Speaker < ApplicationRecord
 
   def full_name
     "#{first_name} #{last_name}"
-  end
-
-  def body
-    current = memberships.current
-
-    if current.respond_to?(:body)
-      current.body
-    else
-      nil
-    end
   end
 
   def published_statements_by_veracity(veracity_id)
