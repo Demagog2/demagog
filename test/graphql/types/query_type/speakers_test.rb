@@ -9,7 +9,7 @@ class QueryTypeSpeakersTest < GraphQLTestCase
 
   test "speakers with portrait, body and stats should be returnable (Seznam.cz integration query)" do
     source = create(:source)
-    speaker = create(:speaker, statement_source: source)
+    create(:speaker, statement_source: source)
 
     query_string = "
       query {
