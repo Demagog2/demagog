@@ -61,6 +61,8 @@ Rails.application.routes.draw do
   get "politici/:id(/*name)" => "speaker#show", as: "speaker", concerns: :paginatable
   get "archiv" => "archive#index", as: "archive", concerns: :paginatable
   get "stranka/:slug" => "page#show", as: "page"
+  get "sliby-sobotkovy-vlady" => "promises#index"
+  get "sliby-sobotkovy-vlady/metodika" => "promises#methodology"
 
   root to: "homepage#index"
 

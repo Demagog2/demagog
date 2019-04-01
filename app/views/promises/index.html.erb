@@ -1,0 +1,233 @@
+<% content_for(:title, "Sliby Sobotkovy vlády (2014—2017)") %>
+
+<article class="detail">
+  <section class="intro">
+    <h1>Sliby Sobotkovy vlády (2014—2017)</h1>
+    <%#
+    <p>
+      S končícím volebním obdobím zpracoval Demagog.cz unikátní analýzu,
+      nakolik koalice ČSSD, hnutí ANO a KDU-ČSL splnila závazky, které
+      si na začátku volebního období sama vytyčila. Pečlivě jsme
+      prostudovali programové prohlášení vlády a koaliční smlouvu a identifikovali
+      jsme přesně 156 měřitelných slibů, a to napříč rezorty. Můžete si tak přečíst,
+      jak si vláda vedla v plnění slibů na poli bezpečnosti, zahraniční politiky,
+      zdravotnictví, školství, práva a státní správy, hospodářství a ekonomiky,
+      zemědělství i životního prostředí.
+    </p>
+    <p>
+      U každého jsme na základě dohledávání primárních zdrojů informací zkoumali,
+      zda se jej koalici podařilo naplnit (<a href="/sliby-sobotkovy-vlady/metodika">kompletní metodika</a>).
+      Pro potřeby tohoto
+      výstupu pracujeme s třemi hodnotícími kategoriemi – jde o sliby splněné,
+      částečně splněné a nesplněné (více v metodice). Cílem hodnocení není říct,
+      zda vláda byla dobrá, nebo špatná. To si rozhodne každý volič 20. a 21. října
+      u volební urny. Naším cílem bylo nabídnout veřejnosti tvrdá data a poctivou
+      analýzu namísto impulsivních a zkratkovitých hodnocení, která s sebou nese
+      rozbíhající se předvolební kampaň. Z výsledků vyplývá, že vláda splnila 51 %
+      verifikovatelných slibů a naopak nesplnila 38 % z toho, co si vytyčila v koaliční smlouvě.
+    </p>
+    %>
+    <p>
+      S končícím volebním obdobím zpracoval Demagog.cz unikátní analýzu,
+      nakolik koalice ČSSD, hnutí ANO a KDU-ČSL splnila závazky, které
+      si na začátku volebního období sama vytyčila. Pečlivě jsme
+      prostudovali programové prohlášení vlády a koaliční smlouvu a identifikovali
+      jsme přesně 50 měřitelných slibů, a to napříč rezorty. Můžete si tak přečíst,
+      jak si vláda vedla v plnění slibů na poli bezpečnosti, zahraniční politiky,
+      zdravotnictví, školství, práva a státní správy, hospodářství a ekonomiky,
+      zemědělství i životního prostředí.
+    </p>
+    <p>
+      U každého jsme na základě dohledávání primárních zdrojů informací zkoumali,
+      zda se jej koalici podařilo naplnit (<a href="/sliby-sobotkovy-vlady/metodika">kompletní metodika</a>).
+      Pro potřeby tohoto
+      výstupu pracujeme s třemi hodnotícími kategoriemi — jde o sliby splněné,
+      částečně splněné a nesplněné (více v metodice). Cílem hodnocení není říct,
+      zda vláda byla dobrá, nebo špatná. To si rozhodne každý volič 20. a 21. října
+      u volební urny. Naším cílem bylo nabídnout veřejnosti tvrdá data a poctivou
+      analýzu namísto impulsivních a zkratkovitých hodnocení, která s sebou nese
+      rozbíhající se předvolební kampaň. Z výsledků vyplývá, že vláda splnila 52 %
+      verifikovatelných slibů a naopak nesplnila 38 % z toho, co si vytyčila v koaliční smlouvě.
+    </p>
+    <p>
+      Analýzu jsme zpracovali k 20. srpnu 2017, po proběhnuvší poslední schůzi
+      Poslanecké sněmovny ji budeme s ohledem na legislativní posuny u jednotlivých
+      předloh ještě aktualizovat.
+    </p>
+    <p>
+      Budeme rádi za vaši zpětnou vazbu. Pište nám na
+      <a href="mailto:info@demagog.cz">info@demagog.cz</a>.
+    </p>
+    <p class="test">
+      Poslední aktualizace výstupu: 20. srpna 2017
+    </p>
+  </section>
+
+  <section class="promises-stats-section">
+    <h2><%= @all.size %> ověřených slibů</h2>
+    <div class="stats-line-container">
+      <div class="stats-line">
+        <div class="stats-line-badge fulfilled"> <span class="stats-line-badge-number"><%= @fulfilledCount %></span> splněných</div>
+        <div class="stats-line-bar"><div class="stats-line-bar-inner fulfilled" style="width: <%= @fulfilledPercents %>%"></div><span class="stats-line-bar-label"><%= @fulfilledPercents %> %</span></div>
+      </div>
+      <div class="stats-line">
+        <div class="stats-line-badge partially-fulfilled"> <span class="stats-line-badge-number"><%= @partiallyFulfilledCount %></span> částečně splněných</div>
+        <div class="stats-line-bar"><div class="stats-line-bar-inner partially-fulfilled" style="width: <%= @partiallyFulfilledPercents %>%"></div><span class="stats-line-bar-label"><%= @partiallyFulfilledPercents %> %</span></div>
+      </div>
+      <div class="stats-line">
+        <div class="stats-line-badge broken"> <span class="stats-line-badge-number"><%= @brokenCount %></span> porušených</div>
+        <div class="stats-line-bar"><div class="stats-line-bar-inner broken" style="width: <%= @brokenPercents %>%"></div><span class="stats-line-bar-label"><%= @brokenPercents %> %</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="promises-filters-section" id="sliby">
+    <div class="area-filter">
+      <span>Filtrujte dle oblasti</span>
+      <a
+        href="<%= url_for(params.except(:oblast)) %>"
+        class="clear-filters <%= @filters[:source_id].nil? ? 'hidden' : '' %>"
+        data-param="oblast"
+        title="Zrušit filtr"
+        aria-label="Zrušit filtr"
+      >
+        × zrušit filtr
+      </a>
+      <div class="filter-buttons-list">
+        <% @areaFilterItems.each do |slug, source_id| %>
+          <a
+            href="<%= url_for(params.merge(:oblast => slug)) %>"
+            class="filter-button<% if @filters[:source_id] == source_id %> active<% end %>"
+            data-param="oblast"
+            data-slug="<%= slug %>"
+          >
+            <%= {
+              'hospodarstvi' => 'Hospodářství',
+              'venkov' => 'Venkov',
+              'pece' => 'Péče',
+              'vzdelanost' => 'Vzdělanost',
+              'pravni-stat' => 'Právní stát',
+              'bezpecnost' => 'Bezpečnost',
+            }.fetch(slug, nil) %>
+          </a>
+        <% end %>
+      </div>
+    </div>
+    <div class="assessment-filter">
+      <span>Filtrujte dle hodnocení</span>
+      <a
+        href="<%= url_for(params.except(:hodnoceni)) %>"
+        class="clear-filters <%= @filters[:veracity_key].nil? ? 'hidden' : '' %>"
+        data-param="hodnoceni"
+        title="Zrušit filtr"
+        aria-label="Zrušit filtr"
+      >
+        × zrušit filtr
+      </a>
+      <div class="filter-buttons-list">
+        <% @assessmentFilterItems.each do |slug, veracity_key| %>
+          <a
+            href="<%= url_for(params.merge(:hodnoceni => slug)) %>"
+            class="filter-button<% if @filters[:veracity_key] == veracity_key %> active<% end %>"
+            data-param="hodnoceni"
+            data-slug="<%= slug %>"
+          >
+            <% if slug == 'splnene' %><div class="promise-item-badge fulfilled"> Splněné</div><% end %>
+            <% if slug == 'castecne-splnene' %><div class="promise-item-badge partially-fulfilled"> Částečně splněné</div><% end %>
+            <% if slug == 'porusene' %><div class="promise-item-badge broken"> Porušené</div><% end %>
+          </a>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <section class="promises-list-section">
+    <table class="promises-list-section-table">
+      <thead>
+        <tr>
+          <th style="width: 45%"></th>
+          <th>Oblast</th>
+          <th>Hodnocení</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @all.each do |promise| %>
+          <tr
+            id="slib<%= promise.id %>"
+            data-detail-id="slib<%= promise.id %>-detail"
+            data-hodnoceni="<%= @assessmentFilterItems.invert.fetch(promise.assessment.veracity.key.to_sym) %>"
+            data-oblast="<%= @areaFilterItems.invert.fetch(promise.source_id) %>"
+            class="promise-line <%= @filtered_ids.include?(promise.id) ? '' : 'hidden' %>"
+          >
+            <td>
+              <span class="promise-item-name-label"><%= get_promise_name(promise) %></span>
+
+              <% if promise.important %>
+                <span class="promise-item-important-label">Výběr Demagog.cz</span>
+              <% end %>
+            </td>
+            <td><%= get_promise_area_label(promise) %></td>
+            <td>
+              <% if promise.assessment.veracity.key == @fulfilledKey %>
+                <div class="promise-item-badge fulfilled"> Splněný slib</div>
+              <% end %>
+              <% if promise.assessment.veracity.key == @partiallyFulfilledKey %>
+                <div class="promise-item-badge partially-fulfilled"> Část. splněný slib</div>
+              <% end %>
+              <% if promise.assessment.veracity.key == @brokenKey %>
+                <div class="promise-item-badge broken"> Porušený slib</div>
+              <% end %>
+            </td>
+            <td style="white-space: nowrap; text-align: right;">
+              <a href="<%= url_for(params.merge(:anchor => "slib#{promise.id}")) %>" data-anchor="#slib<%= promise.id %>" class="promise-link-expand">+ zobrazit detail</a>
+              <a href="<%= url_for(params.except(:anchor)) %>" data-anchor="" class="promise-link-collapse">– skrýt detail</a>
+            </td>
+          </tr>
+          <tr id="slib<%= promise.id %>-detail" class="promise-detail-row">
+            <td colspan="4">
+              <div class="promise-detail">
+                <div class="promise-detail-inner">
+                  <div class="detail-speaker-and-content">
+                    <a href="<%= speaker_path(@speaker.id) %>" class="speaker">
+                      <%= render(partial: 'shared/portrait', object: @speaker, as: :speaker) %>
+                      <h3><%= @speaker.full_name %></h3>
+                    </a>
+
+                    <div class="detail-content">
+                      <blockquote>
+                        <%= content_to_html(get_promise_content(promise)) %>
+                      </blockquote>
+                    </div>
+                  </div>
+                  <div class="detail-assessment">
+                    <% if promise.assessment.veracity.key == @fulfilledKey %>
+                      <div class="promise-item-badge fulfilled"> Splněný slib</div>
+                    <% end %>
+                    <% if promise.assessment.veracity.key == @partiallyFulfilledKey %>
+                      <div class="promise-item-badge partially-fulfilled"> Část. splněný slib</div>
+                    <% end %>
+                    <% if promise.assessment.veracity.key == @brokenKey %>
+                      <div class="promise-item-badge broken"> Porušený slib</div>
+                    <% end %>
+
+                    <div class="explanation-container">
+                      <section class="explanation">
+                        <%= raw(get_promise_explanation_html(promise)) %>
+                      </section>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </section>
+</article>
+
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag 'promises', media: 'all', 'data-turbolinks-track': 'reload' %>
+<% end %>
+<%= javascript_pack_tag 'promises'  %>
