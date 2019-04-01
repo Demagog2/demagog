@@ -2,9 +2,9 @@
 
 module Types
   class MutationType < BaseObject
-    # field :createBody, Mutations::CreateBody
-    # field :updateBody, Mutations::UpdateBody
-    # field :deleteBody, Mutations::DeleteBody
+    field :createBody, mutation: Mutations::CreateBody
+    field :updateBody, mutation: Mutations::UpdateBody
+    field :deleteBody, mutation: Mutations::DeleteBody
     #
     # field :createSpeaker, Mutations::CreateSpeaker
     # field :updateSpeaker, Mutations::UpdateSpeaker

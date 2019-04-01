@@ -1,17 +1,19 @@
 # frozen_string_literal: true
 
-Mutations::UpdateBody = GraphQL::Field.define do
-  name "UpdateBody"
-  type Types::BodyType
-  description "Update existing body"
+module Mutations
+  class UpdateBody < GraphQL::Schema::Mutation
+    description "Update existing body"
 
-  argument :id, !types.Int
-  argument :body_input, !Types::BodyInputType
+    field :body, Types::BodyType, null: false
 
-  resolve -> (obj, args, ctx) {
-    Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["bodies:edit"])
+    argument :id, Int, required: true
+    argument :body_input, Types::BodyInputType, required: true
 
-    Body.update(args[:id], args[:body_input].to_h)
-  }
+    def resolve(id:, body_input:)
+      Utils::Auth.authenticate(context)
+      Utils::Auth.authorize(context, ["bodies:edit"])
+
+      { body: Body.update(id, body_input.to_h) }
+    end
+  end
 end

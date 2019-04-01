@@ -1,16 +1,18 @@
 # frozen_string_literal: true
 
-Mutations::CreateBody = GraphQL::Field.define do
-  name "CreateBody"
-  type Types::BodyType
-  description "Add new body"
+module Mutations
+  class CreateBody < GraphQL::Schema::Mutation
+    description "Create new body"
 
-  argument :body_input, !Types::BodyInputType
+    field :body, Types::BodyType, null: false
 
-  resolve -> (obj, args, ctx) {
-    Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["bodies:edit"])
+    argument :body_input, Types::BodyInputType, required: true
 
-    Body.create!(args[:body_input].to_h)
-  }
+    def resolve(body_input:)
+      Utils::Auth.authenticate(context)
+      Utils::Auth.authorize(context, ["bodies:edit"])
+
+      { body: Body.create!(body_input.to_h) }
+    end
+  end
 end

@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-Types::BodyInputType = GraphQL::InputObjectType.define do
-  name "BodyInputType"
+module Types
+  class BodyInputType < GraphQL::Schema::InputObject
+    argument :name, String, required: true
+    argument :is_party, Boolean, required: true
+    argument :is_inactive, Boolean, required: true
 
-  argument :name, !types.String
-  argument :is_party, !types.Boolean
-  argument :is_inactive, !types.Boolean
+    argument :short_name, String, required: false
+    argument :link, String, required: false
 
-  argument :short_name, types.String
-  argument :link, types.String
-
-  argument :founded_at, types.String
-  argument :terminated_at, types.String
+    argument :founded_at, String, required: false
+    argument :terminated_at, String, required: false
+  end
 end
