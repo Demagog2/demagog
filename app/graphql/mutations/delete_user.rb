@@ -1,23 +1,26 @@
 # frozen_string_literal: true
 
-Mutations::DeleteUser = GraphQL::Field.define do
-  name "DeleteUser"
-  type !types.ID
-  description "Delete existing user"
+module Mutations
+  class DeleteUser < GraphQL::Schema::Mutation
+    description "Delete existing user"
 
-  argument :id, !types.ID
+    field :id, ID, null: true
 
-  resolve -> (obj, args, ctx) {
-    Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["users:edit"])
+    argument :id, ID, required: true
 
-    id = args[:id].to_i
+    def resolve(id:)
+      Utils::Auth.authenticate(context)
+      Utils::Auth.authorize(context, ["users:edit"])
 
-    begin
-      User.discard(id)
-      id
-    rescue ActiveRecord::RecordNotFound => e
-      raise GraphQL::ExecutionError.new(e.to_s)
+      id = id.to_i
+
+      begin
+        User.discard(id)
+
+        { id: id }
+      rescue ActiveRecord::RecordNotFound => e
+        raise GraphQL::ExecutionError.new(e.to_s)
+      end
     end
-  }
+  end
 end

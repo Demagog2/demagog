@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-Types::MembershipInputType = GraphQL::InputObjectType.define do
-  name "MembershipInputType"
-
-  argument :id, types.ID
-  argument :since, types.String
-  argument :until, types.String
-  argument :body_id, !types.ID
+module Types
+  class MembershipInputType < GraphQL::Schema::InputObject
+    argument :id, ID, required: false
+    argument :since, String, required: false
+    argument :until, String, required: false
+    argument :body_id, ID, required: true
+  end
 end

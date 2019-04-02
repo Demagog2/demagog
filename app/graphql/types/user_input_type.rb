@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
-Types::UserInputType = GraphQL::InputObjectType.define do
-  name "UserInputType"
+module Types
+  class UserInputType < GraphQL::Schema::InputObject
+    # Mandatory fields
 
-  # Mandatory fields
+    argument :email, String, required: true
+    argument :active, Boolean, required: true
+    argument :first_name, String, required: true
+    argument :last_name, String, required: true
+    argument :role_id, ID, required: true
+    argument :email_notifications, Boolean, required: true
 
-  argument :email, !types.String
-  argument :active, !types.Boolean
-  argument :first_name, !types.String
-  argument :last_name, !types.String
-  argument :role_id, !types.ID
-  argument :email_notifications, !types.Boolean
+    # Optional fields
 
-  # Optional fields
-
-  argument :position_description, types.String
-  argument :bio, types.String
-  argument :phone, types.String
-  argument :order, types.Int
-  argument :rank, types.Int
+    argument :position_description, String, required: false
+    argument :bio, String, required: false
+    argument :phone, String, required: false
+    argument :order, Int, required: false
+    argument :rank, Int, required: false
+  end
 end

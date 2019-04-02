@@ -2,7 +2,7 @@
 
 require "graphql/graphql_testcase"
 
-class UpdateBodyMutationTestCase < GraphQLTestCase
+class UpdateBodyMutationTest < GraphQLTestCase
   def mutation(body)
     "
       mutation {

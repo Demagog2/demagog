@@ -1,23 +1,25 @@
 # frozen_string_literal: true
 
-Mutations::DeleteSpeaker = GraphQL::Field.define do
-  name "DeleteSpeaker"
-  type !types.ID
-  description "Delete existing speaker"
+module Mutations
+  class DeleteSpeaker < GraphQL::Schema::Mutation
+    description "Delete existing speaker"
 
-  argument :id, !types.ID
+    field :id, ID, null: false
 
-  resolve -> (obj, args, ctx) {
-    Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["speakers:edit"])
+    argument :id, ID, required: true
 
-    id = args[:id].to_i
+    def resolve(id:)
+      Utils::Auth.authenticate(context)
+      Utils::Auth.authorize(context, ["speakers:edit"])
 
-    begin
-      Speaker.destroy(id)
-      id
-    rescue ActiveRecord::RecordNotFound => e
-      raise GraphQL::ExecutionError.new(e.to_s)
+      id = id.to_i
+
+      begin
+        Speaker.destroy(id)
+        { id: id }
+      rescue ActiveRecord::RecordNotFound => e
+        raise GraphQL::ExecutionError.new(e.to_s)
+      end
     end
-  }
+  end
 end

@@ -1,37 +1,37 @@
 # frozen_string_literal: true
 
-Mutations::UpdateSpeaker = GraphQL::Field.define do
-  name "UpdateSpeaker"
-  type Types::SpeakerType
-  description "Update existing speaker"
+module Mutations
+  class UpdateSpeaker < GraphQL::Schema::Mutation
+    description "Update existing speaker"
 
-  argument :id, !types.Int
-  argument :speaker_input, !Types::SpeakerInputType
+    field :speaker, Types::SpeakerType, null: false
 
-  resolve -> (obj, args, ctx) {
-    Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["speakers:edit"])
+    argument :id, ID, required: true
+    argument :speaker_input, Types::SpeakerInputType, required: true
 
-    speaker = args[:speaker_input].to_h
+    def resolve(id:, speaker_input:)
+      Utils::Auth.authenticate(context)
+      Utils::Auth.authorize(context, ["speakers:edit"])
 
-    speaker["memberships"] = speaker["memberships"].map do |mem|
-      membership = mem["id"] ? Membership.find(mem["id"]) : Membership.new()
+      speaker = speaker_input.to_h
 
-      membership.assign_attributes(
-        body: Body.find(mem["body_id"]),
-        since: mem["since"],
-        until: mem["until"]
-      )
+      speaker[:memberships] = speaker[:memberships].map do |mem|
+        membership = mem[:id] ? Membership.find(mem[:id]) : Membership.new
 
-      membership
-    end
+        membership.assign_attributes(
+          body: Body.find(mem[:body_id]),
+          since: mem[:since],
+          until: mem[:until]
+        )
 
-    Speaker.transaction do
-      speaker["memberships"].each do |mem|
-        mem.save
+        membership
       end
 
-      Speaker.update(args[:id], speaker)
+      Speaker.transaction do
+        speaker[:memberships].each(&:save)
+
+        { speaker: Speaker.update(id, speaker) }
+      end
     end
-  }
+  end
 end

@@ -1,17 +1,19 @@
 # frozen_string_literal: true
 
-Mutations::UpdateUser = GraphQL::Field.define do
-  name "UpdateUser"
-  type Types::UserType
-  description "Update existing user"
+module Mutations
+  class UpdateUser < GraphQL::Schema::Mutation
+    description "Update existing user"
 
-  argument :id, !types.Int
-  argument :user_input, !Types::UserInputType
+    field :user, Types::UserType, null: false
 
-  resolve -> (obj, args, ctx) {
-    Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["users:edit"])
+    argument :id, Int, required: true
+    argument :user_input, Types::UserInputType, required: true
 
-    User.update(args[:id], args[:user_input].to_h)
-  }
+    def resolve(user_input:)
+      Utils::Auth.authenticate(context)
+      Utils::Auth.authorize(context, ["users:edit"])
+
+      { user: User.update(args[:id], user_input.to_h) }
+    end
+  end
 end

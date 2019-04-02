@@ -5,49 +5,49 @@ module Types
     field :createBody, mutation: Mutations::CreateBody
     field :updateBody, mutation: Mutations::UpdateBody
     field :deleteBody, mutation: Mutations::DeleteBody
-    #
-    # field :createSpeaker, Mutations::CreateSpeaker
-    # field :updateSpeaker, Mutations::UpdateSpeaker
-    # field :deleteSpeaker, field: Mutations::DeleteSpeaker
 
-    # field :createUser, Mutations::CreateUser
-    # field :updateUser, Mutations::UpdateUser
-    # field :updateUserPublicity, Mutations::UpdateUserPublicity
-    # field :updateUsersRank, Mutations::UpdateUsersRank
-    field :deleteUser, field: Mutations::DeleteUser
+    field :createSpeaker, mutation: Mutations::CreateSpeaker
+    field :updateSpeaker, mutation: Mutations::UpdateSpeaker
+    field :deleteSpeaker, mutation: Mutations::DeleteSpeaker
+
+    field :createUser, mutation: Mutations::CreateUser
+    field :updateUser, mutation: Mutations::UpdateUser
+    field :deleteUser, mutation: Mutations::DeleteUser
+    field :updateUserPublicity, mutation: Mutations::UpdateUserPublicity
+    field :updateUsersRank, mutation: Mutations::UpdateUsersRank
+
+    # field :createMediaPersonality, mutation: Mutations::CreateMediaPersonality
+    # field :updateMediaPersonality, mutation: Mutations::UpdateMediaPersonality
+    # field :deleteMediaPersonality, mutation: Mutations::DeleteMediaPersonality
     #
-    # field :createMediaPersonality, Mutations::CreateMediaPersonality
-    # field :updateMediaPersonality, Mutations::UpdateMediaPersonality
-    # field :deleteMediaPersonality, Mutations::DeleteMediaPersonality
+    # field :createMedium, mutation: Mutations::CreateMedium
+    # field :updateMedium, mutation: Mutations::UpdateMedium
+    # field :deleteMedium, mutation: Mutations::DeleteMedium
     #
-    # field :createMedium, Mutations::CreateMedium
-    # field :updateMedium, Mutations::UpdateMedium
-    # field :deleteMedium, Mutations::DeleteMedium
+    # field :createSource, mutation: Mutations::CreateSource
+    # field :updateSource, mutation: Mutations::UpdateSource
+    # field :deleteSource, mutation: Mutations::DeleteSource
     #
-    # field :createSource, Mutations::CreateSource
-    # field :updateSource, Mutations::UpdateSource
-    # field :deleteSource, Mutations::DeleteSource
+    # field :createStatement, mutation: Mutations::CreateStatement
+    # field :updateStatement, mutation: Mutations::UpdateStatement
+    # field :deleteStatement, mutation: Mutations::DeleteStatement
     #
-    # field :createStatement, Mutations::CreateStatement
-    # field :updateStatement, Mutations::UpdateStatement
-    # field :deleteStatement, Mutations::DeleteStatement
+    # field :createArticle, mutation: Mutations::CreateArticle
+    # field :updateArticle, mutation: Mutations::UpdateArticle
+    # field :deleteArticle, mutation: Mutations::DeleteArticle
     #
-    # field :createArticle, Mutations::CreateArticle
-    # field :updateArticle, Mutations::UpdateArticle
-    # field :deleteArticle, Mutations::DeleteArticle
+    # field :createPage, mutation: Mutations::CreatePage
+    # field :updatePage, mutation: Mutations::UpdatePage
+    # field :deletePage, mutation: Mutations::DeletePage
     #
-    # field :createPage, Mutations::CreatePage
-    # field :updatePage, Mutations::UpdatePage
-    # field :deletePage, Mutations::DeletePage
+    # field :updateSourceStatementsOrder, mutation: Mutations::UpdateSourceStatementsOrder
+    # field :publishApprovedSourceStatements, mutation: Mutations::PublishApprovedSourceStatements
     #
-    # field :updateSourceStatementsOrder, Mutations::UpdateSourceStatementsOrder
-    # field :publishApprovedSourceStatements, Mutations::PublishApprovedSourceStatements
+    # field :createComment, mutation: Mutations::CreateComment
     #
-    # field :createComment, Mutations::CreateComment
+    # field :deleteContentImage, mutation: Mutations::DeleteContentImage
     #
-    # field :deleteContentImage, Mutations::DeleteContentImage
-    #
-    # field :updateNotification, Mutations::UpdateNotification
-    # field :markUnreadNotificationsAsRead, Mutations::MarkUnreadNotificationsAsRead
+    # field :updateNotification, mutation: Mutations::UpdateNotification
+    # field :markUnreadNotificationsAsRead, mutation: Mutations::MarkUnreadNotificationsAsRead
   end
 end

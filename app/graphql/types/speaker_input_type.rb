@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-Types::SpeakerInputType = GraphQL::InputObjectType.define do
-  name "SpeakerInputType"
-
-  argument :first_name, !types.String
-  argument :last_name, !types.String
-  argument :website_url, types.String
-
-  argument :memberships, !types[!Types::MembershipInputType]
+module Types
+  class SpeakerInputType < GraphQL::Schema::InputObject
+    argument :first_name, String, required: true
+    argument :last_name, String, required: true
+    argument :website_url, String, required: false
+    argument :memberships, [Types::MembershipInputType], required: true
+  end
 end

@@ -1,16 +1,19 @@
 # frozen_string_literal: true
 
-Mutations::UpdateUsersRank = GraphQL::Field.define do
-  name "UpdateUsersRank"
-  type types[!Types::UserType]
-  description "Update rank (order of users on about us page)"
+module Mutations
+  class UpdateUsersRank < GraphQL::Schema::Mutation
+    description "Update rank (order of users on about us page)"
 
-  argument :input, !Types::UpdateUsersRankInputType
+    field :users, [Types::UserType], null: false
 
-  resolve -> (obj, args, ctx) {
-    Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["users:edit"])
+    argument :ordered_user_ids, [ID], required: true
 
-    User.update_users_rank(args[:input]["ordered_user_ids"])
-  }
+    def resolve(ordered_user_ids:)
+      Utils::Auth.authenticate(context)
+      Utils::Auth.authorize(context, ["users:edit"])
+
+      { users: User.update_users_rank(ordered_user_ids) }
+    end
+  end
 end
+

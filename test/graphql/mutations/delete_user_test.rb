@@ -2,17 +2,27 @@
 
 require "graphql/graphql_testcase"
 
-class DeleteUserMutationTestCase < GraphQLTestCase
-  test "source statements should return some statements" do
-    user = create(:user)
-
-    query_string = "
+class DeleteUserMutationTest < GraphQLTestCase
+  def mutation(user)
+    "
       mutation {
         deleteUser(id: #{user.id})
       }
     "
+  end
 
-    result = execute(query_string, context: authenticated_user_context)
+  test "should require authentication" do
+    user = create(:user)
+
+    result = execute_with_errors(mutation(user))
+
+    assert_auth_needed_error result
+  end
+
+  test "should delete a user" do
+    user = create(:user)
+
+    result = execute(mutation(user), context: authenticated_user_context)
 
     assert result.data.deleteUser, user.id
 

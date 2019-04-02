@@ -1,22 +1,25 @@
 # frozen_string_literal: true
 
-Mutations::CreateSpeaker = GraphQL::Field.define do
-  name "CreateSpeaker"
-  type Types::SpeakerType
-  description "Add new speaker"
+module Mutations
+  class CreateSpeaker < GraphQL::Schema::Mutation
+    description "Add new speaker"
 
-  argument :speaker_input, !Types::SpeakerInputType
+    field :speaker, Types::SpeakerType, null: false
 
-  resolve -> (obj, args, ctx) {
-    Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["speakers:edit"])
+    argument :speaker_input, Types::SpeakerInputType, required: true
 
-    speaker = args[:speaker_input].to_h
+    def resolve(speaker_input:)
+      Utils::Auth.authenticate(context)
+      Utils::Auth.authorize(context, ["speakers:edit"])
 
-    speaker["memberships"] = speaker["memberships"].map do |mem|
-      Membership.new(body: Body.find(mem["body_id"]), since: mem["since"], until: mem["until"])
+      speaker = speaker_input.to_h
+
+      speaker[:memberships] = speaker[:memberships].map do |mem|
+        Membership.new(body: Body.find(mem[:body_id]), since: mem[:since], until: mem[:until])
+      end
+
+      { speaker: Speaker.create!(speaker) }
     end
-
-    Speaker.create!(speaker)
-  }
+  end
 end
+

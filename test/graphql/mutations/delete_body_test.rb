@@ -2,7 +2,7 @@
 
 require "graphql/graphql_testcase"
 
-class DeleteBodyMutationTestCase < GraphQLTestCase
+class DeleteBodyMutationTest < GraphQLTestCase
   def mutation(body)
     "
       mutation {
@@ -13,7 +13,7 @@ class DeleteBodyMutationTestCase < GraphQLTestCase
     "
   end
 
-  test "should required authentication" do
+  test "should require authentication" do
     body = create(:body)
 
     result = execute_with_errors(mutation(body))
