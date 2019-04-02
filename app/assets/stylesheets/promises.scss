@@ -276,11 +276,24 @@
     display: none;
   }
 
+  &:hover td {
+    background-color: #e7f0f6;
+    cursor: pointer;
+  }
+
   &.hidden {
     display: none;
   }
 
   &.expanded {
+    td {
+      background-color: #d7e5ef;
+    }
+
+    &:hover td {
+      background-color: #c6dae8;
+    }
+
     .promise-link-expand {
       display: none;
     }
@@ -416,6 +429,15 @@
       margin-right: -10px;
       padding-right: 10px;
       margin-top: 0.4rem;
+
+      background:
+        linear-gradient(var(--white) 30%, hsla(0,0%,100%, 0)),
+        linear-gradient(hsla(0,0%,100%,0) 10px, var(--white) 70%) bottom,
+        radial-gradient(at top, rgba(0,0,0,0.3), transparent 70%),
+        radial-gradient(at bottom, rgba(0,0,0,0.3), transparent 70%) bottom;
+      background-repeat:no-repeat;
+      background-size: 100% 30px, 100% 30px, 100% 15px, 100% 15px;
+      background-attachment:local, local, scroll, scroll;
 
       .explanation {
         * {

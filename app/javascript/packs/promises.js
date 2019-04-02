@@ -37,18 +37,37 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   document.querySelectorAll('.promise-line').forEach((promiseLineNode) => {
+    promiseLineNode.addEventListener('click', (e) => {
+      const isExpanded = promiseLineNode.classList.contains('expanded');
+
+      collapseAllPromiseDetails();
+
+      if (!isExpanded) {
+        expandPromiseDetail(promiseLineNode);
+
+        const expandLinkElement = promiseLineNode.querySelector('.promise-link-expand');
+        history.pushState(
+          undefined,
+          undefined,
+          window.location.pathname + window.location.search + expandLinkElement.dataset.anchor,
+        );
+      } else {
+        history.pushState(undefined, undefined, window.location.pathname + window.location.search);
+      }
+    });
+
     // Expand promise detail when expand link is clicked
     promiseLineNode.querySelector('.promise-link-expand').addEventListener('click', (e) => {
       collapseAllPromiseDetails();
       expandPromiseDetail(promiseLineNode);
 
-      // history.pushState(undefined, undefined, e.currentTarget.getAttribute('href'));
       history.pushState(
         undefined,
         undefined,
         window.location.pathname + window.location.search + e.currentTarget.dataset.anchor,
       );
 
+      e.stopPropagation();
       e.preventDefault();
       return false;
     });
@@ -64,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.pathname + window.location.search + e.currentTarget.dataset.anchor,
       );
 
+      e.stopPropagation();
       e.preventDefault();
       return false;
     });
