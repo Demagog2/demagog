@@ -63,6 +63,7 @@ Rails.application.routes.draw do
   get "stranka/:slug" => "page#show", as: "page"
   get "sliby-sobotkovy-vlady" => "promises#index"
   get "sliby-sobotkovy-vlady/metodika" => "promises#methodology"
+  get "sliby-sobotkovy-vlady/programove-prohlaseni" => "promises#document"
 
   root to: "homepage#index"
 

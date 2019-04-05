@@ -138,10 +138,6 @@
           >
             <td>
               <span class="promise-item-name-label"><%= get_promise_name(promise) %></span>
-
-              <% if promise.important %>
-                <span class="promise-item-important-label">Výběr Demagog.cz</span>
-              <% end %>
             </td>
             <td><%= get_promise_area_label(promise) %></td>
             <td>
@@ -174,6 +170,13 @@
                       <blockquote>
                         <%= content_to_html(get_promise_content(promise)) %>
                       </blockquote>
+                      <% unless get_promise_document_page(promise).nil? %>
+                        <cite>
+                          <a href="/sliby-sobotkovy-vlady/programove-prohlaseni#slib<%= promise.id %>">
+                            Programové prohlášení str. <%= get_promise_document_page(promise) %>
+                          </a>
+                        </cite>
+                      <% end %>
                     </div>
                   </div>
                   <div class="detail-assessment">
