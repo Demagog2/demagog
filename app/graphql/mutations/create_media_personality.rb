@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
-Mutations::CreateMediaPersonality = GraphQL::Field.define do
-  name "CreateMediaPersonality"
-  type Types::MediaPersonalityType
-  description "Add new media personality"
+module Mutations
+  class CreateMediaPersonality < GraphQL::Schema::Mutation
+    description "Add new media personality"
 
-  argument :media_personality_input, !Types::MediaPersonalityInputType
+    field :media_personality, Types::MediaPersonalityType, null: false
 
-  resolve -> (obj, args, ctx) {
-    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+    argument :media_personality_input, Types::MediaPersonalityInputType, required: true
 
-    MediaPersonality.create(args[:media_personality_input].to_h)
-  }
+    def resolve(media_personality_input:)
+      raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+      { media_personality: MediaPersonality.create(media_personality_input.to_h) }
+    end
+  end
 end

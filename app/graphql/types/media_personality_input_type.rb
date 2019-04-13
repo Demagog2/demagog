@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-Types::MediaPersonalityInputType = GraphQL::InputObjectType.define do
-  name "MediaPersonalityInputType"
-
-  argument :name, !types.String
+module Types
+  class MediaPersonalityInputType < GraphQL::Schema::InputObject
+    argument :name, String, required: true
+  end
 end

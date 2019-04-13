@@ -16,10 +16,10 @@ module Types
     field :updateUserPublicity, mutation: Mutations::UpdateUserPublicity
     field :updateUsersRank, mutation: Mutations::UpdateUsersRank
 
-    # field :createMediaPersonality, mutation: Mutations::CreateMediaPersonality
-    # field :updateMediaPersonality, mutation: Mutations::UpdateMediaPersonality
-    # field :deleteMediaPersonality, mutation: Mutations::DeleteMediaPersonality
-    #
+    field :createMediaPersonality, mutation: Mutations::CreateMediaPersonality
+    field :updateMediaPersonality, mutation: Mutations::UpdateMediaPersonality
+    field :deleteMediaPersonality, mutation: Mutations::DeleteMediaPersonality
+
     # field :createMedium, mutation: Mutations::CreateMedium
     # field :updateMedium, mutation: Mutations::UpdateMedium
     # field :deleteMedium, mutation: Mutations::DeleteMedium

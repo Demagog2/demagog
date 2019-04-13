@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-Mutations::DeleteMediaPersonality = GraphQL::Field.define do
-  name "DeleteMediaPersonality"
-  type !types.ID
-  description "Delete existing media personality"
+module Mutations
+  class DeleteMediaPersonality < GraphQL::Schema::Mutation
+    description "Delete existing media personality"
 
-  argument :id, !types.ID
+    field :id, ID, null: false
 
-  resolve -> (obj, args, ctx) {
-    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+    argument :id, ID, required: true
 
-    id = args[:id].to_i
+    def resolve(id:)
+      raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
-    begin
-      MediaPersonality.delete_media_personality(id)
+      begin
+        MediaPersonality.delete_media_personality(id.to_i)
 
-      id
-    rescue ActiveRecord::RecordNotFound, ActiveModel::ValidationError => e
-      raise GraphQL::ExecutionError.new(e.to_s)
+        { id: id }
+      rescue ActiveRecord::RecordNotFound, ActiveModel::ValidationError => e
+        raise GraphQL::ExecutionError.new(e.to_s)
+      end
     end
-  }
+  end
 end

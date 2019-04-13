@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-Types::MediaPersonalityType = GraphQL::ObjectType.define do
-  name "MediaPersonality"
-
-  field :id, !types.ID
-  field :name, !types.String
+module Types
+  class MediaPersonalityType < BaseObject
+    field :id, ID, null: false
+    field :name, String, null: false
+  end
 end

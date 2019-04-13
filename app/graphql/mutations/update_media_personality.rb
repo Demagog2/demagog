@@ -1,16 +1,18 @@
 # frozen_string_literal: true
 
-Mutations::UpdateMediaPersonality = GraphQL::Field.define do
-  name "UpdateMediaPersonality"
-  type Types::MediaPersonalityType
-  description "Update existing media personality"
+module Mutations
+  class UpdateMediaPersonality < GraphQL::Schema::Mutation
+    description "Update existing media personality"
 
-  argument :id, !types.ID
-  argument :media_personality_input, !Types::MediaPersonalityInputType
+    field :media_personality, Types::MediaPersonalityType, null: false
 
-  resolve -> (obj, args, ctx) {
-    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+    argument :id, ID, required: true
+    argument :media_personality_input, Types::MediaPersonalityInputType, required: true
 
-    MediaPersonality.update(args[:id], args[:media_personality_input].to_h)
-  }
+    def resolve(id:, media_personality_input:)
+      raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+      { media_personality: MediaPersonality.update(id, media_personality_input.to_h) }
+    end
+  end
 end
