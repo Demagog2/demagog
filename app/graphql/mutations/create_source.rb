@@ -1,26 +1,28 @@
 # frozen_string_literal: true
 
-Mutations::CreateSource = GraphQL::Field.define do
-  name "CreateSource"
-  type Types::SourceType
-  description "Add new source"
+module Mutations
+  class CreateSource < GraphQL::Schema::Mutation
+    description "Add new source"
 
-  argument :source_input, !Types::SourceInputType
+    field :source, Types::SourceType, null: false
 
-  resolve -> (obj, args, ctx) {
-    Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["sources:edit"])
+    argument :source_input, Types::SourceInputType, required: true
 
-    source = args[:source_input].to_h
+    def resolve(source_input:)
+      Utils::Auth.authenticate(context)
+      Utils::Auth.authorize(context, ["sources:edit"])
 
-    source["speakers"] = source["speakers"].map do |speaker_id|
-      Speaker.find(speaker_id)
+      source = source_input.to_h
+
+      source[:speakers] = source[:speakers].map do |speaker_id|
+        Speaker.find(speaker_id)
+      end
+
+      source[:media_personalities] = source[:media_personalities].map do |media_personality_id|
+        MediaPersonality.find(media_personality_id)
+      end
+
+      { source: Source.create!(source) }
     end
-
-    source["media_personalities"] = source["media_personalities"].map do |media_personality_id|
-      MediaPersonality.find(media_personality_id)
-    end
-
-    Source.create!(source)
-  }
+  end
 end

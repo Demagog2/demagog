@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-Types::SourceInputType = GraphQL::InputObjectType.define do
-  name "SourceInputType"
-
-  argument :name, !types.String
-  argument :released_at, !types.String
-  argument :source_url, types.String
-  argument :medium_id, !types.ID
-  argument :media_personalities, !types[!types.ID]
-  argument :transcript, !types.String
-  argument :speakers, !types[!types.ID]
-  argument :expert_id, types.ID
+module Types
+  class SourceInputType < GraphQL::Schema::InputObject
+    argument :name, String, required: true
+    argument :released_at, String, required: true
+    argument :source_url, String, required: false
+    argument :medium_id, ID, required: true
+    argument :media_personalities, [ID], required: true
+    argument :transcript, String, required: true
+    argument :speakers, [ID], required: true
+    argument :expert_id, ID, required: false
+  end
 end

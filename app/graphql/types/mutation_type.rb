@@ -24,10 +24,10 @@ module Types
     field :updateMedium, mutation: Mutations::UpdateMedium
     field :deleteMedium, mutation: Mutations::DeleteMedium
 
-    # field :createSource, mutation: Mutations::CreateSource
-    # field :updateSource, mutation: Mutations::UpdateSource
-    # field :deleteSource, mutation: Mutations::DeleteSource
-    #
+    field :createSource, mutation: Mutations::CreateSource
+    field :updateSource, mutation: Mutations::UpdateSource
+    field :deleteSource, mutation: Mutations::DeleteSource
+
     # field :createStatement, mutation: Mutations::CreateStatement
     # field :updateStatement, mutation: Mutations::UpdateStatement
     # field :deleteStatement, mutation: Mutations::DeleteStatement
