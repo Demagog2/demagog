@@ -6,7 +6,9 @@ class DeleteUserMutationTest < GraphQLTestCase
   def mutation(user)
     "
       mutation {
-        deleteUser(id: #{user.id})
+        deleteUser(id: #{user.id}) {
+          id
+        }
       }
     "
   end

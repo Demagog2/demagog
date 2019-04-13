@@ -9,11 +9,11 @@ module Mutations
     argument :id, Int, required: true
     argument :user_input, Types::UserInputType, required: true
 
-    def resolve(user_input:)
+    def resolve(user_input:, id:)
       Utils::Auth.authenticate(context)
       Utils::Auth.authorize(context, ["users:edit"])
 
-      { user: User.update(args[:id], user_input.to_h) }
+      { user: User.update(id, user_input.to_h) }
     end
   end
 end
