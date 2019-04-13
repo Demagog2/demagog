@@ -1,16 +1,19 @@
 # frozen_string_literal: true
+# frozen_string_literal: true
 
-Mutations::UpdateMedium = GraphQL::Field.define do
-  name "UpdateMedium"
-  type Types::MediumType
-  description "Update existing medium"
+module Mutations
+  class UpdateMedium < GraphQL::Schema::Mutation
+    description "Update existing medium"
 
-  argument :id, !types.ID
-  argument :medium_input, !Types::MediumInputType
+    field :medium, Types::MediumType, null: false
 
-  resolve -> (obj, args, ctx) {
-    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+    argument :id, ID, required: true
+    argument :medium_input, Types::MediumInputType, required: true
 
-    Medium.update_medium(args[:id], args[:medium_input].to_h)
-  }
+    def resolve(id:, medium_input:)
+      raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+      { medium: Medium.update_medium(id, medium_input.to_h) }
+    end
+  end
 end

@@ -20,10 +20,10 @@ module Types
     field :updateMediaPersonality, mutation: Mutations::UpdateMediaPersonality
     field :deleteMediaPersonality, mutation: Mutations::DeleteMediaPersonality
 
-    # field :createMedium, mutation: Mutations::CreateMedium
-    # field :updateMedium, mutation: Mutations::UpdateMedium
-    # field :deleteMedium, mutation: Mutations::DeleteMedium
-    #
+    field :createMedium, mutation: Mutations::CreateMedium
+    field :updateMedium, mutation: Mutations::UpdateMedium
+    field :deleteMedium, mutation: Mutations::DeleteMedium
+
     # field :createSource, mutation: Mutations::CreateSource
     # field :updateSource, mutation: Mutations::UpdateSource
     # field :deleteSource, mutation: Mutations::DeleteSource

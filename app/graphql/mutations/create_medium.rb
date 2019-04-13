@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
-Mutations::CreateMedium = GraphQL::Field.define do
-  name "CreateMedium"
-  type Types::MediumType
-  description "Add new medium"
+module Mutations
+  class CreateMedium < GraphQL::Schema::Mutation
+    description "Add new medium"
 
-  argument :medium_input, !Types::MediumInputType
+    field :medium, Types::MediumType, null: false
 
-  resolve -> (obj, args, ctx) {
-    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+    argument :medium_input, Types::MediumInputType, required: true
 
-    Medium.create_medium(args[:medium_input].to_h)
-  }
+    def resolve(medium_input:)
+      raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+      { medium: Medium.create_medium(medium_input.to_h) }
+    end
+  end
 end

@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-Mutations::DeleteMedium = GraphQL::Field.define do
-  name "DeleteMedium"
-  type !types.ID
-  description "Delete existing medium"
+module Mutations
+  class DeleteMedium < GraphQL::Schema::Mutation
+    description "Delete existing medium"
 
-  argument :id, !types.ID
+    field :id, ID, null: false
 
-  resolve -> (obj, args, ctx) {
-    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+    argument :id, ID, required: true
 
-    id = args[:id].to_i
+    def resolve(id:)
+      raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
-    begin
-      Medium.delete_medium(id)
+      begin
+        Medium.delete_medium(id.to_i)
 
-      id
-    rescue ActiveRecord::RecordNotFound, ActiveModel::ValidationError => e
-      raise GraphQL::ExecutionError.new(e.to_s)
+        { id: id }
+      rescue ActiveRecord::RecordNotFound, ActiveModel::ValidationError => e
+        raise GraphQL::ExecutionError.new(e.to_s)
+      end
     end
-  }
+  end
 end
