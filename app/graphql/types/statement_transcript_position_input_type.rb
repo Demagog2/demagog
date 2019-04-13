@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-Types::StatementTranscriptPositionInputType = GraphQL::InputObjectType.define do
-  name "StatementTranscriptPositionInputType"
-
-  argument :start_line, !types.Int
-  argument :start_offset, !types.Int
-  argument :end_line, !types.Int
-  argument :end_offset, !types.Int
+module Types
+  class StatementTranscriptPositionInputType < GraphQL::Schema::InputObject
+    argument :start_line, Int, required: true
+    argument :start_offset, Int, required: true
+    argument :end_line, Int, required: true
+    argument :end_offset, Int, required: true
+  end
 end
