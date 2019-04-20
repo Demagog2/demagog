@@ -1,9 +1,9 @@
- <a class="speaker" href="<%= speaker_path(speaker) %>">
+ <a class="container-speaker-listed speaker" href="<%= speaker_path(speaker) %>">
   <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
   <div>
     <p class="name"><%= speaker.full_name %></p>
     <p>
-      <% if showLatest %>
+      <% if show_latest %>
         <b><%= speaker.published_statements.where("excerpted_at >= ?", 6.months.ago).count %>&nbsp;výroků</b>
         (<%= speaker.published_statements.count %>&nbsp;celkem)
       <% else %>

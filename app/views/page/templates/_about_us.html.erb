@@ -1,9 +1,26 @@
-<article class="full-text">
+<article class="container-page-show">
   <h1><%= @page.title %></h1>
 
   <section class="segment">
     <%= raw(@page.text_html) %>
   </section>
 
-  <%= render('shared/authors') %>
+  <section class="authors">
+    <h2>Kdo připravuje Demagog.cz?</h2>
+
+    <% @users.each do |user| %>
+      <div class="author">
+        <figure class="portrait">
+          <% if user.avatar.attached? %>
+            <img src="<%= polymorphic_url(user.avatar, only_path: true) %>" alt="<%= user.full_name %>" />
+          <% end %>
+        </figure>
+
+        <div class="info">
+          <h2><%= user.full_name %></h2>
+          <p><b><%= user.position_description %></b> — <%= user.bio %></p>
+        </div>
+      </div>
+    <% end %>
+  </section>
 </article>

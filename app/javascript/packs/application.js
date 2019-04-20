@@ -9,6 +9,11 @@
 // layout file, like app/views/layouts/application.html.erb
 
 import 'intersection-observer/intersection-observer';
+import cssVars from 'css-vars-ponyfill';
+
+// Replaces all css variables (var(--my-var)) with actual values in
+// browsers which do not support css variables, like IE11
+cssVars();
 
 document.addEventListener('DOMContentLoaded', () => {
   /**
@@ -64,14 +69,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  [].slice.call(document.querySelectorAll('.statement-detail')).forEach(function(statementDetail) {
-    var blockquote = statementDetail.querySelector('.statement-content > blockquote');
+  [].slice
+    .call(document.querySelectorAll('.container-statement-show'))
+    .forEach(function(statementDetail) {
+      var blockquote = statementDetail.querySelector('.statement-content > blockquote');
 
-    // 63px means that the quote is one-liner
-    if (blockquote.clientHeight === 63) {
-      statementDetail.classList.add('oneliner-statement');
-    }
-  });
+      // 63px means that the quote is one-liner
+      if (blockquote.clientHeight === 63) {
+        statementDetail.classList.add('oneliner-statement');
+      }
+    });
 
   /**
    * Render images if they are in the view port

@@ -38,6 +38,7 @@
     "apollo-link": "1.2.2",
     "classnames": "^2.2.6",
     "copy-to-clipboard": "^3.0.8",
+    "css-vars-ponyfill": "^1.17.2",
     "date-fns": "^1.29.0",
     "emotion": "^9.2.6",
     "file-loader": "^1.1.11",

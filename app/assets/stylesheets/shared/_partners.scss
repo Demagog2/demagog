@@ -1,0 +1,47 @@
+.container-shared-partners {
+  flex: 1 0 100%;
+  margin-top: 6rem;
+  display: flex;
+  flex-direction: column;
+
+  .organizations {
+    flex: 0 0 auto;
+
+    p {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin: 25px 0;
+    }
+
+    a {
+      display: inline-block;
+      flex: 0 0 135px;
+      margin-right: 25px;
+    }
+
+    img {
+      margin: auto auto auto 0;
+      max-width: 135px;
+      max-height: 70px;
+    }
+  }
+
+  @media (min-width: 900px) {
+    flex-direction: row;
+
+    .organizations {
+      flex: 1 0 50%;
+      max-width: 50%; // for IE11 not respecting border-box with flex-basis
+      box-sizing: border-box;
+
+      #supporters {
+        padding-right: 25px;
+      }
+
+      #partners {
+        padding-left: 25px;
+      }
+    }
+  }
+}

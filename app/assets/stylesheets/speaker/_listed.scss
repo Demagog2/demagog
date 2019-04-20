@@ -1,0 +1,20 @@
+.container-speaker-listed {
+  display: flex;
+  flex-direction: row;
+
+  figure.portrait {
+    flex: 0 0 var(--small-portrait);
+    margin-right: var(--gap);
+  }
+
+  p {
+    color: var(--violet);
+  }
+
+  .name {
+    color: var(--orange);
+    font-size: var(--medium-typesize);
+    font-weight: bold;
+    margin: 0.25em 0 0;
+  }
+}

@@ -1,0 +1,48 @@
+.container-speaker-index {
+  flex: 1 0 100%;
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: row;
+
+  .speakers {
+    flex: 9 0 0px;
+    margin-top: 0;
+
+    .speakers-list {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      .speakers-list-item {
+        flex: 1 0 50%;
+        max-width: 50%;
+        box-sizing: border-box;
+        padding-right: var(--gutter);
+        padding-bottom: var(--gap);
+      }
+    }
+  }
+
+  .meta {
+    flex: 3 0 0px;
+  }
+
+  @media (max-width: 899.9px) {
+    flex-wrap: wrap;
+
+    .speakers {
+      flex: 1 0 100%;
+
+      .speakers-list {
+        .speakers-list-item {
+          flex: 1 0 100%;
+          max-width: 100%;
+        }
+      }
+    }
+
+    .meta { 
+      flex: 1 0 100%;
+    }
+  }
+}
