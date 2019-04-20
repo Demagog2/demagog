@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
-Mutations::CreateArticle = GraphQL::Field.define do
-  name "CreateArticle"
-  type Types::ArticleType
-  description "Add new article"
+module Mutations
+  class CreateArticle < GraphQL::Schema::Mutation
+    description "Add new article"
 
-  argument :article_input, !Types::ArticleInputType
+    field :article, Types::ArticleType, null: false
 
-  resolve -> (obj, args, ctx) {
-    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+    argument :article_input, Types::ArticleInputType, required: true
 
-    Article.create_article(args[:article_input].to_h)
-  }
+    def resolve(article_input:)
+      raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+      { article: Article.create_article(article_input.to_h) }
+    end
+  end
 end

@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
-Types::ArticleInputType = GraphQL::InputObjectType.define do
-  name "ArticleInputType"
+module Types
+  class ArticleInputType < GraphQL::Schema::InputObject
+    argument :article_type, String, required: true
+    argument :title, String, required: true
+    argument :perex, String, required: true
+    argument :segments, [Types::ArticleSegmentInputType], required: true
 
-  argument :article_type, !types.String
-  argument :title, !types.String
-  argument :perex, !types.String
-  argument :slug, types.String
-  argument :published, types.Boolean
-  argument :published_at, types.String
-  argument :segments, types[!Types::ArticleSegmentInputType]
-  argument :source_id, types.ID
+    argument :slug, String, required: false
+    argument :published, Boolean, required: false
+    argument :published_at, String, required: false
+    argument :source_id, ID, required: false
+  end
 end

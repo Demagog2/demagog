@@ -1,16 +1,18 @@
 # frozen_string_literal: true
 
-Mutations::UpdateArticle = GraphQL::Field.define do
-  name "UpdateArticle"
-  type Types::ArticleType
-  description "Update existing article"
+module Mutations
+  class UpdateArticle < GraphQL::Schema::Mutation
+    description "Update existing article"
 
-  argument :id, !types.ID
-  argument :article_input, !Types::ArticleInputType
+    field :article, Types::ArticleType, null: false
 
-  resolve -> (obj, args, ctx) {
-    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+    argument :id, ID, required: true
+    argument :article_input, Types::ArticleInputType, required: true
 
-    Article.update_article(args[:id], args[:article_input].to_h)
-  }
+    def resolve(id:, article_input:)
+      raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+      { article: Article.update_article(id, article_input.to_h) }
+    end
+  end
 end

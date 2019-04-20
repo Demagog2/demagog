@@ -32,10 +32,10 @@ module Types
     field :updateStatement, mutation: Mutations::UpdateStatement
     field :deleteStatement, mutation: Mutations::DeleteStatement
 
-    # field :createArticle, mutation: Mutations::CreateArticle
-    # field :updateArticle, mutation: Mutations::UpdateArticle
-    # field :deleteArticle, mutation: Mutations::DeleteArticle
-    #
+    field :createArticle, mutation: Mutations::CreateArticle
+    field :updateArticle, mutation: Mutations::UpdateArticle
+    field :deleteArticle, mutation: Mutations::DeleteArticle
+
     # field :createPage, mutation: Mutations::CreatePage
     # field :updatePage, mutation: Mutations::UpdatePage
     # field :deletePage, mutation: Mutations::DeletePage
