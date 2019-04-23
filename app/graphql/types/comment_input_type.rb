@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-Types::CommentInputType = GraphQL::InputObjectType.define do
-  name "CommentInputType"
-
-  argument :content, !types.String
-  argument :statement_id, !types.ID
+module Types
+  class CommentInputType < GraphQL::Schema::InputObject
+    argument :content, String, required: true
+    argument :statement_id, ID, required: true
+  end
 end

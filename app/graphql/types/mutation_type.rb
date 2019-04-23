@@ -43,8 +43,8 @@ module Types
     field :updateSourceStatementsOrder, mutation: Mutations::UpdateSourceStatementsOrder
     field :publishApprovedSourceStatements, mutation: Mutations::PublishApprovedSourceStatements
 
-    # field :createComment, mutation: Mutations::CreateComment
-    #
+    field :createComment, mutation: Mutations::CreateComment
+
     # field :deleteContentImage, mutation: Mutations::DeleteContentImage
     #
     # field :updateNotification, mutation: Mutations::UpdateNotification

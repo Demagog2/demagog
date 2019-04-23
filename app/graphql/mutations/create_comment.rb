@@ -1,16 +1,20 @@
 # frozen_string_literal: true
 
-Mutations::CreateComment = GraphQL::Field.define do
-  name "CreateComment"
-  type Types::CommentType
-  description "Add new comment"
+module Mutations
+  class CreateComment < GraphQL::Schema::Mutation
+    description "Add new comment"
 
-  argument :comment_input, !Types::CommentInputType
+    field :comment, Types::CommentType, null: false
 
-  resolve -> (obj, args, ctx) {
-    Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["statements:comments:add"])
+    argument :comment_input, Types::CommentInputType, required: true
 
-    Comment.create_comment(args[:comment_input].to_h, ctx[:current_user])
-  }
+    def resolve(comment_input:)
+      Utils::Auth.authenticate(context)
+      Utils::Auth.authorize(context, ["statements:comments:add"])
+
+      comment = Comment.create_comment(comment_input.to_h, context[:current_user])
+
+      { comment: comment }
+    end
+  end
 end
