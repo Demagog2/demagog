@@ -45,8 +45,8 @@ module Types
 
     field :createComment, mutation: Mutations::CreateComment
 
-    # field :deleteContentImage, mutation: Mutations::DeleteContentImage
-    #
+    field :deleteContentImage, mutation: Mutations::DeleteContentImage
+
     # field :updateNotification, mutation: Mutations::UpdateNotification
     # field :markUnreadNotificationsAsRead, mutation: Mutations::MarkUnreadNotificationsAsRead
   end

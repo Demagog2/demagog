@@ -1,23 +1,26 @@
 # frozen_string_literal: true
 
-Mutations::DeleteContentImage = GraphQL::Field.define do
-  name "DeleteContentImage"
-  type !types.ID
-  description "Delete existing content image"
+module Mutations
+  class DeleteContentImage < GraphQL::Schema::Mutation
+    description "Delete existing content image"
 
-  argument :id, !types.ID
+    field :id, ID, null: true
 
-  resolve -> (obj, args, ctx) {
-    Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["images:delete"])
+    argument :id, ID, required: true
 
-    id = args[:id].to_i
+    def resolve(id:)
+      Utils::Auth.authenticate(context)
+      Utils::Auth.authorize(context, ["images:delete"])
 
-    begin
-      ContentImage.discard(id)
-      id
-    rescue ActiveRecord::RecordNotFound => e
-      raise GraphQL::ExecutionError.new(e.to_s)
+      id = id.to_i
+
+      begin
+        ContentImage.discard(id)
+
+        { id: id }
+      rescue ActiveRecord::RecordNotFound => e
+        raise GraphQL::ExecutionError.new(e.to_s)
+      end
     end
-  }
+  end
 end
