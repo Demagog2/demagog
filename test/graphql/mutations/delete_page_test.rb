@@ -2,11 +2,11 @@
 
 require "graphql/graphql_testcase"
 
-class DeleteArticleMutationTest < GraphQLTestCase
-  def mutation(article)
+class DeletePageMutationTest < GraphQLTestCase
+  def mutation(page)
     "
       mutation {
-        deleteArticle(id: #{article.id}) {
+        deletePage(id: #{page.id}) {
           id
         }
       }
@@ -14,22 +14,22 @@ class DeleteArticleMutationTest < GraphQLTestCase
   end
 
   test "should require authentication" do
-    article = create(:fact_check)
+    page = create(:page)
 
-    result = execute_with_errors(mutation(article))
+    result = execute_with_errors(mutation(page))
 
     assert_auth_needed_error result
   end
 
-  test "should delete a article" do
-    article = create(:fact_check)
+  test "should delete a page" do
+    page = create(:page)
 
-    result = execute(mutation(article), context: authenticated_user_context)
+    result = execute(mutation(page), context: authenticated_user_context)
 
-    assert result.data.deleteArticle, article.id
+    assert result.data.deletePage, page.id
 
     assert_raise(Exception) do
-      Article.find(article.id)
+      Page.find(page.id)
     end
   end
 end
