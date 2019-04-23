@@ -1,17 +1,21 @@
 # frozen_string_literal: true
 
-Mutations::PublishApprovedSourceStatements = GraphQL::Field.define do
-  name "PublishApprovedSourceStatements"
-  type Types::SourceType
-  description "Publish all approved statements from source"
+module Mutations
+  class PublishApprovedSourceStatements < GraphQL::Schema::Mutation
+    description "Publish all approved statements from source"
 
-  argument :id, !types.ID
+    field :source, Types::SourceType, null: false
 
-  resolve -> (obj, args, ctx) {
-    Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["statements:edit"])
+    argument :id, ID, required: true
 
-    source = Source.find(args[:id])
-    source.publish_approved_statements
-  }
+    def resolve(id:)
+      Utils::Auth.authenticate(context)
+      Utils::Auth.authorize(context, ["statements:edit"])
+
+      source = Source.find(id)
+      source.publish_approved_statements
+
+      { source: source }
+    end
+  end
 end

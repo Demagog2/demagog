@@ -41,8 +41,8 @@ module Types
     field :deletePage, mutation: Mutations::DeletePage
 
     field :updateSourceStatementsOrder, mutation: Mutations::UpdateSourceStatementsOrder
-    # field :publishApprovedSourceStatements, mutation: Mutations::PublishApprovedSourceStatements
-    #
+    field :publishApprovedSourceStatements, mutation: Mutations::PublishApprovedSourceStatements
+
     # field :createComment, mutation: Mutations::CreateComment
     #
     # field :deleteContentImage, mutation: Mutations::DeleteContentImage
