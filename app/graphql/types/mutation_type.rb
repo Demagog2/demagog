@@ -36,10 +36,10 @@ module Types
     field :updateArticle, mutation: Mutations::UpdateArticle
     field :deleteArticle, mutation: Mutations::DeleteArticle
 
-    # field :createPage, mutation: Mutations::CreatePage
-    # field :updatePage, mutation: Mutations::UpdatePage
-    # field :deletePage, mutation: Mutations::DeletePage
-    #
+    field :createPage, mutation: Mutations::CreatePage
+    field :updatePage, mutation: Mutations::UpdatePage
+    field :deletePage, mutation: Mutations::DeletePage
+
     # field :updateSourceStatementsOrder, mutation: Mutations::UpdateSourceStatementsOrder
     # field :publishApprovedSourceStatements, mutation: Mutations::PublishApprovedSourceStatements
     #

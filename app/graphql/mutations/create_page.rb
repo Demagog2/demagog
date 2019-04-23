@@ -1,16 +1,18 @@
 # frozen_string_literal: true
 
-Mutations::CreatePage = GraphQL::Field.define do
-  name "CreatePage"
-  type Types::PageType
-  description "Add new page"
+module Mutations
+  class CreatePage < GraphQL::Schema::Mutation
+    description "Add new page"
 
-  argument :page_input, !Types::PageInputType
+    field :page, Types::PageType, null: false
 
-  resolve -> (obj, args, ctx) {
-    Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["pages:edit"])
+    argument :page_input, Types::PageInputType, required: true
 
-    Page.create!(args[:page_input].to_h)
-  }
+    def resolve(page_input:)
+      Utils::Auth.authenticate(context)
+      Utils::Auth.authorize(context, ["pages:edit"])
+
+      { page: Page.create!(page_input.to_h) }
+    end
+  end
 end

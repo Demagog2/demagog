@@ -1,23 +1,26 @@
 # frozen_string_literal: true
 
-Mutations::DeletePage = GraphQL::Field.define do
-  name "DeletePage"
-  type !types.ID
-  description "Delete existing page"
+module Mutations
+  class DeletePage < GraphQL::Schema::Mutation
+    description "Delete existing page"
 
-  argument :id, !types.ID
+    field :id, ID, null: true
 
-  resolve -> (obj, args, ctx) {
-    raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+    argument :id, ID, required: true
 
-    id = args[:id].to_i
+    def resolve(id:)
+      Utils::Auth.authenticate(context)
+      Utils::Auth.authorize(context, ["pages:edit"])
 
-    begin
-      Page.discard(id)
+      id = id.to_i
 
-      id
-    rescue ActiveRecord::RecordNotFound => e
-      raise GraphQL::ExecutionError.new(e.to_s)
+      begin
+        Page.discard(id)
+
+        { id: id }
+      rescue ActiveRecord::RecordNotFound => e
+        raise GraphQL::ExecutionError.new(e.to_s)
+      end
     end
-  }
+  end
 end

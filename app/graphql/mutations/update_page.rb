@@ -1,17 +1,19 @@
 # frozen_string_literal: true
 
-Mutations::UpdatePage = GraphQL::Field.define do
-  name "UpdatePage"
-  type Types::PageType
-  description "Update existing page"
+module Mutations
+  class UpdatePage < GraphQL::Schema::Mutation
+    description "Update existing page"
 
-  argument :id, !types.ID
-  argument :page_input, !Types::PageInputType
+    field :page, Types::PageType, null: false
 
-  resolve -> (obj, args, ctx) {
-    Utils::Auth.authenticate(ctx)
-    Utils::Auth.authorize(ctx, ["pages:edit"])
+    argument :id, ID, required: true
+    argument :page_input, Types::PageInputType, required: true
 
-    Page.update(args[:id], args[:page_input].to_h)
-  }
+    def resolve(id:, page_input:)
+      Utils::Auth.authenticate(context)
+      Utils::Auth.authorize(context, ["pages:edit"])
+
+      { page: Page.update(id, page_input.to_h) }
+    end
+  end
 end

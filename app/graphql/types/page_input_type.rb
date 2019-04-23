@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
-Types::PageInputType = GraphQL::InputObjectType.define do
-  name "PageInputType"
+module Types
+  class PageInputType < GraphQL::Schema::InputObject
+    argument :title, String, required: true
 
-  argument :title, !types.String
-  argument :slug, types.String
-  argument :published, types.Boolean
-  argument :text_html, types.String
-  argument :text_slatejson, Types::Scalars::JsonType
+    argument :text_html, String, required: false
+    argument :text_slatejson, Types::Scalars::JsonType, required: false
+    argument :published, Boolean, required: false
+    argument :slug, String, required: false
+  end
 end
