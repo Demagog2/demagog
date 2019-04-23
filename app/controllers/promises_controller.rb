@@ -116,7 +116,7 @@ class PromisesController < ApplicationController
     @promises_list = definition[:to_promises_list].call(@all)
 
     filters = filters_from_params
-    filtered_promises_list = @promises_list.filter do |promise|
+    filtered_promises_list = @promises_list.select do |promise|
       remains = true
 
       unless filters[:area].empty? || filters[:area].include?(promise[:area][:id])
