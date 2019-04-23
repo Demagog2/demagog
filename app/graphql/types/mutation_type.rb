@@ -40,7 +40,7 @@ module Types
     field :updatePage, mutation: Mutations::UpdatePage
     field :deletePage, mutation: Mutations::DeletePage
 
-    # field :updateSourceStatementsOrder, mutation: Mutations::UpdateSourceStatementsOrder
+    field :updateSourceStatementsOrder, mutation: Mutations::UpdateSourceStatementsOrder
     # field :publishApprovedSourceStatements, mutation: Mutations::PublishApprovedSourceStatements
     #
     # field :createComment, mutation: Mutations::CreateComment

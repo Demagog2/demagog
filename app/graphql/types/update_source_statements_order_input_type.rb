@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-Types::UpdateSourceStatementsOrderInputType = GraphQL::InputObjectType.define do
-  name "UpdateSourceStatementsOrderInputType"
-
-  argument :ordered_statement_ids, types[!types.ID]
+module Types
+  class UpdateSourceStatementsOrderInputType < GraphQL::Schema::InputObject
+    argument :ordered_statement_ids, [ID], required: true
+  end
 end
