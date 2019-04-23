@@ -7,7 +7,20 @@ module.exports = {
     {
       loader: 'babel-loader',
       options: {
-        presets: [['@babel/preset-env', { targets: { ie: '11' } }]],
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              // Means that we replace @babel/polyfill with specific polyfills
+              // based on our browserslist config in .browserslistrc
+              useBuiltIns: 'entry',
+            },
+          ],
+        ],
+        plugins: [
+          // Class properties are needed by Stimulus
+          '@babel/plugin-proposal-class-properties',
+        ],
       },
     },
   ],
