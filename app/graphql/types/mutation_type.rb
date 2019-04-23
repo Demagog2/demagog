@@ -48,6 +48,6 @@ module Types
     field :deleteContentImage, mutation: Mutations::DeleteContentImage
 
     field :updateNotification, mutation: Mutations::UpdateNotification
-    # field :markUnreadNotificationsAsRead, mutation: Mutations::MarkUnreadNotificationsAsRead
+    field :markUnreadNotificationsAsRead, mutation: Mutations::MarkUnreadNotificationsAsRead
   end
 end
