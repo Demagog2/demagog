@@ -1,24 +1,26 @@
 # frozen_string_literal: true
 
-Mutations::UpdateNotification = GraphQL::Field.define do
-  name "UpdateNotification"
-  type Types::NotificationType
-  description "Update notification"
+module Mutations
+  class UpdateNotification < GraphQL::Schema::Mutation
+    description "Update existing notification"
 
-  argument :id, !types.ID
-  argument :input, !Types::UpdateNotificationInputType
+    field :notification, Types::NotificationType, null: false
 
-  resolve -> (obj, args, ctx) {
-    Utils::Auth.authenticate(ctx)
+    argument :id, ID, required: true
+    argument :input, Types::UpdateNotificationInputType, required: true
 
-    notification = Notification.find(args[:id])
+    def resolve(id:, input:)
+      Utils::Auth.authenticate(context)
 
-    if notification.recipient.id != ctx[:current_user].id
-      raise Errors::NotAuthorizedError.new
+      notification = Notification.find(id)
+
+      if notification.recipient.id != context[:current_user].id
+        raise Errors::NotAuthorizedError.new
+      end
+
+      notification.update!(input.to_h)
+
+      { notification: notification }
     end
-
-    notification.update!(args[:input].to_h)
-
-    notification
-  }
+  end
 end
