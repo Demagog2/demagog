@@ -156,7 +156,10 @@
                         <cite><a href="<%= promise[:source_url] %>" target="_blank"><%= promise[:source_label] %></a></cite>
                       </blockquote>
                       <div class="assessment">
-                        <span class="promise-evaluation <%= promise[:evaluation].to_s.dasherize %>"> <%= @promises_list_evaluation_labels[promise[:evaluation]] %></span>
+                        <div class="evaluation-and-permalink">
+                          <span class="promise-evaluation <%= promise[:evaluation].to_s.dasherize %>"> <%= @promises_list_evaluation_labels[promise[:evaluation]] %></span>
+                          <a class="permalink" href="<%= promise_permalink(promise) %>">trvalý odkaz</a>
+                        </div>
                         <div class="explanation-container">
                           <section class="explanation">
                             <%= raw(to_lazy_loading_iframes_and_images(promise[:explanation_html])) %>

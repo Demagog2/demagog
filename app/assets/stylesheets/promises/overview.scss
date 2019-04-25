@@ -366,6 +366,24 @@
       margin-left: 30px;
       align-items: flex-start;
 
+      .permalink {
+        display: inline-block;
+        color: #aaa;
+        margin-left: 10px;
+
+        &::before {
+          content: '';
+          display: inline-block;
+          background-repeat: no-repeat;
+          background-image: image-url('share.svg');
+          background-position: 50% 50%;
+          background-size: contain;
+          width: 32px;
+          height: 16px;
+          margin-bottom: -2px;
+        }
+      }
+
       .explanation-container {
         overflow-y: auto;
         max-height: 495px;

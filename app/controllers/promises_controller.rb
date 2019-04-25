@@ -212,6 +212,19 @@ class PromisesController < ApplicationController
     filters[type].empty?
   end
 
+  helper_method :promise_permalink
+  def promise_permalink(promise)
+    filters = filters_from_params
+
+    # clear all filters
+    filters.transform_values! { |v| [] }
+
+    permalink_params = filters_to_params(filters)
+    permalink_params[:anchor] = "slib-#{promise[:id]}"
+
+    url_for(permalink_params)
+  end
+
   private
 
     # def get_promise_position_in_document(promise)
