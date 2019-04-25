@@ -8,14 +8,24 @@ if (window.NodeList && !NodeList.prototype.forEach) {
   NodeList.prototype.forEach = Array.prototype.forEach;
 }
 
-import 'intersection-observer/intersection-observer';
-import cssVars from 'css-vars-ponyfill';
+// Polyfills Element.closest and Element.matches which Stimulus need.
+// We are not using the @stimulus/polyfills package, because it contains
+// some core-js polyfills which would be duplicate, because we are already
+// adding them via babel
+import elementClosestPolyfill from 'element-closest';
+elementClosestPolyfill(window);
 
-import '../application';
+// Needed for Element.classList.toggle's second parameter to work in IE11
+import 'classlist-polyfill';
 
 // Replaces all css variables (var(--my-var)) with actual values in
 // browsers which do not support css variables, like IE11
+import cssVars from 'css-vars-ponyfill';
 cssVars();
+
+import 'intersection-observer/intersection-observer';
+
+import '../application';
 
 document.addEventListener('DOMContentLoaded', () => {
   /**
