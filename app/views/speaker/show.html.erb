@@ -1,9 +1,9 @@
 <% content_for(:title, @speaker.full_name) %>
 
-<article class="speaker-detail">
+<article class="container-speaker-show">
   <section class="profile">
     <%= render(partial: 'shared/portrait', object: @speaker, as: :speaker) %>
-    <div>
+    <div class="name-and-stats">
       <h1 class="name s-speaker-name"><%= @speaker.full_name %> <% if @speaker.body %><span class="s-body">(<%= @speaker.body.short_name %>)</span><% end %></h1>
 
       <%= render(partial: 'shared/stats', object: @stats, as: :stats) %>

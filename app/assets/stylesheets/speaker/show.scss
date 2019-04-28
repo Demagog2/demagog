@@ -1,0 +1,35 @@
+.container-speaker-show {
+  flex: 1 0 66.66666667%;
+  margin-left: 16.66666667%;
+  margin-right: 16.66666667%;
+
+  .profile {
+    display: -ms-grid;
+    display: grid;
+    grid-template-columns: var(--large-portrait) 1fr;
+    grid-column-gap: var(--gap);
+
+    // IE 11 support
+    -ms-grid-columns: var(--large-portrait) var(--gap) 1fr;
+
+    .portrait {
+      width: var(--large-portrait);
+      height: var(--large-portrait);
+    }
+
+    .name-and-stats {
+      // IE 11 support
+      -ms-grid-column: 3; // because col 2 is the gap
+
+      h1 {
+        margin: 1rem 0 0.5rem;
+      }
+    }
+  }
+
+  @media (max-width: 899.9px) {
+    flex: 1 0 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}

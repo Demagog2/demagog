@@ -43,4 +43,15 @@ class ArticleController < ApplicationController
     #   end
     # end
   end
+
+  helper_method :replace_segment_text_html_special_strings
+  def replace_segment_text_html_special_strings(text_html)
+    playbuzz_quiz_html = <<-HEREDOC
+<script>(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src='https://embed.playbuzz.com/sdk.js';fjs.parentNode.insertBefore(js,fjs);}(document,'script','playbuzz-sdk'));</script>
+<div class="playbuzz" data-id="0c39f886-6c12-4243-9ff9-c2d890ae32c0" data-show-share="false" data-show-info="false" data-comments="false"></div>
+    HEREDOC
+    playbuzz_quiz_html = '<div style="margin-bottom: 1rem; background: white;">' + playbuzz_quiz_html + "</div>"
+
+    text_html.gsub(/(<p>\[playbuzzkviz\]<\/p>)/, playbuzz_quiz_html)
+  end
 end

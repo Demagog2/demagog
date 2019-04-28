@@ -1,5 +1,5 @@
 <% if @cover_story %>
-  <article class="cover-story <% if @cover_story.unique_speakers.length > 2 %>many-speakers<% end %>">    
+  <article class="container-homepage-cover_story">
     <h1>
       <%= link_to(@cover_story.title, article_path(@cover_story)) %>
     </h1>
@@ -19,14 +19,16 @@
 
     <section class="speakers">
       <% @cover_story.unique_speakers.each do |speaker| %>
-        <%= render(
-          partial: "shared/speaker_stat",
-          locals: {
-            speaker: speaker,
-            stats: controller.article_stats.build(@cover_story, speaker),
-            lazy_load_images: false
-          })
-        %>
+        <div class="speakers-item">
+          <%= render(
+            partial: "shared/speaker_stat",
+            locals: {
+              speaker: speaker,
+              stats: controller.article_stats.build(@cover_story, speaker),
+              lazy_load_images: false
+            })
+          %>
+        </div>
       <% end %>
     </section>
   </article>

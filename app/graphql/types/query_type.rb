@@ -188,6 +188,17 @@ class Types::QueryType < GraphQL::Schema::Object
     statements = statements.where(speaker: args[:speaker]) if args[:speaker]
     statements = statements.joins(:veracities).where(veracities: { key: args[:veracity] }) if args[:veracity]
 
+    # Include these basics as they are part of most of queries for statements
+    # and seriously speed those queries
+    #
+    # TODO: When we have graphql-ruby 1.9+, lets use lookaheads for smart includes.
+    # See https://graphql-ruby.org/queries/lookahead.html
+    statements = statements.includes(
+      { assessment: :veracity },
+      { speaker: :body },
+      { source: :medium }
+    )
+
     statements
   end
 

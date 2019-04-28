@@ -17,6 +17,13 @@ module Types
     field :speakers, [Types::SpeakerType], null: false
     field :expert, Types::UserType, null: true
 
+    def transcript
+      # Transcript is mostly from Newton Media and cannot be offered publicly
+      raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+      object.transcript
+    end
+
     field :statements, [Types::StatementType], null: false do
       argument :include_unpublished, Boolean, required: false, default_value: false
     end

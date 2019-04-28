@@ -25,7 +25,7 @@
   <% @article.segments.each do |segment| %>
     <section class="segment-<%= segment.segment_type %>">
       <% if segment.is_text? %>
-        <%= raw(segment.text_html) %>
+        <%= raw(replace_segment_text_html_special_strings(segment.text_html)) %>
       <% elsif segment.is_source_statements? %>
         <% if @article.segments.size === 1 %>
           <div class="statements-filters">

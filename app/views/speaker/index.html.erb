@@ -1,18 +1,38 @@
-<article class="is-speaker-overview">
-  <% if @party  %>
-    <h2><%= @party.name %></h2>
-    <section class="speakers-list">
-      <%= render(partial: 'speaker/listed', collection: @party.current_members, as: :speaker, locals: {showLatest: false}) %>
-    </section>
-  <% else %>
-    <h2>Aktuálně nejaktivnější politici</h2>
-    <p>Politici s nejvyšším počtem výroků za posledních šest měsíců.</p>
-    <section class="speakers-list">
-      <%= render(partial: 'speaker/listed', collection: @speakers, as: :speaker, locals: {showLatest: true}) %>
-    </section>
-  <% end %>
-</article>
+<div class="container-speaker-index">
+  <article class="speakers">
+    <% if @party  %>
+      <h2><%= @party.name %></h2>
+      <section class="speakers-list">
+        <% @party.current_members.each do |speaker| %>
+          <div class="speakers-list-item">
+            <%= render(
+              partial: 'speaker/listed',
+              object: speaker,
+              as: :speaker,
+              locals: { show_latest: false }
+            ) %>
+          </div>
+        <% end %>
+      </section>
+    <% else %>
+      <h2>Aktuálně nejaktivnější politici</h2>
+      <p>Politici s nejvyšším počtem výroků za posledních šest měsíců.</p>
+      <section class="speakers-list">
+        <% @speakers.each do |speaker| %>
+          <div class="speakers-list-item">
+            <%= render(
+              partial: 'speaker/listed',
+              object: speaker,
+              as: :speaker,
+              locals: { show_latest: true }
+            ) %>
+          </div>
+        <% end %>
+      </section>
+    <% end %>
+  </article>
 
-<aside class="meta">
-  <%= render(partial: "speaker/sidebar") %>
-</aside>
+  <aside class="meta">
+    <%= render(partial: "speaker/sidebar") %>
+  </aside>
+</div>

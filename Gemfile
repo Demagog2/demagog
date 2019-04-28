@@ -121,6 +121,9 @@ group :development, :test do
 
   # Fixture replacement
   gem "factory_bot_rails"
+
+  # For intellisense in editors
+  gem "solargraph"
 end
 
 group :development do

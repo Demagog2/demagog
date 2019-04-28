@@ -1,0 +1,33 @@
+.container-speaker-stat {
+  display: flex;
+  margin: 0 0 1rem;
+
+  .portrait {
+    flex: 0 0 auto;
+    width: var(--small-portrait);
+    height: var(--small-portrait);
+    margin-right: var(--gap);
+  }
+
+  .name-and-stats {
+    flex: 1 0 auto;
+
+    .name {
+      margin: 0 0 6px 0;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
+
+  &:hover {
+    text-decoration: none;
+
+    .name {
+      text-decoration: underline;
+    }
+
+    .portrait {
+      box-shadow: 0 0 0 3px var(--orange)
+    }
+  }
+}

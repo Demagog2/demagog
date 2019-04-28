@@ -1,6 +1,7 @@
-<%= display_meta_tags site: 'Demagog.cz',
-  title: content_for?(:title) ? yield(:title) : 'Factcheck politických diskuzí',
+<%= display_meta_tags site:  content_for?(:title) ? 'Demagog.cz' : nil,
+  title: content_for?(:title) ? yield(:title) : 'Demagog.cz — Factcheck politických diskuzí',
   separator: "&mdash;".html_safe,
+  reverse: true,
   description: (defined?(@article) and @article.perex.present?) ?
     strip_tags(@article.perex).truncate(230) :
     'Politici operují s informacemi, které jsou zkreslené, účelově vytrhávané z původních kontextů, neúplné anebo přímo lživé. Moderátor o tom často nevědí, protože jim chybějí informace a nedokážou efektivně a jednoznačně oponovat. Projekt Demagog.cz má za cíl kontrolu těchto tvrzení.',

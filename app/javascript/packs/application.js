@@ -1,14 +1,31 @@
 /* eslint-env browser */
 
-// This file is automatically compiled by Webpack, along with any other files
-// present in this directory. You're encouraged to place your actual application logic in
-// a relevant structure within app/javascript and only use these pack files to reference
-// that code so it'll be compiled.
-//
-// To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
-// layout file, like app/views/layouts/application.html.erb
+import '@babel/polyfill';
+
+// NodeList.forEach is in core-js v3, but since we are using still v2 through
+// webpacker/babel-preset-env, we just polyfill it ourselves here
+if (window.NodeList && !NodeList.prototype.forEach) {
+  NodeList.prototype.forEach = Array.prototype.forEach;
+}
+
+// Polyfills Element.closest and Element.matches which Stimulus need.
+// We are not using the @stimulus/polyfills package, because it contains
+// some core-js polyfills which would be duplicate, because we are already
+// adding them via babel
+import elementClosestPolyfill from 'element-closest';
+elementClosestPolyfill(window);
+
+// Needed for Element.classList.toggle's second parameter to work in IE11
+import 'classlist-polyfill';
+
+// Replaces all css variables (var(--my-var)) with actual values in
+// browsers which do not support css variables, like IE11
+import cssVars from 'css-vars-ponyfill';
+cssVars();
 
 import 'intersection-observer/intersection-observer';
+
+import '../application';
 
 document.addEventListener('DOMContentLoaded', () => {
   /**
@@ -64,14 +81,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  [].slice.call(document.querySelectorAll('.statement-detail')).forEach(function(statementDetail) {
-    var blockquote = statementDetail.querySelector('.statement-content > blockquote');
+  [].slice
+    .call(document.querySelectorAll('.container-statement-show'))
+    .forEach(function(statementDetail) {
+      var blockquote = statementDetail.querySelector('.statement-content > blockquote');
 
-    // 63px means that the quote is one-liner
-    if (blockquote.clientHeight === 63) {
-      statementDetail.classList.add('oneliner-statement');
-    }
-  });
+      // 63px means that the quote is one-liner
+      if (blockquote.clientHeight === 63) {
+        statementDetail.classList.add('oneliner-statement');
+      }
+    });
 
   /**
    * Render images if they are in the view port

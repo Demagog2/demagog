@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 20. dubna 2019
+- Změněno: Veřejná část webu Demagog.cz už se dobře zobrazuje i v IE11 ([#358](https://github.com/Demagog2/demagog/pull/358))
+
 ## 18. března 2019
 - Změněno: Deaktivovaný uživatel je okamžitě odhlášen ([#350](https://github.com/Demagog2/demagog/pull/350))
 - Změněno: Omezen přístup k diskuzím pro veřejnost skrz GraphQL tak, abychom neleakovali interní data ([#349](https://github.com/Demagog2/demagog/pull/349))

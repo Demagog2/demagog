@@ -1,0 +1,30 @@
+<% content_for(:title, "Programové prohlášení Sobotkovy vlády") %>
+
+<article class="detail">
+  <section class="intro">
+    <h1>Programové prohlášení Sobotkovy vlády</h1>
+    <p class="lead">
+      Se zvýrazněnými sliby, které Demagog.cz ověřil v&nbsp;rámci
+      <a href="/sliby-sobotkovy-vlady">analýzy slibů Sobotkovy vlády</a>.
+      Zdroj dokumentu:
+      <a href="https://www.vlada.cz/assets/media-centrum/dulezite-dokumenty/programove_prohlaseni_unor_2014.pdf">webové stránky vlády (.pdf)</a>.
+    </p>
+  </section>
+</article>
+
+<%= content_tag :div, id: "promises-document-app-root", data: { promises: @promises } do %>
+<% end %>
+
+<style>
+  #promises-document-app-root {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-column-gap: var(--gap);
+  }
+</style>
+
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag 'promises', media: 'all', 'data-turbolinks-track': 'reload' %>
+<% end %>
+<%= javascript_pack_tag 'promises-document'  %>

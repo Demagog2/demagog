@@ -5,7 +5,7 @@
     <% end %>
   </a>
 
-  <div>
+  <div class="rest">
     <div class="speakers">
         <% for speaker in article.unique_speakers %>
           <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
