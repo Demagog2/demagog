@@ -1,134 +1,156 @@
 import gql from 'graphql-tag';
 
 export const CreateMediaPersonality = gql`
-  mutation CreateMediaPersonality($mediaPersonalityInput: MediaPersonalityInputType!) {
-    createMediaPersonality(media_personality_input: $mediaPersonalityInput) {
-      id
-      name
+  mutation CreateMediaPersonality($mediaPersonalityInput: MediaPersonalityInput!) {
+    createMediaPersonality(mediaPersonalityInput: $mediaPersonalityInput) {
+      mediaPersonality {
+        id
+        name
+      }
     }
   }
 `;
 
 export const UpdateMediaPersonality = gql`
-  mutation UpdateMediaPersonality($id: ID!, $mediaPersonalityInput: MediaPersonalityInputType!) {
-    updateMediaPersonality(id: $id, media_personality_input: $mediaPersonalityInput) {
-      id
-      name
+  mutation UpdateMediaPersonality($id: ID!, $mediaPersonalityInput: MediaPersonalityInput!) {
+    updateMediaPersonality(id: $id, mediaPersonalityInput: $mediaPersonalityInput) {
+      mediaPersonality {
+        id
+        name
+      }
     }
   }
 `;
 
 export const DeleteMediaPersonality = gql`
   mutation DeleteMediaPersonality($id: ID!) {
-    deleteMediaPersonality(id: $id)
+    deleteMediaPersonality(id: $id) {
+      id
+    }
   }
 `;
 
 export const CreateMedium = gql`
-  mutation CreateMedium($mediumInput: MediumInputType!) {
-    createMedium(medium_input: $mediumInput) {
-      id
-      name
+  mutation CreateMedium($mediumInput: MediumInput!) {
+    createMedium(mediumInput: $mediumInput) {
+      medium {
+        id
+        name
+      }
     }
   }
 `;
 
 export const UpdateMedium = gql`
-  mutation UpdateMedium($id: ID!, $mediumInput: MediumInputType!) {
-    updateMedium(id: $id, medium_input: $mediumInput) {
-      id
-      name
+  mutation UpdateMedium($id: ID!, $mediumInput: MediumInput!) {
+    updateMedium(id: $id, mediumInput: $mediumInput) {
+      medium {
+        id
+        name
+      }
     }
   }
 `;
 
 export const DeleteMedium = gql`
   mutation DeleteMedium($id: ID!) {
-    deleteMedium(id: $id)
+    deleteMedium(id: $id) {
+      id
+    }
   }
 `;
 
 export const CreatePage = gql`
-  mutation CreatePage($pageInput: PageInputType!) {
-    createPage(page_input: $pageInput) {
-      id
-      title
-      slug
-      published
-      text_html
-      text_slatejson
+  mutation CreatePage($pageInput: PageInput!) {
+    createPage(pageInput: $pageInput) {
+      page {
+        id
+        title
+        slug
+        published
+        textHtml
+        textSlatejson
+      }
     }
   }
 `;
 
 export const UpdatePage = gql`
-  mutation UpdatePage($id: ID!, $pageInput: PageInputType!) {
-    updatePage(id: $id, page_input: $pageInput) {
-      id
-      title
-      slug
-      published
-      text_html
-      text_slatejson
+  mutation UpdatePage($id: ID!, $pageInput: PageInput!) {
+    updatePage(id: $id, pageInput: $pageInput) {
+      page {
+        id
+        title
+        slug
+        published
+        textHtml
+        textSlatejson
+      }
     }
   }
 `;
 
 export const DeletePage = gql`
   mutation DeletePage($id: ID!) {
-    deletePage(id: $id)
+    deletePage(id: $id) {
+      id
+    }
   }
 `;
 
 export const CreateArticle = gql`
-  mutation CreateArticle($articleInput: ArticleInputType!) {
-    createArticle(article_input: $articleInput) {
-      id
-      article_type
-      title
-      slug
-      perex
-      published
-      published_at
-      illustration
-      segments {
+  mutation CreateArticle($articleInput: ArticleInput!) {
+    createArticle(articleInput: $articleInput) {
+      article {
         id
-        segment_type
-        text_html
-        text_slatejson
-        statements {
+        articleType
+        title
+        slug
+        perex
+        published
+        publishedAt
+        illustration
+        segments {
+          id
+          segmentType
+          textHtml
+          textSlatejson
+          statements {
+            id
+          }
+        }
+        source {
           id
         }
-      }
-      source {
-        id
       }
     }
   }
 `;
 
 export const UpdateArticle = gql`
-  mutation UpdateArticle($id: ID!, $articleInput: ArticleInputType!) {
-    updateArticle(id: $id, article_input: $articleInput) {
-      id
-      article_type
-      title
-      slug
-      perex
-      published
-      published_at
-      illustration
-      segments {
+  mutation UpdateArticle($id: ID!, $articleInput: ArticleInput!) {
+    updateArticle(id: $id, articleInput: $articleInput) {
+      article {
         id
-        segment_type
-        text_html
-        text_slatejson
-        statements {
+        articleType
+        title
+        slug
+        perex
+        published
+        publishedAt
+        illustration
+        segments {
+          id
+          segmentType
+          textHtml
+          textSlatejson
+          statements {
+            id
+          }
+        }
+        source {
           id
         }
-      }
-      source {
-        id
       }
     }
   }
@@ -136,115 +158,133 @@ export const UpdateArticle = gql`
 
 export const DeleteArticle = gql`
   mutation DeleteArticle($id: ID!) {
-    deleteArticle(id: $id)
+    deleteArticle(id: $id) {
+      id
+    }
   }
 `;
 
 export const CreateSource = gql`
-  mutation CreateSource($sourceInput: SourceInputType!) {
-    createSource(source_input: $sourceInput) {
-      id
-      name
+  mutation CreateSource($sourceInput: SourceInput!) {
+    createSource(sourceInput: $sourceInput) {
+      source {
+        id
+        name
+      }
     }
   }
 `;
 
 export const UpdateSource = gql`
-  mutation UpdateSource($id: Int!, $sourceInput: SourceInputType!) {
-    updateSource(id: $id, source_input: $sourceInput) {
-      id
-      name
+  mutation UpdateSource($id: ID!, $sourceInput: SourceInput!) {
+    updateSource(id: $id, sourceInput: $sourceInput) {
+      source {
+        id
+        name
+      }
     }
   }
 `;
 
 export const DeleteSource = gql`
   mutation DeleteSource($id: ID!) {
-    deleteSource(id: $id)
+    deleteSource(id: $id) {
+      id
+    }
   }
 `;
 
 export const CreateBody = gql`
-  mutation CreateBody($bodyInput: BodyInputType!) {
-    createBody(body_input: $bodyInput) {
-      id
-      logo
-      name
-      is_party
-      is_inactive
-      short_name
-      link
-      founded_at
-      terminated_at
+  mutation CreateBody($bodyInput: BodyInput!) {
+    createBody(bodyInput: $bodyInput) {
+      body {
+        id
+        logo
+        name
+        isParty
+        isInactive
+        shortName
+        link
+        foundedAt
+        terminatedAt
+      }
     }
   }
 `;
 
 export const UpdateBody = gql`
-  mutation UpdateBody($id: Int!, $bodyInput: BodyInputType!) {
-    updateBody(id: $id, body_input: $bodyInput) {
-      id
-      logo
-      name
-      is_party
-      is_inactive
-      short_name
-      link
-      founded_at
-      terminated_at
+  mutation UpdateBody($id: Int!, $bodyInput: BodyInput!) {
+    updateBody(id: $id, bodyInput: $bodyInput) {
+      body {
+        id
+        logo
+        name
+        isParty
+        isInactive
+        shortName
+        link
+        foundedAt
+        terminatedAt
+      }
     }
   }
 `;
 
 export const DeleteBody = gql`
   mutation DeleteBody($id: ID!) {
-    deleteBody(id: $id)
+    deleteBody(id: $id) {
+      id
+    }
   }
 `;
 
 export const CreateSpeaker = gql`
-  mutation CreateSpeaker($speakerInput: SpeakerInputType!) {
-    createSpeaker(speaker_input: $speakerInput) {
-      id
-      first_name
-      last_name
-      avatar
-      website_url
-      body {
-        short_name
-      }
-      memberships {
+  mutation CreateSpeaker($speakerInput: SpeakerInput!) {
+    createSpeaker(speakerInput: $speakerInput) {
+      speaker {
         id
+        firstName
+        lastName
+        avatar
+        websiteUrl
         body {
-          id
-          short_name
+          shortName
         }
-        since
-        until
+        memberships {
+          id
+          body {
+            id
+            shortName
+          }
+          since
+          until
+        }
       }
     }
   }
 `;
 
 export const UpdateSpeaker = gql`
-  mutation UpdateSpeaker($id: Int!, $speakerInput: SpeakerInputType!) {
-    updateSpeaker(id: $id, speaker_input: $speakerInput) {
-      id
-      first_name
-      last_name
-      avatar
-      website_url
-      body {
-        short_name
-      }
-      memberships {
+  mutation UpdateSpeaker($id: ID!, $speakerInput: SpeakerInput!) {
+    updateSpeaker(id: $id, speakerInput: $speakerInput) {
+      speaker {
         id
+        firstName
+        lastName
+        avatar
+        websiteUrl
         body {
-          id
-          short_name
+          shortName
         }
-        since
-        until
+        memberships {
+          id
+          body {
+            id
+            shortName
+          }
+          since
+          until
+        }
       }
     }
   }
@@ -252,47 +292,53 @@ export const UpdateSpeaker = gql`
 
 export const DeleteSpeaker = gql`
   mutation DeleteSpeaker($id: ID!) {
-    deleteSpeaker(id: $id)
+    deleteSpeaker(id: $id) {
+      id
+    }
   }
 `;
 
 export const CreateUser = gql`
-  mutation CreateUser($userInput: UserInputType!) {
-    createUser(user_input: $userInput) {
-      id
-      first_name
-      last_name
-      email
-      avatar
-      active
-      position_description
-      bio
-      email_notifications
-      user_public
-      role {
+  mutation CreateUser($userInput: UserInput!) {
+    createUser(userInput: $userInput) {
+      user {
         id
-        name
+        firstName
+        lastName
+        email
+        avatar
+        active
+        positionDescription
+        bio
+        emailNotifications
+        userPublic
+        role {
+          id
+          name
+        }
       }
     }
   }
 `;
 
 export const UpdateUser = gql`
-  mutation UpdateUser($id: Int!, $userInput: UserInputType!) {
-    updateUser(id: $id, user_input: $userInput) {
-      id
-      first_name
-      last_name
-      email
-      avatar
-      active
-      position_description
-      bio
-      email_notifications
-      user_public
-      role {
+  mutation UpdateUser($id: Int!, $userInput: UserInput!) {
+    updateUser(id: $id, userInput: $userInput) {
+      user {
         id
-        name
+        firstName
+        lastName
+        email
+        avatar
+        active
+        positionDescription
+        bio
+        emailNotifications
+        userPublic
+        role {
+          id
+          name
+        }
       }
     }
   }
@@ -300,55 +346,63 @@ export const UpdateUser = gql`
 
 export const UpdateUserPublicity = gql`
   mutation UpdateUserPublicity($id: Int!, $userPublicity: Boolean!) {
-    updateUserPublicity(id: $id, user_public: $userPublicity) {
-      id
-      first_name
-      last_name
-      email
-      avatar
-      active
-      position_description
-      bio
-      email_notifications
-      user_public
-      role {
+    updateUserPublicity(id: $id, userPublic: $userPublicity) {
+      user {
         id
-        name
+        firstName
+        lastName
+        email
+        avatar
+        active
+        positionDescription
+        bio
+        emailNotifications
+        userPublic
+        role {
+          id
+          name
+        }
       }
     }
   }
 `;
 
 export const UpdateUsersRank = gql`
-  mutation UpdateUsersRank($input: UpdateUsersRankInputType!) {
-    updateUsersRank(input: $input) {
-      id
-      rank
+  mutation UpdateUsersRank($orderedUserIds: [ID!]!) {
+    updateUsersRank(orderedUserIds: $orderedUserIds) {
+      users {
+        id
+        rank
+      }
     }
   }
 `;
 
 export const DeleteUser = gql`
   mutation DeleteUser($id: ID!) {
-    deleteUser(id: $id)
+    deleteUser(id: $id) {
+      id
+    }
   }
 `;
 
 export const CreateStatement = gql`
-  mutation CreateStatement($statementInput: CreateStatementInputType!) {
-    createStatement(statement_input: $statementInput) {
-      id
-      content
-      excerpted_at
-      important
-      speaker {
+  mutation CreateStatement($statementInput: CreateStatementInput!) {
+    createStatement(statementInput: $statementInput) {
+      statement {
         id
-      }
-      source {
-        id
-        statements_counts_by_evaluation_status {
-          evaluation_status
-          statements_count
+        content
+        excerptedAt
+        important
+        speaker {
+          id
+        }
+        source {
+          id
+          statementsCountsByEvaluationStatus {
+            evaluationStatus
+            statementsCount
+          }
         }
       }
     }
@@ -356,73 +410,81 @@ export const CreateStatement = gql`
 `;
 
 export const UpdateStatement = gql`
-  mutation UpdateStatement($id: Int!, $statementInput: UpdateStatementInputType!) {
-    updateStatement(id: $id, statement_input: $statementInput) {
-      id
-      content
-      important
-      published
-      excerpted_at
-      speaker {
+  mutation UpdateStatement($id: Int!, $statementInput: UpdateStatementInput!) {
+    updateStatement(id: $id, statementInput: $statementInput) {
+      statement {
         id
-        first_name
-        last_name
-        avatar
-      }
-      assessment {
-        id
-        short_explanation
-        explanation_html
-        explanation_slatejson
-        evaluation_status
-        evaluator {
+        content
+        important
+        published
+        excerptedAt
+        speaker {
           id
-          first_name
-          last_name
+          firstName
+          lastName
+          avatar
         }
-        veracity {
+        assessment {
           id
-          key
-          name
+          shortExplanation
+          explanationHtml
+          explanationSlatejson
+          evaluationStatus
+          evaluator {
+            id
+            firstName
+            lastName
+          }
+          veracity {
+            id
+            key
+            name
+          }
         }
-      }
-      source {
-        id
-        statements_counts_by_evaluation_status {
-          evaluation_status
-          statements_count
+        source {
+          id
+          statementsCountsByEvaluationStatus {
+            evaluationStatus
+            statementsCount
+          }
         }
+        commentsCount
       }
-      comments_count
     }
   }
 `;
 
 export const DeleteStatement = gql`
   mutation DeleteStatement($id: ID!) {
-    deleteStatement(id: $id)
+    deleteStatement(id: $id) {
+      id
+    }
   }
 `;
 
 export const CreateComment = gql`
-  mutation CreateComment($commentInput: CommentInputType!) {
-    createComment(comment_input: $commentInput) {
-      id
-      content
-      user {
+  mutation CreateComment($commentInput: CommentInput!) {
+    createComment(commentInput: $commentInput) {
+      comment {
         id
-        first_name
-        last_name
+        content
+        user {
+          id
+          firstName
+          lastName
+        }
+        createdAt
       }
-      created_at
     }
   }
 `;
 
 export const UpdateSourceStatementsOrder = gql`
-  mutation UpdateSourceStatementsOrder($id: ID!, $input: UpdateSourceStatementsOrderInputType!) {
+  mutation UpdateSourceStatementsOrder($id: ID!, $input: UpdateSourceStatementsOrderInput!) {
     updateSourceStatementsOrder(id: $id, input: $input) {
-      id
+      source {
+        id
+      }
     }
   }
 `;
@@ -430,10 +492,12 @@ export const UpdateSourceStatementsOrder = gql`
 export const PublishApprovedSourceStatements = gql`
   mutation PublishApprovedSourceStatements($id: ID!) {
     publishApprovedSourceStatements(id: $id) {
-      id
-      statements {
+      source {
         id
-        published
+        statements {
+          id
+          published
+        }
       }
     }
   }
@@ -441,15 +505,19 @@ export const PublishApprovedSourceStatements = gql`
 
 export const DeleteContentImage = gql`
   mutation DeleteContentImage($id: ID!) {
-    deleteContentImage(id: $id)
+    deleteContentImage(id: $id) {
+      id
+    }
   }
 `;
 
 export const UpdateNotification = gql`
-  mutation UpdateNotification($id: ID!, $input: UpdateNotificationInputType!) {
+  mutation UpdateNotification($id: ID!, $input: UpdateNotificationInput!) {
     updateNotification(id: $id, input: $input) {
-      id
-      read_at
+      notification {
+        id
+        readAt
+      }
     }
   }
 `;
@@ -457,8 +525,10 @@ export const UpdateNotification = gql`
 export const MarkUnreadNotificationsAsRead = gql`
   mutation MarkUnreadNotificationsAsRead {
     markUnreadNotificationsAsRead {
-      id
-      read_at
+      notifications {
+        id
+        readAt
+      }
     }
   }
 `;

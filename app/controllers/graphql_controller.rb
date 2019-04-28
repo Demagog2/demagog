@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class GraphqlController < ApplicationController
+  protect_from_forgery except: :execute
+
   def execute
     variables = ensure_hash(params[:variables])
     query = params[:query]

@@ -32,7 +32,7 @@
         {
           "kind": "OBJECT",
           "name": "Query",
-          "description": null,
+          "description": "The query root of this schema",
           "fields": [
             {
               "name": "article",
@@ -59,7 +59,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "include_unpublished",
+                  "name": "includeUnpublished",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -116,7 +116,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "include_unpublished",
+                  "name": "includeUnpublished",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -171,7 +171,7 @@
                   "defaultValue": "0"
                 },
                 {
-                  "name": "is_party",
+                  "name": "isParty",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -259,7 +259,7 @@
               "deprecationReason": null
             },
             {
-              "name": "content_images",
+              "name": "contentImages",
               "description": null,
               "args": [
                 {
@@ -306,7 +306,7 @@
               "deprecationReason": null
             },
             {
-              "name": "current_user",
+              "name": "currentUser",
               "description": null,
               "args": [],
               "type": {
@@ -357,7 +357,7 @@
               "deprecationReason": null
             },
             {
-              "name": "media_personalities",
+              "name": "mediaPersonalities",
               "description": null,
               "args": [
                 {
@@ -392,7 +392,7 @@
               "deprecationReason": null
             },
             {
-              "name": "media_personality",
+              "name": "mediaPersonality",
               "description": null,
               "args": [
                 {
@@ -478,7 +478,7 @@
                   "defaultValue": "10"
                 },
                 {
-                  "name": "include_read",
+                  "name": "includeRead",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -525,7 +525,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "include_unpublished",
+                  "name": "includeUnpublished",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -582,7 +582,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "include_unpublished",
+                  "name": "includeUnpublished",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -638,12 +638,20 @@
                 }
               ],
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Party",
-                  "ofType": null
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Party",
+                      "ofType": null
+                    }
+                  }
                 }
               },
               "isDeprecated": true,
@@ -770,7 +778,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "include_ones_without_published_statements",
+                  "name": "includeOnesWithoutPublishedStatements",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -925,7 +933,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "include_unpublished",
+                  "name": "includeUnpublished",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -1002,7 +1010,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "include_unpublished",
+                  "name": "includeUnpublished",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -1040,13 +1048,9 @@
                   "name": "id",
                   "description": null,
                   "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "Int",
-                      "ofType": null
-                    }
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
                   },
                   "defaultValue": null
                 }
@@ -1098,7 +1102,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "include_inactive",
+                  "name": "includeInactive",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -1182,7 +1186,7 @@
           "description": null,
           "fields": [
             {
-              "name": "image_server_url",
+              "name": "imageServerUrl",
               "description": null,
               "args": [],
               "type": {
@@ -1237,7 +1241,7 @@
               "deprecationReason": null
             },
             {
-              "name": "media_personalities",
+              "name": "mediaPersonalities",
               "description": null,
               "args": [],
               "type": {
@@ -1293,7 +1297,7 @@
               "deprecationReason": null
             },
             {
-              "name": "released_at",
+              "name": "releasedAt",
               "description": null,
               "args": [],
               "type": {
@@ -1309,7 +1313,7 @@
               "deprecationReason": null
             },
             {
-              "name": "source_url",
+              "name": "sourceUrl",
               "description": null,
               "args": [],
               "type": {
@@ -1349,7 +1353,7 @@
               "description": null,
               "args": [
                 {
-                  "name": "include_unpublished",
+                  "name": "includeUnpublished",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -1380,24 +1384,16 @@
               "deprecationReason": null
             },
             {
-              "name": "statements_counts_by_evaluation_status",
+              "name": "statementsCountsByEvaluationStatus",
               "description": null,
               "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "StatementsCountsByEvaluationStatusItemType",
-                      "ofType": null
-                    }
-                  }
+                  "kind": "OBJECT",
+                  "name": "StatementsCountsByEvaluationStatusItem",
+                  "ofType": null
                 }
               },
               "isDeprecated": false,
@@ -1523,7 +1519,7 @@
           "description": null,
           "fields": [
             {
-              "name": "after_name",
+              "name": "afterName",
               "description": null,
               "args": [],
               "type": {
@@ -1551,7 +1547,7 @@
               "deprecationReason": null
             },
             {
-              "name": "before_name",
+              "name": "beforeName",
               "description": null,
               "args": [],
               "type": {
@@ -1595,7 +1591,7 @@
               "deprecationReason": null
             },
             {
-              "name": "first_name",
+              "name": "firstName",
               "description": null,
               "args": [],
               "type": {
@@ -1611,6 +1607,22 @@
               "deprecationReason": null
             },
             {
+              "name": "first_name",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": true,
+              "deprecationReason": "switch to camelCase version"
+            },
+            {
               "name": "id",
               "description": null,
               "args": [],
@@ -1620,6 +1632,22 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "lastName",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
                   "ofType": null
                 }
               },
@@ -1639,8 +1667,8 @@
                   "ofType": null
                 }
               },
-              "isDeprecated": false,
-              "deprecationReason": null
+              "isDeprecated": true,
+              "deprecationReason": "switch to camelCase version"
             },
             {
               "name": "memberships",
@@ -1668,19 +1696,15 @@
                 }
               ],
               "type": {
-                "kind": "NON_NULL",
+                "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "LIST",
+                  "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "Membership",
-                      "ofType": null
-                    }
+                    "kind": "OBJECT",
+                    "name": "Membership",
+                    "ofType": null
                   }
                 }
               },
@@ -1753,9 +1777,13 @@
                   "kind": "LIST",
                   "name": null,
                   "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Statement",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Statement",
+                      "ofType": null
+                    }
                   }
                 }
               },
@@ -1775,7 +1803,7 @@
               "deprecationReason": null
             },
             {
-              "name": "website_url",
+              "name": "websiteUrl",
               "description": null,
               "args": [],
               "type": {
@@ -1842,7 +1870,7 @@
               "deprecationReason": null
             },
             {
-              "name": "comments_count",
+              "name": "commentsCount",
               "description": null,
               "args": [],
               "type": {
@@ -1874,7 +1902,7 @@
               "deprecationReason": null
             },
             {
-              "name": "count_in_statistics",
+              "name": "countInStatistics",
               "description": null,
               "args": [],
               "type": {
@@ -1890,7 +1918,7 @@
               "deprecationReason": null
             },
             {
-              "name": "excerpted_at",
+              "name": "excerptedAt",
               "description": null,
               "args": [],
               "type": {
@@ -1970,7 +1998,7 @@
               "deprecationReason": null
             },
             {
-              "name": "source_order",
+              "name": "sourceOrder",
               "description": null,
               "args": [],
               "type": {
@@ -1998,7 +2026,7 @@
               "deprecationReason": null
             },
             {
-              "name": "statement_transcript_position",
+              "name": "statementTranscriptPosition",
               "description": null,
               "args": [],
               "type": {
@@ -2031,7 +2059,7 @@
           "description": null,
           "fields": [
             {
-              "name": "end_line",
+              "name": "endLine",
               "description": null,
               "args": [],
               "type": {
@@ -2047,7 +2075,7 @@
               "deprecationReason": null
             },
             {
-              "name": "end_offset",
+              "name": "endOffset",
               "description": null,
               "args": [],
               "type": {
@@ -2095,7 +2123,7 @@
               "deprecationReason": null
             },
             {
-              "name": "start_line",
+              "name": "startLine",
               "description": null,
               "args": [],
               "type": {
@@ -2111,7 +2139,7 @@
               "deprecationReason": null
             },
             {
-              "name": "start_offset",
+              "name": "startOffset",
               "description": null,
               "args": [],
               "type": {
@@ -2154,7 +2182,7 @@
           "description": null,
           "fields": [
             {
-              "name": "evaluation_status",
+              "name": "evaluationStatus",
               "description": null,
               "args": [],
               "type": {
@@ -2194,7 +2222,7 @@
               "deprecationReason": null
             },
             {
-              "name": "explanation_characters_length",
+              "name": "explanationCharactersLength",
               "description": null,
               "args": [],
               "type": {
@@ -2210,7 +2238,7 @@
               "deprecationReason": null
             },
             {
-              "name": "explanation_html",
+              "name": "explanationHtml",
               "description": null,
               "args": [],
               "type": {
@@ -2222,7 +2250,7 @@
               "deprecationReason": null
             },
             {
-              "name": "explanation_slatejson",
+              "name": "explanationSlatejson",
               "description": null,
               "args": [],
               "type": {
@@ -2250,7 +2278,7 @@
               "deprecationReason": null
             },
             {
-              "name": "short_explanation",
+              "name": "shortExplanation",
               "description": null,
               "args": [],
               "type": {
@@ -2262,7 +2290,7 @@
               "deprecationReason": null
             },
             {
-              "name": "short_explanation_characters_length",
+              "name": "shortExplanationCharactersLength",
               "description": null,
               "args": [],
               "type": {
@@ -2357,7 +2385,7 @@
               "deprecationReason": null
             },
             {
-              "name": "created_at",
+              "name": "createdAt",
               "description": null,
               "args": [],
               "type": {
@@ -2389,7 +2417,7 @@
               "deprecationReason": null
             },
             {
-              "name": "email_notifications",
+              "name": "emailNotifications",
               "description": null,
               "args": [],
               "type": {
@@ -2405,7 +2433,7 @@
               "deprecationReason": null
             },
             {
-              "name": "first_name",
+              "name": "firstName",
               "description": null,
               "args": [],
               "type": {
@@ -2437,7 +2465,7 @@
               "deprecationReason": null
             },
             {
-              "name": "last_name",
+              "name": "lastName",
               "description": null,
               "args": [],
               "type": {
@@ -2477,7 +2505,7 @@
               "deprecationReason": null
             },
             {
-              "name": "position_description",
+              "name": "positionDescription",
               "description": null,
               "args": [],
               "type": {
@@ -2517,7 +2545,7 @@
               "deprecationReason": null
             },
             {
-              "name": "updated_at",
+              "name": "updatedAt",
               "description": null,
               "args": [],
               "type": {
@@ -2529,7 +2557,7 @@
               "deprecationReason": null
             },
             {
-              "name": "user_public",
+              "name": "userPublic",
               "description": null,
               "args": [],
               "type": {
@@ -2670,9 +2698,13 @@
                   "kind": "LIST",
                   "name": null,
                   "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Assessment",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Assessment",
+                      "ofType": null
+                    }
                   }
                 }
               },
@@ -2775,7 +2807,7 @@
               "deprecationReason": null
             },
             {
-              "name": "created_at",
+              "name": "createdAt",
               "description": null,
               "args": [],
               "type": {
@@ -2927,7 +2959,7 @@
           "description": null,
           "fields": [
             {
-              "name": "founded_at",
+              "name": "foundedAt",
               "description": null,
               "args": [],
               "type": {
@@ -2955,7 +2987,7 @@
               "deprecationReason": null
             },
             {
-              "name": "is_inactive",
+              "name": "isInactive",
               "description": null,
               "args": [],
               "type": {
@@ -2971,7 +3003,7 @@
               "deprecationReason": null
             },
             {
-              "name": "is_party",
+              "name": "isParty",
               "description": null,
               "args": [],
               "type": {
@@ -2987,7 +3019,7 @@
               "deprecationReason": null
             },
             {
-              "name": "legacy_logo",
+              "name": "legacyLogo",
               "description": null,
               "args": [],
               "type": {
@@ -3054,9 +3086,13 @@
                   "kind": "LIST",
                   "name": null,
                   "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Speaker",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Speaker",
+                      "ofType": null
+                    }
                   }
                 }
               },
@@ -3080,7 +3116,7 @@
               "deprecationReason": null
             },
             {
-              "name": "short_name",
+              "name": "shortName",
               "description": null,
               "args": [],
               "type": {
@@ -3092,7 +3128,19 @@
               "deprecationReason": null
             },
             {
-              "name": "terminated_at",
+              "name": "short_name",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": true,
+              "deprecationReason": "switch to camelCase version"
+            },
+            {
+              "name": "terminatedAt",
               "description": null,
               "args": [],
               "type": {
@@ -3178,9 +3226,13 @@
                   "kind": "LIST",
                   "name": null,
                   "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Speaker",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Speaker",
+                      "ofType": null
+                    }
                   }
                 }
               },
@@ -3204,7 +3256,7 @@
               "deprecationReason": null
             },
             {
-              "name": "short_name",
+              "name": "shortName",
               "description": null,
               "args": [],
               "type": {
@@ -3282,11 +3334,11 @@
         },
         {
           "kind": "OBJECT",
-          "name": "StatementsCountsByEvaluationStatusItemType",
+          "name": "StatementsCountsByEvaluationStatusItem",
           "description": null,
           "fields": [
             {
-              "name": "evaluation_status",
+              "name": "evaluationStatus",
               "description": null,
               "args": [],
               "type": {
@@ -3302,7 +3354,7 @@
               "deprecationReason": null
             },
             {
-              "name": "statements_count",
+              "name": "statementsCount",
               "description": null,
               "args": [],
               "type": {
@@ -3329,7 +3381,7 @@
           "description": null,
           "fields": [
             {
-              "name": "article_type",
+              "name": "articleType",
               "description": null,
               "args": [],
               "type": {
@@ -3345,16 +3397,20 @@
               "deprecationReason": null
             },
             {
-              "name": "debate_stats",
+              "name": "debateStats",
               "description": null,
               "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "ArticleSpeakerStats",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "ArticleSpeakerStats",
+                    "ofType": null
+                  }
                 }
               },
               "isDeprecated": false,
@@ -3417,7 +3473,7 @@
               "deprecationReason": null
             },
             {
-              "name": "published_at",
+              "name": "publishedAt",
               "description": null,
               "args": [],
               "type": {
@@ -3433,15 +3489,19 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "NON_NULL",
+                  "kind": "LIST",
                   "name": null,
                   "ofType": {
-                    "kind": "OBJECT",
-                    "name": "ArticleSegment",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "ArticleSegment",
+                      "ofType": null
+                    }
                   }
                 }
               },
@@ -3484,9 +3544,13 @@
                 "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Speaker",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Speaker",
+                    "ofType": null
+                  }
                 }
               },
               "isDeprecated": false,
@@ -3521,9 +3585,13 @@
                 "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Statement",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Statement",
+                    "ofType": null
+                  }
                 }
               },
               "isDeprecated": false,
@@ -3561,13 +3629,9 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Speaker",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "Speaker",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -3577,13 +3641,9 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Stats",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "Stats",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -3616,7 +3676,7 @@
               "deprecationReason": null
             },
             {
-              "name": "segment_type",
+              "name": "segmentType",
               "description": null,
               "args": [],
               "type": {
@@ -3668,7 +3728,7 @@
               "deprecationReason": null
             },
             {
-              "name": "text_html",
+              "name": "textHtml",
               "description": null,
               "args": [],
               "type": {
@@ -3680,7 +3740,7 @@
               "deprecationReason": null
             },
             {
-              "name": "text_slatejson",
+              "name": "textSlatejson",
               "description": null,
               "args": [],
               "type": {
@@ -3751,7 +3811,7 @@
               "deprecationReason": null
             },
             {
-              "name": "text_html",
+              "name": "textHtml",
               "description": null,
               "args": [],
               "type": {
@@ -3763,7 +3823,7 @@
               "deprecationReason": null
             },
             {
-              "name": "text_slatejson",
+              "name": "textSlatejson",
               "description": null,
               "args": [],
               "type": {
@@ -3826,7 +3886,7 @@
               "deprecationReason": null
             },
             {
-              "name": "total_count",
+              "name": "totalCount",
               "description": null,
               "args": [],
               "type": {
@@ -3853,7 +3913,7 @@
           "description": null,
           "fields": [
             {
-              "name": "action_link",
+              "name": "actionLink",
               "description": null,
               "args": [],
               "type": {
@@ -3869,7 +3929,7 @@
               "deprecationReason": null
             },
             {
-              "name": "action_text",
+              "name": "actionText",
               "description": null,
               "args": [],
               "type": {
@@ -3901,7 +3961,7 @@
               "deprecationReason": null
             },
             {
-              "name": "created_at",
+              "name": "createdAt",
               "description": null,
               "args": [],
               "type": {
@@ -3933,7 +3993,7 @@
               "deprecationReason": null
             },
             {
-              "name": "read_at",
+              "name": "readAt",
               "description": null,
               "args": [],
               "type": {
@@ -3996,7 +4056,7 @@
               "deprecationReason": null
             },
             {
-              "name": "total_count",
+              "name": "totalCount",
               "description": null,
               "args": [],
               "type": {
@@ -4023,7 +4083,7 @@
           "description": null,
           "fields": [
             {
-              "name": "created_at",
+              "name": "createdAt",
               "description": null,
               "args": [],
               "type": {
@@ -4071,7 +4131,7 @@
               "deprecationReason": null
             },
             {
-              "name": "image_50x50",
+              "name": "image50x50",
               "description": null,
               "args": [],
               "type": {
@@ -4130,14 +4190,14 @@
               "description": "Add new article",
               "args": [
                 {
-                  "name": "article_input",
+                  "name": "articleInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "ArticleInputType",
+                      "name": "ArticleInput",
                       "ofType": null
                     }
                   },
@@ -4146,7 +4206,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Article",
+                "name": "CreateArticlePayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4154,17 +4214,17 @@
             },
             {
               "name": "createBody",
-              "description": "Add new body",
+              "description": "Create new body",
               "args": [
                 {
-                  "name": "body_input",
+                  "name": "bodyInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "BodyInputType",
+                      "name": "BodyInput",
                       "ofType": null
                     }
                   },
@@ -4173,7 +4233,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Body",
+                "name": "CreateBodyPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4184,14 +4244,14 @@
               "description": "Add new comment",
               "args": [
                 {
-                  "name": "comment_input",
+                  "name": "commentInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "CommentInputType",
+                      "name": "CommentInput",
                       "ofType": null
                     }
                   },
@@ -4200,7 +4260,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Comment",
+                "name": "CreateCommentPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4211,14 +4271,14 @@
               "description": "Add new media personality",
               "args": [
                 {
-                  "name": "media_personality_input",
+                  "name": "mediaPersonalityInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "MediaPersonalityInputType",
+                      "name": "MediaPersonalityInput",
                       "ofType": null
                     }
                   },
@@ -4227,7 +4287,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "MediaPersonality",
+                "name": "CreateMediaPersonalityPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4238,14 +4298,14 @@
               "description": "Add new medium",
               "args": [
                 {
-                  "name": "medium_input",
+                  "name": "mediumInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "MediumInputType",
+                      "name": "MediumInput",
                       "ofType": null
                     }
                   },
@@ -4254,7 +4314,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Medium",
+                "name": "CreateMediumPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4265,14 +4325,14 @@
               "description": "Add new page",
               "args": [
                 {
-                  "name": "page_input",
+                  "name": "pageInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "PageInputType",
+                      "name": "PageInput",
                       "ofType": null
                     }
                   },
@@ -4281,7 +4341,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Page",
+                "name": "CreatePagePayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4292,14 +4352,14 @@
               "description": "Add new source",
               "args": [
                 {
-                  "name": "source_input",
+                  "name": "sourceInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "SourceInputType",
+                      "name": "SourceInput",
                       "ofType": null
                     }
                   },
@@ -4308,7 +4368,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Source",
+                "name": "CreateSourcePayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4319,14 +4379,14 @@
               "description": "Add new speaker",
               "args": [
                 {
-                  "name": "speaker_input",
+                  "name": "speakerInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "SpeakerInputType",
+                      "name": "SpeakerInput",
                       "ofType": null
                     }
                   },
@@ -4335,7 +4395,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Speaker",
+                "name": "CreateSpeakerPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4346,14 +4406,14 @@
               "description": "Add new statement",
               "args": [
                 {
-                  "name": "statement_input",
+                  "name": "statementInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "CreateStatementInputType",
+                      "name": "CreateStatementInput",
                       "ofType": null
                     }
                   },
@@ -4362,7 +4422,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Statement",
+                "name": "CreateStatementPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4373,14 +4433,14 @@
               "description": "Add new user",
               "args": [
                 {
-                  "name": "user_input",
+                  "name": "userInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "UserInputType",
+                      "name": "UserInput",
                       "ofType": null
                     }
                   },
@@ -4389,7 +4449,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "User",
+                "name": "CreateUserPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4415,13 +4475,9 @@
                 }
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "DeleteArticlePayload",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4446,13 +4502,9 @@
                 }
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "DeleteBodyPayload",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4477,13 +4529,9 @@
                 }
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "DeleteContentImagePayload",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4508,13 +4556,9 @@
                 }
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "DeleteMediaPersonalityPayload",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4539,13 +4583,9 @@
                 }
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "DeleteMediumPayload",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4570,20 +4610,16 @@
                 }
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "DeletePagePayload",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "deleteSource",
-              "description": "Delete existing source with all its statements",
+              "description": "Delete existing source and all it's statements",
               "args": [
                 {
                   "name": "id",
@@ -4601,13 +4637,9 @@
                 }
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "DeleteSourcePayload",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4632,13 +4664,9 @@
                 }
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "DeleteSpeakerPayload",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4663,13 +4691,9 @@
                 }
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "DeleteStatementPayload",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4694,13 +4718,9 @@
                 }
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "DeleteUserPayload",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4710,17 +4730,9 @@
               "description": "Mark all unread notifications of current user as read",
               "args": [],
               "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Notification",
-                    "ofType": null
-                  }
-                }
+                "kind": "OBJECT",
+                "name": "MarkUnreadNotificationsAsReadPayload",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4746,7 +4758,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Source",
+                "name": "PublishApprovedSourceStatementsPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4771,14 +4783,14 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "article_input",
+                  "name": "articleInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "ArticleInputType",
+                      "name": "ArticleInput",
                       "ofType": null
                     }
                   },
@@ -4787,7 +4799,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Article",
+                "name": "UpdateArticlePayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4812,14 +4824,14 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "body_input",
+                  "name": "bodyInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "BodyInputType",
+                      "name": "BodyInput",
                       "ofType": null
                     }
                   },
@@ -4828,7 +4840,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Body",
+                "name": "UpdateBodyPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4853,14 +4865,14 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "media_personality_input",
+                  "name": "mediaPersonalityInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "MediaPersonalityInputType",
+                      "name": "MediaPersonalityInput",
                       "ofType": null
                     }
                   },
@@ -4869,7 +4881,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "MediaPersonality",
+                "name": "UpdateMediaPersonalityPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4894,14 +4906,14 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "medium_input",
+                  "name": "mediumInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "MediumInputType",
+                      "name": "MediumInput",
                       "ofType": null
                     }
                   },
@@ -4910,7 +4922,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Medium",
+                "name": "UpdateMediumPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4918,7 +4930,7 @@
             },
             {
               "name": "updateNotification",
-              "description": "Update notification",
+              "description": "Update existing notification",
               "args": [
                 {
                   "name": "id",
@@ -4942,7 +4954,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "UpdateNotificationInputType",
+                      "name": "UpdateNotificationInput",
                       "ofType": null
                     }
                   },
@@ -4951,7 +4963,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Notification",
+                "name": "UpdateNotificationPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4976,14 +4988,14 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "page_input",
+                  "name": "pageInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "PageInputType",
+                      "name": "PageInput",
                       "ofType": null
                     }
                   },
@@ -4992,7 +5004,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Page",
+                "name": "UpdatePagePayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -5010,21 +5022,21 @@
                     "name": null,
                     "ofType": {
                       "kind": "SCALAR",
-                      "name": "Int",
+                      "name": "ID",
                       "ofType": null
                     }
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "source_input",
+                  "name": "sourceInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "SourceInputType",
+                      "name": "SourceInput",
                       "ofType": null
                     }
                   },
@@ -5033,7 +5045,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Source",
+                "name": "UpdateSourcePayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -5065,7 +5077,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "UpdateSourceStatementsOrderInputType",
+                      "name": "UpdateSourceStatementsOrderInput",
                       "ofType": null
                     }
                   },
@@ -5074,7 +5086,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Source",
+                "name": "UpdateSourceStatementsOrderPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -5092,21 +5104,21 @@
                     "name": null,
                     "ofType": {
                       "kind": "SCALAR",
-                      "name": "Int",
+                      "name": "ID",
                       "ofType": null
                     }
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "speaker_input",
+                  "name": "speakerInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "SpeakerInputType",
+                      "name": "SpeakerInput",
                       "ofType": null
                     }
                   },
@@ -5115,7 +5127,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Speaker",
+                "name": "UpdateSpeakerPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -5140,14 +5152,14 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "statement_input",
+                  "name": "statementInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "UpdateStatementInputType",
+                      "name": "UpdateStatementInput",
                       "ofType": null
                     }
                   },
@@ -5156,7 +5168,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Statement",
+                "name": "UpdateStatementPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -5181,14 +5193,14 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "user_input",
+                  "name": "userInput",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "UserInputType",
+                      "name": "UserInput",
                       "ofType": null
                     }
                   },
@@ -5197,7 +5209,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "User",
+                "name": "UpdateUserPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -5222,7 +5234,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "user_public",
+                  "name": "userPublic",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
@@ -5238,7 +5250,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "User",
+                "name": "UpdateUserPublicityPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -5249,31 +5261,58 @@
               "description": "Update rank (order of users on about us page)",
               "args": [
                 {
-                  "name": "input",
+                  "name": "orderedUserIds",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "UpdateUsersRankInputType",
-                      "ofType": null
+                      "kind": "LIST",
+                      "name": null,
+                      "ofType": {
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                          "kind": "SCALAR",
+                          "name": "ID",
+                          "ofType": null
+                        }
+                      }
                     }
                   },
                   "defaultValue": null
                 }
               ],
               "type": {
-                "kind": "LIST",
+                "kind": "OBJECT",
+                "name": "UpdateUsersRankPayload",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "CreateBodyPayload",
+          "description": "Autogenerated return type of CreateBody",
+          "fields": [
+            {
+              "name": "body",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "User",
-                    "ofType": null
-                  }
+                  "kind": "OBJECT",
+                  "name": "Body",
+                  "ofType": null
                 }
               },
               "isDeprecated": false,
@@ -5287,7 +5326,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "BodyInputType",
+          "name": "BodyInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -5306,7 +5345,7 @@
               "defaultValue": null
             },
             {
-              "name": "is_party",
+              "name": "isParty",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -5320,7 +5359,7 @@
               "defaultValue": null
             },
             {
-              "name": "is_inactive",
+              "name": "isInactive",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -5334,7 +5373,7 @@
               "defaultValue": null
             },
             {
-              "name": "short_name",
+              "name": "shortName",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -5354,7 +5393,7 @@
               "defaultValue": null
             },
             {
-              "name": "founded_at",
+              "name": "foundedAt",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -5364,7 +5403,7 @@
               "defaultValue": null
             },
             {
-              "name": "terminated_at",
+              "name": "terminatedAt",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -5379,13 +5418,94 @@
           "possibleTypes": null
         },
         {
+          "kind": "OBJECT",
+          "name": "UpdateBodyPayload",
+          "description": "Autogenerated return type of UpdateBody",
+          "fields": [
+            {
+              "name": "body",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Body",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "DeleteBodyPayload",
+          "description": "Autogenerated return type of DeleteBody",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "CreateSpeakerPayload",
+          "description": "Autogenerated return type of CreateSpeaker",
+          "fields": [
+            {
+              "name": "speaker",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Speaker",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "INPUT_OBJECT",
-          "name": "SpeakerInputType",
+          "name": "SpeakerInput",
           "description": null,
           "fields": null,
           "inputFields": [
             {
-              "name": "first_name",
+              "name": "firstName",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -5399,7 +5519,7 @@
               "defaultValue": null
             },
             {
-              "name": "last_name",
+              "name": "lastName",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -5413,7 +5533,7 @@
               "defaultValue": null
             },
             {
-              "name": "website_url",
+              "name": "websiteUrl",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -5436,7 +5556,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "MembershipInputType",
+                      "name": "MembershipInput",
                       "ofType": null
                     }
                   }
@@ -5451,7 +5571,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "MembershipInputType",
+          "name": "MembershipInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -5486,7 +5606,7 @@
               "defaultValue": null
             },
             {
-              "name": "body_id",
+              "name": "bodyId",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -5505,8 +5625,89 @@
           "possibleTypes": null
         },
         {
+          "kind": "OBJECT",
+          "name": "UpdateSpeakerPayload",
+          "description": "Autogenerated return type of UpdateSpeaker",
+          "fields": [
+            {
+              "name": "speaker",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Speaker",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "DeleteSpeakerPayload",
+          "description": "Autogenerated return type of DeleteSpeaker",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "CreateUserPayload",
+          "description": "Autogenerated return type of CreateUser",
+          "fields": [
+            {
+              "name": "user",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "User",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "INPUT_OBJECT",
-          "name": "UserInputType",
+          "name": "UserInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -5539,7 +5740,7 @@
               "defaultValue": null
             },
             {
-              "name": "first_name",
+              "name": "firstName",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -5553,7 +5754,7 @@
               "defaultValue": null
             },
             {
-              "name": "last_name",
+              "name": "lastName",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -5567,7 +5768,7 @@
               "defaultValue": null
             },
             {
-              "name": "role_id",
+              "name": "roleId",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -5581,7 +5782,7 @@
               "defaultValue": null
             },
             {
-              "name": "email_notifications",
+              "name": "emailNotifications",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -5595,7 +5796,7 @@
               "defaultValue": null
             },
             {
-              "name": "position_description",
+              "name": "positionDescription",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -5650,37 +5851,147 @@
           "possibleTypes": null
         },
         {
-          "kind": "INPUT_OBJECT",
-          "name": "UpdateUsersRankInputType",
-          "description": null,
-          "fields": null,
-          "inputFields": [
+          "kind": "OBJECT",
+          "name": "UpdateUserPayload",
+          "description": "Autogenerated return type of UpdateUser",
+          "fields": [
             {
-              "name": "ordered_user_ids",
+              "name": "user",
               "description": null,
+              "args": [],
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "NON_NULL",
+                  "kind": "OBJECT",
+                  "name": "User",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "DeleteUserPayload",
+          "description": "Autogenerated return type of DeleteUser",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "UpdateUserPublicityPayload",
+          "description": "Autogenerated return type of UpdateUserPublicity",
+          "fields": [
+            {
+              "name": "user",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "User",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "UpdateUsersRankPayload",
+          "description": "Autogenerated return type of UpdateUsersRank",
+          "fields": [
+            {
+              "name": "users",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
                   "name": null,
                   "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "User",
+                      "ofType": null
+                    }
                   }
                 }
               },
-              "defaultValue": null
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
-          "interfaces": null,
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "CreateMediaPersonalityPayload",
+          "description": "Autogenerated return type of CreateMediaPersonality",
+          "fields": [
+            {
+              "name": "mediaPersonality",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "MediaPersonality",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "MediaPersonalityInputType",
+          "name": "MediaPersonalityInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -5704,8 +6015,89 @@
           "possibleTypes": null
         },
         {
+          "kind": "OBJECT",
+          "name": "UpdateMediaPersonalityPayload",
+          "description": "Autogenerated return type of UpdateMediaPersonality",
+          "fields": [
+            {
+              "name": "mediaPersonality",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "MediaPersonality",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "DeleteMediaPersonalityPayload",
+          "description": "Autogenerated return type of DeleteMediaPersonality",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "CreateMediumPayload",
+          "description": "Autogenerated return type of CreateMedium",
+          "fields": [
+            {
+              "name": "medium",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Medium",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "INPUT_OBJECT",
-          "name": "MediumInputType",
+          "name": "MediumInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -5729,8 +6121,89 @@
           "possibleTypes": null
         },
         {
+          "kind": "OBJECT",
+          "name": "UpdateMediumPayload",
+          "description": "Autogenerated return type of UpdateMedium",
+          "fields": [
+            {
+              "name": "medium",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Medium",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "DeleteMediumPayload",
+          "description": "Autogenerated return type of DeleteMedium",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "CreateSourcePayload",
+          "description": "Autogenerated return type of CreateSource",
+          "fields": [
+            {
+              "name": "source",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Source",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "INPUT_OBJECT",
-          "name": "SourceInputType",
+          "name": "SourceInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -5749,7 +6222,7 @@
               "defaultValue": null
             },
             {
-              "name": "released_at",
+              "name": "releasedAt",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -5763,7 +6236,7 @@
               "defaultValue": null
             },
             {
-              "name": "source_url",
+              "name": "sourceUrl",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -5773,7 +6246,7 @@
               "defaultValue": null
             },
             {
-              "name": "medium_id",
+              "name": "mediumId",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -5787,7 +6260,7 @@
               "defaultValue": null
             },
             {
-              "name": "media_personalities",
+              "name": "mediaPersonalities",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -5845,7 +6318,7 @@
               "defaultValue": null
             },
             {
-              "name": "expert_id",
+              "name": "expertId",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -5860,8 +6333,89 @@
           "possibleTypes": null
         },
         {
+          "kind": "OBJECT",
+          "name": "UpdateSourcePayload",
+          "description": "Autogenerated return type of UpdateSource",
+          "fields": [
+            {
+              "name": "source",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Source",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "DeleteSourcePayload",
+          "description": "Autogenerated return type of DeleteSource",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "CreateStatementPayload",
+          "description": "Autogenerated return type of CreateStatement",
+          "fields": [
+            {
+              "name": "statement",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Statement",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "INPUT_OBJECT",
-          "name": "CreateStatementInputType",
+          "name": "CreateStatementInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -5880,7 +6434,7 @@
               "defaultValue": null
             },
             {
-              "name": "excerpted_at",
+              "name": "excerptedAt",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -5908,7 +6462,7 @@
               "defaultValue": null
             },
             {
-              "name": "speaker_id",
+              "name": "speakerId",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -5922,7 +6476,7 @@
               "defaultValue": null
             },
             {
-              "name": "source_id",
+              "name": "sourceId",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -5950,7 +6504,7 @@
               "defaultValue": null
             },
             {
-              "name": "count_in_statistics",
+              "name": "countInStatistics",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -5971,24 +6525,24 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "CreateAssessmentInputType",
+                  "name": "CreateAssessmentInput",
                   "ofType": null
                 }
               },
               "defaultValue": null
             },
             {
-              "name": "statement_transcript_position",
+              "name": "statementTranscriptPosition",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "StatementTranscriptPositionInputType",
+                "name": "StatementTranscriptPositionInput",
                 "ofType": null
               },
               "defaultValue": null
             },
             {
-              "name": "first_comment_content",
+              "name": "firstCommentContent",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -6004,12 +6558,12 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "CreateAssessmentInputType",
+          "name": "CreateAssessmentInput",
           "description": null,
           "fields": null,
           "inputFields": [
             {
-              "name": "evaluator_id",
+              "name": "evaluatorId",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -6019,7 +6573,7 @@
               "defaultValue": null
             },
             {
-              "name": "explanation",
+              "name": "shortExplanation",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -6029,7 +6583,7 @@
               "defaultValue": null
             },
             {
-              "name": "veracity_id",
+              "name": "veracityId",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -6045,12 +6599,12 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "StatementTranscriptPositionInputType",
+          "name": "StatementTranscriptPositionInput",
           "description": null,
           "fields": null,
           "inputFields": [
             {
-              "name": "start_line",
+              "name": "startLine",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -6064,7 +6618,7 @@
               "defaultValue": null
             },
             {
-              "name": "start_offset",
+              "name": "startOffset",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -6078,7 +6632,7 @@
               "defaultValue": null
             },
             {
-              "name": "end_line",
+              "name": "endLine",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -6092,7 +6646,7 @@
               "defaultValue": null
             },
             {
-              "name": "end_offset",
+              "name": "endOffset",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -6111,8 +6665,35 @@
           "possibleTypes": null
         },
         {
+          "kind": "OBJECT",
+          "name": "UpdateStatementPayload",
+          "description": "Autogenerated return type of UpdateStatement",
+          "fields": [
+            {
+              "name": "statement",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Statement",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "INPUT_OBJECT",
-          "name": "UpdateStatementInputType",
+          "name": "UpdateStatementInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -6147,7 +6728,7 @@
               "defaultValue": null
             },
             {
-              "name": "count_in_statistics",
+              "name": "countInStatistics",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -6161,7 +6742,7 @@
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UpdateAssessmentInputType",
+                "name": "UpdateAssessmentInput",
                 "ofType": null
               },
               "defaultValue": null
@@ -6173,12 +6754,12 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "UpdateAssessmentInputType",
+          "name": "UpdateAssessmentInput",
           "description": null,
           "fields": null,
           "inputFields": [
             {
-              "name": "evaluator_id",
+              "name": "evaluatorId",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -6188,7 +6769,7 @@
               "defaultValue": null
             },
             {
-              "name": "evaluation_status",
+              "name": "evaluationStatus",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -6198,7 +6779,7 @@
               "defaultValue": null
             },
             {
-              "name": "explanation_html",
+              "name": "explanationHtml",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -6208,7 +6789,7 @@
               "defaultValue": null
             },
             {
-              "name": "explanation_slatejson",
+              "name": "explanationSlatejson",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -6218,7 +6799,7 @@
               "defaultValue": null
             },
             {
-              "name": "short_explanation",
+              "name": "shortExplanation",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -6228,7 +6809,7 @@
               "defaultValue": null
             },
             {
-              "name": "veracity_id",
+              "name": "veracityId",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -6243,13 +6824,67 @@
           "possibleTypes": null
         },
         {
+          "kind": "OBJECT",
+          "name": "DeleteStatementPayload",
+          "description": "Autogenerated return type of DeleteStatement",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "CreateArticlePayload",
+          "description": "Autogenerated return type of CreateArticle",
+          "fields": [
+            {
+              "name": "article",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Article",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "INPUT_OBJECT",
-          "name": "ArticleInputType",
+          "name": "ArticleInput",
           "description": null,
           "fields": null,
           "inputFields": [
             {
-              "name": "article_type",
+              "name": "articleType",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -6291,6 +6926,28 @@
               "defaultValue": null
             },
             {
+              "name": "segments",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "ArticleSegmentInput",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "defaultValue": null
+            },
+            {
               "name": "slug",
               "description": null,
               "type": {
@@ -6311,7 +6968,7 @@
               "defaultValue": null
             },
             {
-              "name": "published_at",
+              "name": "publishedAt",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -6321,25 +6978,7 @@
               "defaultValue": null
             },
             {
-              "name": "segments",
-              "description": null,
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "ArticleSegmentInputType",
-                    "ofType": null
-                  }
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "source_id",
+              "name": "sourceId",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -6355,7 +6994,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "ArticleSegmentInputType",
+          "name": "ArticleSegmentInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -6370,7 +7009,7 @@
               "defaultValue": null
             },
             {
-              "name": "segment_type",
+              "name": "segmentType",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -6384,7 +7023,7 @@
               "defaultValue": null
             },
             {
-              "name": "text_html",
+              "name": "textHtml",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -6394,7 +7033,7 @@
               "defaultValue": null
             },
             {
-              "name": "text_slatejson",
+              "name": "textSlatejson",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -6404,7 +7043,7 @@
               "defaultValue": null
             },
             {
-              "name": "source_id",
+              "name": "sourceId",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -6419,8 +7058,85 @@
           "possibleTypes": null
         },
         {
+          "kind": "OBJECT",
+          "name": "UpdateArticlePayload",
+          "description": "Autogenerated return type of UpdateArticle",
+          "fields": [
+            {
+              "name": "article",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Article",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "DeleteArticlePayload",
+          "description": "Autogenerated return type of DeleteArticle",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "CreatePagePayload",
+          "description": "Autogenerated return type of CreatePage",
+          "fields": [
+            {
+              "name": "page",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Page",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "INPUT_OBJECT",
-          "name": "PageInputType",
+          "name": "PageInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -6439,11 +7155,21 @@
               "defaultValue": null
             },
             {
-              "name": "slug",
+              "name": "textHtml",
               "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "textSlatejson",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "JSON",
                 "ofType": null
               },
               "defaultValue": null
@@ -6459,21 +7185,11 @@
               "defaultValue": null
             },
             {
-              "name": "text_html",
+              "name": "slug",
               "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "text_slatejson",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "JSON",
                 "ofType": null
               },
               "defaultValue": null
@@ -6484,24 +7200,105 @@
           "possibleTypes": null
         },
         {
+          "kind": "OBJECT",
+          "name": "UpdatePagePayload",
+          "description": "Autogenerated return type of UpdatePage",
+          "fields": [
+            {
+              "name": "page",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Page",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "DeletePagePayload",
+          "description": "Autogenerated return type of DeletePage",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "UpdateSourceStatementsOrderPayload",
+          "description": "Autogenerated return type of UpdateSourceStatementsOrder",
+          "fields": [
+            {
+              "name": "source",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Source",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "INPUT_OBJECT",
-          "name": "UpdateSourceStatementsOrderInputType",
+          "name": "UpdateSourceStatementsOrderInput",
           "description": null,
           "fields": null,
           "inputFields": [
             {
-              "name": "ordered_statement_ids",
+              "name": "orderedStatementIds",
               "description": null,
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "NON_NULL",
+                  "kind": "LIST",
                   "name": null,
                   "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "ID",
+                      "ofType": null
+                    }
                   }
                 }
               },
@@ -6513,8 +7310,62 @@
           "possibleTypes": null
         },
         {
+          "kind": "OBJECT",
+          "name": "PublishApprovedSourceStatementsPayload",
+          "description": "Autogenerated return type of PublishApprovedSourceStatements",
+          "fields": [
+            {
+              "name": "source",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Source",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "CreateCommentPayload",
+          "description": "Autogenerated return type of CreateComment",
+          "fields": [
+            {
+              "name": "comment",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Comment",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "INPUT_OBJECT",
-          "name": "CommentInputType",
+          "name": "CommentInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -6533,7 +7384,7 @@
               "defaultValue": null
             },
             {
-              "name": "statement_id",
+              "name": "statementId",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -6552,13 +7403,63 @@
           "possibleTypes": null
         },
         {
+          "kind": "OBJECT",
+          "name": "DeleteContentImagePayload",
+          "description": "Autogenerated return type of DeleteContentImage",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "UpdateNotificationPayload",
+          "description": "Autogenerated return type of UpdateNotification",
+          "fields": [
+            {
+              "name": "notification",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Notification",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "INPUT_OBJECT",
-          "name": "UpdateNotificationInputType",
+          "name": "UpdateNotificationInput",
           "description": null,
           "fields": null,
           "inputFields": [
             {
-              "name": "read_at",
+              "name": "readAt",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -6569,6 +7470,41 @@
             }
           ],
           "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "MarkUnreadNotificationsAsReadPayload",
+          "description": "Autogenerated return type of MarkUnreadNotificationsAsRead",
+          "fields": [
+            {
+              "name": "notifications",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Notification",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },

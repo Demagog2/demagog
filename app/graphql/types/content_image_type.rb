@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-Types::ContentImageType = GraphQL::ObjectType.define do
-  name "ContentImage"
+module Types
+  class ContentImageType < BaseObject
+    field :id, ID, null: false
+    field :name, String, null: false
+    field :created_at, Types::Scalars::DateTimeType, null: false
+    field :user, Types::UserType, null: true
 
-  field :id, !types.ID
-  field :name, !types.String
-  field :created_at, !Types::Scalars::DateTimeType
-  field :user, Types::UserType
+    field :image, String, null: false
 
-  field :image, !types.String do
-    resolve -> (obj, args, ctx) do
-      Rails.application.routes.url_helpers.polymorphic_url(obj.image, only_path: true)
+    def image
+      Rails.application.routes.url_helpers.polymorphic_url(object.image, only_path: true)
     end
-  end
 
-  field :image_50x50, !types.String do
-    resolve -> (obj, args, ctx) do
+    field :image_50x50, String, null: false
+
+    def image_50x50
       Rails.application.routes.url_helpers.polymorphic_url(
-        obj.image.variant(resize: "50x50"),
+        object.image.variant(resize: "50x50"),
         only_path: true
       )
     end

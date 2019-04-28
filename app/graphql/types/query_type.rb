@@ -99,6 +99,10 @@ class Types::QueryType < GraphQL::Schema::Object
     end
   end
 
+  field :media_personality, Types::MediaPersonalityType, null: false do
+    argument :id, ID, required: true
+  end
+
   def media_personality(id:)
     begin
       MediaPersonality.find(id)

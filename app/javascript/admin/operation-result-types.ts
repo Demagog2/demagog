@@ -1,172 +1,172 @@
 /* tslint:disable */
 //  This file was automatically generated and should not be edited.
 
-export interface MediaPersonalityInputType {
+export interface MediaPersonalityInput {
   name: string,
 };
 
-export interface MediumInputType {
+export interface MediumInput {
   name: string,
 };
 
-export interface PageInputType {
+export interface PageInput {
   title: string,
-  slug?: string | null,
+  textHtml?: string | null,
+  textSlatejson?: GraphQLCustomScalar_JSON | null,
   published?: boolean | null,
-  text_html?: string | null,
-  text_slatejson?: GraphQLCustomScalar_JSON | null,
+  slug?: string | null,
 };
 
-export interface ArticleInputType {
-  article_type: string,
+export interface ArticleInput {
+  articleType: string,
   title: string,
   perex: string,
+  segments: Array< ArticleSegmentInput >,
   slug?: string | null,
   published?: boolean | null,
-  published_at?: string | null,
-  segments?: Array< ArticleSegmentInputType > | null,
-  source_id?: string | null,
+  publishedAt?: string | null,
+  sourceId?: string | null,
 };
 
-export interface ArticleSegmentInputType {
+export interface ArticleSegmentInput {
   id?: string | null,
-  segment_type: string,
-  text_html?: string | null,
-  text_slatejson?: GraphQLCustomScalar_JSON | null,
-  source_id?: string | null,
+  segmentType: string,
+  textHtml?: string | null,
+  textSlatejson?: GraphQLCustomScalar_JSON | null,
+  sourceId?: string | null,
 };
 
-export interface SourceInputType {
+export interface SourceInput {
   name: string,
-  released_at: string,
-  source_url?: string | null,
-  medium_id: string,
-  media_personalities: Array< string >,
+  releasedAt: string,
+  sourceUrl?: string | null,
+  mediumId: string,
+  mediaPersonalities: Array< string >,
   transcript: string,
   speakers: Array< string >,
-  expert_id?: string | null,
+  expertId?: string | null,
 };
 
-export interface BodyInputType {
+export interface BodyInput {
   name: string,
-  is_party: boolean,
-  is_inactive: boolean,
-  short_name?: string | null,
+  isParty: boolean,
+  isInactive: boolean,
+  shortName?: string | null,
   link?: string | null,
-  founded_at?: string | null,
-  terminated_at?: string | null,
+  foundedAt?: string | null,
+  terminatedAt?: string | null,
 };
 
-export interface SpeakerInputType {
-  first_name: string,
-  last_name: string,
-  website_url?: string | null,
-  memberships: Array< MembershipInputType >,
+export interface SpeakerInput {
+  firstName: string,
+  lastName: string,
+  websiteUrl?: string | null,
+  memberships: Array< MembershipInput >,
 };
 
-export interface MembershipInputType {
+export interface MembershipInput {
   id?: string | null,
   since?: string | null,
   until?: string | null,
-  body_id: string,
+  bodyId: string,
 };
 
-export interface UserInputType {
+export interface UserInput {
   email: string,
   active: boolean,
-  first_name: string,
-  last_name: string,
-  role_id: string,
-  email_notifications: boolean,
-  position_description?: string | null,
+  firstName: string,
+  lastName: string,
+  roleId: string,
+  emailNotifications: boolean,
+  positionDescription?: string | null,
   bio?: string | null,
   phone?: string | null,
   order?: number | null,
   rank?: number | null,
 };
 
-export interface UpdateUsersRankInputType {
-  ordered_user_ids?: Array< string > | null,
-};
-
-export interface CreateStatementInputType {
+export interface CreateStatementInput {
   content: string,
-  excerpted_at: string,
+  excerptedAt: string,
   important: boolean,
-  speaker_id: string,
-  source_id: string,
+  speakerId: string,
+  sourceId: string,
   published: boolean,
-  count_in_statistics: boolean,
-  assessment: CreateAssessmentInputType,
-  statement_transcript_position?: StatementTranscriptPositionInputType | null,
-  first_comment_content?: string | null,
+  countInStatistics: boolean,
+  assessment: CreateAssessmentInput,
+  statementTranscriptPosition?: StatementTranscriptPositionInput | null,
+  firstCommentContent?: string | null,
 };
 
-export interface CreateAssessmentInputType {
-  evaluator_id?: string | null,
-  explanation?: string | null,
-  veracity_id?: string | null,
+export interface CreateAssessmentInput {
+  evaluatorId?: string | null,
+  shortExplanation?: string | null,
+  veracityId?: string | null,
 };
 
-export interface StatementTranscriptPositionInputType {
-  start_line: number,
-  start_offset: number,
-  end_line: number,
-  end_offset: number,
+export interface StatementTranscriptPositionInput {
+  startLine: number,
+  startOffset: number,
+  endLine: number,
+  endOffset: number,
 };
 
-export interface UpdateStatementInputType {
+export interface UpdateStatementInput {
   content?: string | null,
   important?: boolean | null,
   published?: boolean | null,
-  count_in_statistics?: boolean | null,
-  assessment?: UpdateAssessmentInputType | null,
+  countInStatistics?: boolean | null,
+  assessment?: UpdateAssessmentInput | null,
 };
 
-export interface UpdateAssessmentInputType {
-  evaluator_id?: string | null,
-  evaluation_status?: string | null,
-  explanation_html?: string | null,
-  explanation_slatejson?: GraphQLCustomScalar_JSON | null,
-  short_explanation?: string | null,
-  veracity_id?: string | null,
+export interface UpdateAssessmentInput {
+  evaluatorId?: string | null,
+  evaluationStatus?: string | null,
+  explanationHtml?: string | null,
+  explanationSlatejson?: GraphQLCustomScalar_JSON | null,
+  shortExplanation?: string | null,
+  veracityId?: string | null,
 };
 
-export interface CommentInputType {
+export interface CommentInput {
   content: string,
-  statement_id: string,
+  statementId: string,
 };
 
-export interface UpdateSourceStatementsOrderInputType {
-  ordered_statement_ids?: Array< string > | null,
+export interface UpdateSourceStatementsOrderInput {
+  orderedStatementIds: Array< string >,
 };
 
-export interface UpdateNotificationInputType {
-  read_at?: string | null,
+export interface UpdateNotificationInput {
+  readAt?: string | null,
 };
 
 export interface CreateMediaPersonalityMutationVariables {
-  mediaPersonalityInput: MediaPersonalityInputType,
+  mediaPersonalityInput: MediaPersonalityInput,
 };
 
 export interface CreateMediaPersonalityMutation {
   // Add new media personality
   createMediaPersonality:  {
-    id: string,
-    name: string,
+    mediaPersonality:  {
+      id: string,
+      name: string,
+    },
   } | null,
 };
 
 export interface UpdateMediaPersonalityMutationVariables {
   id: string,
-  mediaPersonalityInput: MediaPersonalityInputType,
+  mediaPersonalityInput: MediaPersonalityInput,
 };
 
 export interface UpdateMediaPersonalityMutation {
   // Update existing media personality
   updateMediaPersonality:  {
-    id: string,
-    name: string,
+    mediaPersonality:  {
+      id: string,
+      name: string,
+    },
   } | null,
 };
 
@@ -176,31 +176,37 @@ export interface DeleteMediaPersonalityMutationVariables {
 
 export interface DeleteMediaPersonalityMutation {
   // Delete existing media personality
-  deleteMediaPersonality: string,
+  deleteMediaPersonality:  {
+    id: string,
+  } | null,
 };
 
 export interface CreateMediumMutationVariables {
-  mediumInput: MediumInputType,
+  mediumInput: MediumInput,
 };
 
 export interface CreateMediumMutation {
   // Add new medium
   createMedium:  {
-    id: string,
-    name: string,
+    medium:  {
+      id: string,
+      name: string,
+    },
   } | null,
 };
 
 export interface UpdateMediumMutationVariables {
   id: string,
-  mediumInput: MediumInputType,
+  mediumInput: MediumInput,
 };
 
 export interface UpdateMediumMutation {
   // Update existing medium
   updateMedium:  {
-    id: string,
-    name: string,
+    medium:  {
+      id: string,
+      name: string,
+    },
   } | null,
 };
 
@@ -210,39 +216,45 @@ export interface DeleteMediumMutationVariables {
 
 export interface DeleteMediumMutation {
   // Delete existing medium
-  deleteMedium: string,
+  deleteMedium:  {
+    id: string,
+  } | null,
 };
 
 export interface CreatePageMutationVariables {
-  pageInput: PageInputType,
+  pageInput: PageInput,
 };
 
 export interface CreatePageMutation {
   // Add new page
   createPage:  {
-    id: string,
-    title: string,
-    slug: string,
-    published: boolean,
-    text_html: string | null,
-    text_slatejson: GraphQLCustomScalar_JSON | null,
+    page:  {
+      id: string,
+      title: string,
+      slug: string,
+      published: boolean,
+      textHtml: string | null,
+      textSlatejson: GraphQLCustomScalar_JSON | null,
+    },
   } | null,
 };
 
 export interface UpdatePageMutationVariables {
   id: string,
-  pageInput: PageInputType,
+  pageInput: PageInput,
 };
 
 export interface UpdatePageMutation {
   // Update existing page
   updatePage:  {
-    id: string,
-    title: string,
-    slug: string,
-    published: boolean,
-    text_html: string | null,
-    text_slatejson: GraphQLCustomScalar_JSON | null,
+    page:  {
+      id: string,
+      title: string,
+      slug: string,
+      published: boolean,
+      textHtml: string | null,
+      textSlatejson: GraphQLCustomScalar_JSON | null,
+    },
   } | null,
 };
 
@@ -252,67 +264,73 @@ export interface DeletePageMutationVariables {
 
 export interface DeletePageMutation {
   // Delete existing page
-  deletePage: string,
+  deletePage:  {
+    id: string | null,
+  } | null,
 };
 
 export interface CreateArticleMutationVariables {
-  articleInput: ArticleInputType,
+  articleInput: ArticleInput,
 };
 
 export interface CreateArticleMutation {
   // Add new article
   createArticle:  {
-    id: string,
-    article_type: string,
-    title: string,
-    slug: string,
-    perex: string | null,
-    published: boolean,
-    published_at: GraphQLCustomScalar_DateTime | null,
-    illustration: string | null,
-    segments:  Array< {
+    article:  {
       id: string,
-      segment_type: string,
-      text_html: string | null,
-      text_slatejson: GraphQLCustomScalar_JSON | null,
-      statements:  Array< {
+      articleType: string,
+      title: string,
+      slug: string,
+      perex: string | null,
+      published: boolean,
+      publishedAt: GraphQLCustomScalar_DateTime | null,
+      illustration: string | null,
+      segments:  Array< {
         id: string,
+        segmentType: string,
+        textHtml: string | null,
+        textSlatejson: GraphQLCustomScalar_JSON | null,
+        statements:  Array< {
+          id: string,
+        } >,
       } >,
-    } > | null,
-    source:  {
-      id: string,
-    } | null,
+      source:  {
+        id: string,
+      } | null,
+    },
   } | null,
 };
 
 export interface UpdateArticleMutationVariables {
   id: string,
-  articleInput: ArticleInputType,
+  articleInput: ArticleInput,
 };
 
 export interface UpdateArticleMutation {
   // Update existing article
   updateArticle:  {
-    id: string,
-    article_type: string,
-    title: string,
-    slug: string,
-    perex: string | null,
-    published: boolean,
-    published_at: GraphQLCustomScalar_DateTime | null,
-    illustration: string | null,
-    segments:  Array< {
+    article:  {
       id: string,
-      segment_type: string,
-      text_html: string | null,
-      text_slatejson: GraphQLCustomScalar_JSON | null,
-      statements:  Array< {
+      articleType: string,
+      title: string,
+      slug: string,
+      perex: string | null,
+      published: boolean,
+      publishedAt: GraphQLCustomScalar_DateTime | null,
+      illustration: string | null,
+      segments:  Array< {
         id: string,
+        segmentType: string,
+        textHtml: string | null,
+        textSlatejson: GraphQLCustomScalar_JSON | null,
+        statements:  Array< {
+          id: string,
+        } >,
       } >,
-    } > | null,
-    source:  {
-      id: string,
-    } | null,
+      source:  {
+        id: string,
+      } | null,
+    },
   } | null,
 };
 
@@ -322,31 +340,37 @@ export interface DeleteArticleMutationVariables {
 
 export interface DeleteArticleMutation {
   // Delete existing article
-  deleteArticle: string,
+  deleteArticle:  {
+    id: string | null,
+  } | null,
 };
 
 export interface CreateSourceMutationVariables {
-  sourceInput: SourceInputType,
+  sourceInput: SourceInput,
 };
 
 export interface CreateSourceMutation {
   // Add new source
   createSource:  {
-    id: string,
-    name: string,
+    source:  {
+      id: string,
+      name: string,
+    },
   } | null,
 };
 
 export interface UpdateSourceMutationVariables {
-  id: number,
-  sourceInput: SourceInputType,
+  id: string,
+  sourceInput: SourceInput,
 };
 
 export interface UpdateSourceMutation {
   // Update existing source
   updateSource:  {
-    id: string,
-    name: string,
+    source:  {
+      id: string,
+      name: string,
+    },
   } | null,
 };
 
@@ -355,46 +379,52 @@ export interface DeleteSourceMutationVariables {
 };
 
 export interface DeleteSourceMutation {
-  // Delete existing source with all its statements
-  deleteSource: string,
+  // Delete existing source and all it's statements
+  deleteSource:  {
+    id: string,
+  } | null,
 };
 
 export interface CreateBodyMutationVariables {
-  bodyInput: BodyInputType,
+  bodyInput: BodyInput,
 };
 
 export interface CreateBodyMutation {
-  // Add new body
+  // Create new body
   createBody:  {
-    id: string,
-    logo: string | null,
-    name: string,
-    is_party: boolean,
-    is_inactive: boolean,
-    short_name: string | null,
-    link: string | null,
-    founded_at: string | null,
-    terminated_at: string | null,
+    body:  {
+      id: string,
+      logo: string | null,
+      name: string,
+      isParty: boolean,
+      isInactive: boolean,
+      shortName: string | null,
+      link: string | null,
+      foundedAt: string | null,
+      terminatedAt: string | null,
+    },
   } | null,
 };
 
 export interface UpdateBodyMutationVariables {
   id: number,
-  bodyInput: BodyInputType,
+  bodyInput: BodyInput,
 };
 
 export interface UpdateBodyMutation {
   // Update existing body
   updateBody:  {
-    id: string,
-    logo: string | null,
-    name: string,
-    is_party: boolean,
-    is_inactive: boolean,
-    short_name: string | null,
-    link: string | null,
-    founded_at: string | null,
-    terminated_at: string | null,
+    body:  {
+      id: string,
+      logo: string | null,
+      name: string,
+      isParty: boolean,
+      isInactive: boolean,
+      shortName: string | null,
+      link: string | null,
+      foundedAt: string | null,
+      terminatedAt: string | null,
+    },
   } | null,
 };
 
@@ -404,61 +434,67 @@ export interface DeleteBodyMutationVariables {
 
 export interface DeleteBodyMutation {
   // Delete existing body
-  deleteBody: string,
+  deleteBody:  {
+    id: string,
+  } | null,
 };
 
 export interface CreateSpeakerMutationVariables {
-  speakerInput: SpeakerInputType,
+  speakerInput: SpeakerInput,
 };
 
 export interface CreateSpeakerMutation {
   // Add new speaker
   createSpeaker:  {
-    id: string,
-    first_name: string,
-    last_name: string,
-    avatar: string | null,
-    website_url: string,
-    body:  {
-      short_name: string | null,
-    } | null,
-    memberships:  Array< {
+    speaker:  {
       id: string,
+      firstName: string,
+      lastName: string,
+      avatar: string | null,
+      websiteUrl: string,
       body:  {
+        shortName: string | null,
+      } | null,
+      memberships:  Array< {
         id: string,
-        short_name: string | null,
-      },
-      since: string | null,
-      until: string | null,
-    } >,
+        body:  {
+          id: string,
+          shortName: string | null,
+        },
+        since: string | null,
+        until: string | null,
+      } > | null,
+    },
   } | null,
 };
 
 export interface UpdateSpeakerMutationVariables {
-  id: number,
-  speakerInput: SpeakerInputType,
+  id: string,
+  speakerInput: SpeakerInput,
 };
 
 export interface UpdateSpeakerMutation {
   // Update existing speaker
   updateSpeaker:  {
-    id: string,
-    first_name: string,
-    last_name: string,
-    avatar: string | null,
-    website_url: string,
-    body:  {
-      short_name: string | null,
-    } | null,
-    memberships:  Array< {
+    speaker:  {
       id: string,
+      firstName: string,
+      lastName: string,
+      avatar: string | null,
+      websiteUrl: string,
       body:  {
+        shortName: string | null,
+      } | null,
+      memberships:  Array< {
         id: string,
-        short_name: string | null,
-      },
-      since: string | null,
-      until: string | null,
-    } >,
+        body:  {
+          id: string,
+          shortName: string | null,
+        },
+        since: string | null,
+        until: string | null,
+      } > | null,
+    },
   } | null,
 };
 
@@ -468,54 +504,60 @@ export interface DeleteSpeakerMutationVariables {
 
 export interface DeleteSpeakerMutation {
   // Delete existing speaker
-  deleteSpeaker: string,
+  deleteSpeaker:  {
+    id: string,
+  } | null,
 };
 
 export interface CreateUserMutationVariables {
-  userInput: UserInputType,
+  userInput: UserInput,
 };
 
 export interface CreateUserMutation {
   // Add new user
   createUser:  {
-    id: string,
-    first_name: string,
-    last_name: string,
-    email: string,
-    avatar: string | null,
-    active: boolean,
-    position_description: string | null,
-    bio: string | null,
-    email_notifications: boolean,
-    user_public: boolean,
-    role:  {
+    user:  {
       id: string,
-      name: string,
+      firstName: string,
+      lastName: string,
+      email: string,
+      avatar: string | null,
+      active: boolean,
+      positionDescription: string | null,
+      bio: string | null,
+      emailNotifications: boolean,
+      userPublic: boolean,
+      role:  {
+        id: string,
+        name: string,
+      },
     },
   } | null,
 };
 
 export interface UpdateUserMutationVariables {
   id: number,
-  userInput: UserInputType,
+  userInput: UserInput,
 };
 
 export interface UpdateUserMutation {
   // Update existing user
   updateUser:  {
-    id: string,
-    first_name: string,
-    last_name: string,
-    email: string,
-    avatar: string | null,
-    active: boolean,
-    position_description: string | null,
-    bio: string | null,
-    email_notifications: boolean,
-    user_public: boolean,
-    role:  {
+    user:  {
       id: string,
-      name: string,
+      firstName: string,
+      lastName: string,
+      email: string,
+      avatar: string | null,
+      active: boolean,
+      positionDescription: string | null,
+      bio: string | null,
+      emailNotifications: boolean,
+      userPublic: boolean,
+      role:  {
+        id: string,
+        name: string,
+      },
     },
   } | null,
 };
@@ -528,33 +570,37 @@ export interface UpdateUserPublicityMutationVariables {
 export interface UpdateUserPublicityMutation {
   // Update user publicity
   updateUserPublicity:  {
-    id: string,
-    first_name: string,
-    last_name: string,
-    email: string,
-    avatar: string | null,
-    active: boolean,
-    position_description: string | null,
-    bio: string | null,
-    email_notifications: boolean,
-    user_public: boolean,
-    role:  {
+    user:  {
       id: string,
-      name: string,
+      firstName: string,
+      lastName: string,
+      email: string,
+      avatar: string | null,
+      active: boolean,
+      positionDescription: string | null,
+      bio: string | null,
+      emailNotifications: boolean,
+      userPublic: boolean,
+      role:  {
+        id: string,
+        name: string,
+      },
     },
   } | null,
 };
 
 export interface UpdateUsersRankMutationVariables {
-  input: UpdateUsersRankInputType,
+  orderedUserIds: Array< string >,
 };
 
 export interface UpdateUsersRankMutation {
   // Update rank (order of users on about us page)
-  updateUsersRank:  Array< {
-    id: string,
-    rank: number | null,
-  } > | null,
+  updateUsersRank:  {
+    users:  Array< {
+      id: string,
+      rank: number | null,
+    } >,
+  } | null,
 };
 
 export interface DeleteUserMutationVariables {
@@ -563,77 +609,83 @@ export interface DeleteUserMutationVariables {
 
 export interface DeleteUserMutation {
   // Delete existing user
-  deleteUser: string,
+  deleteUser:  {
+    id: string | null,
+  } | null,
 };
 
 export interface CreateStatementMutationVariables {
-  statementInput: CreateStatementInputType,
+  statementInput: CreateStatementInput,
 };
 
 export interface CreateStatementMutation {
   // Add new statement
   createStatement:  {
-    id: string,
-    content: string,
-    excerpted_at: string,
-    important: boolean,
-    speaker:  {
+    statement:  {
       id: string,
-    },
-    source:  {
-      id: string,
-      statements_counts_by_evaluation_status:  Array< {
-        evaluation_status: string,
-        statements_count: number,
-      } >,
+      content: string,
+      excerptedAt: string,
+      important: boolean,
+      speaker:  {
+        id: string,
+      },
+      source:  {
+        id: string,
+        statementsCountsByEvaluationStatus:  {
+          evaluationStatus: string,
+          statementsCount: number,
+        },
+      },
     },
   } | null,
 };
 
 export interface UpdateStatementMutationVariables {
   id: number,
-  statementInput: UpdateStatementInputType,
+  statementInput: UpdateStatementInput,
 };
 
 export interface UpdateStatementMutation {
   // Update existing statement
   updateStatement:  {
-    id: string,
-    content: string,
-    important: boolean,
-    published: boolean,
-    excerpted_at: string,
-    speaker:  {
+    statement:  {
       id: string,
-      first_name: string,
-      last_name: string,
-      avatar: string | null,
-    },
-    assessment:  {
-      id: string,
-      short_explanation: string | null,
-      explanation_html: string | null,
-      explanation_slatejson: GraphQLCustomScalar_JSON | null,
-      evaluation_status: string,
-      evaluator:  {
+      content: string,
+      important: boolean,
+      published: boolean,
+      excerptedAt: string,
+      speaker:  {
         id: string,
-        first_name: string,
-        last_name: string,
-      } | null,
-      veracity:  {
+        firstName: string,
+        lastName: string,
+        avatar: string | null,
+      },
+      assessment:  {
         id: string,
-        key: GraphQLCustomScalar_VeracityKey,
-        name: string,
-      } | null,
+        shortExplanation: string | null,
+        explanationHtml: string | null,
+        explanationSlatejson: GraphQLCustomScalar_JSON | null,
+        evaluationStatus: string,
+        evaluator:  {
+          id: string,
+          firstName: string,
+          lastName: string,
+        } | null,
+        veracity:  {
+          id: string,
+          key: GraphQLCustomScalar_VeracityKey,
+          name: string,
+        } | null,
+      },
+      source:  {
+        id: string,
+        statementsCountsByEvaluationStatus:  {
+          evaluationStatus: string,
+          statementsCount: number,
+        },
+      },
+      commentsCount: number,
     },
-    source:  {
-      id: string,
-      statements_counts_by_evaluation_status:  Array< {
-        evaluation_status: string,
-        statements_count: number,
-      } >,
-    },
-    comments_count: number,
   } | null,
 };
 
@@ -643,36 +695,42 @@ export interface DeleteStatementMutationVariables {
 
 export interface DeleteStatementMutation {
   // Delete existing statement
-  deleteStatement: string,
+  deleteStatement:  {
+    id: string,
+  } | null,
 };
 
 export interface CreateCommentMutationVariables {
-  commentInput: CommentInputType,
+  commentInput: CommentInput,
 };
 
 export interface CreateCommentMutation {
   // Add new comment
   createComment:  {
-    id: string,
-    content: string,
-    user:  {
+    comment:  {
       id: string,
-      first_name: string,
-      last_name: string,
+      content: string,
+      user:  {
+        id: string,
+        firstName: string,
+        lastName: string,
+      },
+      createdAt: GraphQLCustomScalar_DateTime,
     },
-    created_at: GraphQLCustomScalar_DateTime,
   } | null,
 };
 
 export interface UpdateSourceStatementsOrderMutationVariables {
   id: string,
-  input: UpdateSourceStatementsOrderInputType,
+  input: UpdateSourceStatementsOrderInput,
 };
 
 export interface UpdateSourceStatementsOrderMutation {
   // Update order of statements in source
   updateSourceStatementsOrder:  {
-    id: string,
+    source:  {
+      id: string,
+    },
   } | null,
 };
 
@@ -683,11 +741,13 @@ export interface PublishApprovedSourceStatementsMutationVariables {
 export interface PublishApprovedSourceStatementsMutation {
   // Publish all approved statements from source
   publishApprovedSourceStatements:  {
-    id: string,
-    statements:  Array< {
+    source:  {
       id: string,
-      published: boolean,
-    } >,
+      statements:  Array< {
+        id: string,
+        published: boolean,
+      } >,
+    },
   } | null,
 };
 
@@ -697,28 +757,34 @@ export interface DeleteContentImageMutationVariables {
 
 export interface DeleteContentImageMutation {
   // Delete existing content image
-  deleteContentImage: string,
+  deleteContentImage:  {
+    id: string | null,
+  } | null,
 };
 
 export interface UpdateNotificationMutationVariables {
   id: string,
-  input: UpdateNotificationInputType,
+  input: UpdateNotificationInput,
 };
 
 export interface UpdateNotificationMutation {
-  // Update notification
+  // Update existing notification
   updateNotification:  {
-    id: string,
-    read_at: GraphQLCustomScalar_DateTime | null,
+    notification:  {
+      id: string,
+      readAt: GraphQLCustomScalar_DateTime | null,
+    },
   } | null,
 };
 
 export interface MarkUnreadNotificationsAsReadMutation {
   // Mark all unread notifications of current user as read
-  markUnreadNotificationsAsRead:  Array< {
-    id: string,
-    read_at: GraphQLCustomScalar_DateTime | null,
-  } > | null,
+  markUnreadNotificationsAsRead:  {
+    notifications:  Array< {
+      id: string,
+      readAt: GraphQLCustomScalar_DateTime | null,
+    } >,
+  } | null,
 };
 
 export interface GetPagesQueryVariables {
@@ -746,8 +812,8 @@ export interface GetPageQuery {
     title: string,
     slug: string,
     published: boolean,
-    text_html: string | null,
-    text_slatejson: GraphQLCustomScalar_JSON | null,
+    textHtml: string | null,
+    textSlatejson: GraphQLCustomScalar_JSON | null,
   },
 };
 
@@ -758,22 +824,22 @@ export interface GetArticleQueryVariables {
 export interface GetArticleQuery {
   article:  {
     id: string,
-    article_type: string,
+    articleType: string,
     title: string,
     slug: string,
     perex: string | null,
     published: boolean,
-    published_at: GraphQLCustomScalar_DateTime | null,
+    publishedAt: GraphQLCustomScalar_DateTime | null,
     illustration: string | null,
     segments:  Array< {
       id: string,
-      segment_type: string,
-      text_html: string | null,
-      text_slatejson: GraphQLCustomScalar_JSON | null,
+      segmentType: string,
+      textHtml: string | null,
+      textSlatejson: GraphQLCustomScalar_JSON | null,
       source:  {
         id: string,
       } | null,
-    } > | null,
+    } >,
     source:  {
       id: string,
     } | null,
@@ -789,11 +855,11 @@ export interface GetArticlesQueryVariables {
 export interface GetArticlesQuery {
   articles:  Array< {
     id: string,
-    article_type: string,
+    articleType: string,
     title: string,
     slug: string,
     published: boolean,
-    published_at: GraphQLCustomScalar_DateTime | null,
+    publishedAt: GraphQLCustomScalar_DateTime | null,
   } >,
 };
 
@@ -802,7 +868,7 @@ export interface GetMediaPersonalitiesQueryVariables {
 };
 
 export interface GetMediaPersonalitiesQuery {
-  media_personalities:  Array< {
+  mediaPersonalities:  Array< {
     id: string,
     name: string,
   } >,
@@ -813,7 +879,7 @@ export interface GetMediaPersonalityQueryVariables {
 };
 
 export interface GetMediaPersonalityQuery {
-  media_personality:  {
+  mediaPersonality:  {
     id: string,
     name: string,
   },
@@ -851,27 +917,27 @@ export interface GetSourcesQuery {
   sources:  Array< {
     id: string,
     name: string,
-    source_url: string | null,
-    released_at: string,
+    sourceUrl: string | null,
+    releasedAt: string,
     medium:  {
       id: string,
       name: string,
     },
-    media_personalities:  Array< {
+    mediaPersonalities:  Array< {
       id: string,
       name: string,
     } >,
-    statements_counts_by_evaluation_status:  Array< {
-      evaluation_status: string,
-      statements_count: number,
-    } >,
+    statementsCountsByEvaluationStatus:  {
+      evaluationStatus: string,
+      statementsCount: number,
+    },
     statements:  Array< {
       id: string,
     } >,
     expert:  {
       id: string,
-      first_name: string,
-      last_name: string,
+      firstName: string,
+      lastName: string,
     } | null,
   } >,
 };
@@ -884,30 +950,30 @@ export interface GetSourceQuery {
   source:  {
     id: string,
     name: string,
-    source_url: string | null,
-    released_at: string,
+    sourceUrl: string | null,
+    releasedAt: string,
     transcript: string | null,
     medium:  {
       id: string,
       name: string,
     },
-    media_personalities:  Array< {
+    mediaPersonalities:  Array< {
       id: string,
       name: string,
     } >,
-    statements_counts_by_evaluation_status:  Array< {
-      evaluation_status: string,
-      statements_count: number,
-    } >,
+    statementsCountsByEvaluationStatus:  {
+      evaluationStatus: string,
+      statementsCount: number,
+    },
     speakers:  Array< {
       id: string,
-      first_name: string,
-      last_name: string,
+      firstName: string,
+      lastName: string,
     } >,
     expert:  {
       id: string,
-      first_name: string,
-      last_name: string,
+      firstName: string,
+      lastName: string,
     } | null,
   },
 };
@@ -916,7 +982,7 @@ export interface GetSourcesForSelectQuery {
   sources:  Array< {
     id: string,
     name: string,
-    released_at: string,
+    releasedAt: string,
     medium:  {
       id: string,
       name: string,
@@ -937,36 +1003,36 @@ export interface GetSourceStatementsQuery {
     published: boolean,
     speaker:  {
       id: string,
-      first_name: string,
-      last_name: string,
+      firstName: string,
+      lastName: string,
       avatar: string | null,
     },
     assessment:  {
       id: string,
-      evaluation_status: string,
+      evaluationStatus: string,
       evaluator:  {
         id: string,
-        first_name: string,
-        last_name: string,
+        firstName: string,
+        lastName: string,
       } | null,
       veracity:  {
         id: string,
         key: GraphQLCustomScalar_VeracityKey,
         name: string,
       } | null,
-      short_explanation: string | null,
-      short_explanation_characters_length: number,
-      explanation_characters_length: number,
+      shortExplanation: string | null,
+      shortExplanationCharactersLength: number,
+      explanationCharactersLength: number,
     },
-    statement_transcript_position:  {
+    statementTranscriptPosition:  {
       id: string,
-      start_line: number,
-      start_offset: number,
-      end_line: number,
-      end_offset: number,
+      startLine: number,
+      startOffset: number,
+      endLine: number,
+      endOffset: number,
     } | null,
-    comments_count: number,
-    source_order: number | null,
+    commentsCount: number,
+    sourceOrder: number | null,
   } >,
 };
 
@@ -979,14 +1045,14 @@ export interface GetUsersQuery {
   users:  Array< {
     id: string,
     email: string,
-    first_name: string,
-    last_name: string,
+    firstName: string,
+    lastName: string,
     avatar: string | null,
     active: boolean,
     bio: string | null,
-    position_description: string | null,
-    email_notifications: boolean,
-    user_public: boolean,
+    positionDescription: string | null,
+    emailNotifications: boolean,
+    userPublic: boolean,
     rank: number | null,
     role:  {
       id: string,
@@ -1003,14 +1069,14 @@ export interface GetUserQuery {
   user:  {
     id: string,
     email: string,
-    first_name: string,
-    last_name: string,
+    firstName: string,
+    lastName: string,
     avatar: string | null,
     active: boolean,
     bio: string | null,
-    position_description: string | null,
-    email_notifications: boolean,
-    user_public: boolean,
+    positionDescription: string | null,
+    emailNotifications: boolean,
+    userPublic: boolean,
     role:  {
       id: string,
       name: string,
@@ -1028,11 +1094,11 @@ export interface GetBodiesQuery {
     logo: string | null,
     link: string | null,
     name: string,
-    is_party: boolean,
-    is_inactive: boolean,
-    short_name: string | null,
-    founded_at: string | null,
-    terminated_at: string | null,
+    isParty: boolean,
+    isInactive: boolean,
+    shortName: string | null,
+    foundedAt: string | null,
+    terminatedAt: string | null,
   } >,
 };
 
@@ -1046,11 +1112,11 @@ export interface GetBodyQuery {
     logo: string | null,
     link: string | null,
     name: string,
-    is_party: boolean,
-    is_inactive: boolean,
-    short_name: string | null,
-    founded_at: string | null,
-    terminated_at: string | null,
+    isParty: boolean,
+    isInactive: boolean,
+    shortName: string | null,
+    foundedAt: string | null,
+    terminatedAt: string | null,
   },
 };
 
@@ -1058,9 +1124,9 @@ export interface GetSpeakerBodiesQuery {
   bodies:  Array< {
     id: string,
     name: string,
-    short_name: string | null,
-    is_inactive: boolean,
-    terminated_at: string | null,
+    shortName: string | null,
+    isInactive: boolean,
+    terminatedAt: string | null,
   } >,
 };
 
@@ -1071,19 +1137,19 @@ export interface GetSpeakerQueryVariables {
 export interface GetSpeakerQuery {
   speaker:  {
     id: string,
-    first_name: string,
-    last_name: string,
-    website_url: string,
+    firstName: string,
+    lastName: string,
+    websiteUrl: string,
     avatar: string | null,
     memberships:  Array< {
       id: string,
       body:  {
         id: string,
-        short_name: string | null,
+        shortName: string | null,
       },
       since: string | null,
       until: string | null,
-    } >,
+    } > | null,
   },
 };
 
@@ -1094,22 +1160,22 @@ export interface GetSpeakersQueryVariables {
 export interface GetSpeakersQuery {
   speakers:  Array< {
     id: string,
-    first_name: string,
-    last_name: string,
+    firstName: string,
+    lastName: string,
     avatar: string | null,
-    website_url: string,
+    websiteUrl: string,
     body:  {
-      short_name: string | null,
+      shortName: string | null,
     } | null,
     memberships:  Array< {
       id: string,
       body:  {
         id: string,
-        short_name: string | null,
+        shortName: string | null,
       },
       since: string | null,
       until: string | null,
-    } >,
+    } > | null,
   } >,
 };
 
@@ -1123,24 +1189,24 @@ export interface GetStatementQuery {
     content: string,
     important: boolean,
     published: boolean,
-    excerpted_at: string,
-    count_in_statistics: boolean,
+    excerptedAt: string,
+    countInStatistics: boolean,
     speaker:  {
       id: string,
-      first_name: string,
-      last_name: string,
+      firstName: string,
+      lastName: string,
       avatar: string | null,
     },
     assessment:  {
       id: string,
-      explanation_html: string | null,
-      explanation_slatejson: GraphQLCustomScalar_JSON | null,
-      short_explanation: string | null,
-      evaluation_status: string,
+      explanationHtml: string | null,
+      explanationSlatejson: GraphQLCustomScalar_JSON | null,
+      shortExplanation: string | null,
+      evaluationStatus: string,
       evaluator:  {
         id: string,
-        first_name: string,
-        last_name: string,
+        firstName: string,
+        lastName: string,
       } | null,
       veracity:  {
         id: string,
@@ -1151,26 +1217,26 @@ export interface GetStatementQuery {
     source:  {
       id: string,
       name: string,
-      source_url: string | null,
-      released_at: string,
+      sourceUrl: string | null,
+      releasedAt: string,
       medium:  {
         id: string,
         name: string,
       },
-      media_personalities:  Array< {
+      mediaPersonalities:  Array< {
         id: string,
         name: string,
       } >,
       expert:  {
         id: string,
-        first_name: string,
-        last_name: string,
+        firstName: string,
+        lastName: string,
       } | null,
     },
-    statement_transcript_position:  {
+    statementTranscriptPosition:  {
       id: string,
     } | null,
-    comments_count: number,
+    commentsCount: number,
   },
 };
 
@@ -1181,16 +1247,16 @@ export interface GetStatementCommentsQueryVariables {
 export interface GetStatementCommentsQuery {
   statement:  {
     id: string,
-    comments_count: number,
+    commentsCount: number,
     comments:  Array< {
       id: string,
       content: string,
       user:  {
         id: string,
-        first_name: string,
-        last_name: string,
+        firstName: string,
+        lastName: string,
       },
-      created_at: GraphQLCustomScalar_DateTime,
+      createdAt: GraphQLCustomScalar_DateTime,
     } >,
   },
 };
@@ -1204,10 +1270,10 @@ export interface GetRolesQuery {
 };
 
 export interface GetCurrentUserQuery {
-  current_user:  {
+  currentUser:  {
     id: string,
-    first_name: string,
-    last_name: string,
+    firstName: string,
+    lastName: string,
     email: string,
     role:  {
       id: string,
@@ -1225,18 +1291,18 @@ export interface GetContentImagesQueryVariables {
 };
 
 export interface GetContentImagesQuery {
-  content_images:  {
-    total_count: number,
+  contentImages:  {
+    totalCount: number,
     items:  Array< {
       id: string,
       image: string,
-      image_50x50: string,
+      image50x50: string,
       name: string,
-      created_at: GraphQLCustomScalar_DateTime,
+      createdAt: GraphQLCustomScalar_DateTime,
       user:  {
         id: string,
-        first_name: string,
-        last_name: string,
+        firstName: string,
+        lastName: string,
       } | null,
     } >,
   },
@@ -1250,14 +1316,14 @@ export interface GetNotificationsQueryVariables {
 
 export interface GetNotificationsQuery {
   notifications:  {
-    total_count: number,
+    totalCount: number,
     items:  Array< {
       id: string,
       content: string,
-      action_link: string,
-      action_text: string,
-      created_at: GraphQLCustomScalar_DateTime,
-      read_at: GraphQLCustomScalar_DateTime | null,
+      actionLink: string,
+      actionText: string,
+      createdAt: GraphQLCustomScalar_DateTime,
+      readAt: GraphQLCustomScalar_DateTime | null,
     } >,
   },
 };
