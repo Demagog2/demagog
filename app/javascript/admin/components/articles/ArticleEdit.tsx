@@ -7,7 +7,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { addFlashMessage } from '../../actions/flashMessages';
 import { deleteArticleIllustration, uploadArticleIllustration } from '../../api';
 import {
-  ArticleInputType,
+  ArticleInput,
   GetArticleQuery,
   GetArticleQueryVariables,
   UpdateArticleMutation,
@@ -40,7 +40,7 @@ class ArticleEdit extends React.Component<IArticleEditProps> {
   };
 
   public onSubmit = (updateArticle: UpdateArticleMutationFn, oldArticle: GetArticleQuery) => (
-    articleFormData: ArticleInputType & { illustration: File },
+    articleFormData: ArticleInput & { illustration: File },
   ) => {
     const { illustration, ...articleInput } = articleFormData;
 

@@ -134,9 +134,9 @@ class Users extends React.Component<IProps, IUsersState> {
               <div style={{ marginTop: 15 }}>
                 {confirmDeleteModalUser && (
                   <ConfirmDeleteModal
-                    message={`Opravdu chcete smazat uživatele ${
-                      confirmDeleteModalUser.first_name
-                    } ${confirmDeleteModalUser.last_name}?`}
+                    message={`Opravdu chcete smazat uživatele ${confirmDeleteModalUser.firstName} ${
+                      confirmDeleteModalUser.lastName
+                    }?`}
                     onCancel={this.hideConfirmDeleteModal}
                     mutation={DeleteUser}
                     mutationProps={{
@@ -168,8 +168,8 @@ class Users extends React.Component<IProps, IUsersState> {
                       <div style={{ flex: '0 0 106px' }}>
                         <SpeakerAvatar
                           avatar={user.avatar}
-                          first_name={user.first_name || ''}
-                          last_name={user.last_name || ''}
+                          first_name={user.firstName || ''}
+                          last_name={user.lastName || ''}
                         />
                       </div>
                       <div style={{ flex: '1 1', marginLeft: 15 }}>
@@ -227,7 +227,7 @@ class Users extends React.Component<IProps, IUsersState> {
                                 }
                               >
                                 {(updateUserPublicity) =>
-                                  user.user_public ? (
+                                  user.userPublic ? (
                                     <Button
                                       icon={IconNames.EYE_OFF}
                                       style={{ marginLeft: 7 }}
@@ -264,10 +264,10 @@ class Users extends React.Component<IProps, IUsersState> {
                         </Authorize>
 
                         <h5 className={Classes.HEADING}>
-                          {user.first_name} {user.last_name}
+                          {user.firstName} {user.lastName}
                         </h5>
 
-                        <h6 className={Classes.HEADING}>{user.position_description}</h6>
+                        <h6 className={Classes.HEADING}>{user.positionDescription}</h6>
                         <p>{user.bio && newlinesToBr(user.bio)}</p>
 
                         <Callout>
@@ -278,11 +278,11 @@ class Users extends React.Component<IProps, IUsersState> {
                           {user.role.name}
                           <br />
                           <span className={Classes.TEXT_MUTED}>Posílat upozornění emailem: </span>
-                          {user.email_notifications ? 'Ano' : 'Ne'}
+                          {user.emailNotifications ? 'Ano' : 'Ne'}
                           <Authorize permissions={['users:edit-user-public']}>
                             <br />
                             <span className={Classes.TEXT_MUTED}>Zobrazit v O nás:&nbsp;</span>
-                            {user.user_public ? 'Ano' : 'Ne'}
+                            {user.userPublic ? 'Ano' : 'Ne'}
                           </Authorize>
                         </Callout>
                       </div>

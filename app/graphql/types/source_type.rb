@@ -47,7 +47,7 @@ module Types
       statements
     end
 
-    field :statements_counts_by_evaluation_status, StatementsCountsByEvaluationStatusItemType, null: false, resolve: ->(obj, args, ctx) {
+    field :statements_counts_by_evaluation_status, [StatementsCountsByEvaluationStatusItemType], null: false, resolve: ->(obj, args, ctx) {
       grouped = obj.statements.includes(:assessment).group_by do |statement|
         statement.assessment.evaluation_status
       end

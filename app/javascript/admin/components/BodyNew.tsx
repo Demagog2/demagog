@@ -29,7 +29,7 @@ class BodyNew extends React.Component<IBodyNewProps> {
           return;
         }
 
-        const bodyId: number = parseInt(mutationResult.data.createBody.id, 10);
+        const bodyId: number = parseInt(mutationResult.data.createBody.body.id, 10);
 
         let uploadPromise: Promise<any> = Promise.resolve();
         if (logo instanceof File) {

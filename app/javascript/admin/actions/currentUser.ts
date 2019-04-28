@@ -1,6 +1,6 @@
 import { GetCurrentUserQuery } from '../operation-result-types';
 
-export type CurrentUser = GetCurrentUserQuery['current_user'];
+export type CurrentUser = GetCurrentUserQuery['currentUser'];
 
 export type Action =
   | IFetchCurrentUserAction

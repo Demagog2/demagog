@@ -32,7 +32,7 @@ class UserNew extends React.Component<IUserNewProps> {
           return;
         }
 
-        const userId: number = parseInt(mutationResult.data.createUser.id, 10);
+        const userId: number = parseInt(mutationResult.data.createUser.user.id, 10);
 
         let uploadPromise: Promise<any> = Promise.resolve();
         if (avatar instanceof File) {

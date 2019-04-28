@@ -7,7 +7,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { addFlashMessage } from '../../actions/flashMessages';
 import { uploadArticleIllustration } from '../../api';
 import {
-  ArticleInputType,
+  ArticleInput,
   CreateArticleMutation,
   CreateArticleMutationVariables,
 } from '../../operation-result-types';
@@ -38,7 +38,7 @@ export class ArticleNew extends React.Component<ISourceNewProps> {
   };
 
   public onSubmit = (createArticle: CreateArticleMutationFn) => (
-    articleFormData: ArticleInputType & { illustration?: File },
+    articleFormData: ArticleInput & { illustration?: File },
   ) => {
     const { illustration, ...articleInput } = articleFormData;
 
@@ -48,7 +48,7 @@ export class ArticleNew extends React.Component<ISourceNewProps> {
           return;
         }
 
-        const articleId = mutationResult.data.createArticle.id;
+        const articleId = mutationResult.data.createArticle.article.id;
 
         let uploadPromise: Promise<any> = Promise.resolve();
 

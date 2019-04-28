@@ -8,7 +8,7 @@ import { FieldArray, Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
-import { GetSpeakerQuery, SpeakerInputType } from '../../operation-result-types';
+import { GetSpeakerQuery, SpeakerInput } from '../../operation-result-types';
 import SpeakerAvatar from '../SpeakerAvatar';
 import BodySelect from './controls/BodySelect';
 import DateField from './controls/DateField';
@@ -17,7 +17,7 @@ import SelectComponentField from './controls/SelectComponentField';
 import TextField from './controls/TextField';
 import FormGroup from './FormGroup';
 
-export interface ISpeakerFormData extends SpeakerInputType {
+export interface ISpeakerFormData extends SpeakerInput {
   avatar: ImageValueType;
 }
 
@@ -32,12 +32,12 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
     const { speaker, title } = this.props;
 
     const initialValues = {
-      first_name: speaker ? speaker.first_name : '',
-      last_name: speaker ? speaker.last_name : '',
+      first_name: speaker ? speaker.firstName : '',
+      last_name: speaker ? speaker.lastName : '',
       avatar: speaker ? speaker.avatar : null,
-      website_url: speaker ? speaker.website_url : '',
+      website_url: speaker ? speaker.websiteUrl : '',
       memberships: speaker
-        ? speaker.memberships.map((m) => ({
+        ? (speaker.memberships || []).map((m) => ({
             id: m.id,
             body_id: m.body.id,
             since: m.since,
@@ -59,7 +59,18 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
           ),
         })}
         onSubmit={(values, { setSubmitting }) => {
-          const formData: ISpeakerFormData = values;
+          const formData: ISpeakerFormData = {
+            avatar: values.avatar,
+            firstName: values.first_name,
+            lastName: values.last_name,
+            memberships: values.memberships.map((m) => ({
+              id: m.id,
+              bodyId: m.body_id,
+              since: m.since,
+              until: m.until,
+            })),
+            websiteUrl: values.website_url,
+          };
 
           this.props
             .onSubmit(formData)

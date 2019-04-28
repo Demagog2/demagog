@@ -129,9 +129,9 @@ class Sources extends React.Component<{}, IState> {
                     </thead>
                     <tbody>
                       {props.data.sources.map((source) => {
-                        const statementsCountsMap = source.statements_counts_by_evaluation_status.reduce(
+                        const statementsCountsMap = source.statementsCountsByEvaluationStatus.reduce(
                           (carry, item) => {
-                            return { ...carry, [item.evaluation_status]: item.statements_count };
+                            return { ...carry, [item.evaluationStatus]: item.statementsCount };
                           },
                           {
                             [ASSESSMENT_STATUS_BEING_EVALUATED]: 0,
@@ -146,13 +146,13 @@ class Sources extends React.Component<{}, IState> {
                             <td>
                               <div className={Classes.TEXT_LARGE}>{source.name}</div>
                               <div className={Classes.TEXT_MUTED} style={{ marginTop: 5 }}>
-                                {source.medium.name} ze dne {displayDate(source.released_at)}
-                                {source.media_personalities.length > 0 && (
-                                  <>, {source.media_personalities.map((p) => p.name).join(' & ')}</>
+                                {source.medium.name} ze dne {displayDate(source.releasedAt)}
+                                {source.mediaPersonalities.length > 0 && (
+                                  <>, {source.mediaPersonalities.map((p) => p.name).join(' & ')}</>
                                 )}
-                                {source.source_url && (
+                                {source.sourceUrl && (
                                   <>
-                                    , <a href={source.source_url}>odkaz</a>
+                                    , <a href={source.sourceUrl}>odkaz</a>
                                   </>
                                 )}
                               </div>
@@ -160,7 +160,7 @@ class Sources extends React.Component<{}, IState> {
                             <td>
                               {source.expert ? (
                                 <>
-                                  {source.expert.first_name} {source.expert.last_name}
+                                  {source.expert.firstName} {source.expert.lastName}
                                 </>
                               ) : (
                                 <span className={Classes.TEXT_MUTED}>Expert nepřiřazený</span>

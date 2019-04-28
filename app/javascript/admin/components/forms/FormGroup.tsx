@@ -11,6 +11,7 @@ import { Field, getIn } from 'formik';
 interface IFormGroupProps extends IBlueprintFormGroupProps {
   error?: object | false;
   optional?: boolean;
+  children?: JSX.Element;
 }
 
 class FormGroup extends React.Component<IFormGroupProps> {

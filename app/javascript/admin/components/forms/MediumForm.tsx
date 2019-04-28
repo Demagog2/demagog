@@ -7,13 +7,13 @@ import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
-import { GetMediumQuery, MediumInputType } from '../../operation-result-types';
+import { GetMediumQuery, MediumInput } from '../../operation-result-types';
 import TextField from './controls/TextField';
 import FormGroup from './FormGroup';
 
 interface ISpeakerFormProps {
   medium?: GetMediumQuery['medium'];
-  onSubmit: (formData: MediumInputType) => Promise<any>;
+  onSubmit: (formData: MediumInput) => Promise<any>;
   title: string;
 }
 
@@ -32,7 +32,7 @@ export class MediumForm extends React.Component<ISpeakerFormProps> {
           name: yup.string().required('Je třeba vyplnit název pořadu'),
         })}
         onSubmit={(values, { setSubmitting }) => {
-          const formData: MediumInputType = values;
+          const formData: MediumInput = values;
 
           this.props
             .onSubmit(formData)

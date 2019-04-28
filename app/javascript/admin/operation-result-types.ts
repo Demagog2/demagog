@@ -631,10 +631,10 @@ export interface CreateStatementMutation {
       },
       source:  {
         id: string,
-        statementsCountsByEvaluationStatus:  {
+        statementsCountsByEvaluationStatus:  Array< {
           evaluationStatus: string,
           statementsCount: number,
-        },
+        } >,
       },
     },
   } | null,
@@ -679,10 +679,10 @@ export interface UpdateStatementMutation {
       },
       source:  {
         id: string,
-        statementsCountsByEvaluationStatus:  {
+        statementsCountsByEvaluationStatus:  Array< {
           evaluationStatus: string,
           statementsCount: number,
-        },
+        } >,
       },
       commentsCount: number,
     },
@@ -927,10 +927,10 @@ export interface GetSourcesQuery {
       id: string,
       name: string,
     } >,
-    statementsCountsByEvaluationStatus:  {
+    statementsCountsByEvaluationStatus:  Array< {
       evaluationStatus: string,
       statementsCount: number,
-    },
+    } >,
     statements:  Array< {
       id: string,
     } >,
@@ -961,10 +961,10 @@ export interface GetSourceQuery {
       id: string,
       name: string,
     } >,
-    statementsCountsByEvaluationStatus:  {
+    statementsCountsByEvaluationStatus:  Array< {
       evaluationStatus: string,
       statementsCount: number,
-    },
+    } >,
     speakers:  Array< {
       id: string,
       firstName: string,

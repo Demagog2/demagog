@@ -7,7 +7,7 @@ import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
-import { GetUserQuery, UserInputType } from '../../operation-result-types';
+import { GetUserQuery, UserInput } from '../../operation-result-types';
 import SpeakerAvatar from '../SpeakerAvatar';
 import ImageField, { ImageValueType } from './controls/ImageField';
 import RoleSelect from './controls/RoleSelect';
@@ -17,7 +17,7 @@ import TextareaField from './controls/TextareaField';
 import TextField from './controls/TextField';
 import FormGroup from './FormGroup';
 
-export interface IUserFormData extends UserInputType {
+export interface IUserFormData extends UserInput {
   avatar: ImageValueType;
 }
 
@@ -36,13 +36,13 @@ export class UserForm extends React.Component<IUserFormProps> {
       : {
           active: true,
           email: '',
-          first_name: '',
-          last_name: '',
+          firstName: '',
+          lastName: '',
           avatar: null,
           bio: '',
-          role_id: null,
-          position_description: '',
-          email_notifications: false,
+          roleId: null,
+          positionDescription: '',
+          emailNotifications: false,
         };
 
     return (
@@ -61,15 +61,15 @@ export class UserForm extends React.Component<IUserFormProps> {
           const formData: IUserFormData = {
             email: values.email,
             active: values.active,
-            first_name: values.first_name,
-            last_name: values.last_name,
-            position_description: values.position_description,
+            firstName: values.firstName,
+            lastName: values.lastName,
+            positionDescription: values.positionDescription,
             bio: values.bio,
             avatar: values.avatar,
-            email_notifications: values.email_notifications,
+            emailNotifications: values.emailNotifications,
 
             // role_id will always be a string, because null won't pass validation
-            role_id: values.role_id as string,
+            roleId: values.roleId || '',
           };
 
           this.props
@@ -104,13 +104,13 @@ export class UserForm extends React.Component<IUserFormProps> {
                 <h4 className={Classes.HEADING}>Základní údaje</h4>
               </div>
               <div style={{ flex: '1 1' }}>
-                <FormGroup label="Jméno" name="first_name">
-                  <TextField name="first_name" />
+                <FormGroup label="Jméno" name="firstName">
+                  <TextField name="firstName" />
                 </FormGroup>
               </div>
               <div style={{ flex: '1 1', marginLeft: 15 }}>
-                <FormGroup label="Přijmení" name="last_name">
-                  <TextField name="last_name" />
+                <FormGroup label="Přijmení" name="lastName">
+                  <TextField name="lastName" />
                 </FormGroup>
               </div>
             </div>
@@ -130,8 +130,8 @@ export class UserForm extends React.Component<IUserFormProps> {
                 <div style={{ marginTop: 15, marginBottom: 15 }}>
                   <SwitchField name="active" label="Aktivovaný uživatel" />
                 </div>
-                <FormGroup label="Přístupová práva" name="role_id">
-                  <SelectComponentField name="role_id">
+                <FormGroup label="Přístupová práva" name="roleId">
+                  <SelectComponentField name="roleId">
                     {(renderProps) => <RoleSelect {...renderProps} />}
                   </SelectComponentField>
                 </FormGroup>
@@ -144,7 +144,7 @@ export class UserForm extends React.Component<IUserFormProps> {
               </div>
               <div style={{ flex: '1 1' }}>
                 <div style={{ marginBottom: 15 }}>
-                  <SwitchField name="email_notifications" label="Posílat upozornění emailem" />
+                  <SwitchField name="emailNotifications" label="Posílat upozornění emailem" />
                 </div>
               </div>
             </div>
@@ -157,8 +157,8 @@ export class UserForm extends React.Component<IUserFormProps> {
                 <FormGroup label="Portrét" name="avatar" optional>
                   <ImageField name="avatar" renderImage={(src) => <SpeakerAvatar avatar={src} />} />
                 </FormGroup>
-                <FormGroup label="Popis pozice" name="position_description" optional>
-                  <TextField name="position_description" />
+                <FormGroup label="Popis pozice" name="positionDescription" optional>
+                  <TextField name="positionDescription" />
                 </FormGroup>
                 <FormGroup label="Bio" name="bio" optional>
                   <TextareaField name="bio" rows={9} />

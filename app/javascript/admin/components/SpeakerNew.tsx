@@ -35,7 +35,7 @@ class SpeakerNew extends React.Component<ISpeakerNewProps> {
           return;
         }
 
-        const speakerId: number = parseInt(mutationResult.data.createSpeaker.id, 10);
+        const speakerId: number = parseInt(mutationResult.data.createSpeaker.speaker.id, 10);
 
         let uploadPromise: Promise<any> = Promise.resolve();
         if (avatar instanceof File) {

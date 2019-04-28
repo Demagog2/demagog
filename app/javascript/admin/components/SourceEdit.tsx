@@ -6,7 +6,7 @@ import { addFlashMessage } from '../actions/flashMessages';
 import {
   GetSourceQuery,
   GetSourceQueryVariables,
-  SourceInputType,
+  SourceInput,
   UpdateSourceMutation,
   UpdateSourceMutationVariables,
 } from '../operation-result-types';
@@ -36,10 +36,10 @@ class SourceEdit extends React.Component<ISourceEditProps> {
     console.error(error);
   };
 
-  public onSubmit = (updateSource: UpdateSourceMutationFn) => (sourceInput: SourceInputType) => {
+  public onSubmit = (updateSource: UpdateSourceMutationFn) => (sourceInput: SourceInput) => {
     const id = this.getParamId();
 
-    return updateSource({ variables: { id, sourceInput } });
+    return updateSource({ variables: { id: id.toString(), sourceInput } });
   };
 
   public getParamId = () => parseInt(this.props.match.params.id, 10);

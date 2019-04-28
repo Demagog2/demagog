@@ -7,13 +7,13 @@ import { css } from 'emotion';
 import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 
-import { GetPageQuery, PageInputType } from '../../operation-result-types';
+import { GetPageQuery, PageInput } from '../../operation-result-types';
 import RichTextEditor from '../RichTextEditor';
 import SwitchField from './controls/SwitchField';
 
 interface IPageFormProps {
   page?: GetPageQuery['page'];
-  onSubmit: (formData: PageInputType) => Promise<any>;
+  onSubmit: (formData: PageInput) => Promise<any>;
   title: string;
   backPath: string;
 }
@@ -24,8 +24,8 @@ export class PageForm extends React.Component<IPageFormProps> {
 
     const initialValues = {
       title: page ? page.title : '',
-      text_html: page ? page.text_html : '',
-      text_slatejson: page ? page.text_slatejson : null,
+      text_html: page ? page.textHtml : '',
+      text_slatejson: page ? page.textSlatejson : null,
       published: page ? page.published : false,
     };
 
@@ -33,7 +33,7 @@ export class PageForm extends React.Component<IPageFormProps> {
       <Formik
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
-          const formData: PageInputType = values;
+          const formData: PageInput = values;
 
           this.props.onSubmit(formData).finally(() => setSubmitting(false));
         }}

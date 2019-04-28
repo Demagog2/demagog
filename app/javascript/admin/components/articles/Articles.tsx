@@ -172,22 +172,22 @@ class Articles extends React.Component<IProps, IState> {
                           <tr key={article.id}>
                             <td>{article.title}</td>
                             <td>
-                              <Tag intent={ARTICLE_TYPE_INTENT[article.article_type]}>
-                                {ARTICLE_TYPE_LABEL[article.article_type]}
+                              <Tag intent={ARTICLE_TYPE_INTENT[article.articleType]}>
+                                {ARTICLE_TYPE_LABEL[article.articleType]}
                               </Tag>
                             </td>
                             <td>
                               {article.published &&
-                                article.published_at &&
-                                isSameOrAfterToday(article.published_at) && (
-                                  <>Zveřejněný od {displayDate(article.published_at)}</>
+                                article.publishedAt &&
+                                isSameOrAfterToday(article.publishedAt) && (
+                                  <>Zveřejněný od {displayDate(article.publishedAt)}</>
                                 )}
                               {article.published &&
-                                article.published_at &&
-                                !isSameOrAfterToday(article.published_at) && (
+                                article.publishedAt &&
+                                !isSameOrAfterToday(article.publishedAt) && (
                                   <>
                                     <Icon icon={IconNames.TIME} /> Bude zveřejněný{' '}
-                                    {displayDate(article.published_at)}
+                                    {displayDate(article.publishedAt)}
                                   </>
                                 )}
                               {!article.published && (
@@ -196,8 +196,8 @@ class Articles extends React.Component<IProps, IState> {
                             </td>
                             <td>
                               {article.published &&
-                                article.published_at &&
-                                isSameOrAfterToday(article.published_at) && (
+                                article.publishedAt &&
+                                isSameOrAfterToday(article.publishedAt) && (
                                   <a href={`/diskuze/${article.slug}`} target="_blank">
                                     Veřejný odkaz
                                   </a>

@@ -28,7 +28,7 @@ export default (action$: ActionsObservable<Action>) =>
             return fetchCurrentUserFailure();
           }
 
-          return fetchCurrentUserSuccess(result.data.current_user);
+          return fetchCurrentUserSuccess(result.data.currentUser);
         })
         .catch((error) => {
           console.error(error); // tslint:disable-line:no-console

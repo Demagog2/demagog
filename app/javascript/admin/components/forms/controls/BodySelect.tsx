@@ -30,7 +30,7 @@ export default class BodySelect extends React.Component<IProps> {
 
           if (data && !loading) {
             options = data.bodies.map((b) => ({
-              label: `${b.name} (${b.short_name})`,
+              label: `${b.name} (${b.shortName})`,
               value: b.id,
             }));
           }

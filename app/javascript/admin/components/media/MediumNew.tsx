@@ -8,7 +8,7 @@ import { addFlashMessage } from '../../actions/flashMessages';
 import {
   CreateMediumMutation,
   CreateMediumMutationVariables,
-  MediumInputType,
+  MediumInput,
 } from '../../operation-result-types';
 import { CreateMedium } from '../../queries/mutations';
 import { GetMedia } from '../../queries/queries';
@@ -37,14 +37,14 @@ export class MediumNew extends React.Component<ISourceNewProps> {
     console.error(error);
   };
 
-  public onSubmit = (createMedium: CreateMediumMutationFn) => (mediumInput: MediumInputType) => {
+  public onSubmit = (createMedium: CreateMediumMutationFn) => (mediumInput: MediumInput) => {
     return createMedium({ variables: { mediumInput } })
       .then((mutationResult) => {
         if (!mutationResult || !mutationResult.data || !mutationResult.data.createMedium) {
           return;
         }
 
-        const mediumId = mutationResult.data.createMedium.id;
+        const mediumId = mutationResult.data.createMedium.medium.id;
 
         this.onSuccess(mediumId);
       })

@@ -7,13 +7,13 @@ import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
-import { GetMediaPersonalityQuery, MediaPersonalityInputType } from '../../operation-result-types';
+import { GetMediaPersonalityQuery, MediaPersonalityInput } from '../../operation-result-types';
 import TextField from './controls/TextField';
 import FormGroup from './FormGroup';
 
 interface IMediaPersonalityFormProps {
-  mediaPersonality?: GetMediaPersonalityQuery['media_personality'];
-  onSubmit: (formData: MediaPersonalityInputType) => Promise<any>;
+  mediaPersonality?: GetMediaPersonalityQuery['mediaPersonality'];
+  onSubmit: (formData: MediaPersonalityInput) => Promise<any>;
   title: string;
 }
 
@@ -32,7 +32,7 @@ export class MediaPersonalityForm extends React.Component<IMediaPersonalityFormP
           name: yup.string().required('Je třeba vyplnit jméno a příjmení moderátora'),
         })}
         onSubmit={(values, { setSubmitting }) => {
-          const formData: MediaPersonalityInputType = values;
+          const formData: MediaPersonalityInput = values;
 
           this.props
             .onSubmit(formData)

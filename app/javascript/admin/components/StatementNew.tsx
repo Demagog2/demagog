@@ -12,7 +12,7 @@ import * as yup from 'yup';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import {
-  CreateStatementInputType,
+  CreateStatementInput,
   CreateStatementMutation,
   CreateStatementMutationVariables,
   GetSourceQuery,
@@ -92,18 +92,18 @@ class StatementNew extends React.Component<IProps> {
                   onSubmit={(values, { setSubmitting }) => {
                     const note = values.note.trim();
 
-                    const statementInput: CreateStatementInputType = {
+                    const statementInput: CreateStatementInput = {
                       content: values.content,
-                      speaker_id: values.speaker_id,
-                      source_id: source.id,
+                      speakerId: values.speaker_id,
+                      sourceId: source.id,
                       important: false,
                       published: false,
-                      count_in_statistics: true,
-                      excerpted_at: DateTime.utc().toISO(),
+                      countInStatistics: true,
+                      excerptedAt: DateTime.utc().toISO(),
                       assessment: {
-                        evaluator_id: values.evaluator_id,
+                        evaluatorId: values.evaluator_id,
                       },
-                      first_comment_content: note !== '' ? note : null,
+                      firstCommentContent: note !== '' ? note : null,
                     };
 
                     createStatement({ variables: { statementInput } })
@@ -153,7 +153,7 @@ class StatementNew extends React.Component<IProps> {
                               <SelectField
                                 name="speaker_id"
                                 options={source.speakers.map((s) => ({
-                                  label: `${s.first_name} ${s.last_name}`,
+                                  label: `${s.firstName} ${s.lastName}`,
                                   value: s.id,
                                 }))}
                               />

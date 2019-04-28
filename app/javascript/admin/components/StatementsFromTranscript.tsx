@@ -19,7 +19,7 @@ import { Editor, RenderMarkProps } from 'slate-react';
 
 import { isAuthorized } from '../authorization';
 import {
-  CreateStatementInputType,
+  CreateStatementInput,
   CreateStatementMutation,
   CreateStatementMutationVariables,
   GetSourceQuery,
@@ -140,19 +140,19 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                 <h2 className={Classes.HEADING}>{source.name}</h2>
 
                 <span>
-                  {source.medium.name} ze dne {displayDate(source.released_at)}
-                  {source.media_personalities.length > 0 && (
-                    <>, {source.media_personalities.map((p) => p.name).join(' & ')}</>
+                  {source.medium.name} ze dne {displayDate(source.releasedAt)}
+                  {source.mediaPersonalities.length > 0 && (
+                    <>, {source.mediaPersonalities.map((p) => p.name).join(' & ')}</>
                   )}
-                  {source.source_url && (
+                  {source.sourceUrl && (
                     <>
-                      , <a href={source.source_url}>odkaz</a>
+                      , <a href={source.sourceUrl}>odkaz</a>
                     </>
                   )}
                   {source.expert && (
                     <>
                       <br />
-                      Expert: {source.expert.first_name} {source.expert.last_name}
+                      Expert: {source.expert.firstName} {source.expert.lastName}
                     </>
                   )}
                 </span>
@@ -188,7 +188,7 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
           const statements = data.statements;
 
           const statementsWithPositions = statements.filter(
-            (s) => s.statement_transcript_position !== null,
+            (s) => s.statementTranscriptPosition !== null,
           );
 
           let statementsToDisplay = statementsWithPositions;
@@ -205,10 +205,10 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
               (s) => s.id === queryParams.highlightStatementId,
             );
 
-            if (highlightStatement && highlightStatement.statement_transcript_position) {
+            if (highlightStatement && highlightStatement.statementTranscriptPosition) {
               startCursor = {
-                line: highlightStatement.statement_transcript_position.start_line,
-                offset: highlightStatement.statement_transcript_position.start_offset,
+                line: highlightStatement.statementTranscriptPosition.startLine,
+                offset: highlightStatement.statementTranscriptPosition.startOffset,
               };
             }
           }
@@ -353,24 +353,24 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
             onSubmit={(values, { setSubmitting }) => {
               const note = values.note.trim();
 
-              const statementInput: CreateStatementInputType = {
+              const statementInput: CreateStatementInput = {
                 content: values.content,
-                speaker_id: values.speaker_id,
-                source_id: source.id,
+                speakerId: values.speaker_id,
+                sourceId: source.id,
                 important: false,
                 published: false,
-                count_in_statistics: true,
-                excerpted_at: DateTime.utc().toISO(),
+                countInStatistics: true,
+                excerptedAt: DateTime.utc().toISO(),
                 assessment: {
-                  evaluator_id: values.evaluator_id,
+                  evaluatorId: values.evaluator_id,
                 },
-                statement_transcript_position: {
-                  start_line: selection.startLine,
-                  start_offset: selection.startOffset,
-                  end_line: selection.endLine,
-                  end_offset: selection.endOffset,
+                statementTranscriptPosition: {
+                  startLine: selection.startLine,
+                  startOffset: selection.startOffset,
+                  endLine: selection.endLine,
+                  endOffset: selection.endOffset,
                 },
-                first_comment_content: note !== '' ? note : null,
+                firstCommentContent: note !== '' ? note : null,
               };
 
               createStatement({ variables: { statementInput } })

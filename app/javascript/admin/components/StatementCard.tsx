@@ -21,27 +21,27 @@ interface IStatement {
   published: boolean;
   speaker: {
     id: string;
-    first_name: string;
-    last_name: string;
+    firstName: string;
+    lastName: string;
     avatar: string | null;
   };
   assessment: {
-    evaluation_status: string;
+    evaluationStatus: string;
     evaluator: null | {
       id: string;
-      first_name: string | null;
-      last_name: string | null;
+      firstName: string | null;
+      lastName: string | null;
     };
-    short_explanation_characters_length: number;
-    explanation_characters_length: number;
+    shortExplanationCharactersLength: number;
+    explanationCharactersLength: number;
   };
-  statement_transcript_position: null | {
-    start_line: number;
-    start_offset: number;
-    end_line: number;
-    end_offset: number;
+  statementTranscriptPosition: null | {
+    startLine: number;
+    startOffset: number;
+    endLine: number;
+    endOffset: number;
   };
-  comments_count: number;
+  commentsCount: number;
 }
 
 interface IProps extends DispatchProp {
@@ -89,7 +89,7 @@ class StatementCard extends React.Component<IProps, IState> {
           <ConfirmDeleteModal
             message={`Opravdu chcete smazat výrok "${truncate(statement.content, {
               length: 50,
-            })}" od ${statement.speaker.first_name} ${statement.speaker.last_name}?`}
+            })}" od ${statement.speaker.firstName} ${statement.speaker.lastName}?`}
             onCancel={this.toggleConfirmDeleteModal}
             mutation={DeleteStatement}
             mutationProps={{
@@ -122,24 +122,24 @@ class StatementCard extends React.Component<IProps, IState> {
           </div>
 
           <h5 className={Classes.HEADING}>
-            {statement.speaker.first_name} {statement.speaker.last_name}
+            {statement.speaker.firstName} {statement.speaker.lastName}
           </h5>
 
           <p>{newlinesToBr(statement.content)}</p>
 
           <small className={Classes.TEXT_MUTED}>
             {statement.published && <>Zveřejněný{' · '}</>}
-            Stav: {ASSESSMENT_STATUS_LABELS[assessment.evaluation_status]}
-            {assessment.evaluation_status === ASSESSMENT_STATUS_BEING_EVALUATED && (
+            Stav: {ASSESSMENT_STATUS_LABELS[assessment.evaluationStatus]}
+            {assessment.evaluationStatus === ASSESSMENT_STATUS_BEING_EVALUATED && (
               <>
-                {assessment.short_explanation_characters_length === 0 &&
-                assessment.explanation_characters_length === 0 ? (
+                {assessment.shortExplanationCharactersLength === 0 &&
+                assessment.explanationCharactersLength === 0 ? (
                   <> (odůvodnění zatím prázdné)</>
                 ) : (
                   <>
                     {' '}
-                    (odůvodnění zkrácené: {assessment.short_explanation_characters_length} znaků,
-                    celé: {assessment.explanation_characters_length} znaků)
+                    (odůvodnění zkrácené: {assessment.shortExplanationCharactersLength} znaků, celé:{' '}
+                    {assessment.explanationCharactersLength} znaků)
                   </>
                 )}
               </>
@@ -147,15 +147,15 @@ class StatementCard extends React.Component<IProps, IState> {
             {assessment.evaluator && (
               <>
                 {' · '}
-                Ověřovatel: {assessment.evaluator.first_name} {assessment.evaluator.last_name}
+                Ověřovatel: {assessment.evaluator.firstName} {assessment.evaluator.lastName}
               </>
             )}
-            {statement.comments_count > 0 && (
+            {statement.commentsCount > 0 && (
               <>
                 {' · '}
-                {statement.comments_count}{' '}
-                {pluralize(statement.comments_count, 'komentář', 'komentáře', 'komentářů')} v
-                diskuzi k výroku
+                {statement.commentsCount}{' '}
+                {pluralize(statement.commentsCount, 'komentář', 'komentáře', 'komentářů')} v diskuzi
+                k výroku
               </>
             )}
           </small>

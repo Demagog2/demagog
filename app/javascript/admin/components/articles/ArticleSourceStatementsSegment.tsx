@@ -165,7 +165,7 @@ function StatementsPreview({ sourceId }: IStatementsPreviewProps) {
                       font-weight: 700;
                     `}
                   >
-                    {statement.speaker.first_name} {statement.speaker.last_name}
+                    {statement.speaker.firstName} {statement.speaker.lastName}
                   </div>
                 </div>
 
@@ -221,13 +221,13 @@ function StatementsPreview({ sourceId }: IStatementsPreviewProps) {
                       </p>
                     )}
 
-                    {statement.assessment.short_explanation && (
+                    {statement.assessment.shortExplanation && (
                       <p
                         className={css`
                           margin: 5px 0 0 15px;
                         `}
                       >
-                        {statement.assessment.short_explanation}
+                        {statement.assessment.shortExplanation}
                       </p>
                     )}
                   </div>

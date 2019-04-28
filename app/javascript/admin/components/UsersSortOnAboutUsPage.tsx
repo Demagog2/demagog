@@ -12,7 +12,6 @@ import { addFlashMessage } from '../actions/flashMessages';
 import {
   GetUsersQuery,
   GetUsersQueryVariables,
-  UpdateUsersRankInputType,
   UpdateUsersRankMutation,
   UpdateUsersRankMutationVariables,
 } from '../operation-result-types';
@@ -66,11 +65,7 @@ class UsersSortOnAboutUsPage extends React.Component<
   };
 
   public save = (updateUsersRank) => () => {
-    const input: UpdateUsersRankInputType = {
-      ordered_user_ids: this.state.users.map((s) => s.id),
-    };
-
-    updateUsersRank({ variables: { input } })
+    updateUsersRank({ variables: { orderedUserIds: this.state.users.map((s) => s.id) } })
       .then(() => {
         this.props.dispatch(
           addFlashMessage('Řazení členů týmu na stránce „O nás“ úspěšně uloženo.', 'success'),
@@ -127,15 +122,15 @@ class UsersSortOnAboutUsPage extends React.Component<
                           <div style={{ flex: '0 0 106px' }}>
                             <SpeakerAvatar
                               avatar={user.avatar}
-                              first_name={user.first_name || ''}
-                              last_name={user.last_name || ''}
+                              first_name={user.firstName || ''}
+                              last_name={user.lastName || ''}
                             />
                           </div>
                           <div style={{ flex: '1 1', marginLeft: 15 }}>
                             <h5 className={Classes.HEADING}>
-                              {user.first_name} {user.last_name}
+                              {user.firstName} {user.lastName}
                             </h5>
-                            <h6 className={Classes.HEADING}>{user.position_description}</h6>
+                            <h6 className={Classes.HEADING}>{user.positionDescription}</h6>
                             <p>{user.bio && newlinesToBr(user.bio)}</p>
                           </div>
                         </div>
@@ -177,7 +172,7 @@ class UsersSortOnAboutUsPageContainer extends React.Component<{}> {
         {({ data, loading }) => {
           let users: GetUsersQuery['users'] = [];
           if (data && data.users) {
-            users = data.users.filter((u) => u.user_public);
+            users = data.users.filter((u) => u.userPublic);
             users = sortBy(users, 'rank');
           }
 

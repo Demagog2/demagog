@@ -115,11 +115,11 @@ class Media extends React.Component<IProps, IState> {
               return null;
             }
 
-            const confirmDeleteModalMediaPersonality = props.data.media_personalities.find(
+            const confirmDeleteModalMediaPersonality = props.data.mediaPersonalities.find(
               (s) => s.id === confirmDeleteModalMediaPersonalityId,
             );
 
-            const mediaLength = props.data.media_personalities.length;
+            const mediaLength = props.data.mediaPersonalities.length;
 
             return (
               <div style={{ marginTop: 15 }}>
@@ -159,7 +159,7 @@ class Media extends React.Component<IProps, IState> {
                         </tr>
                       </thead>
                       <tbody>
-                        {props.data.media_personalities.map((mediaPersonality) => (
+                        {props.data.mediaPersonalities.map((mediaPersonality) => (
                           <tr key={mediaPersonality.id}>
                             <td>{mediaPersonality.name}</td>
                             <td>

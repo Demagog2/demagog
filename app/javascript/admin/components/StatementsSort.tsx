@@ -14,7 +14,7 @@ import {
   GetSourceQueryVariables,
   GetSourceStatementsQuery,
   GetSourceStatementsQueryVariables,
-  UpdateSourceStatementsOrderInputType,
+  UpdateSourceStatementsOrderInput,
   UpdateSourceStatementsOrderMutation,
   UpdateSourceStatementsOrderMutationVariables,
 } from '../operation-result-types';
@@ -38,8 +38,8 @@ interface IStatement {
   id: string;
   content: string;
   speaker: {
-    first_name: string;
-    last_name: string;
+    firstName: string;
+    lastName: string;
   };
 }
 
@@ -82,8 +82,8 @@ class StatementsSort extends React.Component<IProps, IState> {
   };
 
   public save = (updateSourceStatementsOrder) => () => {
-    const input: UpdateSourceStatementsOrderInputType = {
-      ordered_statement_ids: this.state.statements.map((s) => s.id),
+    const input: UpdateSourceStatementsOrderInput = {
+      orderedStatementIds: this.state.statements.map((s) => s.id),
     };
 
     this.setState({ isSubmitting: true });
@@ -143,7 +143,7 @@ class StatementsSort extends React.Component<IProps, IState> {
                         >
                           <div style={{ flex: '1 0' }}>
                             <h5 className={Classes.HEADING}>
-                              {statement.speaker.first_name} {statement.speaker.last_name}
+                              {statement.speaker.firstName} {statement.speaker.lastName}
                             </h5>
                           </div>
                           <div style={{ flex: '2 0' }}>{newlinesToBr(statement.content)}</div>

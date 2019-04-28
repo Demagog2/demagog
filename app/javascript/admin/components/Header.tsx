@@ -96,12 +96,12 @@ class Header extends React.Component<IProps, IState> {
                         Classes.BUTTON,
                         Classes.iconClass(IconNames.NOTIFICATIONS),
                         {
-                          [Classes.MINIMAL]: data.notifications.total_count === 0,
-                          [Classes.INTENT_PRIMARY]: data.notifications.total_count > 0,
+                          [Classes.MINIMAL]: data.notifications.totalCount === 0,
+                          [Classes.INTENT_PRIMARY]: data.notifications.totalCount > 0,
                         },
                       )}
                     >
-                      {`${data.notifications.total_count}`}
+                      {`${data.notifications.totalCount}`}
                     </NavLink>
                     <Navbar.Divider />
                   </>
@@ -114,7 +114,7 @@ class Header extends React.Component<IProps, IState> {
                 <Button
                   icon={IconNames.USER}
                   minimal
-                  text={`${this.props.currentUser.first_name} ${this.props.currentUser.last_name}`}
+                  text={`${this.props.currentUser.firstName} ${this.props.currentUser.lastName}`}
                 />
                 <Navbar.Divider />
               </>

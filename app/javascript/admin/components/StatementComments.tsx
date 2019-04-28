@@ -10,7 +10,7 @@ import { Mutation, Query } from 'react-apollo';
 import { Mention, MentionsInput } from 'react-mentions';
 
 import {
-  CommentInputType,
+  CommentInput,
   CreateCommentMutation,
   CreateCommentMutationVariables,
   GetStatementCommentsQuery,
@@ -65,10 +65,10 @@ class StatementComments extends React.PureComponent<IProps> {
               {data.statement.comments.map((comment) => (
                 <div key={comment.id} style={{ marginBottom: 15 }}>
                   <strong>
-                    {comment.user.first_name} {comment.user.last_name}
+                    {comment.user.firstName} {comment.user.lastName}
                   </strong>
                   <small className={Classes.TEXT_MUTED} style={{ marginLeft: 10 }}>
-                    {formatCreatedAt(comment.created_at)}
+                    {formatCreatedAt(comment.createdAt)}
                   </small>
                   <p
                     style={{ marginTop: 3 }}
@@ -133,9 +133,9 @@ const AddCommentForm = (props: IAddCommentFormProps) => {
         <Formik
           initialValues={initialValues}
           onSubmit={(values, { setSubmitting, resetForm }) => {
-            const commentInput: CommentInputType = {
+            const commentInput: CommentInput = {
               content: values.content.trim(),
-              statement_id: props.statementId,
+              statementId: props.statementId,
             };
 
             createComment({ variables: { commentInput } })
@@ -207,7 +207,7 @@ const CommentInput = (props: ICommentInputProps) => {
 
         const suggestions = data.users.map((u) => ({
           id: u.id,
-          display: `${u.first_name} ${u.last_name}`,
+          display: `${u.firstName} ${u.lastName}`,
         }));
 
         return (

@@ -53,7 +53,7 @@ class SpeakerEdit extends React.Component<ISpeakerEditProps> {
     }
 
     return avatarPromise
-      .then(() => updateSpeaker({ variables: { id, speakerInput } }))
+      .then(() => updateSpeaker({ variables: { id: id.toString(), speakerInput } }))
       .then(() => {
         this.setState({ submitting: false });
         this.onCompleted();

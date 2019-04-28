@@ -6,7 +6,7 @@ import { addFlashMessage } from '../../actions/flashMessages';
 import {
   GetMediaPersonalityQuery,
   GetMediaPersonalityQueryVariables,
-  MediaPersonalityInputType,
+  MediaPersonalityInput,
   UpdateMediaPersonalityMutation,
   UpdateMediaPersonalityMutationVariables,
 } from '../../operation-result-types';
@@ -44,7 +44,7 @@ class MediaPersonalityEdit extends React.Component<IMediaPersonalityEditProps> {
   };
 
   public onSubmit = (updateMediaPersonality: UpdateMediaPersonalityMutationFn) => (
-    mediaPersonalityInput: MediaPersonalityInputType,
+    mediaPersonalityInput: MediaPersonalityInput,
   ) => {
     const id = this.getParamId();
 
@@ -82,7 +82,7 @@ class MediaPersonalityEdit extends React.Component<IMediaPersonalityEditProps> {
                 {(updateMediaPersonality) => {
                   return (
                     <MediaPersonalityForm
-                      mediaPersonality={data.media_personality}
+                      mediaPersonality={data.mediaPersonality}
                       onSubmit={this.onSubmit(updateMediaPersonality)}
                       title="Upravit moderátory"
                     />

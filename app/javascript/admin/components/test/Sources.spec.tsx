@@ -14,8 +14,8 @@ const initialState = {
   currentUser: {
     isFetching: false,
     user: {
-      first_name: 'John',
-      last_name: 'Doe',
+      firstName: 'John',
+      lastName: 'Doe',
       email: 'john.doe@example.com',
       role: {
         id: 'admin_role',

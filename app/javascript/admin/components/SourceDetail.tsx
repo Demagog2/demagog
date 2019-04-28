@@ -290,19 +290,19 @@ class SourceDetail extends React.Component<IProps, IState> {
                 <h2 className={Classes.HEADING}>{source.name}</h2>
 
                 <span>
-                  {source.medium.name} ze dne {displayDate(source.released_at)}
-                  {source.media_personalities.length > 0 && (
-                    <>, {source.media_personalities.map((p) => p.name).join(' & ')}</>
+                  {source.medium.name} ze dne {displayDate(source.releasedAt)}
+                  {source.mediaPersonalities.length > 0 && (
+                    <>, {source.mediaPersonalities.map((p) => p.name).join(' & ')}</>
                   )}
-                  {source.source_url && (
+                  {source.sourceUrl && (
                     <>
-                      , <a href={source.source_url}>odkaz</a>
+                      , <a href={source.sourceUrl}>odkaz</a>
                     </>
                   )}
                   {source.expert && (
                     <>
                       <br />
-                      Expert: {source.expert.first_name} {source.expert.last_name}
+                      Expert: {source.expert.firstName} {source.expert.lastName}
                     </>
                   )}
                 </span>
@@ -363,7 +363,7 @@ class SourceDetail extends React.Component<IProps, IState> {
             value: statusKey,
             label: STATUS_FILTER_LABELS[statusKey],
             count: data.statements.filter(
-              (statement) => statement.assessment.evaluation_status === statusKey,
+              (statement) => statement.assessment.evaluationStatus === statusKey,
             ).length,
             active:
               statementsFilter !== null &&
@@ -437,7 +437,7 @@ class SourceDetail extends React.Component<IProps, IState> {
               (statement) => statement.speaker.id === speaker.id,
             );
             const groupedByVeracity = groupBy(speakerStatements, (statement) => {
-              switch (statement.assessment.evaluation_status) {
+              switch (statement.assessment.evaluationStatus) {
                 case ASSESSMENT_STATUS_APPROVED:
                 // When statement is already in proofreading state, the veracity won't
                 // change, so we can already include it in the stats as well
@@ -600,7 +600,7 @@ class SourceDetail extends React.Component<IProps, IState> {
                     {veracitiesBySpeaker.map((stat) => (
                       <p key={stat.speaker.id}>
                         <strong>
-                          {stat.speaker.first_name} {stat.speaker.last_name}
+                          {stat.speaker.firstName} {stat.speaker.lastName}
                         </strong>
                         <br />
                         {stat.trueCount} pravda<br />
@@ -658,7 +658,7 @@ class MassStatementsPublishModal extends React.Component<IMassStatementsPublishM
     const { source, statements, onCancel, onCompleted, onError } = this.props;
 
     const approvedAndNotPublished = statements.filter(
-      (s) => s.assessment.evaluation_status === ASSESSMENT_STATUS_APPROVED && !s.published,
+      (s) => s.assessment.evaluationStatus === ASSESSMENT_STATUS_APPROVED && !s.published,
     );
 
     return (

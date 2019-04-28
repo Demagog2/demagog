@@ -7,7 +7,7 @@ import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
-import { BodyInputType, GetBodyQuery } from '../../operation-result-types';
+import { BodyInput, GetBodyQuery } from '../../operation-result-types';
 import BodyLogo from '../BodyLogo';
 import DateField from './controls/DateField';
 import ImageField, { ImageValueType } from './controls/ImageField';
@@ -15,7 +15,7 @@ import SwitchField from './controls/SwitchField';
 import TextField from './controls/TextField';
 import FormGroup from './FormGroup';
 
-export interface IBodyFormData extends BodyInputType {
+export interface IBodyFormData extends BodyInput {
   logo: ImageValueType;
 }
 
@@ -33,13 +33,13 @@ export class BodyForm extends React.Component<IBodyProps> {
       ? body
       : {
           name: '',
-          short_name: '',
+          shortName: '',
           link: '',
           logo: null,
-          is_party: true,
-          founded_at: null,
-          is_inactive: false,
-          terminated_at: null,
+          isParty: true,
+          foundedAt: null,
+          isInactive: false,
+          terminatedAt: null,
         };
 
     return (
@@ -51,13 +51,13 @@ export class BodyForm extends React.Component<IBodyProps> {
         onSubmit={(values, { setSubmitting }) => {
           const formData: IBodyFormData = {
             name: values.name,
-            short_name: values.short_name,
+            shortName: values.shortName,
             link: values.link,
             logo: values.logo,
-            is_party: values.is_party,
-            founded_at: values.founded_at,
-            is_inactive: values.is_inactive,
-            terminated_at: values.terminated_at,
+            isParty: values.isParty,
+            foundedAt: values.foundedAt,
+            isInactive: values.isInactive,
+            terminatedAt: values.terminatedAt,
           };
 
           this.props
@@ -130,7 +130,7 @@ export class BodyForm extends React.Component<IBodyProps> {
                   style={{ marginBottom: 20 }}
                 />
                 <FormGroup label="Datum zániku" name="terminated_at" optional>
-                  <DateField disabled={!values.is_inactive} name="terminated_at" />
+                  <DateField disabled={!values.isInactive} name="terminated_at" />
                 </FormGroup>
               </div>
             </div>

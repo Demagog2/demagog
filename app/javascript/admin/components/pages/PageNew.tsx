@@ -37,7 +37,7 @@ export class PageNew extends React.Component<IPageNewProps> {
           mutation={CreatePage}
           // TODO: is there a nicer way of updating apollo cache after creating?
           refetchQueries={[{ query: GetPages, variables: { title: '', offset: 0, limit: 50 } }]}
-          onCompleted={(data) => data.createPage && this.onSuccess(data.createPage.id)}
+          onCompleted={(data) => data.createPage && this.onSuccess(data.createPage.page.id)}
           onError={this.onError}
         >
           {(createPage) => {

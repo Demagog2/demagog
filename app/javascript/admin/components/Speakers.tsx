@@ -115,8 +115,8 @@ class Speakers extends React.Component<IProps, IState> {
               <div style={{ marginTop: 15 }}>
                 {confirmDeleteModalSpeaker && (
                   <ConfirmDeleteModal
-                    message={`Opravdu chcete smazat osobu ${confirmDeleteModalSpeaker.first_name} ${
-                      confirmDeleteModalSpeaker.last_name
+                    message={`Opravdu chcete smazat osobu ${confirmDeleteModalSpeaker.firstName} ${
+                      confirmDeleteModalSpeaker.lastName
                     }?`}
                     onCancel={this.hideConfirmDeleteModal}
                     mutation={DeleteSpeaker}
@@ -137,8 +137,8 @@ class Speakers extends React.Component<IProps, IState> {
                       <div style={{ flex: '0 0 106px', marginRight: 15 }}>
                         <SpeakerAvatar
                           avatar={speaker.avatar}
-                          first_name={speaker.first_name}
-                          last_name={speaker.last_name}
+                          first_name={speaker.firstName}
+                          last_name={speaker.lastName}
                         />
                       </div>
                       <div style={{ flex: '1 1' }}>
@@ -163,15 +163,15 @@ class Speakers extends React.Component<IProps, IState> {
                         </Authorize>
 
                         <h5 className={Classes.HEADING}>
-                          {speaker.first_name} {speaker.last_name}
+                          {speaker.firstName} {speaker.lastName}
                         </h5>
 
                         <ul className={Classes.LIST_UNSTYLED}>
                           <li>
                             <span className={Classes.TEXT_MUTED}>Respektovaný odkaz: </span>
                             <p>
-                              {speaker.website_url ? (
-                                <a href={speaker.website_url}>{speaker.website_url}</a>
+                              {speaker.websiteUrl ? (
+                                <a href={speaker.websiteUrl}>{speaker.websiteUrl}</a>
                               ) : (
                                 'Nevyplněn'
                               )}
@@ -182,10 +182,10 @@ class Speakers extends React.Component<IProps, IState> {
                               Příslušnost ke skupinám/stranám:{' '}
                             </span>
                             <p>
-                              {speaker.memberships.map((m) => (
+                              {(speaker.memberships || []).map((m) => (
                                 <React.Fragment key={m.id}>
                                   <span>
-                                    {m.body.short_name}
+                                    {m.body.shortName}
                                     {' — od '}
                                     {m.since ? displayDate(m.since) : 'nevyplněno'}
                                     {' do '}
@@ -195,7 +195,7 @@ class Speakers extends React.Component<IProps, IState> {
                                 </React.Fragment>
                               ))}
 
-                              {speaker.memberships.length === 0 &&
+                              {(speaker.memberships || []).length === 0 &&
                                 'Není členem žádné skupiny či strany'}
                             </p>
                           </li>

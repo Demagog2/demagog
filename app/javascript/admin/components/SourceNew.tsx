@@ -6,7 +6,7 @@ import { addFlashMessage } from '../actions/flashMessages';
 import {
   CreateSourceMutation,
   CreateSourceMutationVariables,
-  SourceInputType,
+  SourceInput,
 } from '../operation-result-types';
 import { CreateSource } from '../queries/mutations';
 import { GetSources } from '../queries/queries';
@@ -26,7 +26,7 @@ export class SourceNew extends React.Component<ISourceNewProps> {
     this.props.dispatch(addFlashMessage('Diskuze úspěšně uložena.', 'success'));
 
     if (source.createSource) {
-      this.props.history.push(`/admin/sources/${source.createSource.id}`);
+      this.props.history.push(`/admin/sources/${source.createSource.source.id}`);
     }
   };
 
@@ -36,7 +36,7 @@ export class SourceNew extends React.Component<ISourceNewProps> {
     console.error(error);
   };
 
-  public onSubmit = (createSource: CreateSourceMutationFn) => (sourceInput: SourceInputType) => {
+  public onSubmit = (createSource: CreateSourceMutationFn) => (sourceInput: SourceInput) => {
     return createSource({ variables: { sourceInput } });
   };
 

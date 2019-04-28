@@ -8,7 +8,7 @@ import { addFlashMessage } from '../../actions/flashMessages';
 import {
   CreateMediaPersonalityMutation,
   CreateMediaPersonalityMutationVariables,
-  MediaPersonalityInputType,
+  MediaPersonalityInput,
 } from '../../operation-result-types';
 import { CreateMediaPersonality } from '../../queries/mutations';
 import { GET_MEDIA_PERSONALITIES } from '../forms/controls/MediaPersonalitySelect';
@@ -40,7 +40,7 @@ export class MediaPersonalityNew extends React.Component<ISourceNewProps> {
   };
 
   public onSubmit = (createMediaPersonality: CreateMediaPersonalityMutationFn) => (
-    mediaPersonalityInput: MediaPersonalityInputType,
+    mediaPersonalityInput: MediaPersonalityInput,
   ) => {
     return createMediaPersonality({ variables: { mediaPersonalityInput } })
       .then((mutationResult) => {
@@ -52,7 +52,7 @@ export class MediaPersonalityNew extends React.Component<ISourceNewProps> {
           return;
         }
 
-        const mediumId = mutationResult.data.createMediaPersonality.id;
+        const mediumId = mutationResult.data.createMediaPersonality.mediaPersonality.id;
 
         this.onSuccess(mediumId);
       })

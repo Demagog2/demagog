@@ -158,10 +158,10 @@ class Bodies extends React.Component<IProps, IState> {
                         </Authorize>
 
                         <h5 className={Classes.HEADING}>
-                          {body.name} ({body.short_name})
+                          {body.name} ({body.shortName})
                         </h5>
 
-                        {body.is_party ? (
+                        {body.isParty ? (
                           <Tag intent={Intent.PRIMARY}>Politická strana</Tag>
                         ) : (
                           <Tag>Skupina</Tag>
@@ -174,12 +174,12 @@ class Bodies extends React.Component<IProps, IState> {
                           </li>
                           <li>
                             <span className={Classes.TEXT_MUTED}>Vznik: </span>
-                            <p>{body.founded_at ? displayDate(body.founded_at) : 'Nevyplněn'}</p>
+                            <p>{body.foundedAt ? displayDate(body.foundedAt) : 'Nevyplněn'}</p>
                           </li>
-                          {body.terminated_at && (
+                          {body.terminatedAt && (
                             <li>
                               <span className={Classes.TEXT_MUTED}>Zánik: </span>
-                              <p>{displayDate(body.terminated_at)}</p>
+                              <p>{displayDate(body.terminatedAt)}</p>
                             </li>
                           )}
                         </ul>

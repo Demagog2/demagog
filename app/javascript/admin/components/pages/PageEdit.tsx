@@ -8,7 +8,7 @@ import { addFlashMessage } from '../../actions/flashMessages';
 import {
   GetPageQuery,
   GetPageQueryVariables,
-  PageInputType,
+  PageInput,
   UpdatePageMutation,
   UpdatePageMutationVariables,
 } from '../../operation-result-types';
@@ -38,7 +38,7 @@ class PageEdit extends React.Component<IPageEditProps> {
     console.error(error);
   };
 
-  public onSubmit = (updatePage: UpdatePageMutationFn) => (pageInput: PageInputType) => {
+  public onSubmit = (updatePage: UpdatePageMutationFn) => (pageInput: PageInput) => {
     const id = this.getParamId();
 
     return updatePage({ variables: { id, pageInput } })

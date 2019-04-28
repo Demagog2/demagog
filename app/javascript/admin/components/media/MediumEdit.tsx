@@ -6,7 +6,7 @@ import { addFlashMessage } from '../../actions/flashMessages';
 import {
   GetMediumQuery,
   GetMediumQueryVariables,
-  MediumInputType,
+  MediumInput,
   UpdateMediumMutation,
   UpdateMediumMutationVariables,
 } from '../../operation-result-types';
@@ -37,7 +37,7 @@ class MediumEdit extends React.Component<IMediumEditProps> {
     console.error(error);
   };
 
-  public onSubmit = (updateMedium: UpdateMediumMutationFn) => (mediumInput: MediumInputType) => {
+  public onSubmit = (updateMedium: UpdateMediumMutationFn) => (mediumInput: MediumInput) => {
     const id = this.getParamId();
 
     return updateMedium({ variables: { id, mediumInput } })
