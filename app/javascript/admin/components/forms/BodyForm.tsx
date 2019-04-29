@@ -95,11 +95,11 @@ export class BodyForm extends React.Component<IBodyProps> {
                 <FormGroup label="Název" name="name">
                   <TextField name="name" />
                 </FormGroup>
-                <FormGroup label="Zkrácený název" name="short-name" optional>
-                  <TextField name="short_name" className={Classes.INPUT} />
+                <FormGroup label="Zkrácený název" name="shortName" optional>
+                  <TextField name="shortName" className={Classes.INPUT} />
                 </FormGroup>
                 <SwitchField
-                  name="is_party"
+                  name="isParty"
                   label="Jde o politickou stranu"
                   style={{ marginBottom: 20 }}
                 />
@@ -121,16 +121,16 @@ export class BodyForm extends React.Component<IBodyProps> {
                 <h4 className={Classes.HEADING}>Vznik a zánik</h4>
               </div>
               <div style={{ flex: '1 1' }}>
-                <FormGroup label="Datum vzniku" name="founded_at" optional>
-                  <DateField name="founded_at" />
+                <FormGroup label="Datum vzniku" name="foundedAt" optional>
+                  <DateField name="foundedAt" />
                 </FormGroup>
                 <SwitchField
-                  name="is_inactive"
+                  name="isInactive"
                   label="Skupina zanikla / není aktivní"
                   style={{ marginBottom: 20 }}
                 />
-                <FormGroup label="Datum zániku" name="terminated_at" optional>
-                  <DateField disabled={!values.isInactive} name="terminated_at" />
+                <FormGroup label="Datum zániku" name="terminatedAt" optional>
+                  <DateField disabled={!values.isInactive} name="terminatedAt" />
                 </FormGroup>
               </div>
             </div>

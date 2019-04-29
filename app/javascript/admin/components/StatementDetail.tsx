@@ -16,7 +16,6 @@ import { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
 import { css } from 'emotion';
 import { Formik } from 'formik';
-import { get, isEqual, set } from 'lodash';
 import { Mutation, Query } from 'react-apollo';
 import { connect, DispatchProp } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
@@ -182,26 +181,20 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                       setSubmitting(true);
 
-                      const statementInput: UpdateStatementInput = {};
-
-                      const paths = [
-                        'assessment.veracity_id',
-                        'assessment.short_explanation',
-                        'assessment.evaluator_id',
-                        'assessment.evaluation_status',
-                        'assessment.explanation_slatejson',
-                        'assessment.explanation_html',
-                        'count_in_statistics',
-                        'published',
-                        'content',
-                        'important',
-                      ];
-
-                      paths.forEach((path) => {
-                        if (!isEqual(get(initialValues, path), get(values, path))) {
-                          set(statementInput, path, get(values, path));
-                        }
-                      });
+                      const statementInput: UpdateStatementInput = {
+                        assessment: {
+                          veracityId: values.assessment.veracity_id,
+                          evaluationStatus: values.assessment.evaluation_status,
+                          evaluatorId: values.assessment.evaluator_id,
+                          explanationHtml: values.assessment.explanation_html,
+                          explanationSlatejson: values.assessment.explanation_slatejson,
+                          shortExplanation: values.assessment.short_explanation,
+                        },
+                        countInStatistics: values.count_in_statistics,
+                        content: values.content,
+                        important: values.important,
+                        published: values.published,
+                      };
 
                       this.updateStatementPromise = updateStatement({
                         variables: { id: parseInt(statement.id, 10), statementInput },

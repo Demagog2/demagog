@@ -9,8 +9,8 @@ const GET_SPEAKERS = gql`
   query {
     speakers(limit: 10000) {
       id
-      first_name
-      last_name
+      firstName
+      lastName
     }
   }
 `;
@@ -18,8 +18,8 @@ const GET_SPEAKERS = gql`
 interface IGetSpeakersQuery {
   speakers: Array<{
     id: string;
-    first_name: string;
-    last_name: string;
+    firstName: string;
+    lastName: string;
   }>;
 }
 
@@ -45,7 +45,7 @@ export default class SpeakersSelect extends React.Component<IProps> {
 
           if (data && !loading) {
             options = data.speakers.map((s) => ({
-              label: `${s.first_name} ${s.last_name}`,
+              label: `${s.firstName} ${s.lastName}`,
               value: s.id,
             }));
           }

@@ -415,7 +415,7 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
                       <SelectField
                         name="speaker_id"
                         options={source.speakers.map((s) => ({
-                          label: `${s.first_name} ${s.last_name}`,
+                          label: `${s.firstName} ${s.lastName}`,
                           value: s.id,
                         }))}
                       />

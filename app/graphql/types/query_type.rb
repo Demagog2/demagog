@@ -89,11 +89,11 @@ class Types::QueryType < GraphQL::Schema::Object
     argument :name, String, required: false
   end
 
-  def media_personalities(name:)
+  def media_personalities(**args)
     media_personalities = MediaPersonality.order(name: :asc)
 
-    if name
-      media_personalities.matching_name(name)
+    if args[:name]
+      media_personalities.matching_name(args[:name])
     else
       media_personalities
     end
@@ -117,7 +117,7 @@ class Types::QueryType < GraphQL::Schema::Object
 
   def speaker(id:)
     begin
-      Speaker.find(args[:id])
+      Speaker.find(id)
     rescue ActiveRecord::RecordNotFound
       raise GraphQL::ExecutionError.new("Could not find Speaker with id=#{id}")
     end

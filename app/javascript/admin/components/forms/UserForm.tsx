@@ -49,13 +49,13 @@ export class UserForm extends React.Component<IUserFormProps> {
       <Formik
         initialValues={initialValues}
         validationSchema={yup.object().shape({
-          first_name: yup.string().required('Je třeba vyplnit jméno'),
-          last_name: yup.string().required('Je třeba vyplnit příjmení'),
+          firstName: yup.string().required('Je třeba vyplnit jméno'),
+          lastName: yup.string().required('Je třeba vyplnit příjmení'),
           email: yup
             .string()
             .required('Je třeba vyplnit email')
             .email('Tohle nevypadá na opravdový email, že by překlep?'),
-          role_id: yup.mixed().notOneOf([null], 'Je třeba vybrat přístupová práva'),
+          roleId: yup.mixed().notOneOf([null], 'Je třeba vybrat přístupová práva'),
         })}
         onSubmit={(values, { setSubmitting }) => {
           const formData: IUserFormData = {

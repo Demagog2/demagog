@@ -7,7 +7,7 @@ import Select from 'react-select';
 
 export const GET_MEDIA_PERSONALITIES = gql`
   query {
-    media_personalities {
+    mediaPersonalities {
       id
       name
     }
@@ -15,7 +15,7 @@ export const GET_MEDIA_PERSONALITIES = gql`
 `;
 
 interface IGetMediaPersonalitiesQuery {
-  media_personalities: Array<{
+  mediaPersonalities: Array<{
     id: string;
     name: string;
   }>;
@@ -42,7 +42,7 @@ export default class MediaPersonalitiesSelect extends React.Component<IProps> {
           let options: ISelectOption[] = [];
 
           if (data && !loading) {
-            options = data.media_personalities.map((mp) => ({
+            options = data.mediaPersonalities.map((mp) => ({
               label: mp.name,
               value: mp.id,
             }));

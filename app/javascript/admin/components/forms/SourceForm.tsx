@@ -61,15 +61,16 @@ class SourceForm extends React.Component<ISourceFormProps> {
         })}
         onSubmit={(values, { setSubmitting }) => {
           const formData: SourceInput = {
-            ...values,
-
+            name: values.name,
+            sourceUrl: values.source_url,
+            speakers: values.speakers,
+            transcript: values.transcript,
             mediaPersonalities: values.media_personalities,
-
             // medium_id will always be a string, because null won't pass validation
             mediumId: values.medium_id as string,
-
             // released_at will always be a string, because null won't pass validation
             releasedAt: values.released_at as string,
+            expertId: values.expert_id,
           };
 
           this.props

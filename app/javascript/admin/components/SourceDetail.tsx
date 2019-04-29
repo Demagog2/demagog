@@ -398,7 +398,7 @@ class SourceDetail extends React.Component<IProps, IState> {
           let evaluatorFilterOptions: IEvaluatorFilterOptions = Object.keys(evaluators).map(
             (evaluatorId) => ({
               value: evaluatorId,
-              label: `${evaluators[evaluatorId].first_name} ${evaluators[evaluatorId].last_name}`,
+              label: `${evaluators[evaluatorId].firstName} ${evaluators[evaluatorId].lastName}`,
               count: data.statements.filter(
                 (statement) =>
                   statement.assessment.evaluator &&

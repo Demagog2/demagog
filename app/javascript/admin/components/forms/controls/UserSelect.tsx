@@ -8,8 +8,8 @@ const GET_USERS = gql`
   query GetUsersForUserSelect($roles: [String!]) {
     users(limit: 200, roles: $roles) {
       id
-      first_name
-      last_name
+      firstName
+      lastName
     }
   }
 `;
@@ -17,8 +17,8 @@ const GET_USERS = gql`
 interface IGetUsersForUserSelectQuery {
   users: Array<{
     id: string;
-    first_name: string;
-    last_name: string;
+    firstName: string;
+    lastName: string;
   }>;
 }
 
@@ -45,7 +45,7 @@ export default class UserSelect extends React.Component<IProps> {
 
           if (data && !loading) {
             options = data.users.map((user) => ({
-              label: `${user.first_name} ${user.last_name}`,
+              label: `${user.firstName} ${user.lastName}`,
               value: user.id,
             }));
           }

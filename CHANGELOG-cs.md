@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 29. dubna 2019
+- Technická změna: Migrace na novou verzi GraphQL
+
 ## 20. dubna 2019
 - Změněno: Veřejná část webu Demagog.cz už se dobře zobrazuje i v IE11 ([#358](https://github.com/Demagog2/demagog/pull/358))
 

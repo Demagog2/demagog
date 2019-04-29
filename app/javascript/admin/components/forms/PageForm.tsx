@@ -32,8 +32,13 @@ export class PageForm extends React.Component<IPageFormProps> {
     return (
       <Formik
         initialValues={initialValues}
-        onSubmit={(values, { setSubmitting }) => {
-          const formData: PageInput = values;
+        onSubmit={(values: typeof initialValues, { setSubmitting }) => {
+          const formData: PageInput = {
+            title: values.title,
+            textHtml: values.text_html,
+            textSlatejson: values.text_slatejson,
+            published: values.published,
+          };
 
           this.props.onSubmit(formData).finally(() => setSubmitting(false));
         }}
