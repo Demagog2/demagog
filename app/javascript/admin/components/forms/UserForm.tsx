@@ -32,7 +32,7 @@ export class UserForm extends React.Component<IUserFormProps> {
     const { title, user } = this.props;
 
     const initialValues = user
-      ? { ...user, role_id: user.role.id }
+      ? { ...user, roleId: user.role.id }
       : {
           active: true,
           email: '',
