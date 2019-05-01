@@ -33,9 +33,7 @@ const mocks = [
       query: GetSources,
       variables: { name: '', offset: 0, limit: 50 },
     },
-    error: {
-      error: 'My error',
-    },
+    error: new Error('Network error'),
   },
 ];
 
