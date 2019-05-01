@@ -12,7 +12,11 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import apolloClient from '../apolloClient';
-import { GetNotificationsQuery, GetNotificationsQueryVariables } from '../operation-result-types';
+import {
+  GetNotificationsQuery,
+  GetNotificationsQueryVariables,
+  UpdateNotificationMutationVariables,
+} from '../operation-result-types';
 import { MarkUnreadNotificationsAsRead, UpdateNotification } from '../queries/mutations';
 import { GetNotifications } from '../queries/queries';
 import { displayDateTime } from '../utils';
@@ -53,9 +57,14 @@ class Notifications extends React.Component<IProps, IState> {
   };
 
   public markAsRead = (notification) => {
+    const variables: UpdateNotificationMutationVariables = {
+      id: notification.id,
+      input: { readAt: DateTime.local().toISOTime() },
+    };
+
     return apolloClient.mutate({
       mutation: UpdateNotification,
-      variables: { id: notification.id, input: { read_at: DateTime.local().toISOTime() } },
+      variables,
       refetchQueries: [
         {
           query: GetNotifications,
@@ -66,9 +75,14 @@ class Notifications extends React.Component<IProps, IState> {
   };
 
   public markAsUnread = (notification) => {
+    const variables: UpdateNotificationMutationVariables = {
+      id: notification.id,
+      input: { readAt: null },
+    };
+
     return apolloClient.mutate({
       mutation: UpdateNotification,
-      variables: { id: notification.id, input: { read_at: null } },
+      variables,
       refetchQueries: [
         {
           query: GetNotifications,
