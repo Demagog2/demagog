@@ -39,15 +39,15 @@
   <pre><code class="language-graphql" style="font-size: 14px">{
   speakers(name: "Miloš") {
     id
-    first_name
-    last_name
+    firstName
+    lastName
   }
 }</code></pre>
 
   <p>... by tak pomocí nástroje cURL vypadal následovně:</p>
 
 
-  <pre><code class="language-bash" style="font-size: 14px; white-space: pre-wrap">curl -X POST -H "Content-Type: application/json" --data '{ "query": "{ speakers(name: \"Miloš\") { id first_name last_name } }" }' https://demagog.cz/graphql</code></pre>
+  <pre><code class="language-bash" style="font-size: 14px; white-space: pre-wrap">curl -X POST -H "Content-Type: application/json" --data '{ "query": "{ speakers(name: \"Miloš\") { id firstName lastName } }" }' https://demagog.cz/graphql</code></pre>
 
   <p>API by pak na takový dotaz mělo odpovědět:</p>
 
@@ -56,13 +56,13 @@
     "speakers": [
       {
         "id": "244",
-        "first_name": "Miloš",
-        "last_name": "Vystrčil"
+        "firstName": "Miloš",
+        "lastName": "Vystrčil"
       },
       {
         "id": "168",
-        "first_name": "Miloš",
-        "last_name": "Zeman"
+        "firstName": "Miloš",
+        "lastName": "Zeman"
       }
     ]
   }
@@ -122,10 +122,10 @@
   <pre><code class="language-graphql" style="font-size: 14px">{
   speakers(limit: 1000, offset: 0) {
     id
-    first_name
-    last_name
+    firstName
+    lastName
     body {
-      short_name
+      shortName
       name
     }
     stats {
@@ -144,14 +144,14 @@
   <pre><code class="language-graphql" style="font-size: 14px">{
   statements(speaker: 168, limit: 20, offset: 0) {
     id
-    excerpted_at
+    excerptedAt
     content
     assessment {
       veracity {
         name
       }
-      short_explanation
-      explanation_html
+      shortExplanation
+      explanationHtml
     }
   }
 }</code></pre>
