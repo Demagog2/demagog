@@ -367,7 +367,7 @@ class SourceDetail extends React.Component<IProps, IState> {
             ).length,
             active:
               statementsFilter !== null &&
-              statementsFilter.field === 'assessment.evaluation_status' &&
+              statementsFilter.field === 'assessment.evaluationStatus' &&
               statementsFilter.value === statusKey,
           }));
 
@@ -560,7 +560,7 @@ class SourceDetail extends React.Component<IProps, IState> {
                         active={option.active}
                         text={`${option.label} (${option.count})`}
                         onClick={this.onStatementsFilterClick(
-                          'assessment.evaluation_status',
+                          'assessment.evaluationStatus',
                           option.value,
                         )}
                       />
