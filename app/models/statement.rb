@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Statement < ApplicationRecord
+  TYPE_FACTUAL = "factual"
+  TYPE_PROMISE = "promise"
+
   include ActiveModel::Dirty
   include Discardable
 
@@ -11,6 +14,7 @@ class Statement < ApplicationRecord
   has_one :assessment
   has_one :veracity, through: :assessment
   has_one :statement_transcript_position
+  has_and_belongs_to_many :tags
 
   after_update :invalidate_caches
 
@@ -38,9 +42,6 @@ class Statement < ApplicationRecord
     ordered
       .where(published: true)
       .joins(:assessment)
-      .where.not(assessments: {
-        veracity_id: nil
-      })
       .where(assessments: {
         evaluation_status: Assessment::STATUS_APPROVED
       })
@@ -62,9 +63,6 @@ class Statement < ApplicationRecord
     order(excerpted_at: :desc)
       .where(published: true)
       .joins(:assessment)
-      .where.not(assessments: {
-        veracity_id: nil
-      })
       .where(assessments: {
         evaluation_status: Assessment::STATUS_APPROVED
       })

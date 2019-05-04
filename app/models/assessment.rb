@@ -48,6 +48,7 @@ class Assessment < ApplicationRecord
 
   belongs_to :evaluator, class_name: "User", foreign_key: "user_id", optional: true
   belongs_to :veracity, optional: true
+  belongs_to :promise_rating, optional: true
   belongs_to :statement
 
   validates_with AssessmentValidator

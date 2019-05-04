@@ -20,8 +20,8 @@
   zda vláda byla dobrá, nebo špatná. To si rozhodne každý volič 20. a 21. října
   u volební urny. Naším cílem bylo nabídnout veřejnosti tvrdá data a poctivou
   analýzu namísto impulsivních a zkratkovitých hodnocení, která s sebou nese
-  rozbíhající se předvolební kampaň. Z výsledků vyplývá, že vláda splnila <%= @partial_percents[:fulfilled] %> %
-  verifikovatelných slibů a naopak nesplnila <%= @partial_percents[:broken] %> % z toho, co si vytyčila v koaliční smlouvě.
+  rozbíhající se předvolební kampaň. Z výsledků vyplývá, že vláda splnila <%= @promise_rating_percents[PromiseRating::FULFILLED] %> %
+  verifikovatelných slibů a naopak nesplnila <%= @promise_rating_percents[PromiseRating::BROKEN] %> % z toho, co si vytyčila v koaliční smlouvě.
 </p>
 <p>
   Analýzu jsme zpracovali k 20. srpnu 2017, po proběhnuvší poslední schůzi

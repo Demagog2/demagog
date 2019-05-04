@@ -2,6 +2,8 @@
   class="container-promises-overview"
   data-controller="promises--overview"
   data-action="popstate@window->promises--overview#handleWindowPopstate"
+  data-promises--overview-query-params-filter-keys="<%= @params_filter_keys.to_json %>"
+  data-promises--overview-query-params-filter-values="<%= @params_filter_values.to_json %>"
 >
   <section class="intro">
     <%= render(partial: @intro_partial) %>
@@ -10,23 +12,24 @@
   <section class="overall-stats">
     <h2><%= @all.size %> ověřených slibů</h2>
     <div class="stats-lines-container">
-      <% @evaluations.each do |evaluation_symbol| %>
+      <% @promise_rating_keys.each do |promise_rating_key| %>
         <div class="stats-line">
           <div class="stats-line-amount">
-            <span class="promise-evaluation <%= evaluation_symbol.to_s.dasherize %> size-24">
-              <span class="stats-line-amount-number"><%= @partial_counts[evaluation_symbol] %></span>
+            <span class="promise-evaluation <%= promise_rating_key.dasherize %> size-24">
+              <span class="stats-line-amount-number"><%= @promise_rating_counts[promise_rating_key] %></span>
               <%= (
                 {
-                  fulfilled: "splněných",
-                  partially_fulfilled: "částečně splněných",
-                  broken: "porušených"
-                }[evaluation_symbol]
+                  PromiseRating::FULFILLED => "splněných",
+                  PromiseRating::PARTIALLY_FULFILLED => "částečně splněných",
+                  PromiseRating::BROKEN => "porušených",
+                  PromiseRating::STALLED => "nerealizovaných"
+                }[promise_rating_key]
               ) %>
             </span>
           </div>
-          <div class="stats-line-bar <%= evaluation_symbol.to_s.dasherize %>">
-            <div class="stats-line-bar-inner" style="width: <%= @partial_percents[evaluation_symbol] %>%"></div>
-            <span class="stats-line-bar-label"><%= @partial_percents[evaluation_symbol] %> %</span>
+          <div class="stats-line-bar <%= promise_rating_key.dasherize %>">
+            <div class="stats-line-bar-inner" style="width: <%= @promise_rating_percents[promise_rating_key] %>%"></div>
+            <span class="stats-line-bar-label"><%= @promise_rating_percents[promise_rating_key] %> %</span>
           </div>
         </div>
       <% end %>
@@ -37,25 +40,25 @@
     <div class="area-filter">
       <span>Filtrujte dle oblasti</span>
       <a
-        href="<%= url_for(filter_params_clear(:area)) %>"
-        class="clear-filters <% if filter_params_empty?(:area) %>hidden<% end %>"
-        data-target="promises--overview.areaFilterClear"
+        href="<%= url_for(filter_params_clear(:area_tag)) %>"
+        class="clear-filters <% if filter_params_empty?(:area_tag) %>hidden<% end %>"
+        data-target="promises--overview.areaTagFilterClear"
         data-action="promises--overview#clearFilter"
-        data-filter-type="area"
+        data-filter-type="area_tag"
       >
         × zrušit filtr
       </a>
       <div class="filter-options-list">
-        <% @areas.each do |area| %>
+        <% @area_tags.each do |area_tag| %>
           <a
-            href="<%= url_for(filter_params_toggle_value(:area, area[:id])) %>"
-            class="filter-option-button <% if filter_params_have_value?(:area, area[:id]) %>active<% end %>"
-            data-target="promises--overview.areaFilterOption"
+            href="<%= url_for(filter_params_toggle_value(:area_tag, area_tag.id)) %>"
+            class="filter-option-button <% if filter_params_have_value?(:area_tag, area_tag.id) %>active<% end %>"
+            data-target="promises--overview.areaTagFilterOption"
             data-action="promises--overview#toggleFilter"
-            data-filter-type="area"
-            data-filter-value="<%= area[:id] %>"
+            data-filter-type="area_tag"
+            data-filter-value="<%= area_tag.id %>"
           >
-            <%= area[:label] %>
+            <%= area_tag.name %>
           </a>
         <% end %>
       </div>
@@ -63,31 +66,32 @@
     <div class="evaluation-filter">
       <span>Filtrujte dle hodnocení</span>
       <a
-        href="<%= url_for(filter_params_clear(:evaluation)) %>"
-        class="clear-filters <% if filter_params_empty?(:evaluation) %>hidden<% end %>"
-        data-target="promises--overview.evaluationFilterClear"
+        href="<%= url_for(filter_params_clear(:promise_rating)) %>"
+        class="clear-filters <% if filter_params_empty?(:promise_rating) %>hidden<% end %>"
+        data-target="promises--overview.promiseRatingFilterClear"
         data-action="promises--overview#clearFilter"
-        data-filter-type="evaluation"
+        data-filter-type="promise_rating"
       >
         × zrušit filtr
       </a>
       <div class="filter-options-list">
-        <% @evaluations.each do |evaluation_symbol| %>
+        <% @promise_rating_keys.each do |promise_rating_key| %>
           <a
-            href="<%= url_for(filter_params_toggle_value(:evaluation, evaluation_symbol)) %>"
-            class="filter-option-button <% if filter_params_have_value?(:evaluation, evaluation_symbol) %>active<% end %>"
-            data-target="promises--overview.evaluationFilterOption"
+            href="<%= url_for(filter_params_toggle_value(:promise_rating, promise_rating_key)) %>"
+            class="filter-option-button <% if filter_params_have_value?(:promise_rating, promise_rating_key) %>active<% end %>"
+            data-target="promises--overview.promiseRatingFilterOption"
             data-action="promises--overview#toggleFilter"
-            data-filter-type="evaluation"
-            data-filter-value="<%= evaluation_symbol.to_s %>"
+            data-filter-type="promise_rating"
+            data-filter-value="<%= promise_rating_key %>"
           >
-            <span class="promise-evaluation <%= evaluation_symbol.to_s.dasherize %>">
+            <span class="promise-evaluation <%= promise_rating_key.dasherize %>">
               <%= (
                 {
-                  fulfilled: "splněné",
-                  partially_fulfilled: "částečně splněné",
-                  broken: "porušené"
-                }[evaluation_symbol]
+                  PromiseRating::FULFILLED => "splněné",
+                  PromiseRating::PARTIALLY_FULFILLED =>  "částečně splněné",
+                  PromiseRating::BROKEN => "porušené",
+                  PromiseRating::STALLED => "nerealizované"
+                }[promise_rating_key]
               ) %></span>
           </a>
         <% end %>
@@ -106,27 +110,27 @@
         </tr>
       </thead>
       <tbody>
-        <% @promises_list.each do |promise| %>
+        <% @all.each do |statement| %>
           <tr
-            id="slib-<%= promise[:id] %>"
-            class="summary <% unless @filtered_promises_ids.include?(promise[:id]) %>hidden<% end %>"
+            id="slib-<%= statement.id %>"
+            class="summary <% unless @filtered_statement_ids.include?(statement.id) %>hidden<% end %>"
             data-target="promises--overview.summaryRow"
             data-action="click->promises--overview#toggleDetail"
-            data-area-filter-value="<%= promise[:area][:id] %>"
-            data-evaluation-filter-value="<%= promise[:evaluation].to_s %>"
+            data-area-tag-filter-value="<%= statement.tags[0].id %>"
+            data-promise-rating-filter-value="<%= statement.assessment.promise_rating.key %>"
           >
-            <td class="name-cell"><%= promise[:name] %></td>
+            <td class="name-cell"><%= statement.title %></td>
             <td>
               <label>Oblast</label>
-              <%= promise[:area][:label] %>
+              <%= statement.tags[0].name %>
             </td>
             <td>
               <label>Hodnocení</label>
-              <span class="promise-evaluation <%= promise[:evaluation].to_s.dasherize %>"> <%= @promises_list_evaluation_labels[promise[:evaluation]] %></span>
+              <span class="promise-evaluation <%= statement.assessment.promise_rating.key.dasherize %>"> <%= @promises_list_rating_labels[statement.assessment.promise_rating.key] %></span>
             </td>
             <td class="action-cell">
               <a
-                href="#slib-<%= promise[:id] %>"
+                href="#slib-<%= statement.id %>"
                 class="expand-link"
                 data-action="promises--overview#toggleDetail"
               >
@@ -142,8 +146,8 @@
             </td>
           </tr>
           <tr
-            class="detail <% unless @filtered_promises_ids.include?(promise[:id]) %>hidden<% end %>"
-            data-id="slib-<%= promise[:id] %>"
+            class="detail <% unless @filtered_statement_ids.include?(statement.id) %>hidden<% end %>"
+            data-id="slib-<%= statement.id %>"
             data-target="promises--overview.detailRow"
           >
             <td colspan="4">
@@ -152,17 +156,17 @@
                   <div class="hiding-container">
                     <div class="promise-detail">
                       <blockquote class="content">
-                        <p>„<%= content_to_html(promise[:content]) %>‟</p>
-                        <cite><a href="<%= promise[:source_url] %>" target="_blank"><%= promise[:source_label] %></a></cite>
+                        <p>„<%= content_to_html(statement.content) %>‟</p>
+                        <cite><a href="<%= @get_statement_source_url.call(statement) %>" target="_blank"><%= @get_statement_source_label.call(statement) %></a></cite>
                       </blockquote>
                       <div class="assessment">
                         <div class="evaluation-and-permalink">
-                          <span class="promise-evaluation <%= promise[:evaluation].to_s.dasherize %>"> <%= @promises_list_evaluation_labels[promise[:evaluation]] %></span>
-                          <a class="permalink" href="<%= promise_permalink(promise) %>">trvalý odkaz</a>
+                          <span class="promise-evaluation <%= statement.assessment.promise_rating.key.dasherize %>"> <%= @promises_list_rating_labels[statement.assessment.promise_rating.key] %></span>
+                          <a class="permalink" href="<%= promise_permalink(statement) %>">trvalý odkaz</a>
                         </div>
                         <div class="explanation-container">
                           <section class="explanation">
-                            <%= raw(to_lazy_loading_iframes_and_images(promise[:explanation_html])) %>
+                            <%= raw(to_lazy_loading_iframes_and_images(statement.assessment.explanation_html)) %>
                           </section>
                         </div>
                       </div>

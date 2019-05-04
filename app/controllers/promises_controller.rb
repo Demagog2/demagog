@@ -6,48 +6,47 @@ class PromisesController < ApplicationController
   def initialize
     super
 
-    @evaluation_keys = {
-      fulfilled: Veracity::TRUE,
-      partially_fulfilled: Veracity::MISLEADING,
-      broken: Veracity::UNTRUE,
-      stalled: Veracity::UNVERIFIABLE
-    }
+    economy_area_tag = Tag.find_by(name: "Hospodářství", for_statement_type: "promise")
+    environment_area_tag = Tag.find_by(name: "Životní prostředí", for_statement_type: "promise")
+    welfare_area_tag = Tag.find_by(name: "Sociální stát", for_statement_type: "promise")
+    education_area_tag = Tag.find_by(name: "Vzdělanost", for_statement_type: "promise")
+    rule_of_law_area_tag = Tag.find_by(name: "Právní stát", for_statement_type: "promise")
+    safety_area_tag = Tag.find_by(name: "Bezpečnost", for_statement_type: "promise")
 
-    @areas = [
-      { id: "hospodarstvi", label: "Hospodářství" },
-      { id: "zivotni-prostredi", label: "Životní prostředí" },
-      { id: "socialni-stat", label: "Sociální stát" },
-      { id: "vzdelanost", label: "Vzdělanost" },
-      { id: "pravni-stat", label: "Právní stát" },
-      { id: "bezpecnost", label: "Bezpečnost" }
+    @area_tags = [
+      economy_area_tag,
+      environment_area_tag,
+      welfare_area_tag,
+      education_area_tag,
+      rule_of_law_area_tag,
+      safety_area_tag,
     ]
-    @areas_by_id = Hash[@areas.map { |area| [area[:id], area] }]
 
     @params_filter_keys = {
-      area: :oblast,
-      evaluation: :hodnoceni
+      area_tag: :oblast,
+      promise_rating: :hodnoceni
     }
 
     @params_filter_values = {
-      area: {
-        "hospodarstvi" => "hospodarstvi",
-        "zivotni-prostredi" => "zivotni-prostredi",
-        "socialni-stat" => "socialni-stat",
-        "vzdelanost" => "vzdelanost",
-        "pravni-stat" => "pravni-stat",
-        "bezpecnost" => "bezpecnost"
+      area_tag: {
+        economy_area_tag.id => "hospodarstvi",
+        environment_area_tag.id => "zivotni-prostredi",
+        welfare_area_tag.id => "socialni-stat",
+        education_area_tag.id => "vzdelanost",
+        rule_of_law_area_tag.id => "pravni-stat",
+        safety_area_tag.id => "bezpecnost"
       },
-      evaluation: {
-        fulfilled: "splnene",
-        partially_fulfilled: "castecne-splnene",
-        broken: "porusene",
-        stalled: "nerealizovane"
+      promise_rating: {
+        PromiseRating::FULFILLED => "splnene",
+        PromiseRating::PARTIALLY_FULFILLED => "castecne-splnene",
+        PromiseRating::BROKEN => "porusene",
+        PromiseRating::STALLED => "nerealizovane"
       }
     }
 
     @promises_definitions = {
       "sobotkova-vlada" => {
-        get_promises: lambda {
+        get_statements: lambda {
           # Temporary solution for proper Czech sorting where e.g characters [a, á, b] you
           # want sorted that way, but in default sorting it is [a, b, á]. I am not using
           # database-level collation, because default "cs_CZ" is not working on macOS
@@ -56,29 +55,60 @@ class PromisesController < ApplicationController
 
           Statement
             .where(source_id: [439, 440, 441, 442, 443, 444])
-            .includes(:assessment, assessment: :veracity)
+            .includes(:assessment, assessment: :promise_rating)
             .order(
-              Arel.sql("content COLLATE \"#{collation}\" ASC")
+              Arel.sql("title COLLATE \"#{collation}\" ASC")
             )
         },
-        to_promises_list: lambda { |promises|
-          promises.map do |promise|
-            {
-              id: promise.id,
-              name: sobotkova_vlada_get_promise_name(promise),
-              area: @areas_by_id[sobotkova_vlada_get_promise_area_id(promise)],
-              evaluation: @evaluation_keys.key(promise.assessment.veracity.key),
-              content: sobotkova_vlada_get_promise_content(promise),
-              source_url: sprintf("https://www.vlada.cz/assets/media-centrum/dulezite-dokumenty/programove_prohlaseni_unor_2014.pdf#page=%d", sobotkova_vlada_get_promise_source_page(promise)),
-              source_label: sprintf("Programové prohlášení vlády, únor 2014, str. %d", sobotkova_vlada_get_promise_source_page(promise)),
-              explanation_html: promise.assessment.explanation_html
-            }
-          end
+        get_statement_source_url: lambda { |statement|
+          sprintf("https://www.vlada.cz/assets/media-centrum/dulezite-dokumenty/programove_prohlaseni_unor_2014.pdf#page=%d", sobotkova_vlada_get_promise_source_page(statement))
+        },
+        get_statement_source_label: lambda { |statement|
+          sprintf("Programové prohlášení vlády, únor 2014, str. %d", sobotkova_vlada_get_promise_source_page(statement))
         },
         intro_partial: "promises/sobotkova_vlada_intro",
         methodology_partial: "promises/sobotkova_vlada_methodology",
-        evaluations: [:fulfilled, :partially_fulfilled, :broken]
-      }
+        promise_rating_keys: [
+          PromiseRating::FULFILLED,
+          PromiseRating::PARTIALLY_FULFILLED,
+          PromiseRating::BROKEN
+        ]
+      },
+      # "druha-vlada-andreje-babise" => {
+      #   get_statements: lambda {
+      #     # Temporary solution for proper Czech sorting where e.g characters [a, á, b] you
+      #     # want sorted that way, but in default sorting it is [a, b, á]. I am not using
+      #     # database-level collation, because default "cs_CZ" is not working on macOS
+      #     # (see https://github.com/PostgresApp/PostgresApp/issues/216)
+      #     collation = ENV["DB_PER_COLUMN_COLLATION"] || "cs_CZ"
+
+      #     Statement
+      #       .where(source_id: [562])
+      #       .where(assessments: {
+      #         evaluation_status: Assessment::STATUS_APPROVED,
+      #       })
+      #       .includes(:assessment, assessment: :promise_rating)
+      #       .order(
+      #         Arel.sql("title COLLATE \"#{collation}\" ASC")
+      #       )
+      #   },
+      #   get_statement_source_url: lambda { |statement|
+      #     # TODO
+      #     ""
+      #   },
+      #   get_statement_source_label: lambda { |statement|
+      #     # TODO
+      #     ""
+      #   },
+      #   intro_partial: "promises/druha_vlada_andreje_babise_intro",
+      #   methodology_partial: "promises/druha_vlada_andreje_babise_methodology",
+      #   promise_rating_keys: [
+      #     PromiseRating::FULFILLED,
+      #     PromiseRating::PARTIALLY_FULFILLED,
+      #     PromiseRating::BROKEN,
+      #     PromiseRating::STALLED,
+      #   ]
+      # }
     }
   end
 
@@ -91,49 +121,37 @@ class PromisesController < ApplicationController
     return head :not_found if definition.nil?
 
     @slug = params[:slug]
-    @all = definition[:get_promises].call
+    @all = definition[:get_statements].call
+    @get_statement_source_url = definition[:get_statement_source_url]
+    @get_statement_source_label = definition[:get_statement_source_label]
     @intro_partial = definition[:intro_partial]
-    @evaluations = definition[:evaluations]
+    @promise_rating_keys = definition[:promise_rating_keys]
 
     @all_count = @all.count
 
-    to_partial_count = lambda { |key| @all.where(assessments: { veracities: { key: key } }).count }
-    @partial_counts = {
-      fulfilled: to_partial_count.call(@evaluation_keys[:fulfilled]),
-      partially_fulfilled: to_partial_count.call(@evaluation_keys[:partially_fulfilled]),
-      broken: to_partial_count.call(@evaluation_keys[:broken]),
-      stalled: to_partial_count.call(@evaluation_keys[:stalled])
-    }
-
-    to_partial_percents = lambda { |partial_count| ((partial_count.to_f / @all_count.to_f) * 100).round }
-    @partial_percents = {
-      fulfilled: to_partial_percents.call(@partial_counts[:fulfilled]),
-      partially_fulfilled: to_partial_percents.call(@partial_counts[:partially_fulfilled]),
-      broken: to_partial_percents.call(@partial_counts[:broken]),
-      stalled: to_partial_percents.call(@partial_counts[:stalled]),
-    }
-
-    @promises_list = definition[:to_promises_list].call(@all)
+    @promise_rating_counts = @promise_rating_keys.map { |key| [key, @all.where(assessments: { promise_ratings: { key: key } }).count] }.to_h
+    @promise_rating_percents = @promise_rating_keys.map { |key| [key, ((@promise_rating_counts[key].to_f / @all_count.to_f) * 100).round] }.to_h
 
     filters = filters_from_params
-    filtered_promises_list = @promises_list.select do |promise|
+    filtered_statements = @all.select do |statement|
       remains = true
 
-      unless filters[:area].empty? || filters[:area].include?(promise[:area][:id])
+      unless filters[:area_tag].empty? || filters[:area_tag].include?(statement.tags[0].id)
         remains = false
       end
-      unless filters[:evaluation].empty? || filters[:evaluation].include?(promise[:evaluation])
+      unless filters[:promise_rating].empty? || filters[:promise_rating].include?(statement.assessment.promise_rating.key)
         remains = false
       end
 
       remains
     end
-    @filtered_promises_ids = filtered_promises_list.map { |promise| promise[:id] }
+    @filtered_statement_ids = filtered_statements.map { |statement| statement.id }
 
-    @promises_list_evaluation_labels = {
-      fulfilled: "Splněný slib",
-      partially_fulfilled: "Část. splněný slib",
-      broken: "Porušený slib"
+    @promises_list_rating_labels = {
+      PromiseRating::FULFILLED => "Splněný slib",
+      PromiseRating::PARTIALLY_FULFILLED => "Část. splněný slib",
+      PromiseRating::BROKEN => "Porušený slib",
+      PromiseRating::STALLED => "Nerealizovaný slib"
     }
   end
 
@@ -213,14 +231,14 @@ class PromisesController < ApplicationController
   end
 
   helper_method :promise_permalink
-  def promise_permalink(promise)
+  def promise_permalink(statement)
     filters = filters_from_params
 
     # clear all filters
     filters.transform_values! { |v| [] }
 
     permalink_params = filters_to_params(filters)
-    permalink_params[:anchor] = "slib-#{promise[:id]}"
+    permalink_params[:anchor] = "slib-#{statement.id}"
 
     url_for(permalink_params)
   end
@@ -245,40 +263,7 @@ class PromisesController < ApplicationController
     #   }.fetch(promise.id, nil)
     # end
 
-    def sobotkova_vlada_get_promise_name(statement)
-      explicit_transform = {
-        15046 => "Online sázení podle EU",
-        15048 => "Peníze pro SFDI",
-        15052 => "Dokončení úseků TEN-T",
-        15062 => "Paušály pro OSVČ",
-        15064 => "Snížení DPH na vybrané komodity",
-        15071 => "EET",
-        15075 => "Zkrácení daňových výhod pro některé OSVČ",
-        15091 => "Nová tvorba rozpočtu MO",
-        15092 => "Vzdušný prostor ČR",
-        15116 => "Rozšíření pravomocí NKÚ",
-        15204 => "Prostředky na živ. prostředí z EU",
-        15154 => "Zrušení II. pilíře"
-      }
-      explicit_transform.key?(statement.id) ? explicit_transform[statement.id] : statement.content.split("\n")[0].capitalize
-    end
-
-    def sobotkova_vlada_get_promise_area_id(statement)
-      case statement.source_id
-      when 439 then "hospodarstvi"
-      when 440 then "bezpecnost"
-      when 441 then "zivotni-prostredi"
-      when 442 then "socialni-stat"
-      when 443 then "vzdelanost"
-      when 444 then "pravni-stat"
-      end
-    end
-
-    def sobotkova_vlada_get_promise_content(statement)
-      statement.content.split("\n").drop(1).join("\n").strip
-    end
-
-    def sobotkova_vlada_get_promise_source_page(promise)
+    def sobotkova_vlada_get_promise_source_page(statement)
       {
         15038 => 5,
         15039 => 5,
@@ -377,7 +362,7 @@ class PromisesController < ApplicationController
         15133 => 42,
         15134 => 42,
         15135 => 42,
-        15136 => 10,
+        15136 => 42,
         15137 => 42,
 
         15139 => 43,
@@ -455,7 +440,7 @@ class PromisesController < ApplicationController
         15211 => 25,
 
         15214 => 8
-      }.fetch(promise.id, 0)
+      }.fetch(statement.id, 0)
     end
 
     def filters_from_params

@@ -19,6 +19,16 @@ module Types
       object.veracity
     end
 
+    field :promise_rating, Types::PromiseRatingType, null: true
+
+    def promise_rating
+      unless object.is_user_authorized_to_view_evaluation(context[:current_user])
+        return nil
+      end
+
+      object.promise_rating
+    end
+
     field :short_explanation, String, null: true
 
     def short_explanation

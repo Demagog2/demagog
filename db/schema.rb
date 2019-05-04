@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_17_190448) do
+ActiveRecord::Schema.define(version: 2019_05_04_123930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,8 @@ ActiveRecord::Schema.define(version: 2019_03_17_190448) do
     t.datetime "updated_at", null: false
     t.text "explanation_slatejson"
     t.text "short_explanation"
+    t.bigint "promise_rating_id"
+    t.index ["promise_rating_id"], name: "index_assessments_on_promise_rating_id"
     t.index ["statement_id"], name: "index_assessments_on_statement_id"
     t.index ["user_id"], name: "index_assessments_on_user_id"
     t.index ["veracity_id"], name: "index_assessments_on_veracity_id"
@@ -216,6 +218,13 @@ ActiveRecord::Schema.define(version: 2019_03_17_190448) do
     t.string "template"
   end
 
+  create_table "promise_ratings", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "key", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "public_api_accesses", force: :cascade do |t|
     t.string "ip"
     t.string "user_agent"
@@ -294,16 +303,24 @@ ActiveRecord::Schema.define(version: 2019_03_17_190448) do
     t.bigint "source_id"
     t.datetime "deleted_at"
     t.integer "source_order"
+    t.string "statement_type", null: false
+    t.string "title"
     t.index ["source_id"], name: "index_statements_on_source_id"
     t.index ["speaker_id"], name: "index_statements_on_speaker_id"
   end
 
+  create_table "statements_tags", id: false, force: :cascade do |t|
+    t.bigint "statement_id"
+    t.bigint "tag_id"
+    t.index ["statement_id"], name: "index_statements_tags_on_statement_id"
+    t.index ["tag_id"], name: "index_statements_tags_on_tag_id"
+  end
+
   create_table "tags", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.boolean "is_policy_area"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "for_statement_type", null: false
   end
 
   create_table "users", force: :cascade do |t|

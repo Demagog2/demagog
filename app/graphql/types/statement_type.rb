@@ -3,7 +3,9 @@
 module Types
   class StatementType < BaseObject
     field :id, ID, null: false
+    field :statement_type, Types::StatementTypeType, null: false
     field :content, String, null: false
+    field :title, String, null: true
     field :excerpted_at, String, null: false
     field :important, Boolean, null: false
     field :speaker, Types::SpeakerType, null: false
@@ -13,6 +15,7 @@ module Types
     field :assessment, Types::AssessmentType, null: false
     field :published, Boolean, null: false
     field :count_in_statistics, Boolean, null: false
+    field :tags, [Types::TagType], null: false
 
     field :comments, [Types::CommentType], null: false, resolve: ->(obj, args, ctx) do
       raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
