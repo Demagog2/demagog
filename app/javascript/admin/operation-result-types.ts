@@ -119,6 +119,7 @@ export interface UpdateStatementInput {
   published?: boolean | null,
   countInStatistics?: boolean | null,
   assessment?: UpdateAssessmentInput | null,
+  tags: Array< string >,
 };
 
 export interface UpdateAssessmentInput {
@@ -1047,6 +1048,10 @@ export interface GetSourceStatementsQuery {
       endLine: number,
       endOffset: number,
     } | null,
+    tags:  Array< {
+      id: string,
+      name: string,
+    } >,
     commentsCount: number,
     sourceOrder: number | null,
   } >,
@@ -1259,6 +1264,10 @@ export interface GetStatementQuery {
     statementTranscriptPosition:  {
       id: string,
     } | null,
+    tags:  Array< {
+      id: string,
+      name: string,
+    } >,
     commentsCount: number,
   },
 };

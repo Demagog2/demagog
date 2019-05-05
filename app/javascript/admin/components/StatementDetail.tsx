@@ -42,6 +42,8 @@ import { GetStatement } from '../queries/queries';
 import { IState as ReduxState } from '../reducers';
 import { displayDate, newlinesToBr } from '../utils';
 import PromiseRatingSelect from './forms/controls/PromiseRatingSelect';
+import SelectComponentField from './forms/controls/SelectComponentField';
+import TagsSelect from './forms/controls/TagsSelect';
 import TextField from './forms/controls/TextField';
 import UserSelect from './forms/controls/UserSelect';
 import VeracitySelect from './forms/controls/VeracitySelect';
@@ -136,6 +138,7 @@ class StatementDetail extends React.Component<IProps, IState> {
             published: statement.published,
             important: statement.important,
             count_in_statistics: statement.countInStatistics,
+            tags: statement.tags.map((t) => t.id),
             assessment: {
               evaluation_status: statement.assessment.evaluationStatus,
               veracity_id: statement.assessment.veracity ? statement.assessment.veracity.id : null,
@@ -212,6 +215,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                         title: values.title,
                         important: values.important,
                         published: values.published,
+                        tags: values.tags,
                       };
 
                       this.updateStatementPromise = updateStatement({
@@ -266,7 +270,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                     const isProofreadingNeeded =
                       values.assessment.evaluation_status === ASSESSMENT_STATUS_PROOFREADING_NEEDED;
 
-                    const canEditStatementContent =
+                    const canEditStatement =
                       ((canEditEverything || canEditAsProofreader) && !isApproved) ||
                       (canEditAsEvaluator && isBeingEvaluated);
                     const canEditVeracity =
@@ -319,7 +323,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                       this.props.isAuthorized(['statements:view-unapproved-evaluation']);
 
                     const canEditSomething =
-                      canEditStatementContent ||
+                      canEditStatement ||
                       canEditVeracity ||
                       canEditPromiseRating ||
                       canEditExplanations ||
@@ -367,7 +371,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                             <h5 className={Classes.HEADING}>
                               {statement.speaker.firstName} {statement.speaker.lastName}
                             </h5>
-                            {canEditStatementContent ? (
+                            {canEditStatement ? (
                               <textarea
                                 className={classNames(Classes.INPUT, Classes.FILL)}
                                 style={{ marginBottom: 5 }}
@@ -414,12 +418,35 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                             {statement.statementType === STATEMENT_TYPE_PROMISE && (
                               <>
-                                {canEditStatementContent ? (
-                                  <FormGroup label="Titulek" name="title">
-                                    <TextField name="title" />
-                                  </FormGroup>
+                                {canEditStatement ? (
+                                  <div style={{ display: 'flex' }}>
+                                    <div style={{ flex: '1 1 0' }}>
+                                      <FormGroup label="Titulek" name="title">
+                                        <TextField name="title" />
+                                      </FormGroup>
+                                    </div>
+                                    <div style={{ flex: '1 1 0', marginLeft: '15px' }}>
+                                      <FormGroup label="Štítky" name="tags">
+                                        <SelectComponentField name="tags">
+                                          {(renderProps) => (
+                                            <TagsSelect
+                                              forStatementType={STATEMENT_TYPE_PROMISE}
+                                              {...renderProps}
+                                            />
+                                          )}
+                                        </SelectComponentField>
+                                      </FormGroup>
+                                    </div>
+                                  </div>
                                 ) : (
-                                  <p>Titulek: {values.title}</p>
+                                  <div style={{ display: 'flex' }}>
+                                    <div style={{ flex: '1 1 0' }}>
+                                      <p>Titulek: {values.title}</p>
+                                    </div>
+                                    <div style={{ flex: '1 1 0', marginLeft: '15px' }}>
+                                      <p>Štítky: {statement.tags.map((t) => t.name).join(', ')}</p>
+                                    </div>
+                                  </div>
                                 )}
                               </>
                             )}

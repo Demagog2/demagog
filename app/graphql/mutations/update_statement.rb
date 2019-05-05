@@ -38,6 +38,10 @@ module Mutations
             statement.assessment.save!
           end
 
+          statement_input[:tags] = statement_input[:tags].map do |tag_id|
+            Tag.find(tag_id)
+          end
+
           statement.assign_attributes(statement_input)
 
           unless statement.is_user_authorized_to_save(context[:current_user])

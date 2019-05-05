@@ -455,6 +455,10 @@ export const UpdateStatement = gql`
           }
         }
         commentsCount
+        tags {
+          id
+          name
+        }
       }
     }
   }

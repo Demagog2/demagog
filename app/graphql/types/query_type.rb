@@ -265,6 +265,20 @@ class Types::QueryType < GraphQL::Schema::Object
     PromiseRating.all
   end
 
+  field :tags, [Types::TagType], null: false do
+    argument :limit, Int, required: false, default_value: 10
+    argument :offset, Int, required: false, default_value: 0
+    argument :for_statement_type, Types::StatementTypeType, required: false, default_value: nil
+  end
+
+  def tags(args)
+    tags = Tag.offset(args[:offset]).limit(args[:limit]).order(name: :asc)
+
+    tags = tags.where(for_statement_type: args[:for_statement_type]) unless args[:for_statement_type].nil?
+
+    tags
+  end
+
   field :article, Types::ArticleType, null: false do
     argument :id, ID, required: false
     argument :slug, String, required: false

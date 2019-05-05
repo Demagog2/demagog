@@ -229,6 +229,10 @@ export const GetSourceStatements = gql`
         endLine
         endOffset
       }
+      tags {
+        id
+        name
+      }
       commentsCount
       sourceOrder
     }
@@ -427,6 +431,10 @@ export const GetStatement = gql`
       }
       statementTranscriptPosition {
         id
+      }
+      tags {
+        id
+        name
       }
       commentsCount
     }

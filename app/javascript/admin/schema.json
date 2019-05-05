@@ -1065,6 +1065,61 @@
               "deprecationReason": null
             },
             {
+              "name": "tags",
+              "description": null,
+              "args": [
+                {
+                  "name": "limit",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": "10"
+                },
+                {
+                  "name": "offset",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": "0"
+                },
+                {
+                  "name": "forStatementType",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "StatementType",
+                    "ofType": null
+                  },
+                  "defaultValue": "null"
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Tag",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "user",
               "description": null,
               "args": [
@@ -7047,6 +7102,28 @@
                 "kind": "INPUT_OBJECT",
                 "name": "UpdateAssessmentInput",
                 "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "tags",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "ID",
+                      "ofType": null
+                    }
+                  }
+                }
               },
               "defaultValue": null
             }
