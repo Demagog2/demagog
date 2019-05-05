@@ -259,6 +259,12 @@ class Types::QueryType < GraphQL::Schema::Object
     Veracity.all
   end
 
+  field :promise_ratings, [Types::PromiseRatingType], null: false
+
+  def promise_ratings
+    PromiseRating.all
+  end
+
   field :article, Types::ArticleType, null: false do
     argument :id, ID, required: false
     argument :slug, String, required: false

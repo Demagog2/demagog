@@ -4,15 +4,15 @@ Types::StatementTypeType = GraphQL::ScalarType.define do
   name "StatementType"
   description "Statement type – can be either factual or promise"
 
-  KNOWN_TYPES = [
+  STATEMENT_TYPE_VALUES = [
     Statement::TYPE_FACTUAL,
     Statement::TYPE_PROMISE
   ]
 
   coerce_input ->(value, ctx) do
-    unless KNOWN_TYPES.include?(value)
-      raise GraphQL::CoercionError, "cannot coerce `#{value.inspect}` to statement type. \
-Known values are factual or promise"
+    unless STATEMENT_TYPE_VALUES.include?(value)
+      raise GraphQL::CoercionError, "Cannot coerce #{value.inspect} to statement type. \
+Known values are factual or promise."
     end
 
     value

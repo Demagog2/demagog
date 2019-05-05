@@ -8,12 +8,18 @@ class AssessmentValidator < ActiveModel::Validator
       case assessment.evaluation_status_was
       when Assessment::STATUS_BEING_EVALUATED
         if assessment.evaluation_status != Assessment::STATUS_APPROVAL_NEEDED
-          # raise GraphQL::ExecutionError.new()
           assessment.errors[:evaluation_status] << "Can only change status to #{Assessment::STATUS_APPROVAL_NEEDED} when assessment has status #{Assessment::STATUS_BEING_EVALUATED}"
         end
 
-        if !assessment.veracity || !assessment.short_explanation || !assessment.explanation_html
-          assessment.errors[:evaluation_status] << "To be able to change status to #{Assessment::STATUS_APPROVAL_NEEDED}, please fill veracity, short_explanation, and explanation"
+        if assessment.statement.statement_type == Statement::TYPE_FACTUAL
+          if !assessment.veracity || !assessment.short_explanation || !assessment.explanation_html
+            assessment.errors[:evaluation_status] << "To be able to change status to #{Assessment::STATUS_APPROVAL_NEEDED}, please fill veracity, short_explanation, and explanation"
+          end
+        end
+        if assessment.statement.statement_type == Statement::TYPE_PROMISE
+          if !assessment.promise_rating || !assessment.short_explanation || !assessment.explanation_html
+            assessment.errors[:evaluation_status] << "To be able to change status to #{Assessment::STATUS_APPROVAL_NEEDED}, please fill promise rating, short_explanation, and explanation"
+          end
         end
       when Assessment::STATUS_APPROVAL_NEEDED
         if assessment.evaluation_status != Assessment::STATUS_BEING_EVALUATED && assessment.evaluation_status != Assessment::STATUS_PROOFREADING_NEEDED
@@ -52,6 +58,8 @@ class Assessment < ApplicationRecord
   belongs_to :statement
 
   validates_with AssessmentValidator
+  validates :veracity, absence: true, unless: Proc.new { |a| a.statement.statement_type == Statement::TYPE_FACTUAL }
+  validates :promise_rating, absence: true, unless: Proc.new { |a| a.statement.statement_type == Statement::TYPE_PROMISE }
 
   def approved?
     evaluation_status == STATUS_APPROVED
@@ -82,6 +90,7 @@ class Assessment < ApplicationRecord
 
     evaluator_allowed_attributes = [
       "veracity_id",
+      "promise_rating_id",
       "explanation_html",
       "explanation_slatejson",
       "short_explanation",

@@ -440,6 +440,11 @@ export const UpdateStatement = gql`
             key
             name
           }
+          promiseRating {
+            id
+            key
+            name
+          }
         }
         source {
           id

@@ -126,6 +126,7 @@ export interface UpdateAssessmentInput {
   explanationSlatejson?: GraphQLCustomScalar_JSON | null,
   shortExplanation?: string | null,
   veracityId?: string | null,
+  promiseRatingId?: string | null,
 };
 
 export interface CommentInput {
@@ -674,6 +675,11 @@ export interface UpdateStatementMutation {
         veracity:  {
           id: string,
           key: GraphQLCustomScalar_VeracityKey,
+          name: string,
+        } | null,
+        promiseRating:  {
+          id: string,
+          key: GraphQLCustomScalar_PromiseRatingKey,
           name: string,
         } | null,
       },

@@ -39,6 +39,7 @@ import { UpdateStatement } from '../queries/mutations';
 import { GetStatement } from '../queries/queries';
 import { IState as ReduxState } from '../reducers';
 import { displayDate, newlinesToBr } from '../utils';
+import PromiseRatingSelect from './forms/controls/PromiseRatingSelect';
 import UserSelect from './forms/controls/UserSelect';
 import VeracitySelect from './forms/controls/VeracitySelect';
 import FormikAutoSave from './forms/FormikAutoSave';
@@ -64,6 +65,13 @@ const VERACITY_COLORS = {
   untrue: Colors.RED3,
   misleading: Colors.GOLD5,
   unverifiable: Colors.BLUE5,
+};
+
+const PROMISE_RATING_COLORS = {
+  fulfilled: Colors.COBALT2,
+  broken: Colors.RED3,
+  partially_fulfilled: Colors.BLUE5,
+  stalled: Colors.GOLD5,
 };
 
 interface IProps extends RouteComponentProps<{ id: string }>, DispatchProp {
@@ -126,6 +134,9 @@ class StatementDetail extends React.Component<IProps, IState> {
             assessment: {
               evaluation_status: statement.assessment.evaluationStatus,
               veracity_id: statement.assessment.veracity ? statement.assessment.veracity.id : null,
+              promise_rating_id: statement.assessment.promiseRating
+                ? statement.assessment.promiseRating.id
+                : null,
               short_explanation: statement.assessment.shortExplanation,
               explanation_html: statement.assessment.explanationHtml,
               explanation_slatejson: statement.assessment.explanationSlatejson,
@@ -184,6 +195,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                       const statementInput: UpdateStatementInput = {
                         assessment: {
                           veracityId: values.assessment.veracity_id,
+                          promiseRatingId: values.assessment.promise_rating_id,
                           evaluationStatus: values.assessment.evaluation_status,
                           evaluatorId: values.assessment.evaluator_id,
                           explanationHtml: values.assessment.explanation_html,
@@ -254,6 +266,9 @@ class StatementDetail extends React.Component<IProps, IState> {
                     const canEditVeracity =
                       (canEditEverything && !isApproved) ||
                       (canEditAsEvaluator && isBeingEvaluated);
+                    const canEditPromiseRating =
+                      (canEditEverything && !isApproved) ||
+                      (canEditAsEvaluator && isBeingEvaluated);
                     const canEditExplanations =
                       ((canEditEverything || canEditAsProofreader) && !isApproved) ||
                       (canEditAsEvaluator && isBeingEvaluated);
@@ -265,9 +280,11 @@ class StatementDetail extends React.Component<IProps, IState> {
                     const isApprovedAndNotPublished = isApproved && !values.published;
                     const isBeingEvaluatedAndEvaluationFilled =
                       isBeingEvaluated &&
-                      (values.assessment.veracity_id &&
-                        values.assessment.short_explanation &&
-                        values.assessment.explanation_html);
+                      values.assessment.short_explanation &&
+                      values.assessment.explanation_html &&
+                      ((statement.statementType === 'factual' && values.assessment.veracity_id) ||
+                        (statement.statementType === 'promise' &&
+                          values.assessment.promise_rating_id));
 
                     const canEditStatus =
                       (canEditEverything &&
@@ -297,6 +314,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                     const canEditSomething =
                       canEditStatementContent ||
                       canEditVeracity ||
+                      canEditPromiseRating ||
                       canEditExplanations ||
                       canEditEvaluator ||
                       canEditPublished ||
@@ -390,39 +408,89 @@ class StatementDetail extends React.Component<IProps, IState> {
                               }}
                             />
 
-                            {(canEditVeracity || canEditExplanations || canViewEvaluation) && (
+                            {(canEditVeracity ||
+                              canEditPromiseRating ||
+                              canEditExplanations ||
+                              canViewEvaluation) && (
                               <>
-                                {canEditVeracity ? (
-                                  <FormGroup label="Hodnocení" labelFor="veracity">
-                                    <VeracitySelect
-                                      id="veracity"
-                                      disabled={
-                                        values.assessment.evaluation_status ===
-                                        ASSESSMENT_STATUS_APPROVED
-                                      }
-                                      onChange={(value) =>
-                                        setFieldValue('assessment.veracity_id', value)
-                                      }
-                                      onBlur={() => setFieldTouched('assessment.veracity_id')}
-                                      value={values.assessment.veracity_id}
-                                    />
-                                  </FormGroup>
-                                ) : (
-                                  <p>
-                                    {!statement.assessment.veracity && 'Zatím nehodnoceno'}
+                                {statement.statementType === 'factual' && (
+                                  <>
+                                    {canEditVeracity ? (
+                                      <FormGroup label="Hodnocení" labelFor="veracity">
+                                        <VeracitySelect
+                                          id="veracity"
+                                          disabled={
+                                            values.assessment.evaluation_status ===
+                                            ASSESSMENT_STATUS_APPROVED
+                                          }
+                                          onChange={(value) =>
+                                            setFieldValue('assessment.veracity_id', value)
+                                          }
+                                          onBlur={() => setFieldTouched('assessment.veracity_id')}
+                                          value={values.assessment.veracity_id}
+                                        />
+                                      </FormGroup>
+                                    ) : (
+                                      <p>
+                                        {!statement.assessment.veracity && 'Zatím nehodnoceno'}
 
-                                    {statement.assessment.veracity && (
-                                      <span
-                                        className={Classes.TEXT_LARGE}
-                                        style={{
-                                          color: VERACITY_COLORS[statement.assessment.veracity.key],
-                                          fontWeight: 'bold',
-                                        }}
-                                      >
-                                        {statement.assessment.veracity.name}
-                                      </span>
+                                        {statement.assessment.veracity && (
+                                          <span
+                                            className={Classes.TEXT_LARGE}
+                                            style={{
+                                              color:
+                                                VERACITY_COLORS[statement.assessment.veracity.key],
+                                              fontWeight: 'bold',
+                                            }}
+                                          >
+                                            {statement.assessment.veracity.name}
+                                          </span>
+                                        )}
+                                      </p>
                                     )}
-                                  </p>
+                                  </>
+                                )}
+
+                                {statement.statementType === 'promise' && (
+                                  <>
+                                    {canEditPromiseRating ? (
+                                      <FormGroup label="Hodnocení slibu" labelFor="promise-rating">
+                                        <PromiseRatingSelect
+                                          id="promise-rating"
+                                          disabled={
+                                            values.assessment.evaluation_status ===
+                                            ASSESSMENT_STATUS_APPROVED
+                                          }
+                                          onChange={(value) =>
+                                            setFieldValue('assessment.promise_rating_id', value)
+                                          }
+                                          onBlur={() =>
+                                            setFieldTouched('assessment.promise_rating_id')
+                                          }
+                                          value={values.assessment.promise_rating_id}
+                                        />
+                                      </FormGroup>
+                                    ) : (
+                                      <p>
+                                        {!statement.assessment.promiseRating && 'Zatím nehodnoceno'}
+
+                                        {statement.assessment.promiseRating && (
+                                          <span
+                                            className={Classes.TEXT_LARGE}
+                                            style={{
+                                              color:
+                                                PROMISE_RATING_COLORS[
+                                                  statement.assessment.promiseRating.key
+                                                ],
+                                              fontWeight: 'bold',
+                                            }}
+                                          >
+                                            {statement.assessment.promiseRating.name}
+                                          </span>
+                                        )}
+                                      </p>
+                                    )}
+                                  </>
                                 )}
 
                                 {canEditExplanations ? (
@@ -486,6 +554,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                               </>
                             )}
                             {!canEditVeracity &&
+                              !canEditPromiseRating &&
                               !canEditExplanations &&
                               !canViewEvaluation && (
                                 <Callout intent={Intent.PRIMARY} icon={IconNames.INFO_SIGN}>

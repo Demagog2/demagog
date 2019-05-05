@@ -2,6 +2,7 @@
 
 module Types
   class CreateStatementInputType < GraphQL::Schema::InputObject
+    argument :statement_type, Types::StatementTypeType, required: true
     argument :content, String, required: true
     argument :excerpted_at, String, required: true
     argument :important, Boolean, required: true

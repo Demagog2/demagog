@@ -3,10 +3,6 @@
 require "test_helper"
 
 class AssessmentTest < ActiveSupport::TestCase
-  setup do
-    ensure_veracities
-  end
-
   test "admin should be authorized to change anything" do
     assessment = create(:assessment, :being_evaluated)
     user = create(:user, :admin)
@@ -76,6 +72,22 @@ class AssessmentTest < ActiveSupport::TestCase
       explanation_slatejson: "{}",
       explanation_html: "<p>html</p>",
       veracity_id: Veracity.find_by(key: Veracity::UNTRUE).id,
+    )
+
+    assert assessment.is_user_authorized_to_save(user)
+  end
+
+  test "intern should be authorized to change explanations and promise rating of promise statement in being_evaluated state when evaluator" do
+    statement = create(:statement, :promise_statement)
+    assessment = create(:assessment, :promise_assessment, :being_evaluated, statement: statement)
+    user = create(:user, :intern)
+    assessment.update(evaluator: user)
+
+    assessment.assign_attributes(
+      short_explanation: "Just short",
+      explanation_slatejson: "{}",
+      explanation_html: "<p>html</p>",
+      promise_rating_id: PromiseRating.find_by(key: PromiseRating::BROKEN).id,
     )
 
     assert assessment.is_user_authorized_to_save(user)
@@ -175,5 +187,25 @@ class AssessmentTest < ActiveSupport::TestCase
     assessment = create(:assessment, :being_evaluated)
 
     assert_not assessment.is_user_authorized_to_view_evaluation(nil)
+  end
+
+  test "should not allow setting veracity on promise statement" do
+    statement = create(:statement, :promise_statement)
+    assessment = create(:assessment, :promise_assessment, :being_evaluated, statement: statement)
+
+    assessment.veracity = Veracity.find_by(key: Veracity::TRUE)
+
+    assert_not assessment.valid?
+    assert_equal ({ veracity: ["must be blank"] }), assessment.errors.messages
+  end
+
+  test "should not allow setting promise rating on factual statement" do
+    statement = create(:statement)
+    assessment = create(:assessment, :being_evaluated, statement: statement)
+
+    assessment.promise_rating = PromiseRating.find_by(key: PromiseRating::FULFILLED)
+
+    assert_not assessment.valid?
+    assert_equal ({ promise_rating: ["must be blank"] }), assessment.errors.messages
   end
 end

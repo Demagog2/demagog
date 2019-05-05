@@ -6,5 +6,5 @@ I18n.load_path += Dir[Rails.root.join("config", "locales", "**", "*.{rb,yml}")]
 # Whitelist locales available for the application
 I18n.available_locales = [:en, :cs]
 
-# Set default locale to czech
-I18n.default_locale = :cs
+# Set default locale to English
+I18n.default_locale = :en

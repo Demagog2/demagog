@@ -8,5 +8,6 @@ module Types
     argument :explanation_slatejson, Types::Scalars::JsonType, required: false
     argument :short_explanation, String, required: false
     argument :veracity_id, ID, required: false
+    argument :promise_rating_id, ID, required: false
   end
 end

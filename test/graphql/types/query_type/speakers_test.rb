@@ -3,10 +3,6 @@
 require "graphql/graphql_testcase"
 
 class QueryTypeSpeakersTest < GraphQLTestCase
-  setup do
-    ensure_veracities
-  end
-
   test "speakers with portrait, body and stats should be returnable (Seznam.cz integration query)" do
     source = create(:source)
     create(:speaker, statement_source: source)

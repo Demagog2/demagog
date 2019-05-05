@@ -3,10 +3,6 @@
 require "test_helper"
 
 class SpeakerStatsBuilderTest < ActiveSupport::TestCase
-  setup do
-    ensure_veracities
-  end
-
   test "building speaker stats" do
     stats_builder = Stats::Speaker::StatsBuilder.new Stats::StatsCache.new Store::HashStore.new
 
