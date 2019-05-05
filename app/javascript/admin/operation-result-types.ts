@@ -119,7 +119,7 @@ export interface UpdateStatementInput {
   published?: boolean | null,
   countInStatistics?: boolean | null,
   assessment?: UpdateAssessmentInput | null,
-  tags: Array< string >,
+  tags?: Array< string > | null,
 };
 
 export interface UpdateAssessmentInput {
@@ -695,6 +695,10 @@ export interface UpdateStatementMutation {
         } >,
       },
       commentsCount: number,
+      tags:  Array< {
+        id: string,
+        name: string,
+      } >,
     },
   } | null,
 };
