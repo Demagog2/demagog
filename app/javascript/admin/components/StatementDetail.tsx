@@ -338,7 +338,10 @@ class StatementDetail extends React.Component<IProps, IState> {
                         </div>
 
                         <div style={{ display: 'flex' }}>
-                          <h2 className={Classes.HEADING}>Detail výroku</h2>
+                          <h2 className={Classes.HEADING}>
+                            Detail výroku{' '}
+                            {statement.statementType === 'promise' ? '(slib)' : '(faktický)'}
+                          </h2>
 
                           {canEditSomething && (
                             <div

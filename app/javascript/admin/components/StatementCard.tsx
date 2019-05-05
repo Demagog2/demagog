@@ -17,6 +17,7 @@ import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 
 interface IStatement {
   id: string;
+  statementType: 'factual' | 'promise';
   content: string;
   published: boolean;
   speaker: {
