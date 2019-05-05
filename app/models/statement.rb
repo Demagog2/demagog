@@ -47,6 +47,11 @@ class Statement < ApplicationRecord
       })
   }
 
+  scope :published_factual, -> {
+    published
+      .where(statement_type: Statement::TYPE_FACTUAL)
+  }
+
   scope :relevant_for_statistics, -> {
     published
       .where(count_in_statistics: true)

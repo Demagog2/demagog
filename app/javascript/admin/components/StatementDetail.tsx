@@ -712,18 +712,19 @@ class StatementDetail extends React.Component<IProps, IState> {
                                   </Tooltip>
                                 </div>
 
-                                {values.published && (
-                                  <a
-                                    href={`/vyrok/${statement.id}`}
-                                    style={{
-                                      display: 'inline-block',
-                                      marginTop: 6,
-                                      verticalAlign: 'top',
-                                    }}
-                                  >
-                                    Veřejný odkaz
-                                  </a>
-                                )}
+                                {statement.statementType === STATEMENT_TYPE_FACTUAL &&
+                                  values.published && (
+                                    <a
+                                      href={`/vyrok/${statement.id}`}
+                                      style={{
+                                        display: 'inline-block',
+                                        marginTop: 6,
+                                        verticalAlign: 'top',
+                                      }}
+                                    >
+                                      Veřejný odkaz
+                                    </a>
+                                  )}
                               </div>
                             </div>
 
