@@ -19,7 +19,7 @@ import { IconNames } from '@blueprintjs/icons';
 import * as Sentry from '@sentry/browser';
 import { ApolloError } from 'apollo-client';
 import { css, cx } from 'emotion';
-import { get, groupBy, orderBy } from 'lodash';
+import { get, groupBy, orderBy, uniq } from 'lodash';
 import * as queryString from 'query-string';
 import { Mutation, Query } from 'react-apollo';
 import { connect, DispatchProp } from 'react-redux';
@@ -432,49 +432,6 @@ class SourceDetail extends React.Component<IProps, IState> {
             });
           }
 
-          const veracitiesBySpeaker = source.speakers.map((speaker) => {
-            const speakerStatements = data.statements.filter(
-              (statement) => statement.speaker.id === speaker.id,
-            );
-            const groupedByVeracity = groupBy(speakerStatements, (statement) => {
-              switch (statement.assessment.evaluationStatus) {
-                case ASSESSMENT_STATUS_APPROVED:
-                // When statement is already in proofreading state, the veracity won't
-                // change, so we can already include it in the stats as well
-                case ASSESSMENT_STATUS_PROOFREADING_NEEDED:
-                  if (statement.assessment.veracity === null) {
-                    // If the statement does not have veracity set in proofreading or approved
-                    // state, don't fail and just log this to sentry
-                    Sentry.withScope((scope) => {
-                      scope.setLevel(Sentry.Severity.Warning);
-                      scope.setExtra('apollo_cache', JSON.stringify(apolloClient.extract()));
-                      Sentry.captureException(
-                        `Expected non-null veracity for statement #${statement.id}`,
-                      );
-                    });
-                    // tslint:disable-next-line:no-console
-                    console.warn(`Expected non-null veracity for statement #${statement.id}`);
-
-                    return 'being-evaluated';
-                  }
-
-                  return statement.assessment.veracity.key;
-
-                default:
-                  return 'being-evaluated';
-              }
-            });
-
-            return {
-              speaker,
-              trueCount: get(groupedByVeracity, 'true.length', 0),
-              untrueCount: get(groupedByVeracity, 'untrue.length', 0),
-              misleadingCount: get(groupedByVeracity, 'misleading.length', 0),
-              unverifiableCount: get(groupedByVeracity, 'unverifiable.length', 0),
-              beingEvaluatedCount: get(groupedByVeracity, 'being-evaluated.length', 0),
-            };
-          });
-
           const statementsToDisplay = data.statements.filter((statement) => {
             if (statementsFilter !== null) {
               return get(statement, statementsFilter.field, null) === statementsFilter.value;
@@ -590,27 +547,7 @@ class SourceDetail extends React.Component<IProps, IState> {
                     ))}
                   </div>
 
-                  <div
-                    className={css`
-                      background-color: ${Colors.LIGHT_GRAY5};
-                      padding: 15px 15px 5px 15px;
-                      margin-top: 20px;
-                    `}
-                  >
-                    {veracitiesBySpeaker.map((stat) => (
-                      <p key={stat.speaker.id}>
-                        <strong>
-                          {stat.speaker.firstName} {stat.speaker.lastName}
-                        </strong>
-                        <br />
-                        {stat.trueCount} pravda<br />
-                        {stat.untrueCount} nepravda<br />
-                        {stat.misleadingCount} zavádějící<br />
-                        {stat.unverifiableCount} neověřitelné<br />
-                        {stat.beingEvaluatedCount} se ještě ověřuje
-                      </p>
-                    ))}
-                  </div>
+                  <SpeakersStats speakers={source.speakers} statements={data.statements} />
                 </div>
                 <div style={{ flex: '1 1' }}>
                   {statementsToDisplay.map((statement) => (
@@ -706,3 +643,117 @@ class MassStatementsPublishModal extends React.Component<IMassStatementsPublishM
 }
 
 export default connect()(SourceDetail);
+
+interface ISpeakerStatsProps {
+  speakers: GetSourceQuery['source']['speakers'];
+  statements: GetSourceStatementsQuery['statements'];
+}
+
+const SpeakersStats = (props: ISpeakerStatsProps) => {
+  const statsTypes = uniq(props.statements.map((s) => s.statementType));
+
+  const statsBySpeaker = props.speakers.map((speaker) => {
+    const speakerStatements = props.statements.filter(
+      (statement) => statement.speaker.id === speaker.id,
+    );
+
+    const grouped = groupBy(speakerStatements, (statement) => {
+      switch (statement.assessment.evaluationStatus) {
+        case ASSESSMENT_STATUS_APPROVED:
+        // When statement is already in proofreading state, the veracity won't
+        // change, so we can already include it in the stats as well
+        case ASSESSMENT_STATUS_PROOFREADING_NEEDED:
+          if (statement.statementType === 'factual') {
+            if (statement.assessment.veracity === null) {
+              // If the statement does not have veracity set in proofreading or approved
+              // state, don't fail and just log this to sentry
+              Sentry.withScope((scope) => {
+                scope.setLevel(Sentry.Severity.Warning);
+                scope.setExtra('apollo_cache', JSON.stringify(apolloClient.extract()));
+                Sentry.captureException(
+                  `Expected non-null veracity for statement #${statement.id}`,
+                );
+              });
+              // tslint:disable-next-line:no-console
+              console.warn(`Expected non-null veracity for statement #${statement.id}`);
+
+              return 'being-evaluated';
+            }
+
+            return statement.assessment.veracity.key;
+          }
+
+          if (statement.statementType === 'promise') {
+            if (statement.assessment.promiseRating === null) {
+              Sentry.withScope((scope) => {
+                scope.setLevel(Sentry.Severity.Warning);
+                scope.setExtra('apollo_cache', JSON.stringify(apolloClient.extract()));
+                Sentry.captureException(
+                  `Expected non-null promise rating for statement #${statement.id}`,
+                );
+              });
+              // tslint:disable-next-line:no-console
+              console.warn(`Expected non-null promise rating for statement #${statement.id}`);
+
+              return 'being-evaluated';
+            }
+
+            return statement.assessment.promiseRating.key;
+          }
+
+        default:
+          return 'being-evaluated';
+      }
+    });
+
+    let stats = [get(grouped, 'being-evaluated.length', 0) + ' se ještě ověřuje'];
+    if (statsTypes.includes('factual')) {
+      stats = [
+        get(grouped, 'true.length', 0) + ' pravda',
+        get(grouped, 'untrue.length', 0) + ' nepravda',
+        get(grouped, 'misleading.length', 0) + ' zavádějící',
+        get(grouped, 'unverifiable.length', 0) + ' neověřitelné',
+        ...stats,
+      ];
+    }
+    if (statsTypes.includes('promise')) {
+      stats = [
+        get(grouped, 'fulfilled.length', 0) + ' splněné',
+        get(grouped, 'partially_fulfilled.length', 0) + ' částečně splněné',
+        get(grouped, 'broken.length', 0) + ' porušené',
+        get(grouped, 'stalled.length', 0) + ' nerealizované',
+        ...stats,
+      ];
+    }
+
+    return {
+      speaker,
+      stats,
+    };
+  });
+
+  return (
+    <div
+      className={css`
+        background-color: ${Colors.LIGHT_GRAY5};
+        padding: 15px 15px 5px 15px;
+        margin-top: 20px;
+      `}
+    >
+      {statsBySpeaker.map(({ speaker, stats }) => (
+        <p key={speaker.id}>
+          <strong>
+            {speaker.firstName} {speaker.lastName}
+          </strong>
+          <br />
+          {stats.map((stat, index) => (
+            <React.Fragment key={index}>
+              {stat}
+              <br />
+            </React.Fragment>
+          ))}
+        </p>
+      ))}
+    </div>
+  );
+};

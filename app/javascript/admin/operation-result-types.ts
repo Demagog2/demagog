@@ -998,7 +998,9 @@ export interface GetSourceStatementsQueryVariables {
 export interface GetSourceStatementsQuery {
   statements:  Array< {
     id: string,
+    statementType: GraphQLCustomScalar_StatementType,
     content: string,
+    title: string | null,
     important: boolean,
     published: boolean,
     speaker:  {
@@ -1018,6 +1020,11 @@ export interface GetSourceStatementsQuery {
       veracity:  {
         id: string,
         key: GraphQLCustomScalar_VeracityKey,
+        name: string,
+      } | null,
+      promiseRating:  {
+        id: string,
+        key: GraphQLCustomScalar_PromiseRatingKey,
         name: string,
       } | null,
       shortExplanation: string | null,
@@ -1186,7 +1193,9 @@ export interface GetStatementQueryVariables {
 export interface GetStatementQuery {
   statement:  {
     id: string,
+    statementType: GraphQLCustomScalar_StatementType,
     content: string,
+    title: string | null,
     important: boolean,
     published: boolean,
     excerptedAt: string,
@@ -1211,6 +1220,11 @@ export interface GetStatementQuery {
       veracity:  {
         id: string,
         key: GraphQLCustomScalar_VeracityKey,
+        name: string,
+      } | null,
+      promiseRating:  {
+        id: string,
+        key: GraphQLCustomScalar_PromiseRatingKey,
         name: string,
       } | null,
     },

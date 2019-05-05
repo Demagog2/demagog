@@ -189,7 +189,9 @@ export const GetSourceStatements = gql`
   query GetSourceStatements($sourceId: Int!, $includeUnpublished: Boolean) {
     statements(limit: 200, source: $sourceId, includeUnpublished: $includeUnpublished) {
       id
+      statementType
       content
+      title
       important
       published
       speaker {
@@ -207,6 +209,11 @@ export const GetSourceStatements = gql`
           lastName
         }
         veracity {
+          id
+          key
+          name
+        }
+        promiseRating {
           id
           key
           name
@@ -364,7 +371,9 @@ export const GetStatement = gql`
   query GetStatement($id: Int!) {
     statement(id: $id, includeUnpublished: true) {
       id
+      statementType
       content
+      title
       important
       published
       excerptedAt
@@ -387,6 +396,11 @@ export const GetStatement = gql`
           lastName
         }
         veracity {
+          id
+          key
+          name
+        }
+        promiseRating {
           id
           key
           name
