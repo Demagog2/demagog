@@ -32,6 +32,8 @@ import {
   ASSESSMENT_STATUS_APPROVED,
   ASSESSMENT_STATUS_BEING_EVALUATED,
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
+  STATEMENT_TYPE_FACTUAL,
+  STATEMENT_TYPE_PROMISE,
 } from '../constants';
 import {
   GetSourceQuery,
@@ -663,7 +665,7 @@ const SpeakersStats = (props: ISpeakerStatsProps) => {
         // When statement is already in proofreading state, the veracity won't
         // change, so we can already include it in the stats as well
         case ASSESSMENT_STATUS_PROOFREADING_NEEDED:
-          if (statement.statementType === 'factual') {
+          if (statement.statementType === STATEMENT_TYPE_FACTUAL) {
             if (statement.assessment.veracity === null) {
               // If the statement does not have veracity set in proofreading or approved
               // state, don't fail and just log this to sentry
@@ -683,7 +685,7 @@ const SpeakersStats = (props: ISpeakerStatsProps) => {
             return statement.assessment.veracity.key;
           }
 
-          if (statement.statementType === 'promise') {
+          if (statement.statementType === STATEMENT_TYPE_PROMISE) {
             if (statement.assessment.promiseRating === null) {
               Sentry.withScope((scope) => {
                 scope.setLevel(Sentry.Severity.Warning);
@@ -707,7 +709,7 @@ const SpeakersStats = (props: ISpeakerStatsProps) => {
     });
 
     let stats = [get(grouped, 'being-evaluated.length', 0) + ' se ještě ověřuje'];
-    if (statsTypes.includes('factual')) {
+    if (statsTypes.includes(STATEMENT_TYPE_FACTUAL)) {
       stats = [
         get(grouped, 'true.length', 0) + ' pravda',
         get(grouped, 'untrue.length', 0) + ' nepravda',
@@ -716,7 +718,7 @@ const SpeakersStats = (props: ISpeakerStatsProps) => {
         ...stats,
       ];
     }
-    if (statsTypes.includes('promise')) {
+    if (statsTypes.includes(STATEMENT_TYPE_PROMISE)) {
       stats = [
         get(grouped, 'fulfilled.length', 0) + ' splněné',
         get(grouped, 'partially_fulfilled.length', 0) + ' částečně splněné',

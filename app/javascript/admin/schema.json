@@ -6699,6 +6699,20 @@
           "fields": null,
           "inputFields": [
             {
+              "name": "statementType",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "StatementType",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
               "name": "content",
               "description": null,
               "type": {
@@ -6978,6 +6992,16 @@
           "inputFields": [
             {
               "name": "content",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "title",
               "description": null,
               "type": {
                 "kind": "SCALAR",

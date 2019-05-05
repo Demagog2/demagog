@@ -415,6 +415,7 @@ export const UpdateStatement = gql`
       statement {
         id
         content
+        title
         important
         published
         excerptedAt

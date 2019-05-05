@@ -5,7 +5,7 @@ import {
   Callout,
   Classes,
   Colors,
-  FormGroup,
+  FormGroup as BlueprintFormGroup,
   Intent,
   Position,
   Switch,
@@ -28,6 +28,8 @@ import {
   ASSESSMENT_STATUS_BEING_EVALUATED,
   ASSESSMENT_STATUS_LABELS,
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
+  STATEMENT_TYPE_FACTUAL,
+  STATEMENT_TYPE_PROMISE,
 } from '../constants';
 import {
   GetStatementQuery,
@@ -40,8 +42,10 @@ import { GetStatement } from '../queries/queries';
 import { IState as ReduxState } from '../reducers';
 import { displayDate, newlinesToBr } from '../utils';
 import PromiseRatingSelect from './forms/controls/PromiseRatingSelect';
+import TextField from './forms/controls/TextField';
 import UserSelect from './forms/controls/UserSelect';
 import VeracitySelect from './forms/controls/VeracitySelect';
+import FormGroup from './forms/FormGroup';
 import FormikAutoSave from './forms/FormikAutoSave';
 import Loading from './Loading';
 import RichTextEditor from './RichTextEditor';
@@ -128,6 +132,7 @@ class StatementDetail extends React.Component<IProps, IState> {
           const initialValues = {
             _isEditing: false,
             content: statement.content,
+            title: statement.title,
             published: statement.published,
             important: statement.important,
             count_in_statistics: statement.countInStatistics,
@@ -204,6 +209,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                         },
                         countInStatistics: values.count_in_statistics,
                         content: values.content,
+                        title: values.title,
                         important: values.important,
                         published: values.published,
                       };
@@ -282,8 +288,9 @@ class StatementDetail extends React.Component<IProps, IState> {
                       isBeingEvaluated &&
                       values.assessment.short_explanation &&
                       values.assessment.explanation_html &&
-                      ((statement.statementType === 'factual' && values.assessment.veracity_id) ||
-                        (statement.statementType === 'promise' &&
+                      ((statement.statementType === STATEMENT_TYPE_FACTUAL &&
+                        values.assessment.veracity_id) ||
+                        (statement.statementType === STATEMENT_TYPE_PROMISE &&
                           values.assessment.promise_rating_id));
 
                     const canEditStatus =
@@ -340,7 +347,9 @@ class StatementDetail extends React.Component<IProps, IState> {
                         <div style={{ display: 'flex' }}>
                           <h2 className={Classes.HEADING}>
                             Detail výroku{' '}
-                            {statement.statementType === 'promise' ? '(slib)' : '(faktický)'}
+                            {statement.statementType === STATEMENT_TYPE_PROMISE
+                              ? '(slib)'
+                              : '(faktický)'}
                           </h2>
 
                           {canEditSomething && (
@@ -403,6 +412,18 @@ class StatementDetail extends React.Component<IProps, IState> {
                               )}
                             </p>
 
+                            {statement.statementType === STATEMENT_TYPE_PROMISE && (
+                              <>
+                                {canEditStatementContent ? (
+                                  <FormGroup label="Titulek" name="title">
+                                    <TextField name="title" />
+                                  </FormGroup>
+                                ) : (
+                                  <p>Titulek: {values.title}</p>
+                                )}
+                              </>
+                            )}
+
                             <hr
                               style={{
                                 borderTop: '2px solid #ccc',
@@ -416,10 +437,10 @@ class StatementDetail extends React.Component<IProps, IState> {
                               canEditExplanations ||
                               canViewEvaluation) && (
                               <>
-                                {statement.statementType === 'factual' && (
+                                {statement.statementType === STATEMENT_TYPE_FACTUAL && (
                                   <>
                                     {canEditVeracity ? (
-                                      <FormGroup label="Hodnocení" labelFor="veracity">
+                                      <BlueprintFormGroup label="Hodnocení" labelFor="veracity">
                                         <VeracitySelect
                                           id="veracity"
                                           disabled={
@@ -432,7 +453,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                           onBlur={() => setFieldTouched('assessment.veracity_id')}
                                           value={values.assessment.veracity_id}
                                         />
-                                      </FormGroup>
+                                      </BlueprintFormGroup>
                                     ) : (
                                       <p>
                                         {!statement.assessment.veracity && 'Zatím nehodnoceno'}
@@ -454,10 +475,13 @@ class StatementDetail extends React.Component<IProps, IState> {
                                   </>
                                 )}
 
-                                {statement.statementType === 'promise' && (
+                                {statement.statementType === STATEMENT_TYPE_PROMISE && (
                                   <>
                                     {canEditPromiseRating ? (
-                                      <FormGroup label="Hodnocení slibu" labelFor="promise-rating">
+                                      <BlueprintFormGroup
+                                        label="Hodnocení slibu"
+                                        labelFor="promise-rating"
+                                      >
                                         <PromiseRatingSelect
                                           id="promise-rating"
                                           disabled={
@@ -472,7 +496,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                           }
                                           value={values.assessment.promise_rating_id}
                                         />
-                                      </FormGroup>
+                                      </BlueprintFormGroup>
                                     ) : (
                                       <p>
                                         {!statement.assessment.promiseRating && 'Zatím nehodnoceno'}
@@ -497,7 +521,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                 )}
 
                                 {canEditExplanations ? (
-                                  <FormGroup
+                                  <BlueprintFormGroup
                                     label="Odůvodnění zkráceně"
                                     labelFor="assessment-short-explanation"
                                     helperText={
@@ -519,7 +543,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                       value={values.assessment.short_explanation || ''}
                                       maxLength={280}
                                     />
-                                  </FormGroup>
+                                  </BlueprintFormGroup>
                                 ) : (
                                   <>
                                     <h6 className={Classes.HEADING}>Odůvodnění zkráceně</h6>
@@ -528,7 +552,10 @@ class StatementDetail extends React.Component<IProps, IState> {
                                 )}
 
                                 {canEditExplanations ? (
-                                  <FormGroup label="Odůvodnění" labelFor="assessment-explanation">
+                                  <BlueprintFormGroup
+                                    label="Odůvodnění"
+                                    labelFor="assessment-explanation"
+                                  >
                                     <RichTextEditor
                                       value={values.assessment.explanation_slatejson}
                                       html={values.assessment.explanation_html}
@@ -538,7 +565,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                       }}
                                       statementExplanation
                                     />
-                                  </FormGroup>
+                                  </BlueprintFormGroup>
                                 ) : (
                                   <>
                                     <h6 className={Classes.HEADING}>Odůvodnění</h6>

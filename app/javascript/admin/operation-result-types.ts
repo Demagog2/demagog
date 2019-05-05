@@ -86,6 +86,7 @@ export interface UserInput {
 };
 
 export interface CreateStatementInput {
+  statementType: GraphQLCustomScalar_StatementType,
   content: string,
   excerptedAt: string,
   important: boolean,
@@ -113,6 +114,7 @@ export interface StatementTranscriptPositionInput {
 
 export interface UpdateStatementInput {
   content?: string | null,
+  title?: string | null,
   important?: boolean | null,
   published?: boolean | null,
   countInStatistics?: boolean | null,
@@ -652,6 +654,7 @@ export interface UpdateStatementMutation {
     statement:  {
       id: string,
       content: string,
+      title: string | null,
       important: boolean,
       published: boolean,
       excerptedAt: string,

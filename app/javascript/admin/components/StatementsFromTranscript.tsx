@@ -18,6 +18,7 @@ import SlatePlainSerializer from 'slate-plain-serializer';
 import { Editor, RenderMarkProps } from 'slate-react';
 
 import { isAuthorized } from '../authorization';
+import { STATEMENT_TYPE_FACTUAL } from '../constants';
 import {
   CreateStatementInput,
   CreateStatementMutation,
@@ -354,6 +355,7 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
               const note = values.note.trim();
 
               const statementInput: CreateStatementInput = {
+                statementType: STATEMENT_TYPE_FACTUAL,
                 content: values.content,
                 speakerId: values.speaker_id,
                 sourceId: source.id,

@@ -11,6 +11,7 @@ import { Link, withRouter } from 'react-router-dom';
 import * as yup from 'yup';
 
 import { addFlashMessage } from '../actions/flashMessages';
+import { STATEMENT_TYPE_FACTUAL } from '../constants';
 import {
   CreateStatementInput,
   CreateStatementMutation,
@@ -93,6 +94,7 @@ class StatementNew extends React.Component<IProps> {
                     const note = values.note.trim();
 
                     const statementInput: CreateStatementInput = {
+                      statementType: STATEMENT_TYPE_FACTUAL,
                       content: values.content,
                       speakerId: values.speaker_id,
                       sourceId: source.id,
