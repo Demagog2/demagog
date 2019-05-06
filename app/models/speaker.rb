@@ -16,6 +16,7 @@ class Speaker < ApplicationRecord
       .select("speakers.*, COUNT(statements.id) as statements_count")
       .where("statements.excerpted_at >= ?", 6.months.ago)
       .where("statements.published = ?", true)
+      .where("statements.statement_type = ?", Statement::TYPE_FACTUAL)
       .group("speakers.id")
       .order("statements_count DESC")
       .limit(8)
@@ -34,17 +35,17 @@ class Speaker < ApplicationRecord
     )
   end
 
-  def published_statements
-    statements.published
+  def factual_and_published_statements
+    statements.factual_and_published
   end
 
   def full_name
     "#{first_name} #{last_name}"
   end
 
-  def published_statements_by_veracity(veracity_id)
+  def factual_and_published_statements_by_veracity(veracity_id)
     statements
-      .published
+      .factual_and_published
       .where(assessments: {
         veracity_id: veracity_id
       })

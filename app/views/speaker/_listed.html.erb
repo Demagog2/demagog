@@ -4,10 +4,10 @@
     <p class="name"><%= speaker.full_name %></p>
     <p>
       <% if show_latest %>
-        <b><%= speaker.published_statements.where("excerpted_at >= ?", 6.months.ago).count %>&nbsp;výroků</b>
-        (<%= speaker.published_statements.count %>&nbsp;celkem)
+        <b><%= speaker.factual_and_published_statements.where("excerpted_at >= ?", 6.months.ago).count %>&nbsp;výroků</b>
+        (<%= speaker.factual_and_published_statements.count %>&nbsp;celkem)
       <% else %>
-        <%= speaker.published_statements.count %>&nbsp;výroků
+        <%= speaker.factual_and_published_statements.count %>&nbsp;výroků
       <% end %>
     </p>
   </div>

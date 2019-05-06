@@ -2,6 +2,6 @@
 
 class StatementController < ApplicationController
   def show
-    @statement = Statement.published_factual.find(params[:id])
+    @statement = Statement.factual_and_published.find(params[:id])
   end
 end

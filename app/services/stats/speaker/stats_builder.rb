@@ -32,7 +32,7 @@ module Stats::Speaker
       # @param [Speaker] speaker
       # @return [Array<Statement>]
       def statements(speaker)
-        speaker.statements.relevant_for_statistics
+        speaker.statements.factual_and_relevant_for_statistics
       end
 
       # @param [Array<Statement>] statements

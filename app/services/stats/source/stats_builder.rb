@@ -28,7 +28,7 @@ module Stats::Source
       # @param [Speaker] speaker
       # @return [Array<Statement>]
       def statements(source, speaker)
-        speaker.statements.relevant_for_statistics.where(source_id: source.id)
+        speaker.statements.factual_and_relevant_for_statistics.where(source_id: source.id)
       end
 
       # @param [Array<Statement>] statements

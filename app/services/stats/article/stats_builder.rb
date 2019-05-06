@@ -45,7 +45,7 @@ module Stats::Article
           # we use the same list also here to be consistent
           return unless segment.source.speakers.include?(speaker)
 
-          result << segment.source.statements.relevant_for_statistics.where(speaker_id: speaker.id).all
+          result << segment.source.statements.factual_and_relevant_for_statistics.where(speaker_id: speaker.id).all
         end
 
         result

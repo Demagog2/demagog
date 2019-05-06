@@ -11,14 +11,33 @@ class StatementTest < ActiveSupport::TestCase
     statements = Statement.published
 
     statements.each do |statement|
+      assert statement.published
       assert_not_nil statement.approved_assessment.veracity
     end
   end
 
-  test "#relevant_for_statistics" do
-    statements = Statement.relevant_for_statistics
+  test "#factual_and_published" do
+    create(:statement)
+    create(:statement, :promise_statement)
+
+    statements = Statement.factual_and_published
 
     statements.each do |statement|
+      assert_equal Statement::TYPE_FACTUAL, statement.statement_type
+      assert statement.published
+      assert_not_nil statement.approved_assessment.veracity
+    end
+  end
+
+  test "#factual_and_relevant_for_statistics" do
+    create(:statement)
+    create(:statement, count_in_statistics: false)
+    create(:statement, :promise_statement)
+
+    statements = Statement.factual_and_relevant_for_statistics
+
+    statements.each do |statement|
+      assert_equal Statement::TYPE_FACTUAL, statement.statement_type
       assert statement.count_in_statistics?
     end
   end

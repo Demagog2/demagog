@@ -47,14 +47,15 @@ class Statement < ApplicationRecord
       })
   }
 
-  scope :published_factual, -> {
+  scope :factual_and_published, -> {
     published
       .where(statement_type: Statement::TYPE_FACTUAL)
   }
 
-  scope :relevant_for_statistics, -> {
+  scope :factual_and_relevant_for_statistics, -> {
     published
       .where(count_in_statistics: true)
+      .where(statement_type: Statement::TYPE_FACTUAL)
   }
 
   scope :published_important_first, -> {
@@ -66,6 +67,7 @@ class Statement < ApplicationRecord
 
   def self.interesting_statements
     order(excerpted_at: :desc)
+      .where(statement_type: Statement::TYPE_FACTUAL)
       .where(published: true)
       .joins(:assessment)
       .where(assessments: {
@@ -92,7 +94,7 @@ class Statement < ApplicationRecord
     # With statements:edit, user can edit anything in statement
     return true if permissions.include? "statements:edit"
 
-    evaluator_allowed_attributes = ["content"]
+    evaluator_allowed_attributes = ["content", "title", "tags"]
     evaluator_allowed_changes =
       assessment.evaluation_status == Assessment::STATUS_BEING_EVALUATED &&
       (changed_attributes.keys - evaluator_allowed_attributes).empty?
@@ -101,7 +103,7 @@ class Statement < ApplicationRecord
       return true
     end
 
-    texts_allowed_attributes = ["content"]
+    texts_allowed_attributes = ["content", "title"]
     texts_allowed_changes =
       [Assessment::STATUS_BEING_EVALUATED, Assessment::STATUS_APPROVAL_NEEDED, Assessment::STATUS_PROOFREADING_NEEDED].include?(assessment.evaluation_status) &&
       (changed_attributes.keys - texts_allowed_attributes).empty?
