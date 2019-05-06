@@ -31,6 +31,7 @@ interface IProps {
   id?: string;
   disabled?: boolean;
   value?: string | null;
+  allowedKeys: string[];
   onChange: (value: string | null) => void;
   onBlur: () => void;
 }
@@ -43,7 +44,13 @@ export default class PromiseRatingSelect extends React.Component<IProps> {
           let options: ISelectOption[] = [];
 
           if (data && !loading) {
-            options = data.promiseRatings.map((promiseRating) => ({
+            let promiseRatings = data.promiseRatings;
+
+            promiseRatings = promiseRatings.filter((promiseRating) =>
+              this.props.allowedKeys.includes(promiseRating.key),
+            );
+
+            options = promiseRatings.map((promiseRating) => ({
               label: promiseRating.name,
               value: promiseRating.id,
             }));

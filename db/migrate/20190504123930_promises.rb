@@ -1,5 +1,34 @@
 class Promises < ActiveRecord::Migration[5.2]
   def up
+    # Add new assessment methodology table
+    create_table :assessment_methodologies do |t|
+      t.string :name, null: false
+      t.string :url
+      t.string :rating_model, null: false
+      t.json :rating_keys, null: false
+      t.timestamps
+    end
+    add_column :assessments, :assessment_methodology_id, :bigint
+    add_index :assessments, :assessment_methodology_id
+
+    methodology_factchecking = AssessmentMethodology.create!(
+      name: "Demagog.cz fact-checking metodika",
+      url: "https://demagog.cz/stranka/jak-hodnotime-metodika",
+      rating_model: AssessmentMethodology::RATING_MODEL_VERACITY,
+      rating_keys: [Veracity::TRUE, Veracity::UNTRUE, Veracity::MISLEADING, Veracity::UNVERIFIABLE]
+    )
+    methodology_promises_sobotka = AssessmentMethodology.create!(
+      name: "Demagog.cz metodika analýzy slibů Sobotkovy vlády",
+      url: "https://demagog.cz/sliby/sobotkova-vlada/metodika",
+      rating_model: AssessmentMethodology::RATING_MODEL_PROMISE_RATING,
+      rating_keys: [PromiseRating::FULFILLED, PromiseRating::PARTIALLY_FULFILLED, PromiseRating::BROKEN]
+    )
+    methodology_promises_babis2 = AssessmentMethodology.create!(
+      name: "Demagog.cz metodika analýzy slibů druhé vlády Andreje Babiše",
+      rating_model: AssessmentMethodology::RATING_MODEL_PROMISE_RATING,
+      rating_keys: [PromiseRating::FULFILLED, PromiseRating::IN_PROGRESS, PromiseRating::BROKEN, PromiseRating::STALLED]
+    )
+
     # Add new promise ratings table
     create_table :promise_ratings do |t|
       t.string :name, null: false
@@ -9,10 +38,11 @@ class Promises < ActiveRecord::Migration[5.2]
     add_column :assessments, :promise_rating_id, :bigint
     add_index :assessments, :promise_rating_id
 
-    promise_rating_fulfilled = PromiseRating.create!(name: 'Splněný', key: 'fulfilled')
-    promise_rating_partially_fulfilled = PromiseRating.create!(name: 'Částečně splněný', key: 'partially_fulfilled')
-    promise_rating_broken = PromiseRating.create!(name: 'Porušený', key: 'broken')
-    promise_rating_stalled = PromiseRating.create!(name: 'Nerealizovaný', key: 'stalled')
+    promise_rating_fulfilled = PromiseRating.create!(name: 'Splněno', key: PromiseRating::FULFILLED)
+    promise_rating_in_progress = PromiseRating.create!(name: 'Průběžně plněno', key: PromiseRating::IN_PROGRESS)
+    promise_rating_partially_fulfilled = PromiseRating.create!(name: 'Částečně splněno', key: PromiseRating::PARTIALLY_FULFILLED)
+    promise_rating_broken = PromiseRating.create!(name: 'Porušeno', key: PromiseRating::BROKEN)
+    promise_rating_stalled = PromiseRating.create!(name: 'Nerealizováno', key: PromiseRating::STALLED)
 
     # Update tags schema
     remove_column :tags, :is_policy_area, :boolean
@@ -42,23 +72,25 @@ class Promises < ActiveRecord::Migration[5.2]
 
     # All existing statements are factual ...
     execute "UPDATE statements SET statement_type = 'factual'"
+    execute "UPDATE assessments SET assessment_methodology_id = #{methodology_factchecking.id}"
 
     # ... except the promise statements of Sobotka ...
     Statement.unscoped.where(source_id: [439, 440, 441, 442, 443, 444]).each do |statement|
       statement.statement_type = "promise"
 
+      statement.assessment.assessment_methodology = methodology_promises_sobotka
+
       if statement.assessment.veracity
         statement.assessment.promise_rating = {
           'true' => promise_rating_fulfilled,
           'untrue' => promise_rating_broken,
-          'misleading' => promise_rating_partially_fulfilled,
-          'unverifiable' => promise_rating_stalled
+          'misleading' => promise_rating_partially_fulfilled
         }[statement.assessment.veracity.key]
 
         statement.assessment.veracity = nil
-
-        statement.assessment.save!
       end
+
+      statement.assessment.save!
 
       statement.title = sobotkova_vlada_get_promise_title(statement)
       statement.content = sobotkova_vlada_get_promise_content(statement)
@@ -81,20 +113,22 @@ class Promises < ActiveRecord::Migration[5.2]
     Statement.unscoped.where(source_id: [562]).each do |statement|
       statement.statement_type = "promise"
 
+      statement.assessment.assessment_methodology = methodology_promises_babis2
+
       if statement.assessment.veracity
         statement.assessment.promise_rating = {
           'true' => promise_rating_fulfilled,
           'untrue' => promise_rating_broken,
-          'misleading' => promise_rating_partially_fulfilled,
+          'misleading' => promise_rating_in_progress,
           'unverifiable' => promise_rating_stalled
         }[statement.assessment.veracity.key]
 
         statement.assessment.veracity = nil
-
-        statement.assessment.save!
       end
 
-      statement.title = andrejova_vlada_get_promise_title(statement)
+      statement.assessment.save!
+
+      statement.title = druha_vlada_andreje_babise_get_promise_title(statement)
 
       unless statement.discarded?
         statement.tags = [tag_economy] if ["Daňová zátěž", "Superhrubá mzda", "Privatizace", "Daně nadnárodních korporací", "Investiční plán země", "Rekodifikace stavebního práva", "Nové dálnice", "Dálniční známky", "Vlaková doprava"].include?(statement.title)
@@ -108,13 +142,18 @@ class Promises < ActiveRecord::Migration[5.2]
       statement.save!
     end
 
-    # We will always need a statement type from now on
+    # We will always need a statement type & assessment methodology from now on
     change_column :statements, :statement_type, :string, null: false
+    change_column :assessments, :assessment_methodology_id, :bigint, null: false
   end
 
   def down
+    remove_index :assessments, :assessment_methodology_id
+    remove_column :assessments, :assessment_methodology_id, :bigint, null: false
+    drop_table :assessment_methodologies
+
     remove_index :assessments, :promise_rating_id
-    remove_column :assessments, :promise_rating_id
+    remove_column :assessments, :promise_rating_id, :bigint
     drop_table :promise_ratings
 
     remove_column :statements, :statement_type, :string, null: false
@@ -158,7 +197,7 @@ class Promises < ActiveRecord::Migration[5.2]
       split_content.length >= 2 ? statement.content.split("\n").drop(1).join("\n").strip : statement.content
     end
 
-    def andrejova_vlada_get_promise_title(statement)
+    def druha_vlada_andreje_babise_get_promise_title(statement)
       {
         17516 => "Daňová zátěž",
         17517 => "Superhrubá mzda",

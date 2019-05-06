@@ -8,6 +8,7 @@ module Types
     field :evaluator, Types::UserType, null: true
     field :short_explanation_characters_length, Int, null: false
     field :explanation_characters_length, Int, null: false
+    field :assessment_methodology, Types::AssessmentMethodologyType, null: false
 
     field :veracity, Types::VeracityType, null: true
 

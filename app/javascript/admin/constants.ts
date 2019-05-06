@@ -12,3 +12,6 @@ export const ASSESSMENT_STATUS_LABELS = {
 
 export const STATEMENT_TYPE_FACTUAL = 'factual';
 export const STATEMENT_TYPE_PROMISE = 'promise';
+
+export const ASSESSMENT_METHODOLOGY_RATING_MODEL_VERACITY = 'veracity';
+export const ASSESSMENT_METHODOLOGY_RATING_MODEL_PROMISE_RATING = 'promise_rating';

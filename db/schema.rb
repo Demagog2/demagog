@@ -82,6 +82,15 @@ ActiveRecord::Schema.define(version: 2019_05_04_123930) do
     t.index ["tag_id"], name: "index_articles_tags_on_tag_id"
   end
 
+  create_table "assessment_methodologies", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "url"
+    t.string "rating_model", null: false
+    t.json "rating_keys", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "assessments", force: :cascade do |t|
     t.text "explanation_html"
     t.string "evaluation_status"
@@ -93,7 +102,9 @@ ActiveRecord::Schema.define(version: 2019_05_04_123930) do
     t.datetime "updated_at", null: false
     t.text "explanation_slatejson"
     t.text "short_explanation"
+    t.bigint "assessment_methodology_id", null: false
     t.bigint "promise_rating_id"
+    t.index ["assessment_methodology_id"], name: "index_assessments_on_assessment_methodology_id"
     t.index ["promise_rating_id"], name: "index_assessments_on_promise_rating_id"
     t.index ["statement_id"], name: "index_assessments_on_statement_id"
     t.index ["user_id"], name: "index_assessments_on_user_id"

@@ -19,7 +19,7 @@ import { IconNames } from '@blueprintjs/icons';
 import * as Sentry from '@sentry/browser';
 import { ApolloError } from 'apollo-client';
 import { css, cx } from 'emotion';
-import { get, groupBy, orderBy, uniq } from 'lodash';
+import { get, groupBy, orderBy } from 'lodash';
 import * as queryString from 'query-string';
 import { Mutation, Query } from 'react-apollo';
 import { connect, DispatchProp } from 'react-redux';
@@ -28,12 +28,12 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { addFlashMessage } from '../actions/flashMessages';
 import apolloClient from '../apolloClient';
 import {
+  ASSESSMENT_METHODOLOGY_RATING_MODEL_PROMISE_RATING,
+  ASSESSMENT_METHODOLOGY_RATING_MODEL_VERACITY,
   ASSESSMENT_STATUS_APPROVAL_NEEDED,
   ASSESSMENT_STATUS_APPROVED,
   ASSESSMENT_STATUS_BEING_EVALUATED,
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
-  STATEMENT_TYPE_FACTUAL,
-  STATEMENT_TYPE_PROMISE,
 } from '../constants';
 import {
   GetSourceQuery,
@@ -652,7 +652,7 @@ interface ISpeakerStatsProps {
 }
 
 const SpeakersStats = (props: ISpeakerStatsProps) => {
-  const statsTypes = uniq(props.statements.map((s) => s.statementType));
+  const assessmentMethodology = props.statements[0].assessment.assessmentMethodology;
 
   const statsBySpeaker = props.speakers.map((speaker) => {
     const speakerStatements = props.statements.filter(
@@ -665,7 +665,10 @@ const SpeakersStats = (props: ISpeakerStatsProps) => {
         // When statement is already in proofreading state, the veracity won't
         // change, so we can already include it in the stats as well
         case ASSESSMENT_STATUS_PROOFREADING_NEEDED:
-          if (statement.statementType === STATEMENT_TYPE_FACTUAL) {
+          if (
+            statement.assessment.assessmentMethodology.ratingModel ===
+            ASSESSMENT_METHODOLOGY_RATING_MODEL_VERACITY
+          ) {
             if (statement.assessment.veracity === null) {
               // If the statement does not have veracity set in proofreading or approved
               // state, don't fail and just log this to sentry
@@ -685,7 +688,10 @@ const SpeakersStats = (props: ISpeakerStatsProps) => {
             return statement.assessment.veracity.key;
           }
 
-          if (statement.statementType === STATEMENT_TYPE_PROMISE) {
+          if (
+            statement.assessment.assessmentMethodology.ratingModel ===
+            ASSESSMENT_METHODOLOGY_RATING_MODEL_PROMISE_RATING
+          ) {
             if (statement.assessment.promiseRating === null) {
               Sentry.withScope((scope) => {
                 scope.setLevel(Sentry.Severity.Warning);
@@ -708,25 +714,33 @@ const SpeakersStats = (props: ISpeakerStatsProps) => {
       }
     });
 
-    let stats = [get(grouped, 'being-evaluated.length', 0) + ' se ještě ověřuje'];
-    if (statsTypes.includes(STATEMENT_TYPE_FACTUAL)) {
-      stats = [
-        get(grouped, 'true.length', 0) + ' pravda',
-        get(grouped, 'untrue.length', 0) + ' nepravda',
-        get(grouped, 'misleading.length', 0) + ' zavádějící',
-        get(grouped, 'unverifiable.length', 0) + ' neověřitelné',
-        ...stats,
-      ];
+    const stats: string[] = [];
+    if (assessmentMethodology.ratingModel === ASSESSMENT_METHODOLOGY_RATING_MODEL_VERACITY) {
+      assessmentMethodology.ratingKeys.forEach((ratingKey) => {
+        const labels = {
+          true: 'pravda',
+          untrue: 'nepravda',
+          misleading: 'zavádějící',
+          unverifiable: 'neověřitelné',
+        };
+
+        stats.push(get(grouped, [ratingKey, 'length'], 0) + ' ' + labels[ratingKey]);
+      });
     }
-    if (statsTypes.includes(STATEMENT_TYPE_PROMISE)) {
-      stats = [
-        get(grouped, 'fulfilled.length', 0) + ' splněné',
-        get(grouped, 'partially_fulfilled.length', 0) + ' částečně splněné',
-        get(grouped, 'broken.length', 0) + ' porušené',
-        get(grouped, 'stalled.length', 0) + ' nerealizované',
-        ...stats,
-      ];
+    if (assessmentMethodology.ratingModel === ASSESSMENT_METHODOLOGY_RATING_MODEL_PROMISE_RATING) {
+      assessmentMethodology.ratingKeys.forEach((ratingKey) => {
+        const labels = {
+          fulfilled: 'splněno',
+          in_progress: 'průběžně plněno',
+          partially_fulfilled: 'částečně splněno',
+          broken: 'porušeno',
+          stalled: 'nerealizovano',
+        };
+
+        stats.push(get(grouped, [ratingKey, 'length'], 0) + ' ' + labels[ratingKey]);
+      });
     }
+    stats.push(get(grouped, 'being-evaluated.length', 0) + ' se ještě ověřuje');
 
     return {
       speaker,

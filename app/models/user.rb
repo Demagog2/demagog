@@ -56,6 +56,6 @@ class User < ApplicationRecord
       end
     end
 
-    User.all
+    User.order(rank: :asc)
   end
 end

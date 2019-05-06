@@ -101,6 +101,7 @@ FactoryBot.define do
     statement
     association :evaluator, factory: :user
     veracity { Veracity.find_by(key: Veracity::TRUE) }
+    assessment_methodology { AssessmentMethodology.find_by(name: "Demagog.cz fact-checking metodika") }
 
     evaluation_status Assessment::STATUS_APPROVED
     explanation_html "Lorem ipsum <strong>dolor</strong> sit amet"
@@ -120,6 +121,7 @@ FactoryBot.define do
     trait :promise_assessment do
       veracity nil
       promise_rating { PromiseRating.find_by(key: PromiseRating::FULFILLED) }
+      assessment_methodology { AssessmentMethodology.find_by(name: "Demagog.cz metodika analýzy slibů druhé vlády Andreje Babiše") }
     end
   end
 

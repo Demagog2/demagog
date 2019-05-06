@@ -58,7 +58,7 @@
           &.fulfilled .stats-line-bar-inner {
             background-color: var(--true);
           }
-          &.partially-fulfilled .stats-line-bar-inner {
+          &.partially-fulfilled .stats-line-bar-inner, &.in-progress .stats-line-bar-inner {
             background-color: var(--unverifiable);
           }
           &.broken .stats-line-bar-inner {
@@ -468,7 +468,7 @@
       }
     }
 
-    &.partially-fulfilled {
+    &.partially-fulfilled, &.in-progress {
       color: var(--unverifiable);
 
       &:before {

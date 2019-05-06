@@ -202,6 +202,11 @@ export const GetSourceStatements = gql`
       }
       assessment {
         id
+        assessmentMethodology {
+          id
+          ratingModel
+          ratingKeys
+        }
         evaluationStatus
         evaluator {
           id
@@ -390,6 +395,11 @@ export const GetStatement = gql`
       }
       assessment {
         id
+        assessmentMethodology {
+          id
+          ratingModel
+          ratingKeys
+        }
         explanationHtml
         explanationSlatejson
         shortExplanation

@@ -56,10 +56,11 @@ class Assessment < ApplicationRecord
   belongs_to :veracity, optional: true
   belongs_to :promise_rating, optional: true
   belongs_to :statement
+  belongs_to :assessment_methodology
 
   validates_with AssessmentValidator
-  validates :veracity, absence: true, unless: Proc.new { |a| a.statement.statement_type == Statement::TYPE_FACTUAL }
-  validates :promise_rating, absence: true, unless: Proc.new { |a| a.statement.statement_type == Statement::TYPE_PROMISE }
+  validates :veracity, absence: true, unless: Proc.new { |a| a.assessment_methodology.rating_model == AssessmentMethodology::RATING_MODEL_VERACITY }
+  validates :promise_rating, absence: true, unless: Proc.new { |a| a.assessment_methodology.rating_model == AssessmentMethodology::RATING_MODEL_PROMISE_RATING }
 
   def approved?
     evaluation_status == STATUS_APPROVED

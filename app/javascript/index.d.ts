@@ -9,6 +9,7 @@ declare module '*.png';
 declare module '*.pdf';
 
 // GraphQL custom scalar types
+type GraphQLCustomScalar_AssessmentMethodologyRatingModelType = 'veracity' | 'promise_rating';
 type GraphQLCustomScalar_StatementType = 'factual' | 'promise';
 type GraphQLCustomScalar_PromiseRatingKey =
   | 'fulfilled'

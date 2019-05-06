@@ -1025,6 +1025,11 @@ export interface GetSourceStatementsQuery {
     },
     assessment:  {
       id: string,
+      assessmentMethodology:  {
+        id: string,
+        ratingModel: GraphQLCustomScalar_AssessmentMethodologyRatingModelType,
+        ratingKeys: Array< string >,
+      },
       evaluationStatus: string,
       evaluator:  {
         id: string,
@@ -1226,6 +1231,11 @@ export interface GetStatementQuery {
     },
     assessment:  {
       id: string,
+      assessmentMethodology:  {
+        id: string,
+        ratingModel: GraphQLCustomScalar_AssessmentMethodologyRatingModelType,
+        ratingKeys: Array< string >,
+      },
       explanationHtml: string | null,
       explanationSlatejson: GraphQLCustomScalar_JSON | null,
       shortExplanation: string | null,

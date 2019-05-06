@@ -23,6 +23,8 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { addFlashMessage } from '../actions/flashMessages';
 import { isAuthorized } from '../authorization';
 import {
+  ASSESSMENT_METHODOLOGY_RATING_MODEL_PROMISE_RATING,
+  ASSESSMENT_METHODOLOGY_RATING_MODEL_VERACITY,
   ASSESSMENT_STATUS_APPROVAL_NEEDED,
   ASSESSMENT_STATUS_APPROVED,
   ASSESSMENT_STATUS_BEING_EVALUATED,
@@ -76,6 +78,7 @@ const VERACITY_COLORS = {
 const PROMISE_RATING_COLORS = {
   fulfilled: Colors.COBALT2,
   broken: Colors.RED3,
+  in_progress: Colors.BLUE5,
   partially_fulfilled: Colors.BLUE5,
   stalled: Colors.GOLD5,
 };
@@ -464,7 +467,8 @@ class StatementDetail extends React.Component<IProps, IState> {
                               canEditExplanations ||
                               canViewEvaluation) && (
                               <>
-                                {statement.statementType === STATEMENT_TYPE_FACTUAL && (
+                                {statement.assessment.assessmentMethodology.ratingModel ===
+                                  ASSESSMENT_METHODOLOGY_RATING_MODEL_VERACITY && (
                                   <>
                                     {canEditVeracity ? (
                                       <BlueprintFormGroup label="Hodnocení" labelFor="veracity">
@@ -502,7 +506,8 @@ class StatementDetail extends React.Component<IProps, IState> {
                                   </>
                                 )}
 
-                                {statement.statementType === STATEMENT_TYPE_PROMISE && (
+                                {statement.assessment.assessmentMethodology.ratingModel ===
+                                  ASSESSMENT_METHODOLOGY_RATING_MODEL_PROMISE_RATING && (
                                   <>
                                     {canEditPromiseRating ? (
                                       <BlueprintFormGroup
@@ -522,6 +527,9 @@ class StatementDetail extends React.Component<IProps, IState> {
                                             setFieldTouched('assessment.promise_rating_id')
                                           }
                                           value={values.assessment.promise_rating_id}
+                                          allowedKeys={
+                                            statement.assessment.assessmentMethodology.ratingKeys
+                                          }
                                         />
                                       </BlueprintFormGroup>
                                     ) : (

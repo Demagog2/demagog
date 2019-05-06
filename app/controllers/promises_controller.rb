@@ -38,6 +38,7 @@ class PromisesController < ApplicationController
       },
       promise_rating: {
         PromiseRating::FULFILLED => "splnene",
+        PromiseRating::IN_PROGRESS => "prubezne-plnene",
         PromiseRating::PARTIALLY_FULFILLED => "castecne-splnene",
         PromiseRating::BROKEN => "porusene",
         PromiseRating::STALLED => "nerealizovane"
@@ -55,7 +56,7 @@ class PromisesController < ApplicationController
 
           Statement
             .where(source_id: [439, 440, 441, 442, 443, 444])
-            .includes(:assessment, assessment: :promise_rating)
+            .includes(:assessment, assessment: [:promise_rating, :assessment_methodology])
             .order(
               Arel.sql("title COLLATE \"#{collation}\" ASC")
             )
@@ -67,12 +68,7 @@ class PromisesController < ApplicationController
           sprintf("Programové prohlášení vlády, únor 2014, str. %d", sobotkova_vlada_get_promise_source_page(statement))
         },
         intro_partial: "promises/sobotkova_vlada_intro",
-        methodology_partial: "promises/sobotkova_vlada_methodology",
-        promise_rating_keys: [
-          PromiseRating::FULFILLED,
-          PromiseRating::PARTIALLY_FULFILLED,
-          PromiseRating::BROKEN
-        ]
+        methodology_partial: "promises/sobotkova_vlada_methodology"
       },
       # "druha-vlada-andreje-babise" => {
       #   get_statements: lambda {
@@ -101,13 +97,7 @@ class PromisesController < ApplicationController
       #     ""
       #   },
       #   intro_partial: "promises/druha_vlada_andreje_babise_intro",
-      #   methodology_partial: "promises/druha_vlada_andreje_babise_methodology",
-      #   promise_rating_keys: [
-      #     PromiseRating::FULFILLED,
-      #     PromiseRating::PARTIALLY_FULFILLED,
-      #     PromiseRating::BROKEN,
-      #     PromiseRating::STALLED,
-      #   ]
+      #   methodology_partial: "promises/druha_vlada_andreje_babise_methodology"
       # }
     }
   end
@@ -125,8 +115,8 @@ class PromisesController < ApplicationController
     @get_statement_source_url = definition[:get_statement_source_url]
     @get_statement_source_label = definition[:get_statement_source_label]
     @intro_partial = definition[:intro_partial]
-    @promise_rating_keys = definition[:promise_rating_keys]
 
+    @promise_rating_keys = @all.first.assessment.assessment_methodology.rating_keys
     @all_count = @all.count
 
     @promise_rating_counts = @promise_rating_keys.map { |key| [key, @all.where(assessments: { promise_ratings: { key: key } }).count] }.to_h
@@ -149,6 +139,7 @@ class PromisesController < ApplicationController
 
     @promises_list_rating_labels = {
       PromiseRating::FULFILLED => "Splněný slib",
+      PromiseRating::IN_PROGRESS => "Průběžně plněný slib",
       PromiseRating::PARTIALLY_FULFILLED => "Část. splněný slib",
       PromiseRating::BROKEN => "Porušený slib",
       PromiseRating::STALLED => "Nerealizovaný slib"
