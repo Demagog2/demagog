@@ -11,7 +11,7 @@ import { Link, withRouter } from 'react-router-dom';
 import * as yup from 'yup';
 
 import { addFlashMessage } from '../actions/flashMessages';
-import { STATEMENT_TYPE_FACTUAL } from '../constants';
+import { STATEMENT_TYPE_FACTUAL, STATEMENT_TYPE_PROMISE } from '../constants';
 import {
   CreateStatementInput,
   CreateStatementMutation,
@@ -68,6 +68,7 @@ class StatementNew extends React.Component<IProps> {
           const source = data.source;
 
           const initialValues = {
+            statement_type: STATEMENT_TYPE_FACTUAL as 'factual' | 'promise',
             content: '',
             speaker_id: source.speakers[0].id,
             evaluator_id: null,
@@ -94,7 +95,7 @@ class StatementNew extends React.Component<IProps> {
                     const note = values.note.trim();
 
                     const statementInput: CreateStatementInput = {
-                      statementType: STATEMENT_TYPE_FACTUAL,
+                      statementType: values.statement_type,
                       content: values.content,
                       speakerId: values.speaker_id,
                       sourceId: source.id,
@@ -151,15 +152,27 @@ class StatementNew extends React.Component<IProps> {
                                 rows={7}
                               />
                             </FormGroup>
-                            <FormGroup label="Řečník" name="speaker_id">
-                              <SelectField
-                                name="speaker_id"
-                                options={source.speakers.map((s) => ({
-                                  label: `${s.firstName} ${s.lastName}`,
-                                  value: s.id,
-                                }))}
-                              />
-                            </FormGroup>
+                            <div style={{ display: 'flex' }}>
+                              <div style={{ flex: '1 1' }}>
+                                <FormGroup label="Řečník" name="speaker_id">
+                                  <SelectField
+                                    name="speaker_id"
+                                    options={source.speakers.map((s) => ({
+                                      label: `${s.firstName} ${s.lastName}`,
+                                      value: s.id,
+                                    }))}
+                                  />
+                                </FormGroup>
+                              </div>
+                              <div style={{ flex: '1 1' }}>
+                                <FormGroup label="Typ výroku" name="statement_type">
+                                  <SelectField
+                                    name="statement_type"
+                                    options={STATEMENT_TYPE_OPTIONS}
+                                  />
+                                </FormGroup>
+                              </div>
+                            </div>
                           </div>
                         </div>
 
@@ -195,5 +208,16 @@ class StatementNew extends React.Component<IProps> {
     );
   }
 }
+
+const STATEMENT_TYPE_OPTIONS = [
+  {
+    label: 'Faktický',
+    value: STATEMENT_TYPE_FACTUAL,
+  },
+  {
+    label: 'Slib',
+    value: STATEMENT_TYPE_PROMISE,
+  },
+];
 
 export default connect()(withRouter(StatementNew));

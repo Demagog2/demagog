@@ -18,7 +18,7 @@ import SlatePlainSerializer from 'slate-plain-serializer';
 import { Editor, RenderMarkProps } from 'slate-react';
 
 import { isAuthorized } from '../authorization';
-import { STATEMENT_TYPE_FACTUAL } from '../constants';
+import { STATEMENT_TYPE_FACTUAL, STATEMENT_TYPE_PROMISE } from '../constants';
 import {
   CreateStatementInput,
   CreateStatementMutation,
@@ -337,6 +337,7 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
     const { onRequestClose, onStatementCreated, selection, source } = this.props;
 
     const initialValues = {
+      statement_type: STATEMENT_TYPE_FACTUAL as 'factual' | 'promise',
       content: selection.text,
       speaker_id: source.speakers[0].id,
       note: '',
@@ -355,7 +356,7 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
               const note = values.note.trim();
 
               const statementInput: CreateStatementInput = {
-                statementType: STATEMENT_TYPE_FACTUAL,
+                statementType: values.statement_type,
                 content: values.content,
                 speakerId: values.speaker_id,
                 sourceId: source.id,
@@ -413,15 +414,24 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
                     <FormGroup label="Znění" name="content">
                       <TextareaField name="content" rows={5} autoFocus />
                     </FormGroup>
-                    <FormGroup label="Řečník" name="speaker_id">
-                      <SelectField
-                        name="speaker_id"
-                        options={source.speakers.map((s) => ({
-                          label: `${s.firstName} ${s.lastName}`,
-                          value: s.id,
-                        }))}
-                      />
-                    </FormGroup>
+                    <div style={{ display: 'flex' }}>
+                      <div style={{ flex: '1 1' }}>
+                        <FormGroup label="Řečník" name="speaker_id">
+                          <SelectField
+                            name="speaker_id"
+                            options={source.speakers.map((s) => ({
+                              label: `${s.firstName} ${s.lastName}`,
+                              value: s.id,
+                            }))}
+                          />
+                        </FormGroup>
+                      </div>
+                      <div style={{ flex: '1 1' }}>
+                        <FormGroup label="Typ výroku" name="statement_type">
+                          <SelectField name="statement_type" options={STATEMENT_TYPE_OPTIONS} />
+                        </FormGroup>
+                      </div>
+                    </div>
                     <FormGroup label="Ověřovatel" name="evaluator_id" optional>
                       <SelectComponentField name="evaluator_id">
                         {(renderProps) => <UserSelect {...renderProps} />}
@@ -749,6 +759,17 @@ const removeDecorationsWithMarkType = (
     return !decoration.mark.type.startsWith(markTypeStartsWith);
   }) as Immutable.List<Slate.Decoration>;
 };
+
+const STATEMENT_TYPE_OPTIONS = [
+  {
+    label: 'Faktický',
+    value: STATEMENT_TYPE_FACTUAL,
+  },
+  {
+    label: 'Slib',
+    value: STATEMENT_TYPE_PROMISE,
+  },
+];
 
 const mapStateToProps = (state: ReduxState) => ({
   isAuthorized: isAuthorized(state.currentUser.user),

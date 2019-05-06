@@ -19,6 +19,7 @@ module Mutations
 
       Statement.transaction do
         statement = Statement.new(statement_input)
+        statement.title = "" if statement.statement_type == Statement::TYPE_PROMISE
         statement.save!
 
         if transcript_position_input
