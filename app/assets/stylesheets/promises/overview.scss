@@ -417,6 +417,37 @@
           * {
             line-height: 25px;
           }
+
+          .short-explanation {
+            margin-bottom: 5px;
+          }
+
+          .toggle-full-explanation {
+            .hide {
+              display: none;
+            }
+          }
+
+          .full-explanation {
+            margin-top: 5px;
+            display: none;
+          }
+
+          &.with-full-explanation {
+            .toggle-full-explanation {
+              .show {
+                display: none;
+              }
+
+              .hide {
+                display: inline;
+              }
+            }
+
+            .full-explanation {
+              display: block;
+            }
+          }
         }
       }
     }

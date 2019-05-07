@@ -197,4 +197,12 @@ export default class extends Controller {
     history.pushState(undefined, undefined, window.location.pathname + queryParamsAsString);
     this.propagateFiltersToDom();
   }
+
+  toggleFullExplanation(e) {
+    const explanationEl = e.currentTarget.closest('.explanation');
+    explanationEl.classList.toggle('with-full-explanation');
+
+    e.stopPropagation();
+    e.preventDefault();
+  }
 }

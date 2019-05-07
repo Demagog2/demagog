@@ -168,7 +168,20 @@
                         </div>
                         <div class="explanation-container">
                           <section class="explanation">
-                            <%= raw(to_lazy_loading_iframes_and_images(statement.assessment.explanation_html)) %>
+                            <% if statement.assessment.short_explanation.nil? %>
+                              <%= raw(to_lazy_loading_iframes_and_images(statement.assessment.explanation_html)) %>
+                            <% else %>
+                              <p class="short-explanation"><%= statement.assessment.short_explanation %></p>
+
+                              <a href="#" class="toggle-full-explanation" data-action="promises--overview#toggleFullExplanation">
+                                <span class="show">zobrazit&nbsp;celé&nbsp;odůvodnění</span>
+                                <span class="hide">skrýt&nbsp;celé&nbsp;odůvodnění</span>
+                              </a>
+
+                              <div class="full-explanation">
+                                <%= raw(to_lazy_loading_iframes_and_images(statement.assessment.explanation_html)) %>
+                              </div>
+                            <% end %>
                           </section>
                         </div>
                       </div>
