@@ -9,9 +9,3 @@ export const ASSESSMENT_STATUS_LABELS = {
   [ASSESSMENT_STATUS_PROOFREADING_NEEDED]: 'ke korektuře',
   [ASSESSMENT_STATUS_APPROVED]: 'schválený',
 };
-
-export const STATEMENT_TYPE_FACTUAL = 'factual';
-export const STATEMENT_TYPE_PROMISE = 'promise';
-
-export const ASSESSMENT_METHODOLOGY_RATING_MODEL_VERACITY = 'veracity';
-export const ASSESSMENT_METHODOLOGY_RATING_MODEL_PROMISE_RATING = 'promise_rating';

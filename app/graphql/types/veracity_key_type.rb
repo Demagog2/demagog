@@ -1,5 +1,19 @@
 # frozen_string_literal: true
 
+# It would be much prettier to do the VeracityKeyType using enum
+# like at the end of this comment, but there is a problem with the
+# "true" value. graphql-ruby does not allow enum value "true". What
+# do we do about it?
+#
+# module Types
+#   class VeracityKeyType < BaseEnum
+#     value Veracity::TRUE
+#     value Veracity::UNTRUE
+#     value Veracity::MISLEADING
+#     value Veracity::UNVERIFIABLE
+#   end
+# end
+
 Types::VeracityKeyType = GraphQL::ScalarType.define do
   name "VeracityKey"
   description "Assessment veracity – can be either true, untrue, misleading or unverifiable"

@@ -28,14 +28,13 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { addFlashMessage } from '../actions/flashMessages';
 import apolloClient from '../apolloClient';
 import {
-  ASSESSMENT_METHODOLOGY_RATING_MODEL_PROMISE_RATING,
-  ASSESSMENT_METHODOLOGY_RATING_MODEL_VERACITY,
   ASSESSMENT_STATUS_APPROVAL_NEEDED,
   ASSESSMENT_STATUS_APPROVED,
   ASSESSMENT_STATUS_BEING_EVALUATED,
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
 } from '../constants';
 import {
+  AssessmentMethodologyRatingModel,
   GetSourceQuery,
   GetSourceStatementsQuery,
   GetSourceStatementsQueryVariables,
@@ -667,7 +666,7 @@ const SpeakersStats = (props: ISpeakerStatsProps) => {
         case ASSESSMENT_STATUS_PROOFREADING_NEEDED:
           if (
             statement.assessment.assessmentMethodology.ratingModel ===
-            ASSESSMENT_METHODOLOGY_RATING_MODEL_VERACITY
+            AssessmentMethodologyRatingModel.veracity
           ) {
             if (statement.assessment.veracity === null) {
               // If the statement does not have veracity set in proofreading or approved
@@ -690,7 +689,7 @@ const SpeakersStats = (props: ISpeakerStatsProps) => {
 
           if (
             statement.assessment.assessmentMethodology.ratingModel ===
-            ASSESSMENT_METHODOLOGY_RATING_MODEL_PROMISE_RATING
+            AssessmentMethodologyRatingModel.promise_rating
           ) {
             if (statement.assessment.promiseRating === null) {
               Sentry.withScope((scope) => {
@@ -715,7 +714,7 @@ const SpeakersStats = (props: ISpeakerStatsProps) => {
     });
 
     const stats: string[] = [];
-    if (assessmentMethodology.ratingModel === ASSESSMENT_METHODOLOGY_RATING_MODEL_VERACITY) {
+    if (assessmentMethodology.ratingModel === AssessmentMethodologyRatingModel.veracity) {
       assessmentMethodology.ratingKeys.forEach((ratingKey) => {
         const labels = {
           true: 'pravda',
@@ -727,7 +726,7 @@ const SpeakersStats = (props: ISpeakerStatsProps) => {
         stats.push(get(grouped, [ratingKey, 'length'], 0) + ' ' + labels[ratingKey]);
       });
     }
-    if (assessmentMethodology.ratingModel === ASSESSMENT_METHODOLOGY_RATING_MODEL_PROMISE_RATING) {
+    if (assessmentMethodology.ratingModel === AssessmentMethodologyRatingModel.promise_rating) {
       assessmentMethodology.ratingKeys.forEach((ratingKey) => {
         const labels = {
           fulfilled: 'splněno',

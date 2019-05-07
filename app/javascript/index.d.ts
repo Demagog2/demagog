@@ -9,13 +9,6 @@ declare module '*.png';
 declare module '*.pdf';
 
 // GraphQL custom scalar types
-type GraphQLCustomScalar_AssessmentMethodologyRatingModelType = 'veracity' | 'promise_rating';
-type GraphQLCustomScalar_StatementType = 'factual' | 'promise';
-type GraphQLCustomScalar_PromiseRatingKey =
-  | 'fulfilled'
-  | 'partially_fulfilled'
-  | 'broken'
-  | 'stalled';
 type GraphQLCustomScalar_VeracityKey = 'true' | 'untrue' | 'misleading' | 'unverifiable';
 type GraphQLCustomScalar_DateTime = string;
 type GraphQLCustomScalar_JSON = object;

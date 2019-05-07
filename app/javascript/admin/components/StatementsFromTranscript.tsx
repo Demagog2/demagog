@@ -18,7 +18,6 @@ import SlatePlainSerializer from 'slate-plain-serializer';
 import { Editor, RenderMarkProps } from 'slate-react';
 
 import { isAuthorized } from '../authorization';
-import { STATEMENT_TYPE_FACTUAL, STATEMENT_TYPE_PROMISE } from '../constants';
 import {
   CreateStatementInput,
   CreateStatementMutation,
@@ -26,6 +25,7 @@ import {
   GetSourceQuery,
   GetSourceStatementsQuery,
   GetSourceStatementsQueryVariables,
+  StatementType,
 } from '../operation-result-types';
 import { CreateStatement } from '../queries/mutations';
 import { GetSource, GetSourceStatements } from '../queries/queries';
@@ -337,7 +337,7 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
     const { onRequestClose, onStatementCreated, selection, source } = this.props;
 
     const initialValues = {
-      statement_type: STATEMENT_TYPE_FACTUAL as 'factual' | 'promise',
+      statement_type: StatementType.factual,
       content: selection.text,
       speaker_id: source.speakers[0].id,
       note: '',
@@ -763,11 +763,11 @@ const removeDecorationsWithMarkType = (
 const STATEMENT_TYPE_OPTIONS = [
   {
     label: 'Faktický',
-    value: STATEMENT_TYPE_FACTUAL,
+    value: StatementType.factual,
   },
   {
     label: 'Slib',
-    value: STATEMENT_TYPE_PROMISE,
+    value: StatementType.promise,
   },
 ];
 

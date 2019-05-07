@@ -86,7 +86,7 @@ export interface UserInput {
 };
 
 export interface CreateStatementInput {
-  statementType: GraphQLCustomScalar_StatementType,
+  statementType: StatementType,
   content: string,
   excerptedAt: string,
   important: boolean,
@@ -98,6 +98,12 @@ export interface CreateStatementInput {
   statementTranscriptPosition?: StatementTranscriptPositionInput | null,
   firstCommentContent?: string | null,
 };
+
+export enum StatementType {
+  factual = "factual",
+  promise = "promise",
+}
+
 
 export interface CreateAssessmentInput {
   evaluatorId?: string | null,
@@ -132,6 +138,15 @@ export interface UpdateAssessmentInput {
   promiseRatingId?: string | null,
 };
 
+export enum PromiseRatingKey {
+  broken = "broken",
+  fulfilled = "fulfilled",
+  in_progress = "in_progress",
+  partially_fulfilled = "partially_fulfilled",
+  stalled = "stalled",
+}
+
+
 export interface CommentInput {
   content: string,
   statementId: string,
@@ -144,6 +159,12 @@ export interface UpdateSourceStatementsOrderInput {
 export interface UpdateNotificationInput {
   readAt?: string | null,
 };
+
+export enum AssessmentMethodologyRatingModel {
+  promise_rating = "promise_rating",
+  veracity = "veracity",
+}
+
 
 export interface CreateMediaPersonalityMutationVariables {
   mediaPersonalityInput: MediaPersonalityInput,
@@ -683,7 +704,7 @@ export interface UpdateStatementMutation {
         } | null,
         promiseRating:  {
           id: string,
-          key: GraphQLCustomScalar_PromiseRatingKey,
+          key: PromiseRatingKey,
           name: string,
         } | null,
       },
@@ -1012,7 +1033,7 @@ export interface GetSourceStatementsQueryVariables {
 export interface GetSourceStatementsQuery {
   statements:  Array< {
     id: string,
-    statementType: GraphQLCustomScalar_StatementType,
+    statementType: StatementType,
     content: string,
     title: string | null,
     important: boolean,
@@ -1027,7 +1048,7 @@ export interface GetSourceStatementsQuery {
       id: string,
       assessmentMethodology:  {
         id: string,
-        ratingModel: GraphQLCustomScalar_AssessmentMethodologyRatingModelType,
+        ratingModel: AssessmentMethodologyRatingModel,
         ratingKeys: Array< string >,
       },
       evaluationStatus: string,
@@ -1043,7 +1064,7 @@ export interface GetSourceStatementsQuery {
       } | null,
       promiseRating:  {
         id: string,
-        key: GraphQLCustomScalar_PromiseRatingKey,
+        key: PromiseRatingKey,
         name: string,
       } | null,
       shortExplanation: string | null,
@@ -1216,7 +1237,7 @@ export interface GetStatementQueryVariables {
 export interface GetStatementQuery {
   statement:  {
     id: string,
-    statementType: GraphQLCustomScalar_StatementType,
+    statementType: StatementType,
     content: string,
     title: string | null,
     important: boolean,
@@ -1233,7 +1254,7 @@ export interface GetStatementQuery {
       id: string,
       assessmentMethodology:  {
         id: string,
-        ratingModel: GraphQLCustomScalar_AssessmentMethodologyRatingModelType,
+        ratingModel: AssessmentMethodologyRatingModel,
         ratingKeys: Array< string >,
       },
       explanationHtml: string | null,
@@ -1252,7 +1273,7 @@ export interface GetStatementQuery {
       } | null,
       promiseRating:  {
         id: string,
-        key: GraphQLCustomScalar_PromiseRatingKey,
+        key: PromiseRatingKey,
         name: string,
       } | null,
     },

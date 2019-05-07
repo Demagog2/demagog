@@ -11,13 +11,13 @@ import { Link, withRouter } from 'react-router-dom';
 import * as yup from 'yup';
 
 import { addFlashMessage } from '../actions/flashMessages';
-import { STATEMENT_TYPE_FACTUAL, STATEMENT_TYPE_PROMISE } from '../constants';
 import {
   CreateStatementInput,
   CreateStatementMutation,
   CreateStatementMutationVariables,
   GetSourceQuery,
   GetSourceQueryVariables,
+  StatementType,
 } from '../operation-result-types';
 import { CreateStatement } from '../queries/mutations';
 import { GetSource, GetSourceStatements } from '../queries/queries';
@@ -68,7 +68,7 @@ class StatementNew extends React.Component<IProps> {
           const source = data.source;
 
           const initialValues = {
-            statement_type: STATEMENT_TYPE_FACTUAL as 'factual' | 'promise',
+            statement_type: StatementType.factual,
             content: '',
             speaker_id: source.speakers[0].id,
             evaluator_id: null,
@@ -212,11 +212,11 @@ class StatementNew extends React.Component<IProps> {
 const STATEMENT_TYPE_OPTIONS = [
   {
     label: 'Faktický',
-    value: STATEMENT_TYPE_FACTUAL,
+    value: StatementType.factual,
   },
   {
     label: 'Slib',
-    value: STATEMENT_TYPE_PROMISE,
+    value: StatementType.promise,
   },
 ];
 

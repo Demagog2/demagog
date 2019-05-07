@@ -23,18 +23,16 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { addFlashMessage } from '../actions/flashMessages';
 import { isAuthorized } from '../authorization';
 import {
-  ASSESSMENT_METHODOLOGY_RATING_MODEL_PROMISE_RATING,
-  ASSESSMENT_METHODOLOGY_RATING_MODEL_VERACITY,
   ASSESSMENT_STATUS_APPROVAL_NEEDED,
   ASSESSMENT_STATUS_APPROVED,
   ASSESSMENT_STATUS_BEING_EVALUATED,
   ASSESSMENT_STATUS_LABELS,
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
-  STATEMENT_TYPE_FACTUAL,
-  STATEMENT_TYPE_PROMISE,
 } from '../constants';
 import {
+  AssessmentMethodologyRatingModel,
   GetStatementQuery,
+  StatementType,
   UpdateStatementInput,
   UpdateStatementMutation,
   UpdateStatementMutationVariables,
@@ -295,9 +293,9 @@ class StatementDetail extends React.Component<IProps, IState> {
                       isBeingEvaluated &&
                       values.assessment.short_explanation &&
                       values.assessment.explanation_html &&
-                      ((statement.statementType === STATEMENT_TYPE_FACTUAL &&
+                      ((statement.statementType === StatementType.factual &&
                         values.assessment.veracity_id) ||
-                        (statement.statementType === STATEMENT_TYPE_PROMISE &&
+                        (statement.statementType === StatementType.promise &&
                           values.assessment.promise_rating_id));
 
                     const canEditStatus =
@@ -354,7 +352,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                         <div style={{ display: 'flex' }}>
                           <h2 className={Classes.HEADING}>
                             Detail výroku{' '}
-                            {statement.statementType === STATEMENT_TYPE_PROMISE
+                            {statement.statementType === StatementType.promise
                               ? '(slib)'
                               : '(faktický)'}
                           </h2>
@@ -419,7 +417,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                               )}
                             </p>
 
-                            {statement.statementType === STATEMENT_TYPE_PROMISE && (
+                            {statement.statementType === StatementType.promise && (
                               <>
                                 {canEditStatement ? (
                                   <div style={{ display: 'flex' }}>
@@ -433,7 +431,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                         <SelectComponentField name="tags">
                                           {(renderProps) => (
                                             <TagsSelect
-                                              forStatementType={STATEMENT_TYPE_PROMISE}
+                                              forStatementType={StatementType.promise}
                                               {...renderProps}
                                             />
                                           )}
@@ -468,7 +466,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                               canViewEvaluation) && (
                               <>
                                 {statement.assessment.assessmentMethodology.ratingModel ===
-                                  ASSESSMENT_METHODOLOGY_RATING_MODEL_VERACITY && (
+                                  AssessmentMethodologyRatingModel.veracity && (
                                   <>
                                     {canEditVeracity ? (
                                       <BlueprintFormGroup label="Hodnocení" labelFor="veracity">
@@ -507,7 +505,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                 )}
 
                                 {statement.assessment.assessmentMethodology.ratingModel ===
-                                  ASSESSMENT_METHODOLOGY_RATING_MODEL_PROMISE_RATING && (
+                                  AssessmentMethodologyRatingModel.promise_rating && (
                                   <>
                                     {canEditPromiseRating ? (
                                       <BlueprintFormGroup
@@ -720,7 +718,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                   </Tooltip>
                                 </div>
 
-                                {statement.statementType === STATEMENT_TYPE_FACTUAL &&
+                                {statement.statementType === StatementType.factual &&
                                   values.published && (
                                     <a
                                       href={`/vyrok/${statement.id}`}
