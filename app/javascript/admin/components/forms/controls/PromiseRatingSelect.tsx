@@ -1,26 +1,10 @@
 import * as React from 'react';
 
-import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import Select from 'react-select';
 
-const GET_PROMISE_RATINGS = gql`
-  query {
-    promiseRatings {
-      id
-      key
-      name
-    }
-  }
-`;
-
-interface IGetPromiseRatingsQuery {
-  promiseRatings: Array<{
-    id: string;
-    key: string;
-    name: string;
-  }>;
-}
+import { GetPromiseRatingsForSelectQuery } from '../../../operation-result-types';
+import { GetPromiseRatingsForSelect } from '../../../queries/queries';
 
 interface ISelectOption {
   label: string;
@@ -39,7 +23,7 @@ interface IProps {
 export default class PromiseRatingSelect extends React.Component<IProps> {
   public render() {
     return (
-      <Query<IGetPromiseRatingsQuery> query={GET_PROMISE_RATINGS}>
+      <Query<GetPromiseRatingsForSelectQuery> query={GetPromiseRatingsForSelect}>
         {({ data, loading }) => {
           let options: ISelectOption[] = [];
 

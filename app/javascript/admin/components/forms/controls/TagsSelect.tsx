@@ -1,25 +1,15 @@
 import * as React from 'react';
 
 import { Colors } from '@blueprintjs/core';
-import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import Select from 'react-select';
 
-const GET_TAGS = gql`
-  query GetTags($forStatementType: StatementType!) {
-    tags(limit: 10000, forStatementType: $forStatementType) {
-      id
-      name
-    }
-  }
-`;
-
-interface IGetTagsQuery {
-  tags: Array<{
-    id: string;
-    name: string;
-  }>;
-}
+import {
+  GetTagsForSelectQuery,
+  GetTagsForSelectQueryVariables,
+  StatementType,
+} from '../../../operation-result-types';
+import { GetTagsForSelect } from '../../../queries/queries';
 
 interface ISelectOption {
   label: string;
@@ -30,7 +20,7 @@ interface IProps {
   id?: string;
   value: string[];
   error?: object | false;
-  forStatementType: 'factual' | 'promise';
+  forStatementType: StatementType;
   onChange(value: string[]): void;
   onBlur?(): void;
 }
@@ -40,7 +30,10 @@ export default class TagsSelect extends React.Component<IProps> {
     const { forStatementType } = this.props;
 
     return (
-      <Query<IGetTagsQuery> query={GET_TAGS} variables={{ forStatementType }}>
+      <Query<GetTagsForSelectQuery, GetTagsForSelectQueryVariables>
+        query={GetTagsForSelect}
+        variables={{ forStatementType }}
+      >
         {({ data, loading }) => {
           let options: ISelectOption[] = [];
 

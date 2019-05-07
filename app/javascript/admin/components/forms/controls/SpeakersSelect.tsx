@@ -1,27 +1,11 @@
 import * as React from 'react';
 
 import { Colors } from '@blueprintjs/core';
-import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import Select from 'react-select';
 
-const GET_SPEAKERS = gql`
-  query {
-    speakers(limit: 10000) {
-      id
-      firstName
-      lastName
-    }
-  }
-`;
-
-interface IGetSpeakersQuery {
-  speakers: Array<{
-    id: string;
-    firstName: string;
-    lastName: string;
-  }>;
-}
+import { GetSpeakersForSelectQuery } from '../../../operation-result-types';
+import { GetSpeakersForSelect } from '../../../queries/queries';
 
 interface ISelectOption {
   label: string;
@@ -39,7 +23,7 @@ interface IProps {
 export default class SpeakersSelect extends React.Component<IProps> {
   public render() {
     return (
-      <Query<IGetSpeakersQuery> query={GET_SPEAKERS}>
+      <Query<GetSpeakersForSelectQuery> query={GetSpeakersForSelect}>
         {({ data, loading }) => {
           let options: ISelectOption[] = [];
 

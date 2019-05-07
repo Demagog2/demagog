@@ -1394,3 +1394,57 @@ export interface GetNotificationsQuery {
     } >,
   },
 };
+
+export interface GetPromiseRatingsForSelectQuery {
+  promiseRatings:  Array< {
+    id: string,
+    key: PromiseRatingKey,
+    name: string,
+  } >,
+};
+
+export interface GetTagsForSelectQueryVariables {
+  forStatementType: StatementType,
+};
+
+export interface GetTagsForSelectQuery {
+  tags:  Array< {
+    id: string,
+    name: string,
+  } >,
+};
+
+export interface GetVeracitiesForSelectQuery {
+  veracities:  Array< {
+    id: string,
+    key: GraphQLCustomScalar_VeracityKey,
+    name: string,
+  } >,
+};
+
+export interface GetUsersForSelectQueryVariables {
+  roles?: Array< string > | null,
+};
+
+export interface GetUsersForSelectQuery {
+  users:  Array< {
+    id: string,
+    firstName: string,
+    lastName: string,
+  } >,
+};
+
+export interface GetSpeakersForSelectQuery {
+  speakers:  Array< {
+    id: string,
+    firstName: string,
+    lastName: string,
+  } >,
+};
+
+export interface GetMediaPersonalitiesForSelectQuery {
+  mediaPersonalities:  Array< {
+    id: string,
+    name: string,
+  } >,
+};

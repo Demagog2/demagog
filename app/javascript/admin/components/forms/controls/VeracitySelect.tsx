@@ -1,26 +1,10 @@
 import * as React from 'react';
 
-import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import Select from 'react-select';
 
-const GET_VERACITIES = gql`
-  query {
-    veracities {
-      id
-      key
-      name
-    }
-  }
-`;
-
-interface IGetVeracitiesQuery {
-  veracities: Array<{
-    id: string;
-    key: string;
-    name: string;
-  }>;
-}
+import { GetVeracitiesForSelectQuery } from '../../../operation-result-types';
+import { GetVeracitiesForSelect } from '../../../queries/queries';
 
 interface ISelectOption {
   label: string;
@@ -38,7 +22,7 @@ interface IProps {
 export default class VeracitySelect extends React.Component<IProps> {
   public render() {
     return (
-      <Query<IGetVeracitiesQuery> query={GET_VERACITIES}>
+      <Query<GetVeracitiesForSelectQuery> query={GetVeracitiesForSelect}>
         {({ data, loading }) => {
           let options: ISelectOption[] = [];
 

@@ -11,8 +11,11 @@ import {
   UpdateMediaPersonalityMutationVariables,
 } from '../../operation-result-types';
 import { UpdateMediaPersonality } from '../../queries/mutations';
-import { GetMediaPersonalities, GetMediaPersonality } from '../../queries/queries';
-import { GET_MEDIA_PERSONALITIES } from '../forms/controls/MediaPersonalitySelect';
+import {
+  GetMediaPersonalities,
+  GetMediaPersonalitiesForSelect,
+  GetMediaPersonality,
+} from '../../queries/queries';
 import { MediaPersonalityForm } from '../forms/MediaPersonalityForm';
 import Loading from '../Loading';
 
@@ -76,7 +79,7 @@ class MediaPersonalityEdit extends React.Component<IMediaPersonalityEditProps> {
                 refetchQueries={[
                   { query: GetMediaPersonalities, variables: { name: '' } },
                   { query: GetMediaPersonality, variables: { id } },
-                  { query: GET_MEDIA_PERSONALITIES },
+                  { query: GetMediaPersonalitiesForSelect },
                 ]}
               >
                 {(updateMediaPersonality) => {

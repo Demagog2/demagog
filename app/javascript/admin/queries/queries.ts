@@ -532,3 +532,61 @@ export const GetNotifications = gql`
     }
   }
 `;
+
+export const GetPromiseRatingsForSelect = gql`
+  query GetPromiseRatingsForSelect {
+    promiseRatings {
+      id
+      key
+      name
+    }
+  }
+`;
+
+export const GetTagsForSelect = gql`
+  query GetTagsForSelect($forStatementType: StatementType!) {
+    tags(limit: 10000, forStatementType: $forStatementType) {
+      id
+      name
+    }
+  }
+`;
+
+export const GetVeracitiesForSelect = gql`
+  query GetVeracitiesForSelect {
+    veracities {
+      id
+      key
+      name
+    }
+  }
+`;
+
+export const GetUsersForSelect = gql`
+  query GetUsersForSelect($roles: [String!]) {
+    users(limit: 200, roles: $roles) {
+      id
+      firstName
+      lastName
+    }
+  }
+`;
+
+export const GetSpeakersForSelect = gql`
+  query GetSpeakersForSelect {
+    speakers(limit: 10000) {
+      id
+      firstName
+      lastName
+    }
+  }
+`;
+
+export const GetMediaPersonalitiesForSelect = gql`
+  query GetMediaPersonalitiesForSelect {
+    mediaPersonalities {
+      id
+      name
+    }
+  }
+`;

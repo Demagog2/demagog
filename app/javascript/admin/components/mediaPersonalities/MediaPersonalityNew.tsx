@@ -11,7 +11,7 @@ import {
   MediaPersonalityInput,
 } from '../../operation-result-types';
 import { CreateMediaPersonality } from '../../queries/mutations';
-import { GET_MEDIA_PERSONALITIES } from '../forms/controls/MediaPersonalitySelect';
+import { GetMediaPersonalitiesForSelect } from '../../queries/queries';
 import { MediaPersonalityForm } from '../forms/MediaPersonalityForm';
 
 class CreateMediaPersonalityMutationComponent extends Mutation<
@@ -65,7 +65,7 @@ export class MediaPersonalityNew extends React.Component<ISourceNewProps> {
         <CreateMediaPersonalityMutationComponent
           mutation={CreateMediaPersonality}
           // TODO: is there a nicer way of updating apollo cache after creating?
-          refetchQueries={[{ query: GET_MEDIA_PERSONALITIES }]}
+          refetchQueries={[{ query: GetMediaPersonalitiesForSelect }]}
         >
           {(createMedium) => {
             return (
