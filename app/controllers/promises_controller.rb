@@ -70,35 +70,33 @@ class PromisesController < ApplicationController
         intro_partial: "promises/sobotkova_vlada_intro",
         methodology_partial: "promises/sobotkova_vlada_methodology"
       },
-      # "druha-vlada-andreje-babise" => {
-      #   get_statements: lambda {
-      #     # Temporary solution for proper Czech sorting where e.g characters [a, á, b] you
-      #     # want sorted that way, but in default sorting it is [a, b, á]. I am not using
-      #     # database-level collation, because default "cs_CZ" is not working on macOS
-      #     # (see https://github.com/PostgresApp/PostgresApp/issues/216)
-      #     collation = ENV["DB_PER_COLUMN_COLLATION"] || "cs_CZ"
+      "druha-vlada-andreje-babise" => {
+        get_statements: lambda {
+          # Temporary solution for proper Czech sorting where e.g characters [a, á, b] you
+          # want sorted that way, but in default sorting it is [a, b, á]. I am not using
+          # database-level collation, because default "cs_CZ" is not working on macOS
+          # (see https://github.com/PostgresApp/PostgresApp/issues/216)
+          collation = ENV["DB_PER_COLUMN_COLLATION"] || "cs_CZ"
 
-      #     Statement
-      #       .where(source_id: [562])
-      #       .where(assessments: {
-      #         evaluation_status: Assessment::STATUS_APPROVED,
-      #       })
-      #       .includes(:assessment, assessment: :promise_rating)
-      #       .order(
-      #         Arel.sql("title COLLATE \"#{collation}\" ASC")
-      #       )
-      #   },
-      #   get_statement_source_url: lambda { |statement|
-      #     # TODO
-      #     ""
-      #   },
-      #   get_statement_source_label: lambda { |statement|
-      #     # TODO
-      #     ""
-      #   },
-      #   intro_partial: "promises/druha_vlada_andreje_babise_intro",
-      #   methodology_partial: "promises/druha_vlada_andreje_babise_methodology"
-      # }
+          Statement
+            .where(source_id: [562])
+            .where(assessments: {
+              evaluation_status: Assessment::STATUS_APPROVED,
+            })
+            .includes(:assessment, assessment: :promise_rating)
+            .order(
+              Arel.sql("title COLLATE \"#{collation}\" ASC")
+            )
+        },
+        get_statement_source_url: lambda { |statement|
+          "https://www.vlada.cz/assets/jednani-vlady/programove-prohlaseni/Programove-prohlaseni-vlady-cerven-2018.pdf"
+        },
+        get_statement_source_label: lambda { |statement|
+          "Programové prohlášení vlády, červen 2018"
+        },
+        intro_partial: "promises/druha_vlada_andreje_babise_intro",
+        methodology_partial: "promises/druha_vlada_andreje_babise_methodology"
+      }
     }
   end
 
@@ -109,6 +107,9 @@ class PromisesController < ApplicationController
   def overview
     definition = @promises_definitions.fetch(params[:slug], nil)
     return head :not_found if definition.nil?
+
+    # Preview only for users signed in to admin. Remove when launching.
+    return head :not_found if params[:slug] == "druha-vlada-andreje-babise" && !user_signed_in?
 
     @slug = params[:slug]
     @all = definition[:get_statements].call
