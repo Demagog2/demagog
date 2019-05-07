@@ -106,10 +106,10 @@ class PromisesController < ApplicationController
 
   def overview
     definition = @promises_definitions.fetch(params[:slug], nil)
-    return head :not_found if definition.nil?
+    raise ActionController::RoutingError.new("Not Found") if definition.nil?
 
     # Preview only for users signed in to admin. Remove when launching.
-    return head :not_found if params[:slug] == "druha-vlada-andreje-babise" && !user_signed_in?
+    raise ActionController::RoutingError.new("Not Found") if params[:slug] == "druha-vlada-andreje-babise" && !user_signed_in?
 
     @slug = params[:slug]
     @all = definition[:get_statements].call
@@ -149,7 +149,7 @@ class PromisesController < ApplicationController
 
   def methodology
     definition = @promises_definitions.fetch(params[:slug], nil)
-    return head :not_found if definition.nil?
+    raise ActionController::RoutingError.new("Not Found") if definition.nil?
 
     @slug = params[:slug]
     @methodology_partial = definition[:methodology_partial]
