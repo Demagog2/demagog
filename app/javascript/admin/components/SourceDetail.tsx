@@ -662,7 +662,7 @@ const SpeakersStats = (props: ISpeakerStatsProps) => {
     const grouped = groupBy(speakerStatements, (statement) => {
       switch (statement.assessment.evaluationStatus) {
         case ASSESSMENT_STATUS_APPROVED:
-        // When statement is already in proofreading state, the veracity won't
+        // When statement is already in proofreading state, the rating won't
         // change, so we can already include it in the stats as well
         case ASSESSMENT_STATUS_PROOFREADING_NEEDED:
           if (

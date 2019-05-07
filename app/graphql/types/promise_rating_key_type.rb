@@ -2,10 +2,11 @@
 
 Types::PromiseRatingKeyType = GraphQL::ScalarType.define do
   name "PromiseRatingKey"
-  description "Assessment promise rating – can be either fulfilled, partially_fufilled, broken or stalled"
+  description "Assessment promise rating – can be either fulfilled, in_progress, partially_fufilled, broken or stalled"
 
   PROMISE_RATING_KEY_VALUES = [
     PromiseRating::FULFILLED,
+    PromiseRating::IN_PROGRESS,
     PromiseRating::PARTIALLY_FULFILLED,
     PromiseRating::BROKEN,
     PromiseRating::STALLED
@@ -14,7 +15,7 @@ Types::PromiseRatingKeyType = GraphQL::ScalarType.define do
   coerce_input ->(value, ctx) do
     unless PROMISE_RATING_KEY_VALUES.include?(value)
       raise GraphQL::CoercionError, "Cannot coerce #{value.inspect} to promise rating. \
-Known values are fulfilled, partially_fufilled, broken or stalled."
+Known values are fulfilled, in_progress, partially_fufilled, broken or stalled."
     end
 
     value
