@@ -50,4 +50,8 @@ class Speaker < ApplicationRecord
         veracity_id: veracity_id
       })
   end
+
+  def stats
+    SpeakerStat.where(speaker_id: id).normalize
+  end
 end

@@ -125,8 +125,6 @@ class Statement < ApplicationRecord
 
   private
     def invalidate_caches
-      Stats::Speaker::StatsBuilderFactory.new.create(Settings).invalidate(speaker)
-
       mentioning_articles.each do |article|
         Stats::Article::StatsBuilderFactory.new.create(Settings).invalidate(article)
       end

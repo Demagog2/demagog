@@ -12,10 +12,6 @@ class SpeakerController < ApplicationController
     @speaker = Speaker.find(params[:id])
 
     @statements = get_speaker_statements(@speaker)
-
-    @stats = speaker_stats.build(@speaker)
-
-    @veracities = Veracity.all
   end
 
   private

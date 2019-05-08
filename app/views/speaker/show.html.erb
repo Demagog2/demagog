@@ -6,7 +6,7 @@
     <div class="name-and-stats">
       <h1 class="name s-speaker-name"><%= @speaker.full_name %> <% if @speaker.body %><span class="s-body">(<%= @speaker.body.short_name %>)</span><% end %></h1>
 
-      <%= render(partial: 'shared/stats', object: @stats, as: :stats) %>
+      <%= render(partial: 'shared/stats', object: @speaker.stats, as: :stats) %>
     </div>
   </section>
 

@@ -9,10 +9,6 @@ class ApplicationController < ActionController::Base
     MenuItem.order(order: :asc)
   end
 
-  def speaker_stats
-    Stats::Speaker::StatsBuilderFactory.new.create(Settings)
-  end
-
   def article_stats
     Stats::Article::StatsBuilderFactory.new.create(Settings)
   end

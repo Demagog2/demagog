@@ -82,7 +82,7 @@ module Types
     field :stats, Types::StatsType, null: true
 
     def stats
-      Stats::Speaker::StatsBuilderFactory.new.create(Settings).build(object)
+      SpeakerStat.where(speaker_id: object.id).normalize
     end
   end
 end
