@@ -28,7 +28,7 @@ module Types
 
     def debate_stats
       object.unique_speakers.map do |speaker|
-        stats = Stats::Source::StatsBuilderFactory.new.create(Settings).build(object.source, speaker)
+        stats = object.speaker_stats(speaker)
         SpeakerStats.new(speaker, stats)
       end
     end

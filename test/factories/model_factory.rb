@@ -15,6 +15,7 @@ FactoryBot.define do
     name { "Source name" }
     medium
     released_at { 1.week.ago }
+    source_url { "http://example.com" }
 
     after(:create) do |source|
       create(:media_personality, sources: [source])

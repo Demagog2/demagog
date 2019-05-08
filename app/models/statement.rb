@@ -16,8 +16,6 @@ class Statement < ApplicationRecord
   has_one :statement_transcript_position
   has_and_belongs_to_many :tags
 
-  after_update :invalidate_caches
-
   default_scope {
     # We keep here only soft-delete, ordering cannot be here because
     # of has_many :through relations which use statements
@@ -122,11 +120,4 @@ class Statement < ApplicationRecord
   def mentioning_articles
     Article.joins(:segments).where(article_segments: { source_id: source.id }).distinct.order(published_at: :desc)
   end
-
-  private
-    def invalidate_caches
-      mentioning_articles.each do |article|
-        Stats::Article::StatsBuilderFactory.new.create(Settings).invalidate(article)
-      end
-    end
 end

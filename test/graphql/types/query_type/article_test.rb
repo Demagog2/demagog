@@ -11,6 +11,11 @@ class QueryTypeArticleTest < GraphQLTestCase
         article(id: #{article.id}) {
           id
           title
+          debateStats {
+            stats {
+              true
+            }
+          }
         }
       }"
 

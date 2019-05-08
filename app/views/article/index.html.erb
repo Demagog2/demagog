@@ -37,7 +37,7 @@
 
             <% @article.unique_speakers.each do |speaker| %>
               <div class="speaker-veracities-filter">
-                <% stats = controller.article_stats.build(@article, speaker) %>
+                <% stats = @article.speaker_stats(speaker) %>
 
                 <div class="portrait-wrapper">
                   <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>

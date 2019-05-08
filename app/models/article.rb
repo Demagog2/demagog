@@ -13,8 +13,6 @@ class Article < ApplicationRecord
   belongs_to :document, class_name: "Attachment", optional: true
   has_many :segments, class_name: "ArticleSegment", dependent: :destroy
 
-  after_update :invalidate_caches
-
   has_one_attached :illustration
 
   friendly_id :title, use: :slugged
@@ -48,6 +46,10 @@ class Article < ApplicationRecord
       .speakers
       .distinct
       .order(last_name: :asc, first_name: :asc)
+  end
+
+  def speaker_stats(speaker)
+    ArticleStat.where(article_id: id, speaker_id: speaker.id).normalize
   end
 
   def self.cover_story
@@ -130,9 +132,4 @@ class Article < ApplicationRecord
       ArticleSegment.new
     end
   end
-
-  private
-    def invalidate_caches
-      Stats::Article::StatsBuilderFactory.new.create(Settings).invalidate(self)
-    end
 end
