@@ -16,6 +16,8 @@ gem "rails", "~> 5.2"
 gem "bulk_insert"
 # Use Postgresql as the database for Active Record
 gem "pg"
+# Use scenic for materilized views
+gem "scenic"
 # Use Unicorn as the app server
 gem "unicorn"
 # Use SCSS for stylesheets
