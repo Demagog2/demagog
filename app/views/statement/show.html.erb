@@ -15,7 +15,7 @@
         </span>
       <% end %>
     </blockquote>
-    <cite><%= @statement.source.medium.name %>, <%= raw(l(@statement.source.released_at, format: :long)) %></cite>
+    <cite><%= @statement.source.medium.name %>, <%= raw(l(@statement.source.released_at, format: :long, locale: :cs)) %></cite>
 
     <h1>
       Tento výrok byl ověřen jako
