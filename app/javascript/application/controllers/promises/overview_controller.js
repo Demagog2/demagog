@@ -1,5 +1,6 @@
 import { Controller } from 'stimulus';
 import * as queryString from 'query-string';
+import debounce from 'lodash/debounce';
 
 export default class extends Controller {
   static targets = [
@@ -15,6 +16,7 @@ export default class extends Controller {
     this.queryParamsFilterKeys = JSON.parse(this.data.get('queryParamsFilterKeys'));
     this.queryParamsFilterValues = JSON.parse(this.data.get('queryParamsFilterValues'));
 
+    this.measureAllPromiseDetailHeights();
     this.propagateExpandedIdToDom();
     this.propagateFiltersToDom();
   }
@@ -24,9 +26,15 @@ export default class extends Controller {
     this.propagateFiltersToDom();
   }
 
+  handleWindowResize = debounce(() => {
+    this.measureAllPromiseDetailHeights();
+    this.propagateExpandedIdToDom();
+  }, 500);
+
   toggleDetail(e) {
     const id = e.currentTarget.closest('tr.summary').id;
 
+    this.showExpandedWithFullExplanation = false;
     this.expandedId = this.expandedId === id ? null : id;
 
     e.stopPropagation();
@@ -35,15 +43,23 @@ export default class extends Controller {
 
   propagateExpandedIdToDom() {
     this.summaryRowTargets.forEach((el) => {
-      el.classList.toggle('expanded', el.id === this.expandedId);
+      const isExpanded = el.id === this.expandedId;
+      el.classList.toggle('expanded', isExpanded);
     });
     this.detailRowTargets.forEach((el) => {
       const isExpanded = el.dataset.id === this.expandedId;
       el.classList.toggle('expanded', isExpanded);
 
+      const slideAnimationContainer = el.querySelector('.slide-animation-container');
+      const spaceTakingContainerEl = el.querySelector('.space-taking-container');
+      spaceTakingContainerEl.style.height = el.dataset.promiseDetailHeight + 'px';
+      slideAnimationContainer.style.maxHeight = isExpanded
+        ? el.dataset.promiseDetailHeight + 'px'
+        : '0px';
+
       if (isExpanded) {
         // Lazy load iframes
-        el.querySelectorAll('.explanation iframe').forEach((iframeEl) => {
+        el.querySelectorAll('.full-explanation iframe').forEach((iframeEl) => {
           if (
             iframeEl.getAttribute('src') === 'about:blank' &&
             iframeEl.dataset.src !== undefined
@@ -53,7 +69,7 @@ export default class extends Controller {
         });
 
         // Lazy load images
-        el.querySelectorAll('.explanation img').forEach((imgEl) => {
+        el.querySelectorAll('.full-explanation img').forEach((imgEl) => {
           if (imgEl.getAttribute('src') === '' && imgEl.dataset.src !== undefined) {
             imgEl.setAttribute('src', imgEl.dataset.src);
           }
@@ -199,10 +215,64 @@ export default class extends Controller {
   }
 
   toggleFullExplanation(e) {
-    const explanationEl = e.currentTarget.closest('.explanation');
-    explanationEl.classList.toggle('with-full-explanation');
+    this.showExpandedWithFullExplanation = !this.showExpandedWithFullExplanation;
 
     e.stopPropagation();
     e.preventDefault();
+  }
+
+  get showExpandedWithFullExplanation() {
+    if (this.expandedId === null) {
+      return false;
+    }
+
+    const expandedDetailRowEl = this.detailRowTargets.find(
+      (el) => el.dataset.id === this.expandedId,
+    );
+    const explanationContainerEl = expandedDetailRowEl.querySelector('.explanation-container');
+    return explanationContainerEl.classList.contains('with-full-explanation');
+  }
+  set showExpandedWithFullExplanation(show) {
+    if (this.expandedId === null) {
+      return;
+    }
+
+    const expandedDetailRowEl = this.detailRowTargets.find(
+      (el) => el.dataset.id === this.expandedId,
+    );
+    const explanationContainerEl = expandedDetailRowEl.querySelector('.explanation-container');
+    explanationContainerEl.classList.toggle('with-full-explanation', show);
+
+    this.measurePromiseDetailHeight(expandedDetailRowEl);
+
+    this.propagateExpandedIdToDom();
+  }
+
+  measurePromiseDetailHeight(detailRowEl) {
+    const spaceTakingContainerEl = detailRowEl.querySelector('.space-taking-container');
+    const promiseDetailEl = detailRowEl.querySelector('.promise-detail');
+
+    const offsetHeight = promiseDetailEl.offsetHeight;
+    detailRowEl.dataset.promiseDetailHeight = offsetHeight + 100; // 40px top margin, 60px bottom margin
+    spaceTakingContainerEl.style.height = detailRowEl.dataset.promiseDetailHeight + 'px';
+  }
+
+  measureAllPromiseDetailHeights() {
+    this.detailRowTargets.forEach((el) => {
+      const slideAnimationContainer = el.querySelector('.slide-animation-container');
+      const hidingContainerEl = el.querySelector('.hiding-container');
+
+      // Make sure all promise details are visible
+      slideAnimationContainer.style.transition = 'none';
+      slideAnimationContainer.style.height = '2000px';
+      hidingContainerEl.style.display = 'block';
+
+      this.measurePromiseDetailHeight(el);
+
+      // Hide them again
+      hidingContainerEl.style.display = null;
+      slideAnimationContainer.style.height = null;
+      slideAnimationContainer.style.transition = null;
+    });
   }
 }

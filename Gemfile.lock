@@ -60,7 +60,7 @@ GEM
       aws-sigv4 (~> 1.0)
     aws-sigv4 (1.0.2)
     backport (0.3.0)
-    bcrypt (3.1.11)
+    bcrypt (3.1.12)
     bindex (0.5.0)
     builder (3.2.3)
     bulk_insert (1.6.0)
@@ -91,7 +91,7 @@ GEM
       dry-validation (>= 0.10.4)
     crass (1.0.4)
     deep_merge (1.2.1)
-    devise (4.4.3)
+    devise (4.6.2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0, < 6.0)
@@ -293,9 +293,9 @@ GEM
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     redis (4.0.1)
-    responders (2.4.0)
-      actionpack (>= 4.2.0, < 5.3)
-      railties (>= 4.2.0, < 5.3)
+    responders (2.4.1)
+      actionpack (>= 4.2.0, < 6.0)
+      railties (>= 4.2.0, < 6.0)
     reverse_markdown (1.1.0)
       nokogiri
     rubocop (0.59.2)
@@ -364,8 +364,8 @@ GEM
     unicorn (5.4.0)
       kgio (~> 2.6)
       raindrops (~> 0.7)
-    warden (1.2.7)
-      rack (>= 1.0)
+    warden (1.2.8)
+      rack (>= 2.0.6)
     web-console (3.6.2)
       actionview (>= 5.0)
       activemodel (>= 5.0)
@@ -395,7 +395,7 @@ DEPENDENCIES
   capistrano-rvm
   capistrano3-unicorn
   config
-  devise
+  devise (>= 4.6.0)
   discard (~> 1.0)
   dotenv-rails
   factory_bot_rails

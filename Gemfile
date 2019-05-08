@@ -58,7 +58,7 @@ gem "meta-tags"
 gem "config"
 
 # Authentication
-gem "devise"
+gem "devise", ">= 4.6.0"
 
 # Enables devise & omniauth to authenticate against Google OAuth 2
 gem "omniauth-google-oauth2"

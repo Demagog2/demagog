@@ -248,12 +248,13 @@
 
           .slide-animation-container {
             max-height: 0;
-            transition: max-height 500ms linear 0s;
+            transition: max-height 350ms linear 0s;
             overflow: hidden;
           }
 
           .space-taking-container {
-            height: 600px;
+            padding: 40px 15px 60px;
+            box-sizing: border-box;
           }
 
           .hiding-container {
@@ -263,10 +264,6 @@
 
         &.expanded td {
           border-bottom: 1px solid #D7E5FB;
-
-          .slide-animation-container {
-            max-height: 600px;
-          }
 
           .hiding-container {
             display: block;
@@ -342,7 +339,6 @@
   }
 
   .promise-detail {
-    margin: 40px 15px;
     display: flex;
     align-items: flex-start;
 
@@ -356,12 +352,13 @@
       padding: 10px 15px 15px 15px;
 
       p {
-        margin-bottom: 5px;
+        margin-bottom: 7px;
       }
 
       cite {
         text-align: right;
         color: #9a91b5;
+        line-height: 1.25;
 
         a {
           color: #9a91b5;
@@ -398,55 +395,57 @@
       }
 
       .explanation-container {
-        overflow-y: auto;
-        max-height: 495px;
-        margin-right: -10px;
-        padding-right: 10px;
-        margin-top: 0.4rem;
+        .short-explanation {
+          margin-top: 7px;
 
-        background:
-          linear-gradient(var(--white) 30%, hsla(0,0%,100%, 0)),
-          linear-gradient(hsla(0,0%,100%,0) 10px, var(--white) 70%) bottom,
-          radial-gradient(at top, rgba(0,0,0,0.3), transparent 70%),
-          radial-gradient(at bottom, rgba(0,0,0,0.3), transparent 70%) bottom;
-        background-repeat:no-repeat;
-        background-size: 100% 30px, 100% 30px, 100% 15px, 100% 15px;
-        background-attachment:local, local, scroll, scroll;
+          > p {
+            margin-bottom: 5px;
+          }
+        }
 
-        .explanation {
+        .toggle-full-explanation {
+          .hide {
+            display: none;
+          }
+        }
+
+        .full-explanation {
+          display: none;
+          overflow-y: auto;
+          max-height: 395px;
+          margin-right: -10px;
+          padding-right: 10px;
+          margin-top: 7px;
+
+          background:
+            linear-gradient(var(--white) 30%, hsla(0,0%,100%, 0)),
+            linear-gradient(hsla(0,0%,100%,0) 10px, var(--white) 70%) bottom,
+            radial-gradient(at top, rgba(0,0,0,0.3), transparent 70%),
+            radial-gradient(at bottom, rgba(0,0,0,0.3), transparent 70%) bottom;
+          background-repeat:no-repeat;
+          background-size: 100% 30px, 100% 30px, 100% 15px, 100% 15px;
+          background-attachment:local, local, scroll, scroll;
+
           * {
             line-height: 25px;
           }
+        }
 
-          .short-explanation {
-            margin-bottom: 5px;
+        &.full-explanation-only {
+          .full-explanation {
+            display: block;
+            max-height: 495px;
           }
+        }
 
+        &.with-full-explanation {
           .toggle-full-explanation {
-            .hide {
-              display: none;
-            }
+            .show { display: none; }
+            .hide { display: inline; }
           }
 
           .full-explanation {
-            margin-top: 5px;
-            display: none;
-          }
-
-          &.with-full-explanation {
-            .toggle-full-explanation {
-              .show {
-                display: none;
-              }
-
-              .hide {
-                display: inline;
-              }
-            }
-
-            .full-explanation {
-              display: block;
-            }
+            display: block;
           }
         }
       }
@@ -464,7 +463,9 @@
         margin-left: 0;
 
         .explanation-container {
-          max-height: 295px;
+          .full-explanation, &.full-explanation-only .full-explanation {
+            max-height: 300px;
+          }
         }
       }
     }
