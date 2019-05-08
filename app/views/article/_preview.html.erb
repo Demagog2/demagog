@@ -25,11 +25,11 @@
       </span>
 
       <% if article.article_type.name == "default" && article.source %>
-          <i><%= article.source.medium.name %>, <%= raw(l(article.source.released_at, format: :long)) %></i>
+          <i><%= article.source.medium.name %>, <%= raw(l(article.source.released_at, format: :long, locale: :cs)) %></i>
       <% end %>
 
       <% if article.article_type.name == "static" %>
-        <i><%= raw(l(article.published_at, format: :long)) %></i>
+        <i><%= raw(l(article.published_at, format: :long, locale: :cs)) %></i>
       <% end %>
 
       <% if article.perex %>

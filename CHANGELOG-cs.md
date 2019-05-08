@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 8. května 2019
+- Opraveno: Zobrazování datumů u článků a výroků je znovu české a bez 00:00 ([#373](https://github.com/Demagog2/demagog/pull/373))
+
 ## 7. května 2019
 - Administrace podporuje sliby - jak metodiku pro sliby Sobotkovy vlády, tak tu pro druhou vládu Andreje Babiše ([#368](https://github.com/Demagog2/demagog/pull/368))
 - Přihlášení do administrace mohou nahlížet výstup slibů vlády Andreje Babiše ([#369](https://github.com/Demagog2/demagog/pull/369))
