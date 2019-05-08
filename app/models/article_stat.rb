@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ArticleStat < ApplicationRecord
   def self.normalize
     default_stats = {

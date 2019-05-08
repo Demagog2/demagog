@@ -1,4 +1,6 @@
-require 'test_helper'
+# frozen_string_literal: true
+
+require "test_helper"
 
 class ArticleStatTest < ActiveSupport::TestCase
   test "it returns correct stats" do
@@ -17,19 +19,19 @@ class ArticleStatTest < ActiveSupport::TestCase
   end
 
   private
-  def get_source
-    create(:source)
-  end
+    def get_source
+      create(:source)
+    end
 
-  def get_speaker(source)
-    speaker = create(:speaker, statement_source: source)
-    source.speakers << speaker
-    speaker
-  end
+    def get_speaker(source)
+      speaker = create(:speaker, statement_source: source)
+      source.speakers << speaker
+      speaker
+    end
 
-  def get_article(source)
-    segment = create(:article_segment_source_statements, source: source)
+    def get_article(source)
+      segment = create(:article_segment_source_statements, source: source)
 
-    create(:fact_check, segments: [segment])
-  end
+      create(:fact_check, segments: [segment])
+    end
 end
