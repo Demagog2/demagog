@@ -52,14 +52,7 @@ export default class extends Controller {
 
       const slideAnimationContainer = el.querySelector('.slide-animation-container');
       const spaceTakingContainerEl = el.querySelector('.space-taking-container');
-      // const expandedHeight = this.showExpandedWithFullExplanation
-      //   ? String(parseInt(el.dataset.promiseDetailHeight, 10) + 300) + 'px'
-      //   : ;
       spaceTakingContainerEl.style.height = el.dataset.promiseDetailHeight + 'px';
-
-      // const expandedMaxHeight = this.showExpandedWithFullExplanation
-      //   ? String(parseInt(el.dataset.promiseDetailHeight, 10) + 300) + 'px'
-      //   : el.dataset.promiseDetailHeight + 'px';
       slideAnimationContainer.style.maxHeight = isExpanded
         ? el.dataset.promiseDetailHeight + 'px'
         : '0px';
