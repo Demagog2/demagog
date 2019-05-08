@@ -1,6 +1,7 @@
 <article
   class="container-promises-overview"
   data-controller="promises--overview"
+  data-action="resize@window->promises--overview#handleWindowResize"
   data-action="popstate@window->promises--overview#handleWindowPopstate"
   data-promises--overview-query-params-filter-keys="<%= @params_filter_keys.to_json %>"
   data-promises--overview-query-params-filter-values="<%= @params_filter_values.to_json %>"
@@ -166,22 +167,21 @@
                           <span class="promise-evaluation <%= statement.assessment.promise_rating.key.dasherize %>"> <%= @promises_list_rating_labels[statement.assessment.promise_rating.key] %></span>
                           <a class="permalink" href="<%= promise_permalink(statement) %>">trvalý odkaz</a>
                         </div>
-                        <div class="explanation-container">
-                          <section class="explanation">
-                            <% if statement.assessment.short_explanation.nil? %>
-                              <%= raw(to_lazy_loading_iframes_and_images(statement.assessment.explanation_html)) %>
-                            <% else %>
-                              <p class="short-explanation"><%= statement.assessment.short_explanation %></p>
+                        <div class="explanation-container <% if statement.assessment.short_explanation.nil? %>full-explanation-only<% end %>">
+                          <% unless statement.assessment.short_explanation.nil? %>
+                            <section class="short-explanation">
+                              <p><%= statement.assessment.short_explanation %></p>
+                            </section>
 
-                              <a href="#" class="toggle-full-explanation" data-action="promises--overview#toggleFullExplanation">
-                                <span class="show">zobrazit&nbsp;celé&nbsp;odůvodnění</span>
-                                <span class="hide">skrýt&nbsp;celé&nbsp;odůvodnění</span>
-                              </a>
+                            <a href="#" class="toggle-full-explanation" data-action="promises--overview#toggleFullExplanation">
+                              <span class="show">zobrazit&nbsp;celé&nbsp;odůvodnění</span>
+                              <span class="hide">skrýt&nbsp;celé&nbsp;odůvodnění</span>
+                            </a>
+                          <% end %>
 
-                              <div class="full-explanation">
-                                <%= raw(to_lazy_loading_iframes_and_images(statement.assessment.explanation_html)) %>
-                              </div>
-                            <% end %>
+                          <section class="full-explanation">
+                            <%= raw(to_lazy_loading_iframes_and_images(statement.assessment.explanation_html)) %>
+                          </section>
                           </section>
                         </div>
                       </div>
