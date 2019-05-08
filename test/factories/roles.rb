@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :role do
-    key "admin"
+    key { "admin" }
   end
 end
