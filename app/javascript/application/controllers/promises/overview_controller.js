@@ -59,7 +59,7 @@ export default class extends Controller {
 
       if (isExpanded) {
         // Lazy load iframes
-        el.querySelectorAll('.explanation iframe').forEach((iframeEl) => {
+        el.querySelectorAll('.full-explanation iframe').forEach((iframeEl) => {
           if (
             iframeEl.getAttribute('src') === 'about:blank' &&
             iframeEl.dataset.src !== undefined
@@ -69,7 +69,7 @@ export default class extends Controller {
         });
 
         // Lazy load images
-        el.querySelectorAll('.explanation img').forEach((imgEl) => {
+        el.querySelectorAll('.full-explanation img').forEach((imgEl) => {
           if (imgEl.getAttribute('src') === '' && imgEl.dataset.src !== undefined) {
             imgEl.setAttribute('src', imgEl.dataset.src);
           }
