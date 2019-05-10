@@ -11,14 +11,6 @@ environment.loaders.append('babel', babelLoader);
 // Add typescript loader
 environment.loaders.append('typescript', typescriptLoader);
 
-environment.plugins.append(
-  'Provide',
-  new webpack.ProvidePlugin({
-    $: 'jquery',
-    jQuery: 'jquery',
-  }),
-);
-
 const changelogContents = fs.readFileSync(__dirname + '/../../CHANGELOG-cs.md', 'utf8');
 const matches = changelogContents.match(/\n## (\d{1,2}\. [^ ]+ \d{4})/u);
 const lastUpdateDate = matches && matches.length >= 2 ? matches[1] : '';
