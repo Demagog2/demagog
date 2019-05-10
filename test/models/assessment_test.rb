@@ -117,6 +117,16 @@ class AssessmentTest < ActiveSupport::TestCase
     assert assessment.is_user_authorized_to_save(user)
   end
 
+  test "intern should be authorized to change status from approval_needed to being_evaluated when evaluator" do
+    assessment = create(:assessment, :approval_needed)
+    user = create(:user, :intern)
+    assessment.update(evaluator: user)
+
+    assessment.evaluation_status = Assessment::STATUS_BEING_EVALUATED
+
+    assert assessment.is_user_authorized_to_save(user)
+  end
+
   test "intern should not be authorized to change anything when in approval_needed state and when evaluator" do
     assessment = create(:assessment, :approval_needed)
     user = create(:user, :intern)

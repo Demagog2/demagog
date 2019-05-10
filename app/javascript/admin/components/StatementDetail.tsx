@@ -305,7 +305,32 @@ class StatementDetail extends React.Component<IProps, IState> {
                           isApprovalNeeded ||
                           isProofreadingNeeded)) ||
                       (canEditAsProofreader && isProofreadingNeeded) ||
-                      (canEditAsEvaluator && isBeingEvaluatedAndEvaluationFilled);
+                      (canEditAsEvaluator &&
+                        (isBeingEvaluatedAndEvaluationFilled || isApprovalNeeded));
+
+                    let canEditStatusTo: string[] = [];
+                    if (isBeingEvaluated) {
+                      canEditStatusTo = canEditStatusTo.concat([ASSESSMENT_STATUS_APPROVAL_NEEDED]);
+                    } else if (isApprovalNeeded) {
+                      if (canEditAsEvaluator) {
+                        // Evaluator can only return, not move status forward
+                        canEditStatusTo = canEditStatusTo.concat([
+                          ASSESSMENT_STATUS_BEING_EVALUATED,
+                        ]);
+                      } else {
+                        canEditStatusTo = canEditStatusTo.concat([
+                          ASSESSMENT_STATUS_BEING_EVALUATED,
+                          ASSESSMENT_STATUS_PROOFREADING_NEEDED,
+                        ]);
+                      }
+                    } else if (isProofreadingNeeded) {
+                      canEditStatusTo = canEditStatusTo.concat([
+                        ASSESSMENT_STATUS_BEING_EVALUATED,
+                        ASSESSMENT_STATUS_APPROVED,
+                      ]);
+                    } else if (isApproved) {
+                      canEditStatusTo = canEditStatusTo.concat([ASSESSMENT_STATUS_BEING_EVALUATED]);
+                    }
 
                     let statusTooltipContent: string | null = null;
                     if (canEditEverything && isBeingEvaluated && !canEditStatus) {
@@ -644,6 +669,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                       values.assessment.evaluation_status ||
                                     initialValues.published !== values.published
                                   }
+                                  enabledChanges={canEditStatusTo}
                                   tooltipContent={statusTooltipContent}
                                   value={values.assessment.evaluation_status}
                                   onChange={(value) =>
@@ -804,6 +830,7 @@ class StatementDetail extends React.Component<IProps, IState> {
 
 interface IEvaluationStatusInputProps {
   disabled: boolean;
+  enabledChanges: string[];
   tooltipContent: string | null;
   value: string;
   onChange: (value: string) => void;
@@ -817,7 +844,7 @@ class EvaluationStatusInput extends React.Component<IEvaluationStatusInputProps>
   };
 
   public render() {
-    const { disabled, tooltipContent, value } = this.props;
+    const { disabled, enabledChanges, tooltipContent, value } = this.props;
 
     return (
       <>
@@ -831,7 +858,7 @@ class EvaluationStatusInput extends React.Component<IEvaluationStatusInputProps>
           <>
             {value === ASSESSMENT_STATUS_BEING_EVALUATED && (
               <Button
-                disabled={disabled}
+                disabled={disabled || !enabledChanges.includes(ASSESSMENT_STATUS_APPROVAL_NEEDED)}
                 onClick={this.onChange(ASSESSMENT_STATUS_APPROVAL_NEEDED)}
                 text="Posunout ke kontrole"
               />
@@ -839,12 +866,14 @@ class EvaluationStatusInput extends React.Component<IEvaluationStatusInputProps>
             {value === ASSESSMENT_STATUS_APPROVAL_NEEDED && (
               <>
                 <Button
-                  disabled={disabled}
+                  disabled={disabled || !enabledChanges.includes(ASSESSMENT_STATUS_BEING_EVALUATED)}
                   onClick={this.onChange(ASSESSMENT_STATUS_BEING_EVALUATED)}
                   text="Vrátit ke zpracování"
                 />
                 <Button
-                  disabled={disabled}
+                  disabled={
+                    disabled || !enabledChanges.includes(ASSESSMENT_STATUS_PROOFREADING_NEEDED)
+                  }
                   onClick={this.onChange(ASSESSMENT_STATUS_PROOFREADING_NEEDED)}
                   text="Posunout ke korektuře"
                 />
@@ -853,12 +882,12 @@ class EvaluationStatusInput extends React.Component<IEvaluationStatusInputProps>
             {value === ASSESSMENT_STATUS_PROOFREADING_NEEDED && (
               <>
                 <Button
-                  disabled={disabled}
+                  disabled={disabled || !enabledChanges.includes(ASSESSMENT_STATUS_BEING_EVALUATED)}
                   onClick={this.onChange(ASSESSMENT_STATUS_BEING_EVALUATED)}
                   text="Vrátit ke zpracování"
                 />
                 <Button
-                  disabled={disabled}
+                  disabled={disabled || !enabledChanges.includes(ASSESSMENT_STATUS_APPROVED)}
                   onClick={this.onChange(ASSESSMENT_STATUS_APPROVED)}
                   text="Schválit"
                 />
@@ -866,7 +895,7 @@ class EvaluationStatusInput extends React.Component<IEvaluationStatusInputProps>
             )}
             {value === ASSESSMENT_STATUS_APPROVED && (
               <Button
-                disabled={disabled}
+                disabled={disabled || !enabledChanges.includes(ASSESSMENT_STATUS_BEING_EVALUATED)}
                 onClick={this.onChange(ASSESSMENT_STATUS_BEING_EVALUATED)}
                 text="Vrátit ke zpracování"
               />
