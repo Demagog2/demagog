@@ -149,7 +149,7 @@ GEM
       activerecord (>= 4.0.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    graphiql-rails (1.7.0)
+    graphiql-rails (1.4.11)
       railties
       sprockets-rails
     graphql (1.9.3)
@@ -401,7 +401,7 @@ DEPENDENCIES
   factory_bot_rails
   ffi (~> 1.9.24)
   friendly_id (~> 5.1.0)
-  graphiql-rails (= 1.7.0)
+  graphiql-rails (~> 1.4.11)
   graphql
   guard
   guard-livereload (~> 2.5)

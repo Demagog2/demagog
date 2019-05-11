@@ -140,4 +140,6 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem "graphiql-rails", "1.7.0"
+# graphiql-rails 1.5 and up fails in production, see issue:
+# https://github.com/rmosolgo/graphiql-rails/issues/58
+gem "graphiql-rails", "~> 1.4.11"
