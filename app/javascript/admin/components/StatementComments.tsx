@@ -70,18 +70,22 @@ class StatementComments extends React.PureComponent<IProps> {
                   <small className={Classes.TEXT_MUTED} style={{ marginLeft: 10 }}>
                     {formatCreatedAt(comment.createdAt)}
                   </small>
-                  <p
+                  <div
                     style={{ marginTop: 3 }}
                     className={css`
-                      margin-top: 3px;
-                      word-break: break-word;
+                      p {
+                        margin: 3px 0 5px 0;
+                        word-break: break-word;
 
-                      span.highlight {
-                        background-color: rgb(206, 230, 249);
+                        span.highlight {
+                          background-color: rgb(206, 230, 249);
+                        }
                       }
                     `}
                     dangerouslySetInnerHTML={{
-                      __html: highlightMentions(nicerLinks(comment.content)),
+                      __html: newlinesToParagraphsAndBreaks(
+                        highlightMentions(nicerLinks(comment.content)),
+                      ),
                     }}
                   />
                 </div>
@@ -116,6 +120,18 @@ const nicerLinks = (commentContent: string) =>
       return false;
     },
   });
+
+const newlinesToParagraphsAndBreaks = (commentContent: string): string => {
+  let paragraphs = commentContent.split(/(?:\r\n|\r|\n){2,}/);
+
+  paragraphs = paragraphs.map((paragraph) => {
+    const lines = paragraph.split(/(?:\r\n|\r|\n)/);
+
+    return lines.join('<br>');
+  });
+
+  return paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join('');
+};
 
 interface IAddCommentFormProps {
   statementId: string;
