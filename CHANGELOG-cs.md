@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 10. května 2019
+- Změněno: Stážisti si mohou vrátit výrok ke zpracování ze stavu ke kontrole ([#379](https://github.com/Demagog2/demagog/pull/379))
+
 ## 8. května 2019
 - Opraveno: Zobrazování datumů u článků a výroků je znovu české a bez 00:00 ([#373](https://github.com/Demagog2/demagog/pull/373))
 

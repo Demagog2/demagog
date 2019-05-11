@@ -98,8 +98,15 @@ class Assessment < ApplicationRecord
       "evaluation_status"
     ]
     evaluator_allowed_changes =
-      evaluation_status_was == STATUS_BEING_EVALUATED &&
-      (changed_attributes.keys - evaluator_allowed_attributes).empty?
+      (
+        evaluation_status_was == STATUS_BEING_EVALUATED &&
+        (changed_attributes.keys - evaluator_allowed_attributes).empty?
+      ) ||
+      (
+        evaluation_status_was == STATUS_APPROVAL_NEEDED &&
+        evaluation_status == STATUS_BEING_EVALUATED &&
+        changed_attributes.keys == ["evaluation_status"]
+      )
 
     if evaluator_allowed_changes && permissions.include?("statements:edit-as-evaluator") && user_id == user.id
       return true
