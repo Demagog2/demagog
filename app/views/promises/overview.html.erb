@@ -11,7 +11,7 @@
   </section>
 
   <section class="overall-stats">
-    <h2><%= @all.size %> ověřených slibů</h2>
+    <h2><%= @all.size %> sledovaných slibů</h2>
     <div class="stats-lines-container">
       <% @promise_rating_keys.each do |promise_rating_key| %>
         <div class="stats-line">
@@ -20,11 +20,12 @@
               <span class="stats-line-amount-number"><%= @promise_rating_counts[promise_rating_key] %></span>
               <%= (
                 {
-                  PromiseRating::FULFILLED => "splněných",
-                  PromiseRating::IN_PROGRESS => "průběžně plněných",
-                  PromiseRating::PARTIALLY_FULFILLED => "částečně splněných",
-                  PromiseRating::BROKEN => "porušených",
-                  PromiseRating::STALLED => "nerealizovaných"
+                  PromiseRating::FULFILLED => cs_pluralize(@promise_rating_counts[promise_rating_key], "splněný", "splněné", "splněných"),
+                  PromiseRating::IN_PROGRESS => cs_pluralize(@promise_rating_counts[promise_rating_key], "průběžně plněný", "průběžně plněné", "průběžně plněných"),
+                  PromiseRating::PARTIALLY_FULFILLED => cs_pluralize(@promise_rating_counts[promise_rating_key], "částečně splněný", "částečně splněné", "částečně splněných"),
+                  PromiseRating::BROKEN => cs_pluralize(@promise_rating_counts[promise_rating_key], "porušený", "porušené", "porušených"),
+                  PromiseRating::STALLED => cs_pluralize(@promise_rating_counts[promise_rating_key], "nerealizovaný", "nerealizované", "nerealizovaných")
+
                 }[promise_rating_key]
               ) %>
             </span>

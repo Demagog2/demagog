@@ -1,47 +1,48 @@
 .container-homepage-cover_story {
-  .speakers {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+  flex: 1 0 100%;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 
-    .speakers-item {
-      flex: 0 0 auto;
-      margin-right: var(--gap);
-    }
+  .illustration {
+    flex: 1 0 0;
+    order: 2;
+    margin-top: 1rem;
   }
 
-  @media (min-width: 900px) {
-    flex: 1 0 100%;
-    margin-top: 3rem;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+  .title-perex-and-speakers {
+    flex: 1 0 0;
+    order: 1;
+    margin-right: 2rem;
 
-    h1 {
-      flex: 1 0 100%;
-      order: 1;
-    }
+    .article-meta {
+      margin-top: 1rem;
 
-    > figure {
-      flex: 1 0 66.66666667%;
-      max-width: 66.66666667%; // for IE11 not respecting border-box with flex-basis
-      order: 3;
-      box-sizing: border-box;
-      padding-left: var(--gap);
+      .label {
+        margin-right: 2px;
+      }
     }
 
     .perex {
-      flex: 1 0 33.33333333%;
-      max-width: 33.33333333%; // for IE11 not respecting border-box with flex-basis
-      order: 2;
-      box-sizing: border-box;
-      padding-right: var(--gap);
+      margin-top: 0.4rem;
     }
 
     .speakers {
-      flex: 1 0 100%;
-      order: 4;
-      margin-top: 1rem;
+      margin-top: 1.5rem;
+    }
+  }
+
+  @media (max-width: 899.9px) {
+    .illustration {
+      flex: 1 1 auto;
+      order: 1;
+    }
+
+    .title-perex-and-speakers {
+      h1 {
+        margin-top: 1rem;
+      }
     }
   }
 }

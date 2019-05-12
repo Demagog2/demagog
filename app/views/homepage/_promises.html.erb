@@ -1,0 +1,37 @@
+<% if @show_promises %>
+  <article class="container-homepage-promises">
+    <a class="logo" href="/sliby/druha-vlada-andreje-babise">
+      <img src="<%= asset_path("vladni-sliby-logo.svg") %>" alt="Logo projektu Vládní sliby" />
+    </a>
+
+    <section class="title-and-perex">
+      <h2>
+        <%= link_to("Sledujeme sliby vlády Andreje Babiše", "/sliby/druha-vlada-andreje-babise") %>
+      </h2>
+      <p>
+        Vybrali jsme 50&nbsp;slibů z&nbsp;Programového prohlášení vlády a&nbsp;sledujeme, jak se je vládě daří plnit.
+        <a href="/sliby/druha-vlada-andreje-babise">
+          Na&nbsp;analýzu&nbsp;slibů&nbsp;&rarr;
+        </a>
+      </p>
+    </section>
+
+    <section class="promises-stats">
+      <% @promises_stats.each do |promise_rating_key, count| %>
+        <div class="stats-line">
+          <span class="promise-evaluation <%= promise_rating_key.dasherize %> size-24">
+            <span class="stats-line-number"><%= count %></span>
+            <%= (
+              {
+                PromiseRating::FULFILLED => cs_pluralize(count, "splněný", "splněné", "splněných"),
+                PromiseRating::IN_PROGRESS => cs_pluralize(count, "průběžně plněný", "průběžně plněné", "průběžně plněných"),
+                PromiseRating::BROKEN => cs_pluralize(count, "porušený", "porušené", "porušených"),
+                PromiseRating::STALLED => cs_pluralize(count, "nerealizovaný", "nerealizované", "nerealizovaných")
+              }[promise_rating_key]
+            ) %>
+          </span>
+        </div>
+      <% end %>
+    </section>
+  </article>
+<% end %>
