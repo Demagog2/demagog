@@ -155,6 +155,30 @@ class PromisesController < ApplicationController
     @methodology_partial = definition[:methodology_partial]
   end
 
+  def promise_embed
+    definition = @promises_definitions.fetch(params[:slug], nil)
+    raise ActionController::RoutingError.new("Not Found") if definition.nil? || params[:slug] != "druha-vlada-andreje-babise"
+
+    @get_statement_source_url = definition[:get_statement_source_url]
+    @get_statement_source_label = definition[:get_statement_source_label]
+
+    @promises_list_rating_labels = {
+      PromiseRating::FULFILLED => "Splněný slib",
+      PromiseRating::IN_PROGRESS => "Průběžně plněný slib",
+      PromiseRating::PARTIALLY_FULFILLED => "Část. splněný slib",
+      PromiseRating::BROKEN => "Porušený slib",
+      PromiseRating::STALLED => "Nerealizovaný slib"
+    }
+
+    statements = definition[:get_statements].call
+    @statement = statements.where(id: params[:promise_id]).first
+    raise ActionController::RoutingError.new("Not Found") if @statement.nil?
+
+    raise ActionController::RoutingError.new("Not Found") if !@statement.published && !user_signed_in?
+
+    render(layout: "layouts/embed")
+  end
+
   # def document
   #   all_promises = get_promises
 
@@ -224,15 +248,7 @@ class PromisesController < ApplicationController
 
   helper_method :promise_permalink
   def promise_permalink(statement)
-    filters = filters_from_params
-
-    # clear all filters
-    filters.transform_values! { |v| [] }
-
-    permalink_params = filters_to_params(filters)
-    permalink_params[:anchor] = "slib-#{statement.id}"
-
-    url_for(permalink_params)
+    url_for(controller: "promises", action: "overview", anchor: "slib-#{statement.id}")
   end
 
   private

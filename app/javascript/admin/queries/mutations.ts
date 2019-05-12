@@ -115,6 +115,7 @@ export const CreateArticle = gql`
           segmentType
           textHtml
           textSlatejson
+          promiseUrl
           statements {
             id
           }
@@ -144,6 +145,7 @@ export const UpdateArticle = gql`
           segmentType
           textHtml
           textSlatejson
+          promiseUrl
           statements {
             id
           }

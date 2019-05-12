@@ -31,6 +31,13 @@
   #twitter, #facebook {
     display: none;
   }
+
+  article.detail {
+    section.segment-promise {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
 }
 
 @media (min-width: 900px) {
@@ -167,6 +174,14 @@
         flex: 7 0 0px;
         margin-left: var(--gap);
       }
+    }
+
+    section.segment-promise {
+      flex: 1 0 66.66666667%;
+      margin-left: 16.66666667%;
+      margin-right: 16.66666667%;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
     }
   }
 

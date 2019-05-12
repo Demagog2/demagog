@@ -79,6 +79,12 @@ class Article < ApplicationRecord
             source: source,
             order: order
           )
+        elsif seg[:segment_type] == ArticleSegment::TYPE_PROMISE
+          ArticleSegment.new(
+            segment_type: seg[:segment_type],
+            promise_url: seg[:promise_url],
+            order: order
+          )
         else
           raise "Creating segment of type #{seg[:segment_type]} is not implemented"
         end
@@ -107,6 +113,12 @@ class Article < ApplicationRecord
         segment.assign_attributes(
           segment_type: seg[:segment_type],
           source: Source.find(seg[:source_id]),
+          order: order
+        )
+      elsif seg[:segment_type] == ArticleSegment::TYPE_PROMISE
+        segment.assign_attributes(
+          segment_type: seg[:segment_type],
+          promise_url: seg[:promise_url],
           order: order
         )
       else

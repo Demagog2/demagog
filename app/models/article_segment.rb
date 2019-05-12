@@ -3,6 +3,7 @@
 class ArticleSegment < ApplicationRecord
   TYPE_TEXT = "text"
   TYPE_SOURCE_STATEMENTS = "source_statements"
+  TYPE_PROMISE = "promise"
 
   belongs_to :source, optional: true
   belongs_to :article, optional: true
@@ -21,6 +22,10 @@ class ArticleSegment < ApplicationRecord
 
   def is_source_statements?
     segment_type == ArticleSegment::TYPE_SOURCE_STATEMENTS
+  end
+
+  def is_promise?
+    segment_type == ArticleSegment::TYPE_PROMISE
   end
 
   def all_published_statements

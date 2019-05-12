@@ -8,22 +8,9 @@
   </head>
 
   <body>
-    <%= render partial: "shared/facebook" %>
-
-    <div class="container">
-      <%= render partial: "shared/header" %>
-      <%= render partial: "shared/nav" %>
-
-      <%= yield %>
-
-      <%= render partial: "shared/partners" %>
-    </div>
-      
-    <%= render partial: "shared/footer" %>
+    <%= yield %>
 
     <%= javascript_pack_tag 'application'  %>
-    <%= javascript_pack_tag 'widget'  %>
     <%= render partial: "shared/ga" %>
-    <%= render partial: "shared/hotjar" %>
   </body>
 </html>

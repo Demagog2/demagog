@@ -40,6 +40,7 @@ export const GetArticle = gql`
         segmentType
         textHtml
         textSlatejson
+        promiseUrl
         source {
           id
         }

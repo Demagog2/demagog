@@ -61,9 +61,12 @@ Rails.application.routes.draw do
   get "politici/:id(/*name)" => "speaker#show", as: "speaker", concerns: :paginatable
   get "archiv" => "archive#index", as: "archive", concerns: :paginatable
   get "stranka/:slug" => "page#show", as: "page"
+
   get "sliby" => "promises#index"
   get "sliby/:slug" => "promises#overview"
   get "sliby/:slug/metodika" => "promises#methodology"
+  get "sliby/:slug/embed/:promise_id" => "promises#promise_embed"
+
   # get "sliby-sobotkovy-vlady/programove-prohlaseni" => "promises#document"
 
   root to: "homepage#index"

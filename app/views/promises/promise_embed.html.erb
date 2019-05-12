@@ -1,0 +1,18 @@
+<div class="container-promises-promise_embed">
+  <h2><%= @statement.title %></h2>
+
+  <div class="content-and-assessment">
+    <blockquote class="content">
+      <p>„<%= content_to_html(@statement.content) %>‟</p>
+      <cite><a href="<%= @get_statement_source_url.call(@statement) %>" target="_blank"><%= @get_statement_source_label.call(@statement) %></a></cite>
+    </blockquote>
+
+    <div class="assessment">
+      <span class="promise-evaluation <%= @statement.assessment.promise_rating.key.dasherize %>"> <%= @promises_list_rating_labels[@statement.assessment.promise_rating.key] %></span>
+      <section class="short-explanation">
+        <p><%= @statement.assessment.short_explanation %></p>
+      </section>
+      <a href="<%= promise_permalink(@statement) %>" target="_blank">Na detail slibu s celým odůvodněním →</a>
+    </div>
+  </div>
+</div>

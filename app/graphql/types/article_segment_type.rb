@@ -8,6 +8,7 @@ module Types
     field :text_slatejson, Types::Scalars::JsonType, null: true
     field :source, Types::SourceType, null: true
     field :statements, [Types::StatementType], null: false
+    field :promise_url, String, null: true
 
     def statements
       object.all_published_statements

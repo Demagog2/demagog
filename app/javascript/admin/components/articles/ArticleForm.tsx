@@ -25,6 +25,7 @@ import SelectField from '../forms/controls/SelectField';
 import SwitchField from '../forms/controls/SwitchField';
 import FormGroup from '../forms/FormGroup';
 import ArticleIllustration from './ArticleIllustration';
+import ArticlePromiseSegment from './ArticlePromiseSegment';
 import ArticleSourceStatementsSegment from './ArticleSourceStatementsSegment';
 import ArticleTextSegment from './ArticleTextSegment';
 
@@ -36,7 +37,7 @@ const ARTICLE_TYPE_OPTIONS = [
   { label: 'Komentář', value: ARTICLE_TYPE_STATIC },
 ];
 
-type SegmentType = 'text' | 'source_statements';
+type SegmentType = 'text' | 'source_statements' | 'promise';
 
 export interface IArticleFormData extends ArticleInput {
   illustration: ImageValueType;
@@ -65,6 +66,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
               text_html: s.textHtml,
               text_slatejson: s.textSlatejson,
               source_id: s.source ? s.source.id : null,
+              promise_url: s.promiseUrl,
             }))
           : [],
       illustration: article ? article.illustration : null,
@@ -91,6 +93,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
               textHtml: s.text_html,
               textSlatejson: s.text_slatejson,
               sourceId: s.source_id,
+              promiseUrl: s.promise_url,
             })),
             title: values.title,
           };
@@ -198,6 +201,14 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                                     onRemove={() => arrayHelpers.remove(index)}
                                   />
                                 )}
+
+                                {segment.segment_type === 'promise' && (
+                                  <ArticlePromiseSegment
+                                    segment={field.value}
+                                    onChange={(value) => form.setFieldValue(field.name, value)}
+                                    onRemove={() => arrayHelpers.remove(index)}
+                                  />
+                                )}
                               </>
                             )}
                           />
@@ -255,6 +266,7 @@ function AddSegmentButton(props: IAddSegmentButtonProps) {
           <Menu>
             <MenuItem text="Textový segment" onClick={() => props.onAdd('text')} />
             <MenuItem text="Výrokový segment" onClick={() => props.onAdd('source_statements')} />
+            <MenuItem text="Slib vlády Andreje Babiše" onClick={() => props.onAdd('promise')} />
           </Menu>
         }
         position={Position.BOTTOM_RIGHT}

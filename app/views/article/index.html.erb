@@ -22,10 +22,12 @@
     <% end %>
   </section>
 
-  <% @article.segments.each do |segment| %>
+  <% @article.segments.ordered.each do |segment| %>
     <section class="segment-<%= segment.segment_type %>">
       <% if segment.is_text? %>
         <%= raw(replace_segment_text_html_special_strings(segment.text_html)) %>
+      <% elsif segment.is_promise? %>
+        <demagogcz-widget data-url="<%= segment.promise_url %>"></demagogcz-widget>
       <% elsif segment.is_source_statements? %>
         <% if @article.segments.size === 1 %>
           <div class="statements-filters">

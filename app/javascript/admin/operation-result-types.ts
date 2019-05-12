@@ -34,6 +34,7 @@ export interface ArticleSegmentInput {
   textHtml?: string | null,
   textSlatejson?: GraphQLCustomScalar_JSON | null,
   sourceId?: string | null,
+  promiseUrl?: string | null,
 };
 
 export interface SourceInput {
@@ -315,6 +316,7 @@ export interface CreateArticleMutation {
         segmentType: string,
         textHtml: string | null,
         textSlatejson: GraphQLCustomScalar_JSON | null,
+        promiseUrl: string | null,
         statements:  Array< {
           id: string,
         } >,
@@ -348,6 +350,7 @@ export interface UpdateArticleMutation {
         segmentType: string,
         textHtml: string | null,
         textSlatejson: GraphQLCustomScalar_JSON | null,
+        promiseUrl: string | null,
         statements:  Array< {
           id: string,
         } >,
@@ -871,6 +874,7 @@ export interface GetArticleQuery {
       segmentType: string,
       textHtml: string | null,
       textSlatejson: GraphQLCustomScalar_JSON | null,
+      promiseUrl: string | null,
       source:  {
         id: string,
       } | null,
