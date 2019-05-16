@@ -6314,6 +6314,10 @@ micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8, mic
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
+micromodal@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/micromodal/-/micromodal-0.4.0.tgz#924b80adff6654310070432ac51bb1d195eefb95"
+
 miller-rabin@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/miller-rabin/-/miller-rabin-4.0.1.tgz#f080351c865b0dc562a8462966daa53543c78a4d"

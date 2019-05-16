@@ -54,6 +54,7 @@
     "lodash": "^4.17.5",
     "luxon": "^1.2.1",
     "memoize-one": "^5.0.2",
+    "micromodal": "^0.4.0",
     "pdfjs-dist": "^2.0.943",
     "postcss-cssnext": "^3.1.0",
     "prop-types": "^15.6.0",

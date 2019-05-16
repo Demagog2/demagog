@@ -92,7 +92,7 @@ class PromisesController < ApplicationController
           sprintf("https://www.vlada.cz/assets/jednani-vlady/programove-prohlaseni/Programove-prohlaseni-vlady-cerven-2018.pdf#page=%d", druha_vlada_andreje_babise_get_promise_source_page(statement) + 4)
         },
         get_statement_source_label: lambda { |statement|
-          sprintf("Programové prohlášení vlády, čvn. 2018, str. %d", druha_vlada_andreje_babise_get_promise_source_page(statement))
+          sprintf("Programové prohlášení vlády, str. %d", druha_vlada_andreje_babise_get_promise_source_page(statement))
         },
         intro_partial: "promises/druha_vlada_andreje_babise_intro",
         methodology_partial: "promises/druha_vlada_andreje_babise_methodology"
@@ -176,6 +176,7 @@ class PromisesController < ApplicationController
 
     raise ActionController::RoutingError.new("Not Found") if !@statement.published && !user_signed_in?
 
+    response.headers["X-FRAME-OPTIONS"] = "ALLOWALL"
     render(layout: "layouts/embed")
   end
 

@@ -1,5 +1,3 @@
-import debounce from 'lodash/debounce';
-
 window.__demagogczInitializeWidgets__ = () => {
   [].slice.call(document.getElementsByTagName('demagogcz-widget')).forEach((widgetEl) => {
     if (widgetEl.dataset.initialized) {
@@ -13,15 +11,13 @@ window.__demagogczInitializeWidgets__ = () => {
     widgetEl.parentNode.insertBefore(iframeEl, widgetEl);
     widgetEl.dataset.initialized = true;
 
-    iframeEl.addEventListener('load', () => {
-      iframeEl.style.height = iframeEl.contentWindow.document.body.offsetHeight + 'px';
-
-      function updateIframeHeight() {
-        iframeEl.style.height = iframeEl.contentWindow.document.body.offsetHeight + 'px';
+    const receiveMessage = (e) => {
+      if (e.origin === 'https://demagog.cz' && e.data.type === 'documentHeight') {
+        iframeEl.style.height = e.data.payload + 'px';
       }
+    };
 
-      window.addEventListener('resize', debounce(updateIframeHeight, 400));
-    });
+    window.addEventListener('message', receiveMessage);
   });
 };
 

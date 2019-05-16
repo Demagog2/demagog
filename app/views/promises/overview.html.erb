@@ -1,6 +1,6 @@
 <article
   class="container-promises-overview"
-  data-controller="promises--overview"
+  data-controller="promises--overview promises--embed-modal"
   data-action="resize@window->promises--overview#handleWindowResize"
   data-action="popstate@window->promises--overview#handleWindowPopstate"
   data-promises--overview-query-params-filter-keys="<%= @params_filter_keys.to_json %>"
@@ -167,6 +167,7 @@
                         <div class="evaluation-and-permalink">
                           <span class="promise-evaluation <%= statement.assessment.promise_rating.key.dasherize %>"> <%= @promises_list_rating_labels[statement.assessment.promise_rating.key] %></span>
                           <a class="permalink" href="<%= promise_permalink(statement) %>">trvalý odkaz</a>
+                          <button class="embed-button" type="button" data-action="promises--embed-modal#showModal" data-statement-id="<%= statement.id %>">embed</button>
                         </div>
                         <div class="explanation-container <% if statement.assessment.short_explanation.nil? %>full-explanation-only<% end %>">
                           <% unless statement.assessment.short_explanation.nil? %>
@@ -195,5 +196,24 @@
       </tbody>
     </table>
   </section>
+
+  <div class="embed-modal" id="embed-modal" aria-hidden="true" data-target="promises--embed-modal.modal">
+    <div class="embed-modal-overlay" tabindex="-1" data-micromodal-close>
+      <div class="embed-modal-container" role="dialog" aria-modal="true" aria-labelledby="embed-modal-title" >
+        <div class="embed-modal-header" role="header">
+          <button class="close-button" aria-label="Close modal" data-micromodal-close>×</button>
+          <h2 class="embed-modal-title" id="embed-modal-title">
+            Vložte slib do vlastních stránek (embed)
+          </h2>
+        </div>
+        <div class="embed-modal-content" id="embed-modal-content">
+          <h3>Kód</h3>
+          <textarea class="embed-code" readonly rows="4" data-target="promises--embed-modal.code"></textarea>
+          <h3>Náhled vloženého slibu</h3>
+          <div class="embed-preview-container" data-target="promises--embed-modal.previewContainer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </article>
