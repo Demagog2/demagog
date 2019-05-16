@@ -89,10 +89,10 @@ class PromisesController < ApplicationController
             )
         },
         get_statement_source_url: lambda { |statement|
-          "https://www.vlada.cz/assets/jednani-vlady/programove-prohlaseni/Programove-prohlaseni-vlady-cerven-2018.pdf"
+          sprintf("https://www.vlada.cz/assets/jednani-vlady/programove-prohlaseni/Programove-prohlaseni-vlady-cerven-2018.pdf#page=%d", druha_vlada_andreje_babise_get_promise_source_page(statement) + 4)
         },
         get_statement_source_label: lambda { |statement|
-          "Programové prohlášení vlády, červen 2018"
+          sprintf("Programové prohlášení vlády, čvn. 2018, str. %d", druha_vlada_andreje_babise_get_promise_source_page(statement))
         },
         intro_partial: "promises/druha_vlada_andreje_babise_intro",
         methodology_partial: "promises/druha_vlada_andreje_babise_methodology"
@@ -448,6 +448,61 @@ class PromisesController < ApplicationController
         15211 => 25,
 
         15214 => 8
+      }.fetch(statement.id, 0)
+    end
+
+    def druha_vlada_andreje_babise_get_promise_source_page(statement)
+      {
+        17518 => 3,
+        17565 => 4,
+        17516 => 5,
+        17517 => 5,
+        17519 => 7,
+        17520 => 8,
+        17523 => 9,
+        17521 => 10,
+        17522 => 10,
+        17525 => 12,
+        17524 => 12,
+        17526 => 13,
+        17527 => 14,
+        17529 => 14,
+        17528 => 14,
+        17530 => 16,
+        17531 => 17,
+        17532 => 17,
+        17533 => 18,
+        17852 => 18,
+        17534 => 19,
+        17535 => 20,
+        17536 => 23,
+        17537 => 23,
+        17540 => 24,
+        17538 => 24,
+        17539 => 24,
+        17563 => 25,
+        17549 => 28,
+        17541 => 29,
+        17542 => 29,
+        17543 => 30,
+        17544 => 32,
+        17545 => 33,
+        17546 => 33,
+        17561 => 33,
+        17562 => 33,
+        17548 => 34,
+        17550 => 35,
+        17547 => 35,
+        17551 => 35,
+        17552 => 36,
+        17553 => 37,
+        17554 => 37,
+        17558 => 38,
+        17555 => 38,
+        17556 => 38,
+        17557 => 39,
+        17559 => 40,
+        17560 => 40
       }.fetch(statement.id, 0)
     end
 
