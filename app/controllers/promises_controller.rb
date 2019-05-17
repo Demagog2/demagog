@@ -123,6 +123,8 @@ class PromisesController < ApplicationController
     @get_statement_source_label = definition[:get_statement_source_label]
     @intro_partial = definition[:intro_partial]
 
+    @allow_embed = @slug == "druha-vlada-andreje-babise"
+
     @promise_rating_keys = @all.first.assessment.assessment_methodology.rating_keys
     @all_count = @all.count
 

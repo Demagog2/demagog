@@ -166,7 +166,9 @@
                         <div class="evaluation-and-permalink">
                           <span class="promise-evaluation <%= statement.assessment.promise_rating.key.dasherize %>"> <%= @promises_list_rating_labels[statement.assessment.promise_rating.key] %></span>
                           <a class="permalink" href="<%= promise_permalink(statement) %>">trvalý odkaz</a>
-                          <button class="embed-button" type="button" data-action="promises--embed-modal#showModal" data-statement-id="<%= statement.id %>">embed</button>
+                          <% if @allow_embed %>
+                            <button class="embed-button" type="button" data-action="promises--embed-modal#showModal" data-statement-id="<%= statement.id %>">embed</button>
+                          <% end %>
                         </div>
                         <div class="explanation-container <% if statement.assessment.short_explanation.nil? %>full-explanation-only<% end %>">
                           <% unless statement.assessment.short_explanation.nil? %>
