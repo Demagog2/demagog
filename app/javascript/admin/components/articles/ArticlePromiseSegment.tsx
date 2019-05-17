@@ -133,7 +133,7 @@ class SelectPromiseDialog extends React.Component<{
                           intent={Intent.PRIMARY}
                           onClick={() =>
                             this.props.onSelect(
-                              `/sliby/druha-vlada-andreje-babise/embed/${statement.id}`,
+                              `/sliby/druha-vlada-andreje-babise/embed/${statement.id}?logo=hide`,
                             )
                           }
                           text="Vybrat"
