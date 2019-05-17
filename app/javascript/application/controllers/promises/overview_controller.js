@@ -197,6 +197,12 @@ export default class extends Controller {
   set filters(filters) {
     const queryParams = {};
 
+    // Keep the access param if it is present
+    const oldQueryParams = queryString.parse(window.location.search, { arrayFormat: 'bracket' });
+    if (oldQueryParams.access) {
+      queryParams.access = oldQueryParams.access;
+    }
+
     Object.keys(filters).forEach((type) => {
       const queryParamKey = this.queryParamsFilterKeys[type];
 

@@ -108,8 +108,14 @@ class PromisesController < ApplicationController
     definition = @promises_definitions.fetch(params[:slug], nil)
     raise ActionController::RoutingError.new("Not Found") if definition.nil?
 
-    # Preview only for users signed in to admin. Remove when launching.
-    raise ActionController::RoutingError.new("Not Found") if params[:slug] == "druha-vlada-andreje-babise" && !user_signed_in?
+    # Preview only for users signed in to admin & ones with the access key. Remove when launching.
+    if params[:slug] == "druha-vlada-andreje-babise"
+      unless user_signed_in? || (!ENV["PROMISES_ACCESS_KEY"].nil? && ENV["PROMISES_ACCESS_KEY"] == params[:access])
+        raise ActionController::RoutingError.new("Not Found")
+      end
+    end
+
+    ENV["DB_PER_COLUMN_COLLATION"]
 
     @slug = params[:slug]
     @all = definition[:get_statements].call
