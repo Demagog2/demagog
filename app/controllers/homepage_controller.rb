@@ -31,6 +31,7 @@ class HomepageController < ApplicationController
 
       statements = Statement
         .where(source_id: [562])
+        .where(published: true)
         .where(assessments: {
           evaluation_status: Assessment::STATUS_APPROVED,
         })

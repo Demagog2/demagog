@@ -56,6 +56,7 @@ class PromisesController < ApplicationController
 
           Statement
             .where(source_id: [439, 440, 441, 442, 443, 444])
+            .where(published: true)
             .includes(:assessment, assessment: [:promise_rating, :assessment_methodology])
             .order(
               Arel.sql("title COLLATE \"#{collation}\" ASC")
@@ -80,6 +81,7 @@ class PromisesController < ApplicationController
 
           Statement
             .where(source_id: [562])
+            .where(published: true)
             .where(assessments: {
               evaluation_status: Assessment::STATUS_APPROVED,
             })
@@ -184,8 +186,6 @@ class PromisesController < ApplicationController
     statements = definition[:get_statements].call
     @statement = statements.where(id: params[:promise_id]).first
     raise ActionController::RoutingError.new("Not Found") if @statement.nil?
-
-    raise ActionController::RoutingError.new("Not Found") if !@statement.published && !user_signed_in?
 
     response.headers["X-FRAME-OPTIONS"] = "ALLOWALL"
     render(layout: "layouts/embed")
