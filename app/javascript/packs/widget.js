@@ -12,7 +12,7 @@ window.__demagogczInitializeWidgets__ = () => {
     widgetEl.dataset.initialized = true;
 
     const receiveMessage = (e) => {
-      if (/*e.origin === 'https://demagog.cz' && */ e.data.type === 'documentHeight') {
+      if (e.origin === 'https://demagog.cz' && e.data.type === 'documentHeight') {
         iframeEl.style.height = e.data.payload + 'px';
       }
     };
