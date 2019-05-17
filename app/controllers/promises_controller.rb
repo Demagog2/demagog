@@ -157,7 +157,7 @@ class PromisesController < ApplicationController
 
   def methodology
     definition = @promises_definitions.fetch(params[:slug], nil)
-    raise ActionController::RoutingError.new("Not Found") if definition.nil?
+    raise ActionController::RoutingError.new("Not Found") if definition.nil? || params[:slug] != "sobotkova-vlada"
 
     @slug = params[:slug]
     @methodology_partial = definition[:methodology_partial]
