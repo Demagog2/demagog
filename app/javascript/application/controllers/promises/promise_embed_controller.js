@@ -12,6 +12,7 @@ export default class extends Controller {
 
   sendDocumentHeight() {
     const message = {
+      url: window.location.href,
       type: 'documentHeight',
       payload: document.body.offsetHeight,
     };

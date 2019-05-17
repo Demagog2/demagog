@@ -54,4 +54,9 @@ class ArticleController < ApplicationController
 
     text_html.gsub(/(<p>\[playbuzzkviz\]<\/p>)/, playbuzz_quiz_html)
   end
+
+  helper_method :promise_segment_widget_url
+  def promise_segment_widget_url(promise_path)
+    request.protocol + request.host_with_port + promise_path
+  end
 end
