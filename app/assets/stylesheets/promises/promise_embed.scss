@@ -51,10 +51,62 @@
     }
   }
 
+  &.display-short {
+    cursor: pointer;
+
+    blockquote {
+      p {
+        margin-bottom: 0;
+      }
+
+      cite {
+        display: none;
+      }
+    }
+
+    .assessment {
+      padding: 15px;
+
+      .short-explanation {
+        display: none;
+      }
+
+      .link {
+        display: none;
+      }
+
+      .logo {
+        bottom: 13px;
+      }
+    }
+
+    &:hover {
+      blockquote {
+        border-top-color: #f26538;
+        border-left-color: #f26538;
+        border-right-color: #f26538;
+      }
+
+      .assessment {
+        border-color: #f26538;
+      }
+    }
+  }
+
+  &.logo-hide {
+    .assessment {
+      .logo {
+        display: none;
+      }
+    }
+  }
+
   @media (max-width: 449.9px) {
-    .assessment .logo {
-      margin-top: 15px;
-      position: static;
+    &.display-full.logo-show {
+      .assessment .logo {
+        margin-top: 15px;
+        position: static;
+      }
     }
   }
 }

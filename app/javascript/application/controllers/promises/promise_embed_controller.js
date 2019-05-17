@@ -2,7 +2,7 @@ import { Controller } from 'stimulus';
 import debounce from 'lodash/debounce';
 
 export default class extends Controller {
-  static targets = [];
+  static targets = ['link'];
 
   initialize() {
     this.sendDocumentHeight();
@@ -17,5 +17,12 @@ export default class extends Controller {
     };
 
     window.parent.postMessage(message, '*');
+  }
+
+  containerClick() {
+    if (this.data.get('display') === 'short') {
+      const url = this.linkTarget.getAttribute('href');
+      window.open(url, '_blank');
+    }
   }
 }

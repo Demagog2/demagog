@@ -1,7 +1,8 @@
 <div
-  class="container-promises-promise_embed"
+  class="container-promises-promise_embed display-<%= @display %> logo-<%= @logo %>"
   data-controller="promises--promise-embed"
-  data-action="resize@window->promises--promise-embed#handleWindowResize"
+  data-promises--promise-embed-display="<%= @display %>"
+  data-action="resize@window->promises--promise-embed#handleWindowResize click->promises--promise-embed#containerClick"
 >
   <blockquote>
     <p>„<%= content_to_html(@statement.content) %>‟</p>
@@ -12,7 +13,14 @@
     <section class="short-explanation">
       <p><%= @statement.assessment.short_explanation %></p>
     </section>
-    <a href="<%= promise_permalink(@statement) %>" target="_blank">Na detail slibu s celým odůvodněním →</a>
+    <a
+      class="link"
+      href="<%= promise_permalink(@statement) %>"
+      target="_blank"
+      data-target="promises--promise-embed.link"
+    >
+      Na detail slibu s celým odůvodněním →
+    </a>
     <a class="logo" href="https://demagog.cz" target="_blank">
       <img src="<%= asset_path("demagog-logo.svg") %>" alt="Logo projektu Demagog.cz" />
     </a>

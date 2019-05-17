@@ -536,6 +536,30 @@
     }
 
     .embed-modal-content {
+      .embed-display-picker {
+        margin-top: 20px;
+
+        button {
+          border: 1px solid #C5BCE0;
+          border-radius: 3px;
+          margin: 0;
+          padding: 5px 10px;
+          font-size: 14px;
+          cursor: pointer;
+          outline: none;
+          color: #3c325c;
+          font-family: Lato, sans-serif;
+
+          &.active {
+            background-color: #FFE0D6;
+          }
+
+          &:hover, &:active {
+            border-color: #f26538;
+          }
+        }
+      }
+
       .embed-code {
         box-sizing: border-box;
         width: 100%;

@@ -159,6 +159,9 @@ class PromisesController < ApplicationController
     definition = @promises_definitions.fetch(params[:slug], nil)
     raise ActionController::RoutingError.new("Not Found") if definition.nil? || params[:slug] != "druha-vlada-andreje-babise"
 
+    @display = params[:display] == "short" ? "short" : "full"
+    @logo = params[:logo] == "hide" ? "hide" : "show"
+
     @get_statement_source_url = definition[:get_statement_source_url]
     @get_statement_source_label = definition[:get_statement_source_label]
 
