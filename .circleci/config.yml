@@ -38,9 +38,9 @@ jobs:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
       - persist_to_workspace:
-          root: /tmp/build
+          root: /tmp
           paths:
-            - *
+             - build
 
   test-job:
     docker:
@@ -59,7 +59,7 @@ jobs:
 
     steps:
       - attach_workspace:
-          at: ./
+          at: /tmp
 
       # Database setup
       - run: bundle exec rake db:create
@@ -103,7 +103,7 @@ jobs:
 
     steps:
       - attach_workspace:
-          at: ./
+          at: /tmp
 
       - add_ssh_keys:
           fingerprints:
