@@ -112,7 +112,6 @@ jobs:
       - image: circleci/ruby:2.5.1-node
         environment:
           RAILS_ENV: production
-          BUNDLE_PATH: vendor/bundle
           # This is necessary only to build assets in PRODUCTION mode
           DATABASE_URL: postgres://myuser:mypass@localhost/somedatabase
 
@@ -126,11 +125,13 @@ jobs:
           fingerprints:
             - "58:90:71:2a:18:2d:40:bf:7e:bb:26:a5:3e:4d:d9:25"
 
+      - run: bundle install
+
       - run: sudo apt install rsync
 
       - run:
           name: Deploy to production
-          command: cap production deploy
+          command: bundle exec cap production deploy
 
 workflows:
   version: 2
