@@ -125,6 +125,8 @@ jobs:
           fingerprints:
             - "58:90:71:2a:18:2d:40:bf:7e:bb:26:a5:3e:4d:d9:25"
 
+      - run: bundler install --with=development
+
       - run: sudo apt install rsync
 
       - run:
