@@ -4,7 +4,7 @@
 #
 version: 2
 jobs:
-  build:
+  build-job:
     docker:
       # specify the version you desire here
       - image: circleci/ruby:2.5.1-node
@@ -13,17 +13,7 @@ jobs:
           DB_USERNAME: circleci-demo-go
           RAILS_ENV: test
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-      - image: circleci/postgres:9.6-alpine
-        environment:
-          POSTGRES_USER: circleci-demo-go
-          POSTGRES_DB: demagog_test
-
-    working_directory: ~/repo
+    working_directory: /tmp/build
 
     steps:
       - checkout
@@ -49,12 +39,34 @@ jobs:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+            - build
+
+  test-job:
+    docker:
+      - image: circleci/ruby:2.5.1-node
+        environment:
+          DB_HOST: localhost
+          DB_USERNAME: circleci-demo-go
+          RAILS_ENV: test
+
+      - image: circleci/postgres:9.6-alpine
+        environment:
+          POSTGRES_USER: circleci-demo-go
+          POSTGRES_DB: demagog_test
+
+    working_directory: /tmp/build
+
+    steps:
+      - attach_workspace:
+          at: ./
+
       # Database setup
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
       - run: bundle exec rake db:seed
-
-      # - run: RAILS_ENV=test bundle exec bin/rails webpacker:compile
 
       # Webpack setup
       - run: RAILS_ENV=test bundle exec bin/webpack
@@ -79,16 +91,44 @@ jobs:
           command: |
             bundle exec rake test
 
-      # run more tests!
-      # TODO: uncomment when we have some JS tests
-      # - run:
-      #     name: run jest
-      #     command: |
-      #       yarn run jest
-
-      # collect reports
-      # - store_test_results:
-      #     path: /tmp/test-results
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
+
+  deploy-job:
+    docker:
+      - image: circleci/ruby:2.5.1-node
+    working_directory: /tmp/build
+    steps:
+      - attach_workspace:
+          at: ./
+
+      - add_ssh_keys:
+          fingerprints:
+            - "58:90:71:2a:18:2d:40:bf:7e:bb:26:a5:3e:4d:d9:25"
+      
+      - run:
+          name: Deploy to production
+          command: bundle exec cap production deploy
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build-job
+
+      - test-job:
+        requires:
+          - build-job
+
+      - hold:
+          type: approval
+          requires:
+           - test-job
+          # filters:
+          #   branches:
+          #     only: master
+
+      - deploy-job:
+          requires:
+            - hold
