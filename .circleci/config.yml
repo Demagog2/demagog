@@ -9,8 +9,6 @@ jobs:
       # specify the version you desire here
       - image: circleci/ruby:2.5.1-node
         environment:
-          DB_HOST: localhost
-          DB_USERNAME: circleci-demo-go
           RAILS_ENV: test
 
     working_directory: /tmp/build
@@ -98,7 +96,11 @@ jobs:
   deploy-job:
     docker:
       - image: circleci/ruby:2.5.1-node
+        environment:
+          RAILS_ENV: production
+
     working_directory: /tmp/build
+
     steps:
       - attach_workspace:
           at: ./
@@ -113,7 +115,7 @@ jobs:
 
 workflows:
   version: 2
-  build-deploy:
+  build-test-hold-deploy:
     jobs:
       - build-job
 
@@ -125,9 +127,6 @@ workflows:
           type: approval
           requires:
            - test-job
-          # filters:
-          #   branches:
-          #     only: master
 
       - deploy-job:
           requires:
