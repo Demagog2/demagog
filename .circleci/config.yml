@@ -38,9 +38,9 @@ jobs:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
       - persist_to_workspace:
-          root: /tmp
+          root: /tmp/build
           paths:
-            - build
+            - *
 
   test-job:
     docker:
