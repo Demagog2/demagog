@@ -147,6 +147,9 @@ workflows:
           type: approval
           requires:
            - test-job
+          filters:
+            branches:
+              only: master
 
       - deploy-job:
           requires:
