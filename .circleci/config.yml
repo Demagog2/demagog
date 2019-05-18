@@ -9,6 +9,7 @@ jobs:
       # specify the version you desire here
       - image: circleci/ruby:2.5.1-node
         environment:
+          BUNDLE_PATH: vendor/bundle
           RAILS_ENV: test
 
     working_directory: /tmp/build
@@ -19,14 +20,25 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "Gemfile.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
 
       - run:
           name: install dependencies
           command: |
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
+            bundle install
+
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+      - restore_cache:
+          keys:
+            - v1-yarn-dependencies-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-yarn-dependencies-
 
       - run:
           name: Yarn Install
@@ -34,8 +46,9 @@ jobs:
 
       - save_cache:
           paths:
-            - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+          key: v1-yarn-dependencies-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
 
       - persist_to_workspace:
           root: /tmp
@@ -48,6 +61,7 @@ jobs:
         environment:
           DB_HOST: localhost
           DB_USERNAME: circleci-demo-go
+          BUNDLE_PATH: vendor/bundle
           RAILS_ENV: test
 
       - image: circleci/postgres:9.6-alpine
@@ -62,12 +76,12 @@ jobs:
           at: /tmp
 
       # Database setup
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
-      - run: bundle exec rake db:seed
+      - run: bin/rails db:create
+      - run: bin/rails rake db:schema:load
+      - run: bin/rails rake db:seed
 
       # Webpack setup
-      - run: RAILS_ENV=test bundle exec bin/webpack
+      - run: RAILS_ENV=test bin/webpack
 
       # run rubocop
       - run:
