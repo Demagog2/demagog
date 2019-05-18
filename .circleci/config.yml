@@ -120,8 +120,8 @@ workflows:
       - build-job
 
       - test-job:
-        requires:
-          - build-job
+          requires:
+            - build-job
 
       - hold:
           type: approval
