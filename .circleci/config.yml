@@ -130,7 +130,7 @@ jobs:
 
       - run:
           name: Deploy to production
-          command: bundle exec cap production deploy
+          command: cap production deploy
 
 workflows:
   version: 2
