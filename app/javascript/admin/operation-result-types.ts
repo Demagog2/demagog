@@ -127,6 +127,7 @@ export interface UpdateStatementInput {
   countInStatistics?: boolean | null,
   assessment?: UpdateAssessmentInput | null,
   tags?: Array< string > | null,
+  speaker?: string | null,
 };
 
 export interface UpdateAssessmentInput {

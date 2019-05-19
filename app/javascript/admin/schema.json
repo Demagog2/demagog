@@ -7267,6 +7267,16 @@
                 }
               },
               "defaultValue": null
+            },
+            {
+              "name": "speaker",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "defaultValue": null
             }
           ],
           "interfaces": null,

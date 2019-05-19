@@ -44,6 +44,10 @@ module Mutations
             end
           end
 
+          if statement_input.key?(:speaker)
+            statement_input[:speaker] = Speaker.find(statement_input[:speaker])
+          end
+
           statement.assign_attributes(statement_input)
 
           unless statement.is_user_authorized_to_save(context[:current_user])

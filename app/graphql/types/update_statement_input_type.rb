@@ -9,5 +9,6 @@ module Types
     argument :count_in_statistics, Boolean, required: false
     argument :assessment, Types::UpdateAssessmentInputType, required: false
     argument :tags, [ID], required: false
+    argument :speaker, ID, required: false
   end
 end
