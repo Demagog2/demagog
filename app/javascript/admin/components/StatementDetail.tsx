@@ -43,6 +43,7 @@ import { IState as ReduxState } from '../reducers';
 import { displayDate, newlinesToBr } from '../utils';
 import PromiseRatingSelect from './forms/controls/PromiseRatingSelect';
 import SelectComponentField from './forms/controls/SelectComponentField';
+import SelectField from './forms/controls/SelectField';
 import TagsSelect from './forms/controls/TagsSelect';
 import TextField from './forms/controls/TextField';
 import UserSelect from './forms/controls/UserSelect';
@@ -140,6 +141,7 @@ class StatementDetail extends React.Component<IProps, IState> {
             important: statement.important,
             count_in_statistics: statement.countInStatistics,
             tags: statement.tags.map((t) => t.id),
+            speaker: statement.speaker.id,
             assessment: {
               evaluation_status: statement.assessment.evaluationStatus,
               veracity_id: statement.assessment.veracity ? statement.assessment.veracity.id : null,
@@ -217,6 +219,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                         important: values.important,
                         published: values.published,
                         tags: values.tags,
+                        speaker: values.speaker,
                       };
 
                       this.updateStatementPromise = updateStatement({
@@ -394,9 +397,21 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                         <div style={{ display: 'flex', marginTop: 20, marginBottom: 30 }}>
                           <div style={{ flex: '2 0' }}>
-                            <h5 className={Classes.HEADING}>
-                              {statement.speaker.firstName} {statement.speaker.lastName}
-                            </h5>
+                            {canEditEverything ? (
+                              <BlueprintFormGroup label="Řečník" labelFor="speaker">
+                                <SelectField
+                                  name="speaker"
+                                  options={statement.source.speakers.map((s) => ({
+                                    label: `${s.firstName} ${s.lastName}`,
+                                    value: s.id,
+                                  }))}
+                                />
+                              </BlueprintFormGroup>
+                            ) : (
+                              <h5 className={Classes.HEADING}>
+                                {statement.speaker.firstName} {statement.speaker.lastName}
+                              </h5>
+                            )}
                             {canEditStatement ? (
                               <textarea
                                 className={classNames(Classes.INPUT, Classes.FILL)}

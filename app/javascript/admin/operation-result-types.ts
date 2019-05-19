@@ -1300,6 +1300,11 @@ export interface GetStatementQuery {
         firstName: string,
         lastName: string,
       } | null,
+      speakers:  Array< {
+        id: string,
+        firstName: string,
+        lastName: string,
+      } >,
     },
     statementTranscriptPosition:  {
       id: string,

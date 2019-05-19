@@ -439,6 +439,11 @@ export const GetStatement = gql`
           firstName
           lastName
         }
+        speakers {
+          id
+          firstName
+          lastName
+        }
       }
       statementTranscriptPosition {
         id
