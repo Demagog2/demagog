@@ -7,14 +7,11 @@
   ),
   Struct::Submenu.new(
     'Speciály',
-    (
-      # Preview only for users signed in to admin. Change when launching.
-      (user_signed_in? ? [Struct::Link.new('Sliby vlády Andreje Babiše', '/sliby/druha-vlada-andreje-babise')] : []) +
-      [
-        Struct::Link.new('Sliby Sobotkovy vlády', '/sliby/sobotkova-vlada'),
-        Struct::Link.new('Sliby Miloše Zemana', 'https://zpravy.aktualne.cz/domaci/zverejnujeme-velkou-inventuru-zemanovych-slibu-ktere-slovo-d/r~9ebe8728ff6911e7adc2ac1f6b220ee8/')
-      ]
-    )
+    [
+      Struct::Link.new('Sliby vlády Andreje Babiše', '/sliby/druha-vlada-andreje-babise'),
+      Struct::Link.new('Sliby Sobotkovy vlády', '/sliby/sobotkova-vlada'),
+      Struct::Link.new('Sliby Miloše Zemana', 'https://zpravy.aktualne.cz/domaci/zverejnujeme-velkou-inventuru-zemanovych-slibu-ktere-slovo-d/r~9ebe8728ff6911e7adc2ac1f6b220ee8/')
+    ]
   ),
   Struct::Submenu.new(
     "O nás",
