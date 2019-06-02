@@ -5,9 +5,7 @@ class HomepageController < ApplicationController
     unless params[:page].present?
       @cover_story = Article.cover_story
       @interesting_statements = Statement.interesting_statements
-
-      # Preview only for users signed in to admin. Remove when launching.
-      @show_promises = user_signed_in?
+      @show_promises = true
       @promises_stats = get_promises_stats
     else
       @page_number = params[:page]
