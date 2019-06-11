@@ -12,7 +12,7 @@ export default function Bold() {
   };
 }
 
-const SPECIAL_CHARACTERS = ['€', '£', '¥', '„', '‟', '½', '±', '×'];
+const SPECIAL_CHARACTERS = ['„', '‟', '–', '—', '€', '£', '¥', '½', '±', '×'];
 
 const toolbarItem: IToolbarItem = {
   renderItem(props) {
@@ -39,6 +39,7 @@ const toolbarItem: IToolbarItem = {
                 width: 30px;
                 height: 30px;
                 text-align: center;
+                font-family: Lato, sans-serif;
                 font-size: 16px;
                 line-height: 30px;
                 cursor: pointer;
