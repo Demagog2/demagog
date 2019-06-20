@@ -106,6 +106,9 @@
     "webpack-cli": "^3.2.1",
     "webpack-dev-server": "^3.1.14"
   },
+  "resolutions": {
+    "fstream": "1.0.12"
+  },
   "jest": {
     "setupFilesAfterEnv": [
       "<rootDir>/config/jest/jest.setup.js"
