@@ -13,6 +13,8 @@ import ArticleEdit from './components/articles/ArticleEdit';
 import ArticleNew from './components/articles/ArticleNew';
 import Articles from './components/articles/Articles';
 
+import Availability from './components/Availability';
+
 import Bodies from './components/Bodies';
 import BodyEdit from './components/BodyEdit';
 import BodyNew from './components/BodyNew';
@@ -164,6 +166,8 @@ class App extends React.Component<IProps> {
                 />
 
                 <Route path="/admin/notifications" exact component={Notifications} />
+
+                <Route path="/admin/availability" exact component={Availability} />
 
                 <Route component={NotFound} />
               </Switch>
