@@ -14,6 +14,10 @@ module Mutations
 
       source = source_input.to_h
 
+      source[:experts] = source[:experts].map do |user_id|
+        User.find(user_id)
+      end
+
       source[:speakers] = source[:speakers].map do |speaker_id|
         Speaker.find(speaker_id)
       end

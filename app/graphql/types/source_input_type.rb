@@ -9,6 +9,6 @@ module Types
     argument :media_personalities, [ID], required: true
     argument :transcript, String, required: true
     argument :speakers, [ID], required: true
-    argument :expert_id, ID, required: false
+    argument :experts, [ID], required: true
   end
 end

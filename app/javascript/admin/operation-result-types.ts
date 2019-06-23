@@ -45,7 +45,7 @@ export interface SourceInput {
   mediaPersonalities: Array< string >,
   transcript: string,
   speakers: Array< string >,
-  expertId?: string | null,
+  experts: Array< string >,
 };
 
 export interface BodyInput {
@@ -974,11 +974,11 @@ export interface GetSourcesQuery {
     statements:  Array< {
       id: string,
     } >,
-    expert:  {
+    experts:  Array< {
       id: string,
       firstName: string,
       lastName: string,
-    } | null,
+    } >,
   } >,
 };
 
@@ -1010,11 +1010,11 @@ export interface GetSourceQuery {
       firstName: string,
       lastName: string,
     } >,
-    expert:  {
+    experts:  Array< {
       id: string,
       firstName: string,
       lastName: string,
-    } | null,
+    } >,
   },
 };
 
@@ -1295,11 +1295,11 @@ export interface GetStatementQuery {
         id: string,
         name: string,
       } >,
-      expert:  {
+      experts:  Array< {
         id: string,
         firstName: string,
         lastName: string,
-      } | null,
+      } >,
       speakers:  Array< {
         id: string,
         firstName: string,

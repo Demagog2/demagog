@@ -696,16 +696,14 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                             <div className={classNames(Classes.FORM_GROUP, Classes.INLINE)}>
                               <label className={Classes.LABEL} style={{ flex: '1' }}>
-                                Expert
+                                {statement.source.experts.length === 1 ? 'Expert' : 'Experti'}
                               </label>
                               <div style={{ flex: '2', paddingTop: 6 }}>
-                                {statement.source.expert ? (
-                                  <>
-                                    {statement.source.expert.firstName}{' '}
-                                    {statement.source.expert.lastName}
-                                  </>
-                                ) : (
-                                  <span className={Classes.TEXT_MUTED}>Nepřiřazený</span>
+                                {statement.source.experts
+                                  .map((expert) => `${expert.firstName} ${expert.lastName}`)
+                                  .join(', ')}
+                                {statement.source.experts.length === 0 && (
+                                  <span className={Classes.TEXT_MUTED}>Nepřiřazení</span>
                                 )}
                               </div>
                             </div>

@@ -42,12 +42,12 @@ class SourceForm extends React.Component<ISourceFormProps> {
       source_url: source ? source.sourceUrl : '',
       speakers: source ? source.speakers.map((s) => s.id) : [],
       transcript: source && source.transcript ? source.transcript : '',
-      expert_id: source && source.expert ? source.expert.id : null,
+      experts: source ? source.experts.map((u) => u.id) : [],
     };
 
-    // When creating new source, prefill the expert with the current user
+    // When creating new source, prefill experts with the current user
     if (!source && currentUser) {
-      initialValues.expert_id = currentUser.id;
+      initialValues.experts = [currentUser.id];
     }
 
     return (
@@ -70,7 +70,7 @@ class SourceForm extends React.Component<ISourceFormProps> {
             mediumId: values.medium_id as string,
             // released_at will always be a string, because null won't pass validation
             releasedAt: values.released_at as string,
-            expertId: values.expert_id,
+            experts: values.experts,
           };
 
           this.props
@@ -162,16 +162,16 @@ class SourceForm extends React.Component<ISourceFormProps> {
 
             <div style={{ display: 'flex', marginTop: 30 }}>
               <div style={{ flex: '0 0 200px', marginRight: 15 }}>
-                <h4 className={Classes.HEADING}>Expert</h4>
+                <h4 className={Classes.HEADING}>Experti</h4>
 
-                <p>
-                  Vybraný expert bude dostávat notifikace při změnách výroků v rámci této diskuze.
-                </p>
+                <p>Vybraní budou dostávat notifikace při změnách výroků v rámci této diskuze.</p>
               </div>
               <div style={{ flex: '1 1' }}>
-                <FormGroup name="expert_id" label="Expert" optional>
-                  <SelectComponentField name="expert_id">
-                    {(renderProps) => <UserSelect roles={['expert', 'admin']} {...renderProps} />}
+                <FormGroup name="experts" label="Experti" optional>
+                  <SelectComponentField name="experts">
+                    {(renderProps) => (
+                      <UserSelect isMulti roles={['expert', 'admin']} {...renderProps} />
+                    )}
                   </SelectComponentField>
                 </FormGroup>
               </div>

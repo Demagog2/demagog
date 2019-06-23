@@ -9,7 +9,7 @@ class Source < ApplicationRecord
   has_and_belongs_to_many :speakers
   belongs_to :medium, optional: true
   has_and_belongs_to_many :media_personalities, join_table: "sources_media_personalities"
-  belongs_to :expert, class_name: "User", optional: true
+  has_and_belongs_to_many :experts, class_name: "User", join_table: "sources_experts"
 
   default_scope { kept }
 

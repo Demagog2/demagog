@@ -15,7 +15,7 @@ module Types
     field :medium, Types::MediumType, null: false
     field :media_personalities, [Types::MediaPersonalityType], null: false
     field :speakers, [Types::SpeakerType], null: false
-    field :expert, Types::UserType, null: true
+    field :experts, [Types::UserType], null: false
 
     def transcript
       # Transcript is mostly from Newton Media and cannot be offered publicly
@@ -32,6 +32,12 @@ module Types
       raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
       object.name
+    end
+
+    def experts
+      raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+      object.experts
     end
 
     def statements(args)

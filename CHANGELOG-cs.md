@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 23. června 2019
+- Změněno: Diskuze může mít víc expertů ([#404](https://github.com/Demagog2/demagog/pull/404))
+
 ## 19. května 2019
 - Přidáno: Editoři mohou upravit řečníka u výroku ([#395](https://github.com/Demagog2/demagog/pull/395))
 
