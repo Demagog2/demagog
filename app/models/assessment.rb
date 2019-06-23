@@ -158,12 +158,12 @@ class Assessment < ApplicationRecord
             recipient: evaluator
           )
 
-          if statement.source.expert
+          statement.source.experts.each do |expert|
             notifications << Notification.new(
               content: "#{current_user.display_in_notification} vybral/a #{evaluator.display_in_notification} jako ověřovatele/ku tebou expertovaného výroku #{statement.display_in_notification}",
               action_link: "/admin/statements/#{statement.id}",
               action_text: "Na detail výroku",
-              recipient: statement.source.expert
+              recipient: expert
             )
           end
         rescue ActiveRecord::RecordNotFound
@@ -182,12 +182,12 @@ class Assessment < ApplicationRecord
             recipient: evaluator_was
           )
 
-          if statement.source.expert
+          statement.source.experts.each do |expert|
             notifications << Notification.new(
               content: "#{current_user.display_in_notification} odebral/a #{evaluator_was.display_in_notification} z pozice ověřovatele/ky tebou expertovaného výroku #{statement.display_in_notification}",
               action_link: "/admin/statements/#{statement.id}",
               action_text: "Na detail výroku",
-              recipient: statement.source.expert
+              recipient: expert
             )
           end
         rescue ActiveRecord::RecordNotFound
@@ -209,15 +209,17 @@ class Assessment < ApplicationRecord
                                 else evaluation_status
       end
 
-      # Temporarily sending notification to expert only when status is changed to
+      # Temporarily sending notification to experts only when status is changed to
       # approval_needed, because we are finetuning the notifications
-      if statement.source.expert && evaluation_status == STATUS_APPROVAL_NEEDED
-        notifications << Notification.new(
-          content: "#{current_user.display_in_notification} změnil/a stav tebou expertovaného výroku #{statement.display_in_notification} na #{evaluation_status_label}",
-          action_link: "/admin/statements/#{statement.id}",
-          action_text: "Na detail výroku",
-          recipient: statement.source.expert
-        )
+      if evaluation_status == STATUS_APPROVAL_NEEDED
+        statement.source.experts.each do |expert|
+          notifications << Notification.new(
+            content: "#{current_user.display_in_notification} změnil/a stav tebou expertovaného výroku #{statement.display_in_notification} na #{evaluation_status_label}",
+            action_link: "/admin/statements/#{statement.id}",
+            action_text: "Na detail výroku",
+            recipient: expert
+          )
+        end
       end
 
       if user_id

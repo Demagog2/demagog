@@ -6,7 +6,7 @@ class CreateSourceMutationTest < GraphQLTestCase
   def mutation(medium, media_personality, speaker)
     "
       mutation {
-        createSource(sourceInput: { name: \"John Doe\", releasedAt: \"2018-01-01\", mediumId: #{medium.id},  mediaPersonalities: [#{media_personality.id}], transcript: \"Lorem ipsum\", speakers: [#{speaker.id}] }) {
+        createSource(sourceInput: { name: \"John Doe\", releasedAt: \"2018-01-01\", mediumId: #{medium.id},  mediaPersonalities: [#{media_personality.id}], transcript: \"Lorem ipsum\", speakers: [#{speaker.id}], experts: [] }) {
           source {
             name
           }

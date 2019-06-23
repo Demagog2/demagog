@@ -300,10 +300,13 @@ class SourceDetail extends React.Component<IProps, IState> {
                       , <a href={source.sourceUrl}>odkaz</a>
                     </>
                   )}
-                  {source.expert && (
+                  {source.experts.length > 0 && (
                     <>
                       <br />
-                      Expert: {source.expert.firstName} {source.expert.lastName}
+                      {source.experts.length === 1 ? 'Expert: ' : 'Experti: '}
+                      {source.experts
+                        .map((expert) => `${expert.firstName} ${expert.lastName}`)
+                        .join(', ')}
                     </>
                   )}
                 </span>

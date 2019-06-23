@@ -14,16 +14,32 @@ interface ISelectOption {
   value: string;
 }
 
-interface IProps {
+interface IBaseProps {
   id?: string;
   disabled?: boolean;
-  value?: string | null;
   roles?: string[];
-  onChange: (value: string | null) => void;
   onBlur?: () => void;
 }
 
-export default class UserSelect extends React.Component<IProps> {
+interface ISingleValueProps {
+  isMulti: false;
+  value?: string | null;
+  onChange: (value: string | null) => void;
+}
+
+interface IMultiValueProps {
+  isMulti: true;
+  value: string[];
+  onChange: (value: string[]) => void;
+}
+
+export default class UserSelect extends React.Component<
+  IBaseProps & (ISingleValueProps | IMultiValueProps)
+> {
+  public static defaultProps = {
+    isMulti: false,
+  };
+
   public render() {
     return (
       <Query<GetUsersForSelectQuery, GetUsersForSelectQueryVariables>
@@ -43,12 +59,20 @@ export default class UserSelect extends React.Component<IProps> {
           return (
             <Select<ISelectOption>
               id={this.props.id}
-              value={options.filter(({ value }) => value === this.props.value)}
+              value={options.filter(
+                ({ value }) =>
+                  this.props.isMulti
+                    ? this.props.value.includes(value)
+                    : value === this.props.value,
+              )}
               isLoading={loading}
+              isMulti={this.props.isMulti}
               options={options}
-              onChange={(selectedOption) => {
-                if (selectedOption) {
-                  this.props.onChange((selectedOption as ISelectOption).value);
+              onChange={(selected) => {
+                if (this.props.isMulti) {
+                  this.props.onChange((selected as ISelectOption[]).map((o) => o.value));
+                } else if (selected) {
+                  this.props.onChange((selected as ISelectOption).value);
                 } else {
                   this.props.onChange(null);
                 }

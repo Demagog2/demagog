@@ -117,7 +117,7 @@ class Sources extends React.Component<{}, IState> {
                         <th scope="col" style={{ width: '50%' }}>
                           Diskuze
                         </th>
-                        <th scope="col">Expert</th>
+                        <th scope="col">Experti</th>
                         <th scope="col">
                           Výroky<br />
                           <small className={Classes.TEXT_MUTED}>
@@ -158,12 +158,11 @@ class Sources extends React.Component<{}, IState> {
                               </div>
                             </td>
                             <td>
-                              {source.expert ? (
-                                <>
-                                  {source.expert.firstName} {source.expert.lastName}
-                                </>
-                              ) : (
-                                <span className={Classes.TEXT_MUTED}>Expert nepřiřazený</span>
+                              {source.experts
+                                .map((expert) => `${expert.firstName} ${expert.lastName}`)
+                                .join(', ')}
+                              {source.experts.length === 0 && (
+                                <span className={Classes.TEXT_MUTED}>Nepřiřazení</span>
                               )}
                             </td>
                             <td>

@@ -6,7 +6,7 @@ class UpdateSourceMutationTest < GraphQLTestCase
   def mutation(source, medium, media_personality, speaker)
     "
       mutation {
-        updateSource(id: #{source.id}, sourceInput: { name: \"My source\", releasedAt: \"2018-01-01\", mediumId: #{medium.id},  mediaPersonalities: [#{media_personality.id}], transcript: \"Lorem ipsum\", speakers: [#{speaker.id}] }) {
+        updateSource(id: #{source.id}, sourceInput: { name: \"My source\", releasedAt: \"2018-01-01\", mediumId: #{medium.id},  mediaPersonalities: [#{media_personality.id}], transcript: \"Lorem ipsum\", speakers: [#{speaker.id}], experts: [] }) {
           source {
             name
           }
