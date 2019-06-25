@@ -7,6 +7,7 @@ declare module '*.jpg';
 declare module '*.jpeg';
 declare module '*.png';
 declare module '*.pdf';
+declare module '*.svg';
 
 // GraphQL custom scalar types
 type GraphQLCustomScalar_VeracityKey = 'true' | 'untrue' | 'misleading' | 'unverifiable';

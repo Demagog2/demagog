@@ -1,4 +1,6 @@
 <% content_for(:title, "Programové prohlášení druhé vlády Andreje Babiše") %>
+<% content_for(:viewport, "width=980") %>
+<% content_for(:image_src, asset_url("vladni-sliby-og-image.jpg")) %>
 
 <%= content_tag :div, id: "promises-document-app-root", data: { statements: @statements_data, pages_by_id: @pages_by_id } do %>
 <% end %>
