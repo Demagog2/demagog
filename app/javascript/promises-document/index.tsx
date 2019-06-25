@@ -5,8 +5,8 @@ import PromisesDocumentApp from './PromisesDocumentApp';
 
 const appRootElement = document.getElementById('promises-document-app-root');
 if (appRootElement !== null) {
-  // Promises data passed in data-promises attribute from server
-  const promises = JSON.parse(appRootElement.dataset.promises || '[]');
+  // Promises data passed in data attributes from server
+  const statements = JSON.parse(appRootElement.dataset.statements || '[]');
 
-  ReactDOM.render(<PromisesDocumentApp promises={promises} />, appRootElement);
+  ReactDOM.render(<PromisesDocumentApp statements={statements} />, appRootElement);
 }

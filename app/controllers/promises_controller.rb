@@ -184,20 +184,29 @@ class PromisesController < ApplicationController
     render(layout: "layouts/embed")
   end
 
-  # def document
-  #   all_promises = get_promises
+  def document
+    definition = @promises_definitions.fetch(params[:slug], nil)
+    raise ActionController::RoutingError.new("Not Found") if definition.nil? || params[:slug] != "druha-vlada-andreje-babise"
 
-  #   @promises = all_promises.map do |promise|
-  #     {
-  #       id: promise.id,
-  #       name: get_promise_name(promise),
-  #       veracity_key: promise.assessment.veracity.key,
-  #       explanation_html: promise.assessment.explanation_html,
-  #       page: get_promise_document_page(promise),
-  #       position: get_promise_position_in_document(promise)
-  #     }
-  #   end
-  # end
+    statements = definition[:get_statements].call
+    pages_by_id = statements.map { |s| [s.id, druha_vlada_andreje_babise_get_promise_source_page(s)] }.to_h
+
+    statements_data = statements.map do |statement|
+      {
+        id: statement.id,
+        title: statement.title,
+        page: pages_by_id[statement.id] + 4,
+        position: druha_vlada_andreje_babise_get_promise_document_position(statement),
+        promise_rating_key: statement.assessment.promise_rating.key,
+        short_explanation: statement.assessment.short_explanation,
+        permalink: promise_permalink(statement)
+      }
+    end
+
+    @statements_data = statements_data.sort_by { |s| s[:page] * 10000 + s[:position][0] }
+
+    render(layout: "layouts/empty")
+  end
 
   helper_method :to_lazy_loading_iframes_and_images
   def to_lazy_loading_iframes_and_images(explanation_html)
@@ -258,23 +267,60 @@ class PromisesController < ApplicationController
 
   private
 
-    # def get_promise_position_in_document(promise)
-    #   position = {
-    #     # hospodarstvi
-    #     15076 => [141, 14, 159, 9, 54],
-    #     15079 => [125, 7, 127, 29, 43],
-    #     15074 => [174, 0, 197, 35, 68],
-    #     15071 => [126, 0, 146, 18, 43],
-    #     15077 => [258, 0, 291, 15, 80],
-    #     15072 => [147, 0, 162, 33, 50],
-    #     15073 => [165, 0, 171, 18, 59],
-    #     15069 => [230, 0, 271, 4, 80],
-    #     15070 => [40, 0, 47, 14, 15.5],
-    #     15080 => [153, 0, 163, 6, 62.2],
-    #     15211 => [232, 19, 241, 12, 79.5],
-    #     15075 => [200, 0, 221, 36, 75],
-    #   }.fetch(promise.id, nil)
-    # end
+    def druha_vlada_andreje_babise_get_promise_document_position(statement)
+      position = {
+        17518 => [22, 0, 22, 71], # privatizace
+        17565 => [1, 0, 2, 36], # odpolitizovani statni spravy
+        17516 => [27, 43, 28, 6], # nebudeme zvysovat danovou zatez
+        17517 => [29, 0, 30, 39], # superhruba mzda
+        17519 => [7, 0, 11, 20], # dane nadnarodnich korporaci
+        17520 => [43, 0, 45, 35], # zvyseni duchodu
+        17523 => [39, 14, 43, 57], # socialni davky
+        17521 => [9, 0, 9, 43], # zvyseni rodicovskeho prispevku
+        17522 => [50, 0, 54, 53], # prvni tri nemocenske
+        17525 => [26, 0, 27, 56], # digitalni cesko
+        17524 => [49, 42, 52, 76], # analyza it dopadu
+        17526 => [68, 46, 69, 50], # online platby u statnich instituci
+        17527 => [6, 0, 8, 18], # penize do skolstvi
+        17529 => [36, 0, 38, 24], # narok na skolku od 2 let
+        17528 => [54, 23, 54, 63], # snizime pocet oboru stredniho vzdelavani
+        17530 => [12, 0, 15, 19], # nove dalnice
+        17531 => [1, 0, 2, 59], # elektronicky dalnicni kupon
+        17532 => [29, 0, 35, 62], # vlakova doprava
+        17533 => [33, 0, 34, 49], # navysime rozpocet na obranu
+        17852 => [52, 23, 52, 62], # zakon o vojenskem zpravodajstvi
+        17534 => [1, 0, 6, 50], # nabor vojaku
+        17535 => [17, 0, 23, 23], # ucast na vojenskych misich
+        17536 => [15, 0, 27, 25], # tvorba zakonu
+        17537 => [52, 0, 53, 70], # vyber soudcu
+        17540 => [1, 11, 3, 44], # ochrana dluzniku
+        17538 => [11, 0, 17, 16], # celostatni referendum
+        17539 => [22, 56, 27, 9], # whisteblowing, lobbing
+        17563 => [39, 0, 41, 32], # posileni zastoupeni v eu
+        17549 => [52, 55, 54, 12], # ochrana verejnopravnich medii
+        17541 => [17, 0, 19, 14], # otevrena data ministerstva zdravotnictvi
+        17542 => [49, 30, 52, 30], # elektronicky recept
+        17543 => [13, 0, 14, 34], # podporime prevenci a zdravy zivotni styl
+        17544 => [29, 37, 32, 13], # zdroje elektriny
+        17545 => [1, 69, 4, 9], # poplatky za tezbu
+        17546 => [11, 26, 13, 17], # pravo na internet
+        17561 => [42, 0, 46, 14], # investicni plan zeme
+        17562 => [55, 21, 56, 60], # rekodifikace stavebniho prava
+        17548 => [3, 39, 7, 20], # mensi verejne zakazky
+        17550 => [12, 43, 18, 15], # bytova vystavba
+        17547 => [21, 0, 28, 60], # zakon o socialnim bydleni
+        17551 => [53, 0, 58, 44], # ochrana turistu
+        17552 => [55, 0, 55, 66], # podpora zemedelcu
+        17553 => [14, 48, 17, 28], # strategie nakladani s vodou
+        17554 => [32, 0, 34, 12], # ochrana zemedelske pudy
+        17558 => [27, 42, 30, 23], # novy zakon o odpadech
+        17555 => [34, 27, 36, 52], # regulator obchodu s vodou
+        17556 => [36, 53, 39, 29], # zestatnovani vodohospodarskeho majetku
+        17557 => [13, 0, 14, 61], # kotlikove dotace
+        17559 => [7, 0, 8, 55], # financovani sportu
+        17560 => [9, 0, 12, 6], # financovani sportu ii.
+      }.fetch(statement.id, nil)
+    end
 
     def sobotkova_vlada_get_promise_source_page(statement)
       {
