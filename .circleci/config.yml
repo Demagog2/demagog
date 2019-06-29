@@ -131,7 +131,9 @@ jobs:
 
       - run:
           name: Deploy to production
-          command: bundle exec cap production deploy
+          command: |
+            bundle exec cap production deploy
+            bundle exec cap production unicorn:restart
 
 workflows:
   version: 2
