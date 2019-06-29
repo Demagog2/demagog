@@ -3,6 +3,8 @@
 class ApplicationController < ActionController::Base
   before_action :ensure_user_is_active
   before_action :set_raven_context
+  before_action :set_paper_trail_whodunnit
+
   protect_from_forgery with: :exception
 
   def menu_items

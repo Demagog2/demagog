@@ -47,6 +47,8 @@ end
 class Assessment < ApplicationRecord
   include ActiveModel::Dirty
 
+  has_paper_trail
+
   STATUS_BEING_EVALUATED = "being_evaluated"
   STATUS_APPROVAL_NEEDED = "approval_needed"
   STATUS_PROOFREADING_NEEDED = "proofreading_needed"

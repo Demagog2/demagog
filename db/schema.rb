@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_23_065956) do
+ActiveRecord::Schema.define(version: 2019_06_29_122524) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -379,8 +379,30 @@ ActiveRecord::Schema.define(version: 2019_06_23_065956) do
     t.string "key"
   end
 
+  create_table "versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.bigint "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.text "object"
+    t.datetime "created_at"
+    t.text "object_changes"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+  end
+
   add_foreign_key "article_segments", "articles"
 
+  create_view "speaker_stats", sql_definition: <<-SQL
+      SELECT count(veracities.key) AS count,
+      veracities.key,
+      statements.speaker_id
+     FROM (((statements
+       JOIN speakers ON ((speakers.id = statements.speaker_id)))
+       JOIN assessments ON ((statements.id = assessments.statement_id)))
+       JOIN veracities ON ((assessments.veracity_id = veracities.id)))
+    WHERE (((assessments.evaluation_status)::text = 'approved'::text) AND (statements.published = true) AND (statements.count_in_statistics = true))
+    GROUP BY veracities.key, statements.speaker_id;
+  SQL
   create_view "article_stats", sql_definition: <<-SQL
       SELECT count(veracities.key) AS count,
       veracities.key,
@@ -395,16 +417,5 @@ ActiveRecord::Schema.define(version: 2019_06_23_065956) do
        JOIN articles ON ((articles.id = article_segments.article_id)))
     WHERE (((assessments.evaluation_status)::text = 'approved'::text) AND ((article_segments.segment_type)::text = 'source_statements'::text) AND (statements.published = true) AND (statements.count_in_statistics = true))
     GROUP BY veracities.key, statements.speaker_id, article_segments.article_id;
-  SQL
-  create_view "speaker_stats", sql_definition: <<-SQL
-      SELECT count(veracities.key) AS count,
-      veracities.key,
-      statements.speaker_id
-     FROM (((statements
-       JOIN speakers ON ((speakers.id = statements.speaker_id)))
-       JOIN assessments ON ((statements.id = assessments.statement_id)))
-       JOIN veracities ON ((assessments.veracity_id = veracities.id)))
-    WHERE (((assessments.evaluation_status)::text = 'approved'::text) AND (statements.published = true) AND (statements.count_in_statistics = true))
-    GROUP BY veracities.key, statements.speaker_id;
   SQL
 end
