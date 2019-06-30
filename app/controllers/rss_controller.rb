@@ -3,7 +3,7 @@
 class RssController < ApplicationController
   def index
     @articles = Article
-      .where(published: true)
+      .published
       .order(published_at: :desc)
       .limit(10)
 
