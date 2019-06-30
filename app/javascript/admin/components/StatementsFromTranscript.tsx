@@ -218,11 +218,11 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
           }
 
           return (
-            <div style={{ flex: '1 0', display: 'flex', marginTop: 30 }}>
+            <div style={{ flex: '1 0', display: 'flex', marginTop: 30, overflowY: 'hidden' }}>
               <div
                 style={{
                   flex: '1 0',
-                  overflow: 'scroll',
+                  overflowY: 'auto',
                   marginRight: 15,
                   paddingRight: 15,
                   paddingBottom: 50,
@@ -241,7 +241,7 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                   />
                 )}
               </div>
-              <div style={{ flex: '1 0', overflow: 'scroll', marginLeft: 15, paddingBottom: 50 }}>
+              <div style={{ flex: '1 0', overflowY: 'auto', marginLeft: 15, paddingBottom: 50 }}>
                 {(!canAddStatements ||
                   (transcriptSelection === null && newStatementSelection === null)) && (
                   <>
@@ -463,7 +463,7 @@ interface ITranscriptTextProps {
   onSelectedStatementsChange: (selectedStatements: string[]) => void;
   onSelectionChange: (selection: null | ITranscriptSelection) => void;
   selectedStatements: string[];
-  statements: any[];
+  statements: GetSourceStatementsQuery['statements'];
   transcript: string;
   newStatementSelection: null | ITranscriptSelection;
   startCursor: { line: number; offset: number } | null;
@@ -574,13 +574,13 @@ class TranscriptText extends React.Component<ITranscriptTextProps, ITranscriptTe
         const cursorLine = startLine;
         const cursorOffset = startOffset;
         const selectedStatements = this.props.statements.filter((statement) => {
-          if (statement.statement_transcript_position) {
-            const position = statement.statement_transcript_position;
+          if (statement.statementTranscriptPosition) {
+            const position = statement.statementTranscriptPosition;
             return (
-              position.start_line <= cursorLine &&
-              (position.start_line === cursorLine ? position.start_offset <= cursorOffset : true) &&
-              position.end_line >= cursorLine &&
-              (position.end_line === cursorLine ? position.end_offset >= startOffset : true)
+              position.startLine <= cursorLine &&
+              (position.startLine === cursorLine ? position.startOffset <= cursorOffset : true) &&
+              position.endLine >= cursorLine &&
+              (position.endLine === cursorLine ? position.endOffset >= startOffset : true)
             );
           }
           return false;
@@ -662,22 +662,22 @@ const addMarksFromStatements = (
   decorations = removeDecorationsWithMarkType(decorations, 'statement-');
 
   statements.forEach((statement: any) => {
-    if (statement.statement_transcript_position) {
-      const position = statement.statement_transcript_position;
+    if (statement.statementTranscriptPosition) {
+      const position = statement.statementTranscriptPosition;
 
-      const startInlineNode = findInlineNodeByLineNumber(value.document, position.start_line);
-      const endInlineNode = findInlineNodeByLineNumber(value.document, position.end_line);
+      const startInlineNode = findInlineNodeByLineNumber(value.document, position.startLine);
+      const endInlineNode = findInlineNodeByLineNumber(value.document, position.endLine);
 
       decorations = decorations.push(
         Slate.Decoration.fromJSON({
           anchor: {
             key: startInlineNode.key,
-            offset: position.start_offset,
+            offset: position.startOffset,
             object: 'point',
           },
           focus: {
             key: endInlineNode.key,
-            offset: position.end_offset,
+            offset: position.endOffset,
             object: 'point',
           },
           mark: {
