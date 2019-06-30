@@ -1,4 +1,5 @@
 <% content_for(:title, @article.title) %>
+<% content_for(:description, strip_tags(@article.perex).truncate(230)) if @article.perex.present? %>
 <% content_for(:image_src, @article.illustration.attached? ? polymorphic_url(@article.illustration) : nil) %>
 
 <article class="detail">
