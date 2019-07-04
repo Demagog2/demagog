@@ -109,7 +109,9 @@
     "webpack-dev-server": "^3.1.14"
   },
   "resolutions": {
-    "fstream": "1.0.12"
+    "fstream": "1.0.12",
+    "@types/graphql": "14.2.2",
+    "apollo-link": "1.2.12"
   },
   "jest": {
     "setupFilesAfterEnv": [

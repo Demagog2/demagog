@@ -13,7 +13,7 @@ import {
 import { GetPages } from '../../queries/queries';
 import { SearchInput } from '../forms/controls/SearchInput';
 
-import { ApolloError } from '../../../../../node_modules/apollo-client';
+import { ApolloError } from 'apollo-client';
 import { addFlashMessage } from '../../actions/flashMessages';
 import { DeletePage } from '../../queries/mutations';
 import Authorize from '../Authorize';
