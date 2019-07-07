@@ -6,7 +6,7 @@ import { Query } from 'react-apollo';
 import * as isEqual from 'react-fast-compare';
 import Select from 'react-select';
 
-import { GetSourcesForSelectQuery } from '../../../operation-result-types';
+import { GetSourcesForSelect as GetSourcesForSelectQuery } from '../../../operation-result-types';
 import { GetSourcesForSelect } from '../../../queries/queries';
 import { displayDate } from '../../../utils';
 

@@ -4,11 +4,11 @@ import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { addFlashMessage } from '../../actions/flashMessages';
 import {
-  GetMediumQuery,
-  GetMediumQueryVariables,
+  GetMedium as GetMediumQuery,
+  GetMediumVariables as GetMediumQueryVariables,
   MediumInput,
-  UpdateMediumMutation,
-  UpdateMediumMutationVariables,
+  UpdateMedium as UpdateMediumMutation,
+  UpdateMediumVariables as UpdateMediumMutationVariables,
 } from '../../operation-result-types';
 import { UpdateMedium } from '../../queries/mutations';
 import { GetMedia, GetMediaPersonalitiesForSelect, GetMedium } from '../../queries/queries';

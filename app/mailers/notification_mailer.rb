@@ -10,6 +10,6 @@ class NotificationMailer < ApplicationMailer
     recipient = @notification.recipient
     email_with_name = "#{recipient.first_name} #{recipient.last_name} <#{recipient.email}>"
 
-    mail(to: email_with_name, subject: @notification.content)
+    mail(to: email_with_name, subject: @notification.statement_text)
   end
 end

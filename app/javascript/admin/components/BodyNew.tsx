@@ -7,7 +7,10 @@ import { withRouter } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import { uploadBodyLogo } from '../api';
-import { CreateBodyMutation, CreateBodyMutationVariables } from '../operation-result-types';
+import {
+  CreateBody as CreateBodyMutation,
+  CreateBodyVariables as CreateBodyMutationVariables,
+} from '../operation-result-types';
 import { CreateBody } from '../queries/mutations';
 import { GetBodies, GetSpeakerBodies } from '../queries/queries';
 import { BodyForm, IBodyFormData } from './forms/BodyForm';

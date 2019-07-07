@@ -10,7 +10,10 @@ import { uploadSpeakerAvatar } from '../api';
 
 import { ISpeakerFormData, SpeakerForm } from './forms/SpeakerForm';
 
-import { CreateSpeakerMutation, CreateSpeakerMutationVariables } from '../operation-result-types';
+import {
+  CreateSpeaker as CreateSpeakerMutation,
+  CreateSpeakerVariables as CreateSpeakerMutationVariables,
+} from '../operation-result-types';
 import { CreateSpeaker } from '../queries/mutations';
 import { GetSpeakers } from '../queries/queries';
 

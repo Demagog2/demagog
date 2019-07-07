@@ -13,8 +13,8 @@ import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import {
-  GetUsersQuery as GetUsersQueryData,
-  GetUsersQueryVariables,
+  GetUsers as GetUsersQuery,
+  GetUsersVariables as GetUsersQueryVariables,
 } from '../operation-result-types';
 import { DeleteUser, UpdateUserPublicity } from '../queries/mutations';
 import { GetUsers } from '../queries/queries';
@@ -32,8 +32,6 @@ interface IUsersState {
   includeInactive: boolean;
   confirmDeleteModalUserId: string | null;
 }
-
-class GetUsersQuery extends Query<GetUsersQueryData, GetUsersQueryVariables> {}
 
 class Users extends React.Component<IProps, IUsersState> {
   constructor(props: IProps) {
@@ -113,7 +111,7 @@ class Users extends React.Component<IProps, IUsersState> {
           />
         </div>
 
-        <GetUsersQuery
+        <Query<GetUsersQuery, GetUsersQueryVariables>
           query={GetUsers}
           variables={{ name: this.state.search, includeInactive: this.state.includeInactive }}
         >
@@ -297,7 +295,7 @@ class Users extends React.Component<IProps, IUsersState> {
               </div>
             );
           }}
-        </GetUsersQuery>
+        </Query>
       </div>
     );
   }

@@ -11,15 +11,13 @@ import { connect, DispatchProp } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../../actions/flashMessages';
-import { GetMediaPersonalitiesQuery as GetMediaQueryResult } from '../../operation-result-types';
+import { GetMediaPersonalities as GetMediaPersonalitiesQuery } from '../../operation-result-types';
 import { DeleteMediaPersonality } from '../../queries/mutations';
 import { GetMediaPersonalities } from '../../queries/queries';
 import Authorize from '../Authorize';
 import { SearchInput } from '../forms/controls/SearchInput';
 import Loading from '../Loading';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
-
-class GetMediaPersonalitiesQuery extends Query<GetMediaQueryResult> {}
 
 interface IProps extends DispatchProp<any> {}
 
@@ -98,7 +96,7 @@ class Media extends React.Component<IProps, IState> {
           />
         </div>
 
-        <GetMediaPersonalitiesQuery
+        <Query<GetMediaPersonalitiesQuery>
           query={GetMediaPersonalities}
           variables={{ name: this.state.search }}
         >
@@ -195,7 +193,7 @@ class Media extends React.Component<IProps, IState> {
               </div>
             );
           }}
-        </GetMediaPersonalitiesQuery>
+        </Query>
       </div>
     );
   }

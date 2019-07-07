@@ -529,9 +529,21 @@ export const GetNotifications = gql`
       totalCount
       items {
         id
-        content
-        actionLink
-        actionText
+        statementText
+        statement {
+          id
+          content
+          statementType
+          speaker {
+            id
+            firstName
+            lastName
+          }
+          source {
+            id
+            name
+          }
+        }
         createdAt
         readAt
       }

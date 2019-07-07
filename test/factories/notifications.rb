@@ -2,9 +2,8 @@
 
 FactoryBot.define do
   factory :notification do
-    content { "Lorem ipsum" }
-    action_link { "http://example.com" }
-    action_text { "My action" }
+    statement_text { "Lorem ipsum" }
+    full_text { "Lorem ipsum" }
 
     trait :unread do
       read_at { nil }

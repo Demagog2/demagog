@@ -18,7 +18,7 @@ import { DateTime } from 'luxon';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
-import { ArticleInput, GetArticleQuery } from '../../operation-result-types';
+import { ArticleInput, GetArticle as GetArticleQuery } from '../../operation-result-types';
 import DateField from '../forms/controls/DateField';
 import ImageField, { ImageValueType } from '../forms/controls/ImageField';
 import SelectField from '../forms/controls/SelectField';

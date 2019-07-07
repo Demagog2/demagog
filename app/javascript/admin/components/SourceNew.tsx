@@ -4,8 +4,8 @@ import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { addFlashMessage } from '../actions/flashMessages';
 import {
-  CreateSourceMutation,
-  CreateSourceMutationVariables,
+  CreateSource as CreateSourceMutation,
+  CreateSourceVariables as CreateSourceMutationVariables,
   SourceInput,
 } from '../operation-result-types';
 import { CreateSource } from '../queries/mutations';

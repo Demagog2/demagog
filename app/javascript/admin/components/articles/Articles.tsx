@@ -12,8 +12,8 @@ import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../../actions/flashMessages';
 import {
-  GetArticlesQuery as GetArticlesQueryResult,
-  GetArticlesQueryVariables,
+  GetArticles as GetArticlesQueryResult,
+  GetArticlesVariables as GetArticlesQueryVariables,
 } from '../../operation-result-types';
 import { DeleteArticle } from '../../queries/mutations';
 import { GetArticles } from '../../queries/queries';

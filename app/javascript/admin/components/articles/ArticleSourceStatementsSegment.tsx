@@ -6,10 +6,10 @@ import { css, cx } from 'emotion';
 import { Query } from 'react-apollo';
 
 import {
-  GetSourcesQuery,
-  GetSourcesQueryVariables,
-  GetSourceStatementsQuery,
-  GetSourceStatementsQueryVariables,
+  GetSources as GetSourcesQuery,
+  GetSourceStatements as GetSourceStatementsQuery,
+  GetSourceStatementsVariables as GetSourceStatementsQueryVariables,
+  GetSourcesVariables as GetSourcesQueryVariables,
 } from '../../operation-result-types';
 import { GetSources, GetSourceStatements } from '../../queries/queries';
 import Error from '../Error';

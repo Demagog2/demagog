@@ -12,8 +12,8 @@ import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import {
-  GetBodiesQuery as GetBodiesQueryResult,
-  GetBodiesQueryVariables,
+  GetBodies as GetBodiesQuery,
+  GetBodiesVariables as GetBodiesQueryVariables,
 } from '../operation-result-types';
 import { DeleteBody } from '../queries/mutations';
 import { GetBodies } from '../queries/queries';
@@ -23,8 +23,6 @@ import BodyLogo from './BodyLogo';
 import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
-
-class GetBodiesQuery extends Query<GetBodiesQueryResult, GetBodiesQueryVariables> {}
 
 interface IProps extends DispatchProp<any> {}
 
@@ -93,7 +91,10 @@ class Bodies extends React.Component<IProps, IState> {
           />
         </div>
 
-        <GetBodiesQuery query={GetBodies} variables={{ name: this.state.search }}>
+        <Query<GetBodiesQuery, GetBodiesQueryVariables>
+          query={GetBodies}
+          variables={{ name: this.state.search }}
+        >
           {(props) => {
             if (props.loading) {
               return <Loading />;
@@ -195,7 +196,7 @@ class Bodies extends React.Component<IProps, IState> {
               </div>
             );
           }}
-        </GetBodiesQuery>
+        </Query>
       </div>
     );
   }

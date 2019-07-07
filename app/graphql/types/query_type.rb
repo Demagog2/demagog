@@ -407,10 +407,7 @@ class Types::QueryType < GraphQL::Schema::Object
   def notifications(args)
     raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
-    current_user = context[:current_user]
-    notifications = current_user.notifications
-
-    notifications = notifications.where(read_at: nil) unless args[:include_read]
+    notifications = Notification.get(context[:current_user], args[:include_read])
 
     {
       total_count: notifications.count,

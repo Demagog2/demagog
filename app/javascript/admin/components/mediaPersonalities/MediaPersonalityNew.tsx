@@ -6,8 +6,8 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { addFlashMessage } from '../../actions/flashMessages';
 import {
-  CreateMediaPersonalityMutation,
-  CreateMediaPersonalityMutationVariables,
+  CreateMediaPersonality as CreateMediaPersonalityMutation,
+  CreateMediaPersonalityVariables as CreateMediaPersonalityMutationVariables,
   MediaPersonalityInput,
 } from '../../operation-result-types';
 import { CreateMediaPersonality } from '../../queries/mutations';

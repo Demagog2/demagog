@@ -2,6 +2,7 @@
 
 class Notification < ApplicationRecord
   belongs_to :recipient, class_name: "User"
+  belongs_to :statement
 
   def self.create_notifications(notifications, current_user)
     # We don't need to notify current user
@@ -21,6 +22,7 @@ class Notification < ApplicationRecord
   def self.email_unread_notifications
     unread_notifications = Notification
       .joins(:recipient)
+      .joins(:statement)
       .where(read_at: nil)
       .where("notifications.created_at > ?", Time.now - 15.minutes)
       .where(emailed_at: nil)
@@ -36,11 +38,28 @@ class Notification < ApplicationRecord
     end
   end
 
-  def self.mark_unread_as_read(current_user)
+  def self.mark_all_unread_as_read(current_user)
     unread_notifications_ids = current_user.notifications.where(read_at: nil).pluck(:id)
 
     notifications = current_user.notifications.where(id: unread_notifications_ids)
     notifications.update_all(read_at: Time.now)
+    notifications
+  end
+
+  def self.mark_statement_unread_as_read(statement_id, current_user)
+    unread_notifications_ids = current_user.notifications.where(read_at: nil, statement_id: statement_id).pluck(:id)
+
+    notifications = current_user.notifications.where(id: unread_notifications_ids)
+    notifications.update_all(read_at: Time.now)
+    notifications
+  end
+
+  def self.get(user, include_read = true)
+    # The join to statement makes sure that the statement exists and is not marked as deleted
+    notifications = user.notifications.joins(:statement)
+
+    notifications = notifications.where(read_at: nil) unless include_read
+
     notifications
   end
 end

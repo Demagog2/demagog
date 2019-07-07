@@ -6,8 +6,8 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { addFlashMessage } from '../../actions/flashMessages';
 import {
-  CreateMediumMutation,
-  CreateMediumMutationVariables,
+  CreateMedium as CreateMediumMutation,
+  CreateMediumVariables as CreateMediumMutationVariables,
   MediumInput,
 } from '../../operation-result-types';
 import { CreateMedium } from '../../queries/mutations';

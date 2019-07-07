@@ -1,8 +1,8 @@
 Ahoj,
 
-<%= @notification.content %>
+<%= @notification.full_text %>
 
-<%= @notification.action_text %>:
+Na detail výroku:
 <%= url_for(:controller => '/admin/notification', :action => 'open', :id => @notification.id) %>
 
 Mrkni na to brzy, díky!

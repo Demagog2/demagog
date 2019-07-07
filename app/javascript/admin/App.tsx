@@ -165,7 +165,7 @@ class App extends React.Component<IProps> {
                   component={UsersSortOnAboutUsPage}
                 />
 
-                <Route path="/admin/notifications" exact component={Notifications} />
+                <Route path="/admin/notifications/:tab?" exact component={Notifications} />
 
                 <Route path="/admin/availability" exact component={Availability} />
 

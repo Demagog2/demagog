@@ -12,8 +12,8 @@ import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../../actions/flashMessages';
 import {
-  GetMediaQuery as GetMediaQueryResult,
-  GetMediaQueryVariables,
+  GetMedia as GetMediaQueryResult,
+  GetMediaVariables as GetMediaQueryVariables,
 } from '../../operation-result-types';
 import { DeleteMedium } from '../../queries/mutations';
 import { GetMedia } from '../../queries/queries';

@@ -10,10 +10,10 @@ import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import {
-  GetUsersQuery,
-  GetUsersQueryVariables,
-  UpdateUsersRankMutation,
-  UpdateUsersRankMutationVariables,
+  GetUsers as GetUsersQuery,
+  GetUsersVariables as GetUsersQueryVariables,
+  UpdateUsersRank as UpdateUsersRankMutation,
+  UpdateUsersRankVariables as UpdateUsersRankMutationVariables,
 } from '../operation-result-types';
 import { UpdateUsersRank } from '../queries/mutations';
 import { GetUsers } from '../queries/queries';

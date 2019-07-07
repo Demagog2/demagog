@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Query } from 'react-apollo';
 import Select from 'react-select';
 
-import { GetPromiseRatingsForSelectQuery } from '../../../operation-result-types';
+import { GetPromiseRatingsForSelect as GetPromiseRatingsForSelectQuery } from '../../../operation-result-types';
 import { GetPromiseRatingsForSelect } from '../../../queries/queries';
 
 interface ISelectOption {

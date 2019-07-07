@@ -4,7 +4,7 @@ import { Colors } from '@blueprintjs/core';
 import { Query } from 'react-apollo';
 import Select from 'react-select';
 
-import { GetSpeakerBodiesQuery } from '../../../operation-result-types';
+import { GetSpeakerBodies as GetSpeakerBodiesQuery } from '../../../operation-result-types';
 import { GetSpeakerBodies } from '../../../queries/queries';
 
 interface ISelectOption {

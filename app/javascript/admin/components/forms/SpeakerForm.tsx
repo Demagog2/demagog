@@ -8,7 +8,7 @@ import { FieldArray, Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
-import { GetSpeakerQuery, SpeakerInput } from '../../operation-result-types';
+import { GetSpeaker as GetSpeakerQuery, SpeakerInput } from '../../operation-result-types';
 import SpeakerAvatar from '../SpeakerAvatar';
 import BodySelect from './controls/BodySelect';
 import DateField from './controls/DateField';

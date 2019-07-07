@@ -19,12 +19,12 @@ import { Editor, RenderMarkProps } from 'slate-react';
 
 import { isAuthorized } from '../authorization';
 import {
+  CreateStatement as CreateStatementMutation,
   CreateStatementInput,
-  CreateStatementMutation,
-  CreateStatementMutationVariables,
-  GetSourceQuery,
-  GetSourceStatementsQuery,
-  GetSourceStatementsQueryVariables,
+  CreateStatementVariables as CreateStatementMutationVariables,
+  GetSource as GetSourceQuery,
+  GetSourceStatements as GetSourceStatementsQuery,
+  GetSourceStatementsVariables as GetSourceStatementsQueryVariables,
   StatementType,
 } from '../operation-result-types';
 import { CreateStatement } from '../queries/mutations';

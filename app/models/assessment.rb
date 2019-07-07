@@ -154,17 +154,17 @@ class Assessment < ApplicationRecord
           evaluator = User.find(user_id)
 
           notifications << Notification.new(
-            content: "#{current_user.display_in_notification} tě vybral/a jako ověřovatele/ku výroku #{statement.display_in_notification}",
-            action_link: "/admin/statements/#{statement.id}",
-            action_text: "Na detail výroku",
+            statement_text: "#{current_user.display_in_notification} tě vybral/a jako ověřovatele/ku",
+            full_text: "#{current_user.display_in_notification} tě vybral/a jako ověřovatele/ku výroku #{statement.display_in_notification}",
+            statement_id: statement.id,
             recipient: evaluator
           )
 
           statement.source.experts.each do |expert|
             notifications << Notification.new(
-              content: "#{current_user.display_in_notification} vybral/a #{evaluator.display_in_notification} jako ověřovatele/ku tebou expertovaného výroku #{statement.display_in_notification}",
-              action_link: "/admin/statements/#{statement.id}",
-              action_text: "Na detail výroku",
+              statement_text: "#{current_user.display_in_notification} vybral/a #{evaluator.display_in_notification} jako ověřovatele/ku",
+              full_text: "#{current_user.display_in_notification} vybral/a #{evaluator.display_in_notification} jako ověřovatele/ku tebou expertovaného výroku #{statement.display_in_notification}",
+              statement_id: statement.id,
               recipient: expert
             )
           end
@@ -178,17 +178,17 @@ class Assessment < ApplicationRecord
           evaluator_was = User.find(user_id_was)
 
           notifications << Notification.new(
-            content: "#{current_user.display_in_notification} tě odebral/a z pozice ověřovatele/ky výroku #{statement.display_in_notification}",
-            action_link: "/admin/statements/#{statement.id}",
-            action_text: "Na detail výroku",
+            statement_text: "#{current_user.display_in_notification} tě odebral/a z pozice ověřovatele/ky",
+            full_text: "#{current_user.display_in_notification} tě odebral/a z pozice ověřovatele/ky výroku #{statement.display_in_notification}",
+            statement_id: statement.id,
             recipient: evaluator_was
           )
 
           statement.source.experts.each do |expert|
             notifications << Notification.new(
-              content: "#{current_user.display_in_notification} odebral/a #{evaluator_was.display_in_notification} z pozice ověřovatele/ky tebou expertovaného výroku #{statement.display_in_notification}",
-              action_link: "/admin/statements/#{statement.id}",
-              action_text: "Na detail výroku",
+              statement_text: "#{current_user.display_in_notification} odebral/a #{evaluator_was.display_in_notification} z pozice ověřovatele/ky",
+              full_text: "#{current_user.display_in_notification} odebral/a #{evaluator_was.display_in_notification} z pozice ověřovatele/ky tebou expertovaného výroku #{statement.display_in_notification}",
+              statement_id: statement.id,
               recipient: expert
             )
           end
@@ -216,9 +216,9 @@ class Assessment < ApplicationRecord
       if evaluation_status == STATUS_APPROVAL_NEEDED
         statement.source.experts.each do |expert|
           notifications << Notification.new(
-            content: "#{current_user.display_in_notification} změnil/a stav tebou expertovaného výroku #{statement.display_in_notification} na #{evaluation_status_label}",
-            action_link: "/admin/statements/#{statement.id}",
-            action_text: "Na detail výroku",
+            statement_text: "#{current_user.display_in_notification} změnil/a stav na #{evaluation_status_label}",
+            full_text: "#{current_user.display_in_notification} změnil/a stav tebou expertovaného výroku #{statement.display_in_notification} na #{evaluation_status_label}",
+            statement_id: statement.id,
             recipient: expert
           )
         end
@@ -226,9 +226,9 @@ class Assessment < ApplicationRecord
 
       if user_id
         notifications << Notification.new(
-          content: "#{current_user.display_in_notification} změnil/a stav tebou ověřovaného výroku #{statement.display_in_notification} na #{evaluation_status_label}",
-          action_link: "/admin/statements/#{statement.id}",
-          action_text: "Na detail výroku",
+          statement_text: "#{current_user.display_in_notification} změnil/a stav na #{evaluation_status_label}",
+          full_text: "#{current_user.display_in_notification} změnil/a stav tebou ověřovaného výroku #{statement.display_in_notification} na #{evaluation_status_label}",
+          statement_id: statement.id,
           recipient: User.find(user_id)
         )
       end

@@ -7,8 +7,8 @@ import { connect, DispatchProp } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import {
-  GetPagesQuery as GetPagesQueryResult,
-  GetPagesQueryVariables,
+  GetPages as GetPagesQuery,
+  GetPagesVariables as GetPagesQueryVariables,
 } from '../../operation-result-types';
 import { GetPages } from '../../queries/queries';
 import { SearchInput } from '../forms/controls/SearchInput';
@@ -28,8 +28,6 @@ interface IState {
   search: string;
   confirmDeleteModalPageId: string | null;
 }
-
-class GetPagesQuery extends Query<GetPagesQueryResult, GetPagesQueryVariables> {}
 
 class Pages extends React.Component<DispatchProp, IState> {
   public state = {
@@ -89,7 +87,7 @@ class Pages extends React.Component<DispatchProp, IState> {
           />
         </div>
 
-        <GetPagesQuery
+        <Query<GetPagesQuery, GetPagesQueryVariables>
           query={GetPages}
           variables={{ title: this.state.search, limit: PAGES_PER_PAGE, offset: 0 }}
         >
@@ -189,7 +187,7 @@ class Pages extends React.Component<DispatchProp, IState> {
               </div>
             );
           }}
-        </GetPagesQuery>
+        </Query>
       </div>
     );
   }

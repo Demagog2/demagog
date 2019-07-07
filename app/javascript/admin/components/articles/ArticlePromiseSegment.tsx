@@ -6,8 +6,8 @@ import { css } from 'emotion';
 import { Query } from 'react-apollo';
 
 import {
-  GetSourceStatementsQuery,
-  GetSourceStatementsQueryVariables,
+  GetSourceStatements as GetSourceStatementsQuery,
+  GetSourceStatementsVariables as GetSourceStatementsQueryVariables,
 } from '../../operation-result-types';
 import { GetSourceStatements } from '../../queries/queries';
 import DemagogczWidget from '../DemagogczWidget';

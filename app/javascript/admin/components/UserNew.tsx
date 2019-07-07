@@ -8,7 +8,10 @@ import { withRouter } from 'react-router-dom';
 import { addFlashMessage } from '../actions/flashMessages';
 import { uploadUserAvatar } from '../api';
 
-import { CreateUserMutation, CreateUserMutationVariables } from '../operation-result-types';
+import {
+  CreateUser as CreateUserMutation,
+  CreateUserVariables as CreateUserMutationVariables,
+} from '../operation-result-types';
 import { CreateUser } from '../queries/mutations';
 import { IUserFormData, UserForm } from './forms/UserForm';
 

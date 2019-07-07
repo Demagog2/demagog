@@ -12,11 +12,11 @@ import * as yup from 'yup';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import {
+  CreateStatement as CreateStatementMutation,
   CreateStatementInput,
-  CreateStatementMutation,
-  CreateStatementMutationVariables,
-  GetSourceQuery,
-  GetSourceQueryVariables,
+  CreateStatementVariables as CreateStatementMutationVariables,
+  GetSource as GetSourceQuery,
+  GetSourceVariables as GetSourceQueryVariables,
   StatementType,
 } from '../operation-result-types';
 import { CreateStatement } from '../queries/mutations';
@@ -27,8 +27,6 @@ import TextareaField from './forms/controls/TextareaField';
 import UserSelect from './forms/controls/UserSelect';
 import FormGroup from './forms/FormGroup';
 import Loading from './Loading';
-
-class GetSourceQueryComponent extends Query<GetSourceQuery, GetSourceQueryVariables> {}
 
 class CreateStatementMutationComponent extends Mutation<
   CreateStatementMutation,
@@ -52,7 +50,7 @@ class StatementNew extends React.Component<IProps> {
 
   public render() {
     return (
-      <GetSourceQueryComponent
+      <Query<GetSourceQuery, GetSourceQueryVariables>
         query={GetSource}
         variables={{ id: parseInt(this.props.match.params.sourceId, 10) }}
       >
@@ -204,7 +202,7 @@ class StatementNew extends React.Component<IProps> {
             </CreateStatementMutationComponent>
           );
         }}
-      </GetSourceQueryComponent>
+      </Query>
     );
   }
 }

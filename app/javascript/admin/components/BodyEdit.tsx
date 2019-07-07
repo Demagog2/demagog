@@ -6,18 +6,16 @@ import { RouteComponentProps } from 'react-router';
 import { addFlashMessage } from '../actions/flashMessages';
 import { deleteBodyLogo, uploadBodyLogo } from '../api';
 import {
-  GetBodyQuery,
-  GetBodyQueryVariables,
-  UpdateBodyMutation,
-  UpdateBodyMutationVariables,
+  GetBody as GetBodyQuery,
+  GetBodyVariables as GetBodyQueryVariables,
+  UpdateBody as UpdateBodyMutation,
+  UpdateBodyVariables as UpdateBodyMutationVariables,
 } from '../operation-result-types';
 import { UpdateBody } from '../queries/mutations';
 import { GetBodies, GetBody, GetSpeakerBodies } from '../queries/queries';
 import Error from './Error';
 import { BodyForm, IBodyFormData } from './forms/BodyForm';
 import Loading from './Loading';
-
-class GetBodyQueryComponent extends Query<GetBodyQuery, GetBodyQueryVariables> {}
 
 class UpdateBodyMutationComponent extends Mutation<
   UpdateBodyMutation,
@@ -70,7 +68,7 @@ class BodyEdit extends React.Component<IBodyDetailProps> {
 
     return (
       <div style={{ padding: '15px 0 40px 0' }}>
-        <GetBodyQueryComponent query={GetBody} variables={{ id }}>
+        <Query<GetBodyQuery, GetBodyQueryVariables> query={GetBody} variables={{ id }}>
           {({ data, loading, error }) => {
             if (loading || !data) {
               return <Loading />;
@@ -98,7 +96,7 @@ class BodyEdit extends React.Component<IBodyDetailProps> {
               </UpdateBodyMutationComponent>
             );
           }}
-        </GetBodyQueryComponent>
+        </Query>
       </div>
     );
   }

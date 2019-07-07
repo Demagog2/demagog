@@ -11,6 +11,6 @@ class Admin::NotificationController < ApplicationController
       notification.update!(read_at: Time.now)
     end
 
-    redirect_to notification.action_link
+    redirect_to "/admin/statements/#{notification.statement.id}"
   end
 end

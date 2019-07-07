@@ -10,13 +10,13 @@ import { Link, withRouter } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import {
-  GetSourceQuery,
-  GetSourceQueryVariables,
-  GetSourceStatementsQuery,
-  GetSourceStatementsQueryVariables,
+  GetSource as GetSourceQuery,
+  GetSourceStatements as GetSourceStatementsQuery,
+  GetSourceStatementsVariables as GetSourceStatementsQueryVariables,
+  GetSourceVariables as GetSourceQueryVariables,
+  UpdateSourceStatementsOrder as UpdateSourceStatementsOrderMutation,
   UpdateSourceStatementsOrderInput,
-  UpdateSourceStatementsOrderMutation,
-  UpdateSourceStatementsOrderMutationVariables,
+  UpdateSourceStatementsOrderVariables as UpdateSourceStatementsOrderMutationVariables,
 } from '../operation-result-types';
 import { UpdateSourceStatementsOrder } from '../queries/mutations';
 import { GetSource, GetSourceStatements } from '../queries/queries';

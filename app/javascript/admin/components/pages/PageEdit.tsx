@@ -6,18 +6,17 @@ import { RouteComponentProps } from 'react-router-dom';
 
 import { addFlashMessage } from '../../actions/flashMessages';
 import {
-  GetPageQuery,
-  GetPageQueryVariables,
+  GetPage as GetPageQuery,
+  GetPageVariables as GetPageQueryVariables,
   PageInput,
-  UpdatePageMutation,
-  UpdatePageMutationVariables,
+  UpdatePage as UpdatePageMutation,
+  UpdatePageVariables as UpdatePageMutationVariables,
 } from '../../operation-result-types';
 import { UpdatePage } from '../../queries/mutations';
 import { GetPage, GetPages } from '../../queries/queries';
 import { PageForm } from '../forms/PageForm';
 import Loading from '../Loading';
 
-class PageQuery extends Query<GetPageQuery, GetPageQueryVariables> {}
 class UpdatePageMutationComponent extends Mutation<
   UpdatePageMutation,
   UpdatePageMutationVariables
@@ -53,7 +52,7 @@ class PageEdit extends React.Component<IPageEditProps> {
 
     return (
       <div style={{ padding: '15px 0 40px 0' }}>
-        <PageQuery query={GetPage} variables={{ id }}>
+        <Query<GetPageQuery, GetPageQueryVariables> query={GetPage} variables={{ id }}>
           {({ data, loading }) => {
             if (loading) {
               return <Loading />;
@@ -84,7 +83,7 @@ class PageEdit extends React.Component<IPageEditProps> {
               </UpdatePageMutationComponent>
             );
           }}
-        </PageQuery>
+        </Query>
       </div>
     );
   }

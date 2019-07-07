@@ -7,7 +7,7 @@ import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
-import { BodyInput, GetBodyQuery } from '../../operation-result-types';
+import { BodyInput, GetBody as GetBodyQuery } from '../../operation-result-types';
 import BodyLogo from '../BodyLogo';
 import DateField from './controls/DateField';
 import ImageField, { ImageValueType } from './controls/ImageField';

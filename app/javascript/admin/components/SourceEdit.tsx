@@ -4,11 +4,11 @@ import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { addFlashMessage } from '../actions/flashMessages';
 import {
-  GetSourceQuery,
-  GetSourceQueryVariables,
+  GetSource as GetSourceQuery,
+  GetSourceVariables as GetSourceQueryVariables,
   SourceInput,
-  UpdateSourceMutation,
-  UpdateSourceMutationVariables,
+  UpdateSource as UpdateSourceMutation,
+  UpdateSourceVariables as UpdateSourceMutationVariables,
 } from '../operation-result-types';
 import { UpdateSource } from '../queries/mutations';
 import { GetSource, GetSources } from '../queries/queries';

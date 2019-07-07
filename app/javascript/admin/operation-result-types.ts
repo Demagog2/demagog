@@ -1,144 +1,2430 @@
 /* tslint:disable */
-//  This file was automatically generated and should not be edited.
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
 
-export interface MediaPersonalityInput {
-  name: string,
-};
+// ====================================================
+// GraphQL mutation operation: CreateMediaPersonality
+// ====================================================
 
-export interface MediumInput {
-  name: string,
-};
-
-export interface PageInput {
-  title: string,
-  textHtml?: string | null,
-  textSlatejson?: GraphQLCustomScalar_JSON | null,
-  published?: boolean | null,
-  slug?: string | null,
-};
-
-export interface ArticleInput {
-  articleType: string,
-  title: string,
-  perex: string,
-  segments: Array< ArticleSegmentInput >,
-  slug?: string | null,
-  published?: boolean | null,
-  publishedAt?: string | null,
-  sourceId?: string | null,
-};
-
-export interface ArticleSegmentInput {
-  id?: string | null,
-  segmentType: string,
-  textHtml?: string | null,
-  textSlatejson?: GraphQLCustomScalar_JSON | null,
-  sourceId?: string | null,
-  promiseUrl?: string | null,
-};
-
-export interface SourceInput {
-  name: string,
-  releasedAt: string,
-  sourceUrl?: string | null,
-  mediumId: string,
-  mediaPersonalities: Array< string >,
-  transcript: string,
-  speakers: Array< string >,
-  experts: Array< string >,
-};
-
-export interface BodyInput {
-  name: string,
-  isParty: boolean,
-  isInactive: boolean,
-  shortName?: string | null,
-  link?: string | null,
-  foundedAt?: string | null,
-  terminatedAt?: string | null,
-};
-
-export interface SpeakerInput {
-  firstName: string,
-  lastName: string,
-  websiteUrl?: string | null,
-  memberships: Array< MembershipInput >,
-};
-
-export interface MembershipInput {
-  id?: string | null,
-  since?: string | null,
-  until?: string | null,
-  bodyId: string,
-};
-
-export interface UserInput {
-  email: string,
-  active: boolean,
-  firstName: string,
-  lastName: string,
-  roleId: string,
-  emailNotifications: boolean,
-  positionDescription?: string | null,
-  bio?: string | null,
-  phone?: string | null,
-  order?: number | null,
-  rank?: number | null,
-};
-
-export interface CreateStatementInput {
-  statementType: StatementType,
-  content: string,
-  excerptedAt: string,
-  important: boolean,
-  speakerId: string,
-  sourceId: string,
-  published: boolean,
-  countInStatistics: boolean,
-  assessment: CreateAssessmentInput,
-  statementTranscriptPosition?: StatementTranscriptPositionInput | null,
-  firstCommentContent?: string | null,
-};
-
-export enum StatementType {
-  factual = "factual",
-  promise = "promise",
+export interface CreateMediaPersonality_createMediaPersonality_mediaPersonality {
+  __typename: "MediaPersonality";
+  id: string;
+  name: string;
 }
 
+export interface CreateMediaPersonality_createMediaPersonality {
+  __typename: "CreateMediaPersonalityPayload";
+  mediaPersonality: CreateMediaPersonality_createMediaPersonality_mediaPersonality;
+}
 
-export interface CreateAssessmentInput {
-  evaluatorId?: string | null,
-  shortExplanation?: string | null,
-  veracityId?: string | null,
-};
+export interface CreateMediaPersonality {
+  /**
+   * Add new media personality
+   */
+  createMediaPersonality: CreateMediaPersonality_createMediaPersonality | null;
+}
 
-export interface StatementTranscriptPositionInput {
-  startLine: number,
-  startOffset: number,
-  endLine: number,
-  endOffset: number,
-};
+export interface CreateMediaPersonalityVariables {
+  mediaPersonalityInput: MediaPersonalityInput;
+}
 
-export interface UpdateStatementInput {
-  content?: string | null,
-  title?: string | null,
-  important?: boolean | null,
-  published?: boolean | null,
-  countInStatistics?: boolean | null,
-  assessment?: UpdateAssessmentInput | null,
-  tags?: Array< string > | null,
-  speaker?: string | null,
-};
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
 
-export interface UpdateAssessmentInput {
-  evaluatorId?: string | null,
-  evaluationStatus?: string | null,
-  explanationHtml?: string | null,
-  explanationSlatejson?: GraphQLCustomScalar_JSON | null,
-  shortExplanation?: string | null,
-  veracityId?: string | null,
-  promiseRatingId?: string | null,
-};
+// ====================================================
+// GraphQL mutation operation: UpdateMediaPersonality
+// ====================================================
+
+export interface UpdateMediaPersonality_updateMediaPersonality_mediaPersonality {
+  __typename: "MediaPersonality";
+  id: string;
+  name: string;
+}
+
+export interface UpdateMediaPersonality_updateMediaPersonality {
+  __typename: "UpdateMediaPersonalityPayload";
+  mediaPersonality: UpdateMediaPersonality_updateMediaPersonality_mediaPersonality;
+}
+
+export interface UpdateMediaPersonality {
+  /**
+   * Update existing media personality
+   */
+  updateMediaPersonality: UpdateMediaPersonality_updateMediaPersonality | null;
+}
+
+export interface UpdateMediaPersonalityVariables {
+  id: string;
+  mediaPersonalityInput: MediaPersonalityInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteMediaPersonality
+// ====================================================
+
+export interface DeleteMediaPersonality_deleteMediaPersonality {
+  __typename: "DeleteMediaPersonalityPayload";
+  id: string;
+}
+
+export interface DeleteMediaPersonality {
+  /**
+   * Delete existing media personality
+   */
+  deleteMediaPersonality: DeleteMediaPersonality_deleteMediaPersonality | null;
+}
+
+export interface DeleteMediaPersonalityVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: CreateMedium
+// ====================================================
+
+export interface CreateMedium_createMedium_medium {
+  __typename: "Medium";
+  id: string;
+  name: string;
+}
+
+export interface CreateMedium_createMedium {
+  __typename: "CreateMediumPayload";
+  medium: CreateMedium_createMedium_medium;
+}
+
+export interface CreateMedium {
+  /**
+   * Add new medium
+   */
+  createMedium: CreateMedium_createMedium | null;
+}
+
+export interface CreateMediumVariables {
+  mediumInput: MediumInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateMedium
+// ====================================================
+
+export interface UpdateMedium_updateMedium_medium {
+  __typename: "Medium";
+  id: string;
+  name: string;
+}
+
+export interface UpdateMedium_updateMedium {
+  __typename: "UpdateMediumPayload";
+  medium: UpdateMedium_updateMedium_medium;
+}
+
+export interface UpdateMedium {
+  /**
+   * Update existing medium
+   */
+  updateMedium: UpdateMedium_updateMedium | null;
+}
+
+export interface UpdateMediumVariables {
+  id: string;
+  mediumInput: MediumInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteMedium
+// ====================================================
+
+export interface DeleteMedium_deleteMedium {
+  __typename: "DeleteMediumPayload";
+  id: string;
+}
+
+export interface DeleteMedium {
+  /**
+   * Delete existing medium
+   */
+  deleteMedium: DeleteMedium_deleteMedium | null;
+}
+
+export interface DeleteMediumVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: CreatePage
+// ====================================================
+
+export interface CreatePage_createPage_page {
+  __typename: "Page";
+  id: string;
+  title: string;
+  slug: string;
+  published: boolean;
+  textHtml: string | null;
+  textSlatejson: GraphQLCustomScalar_JSON | null;
+}
+
+export interface CreatePage_createPage {
+  __typename: "CreatePagePayload";
+  page: CreatePage_createPage_page;
+}
+
+export interface CreatePage {
+  /**
+   * Add new page
+   */
+  createPage: CreatePage_createPage | null;
+}
+
+export interface CreatePageVariables {
+  pageInput: PageInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdatePage
+// ====================================================
+
+export interface UpdatePage_updatePage_page {
+  __typename: "Page";
+  id: string;
+  title: string;
+  slug: string;
+  published: boolean;
+  textHtml: string | null;
+  textSlatejson: GraphQLCustomScalar_JSON | null;
+}
+
+export interface UpdatePage_updatePage {
+  __typename: "UpdatePagePayload";
+  page: UpdatePage_updatePage_page;
+}
+
+export interface UpdatePage {
+  /**
+   * Update existing page
+   */
+  updatePage: UpdatePage_updatePage | null;
+}
+
+export interface UpdatePageVariables {
+  id: string;
+  pageInput: PageInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeletePage
+// ====================================================
+
+export interface DeletePage_deletePage {
+  __typename: "DeletePagePayload";
+  id: string | null;
+}
+
+export interface DeletePage {
+  /**
+   * Delete existing page
+   */
+  deletePage: DeletePage_deletePage | null;
+}
+
+export interface DeletePageVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: CreateArticle
+// ====================================================
+
+export interface CreateArticle_createArticle_article_segments_statements {
+  __typename: "Statement";
+  id: string;
+}
+
+export interface CreateArticle_createArticle_article_segments {
+  __typename: "ArticleSegment";
+  id: string;
+  segmentType: string;
+  textHtml: string | null;
+  textSlatejson: GraphQLCustomScalar_JSON | null;
+  promiseUrl: string | null;
+  statements: CreateArticle_createArticle_article_segments_statements[];
+}
+
+export interface CreateArticle_createArticle_article_source {
+  __typename: "Source";
+  id: string;
+}
+
+export interface CreateArticle_createArticle_article {
+  __typename: "Article";
+  id: string;
+  articleType: string;
+  title: string;
+  slug: string;
+  perex: string | null;
+  published: boolean;
+  publishedAt: GraphQLCustomScalar_DateTime | null;
+  illustration: string | null;
+  segments: CreateArticle_createArticle_article_segments[];
+  source: CreateArticle_createArticle_article_source | null;
+}
+
+export interface CreateArticle_createArticle {
+  __typename: "CreateArticlePayload";
+  article: CreateArticle_createArticle_article;
+}
+
+export interface CreateArticle {
+  /**
+   * Add new article
+   */
+  createArticle: CreateArticle_createArticle | null;
+}
+
+export interface CreateArticleVariables {
+  articleInput: ArticleInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateArticle
+// ====================================================
+
+export interface UpdateArticle_updateArticle_article_segments_statements {
+  __typename: "Statement";
+  id: string;
+}
+
+export interface UpdateArticle_updateArticle_article_segments {
+  __typename: "ArticleSegment";
+  id: string;
+  segmentType: string;
+  textHtml: string | null;
+  textSlatejson: GraphQLCustomScalar_JSON | null;
+  promiseUrl: string | null;
+  statements: UpdateArticle_updateArticle_article_segments_statements[];
+}
+
+export interface UpdateArticle_updateArticle_article_source {
+  __typename: "Source";
+  id: string;
+}
+
+export interface UpdateArticle_updateArticle_article {
+  __typename: "Article";
+  id: string;
+  articleType: string;
+  title: string;
+  slug: string;
+  perex: string | null;
+  published: boolean;
+  publishedAt: GraphQLCustomScalar_DateTime | null;
+  illustration: string | null;
+  segments: UpdateArticle_updateArticle_article_segments[];
+  source: UpdateArticle_updateArticle_article_source | null;
+}
+
+export interface UpdateArticle_updateArticle {
+  __typename: "UpdateArticlePayload";
+  article: UpdateArticle_updateArticle_article;
+}
+
+export interface UpdateArticle {
+  /**
+   * Update existing article
+   */
+  updateArticle: UpdateArticle_updateArticle | null;
+}
+
+export interface UpdateArticleVariables {
+  id: string;
+  articleInput: ArticleInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteArticle
+// ====================================================
+
+export interface DeleteArticle_deleteArticle {
+  __typename: "DeleteArticlePayload";
+  id: string | null;
+}
+
+export interface DeleteArticle {
+  /**
+   * Delete existing article
+   */
+  deleteArticle: DeleteArticle_deleteArticle | null;
+}
+
+export interface DeleteArticleVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: CreateSource
+// ====================================================
+
+export interface CreateSource_createSource_source {
+  __typename: "Source";
+  id: string;
+  name: string;
+}
+
+export interface CreateSource_createSource {
+  __typename: "CreateSourcePayload";
+  source: CreateSource_createSource_source;
+}
+
+export interface CreateSource {
+  /**
+   * Add new source
+   */
+  createSource: CreateSource_createSource | null;
+}
+
+export interface CreateSourceVariables {
+  sourceInput: SourceInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateSource
+// ====================================================
+
+export interface UpdateSource_updateSource_source {
+  __typename: "Source";
+  id: string;
+  name: string;
+}
+
+export interface UpdateSource_updateSource {
+  __typename: "UpdateSourcePayload";
+  source: UpdateSource_updateSource_source;
+}
+
+export interface UpdateSource {
+  /**
+   * Update existing source
+   */
+  updateSource: UpdateSource_updateSource | null;
+}
+
+export interface UpdateSourceVariables {
+  id: string;
+  sourceInput: SourceInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteSource
+// ====================================================
+
+export interface DeleteSource_deleteSource {
+  __typename: "DeleteSourcePayload";
+  id: string;
+}
+
+export interface DeleteSource {
+  /**
+   * Delete existing source and all it's statements
+   */
+  deleteSource: DeleteSource_deleteSource | null;
+}
+
+export interface DeleteSourceVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: CreateBody
+// ====================================================
+
+export interface CreateBody_createBody_body {
+  __typename: "Body";
+  id: string;
+  logo: string | null;
+  name: string;
+  isParty: boolean;
+  isInactive: boolean;
+  shortName: string | null;
+  link: string | null;
+  foundedAt: string | null;
+  terminatedAt: string | null;
+}
+
+export interface CreateBody_createBody {
+  __typename: "CreateBodyPayload";
+  body: CreateBody_createBody_body;
+}
+
+export interface CreateBody {
+  /**
+   * Create new body
+   */
+  createBody: CreateBody_createBody | null;
+}
+
+export interface CreateBodyVariables {
+  bodyInput: BodyInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateBody
+// ====================================================
+
+export interface UpdateBody_updateBody_body {
+  __typename: "Body";
+  id: string;
+  logo: string | null;
+  name: string;
+  isParty: boolean;
+  isInactive: boolean;
+  shortName: string | null;
+  link: string | null;
+  foundedAt: string | null;
+  terminatedAt: string | null;
+}
+
+export interface UpdateBody_updateBody {
+  __typename: "UpdateBodyPayload";
+  body: UpdateBody_updateBody_body;
+}
+
+export interface UpdateBody {
+  /**
+   * Update existing body
+   */
+  updateBody: UpdateBody_updateBody | null;
+}
+
+export interface UpdateBodyVariables {
+  id: number;
+  bodyInput: BodyInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteBody
+// ====================================================
+
+export interface DeleteBody_deleteBody {
+  __typename: "DeleteBodyPayload";
+  id: string;
+}
+
+export interface DeleteBody {
+  /**
+   * Delete existing body
+   */
+  deleteBody: DeleteBody_deleteBody | null;
+}
+
+export interface DeleteBodyVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: CreateSpeaker
+// ====================================================
+
+export interface CreateSpeaker_createSpeaker_speaker_body {
+  __typename: "Body";
+  shortName: string | null;
+}
+
+export interface CreateSpeaker_createSpeaker_speaker_memberships_body {
+  __typename: "Body";
+  id: string;
+  shortName: string | null;
+}
+
+export interface CreateSpeaker_createSpeaker_speaker_memberships {
+  __typename: "Membership";
+  id: string;
+  body: CreateSpeaker_createSpeaker_speaker_memberships_body;
+  since: string | null;
+  until: string | null;
+}
+
+export interface CreateSpeaker_createSpeaker_speaker {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+  avatar: string | null;
+  websiteUrl: string;
+  body: CreateSpeaker_createSpeaker_speaker_body | null;
+  memberships: CreateSpeaker_createSpeaker_speaker_memberships[] | null;
+}
+
+export interface CreateSpeaker_createSpeaker {
+  __typename: "CreateSpeakerPayload";
+  speaker: CreateSpeaker_createSpeaker_speaker;
+}
+
+export interface CreateSpeaker {
+  /**
+   * Add new speaker
+   */
+  createSpeaker: CreateSpeaker_createSpeaker | null;
+}
+
+export interface CreateSpeakerVariables {
+  speakerInput: SpeakerInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateSpeaker
+// ====================================================
+
+export interface UpdateSpeaker_updateSpeaker_speaker_body {
+  __typename: "Body";
+  shortName: string | null;
+}
+
+export interface UpdateSpeaker_updateSpeaker_speaker_memberships_body {
+  __typename: "Body";
+  id: string;
+  shortName: string | null;
+}
+
+export interface UpdateSpeaker_updateSpeaker_speaker_memberships {
+  __typename: "Membership";
+  id: string;
+  body: UpdateSpeaker_updateSpeaker_speaker_memberships_body;
+  since: string | null;
+  until: string | null;
+}
+
+export interface UpdateSpeaker_updateSpeaker_speaker {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+  avatar: string | null;
+  websiteUrl: string;
+  body: UpdateSpeaker_updateSpeaker_speaker_body | null;
+  memberships: UpdateSpeaker_updateSpeaker_speaker_memberships[] | null;
+}
+
+export interface UpdateSpeaker_updateSpeaker {
+  __typename: "UpdateSpeakerPayload";
+  speaker: UpdateSpeaker_updateSpeaker_speaker;
+}
+
+export interface UpdateSpeaker {
+  /**
+   * Update existing speaker
+   */
+  updateSpeaker: UpdateSpeaker_updateSpeaker | null;
+}
+
+export interface UpdateSpeakerVariables {
+  id: string;
+  speakerInput: SpeakerInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteSpeaker
+// ====================================================
+
+export interface DeleteSpeaker_deleteSpeaker {
+  __typename: "DeleteSpeakerPayload";
+  id: string;
+}
+
+export interface DeleteSpeaker {
+  /**
+   * Delete existing speaker
+   */
+  deleteSpeaker: DeleteSpeaker_deleteSpeaker | null;
+}
+
+export interface DeleteSpeakerVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: CreateUser
+// ====================================================
+
+export interface CreateUser_createUser_user_role {
+  __typename: "Role";
+  id: string;
+  name: string;
+}
+
+export interface CreateUser_createUser_user {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  avatar: string | null;
+  active: boolean;
+  positionDescription: string | null;
+  bio: string | null;
+  emailNotifications: boolean;
+  userPublic: boolean;
+  role: CreateUser_createUser_user_role;
+}
+
+export interface CreateUser_createUser {
+  __typename: "CreateUserPayload";
+  user: CreateUser_createUser_user;
+}
+
+export interface CreateUser {
+  /**
+   * Add new user
+   */
+  createUser: CreateUser_createUser | null;
+}
+
+export interface CreateUserVariables {
+  userInput: UserInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateUser
+// ====================================================
+
+export interface UpdateUser_updateUser_user_role {
+  __typename: "Role";
+  id: string;
+  name: string;
+}
+
+export interface UpdateUser_updateUser_user {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  avatar: string | null;
+  active: boolean;
+  positionDescription: string | null;
+  bio: string | null;
+  emailNotifications: boolean;
+  userPublic: boolean;
+  role: UpdateUser_updateUser_user_role;
+}
+
+export interface UpdateUser_updateUser {
+  __typename: "UpdateUserPayload";
+  user: UpdateUser_updateUser_user;
+}
+
+export interface UpdateUser {
+  /**
+   * Update existing user
+   */
+  updateUser: UpdateUser_updateUser | null;
+}
+
+export interface UpdateUserVariables {
+  id: number;
+  userInput: UserInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateUserPublicity
+// ====================================================
+
+export interface UpdateUserPublicity_updateUserPublicity_user_role {
+  __typename: "Role";
+  id: string;
+  name: string;
+}
+
+export interface UpdateUserPublicity_updateUserPublicity_user {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  avatar: string | null;
+  active: boolean;
+  positionDescription: string | null;
+  bio: string | null;
+  emailNotifications: boolean;
+  userPublic: boolean;
+  role: UpdateUserPublicity_updateUserPublicity_user_role;
+}
+
+export interface UpdateUserPublicity_updateUserPublicity {
+  __typename: "UpdateUserPublicityPayload";
+  user: UpdateUserPublicity_updateUserPublicity_user;
+}
+
+export interface UpdateUserPublicity {
+  /**
+   * Update user publicity
+   */
+  updateUserPublicity: UpdateUserPublicity_updateUserPublicity | null;
+}
+
+export interface UpdateUserPublicityVariables {
+  id: number;
+  userPublicity: boolean;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateUsersRank
+// ====================================================
+
+export interface UpdateUsersRank_updateUsersRank_users {
+  __typename: "User";
+  id: string;
+  rank: number | null;
+}
+
+export interface UpdateUsersRank_updateUsersRank {
+  __typename: "UpdateUsersRankPayload";
+  users: UpdateUsersRank_updateUsersRank_users[];
+}
+
+export interface UpdateUsersRank {
+  /**
+   * Update rank (order of users on about us page)
+   */
+  updateUsersRank: UpdateUsersRank_updateUsersRank | null;
+}
+
+export interface UpdateUsersRankVariables {
+  orderedUserIds: string[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteUser
+// ====================================================
+
+export interface DeleteUser_deleteUser {
+  __typename: "DeleteUserPayload";
+  id: string | null;
+}
+
+export interface DeleteUser {
+  /**
+   * Delete existing user
+   */
+  deleteUser: DeleteUser_deleteUser | null;
+}
+
+export interface DeleteUserVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: CreateStatement
+// ====================================================
+
+export interface CreateStatement_createStatement_statement_speaker {
+  __typename: "Speaker";
+  id: string;
+}
+
+export interface CreateStatement_createStatement_statement_source_statementsCountsByEvaluationStatus {
+  __typename: "StatementsCountsByEvaluationStatusItem";
+  evaluationStatus: string;
+  statementsCount: number;
+}
+
+export interface CreateStatement_createStatement_statement_source {
+  __typename: "Source";
+  id: string;
+  statementsCountsByEvaluationStatus: CreateStatement_createStatement_statement_source_statementsCountsByEvaluationStatus[];
+}
+
+export interface CreateStatement_createStatement_statement {
+  __typename: "Statement";
+  id: string;
+  content: string;
+  excerptedAt: string;
+  important: boolean;
+  speaker: CreateStatement_createStatement_statement_speaker;
+  source: CreateStatement_createStatement_statement_source;
+}
+
+export interface CreateStatement_createStatement {
+  __typename: "CreateStatementPayload";
+  statement: CreateStatement_createStatement_statement;
+}
+
+export interface CreateStatement {
+  /**
+   * Add new statement
+   */
+  createStatement: CreateStatement_createStatement | null;
+}
+
+export interface CreateStatementVariables {
+  statementInput: CreateStatementInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateStatement
+// ====================================================
+
+export interface UpdateStatement_updateStatement_statement_speaker {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+  avatar: string | null;
+}
+
+export interface UpdateStatement_updateStatement_statement_assessment_evaluator {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface UpdateStatement_updateStatement_statement_assessment_veracity {
+  __typename: "Veracity";
+  id: string;
+  key: GraphQLCustomScalar_VeracityKey;
+  name: string;
+}
+
+export interface UpdateStatement_updateStatement_statement_assessment_promiseRating {
+  __typename: "PromiseRating";
+  id: string;
+  key: PromiseRatingKey;
+  name: string;
+}
+
+export interface UpdateStatement_updateStatement_statement_assessment {
+  __typename: "Assessment";
+  id: string;
+  shortExplanation: string | null;
+  explanationHtml: string | null;
+  explanationSlatejson: GraphQLCustomScalar_JSON | null;
+  evaluationStatus: string;
+  evaluator: UpdateStatement_updateStatement_statement_assessment_evaluator | null;
+  veracity: UpdateStatement_updateStatement_statement_assessment_veracity | null;
+  promiseRating: UpdateStatement_updateStatement_statement_assessment_promiseRating | null;
+}
+
+export interface UpdateStatement_updateStatement_statement_source_statementsCountsByEvaluationStatus {
+  __typename: "StatementsCountsByEvaluationStatusItem";
+  evaluationStatus: string;
+  statementsCount: number;
+}
+
+export interface UpdateStatement_updateStatement_statement_source {
+  __typename: "Source";
+  id: string;
+  statementsCountsByEvaluationStatus: UpdateStatement_updateStatement_statement_source_statementsCountsByEvaluationStatus[];
+}
+
+export interface UpdateStatement_updateStatement_statement_tags {
+  __typename: "Tag";
+  id: string;
+  name: string;
+}
+
+export interface UpdateStatement_updateStatement_statement {
+  __typename: "Statement";
+  id: string;
+  content: string;
+  title: string | null;
+  important: boolean;
+  published: boolean;
+  excerptedAt: string;
+  speaker: UpdateStatement_updateStatement_statement_speaker;
+  assessment: UpdateStatement_updateStatement_statement_assessment;
+  source: UpdateStatement_updateStatement_statement_source;
+  commentsCount: number;
+  tags: UpdateStatement_updateStatement_statement_tags[];
+}
+
+export interface UpdateStatement_updateStatement {
+  __typename: "UpdateStatementPayload";
+  statement: UpdateStatement_updateStatement_statement;
+}
+
+export interface UpdateStatement {
+  /**
+   * Update existing statement
+   */
+  updateStatement: UpdateStatement_updateStatement | null;
+}
+
+export interface UpdateStatementVariables {
+  id: number;
+  statementInput: UpdateStatementInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteStatement
+// ====================================================
+
+export interface DeleteStatement_deleteStatement {
+  __typename: "DeleteStatementPayload";
+  id: string;
+}
+
+export interface DeleteStatement {
+  /**
+   * Delete existing statement
+   */
+  deleteStatement: DeleteStatement_deleteStatement | null;
+}
+
+export interface DeleteStatementVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: CreateComment
+// ====================================================
+
+export interface CreateComment_createComment_comment_user {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface CreateComment_createComment_comment {
+  __typename: "Comment";
+  id: string;
+  content: string;
+  user: CreateComment_createComment_comment_user;
+  createdAt: GraphQLCustomScalar_DateTime;
+}
+
+export interface CreateComment_createComment {
+  __typename: "CreateCommentPayload";
+  comment: CreateComment_createComment_comment;
+}
+
+export interface CreateComment {
+  /**
+   * Add new comment
+   */
+  createComment: CreateComment_createComment | null;
+}
+
+export interface CreateCommentVariables {
+  commentInput: CommentInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateSourceStatementsOrder
+// ====================================================
+
+export interface UpdateSourceStatementsOrder_updateSourceStatementsOrder_source {
+  __typename: "Source";
+  id: string;
+}
+
+export interface UpdateSourceStatementsOrder_updateSourceStatementsOrder {
+  __typename: "UpdateSourceStatementsOrderPayload";
+  source: UpdateSourceStatementsOrder_updateSourceStatementsOrder_source;
+}
+
+export interface UpdateSourceStatementsOrder {
+  /**
+   * Update order of statements in source
+   */
+  updateSourceStatementsOrder: UpdateSourceStatementsOrder_updateSourceStatementsOrder | null;
+}
+
+export interface UpdateSourceStatementsOrderVariables {
+  id: string;
+  input: UpdateSourceStatementsOrderInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: PublishApprovedSourceStatements
+// ====================================================
+
+export interface PublishApprovedSourceStatements_publishApprovedSourceStatements_source_statements {
+  __typename: "Statement";
+  id: string;
+  published: boolean;
+}
+
+export interface PublishApprovedSourceStatements_publishApprovedSourceStatements_source {
+  __typename: "Source";
+  id: string;
+  statements: PublishApprovedSourceStatements_publishApprovedSourceStatements_source_statements[];
+}
+
+export interface PublishApprovedSourceStatements_publishApprovedSourceStatements {
+  __typename: "PublishApprovedSourceStatementsPayload";
+  source: PublishApprovedSourceStatements_publishApprovedSourceStatements_source;
+}
+
+export interface PublishApprovedSourceStatements {
+  /**
+   * Publish all approved statements from source
+   */
+  publishApprovedSourceStatements: PublishApprovedSourceStatements_publishApprovedSourceStatements | null;
+}
+
+export interface PublishApprovedSourceStatementsVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteContentImage
+// ====================================================
+
+export interface DeleteContentImage_deleteContentImage {
+  __typename: "DeleteContentImagePayload";
+  id: string | null;
+}
+
+export interface DeleteContentImage {
+  /**
+   * Delete existing content image
+   */
+  deleteContentImage: DeleteContentImage_deleteContentImage | null;
+}
+
+export interface DeleteContentImageVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateNotification
+// ====================================================
+
+export interface UpdateNotification_updateNotification_notification {
+  __typename: "Notification";
+  id: string;
+  readAt: GraphQLCustomScalar_DateTime | null;
+}
+
+export interface UpdateNotification_updateNotification {
+  __typename: "UpdateNotificationPayload";
+  notification: UpdateNotification_updateNotification_notification;
+}
+
+export interface UpdateNotification {
+  /**
+   * Update existing notification
+   */
+  updateNotification: UpdateNotification_updateNotification | null;
+}
+
+export interface UpdateNotificationVariables {
+  id: string;
+  input: UpdateNotificationInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: MarkUnreadNotificationsAsRead
+// ====================================================
+
+export interface MarkUnreadNotificationsAsRead_markUnreadNotificationsAsRead_notifications {
+  __typename: "Notification";
+  id: string;
+  readAt: GraphQLCustomScalar_DateTime | null;
+}
+
+export interface MarkUnreadNotificationsAsRead_markUnreadNotificationsAsRead {
+  __typename: "MarkUnreadNotificationsAsReadPayload";
+  notifications: MarkUnreadNotificationsAsRead_markUnreadNotificationsAsRead_notifications[];
+}
+
+export interface MarkUnreadNotificationsAsRead {
+  /**
+   * Mark unread notifications of current user as read, either all or just regarding one statement
+   */
+  markUnreadNotificationsAsRead: MarkUnreadNotificationsAsRead_markUnreadNotificationsAsRead | null;
+}
+
+export interface MarkUnreadNotificationsAsReadVariables {
+  statementId?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetPages
+// ====================================================
+
+export interface GetPages_pages {
+  __typename: "Page";
+  id: string;
+  title: string;
+  slug: string;
+  published: boolean;
+}
+
+export interface GetPages {
+  pages: GetPages_pages[];
+}
+
+export interface GetPagesVariables {
+  title?: string | null;
+  offset?: number | null;
+  limit?: number | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetPage
+// ====================================================
+
+export interface GetPage_page {
+  __typename: "Page";
+  id: string;
+  title: string;
+  slug: string;
+  published: boolean;
+  textHtml: string | null;
+  textSlatejson: GraphQLCustomScalar_JSON | null;
+}
+
+export interface GetPage {
+  page: GetPage_page;
+}
+
+export interface GetPageVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetArticle
+// ====================================================
+
+export interface GetArticle_article_segments_source {
+  __typename: "Source";
+  id: string;
+}
+
+export interface GetArticle_article_segments {
+  __typename: "ArticleSegment";
+  id: string;
+  segmentType: string;
+  textHtml: string | null;
+  textSlatejson: GraphQLCustomScalar_JSON | null;
+  promiseUrl: string | null;
+  source: GetArticle_article_segments_source | null;
+}
+
+export interface GetArticle_article_source {
+  __typename: "Source";
+  id: string;
+}
+
+export interface GetArticle_article {
+  __typename: "Article";
+  id: string;
+  articleType: string;
+  title: string;
+  slug: string;
+  perex: string | null;
+  published: boolean;
+  publishedAt: GraphQLCustomScalar_DateTime | null;
+  illustration: string | null;
+  segments: GetArticle_article_segments[];
+  source: GetArticle_article_source | null;
+}
+
+export interface GetArticle {
+  article: GetArticle_article;
+}
+
+export interface GetArticleVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetArticles
+// ====================================================
+
+export interface GetArticles_articles {
+  __typename: "Article";
+  id: string;
+  articleType: string;
+  title: string;
+  slug: string;
+  published: boolean;
+  publishedAt: GraphQLCustomScalar_DateTime | null;
+}
+
+export interface GetArticles {
+  articles: GetArticles_articles[];
+}
+
+export interface GetArticlesVariables {
+  title?: string | null;
+  offset?: number | null;
+  limit?: number | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetMediaPersonalities
+// ====================================================
+
+export interface GetMediaPersonalities_mediaPersonalities {
+  __typename: "MediaPersonality";
+  id: string;
+  name: string;
+}
+
+export interface GetMediaPersonalities {
+  mediaPersonalities: GetMediaPersonalities_mediaPersonalities[];
+}
+
+export interface GetMediaPersonalitiesVariables {
+  name?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetMediaPersonality
+// ====================================================
+
+export interface GetMediaPersonality_mediaPersonality {
+  __typename: "MediaPersonality";
+  id: string;
+  name: string;
+}
+
+export interface GetMediaPersonality {
+  mediaPersonality: GetMediaPersonality_mediaPersonality;
+}
+
+export interface GetMediaPersonalityVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetMedia
+// ====================================================
+
+export interface GetMedia_media {
+  __typename: "Medium";
+  id: string;
+  name: string;
+}
+
+export interface GetMedia {
+  media: GetMedia_media[];
+}
+
+export interface GetMediaVariables {
+  name?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetMedium
+// ====================================================
+
+export interface GetMedium_medium {
+  __typename: "Medium";
+  id: string;
+  name: string;
+}
+
+export interface GetMedium {
+  medium: GetMedium_medium;
+}
+
+export interface GetMediumVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetSources
+// ====================================================
+
+export interface GetSources_sources_medium {
+  __typename: "Medium";
+  id: string;
+  name: string;
+}
+
+export interface GetSources_sources_mediaPersonalities {
+  __typename: "MediaPersonality";
+  id: string;
+  name: string;
+}
+
+export interface GetSources_sources_statementsCountsByEvaluationStatus {
+  __typename: "StatementsCountsByEvaluationStatusItem";
+  evaluationStatus: string;
+  statementsCount: number;
+}
+
+export interface GetSources_sources_statements {
+  __typename: "Statement";
+  id: string;
+}
+
+export interface GetSources_sources_experts {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetSources_sources {
+  __typename: "Source";
+  id: string;
+  name: string;
+  sourceUrl: string | null;
+  releasedAt: string;
+  medium: GetSources_sources_medium;
+  mediaPersonalities: GetSources_sources_mediaPersonalities[];
+  statementsCountsByEvaluationStatus: GetSources_sources_statementsCountsByEvaluationStatus[];
+  statements: GetSources_sources_statements[];
+  experts: GetSources_sources_experts[];
+}
+
+export interface GetSources {
+  sources: GetSources_sources[];
+}
+
+export interface GetSourcesVariables {
+  name?: string | null;
+  offset?: number | null;
+  limit?: number | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetSource
+// ====================================================
+
+export interface GetSource_source_medium {
+  __typename: "Medium";
+  id: string;
+  name: string;
+}
+
+export interface GetSource_source_mediaPersonalities {
+  __typename: "MediaPersonality";
+  id: string;
+  name: string;
+}
+
+export interface GetSource_source_statementsCountsByEvaluationStatus {
+  __typename: "StatementsCountsByEvaluationStatusItem";
+  evaluationStatus: string;
+  statementsCount: number;
+}
+
+export interface GetSource_source_speakers {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetSource_source_experts {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetSource_source {
+  __typename: "Source";
+  id: string;
+  name: string;
+  sourceUrl: string | null;
+  releasedAt: string;
+  transcript: string | null;
+  medium: GetSource_source_medium;
+  mediaPersonalities: GetSource_source_mediaPersonalities[];
+  statementsCountsByEvaluationStatus: GetSource_source_statementsCountsByEvaluationStatus[];
+  speakers: GetSource_source_speakers[];
+  experts: GetSource_source_experts[];
+}
+
+export interface GetSource {
+  source: GetSource_source;
+}
+
+export interface GetSourceVariables {
+  id: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetSourcesForSelect
+// ====================================================
+
+export interface GetSourcesForSelect_sources_medium {
+  __typename: "Medium";
+  id: string;
+  name: string;
+}
+
+export interface GetSourcesForSelect_sources {
+  __typename: "Source";
+  id: string;
+  name: string;
+  releasedAt: string;
+  medium: GetSourcesForSelect_sources_medium;
+}
+
+export interface GetSourcesForSelect {
+  sources: GetSourcesForSelect_sources[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetSourceStatements
+// ====================================================
+
+export interface GetSourceStatements_statements_speaker {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+  avatar: string | null;
+}
+
+export interface GetSourceStatements_statements_assessment_assessmentMethodology {
+  __typename: "AssessmentMethodology";
+  id: string;
+  ratingModel: AssessmentMethodologyRatingModel;
+  ratingKeys: string[];
+}
+
+export interface GetSourceStatements_statements_assessment_evaluator {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetSourceStatements_statements_assessment_veracity {
+  __typename: "Veracity";
+  id: string;
+  key: GraphQLCustomScalar_VeracityKey;
+  name: string;
+}
+
+export interface GetSourceStatements_statements_assessment_promiseRating {
+  __typename: "PromiseRating";
+  id: string;
+  key: PromiseRatingKey;
+  name: string;
+}
+
+export interface GetSourceStatements_statements_assessment {
+  __typename: "Assessment";
+  id: string;
+  assessmentMethodology: GetSourceStatements_statements_assessment_assessmentMethodology;
+  evaluationStatus: string;
+  evaluator: GetSourceStatements_statements_assessment_evaluator | null;
+  veracity: GetSourceStatements_statements_assessment_veracity | null;
+  promiseRating: GetSourceStatements_statements_assessment_promiseRating | null;
+  shortExplanation: string | null;
+  shortExplanationCharactersLength: number;
+  explanationCharactersLength: number;
+}
+
+export interface GetSourceStatements_statements_statementTranscriptPosition {
+  __typename: "StatementTranscriptPosition";
+  id: string;
+  startLine: number;
+  startOffset: number;
+  endLine: number;
+  endOffset: number;
+}
+
+export interface GetSourceStatements_statements_tags {
+  __typename: "Tag";
+  id: string;
+  name: string;
+}
+
+export interface GetSourceStatements_statements {
+  __typename: "Statement";
+  id: string;
+  statementType: StatementType;
+  content: string;
+  title: string | null;
+  important: boolean;
+  published: boolean;
+  speaker: GetSourceStatements_statements_speaker;
+  assessment: GetSourceStatements_statements_assessment;
+  statementTranscriptPosition: GetSourceStatements_statements_statementTranscriptPosition | null;
+  tags: GetSourceStatements_statements_tags[];
+  commentsCount: number;
+  sourceOrder: number | null;
+}
+
+export interface GetSourceStatements {
+  statements: GetSourceStatements_statements[];
+}
+
+export interface GetSourceStatementsVariables {
+  sourceId: number;
+  includeUnpublished?: boolean | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetUsers
+// ====================================================
+
+export interface GetUsers_users_role {
+  __typename: "Role";
+  id: string;
+  name: string;
+}
+
+export interface GetUsers_users {
+  __typename: "User";
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  avatar: string | null;
+  active: boolean;
+  bio: string | null;
+  positionDescription: string | null;
+  emailNotifications: boolean;
+  userPublic: boolean;
+  rank: number | null;
+  role: GetUsers_users_role;
+}
+
+export interface GetUsers {
+  users: GetUsers_users[];
+}
+
+export interface GetUsersVariables {
+  name?: string | null;
+  includeInactive?: boolean | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetUser
+// ====================================================
+
+export interface GetUser_user_role {
+  __typename: "Role";
+  id: string;
+  name: string;
+}
+
+export interface GetUser_user {
+  __typename: "User";
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  avatar: string | null;
+  active: boolean;
+  bio: string | null;
+  positionDescription: string | null;
+  emailNotifications: boolean;
+  userPublic: boolean;
+  role: GetUser_user_role;
+}
+
+export interface GetUser {
+  user: GetUser_user;
+}
+
+export interface GetUserVariables {
+  id: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetBodies
+// ====================================================
+
+export interface GetBodies_bodies {
+  __typename: "Body";
+  id: string;
+  logo: string | null;
+  link: string | null;
+  name: string;
+  isParty: boolean;
+  isInactive: boolean;
+  shortName: string | null;
+  foundedAt: string | null;
+  terminatedAt: string | null;
+}
+
+export interface GetBodies {
+  bodies: GetBodies_bodies[];
+}
+
+export interface GetBodiesVariables {
+  name?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetBody
+// ====================================================
+
+export interface GetBody_body {
+  __typename: "Body";
+  id: string;
+  logo: string | null;
+  link: string | null;
+  name: string;
+  isParty: boolean;
+  isInactive: boolean;
+  shortName: string | null;
+  foundedAt: string | null;
+  terminatedAt: string | null;
+}
+
+export interface GetBody {
+  body: GetBody_body;
+}
+
+export interface GetBodyVariables {
+  id: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetSpeakerBodies
+// ====================================================
+
+export interface GetSpeakerBodies_bodies {
+  __typename: "Body";
+  id: string;
+  name: string;
+  shortName: string | null;
+  isInactive: boolean;
+  terminatedAt: string | null;
+}
+
+export interface GetSpeakerBodies {
+  bodies: GetSpeakerBodies_bodies[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetSpeaker
+// ====================================================
+
+export interface GetSpeaker_speaker_memberships_body {
+  __typename: "Body";
+  id: string;
+  shortName: string | null;
+}
+
+export interface GetSpeaker_speaker_memberships {
+  __typename: "Membership";
+  id: string;
+  body: GetSpeaker_speaker_memberships_body;
+  since: string | null;
+  until: string | null;
+}
+
+export interface GetSpeaker_speaker {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+  websiteUrl: string;
+  avatar: string | null;
+  memberships: GetSpeaker_speaker_memberships[] | null;
+}
+
+export interface GetSpeaker {
+  speaker: GetSpeaker_speaker;
+}
+
+export interface GetSpeakerVariables {
+  id: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetSpeakers
+// ====================================================
+
+export interface GetSpeakers_speakers_body {
+  __typename: "Body";
+  shortName: string | null;
+}
+
+export interface GetSpeakers_speakers_memberships_body {
+  __typename: "Body";
+  id: string;
+  shortName: string | null;
+}
+
+export interface GetSpeakers_speakers_memberships {
+  __typename: "Membership";
+  id: string;
+  body: GetSpeakers_speakers_memberships_body;
+  since: string | null;
+  until: string | null;
+}
+
+export interface GetSpeakers_speakers {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+  avatar: string | null;
+  websiteUrl: string;
+  body: GetSpeakers_speakers_body | null;
+  memberships: GetSpeakers_speakers_memberships[] | null;
+}
+
+export interface GetSpeakers {
+  speakers: GetSpeakers_speakers[];
+}
+
+export interface GetSpeakersVariables {
+  name?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetStatement
+// ====================================================
+
+export interface GetStatement_statement_speaker {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+  avatar: string | null;
+}
+
+export interface GetStatement_statement_assessment_assessmentMethodology {
+  __typename: "AssessmentMethodology";
+  id: string;
+  ratingModel: AssessmentMethodologyRatingModel;
+  ratingKeys: string[];
+}
+
+export interface GetStatement_statement_assessment_evaluator {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetStatement_statement_assessment_veracity {
+  __typename: "Veracity";
+  id: string;
+  key: GraphQLCustomScalar_VeracityKey;
+  name: string;
+}
+
+export interface GetStatement_statement_assessment_promiseRating {
+  __typename: "PromiseRating";
+  id: string;
+  key: PromiseRatingKey;
+  name: string;
+}
+
+export interface GetStatement_statement_assessment {
+  __typename: "Assessment";
+  id: string;
+  assessmentMethodology: GetStatement_statement_assessment_assessmentMethodology;
+  explanationHtml: string | null;
+  explanationSlatejson: GraphQLCustomScalar_JSON | null;
+  shortExplanation: string | null;
+  evaluationStatus: string;
+  evaluator: GetStatement_statement_assessment_evaluator | null;
+  veracity: GetStatement_statement_assessment_veracity | null;
+  promiseRating: GetStatement_statement_assessment_promiseRating | null;
+}
+
+export interface GetStatement_statement_source_medium {
+  __typename: "Medium";
+  id: string;
+  name: string;
+}
+
+export interface GetStatement_statement_source_mediaPersonalities {
+  __typename: "MediaPersonality";
+  id: string;
+  name: string;
+}
+
+export interface GetStatement_statement_source_experts {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetStatement_statement_source_speakers {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetStatement_statement_source {
+  __typename: "Source";
+  id: string;
+  name: string;
+  sourceUrl: string | null;
+  releasedAt: string;
+  medium: GetStatement_statement_source_medium;
+  mediaPersonalities: GetStatement_statement_source_mediaPersonalities[];
+  experts: GetStatement_statement_source_experts[];
+  speakers: GetStatement_statement_source_speakers[];
+}
+
+export interface GetStatement_statement_statementTranscriptPosition {
+  __typename: "StatementTranscriptPosition";
+  id: string;
+}
+
+export interface GetStatement_statement_tags {
+  __typename: "Tag";
+  id: string;
+  name: string;
+}
+
+export interface GetStatement_statement {
+  __typename: "Statement";
+  id: string;
+  statementType: StatementType;
+  content: string;
+  title: string | null;
+  important: boolean;
+  published: boolean;
+  excerptedAt: string;
+  countInStatistics: boolean;
+  speaker: GetStatement_statement_speaker;
+  assessment: GetStatement_statement_assessment;
+  source: GetStatement_statement_source;
+  statementTranscriptPosition: GetStatement_statement_statementTranscriptPosition | null;
+  tags: GetStatement_statement_tags[];
+  commentsCount: number;
+}
+
+export interface GetStatement {
+  statement: GetStatement_statement;
+}
+
+export interface GetStatementVariables {
+  id: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetStatementComments
+// ====================================================
+
+export interface GetStatementComments_statement_comments_user {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetStatementComments_statement_comments {
+  __typename: "Comment";
+  id: string;
+  content: string;
+  user: GetStatementComments_statement_comments_user;
+  createdAt: GraphQLCustomScalar_DateTime;
+}
+
+export interface GetStatementComments_statement {
+  __typename: "Statement";
+  id: string;
+  commentsCount: number;
+  comments: GetStatementComments_statement_comments[];
+}
+
+export interface GetStatementComments {
+  statement: GetStatementComments_statement;
+}
+
+export interface GetStatementCommentsVariables {
+  id: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetRoles
+// ====================================================
+
+export interface GetRoles_roles {
+  __typename: "Role";
+  id: string;
+  key: string;
+  name: string;
+}
+
+export interface GetRoles {
+  roles: GetRoles_roles[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetCurrentUser
+// ====================================================
+
+export interface GetCurrentUser_currentUser_role {
+  __typename: "Role";
+  id: string;
+  key: string;
+  name: string;
+  permissions: string[];
+}
+
+export interface GetCurrentUser_currentUser {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: GetCurrentUser_currentUser_role;
+}
+
+export interface GetCurrentUser {
+  currentUser: GetCurrentUser_currentUser;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetContentImages
+// ====================================================
+
+export interface GetContentImages_contentImages_items_user {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetContentImages_contentImages_items {
+  __typename: "ContentImage";
+  id: string;
+  image: string;
+  image50x50: string;
+  name: string;
+  createdAt: GraphQLCustomScalar_DateTime;
+  user: GetContentImages_contentImages_items_user | null;
+}
+
+export interface GetContentImages_contentImages {
+  __typename: "ContentImagesResult";
+  totalCount: number;
+  items: GetContentImages_contentImages_items[];
+}
+
+export interface GetContentImages {
+  contentImages: GetContentImages_contentImages;
+}
+
+export interface GetContentImagesVariables {
+  name?: string | null;
+  offset?: number | null;
+  limit?: number | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetNotifications
+// ====================================================
+
+export interface GetNotifications_notifications_items_statement_speaker {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetNotifications_notifications_items_statement_source {
+  __typename: "Source";
+  id: string;
+  name: string;
+}
+
+export interface GetNotifications_notifications_items_statement {
+  __typename: "Statement";
+  id: string;
+  content: string;
+  statementType: StatementType;
+  speaker: GetNotifications_notifications_items_statement_speaker;
+  source: GetNotifications_notifications_items_statement_source;
+}
+
+export interface GetNotifications_notifications_items {
+  __typename: "Notification";
+  id: string;
+  statementText: string;
+  statement: GetNotifications_notifications_items_statement;
+  createdAt: GraphQLCustomScalar_DateTime;
+  readAt: GraphQLCustomScalar_DateTime | null;
+}
+
+export interface GetNotifications_notifications {
+  __typename: "NotificationsResult";
+  totalCount: number;
+  items: GetNotifications_notifications_items[];
+}
+
+export interface GetNotifications {
+  notifications: GetNotifications_notifications;
+}
+
+export interface GetNotificationsVariables {
+  includeRead?: boolean | null;
+  offset?: number | null;
+  limit?: number | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetPromiseRatingsForSelect
+// ====================================================
+
+export interface GetPromiseRatingsForSelect_promiseRatings {
+  __typename: "PromiseRating";
+  id: string;
+  key: PromiseRatingKey;
+  name: string;
+}
+
+export interface GetPromiseRatingsForSelect {
+  promiseRatings: GetPromiseRatingsForSelect_promiseRatings[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetTagsForSelect
+// ====================================================
+
+export interface GetTagsForSelect_tags {
+  __typename: "Tag";
+  id: string;
+  name: string;
+}
+
+export interface GetTagsForSelect {
+  tags: GetTagsForSelect_tags[];
+}
+
+export interface GetTagsForSelectVariables {
+  forStatementType: StatementType;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetVeracitiesForSelect
+// ====================================================
+
+export interface GetVeracitiesForSelect_veracities {
+  __typename: "Veracity";
+  id: string;
+  key: GraphQLCustomScalar_VeracityKey;
+  name: string;
+}
+
+export interface GetVeracitiesForSelect {
+  veracities: GetVeracitiesForSelect_veracities[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetUsersForSelect
+// ====================================================
+
+export interface GetUsersForSelect_users {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetUsersForSelect {
+  users: GetUsersForSelect_users[];
+}
+
+export interface GetUsersForSelectVariables {
+  roles?: string[] | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetSpeakersForSelect
+// ====================================================
+
+export interface GetSpeakersForSelect_speakers {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetSpeakersForSelect {
+  speakers: GetSpeakersForSelect_speakers[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetMediaPersonalitiesForSelect
+// ====================================================
+
+export interface GetMediaPersonalitiesForSelect_mediaPersonalities {
+  __typename: "MediaPersonality";
+  id: string;
+  name: string;
+}
+
+export interface GetMediaPersonalitiesForSelect {
+  mediaPersonalities: GetMediaPersonalitiesForSelect_mediaPersonalities[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+//==============================================================
+// START Enums and Input Objects
+//==============================================================
+
+export enum AssessmentMethodologyRatingModel {
+  promise_rating = "promise_rating",
+  veracity = "veracity",
+}
 
 export enum PromiseRatingKey {
   broken = "broken",
@@ -148,1313 +2434,157 @@ export enum PromiseRatingKey {
   stalled = "stalled",
 }
 
-
-export interface CommentInput {
-  content: string,
-  statementId: string,
-};
-
-export interface UpdateSourceStatementsOrderInput {
-  orderedStatementIds: Array< string >,
-};
-
-export interface UpdateNotificationInput {
-  readAt?: string | null,
-};
-
-export enum AssessmentMethodologyRatingModel {
-  promise_rating = "promise_rating",
-  veracity = "veracity",
+export enum StatementType {
+  factual = "factual",
+  promise = "promise",
 }
 
-
-export interface CreateMediaPersonalityMutationVariables {
-  mediaPersonalityInput: MediaPersonalityInput,
-};
-
-export interface CreateMediaPersonalityMutation {
-  // Add new media personality
-  createMediaPersonality:  {
-    mediaPersonality:  {
-      id: string,
-      name: string,
-    },
-  } | null,
-};
-
-export interface UpdateMediaPersonalityMutationVariables {
-  id: string,
-  mediaPersonalityInput: MediaPersonalityInput,
-};
-
-export interface UpdateMediaPersonalityMutation {
-  // Update existing media personality
-  updateMediaPersonality:  {
-    mediaPersonality:  {
-      id: string,
-      name: string,
-    },
-  } | null,
-};
-
-export interface DeleteMediaPersonalityMutationVariables {
-  id: string,
-};
-
-export interface DeleteMediaPersonalityMutation {
-  // Delete existing media personality
-  deleteMediaPersonality:  {
-    id: string,
-  } | null,
-};
-
-export interface CreateMediumMutationVariables {
-  mediumInput: MediumInput,
-};
-
-export interface CreateMediumMutation {
-  // Add new medium
-  createMedium:  {
-    medium:  {
-      id: string,
-      name: string,
-    },
-  } | null,
-};
-
-export interface UpdateMediumMutationVariables {
-  id: string,
-  mediumInput: MediumInput,
-};
-
-export interface UpdateMediumMutation {
-  // Update existing medium
-  updateMedium:  {
-    medium:  {
-      id: string,
-      name: string,
-    },
-  } | null,
-};
-
-export interface DeleteMediumMutationVariables {
-  id: string,
-};
-
-export interface DeleteMediumMutation {
-  // Delete existing medium
-  deleteMedium:  {
-    id: string,
-  } | null,
-};
-
-export interface CreatePageMutationVariables {
-  pageInput: PageInput,
-};
-
-export interface CreatePageMutation {
-  // Add new page
-  createPage:  {
-    page:  {
-      id: string,
-      title: string,
-      slug: string,
-      published: boolean,
-      textHtml: string | null,
-      textSlatejson: GraphQLCustomScalar_JSON | null,
-    },
-  } | null,
-};
-
-export interface UpdatePageMutationVariables {
-  id: string,
-  pageInput: PageInput,
-};
-
-export interface UpdatePageMutation {
-  // Update existing page
-  updatePage:  {
-    page:  {
-      id: string,
-      title: string,
-      slug: string,
-      published: boolean,
-      textHtml: string | null,
-      textSlatejson: GraphQLCustomScalar_JSON | null,
-    },
-  } | null,
-};
-
-export interface DeletePageMutationVariables {
-  id: string,
-};
-
-export interface DeletePageMutation {
-  // Delete existing page
-  deletePage:  {
-    id: string | null,
-  } | null,
-};
-
-export interface CreateArticleMutationVariables {
-  articleInput: ArticleInput,
-};
-
-export interface CreateArticleMutation {
-  // Add new article
-  createArticle:  {
-    article:  {
-      id: string,
-      articleType: string,
-      title: string,
-      slug: string,
-      perex: string | null,
-      published: boolean,
-      publishedAt: GraphQLCustomScalar_DateTime | null,
-      illustration: string | null,
-      segments:  Array< {
-        id: string,
-        segmentType: string,
-        textHtml: string | null,
-        textSlatejson: GraphQLCustomScalar_JSON | null,
-        promiseUrl: string | null,
-        statements:  Array< {
-          id: string,
-        } >,
-      } >,
-      source:  {
-        id: string,
-      } | null,
-    },
-  } | null,
-};
-
-export interface UpdateArticleMutationVariables {
-  id: string,
-  articleInput: ArticleInput,
-};
-
-export interface UpdateArticleMutation {
-  // Update existing article
-  updateArticle:  {
-    article:  {
-      id: string,
-      articleType: string,
-      title: string,
-      slug: string,
-      perex: string | null,
-      published: boolean,
-      publishedAt: GraphQLCustomScalar_DateTime | null,
-      illustration: string | null,
-      segments:  Array< {
-        id: string,
-        segmentType: string,
-        textHtml: string | null,
-        textSlatejson: GraphQLCustomScalar_JSON | null,
-        promiseUrl: string | null,
-        statements:  Array< {
-          id: string,
-        } >,
-      } >,
-      source:  {
-        id: string,
-      } | null,
-    },
-  } | null,
-};
-
-export interface DeleteArticleMutationVariables {
-  id: string,
-};
-
-export interface DeleteArticleMutation {
-  // Delete existing article
-  deleteArticle:  {
-    id: string | null,
-  } | null,
-};
-
-export interface CreateSourceMutationVariables {
-  sourceInput: SourceInput,
-};
-
-export interface CreateSourceMutation {
-  // Add new source
-  createSource:  {
-    source:  {
-      id: string,
-      name: string,
-    },
-  } | null,
-};
-
-export interface UpdateSourceMutationVariables {
-  id: string,
-  sourceInput: SourceInput,
-};
-
-export interface UpdateSourceMutation {
-  // Update existing source
-  updateSource:  {
-    source:  {
-      id: string,
-      name: string,
-    },
-  } | null,
-};
-
-export interface DeleteSourceMutationVariables {
-  id: string,
-};
-
-export interface DeleteSourceMutation {
-  // Delete existing source and all it's statements
-  deleteSource:  {
-    id: string,
-  } | null,
-};
-
-export interface CreateBodyMutationVariables {
-  bodyInput: BodyInput,
-};
-
-export interface CreateBodyMutation {
-  // Create new body
-  createBody:  {
-    body:  {
-      id: string,
-      logo: string | null,
-      name: string,
-      isParty: boolean,
-      isInactive: boolean,
-      shortName: string | null,
-      link: string | null,
-      foundedAt: string | null,
-      terminatedAt: string | null,
-    },
-  } | null,
-};
-
-export interface UpdateBodyMutationVariables {
-  id: number,
-  bodyInput: BodyInput,
-};
-
-export interface UpdateBodyMutation {
-  // Update existing body
-  updateBody:  {
-    body:  {
-      id: string,
-      logo: string | null,
-      name: string,
-      isParty: boolean,
-      isInactive: boolean,
-      shortName: string | null,
-      link: string | null,
-      foundedAt: string | null,
-      terminatedAt: string | null,
-    },
-  } | null,
-};
-
-export interface DeleteBodyMutationVariables {
-  id: string,
-};
-
-export interface DeleteBodyMutation {
-  // Delete existing body
-  deleteBody:  {
-    id: string,
-  } | null,
-};
-
-export interface CreateSpeakerMutationVariables {
-  speakerInput: SpeakerInput,
-};
-
-export interface CreateSpeakerMutation {
-  // Add new speaker
-  createSpeaker:  {
-    speaker:  {
-      id: string,
-      firstName: string,
-      lastName: string,
-      avatar: string | null,
-      websiteUrl: string,
-      body:  {
-        shortName: string | null,
-      } | null,
-      memberships:  Array< {
-        id: string,
-        body:  {
-          id: string,
-          shortName: string | null,
-        },
-        since: string | null,
-        until: string | null,
-      } > | null,
-    },
-  } | null,
-};
-
-export interface UpdateSpeakerMutationVariables {
-  id: string,
-  speakerInput: SpeakerInput,
-};
-
-export interface UpdateSpeakerMutation {
-  // Update existing speaker
-  updateSpeaker:  {
-    speaker:  {
-      id: string,
-      firstName: string,
-      lastName: string,
-      avatar: string | null,
-      websiteUrl: string,
-      body:  {
-        shortName: string | null,
-      } | null,
-      memberships:  Array< {
-        id: string,
-        body:  {
-          id: string,
-          shortName: string | null,
-        },
-        since: string | null,
-        until: string | null,
-      } > | null,
-    },
-  } | null,
-};
-
-export interface DeleteSpeakerMutationVariables {
-  id: string,
-};
-
-export interface DeleteSpeakerMutation {
-  // Delete existing speaker
-  deleteSpeaker:  {
-    id: string,
-  } | null,
-};
-
-export interface CreateUserMutationVariables {
-  userInput: UserInput,
-};
-
-export interface CreateUserMutation {
-  // Add new user
-  createUser:  {
-    user:  {
-      id: string,
-      firstName: string,
-      lastName: string,
-      email: string,
-      avatar: string | null,
-      active: boolean,
-      positionDescription: string | null,
-      bio: string | null,
-      emailNotifications: boolean,
-      userPublic: boolean,
-      role:  {
-        id: string,
-        name: string,
-      },
-    },
-  } | null,
-};
-
-export interface UpdateUserMutationVariables {
-  id: number,
-  userInput: UserInput,
-};
-
-export interface UpdateUserMutation {
-  // Update existing user
-  updateUser:  {
-    user:  {
-      id: string,
-      firstName: string,
-      lastName: string,
-      email: string,
-      avatar: string | null,
-      active: boolean,
-      positionDescription: string | null,
-      bio: string | null,
-      emailNotifications: boolean,
-      userPublic: boolean,
-      role:  {
-        id: string,
-        name: string,
-      },
-    },
-  } | null,
-};
-
-export interface UpdateUserPublicityMutationVariables {
-  id: number,
-  userPublicity: boolean,
-};
-
-export interface UpdateUserPublicityMutation {
-  // Update user publicity
-  updateUserPublicity:  {
-    user:  {
-      id: string,
-      firstName: string,
-      lastName: string,
-      email: string,
-      avatar: string | null,
-      active: boolean,
-      positionDescription: string | null,
-      bio: string | null,
-      emailNotifications: boolean,
-      userPublic: boolean,
-      role:  {
-        id: string,
-        name: string,
-      },
-    },
-  } | null,
-};
-
-export interface UpdateUsersRankMutationVariables {
-  orderedUserIds: Array< string >,
-};
-
-export interface UpdateUsersRankMutation {
-  // Update rank (order of users on about us page)
-  updateUsersRank:  {
-    users:  Array< {
-      id: string,
-      rank: number | null,
-    } >,
-  } | null,
-};
-
-export interface DeleteUserMutationVariables {
-  id: string,
-};
-
-export interface DeleteUserMutation {
-  // Delete existing user
-  deleteUser:  {
-    id: string | null,
-  } | null,
-};
-
-export interface CreateStatementMutationVariables {
-  statementInput: CreateStatementInput,
-};
-
-export interface CreateStatementMutation {
-  // Add new statement
-  createStatement:  {
-    statement:  {
-      id: string,
-      content: string,
-      excerptedAt: string,
-      important: boolean,
-      speaker:  {
-        id: string,
-      },
-      source:  {
-        id: string,
-        statementsCountsByEvaluationStatus:  Array< {
-          evaluationStatus: string,
-          statementsCount: number,
-        } >,
-      },
-    },
-  } | null,
-};
-
-export interface UpdateStatementMutationVariables {
-  id: number,
-  statementInput: UpdateStatementInput,
-};
-
-export interface UpdateStatementMutation {
-  // Update existing statement
-  updateStatement:  {
-    statement:  {
-      id: string,
-      content: string,
-      title: string | null,
-      important: boolean,
-      published: boolean,
-      excerptedAt: string,
-      speaker:  {
-        id: string,
-        firstName: string,
-        lastName: string,
-        avatar: string | null,
-      },
-      assessment:  {
-        id: string,
-        shortExplanation: string | null,
-        explanationHtml: string | null,
-        explanationSlatejson: GraphQLCustomScalar_JSON | null,
-        evaluationStatus: string,
-        evaluator:  {
-          id: string,
-          firstName: string,
-          lastName: string,
-        } | null,
-        veracity:  {
-          id: string,
-          key: GraphQLCustomScalar_VeracityKey,
-          name: string,
-        } | null,
-        promiseRating:  {
-          id: string,
-          key: PromiseRatingKey,
-          name: string,
-        } | null,
-      },
-      source:  {
-        id: string,
-        statementsCountsByEvaluationStatus:  Array< {
-          evaluationStatus: string,
-          statementsCount: number,
-        } >,
-      },
-      commentsCount: number,
-      tags:  Array< {
-        id: string,
-        name: string,
-      } >,
-    },
-  } | null,
-};
-
-export interface DeleteStatementMutationVariables {
-  id: string,
-};
-
-export interface DeleteStatementMutation {
-  // Delete existing statement
-  deleteStatement:  {
-    id: string,
-  } | null,
-};
-
-export interface CreateCommentMutationVariables {
-  commentInput: CommentInput,
-};
-
-export interface CreateCommentMutation {
-  // Add new comment
-  createComment:  {
-    comment:  {
-      id: string,
-      content: string,
-      user:  {
-        id: string,
-        firstName: string,
-        lastName: string,
-      },
-      createdAt: GraphQLCustomScalar_DateTime,
-    },
-  } | null,
-};
-
-export interface UpdateSourceStatementsOrderMutationVariables {
-  id: string,
-  input: UpdateSourceStatementsOrderInput,
-};
-
-export interface UpdateSourceStatementsOrderMutation {
-  // Update order of statements in source
-  updateSourceStatementsOrder:  {
-    source:  {
-      id: string,
-    },
-  } | null,
-};
-
-export interface PublishApprovedSourceStatementsMutationVariables {
-  id: string,
-};
-
-export interface PublishApprovedSourceStatementsMutation {
-  // Publish all approved statements from source
-  publishApprovedSourceStatements:  {
-    source:  {
-      id: string,
-      statements:  Array< {
-        id: string,
-        published: boolean,
-      } >,
-    },
-  } | null,
-};
-
-export interface DeleteContentImageMutationVariables {
-  id: string,
-};
-
-export interface DeleteContentImageMutation {
-  // Delete existing content image
-  deleteContentImage:  {
-    id: string | null,
-  } | null,
-};
-
-export interface UpdateNotificationMutationVariables {
-  id: string,
-  input: UpdateNotificationInput,
-};
-
-export interface UpdateNotificationMutation {
-  // Update existing notification
-  updateNotification:  {
-    notification:  {
-      id: string,
-      readAt: GraphQLCustomScalar_DateTime | null,
-    },
-  } | null,
-};
-
-export interface MarkUnreadNotificationsAsReadMutation {
-  // Mark all unread notifications of current user as read
-  markUnreadNotificationsAsRead:  {
-    notifications:  Array< {
-      id: string,
-      readAt: GraphQLCustomScalar_DateTime | null,
-    } >,
-  } | null,
-};
-
-export interface GetPagesQueryVariables {
-  title?: string | null,
-  offset?: number | null,
-  limit?: number | null,
-};
-
-export interface GetPagesQuery {
-  pages:  Array< {
-    id: string,
-    title: string,
-    slug: string,
-    published: boolean,
-  } >,
-};
-
-export interface GetPageQueryVariables {
-  id: string,
-};
-
-export interface GetPageQuery {
-  page:  {
-    id: string,
-    title: string,
-    slug: string,
-    published: boolean,
-    textHtml: string | null,
-    textSlatejson: GraphQLCustomScalar_JSON | null,
-  },
-};
-
-export interface GetArticleQueryVariables {
-  id: string,
-};
-
-export interface GetArticleQuery {
-  article:  {
-    id: string,
-    articleType: string,
-    title: string,
-    slug: string,
-    perex: string | null,
-    published: boolean,
-    publishedAt: GraphQLCustomScalar_DateTime | null,
-    illustration: string | null,
-    segments:  Array< {
-      id: string,
-      segmentType: string,
-      textHtml: string | null,
-      textSlatejson: GraphQLCustomScalar_JSON | null,
-      promiseUrl: string | null,
-      source:  {
-        id: string,
-      } | null,
-    } >,
-    source:  {
-      id: string,
-    } | null,
-  },
-};
-
-export interface GetArticlesQueryVariables {
-  title?: string | null,
-  offset?: number | null,
-  limit?: number | null,
-};
-
-export interface GetArticlesQuery {
-  articles:  Array< {
-    id: string,
-    articleType: string,
-    title: string,
-    slug: string,
-    published: boolean,
-    publishedAt: GraphQLCustomScalar_DateTime | null,
-  } >,
-};
-
-export interface GetMediaPersonalitiesQueryVariables {
-  name?: string | null,
-};
-
-export interface GetMediaPersonalitiesQuery {
-  mediaPersonalities:  Array< {
-    id: string,
-    name: string,
-  } >,
-};
-
-export interface GetMediaPersonalityQueryVariables {
-  id: string,
-};
-
-export interface GetMediaPersonalityQuery {
-  mediaPersonality:  {
-    id: string,
-    name: string,
-  },
-};
-
-export interface GetMediaQueryVariables {
-  name?: string | null,
-};
-
-export interface GetMediaQuery {
-  media:  Array< {
-    id: string,
-    name: string,
-  } >,
-};
-
-export interface GetMediumQueryVariables {
-  id: string,
-};
-
-export interface GetMediumQuery {
-  medium:  {
-    id: string,
-    name: string,
-  },
-};
-
-export interface GetSourcesQueryVariables {
-  name?: string | null,
-  offset?: number | null,
-  limit?: number | null,
-};
-
-export interface GetSourcesQuery {
-  sources:  Array< {
-    id: string,
-    name: string,
-    sourceUrl: string | null,
-    releasedAt: string,
-    medium:  {
-      id: string,
-      name: string,
-    },
-    mediaPersonalities:  Array< {
-      id: string,
-      name: string,
-    } >,
-    statementsCountsByEvaluationStatus:  Array< {
-      evaluationStatus: string,
-      statementsCount: number,
-    } >,
-    statements:  Array< {
-      id: string,
-    } >,
-    experts:  Array< {
-      id: string,
-      firstName: string,
-      lastName: string,
-    } >,
-  } >,
-};
-
-export interface GetSourceQueryVariables {
-  id: number,
-};
-
-export interface GetSourceQuery {
-  source:  {
-    id: string,
-    name: string,
-    sourceUrl: string | null,
-    releasedAt: string,
-    transcript: string | null,
-    medium:  {
-      id: string,
-      name: string,
-    },
-    mediaPersonalities:  Array< {
-      id: string,
-      name: string,
-    } >,
-    statementsCountsByEvaluationStatus:  Array< {
-      evaluationStatus: string,
-      statementsCount: number,
-    } >,
-    speakers:  Array< {
-      id: string,
-      firstName: string,
-      lastName: string,
-    } >,
-    experts:  Array< {
-      id: string,
-      firstName: string,
-      lastName: string,
-    } >,
-  },
-};
-
-export interface GetSourcesForSelectQuery {
-  sources:  Array< {
-    id: string,
-    name: string,
-    releasedAt: string,
-    medium:  {
-      id: string,
-      name: string,
-    },
-  } >,
-};
-
-export interface GetSourceStatementsQueryVariables {
-  sourceId: number,
-  includeUnpublished?: boolean | null,
-};
-
-export interface GetSourceStatementsQuery {
-  statements:  Array< {
-    id: string,
-    statementType: StatementType,
-    content: string,
-    title: string | null,
-    important: boolean,
-    published: boolean,
-    speaker:  {
-      id: string,
-      firstName: string,
-      lastName: string,
-      avatar: string | null,
-    },
-    assessment:  {
-      id: string,
-      assessmentMethodology:  {
-        id: string,
-        ratingModel: AssessmentMethodologyRatingModel,
-        ratingKeys: Array< string >,
-      },
-      evaluationStatus: string,
-      evaluator:  {
-        id: string,
-        firstName: string,
-        lastName: string,
-      } | null,
-      veracity:  {
-        id: string,
-        key: GraphQLCustomScalar_VeracityKey,
-        name: string,
-      } | null,
-      promiseRating:  {
-        id: string,
-        key: PromiseRatingKey,
-        name: string,
-      } | null,
-      shortExplanation: string | null,
-      shortExplanationCharactersLength: number,
-      explanationCharactersLength: number,
-    },
-    statementTranscriptPosition:  {
-      id: string,
-      startLine: number,
-      startOffset: number,
-      endLine: number,
-      endOffset: number,
-    } | null,
-    tags:  Array< {
-      id: string,
-      name: string,
-    } >,
-    commentsCount: number,
-    sourceOrder: number | null,
-  } >,
-};
-
-export interface GetUsersQueryVariables {
-  name?: string | null,
-  includeInactive?: boolean | null,
-};
-
-export interface GetUsersQuery {
-  users:  Array< {
-    id: string,
-    email: string,
-    firstName: string,
-    lastName: string,
-    avatar: string | null,
-    active: boolean,
-    bio: string | null,
-    positionDescription: string | null,
-    emailNotifications: boolean,
-    userPublic: boolean,
-    rank: number | null,
-    role:  {
-      id: string,
-      name: string,
-    },
-  } >,
-};
-
-export interface GetUserQueryVariables {
-  id: number,
-};
-
-export interface GetUserQuery {
-  user:  {
-    id: string,
-    email: string,
-    firstName: string,
-    lastName: string,
-    avatar: string | null,
-    active: boolean,
-    bio: string | null,
-    positionDescription: string | null,
-    emailNotifications: boolean,
-    userPublic: boolean,
-    role:  {
-      id: string,
-      name: string,
-    },
-  },
-};
-
-export interface GetBodiesQueryVariables {
-  name?: string | null,
-};
-
-export interface GetBodiesQuery {
-  bodies:  Array< {
-    id: string,
-    logo: string | null,
-    link: string | null,
-    name: string,
-    isParty: boolean,
-    isInactive: boolean,
-    shortName: string | null,
-    foundedAt: string | null,
-    terminatedAt: string | null,
-  } >,
-};
-
-export interface GetBodyQueryVariables {
-  id: number,
-};
-
-export interface GetBodyQuery {
-  body:  {
-    id: string,
-    logo: string | null,
-    link: string | null,
-    name: string,
-    isParty: boolean,
-    isInactive: boolean,
-    shortName: string | null,
-    foundedAt: string | null,
-    terminatedAt: string | null,
-  },
-};
-
-export interface GetSpeakerBodiesQuery {
-  bodies:  Array< {
-    id: string,
-    name: string,
-    shortName: string | null,
-    isInactive: boolean,
-    terminatedAt: string | null,
-  } >,
-};
-
-export interface GetSpeakerQueryVariables {
-  id: number,
-};
-
-export interface GetSpeakerQuery {
-  speaker:  {
-    id: string,
-    firstName: string,
-    lastName: string,
-    websiteUrl: string,
-    avatar: string | null,
-    memberships:  Array< {
-      id: string,
-      body:  {
-        id: string,
-        shortName: string | null,
-      },
-      since: string | null,
-      until: string | null,
-    } > | null,
-  },
-};
-
-export interface GetSpeakersQueryVariables {
-  name?: string | null,
-};
-
-export interface GetSpeakersQuery {
-  speakers:  Array< {
-    id: string,
-    firstName: string,
-    lastName: string,
-    avatar: string | null,
-    websiteUrl: string,
-    body:  {
-      shortName: string | null,
-    } | null,
-    memberships:  Array< {
-      id: string,
-      body:  {
-        id: string,
-        shortName: string | null,
-      },
-      since: string | null,
-      until: string | null,
-    } > | null,
-  } >,
-};
-
-export interface GetStatementQueryVariables {
-  id: number,
-};
-
-export interface GetStatementQuery {
-  statement:  {
-    id: string,
-    statementType: StatementType,
-    content: string,
-    title: string | null,
-    important: boolean,
-    published: boolean,
-    excerptedAt: string,
-    countInStatistics: boolean,
-    speaker:  {
-      id: string,
-      firstName: string,
-      lastName: string,
-      avatar: string | null,
-    },
-    assessment:  {
-      id: string,
-      assessmentMethodology:  {
-        id: string,
-        ratingModel: AssessmentMethodologyRatingModel,
-        ratingKeys: Array< string >,
-      },
-      explanationHtml: string | null,
-      explanationSlatejson: GraphQLCustomScalar_JSON | null,
-      shortExplanation: string | null,
-      evaluationStatus: string,
-      evaluator:  {
-        id: string,
-        firstName: string,
-        lastName: string,
-      } | null,
-      veracity:  {
-        id: string,
-        key: GraphQLCustomScalar_VeracityKey,
-        name: string,
-      } | null,
-      promiseRating:  {
-        id: string,
-        key: PromiseRatingKey,
-        name: string,
-      } | null,
-    },
-    source:  {
-      id: string,
-      name: string,
-      sourceUrl: string | null,
-      releasedAt: string,
-      medium:  {
-        id: string,
-        name: string,
-      },
-      mediaPersonalities:  Array< {
-        id: string,
-        name: string,
-      } >,
-      experts:  Array< {
-        id: string,
-        firstName: string,
-        lastName: string,
-      } >,
-      speakers:  Array< {
-        id: string,
-        firstName: string,
-        lastName: string,
-      } >,
-    },
-    statementTranscriptPosition:  {
-      id: string,
-    } | null,
-    tags:  Array< {
-      id: string,
-      name: string,
-    } >,
-    commentsCount: number,
-  },
-};
-
-export interface GetStatementCommentsQueryVariables {
-  id: number,
-};
-
-export interface GetStatementCommentsQuery {
-  statement:  {
-    id: string,
-    commentsCount: number,
-    comments:  Array< {
-      id: string,
-      content: string,
-      user:  {
-        id: string,
-        firstName: string,
-        lastName: string,
-      },
-      createdAt: GraphQLCustomScalar_DateTime,
-    } >,
-  },
-};
-
-export interface GetRolesQuery {
-  roles:  Array< {
-    id: string,
-    key: string,
-    name: string,
-  } >,
-};
-
-export interface GetCurrentUserQuery {
-  currentUser:  {
-    id: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    role:  {
-      id: string,
-      key: string,
-      name: string,
-      permissions: Array< string >,
-    },
-  },
-};
-
-export interface GetContentImagesQueryVariables {
-  name?: string | null,
-  offset?: number | null,
-  limit?: number | null,
-};
-
-export interface GetContentImagesQuery {
-  contentImages:  {
-    totalCount: number,
-    items:  Array< {
-      id: string,
-      image: string,
-      image50x50: string,
-      name: string,
-      createdAt: GraphQLCustomScalar_DateTime,
-      user:  {
-        id: string,
-        firstName: string,
-        lastName: string,
-      } | null,
-    } >,
-  },
-};
-
-export interface GetNotificationsQueryVariables {
-  includeRead?: boolean | null,
-  offset?: number | null,
-  limit?: number | null,
-};
-
-export interface GetNotificationsQuery {
-  notifications:  {
-    totalCount: number,
-    items:  Array< {
-      id: string,
-      content: string,
-      actionLink: string,
-      actionText: string,
-      createdAt: GraphQLCustomScalar_DateTime,
-      readAt: GraphQLCustomScalar_DateTime | null,
-    } >,
-  },
-};
-
-export interface GetPromiseRatingsForSelectQuery {
-  promiseRatings:  Array< {
-    id: string,
-    key: PromiseRatingKey,
-    name: string,
-  } >,
-};
-
-export interface GetTagsForSelectQueryVariables {
-  forStatementType: StatementType,
-};
-
-export interface GetTagsForSelectQuery {
-  tags:  Array< {
-    id: string,
-    name: string,
-  } >,
-};
-
-export interface GetVeracitiesForSelectQuery {
-  veracities:  Array< {
-    id: string,
-    key: GraphQLCustomScalar_VeracityKey,
-    name: string,
-  } >,
-};
-
-export interface GetUsersForSelectQueryVariables {
-  roles?: Array< string > | null,
-};
-
-export interface GetUsersForSelectQuery {
-  users:  Array< {
-    id: string,
-    firstName: string,
-    lastName: string,
-  } >,
-};
-
-export interface GetSpeakersForSelectQuery {
-  speakers:  Array< {
-    id: string,
-    firstName: string,
-    lastName: string,
-  } >,
-};
-
-export interface GetMediaPersonalitiesForSelectQuery {
-  mediaPersonalities:  Array< {
-    id: string,
-    name: string,
-  } >,
-};
+export interface ArticleInput {
+  articleType: string;
+  title: string;
+  perex: string;
+  segments: ArticleSegmentInput[];
+  slug?: string | null;
+  published?: boolean | null;
+  publishedAt?: string | null;
+  sourceId?: string | null;
+}
+
+export interface ArticleSegmentInput {
+  id?: string | null;
+  segmentType: string;
+  textHtml?: string | null;
+  textSlatejson?: GraphQLCustomScalar_JSON | null;
+  sourceId?: string | null;
+  promiseUrl?: string | null;
+}
+
+export interface BodyInput {
+  name: string;
+  isParty: boolean;
+  isInactive: boolean;
+  shortName?: string | null;
+  link?: string | null;
+  foundedAt?: string | null;
+  terminatedAt?: string | null;
+}
+
+export interface CommentInput {
+  content: string;
+  statementId: string;
+}
+
+export interface CreateAssessmentInput {
+  evaluatorId?: string | null;
+  shortExplanation?: string | null;
+  veracityId?: string | null;
+}
+
+export interface CreateStatementInput {
+  statementType: StatementType;
+  content: string;
+  excerptedAt: string;
+  important: boolean;
+  speakerId: string;
+  sourceId: string;
+  published: boolean;
+  countInStatistics: boolean;
+  assessment: CreateAssessmentInput;
+  statementTranscriptPosition?: StatementTranscriptPositionInput | null;
+  firstCommentContent?: string | null;
+}
+
+export interface MediaPersonalityInput {
+  name: string;
+}
+
+export interface MediumInput {
+  name: string;
+}
+
+export interface MembershipInput {
+  id?: string | null;
+  since?: string | null;
+  until?: string | null;
+  bodyId: string;
+}
+
+export interface PageInput {
+  title: string;
+  textHtml?: string | null;
+  textSlatejson?: GraphQLCustomScalar_JSON | null;
+  published?: boolean | null;
+  slug?: string | null;
+}
+
+export interface SourceInput {
+  name: string;
+  releasedAt: string;
+  sourceUrl?: string | null;
+  mediumId: string;
+  mediaPersonalities: string[];
+  transcript: string;
+  speakers: string[];
+  experts: string[];
+}
+
+export interface SpeakerInput {
+  firstName: string;
+  lastName: string;
+  websiteUrl?: string | null;
+  memberships: MembershipInput[];
+}
+
+export interface StatementTranscriptPositionInput {
+  startLine: number;
+  startOffset: number;
+  endLine: number;
+  endOffset: number;
+}
+
+export interface UpdateAssessmentInput {
+  evaluatorId?: string | null;
+  evaluationStatus?: string | null;
+  explanationHtml?: string | null;
+  explanationSlatejson?: GraphQLCustomScalar_JSON | null;
+  shortExplanation?: string | null;
+  veracityId?: string | null;
+  promiseRatingId?: string | null;
+}
+
+export interface UpdateNotificationInput {
+  readAt?: string | null;
+}
+
+export interface UpdateSourceStatementsOrderInput {
+  orderedStatementIds: string[];
+}
+
+export interface UpdateStatementInput {
+  content?: string | null;
+  title?: string | null;
+  important?: boolean | null;
+  published?: boolean | null;
+  countInStatistics?: boolean | null;
+  assessment?: UpdateAssessmentInput | null;
+  tags?: string[] | null;
+  speaker?: string | null;
+}
+
+export interface UserInput {
+  email: string;
+  active: boolean;
+  firstName: string;
+  lastName: string;
+  roleId: string;
+  emailNotifications: boolean;
+  positionDescription?: string | null;
+  bio?: string | null;
+  phone?: string | null;
+  order?: number | null;
+  rank?: number | null;
+}
+
+//==============================================================
+// END Enums and Input Objects
+//==============================================================

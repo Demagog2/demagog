@@ -4,7 +4,7 @@ import { ActionsObservable, ofType } from 'redux-observable';
 import { switchMap } from 'rxjs/operators';
 
 import apolloClient from '../apolloClient';
-import { GetCurrentUserQuery } from '../operation-result-types';
+import { GetCurrentUser as GetCurrentUserQuery } from '../operation-result-types';
 import { GetCurrentUser } from '../queries/queries';
 
 import {

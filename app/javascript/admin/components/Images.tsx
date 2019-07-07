@@ -12,7 +12,10 @@ import { connect, DispatchProp } from 'react-redux';
 import { addFlashMessage } from '../actions/flashMessages';
 import { uploadContentImage } from '../api';
 import apolloClient from '../apolloClient';
-import { GetContentImagesQuery, GetContentImagesQueryVariables } from '../operation-result-types';
+import {
+  GetContentImages as GetContentImagesQuery,
+  GetContentImagesVariables as GetContentImagesQueryVariables,
+} from '../operation-result-types';
 import { DeleteContentImage } from '../queries/mutations';
 import { GetContentImages } from '../queries/queries';
 import { displayDateTime } from '../utils';
@@ -22,11 +25,6 @@ import Loading from './Loading';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 
 const IMAGES_PER_PAGE = 20;
-
-class GetContentImagesQueryComponent extends Query<
-  GetContentImagesQuery,
-  GetContentImagesQueryVariables
-> {}
 
 interface IProps extends DispatchProp<any> {}
 
@@ -171,7 +169,7 @@ class Images extends React.Component<IProps, IState> {
         </div>
 
         <div style={{ marginTop: 15 }}>
-          <GetContentImagesQueryComponent
+          <Query<GetContentImagesQuery, GetContentImagesQueryVariables>
             query={GetContentImages}
             variables={{ name: this.state.search, offset: 0, limit: IMAGES_PER_PAGE }}
           >
@@ -386,7 +384,7 @@ class Images extends React.Component<IProps, IState> {
                 </>
               );
             }}
-          </GetContentImagesQueryComponent>
+          </Query>
         </div>
       </div>
     );

@@ -7,7 +7,7 @@ import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
-import { GetMediumQuery, MediumInput } from '../../operation-result-types';
+import { GetMedium as GetMediumQuery, MediumInput } from '../../operation-result-types';
 import TextField from './controls/TextField';
 import FormGroup from './FormGroup';
 

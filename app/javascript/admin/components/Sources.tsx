@@ -16,16 +16,14 @@ import {
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
 } from '../constants';
 import {
-  GetSourcesQuery as GetSourcesQueryResult,
-  GetSourcesQueryVariables,
+  GetSources as GetSourcesQuery,
+  GetSourcesVariables as GetSourcesQueryVariables,
 } from '../operation-result-types';
 import { GetSources } from '../queries/queries';
 import { displayDate } from '../utils';
 import Authorize from './Authorize';
 import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
-
-class GetSourcesQuery extends Query<GetSourcesQueryResult, GetSourcesQueryVariables> {}
 
 interface IState {
   search: string;
@@ -79,7 +77,7 @@ class Sources extends React.Component<{}, IState> {
         </div>
 
         <div style={{ marginTop: 15 }}>
-          <GetSourcesQuery
+          <Query<GetSourcesQuery, GetSourcesQueryVariables>
             query={GetSources}
             variables={{ name: this.state.search, offset: 0, limit: 50 }}
           >
@@ -223,7 +221,7 @@ class Sources extends React.Component<{}, IState> {
                 </React.Fragment>
               );
             }}
-          </GetSourcesQuery>
+          </Query>
         </div>
       </div>
     );

@@ -535,8 +535,8 @@ export const UpdateNotification = gql`
 `;
 
 export const MarkUnreadNotificationsAsRead = gql`
-  mutation MarkUnreadNotificationsAsRead {
-    markUnreadNotificationsAsRead {
+  mutation MarkUnreadNotificationsAsRead($statementId: ID) {
+    markUnreadNotificationsAsRead(statementId: $statementId) {
       notifications {
         id
         readAt

@@ -4,11 +4,11 @@ import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { addFlashMessage } from '../../actions/flashMessages';
 import {
-  GetMediaPersonalityQuery,
-  GetMediaPersonalityQueryVariables,
+  GetMediaPersonality as GetMediaPersonalityQuery,
+  GetMediaPersonalityVariables as GetMediaPersonalityQueryVariables,
   MediaPersonalityInput,
-  UpdateMediaPersonalityMutation,
-  UpdateMediaPersonalityMutationVariables,
+  UpdateMediaPersonality as UpdateMediaPersonalityMutation,
+  UpdateMediaPersonalityVariables as UpdateMediaPersonalityMutationVariables,
 } from '../../operation-result-types';
 import { UpdateMediaPersonality } from '../../queries/mutations';
 import {
@@ -19,10 +19,6 @@ import {
 import { MediaPersonalityForm } from '../forms/MediaPersonalityForm';
 import Loading from '../Loading';
 
-class MediaPersonalityQuery extends Query<
-  GetMediaPersonalityQuery,
-  GetMediaPersonalityQueryVariables
-> {}
 class UpdateMediaPersonalityMutationComponent extends Mutation<
   UpdateMediaPersonalityMutation,
   UpdateMediaPersonalityMutationVariables
@@ -63,7 +59,10 @@ class MediaPersonalityEdit extends React.Component<IMediaPersonalityEditProps> {
 
     return (
       <div style={{ padding: '15px 0 40px 0' }}>
-        <MediaPersonalityQuery query={GetMediaPersonality} variables={{ id }}>
+        <Query<GetMediaPersonalityQuery, GetMediaPersonalityQueryVariables>
+          query={GetMediaPersonality}
+          variables={{ id }}
+        >
           {({ data, loading }) => {
             if (loading) {
               return <Loading />;
@@ -94,7 +93,7 @@ class MediaPersonalityEdit extends React.Component<IMediaPersonalityEditProps> {
               </UpdateMediaPersonalityMutationComponent>
             );
           }}
-        </MediaPersonalityQuery>
+        </Query>
       </div>
     );
   }

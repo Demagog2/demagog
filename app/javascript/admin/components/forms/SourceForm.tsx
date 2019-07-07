@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
-import { GetSourceQuery, SourceInput } from '../../operation-result-types';
+import { GetSource as GetSourceQuery, SourceInput } from '../../operation-result-types';
 import { IState as ReduxState } from '../../reducers';
 import DateField from './controls/DateField';
 import MediaPersonalitiesSelect from './controls/MediaPersonalitySelect';

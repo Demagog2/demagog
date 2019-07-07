@@ -4,7 +4,7 @@ import { Colors } from '@blueprintjs/core';
 import { Query } from 'react-apollo';
 import Select from 'react-select';
 
-import { GetMediaPersonalitiesForSelectQuery } from '../../../operation-result-types';
+import { GetMediaPersonalitiesForSelect as GetMediaPersonalitiesForSelectQuery } from '../../../operation-result-types';
 import { GetMediaPersonalitiesForSelect } from '../../../queries/queries';
 
 interface ISelectOption {

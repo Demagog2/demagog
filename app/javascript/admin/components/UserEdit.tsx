@@ -12,16 +12,14 @@ import Error from './Error';
 import Loading from './Loading';
 
 import {
-  GetUserQuery as GetUserQueryData,
-  GetUserQueryVariables,
-  UpdateUserMutation,
-  UpdateUserMutationVariables,
+  GetUser as GetUserQuery,
+  GetUserVariables as GetUserQueryVariables,
+  UpdateUser as UpdateUserMutation,
+  UpdateUserVariables as UpdateUserMutationVariables,
 } from '../operation-result-types';
 import { UpdateUser } from '../queries/mutations';
 import { GetUser } from '../queries/queries';
 import { IUserFormData, UserForm } from './forms/UserForm';
-
-class GetUserQuery extends Query<GetUserQueryData, GetUserQueryVariables> {}
 
 class UpdateUserMutationComponent extends Mutation<
   UpdateUserMutation,
@@ -40,7 +38,7 @@ class UserEdit extends React.Component<IUserEditProps> {
   public onFormSubmit = (
     id: number,
     updateUser: IUpdateUserMutationFn,
-    previousData: GetUserQueryData,
+    previousData: GetUserQuery,
   ) => (formData: IUserFormData) => {
     const { avatar, ...userInput } = formData;
 
@@ -85,7 +83,7 @@ class UserEdit extends React.Component<IUserEditProps> {
 
     return (
       <div style={{ padding: '15px 0 40px 0' }}>
-        <GetUserQuery query={GetUser} variables={{ id }}>
+        <Query<GetUserQuery, GetUserQueryVariables> query={GetUser} variables={{ id }}>
           {({ data, loading, error }) => {
             if (loading || !data) {
               return <Loading />;
@@ -108,7 +106,7 @@ class UserEdit extends React.Component<IUserEditProps> {
               </UpdateUserMutationComponent>
             );
           }}
-        </GetUserQuery>
+        </Query>
       </div>
     );
   }

@@ -8,8 +8,8 @@ import { addFlashMessage } from '../../actions/flashMessages';
 import { uploadArticleIllustration } from '../../api';
 import {
   ArticleInput,
-  CreateArticleMutation,
-  CreateArticleMutationVariables,
+  CreateArticle as CreateArticleMutation,
+  CreateArticleVariables as CreateArticleMutationVariables,
 } from '../../operation-result-types';
 import { CreateArticle } from '../../queries/mutations';
 import { GetArticles } from '../../queries/queries';

@@ -35,9 +35,9 @@ import {
 } from '../constants';
 import {
   AssessmentMethodologyRatingModel,
-  GetSourceQuery,
-  GetSourceStatementsQuery,
-  GetSourceStatementsQueryVariables,
+  GetSource as GetSourceQuery,
+  GetSourceStatements as GetSourceStatementsQuery,
+  GetSourceStatementsVariables as GetSourceStatementsQueryVariables,
 } from '../operation-result-types';
 import { DeleteSource, PublishApprovedSourceStatements } from '../queries/mutations';
 import { GetSource, GetSources, GetSourceStatements } from '../queries/queries';

@@ -5,7 +5,10 @@ import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { addFlashMessage } from '../../actions/flashMessages';
-import { CreatePageMutation, CreatePageMutationVariables } from '../../operation-result-types';
+import {
+  CreatePage as CreatePageMutation,
+  CreatePageVariables as CreatePageMutationVariables,
+} from '../../operation-result-types';
 import { CreatePage } from '../../queries/mutations';
 import { GetPages } from '../../queries/queries';
 import { PageForm } from '../forms/PageForm';

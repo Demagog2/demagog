@@ -4,8 +4,8 @@ import { Query } from 'react-apollo';
 import Select from 'react-select';
 
 import {
-  GetUsersForSelectQuery,
-  GetUsersForSelectQueryVariables,
+  GetUsersForSelect as GetUsersForSelectQuery,
+  GetUsersForSelectVariables as GetUsersForSelectQueryVariables,
 } from '../../../operation-result-types';
 import { GetUsersForSelect } from '../../../queries/queries';
 

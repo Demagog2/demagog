@@ -7,7 +7,7 @@ import { css } from 'emotion';
 import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 
-import { GetPageQuery, PageInput } from '../../operation-result-types';
+import { GetPage as GetPageQuery, PageInput } from '../../operation-result-types';
 import RichTextEditor from '../RichTextEditor';
 import SwitchField from './controls/SwitchField';
 

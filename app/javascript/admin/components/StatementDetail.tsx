@@ -31,11 +31,11 @@ import {
 } from '../constants';
 import {
   AssessmentMethodologyRatingModel,
-  GetStatementQuery,
+  GetStatement as GetStatementQuery,
   StatementType,
+  UpdateStatement as UpdateStatementMutation,
   UpdateStatementInput,
-  UpdateStatementMutation,
-  UpdateStatementMutationVariables,
+  UpdateStatementVariables as UpdateStatementMutationVariables,
 } from '../operation-result-types';
 import { UpdateStatement } from '../queries/mutations';
 import { GetStatement } from '../queries/queries';

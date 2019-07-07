@@ -5,8 +5,8 @@ import { Query } from 'react-apollo';
 import Select from 'react-select';
 
 import {
-  GetTagsForSelectQuery,
-  GetTagsForSelectQueryVariables,
+  GetTagsForSelect as GetTagsForSelectQuery,
+  GetTagsForSelectVariables as GetTagsForSelectQueryVariables,
   StatementType,
 } from '../../../operation-result-types';
 import { GetTagsForSelect } from '../../../queries/queries';

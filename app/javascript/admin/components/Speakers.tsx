@@ -12,8 +12,8 @@ import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import {
-  GetSpeakersQuery as GetSpeakersQueryResult,
-  GetSpeakersQueryVariables,
+  GetSpeakers as GetSpeakersQuery,
+  GetSpeakersVariables as GetSpeakersQueryVariables,
 } from '../operation-result-types';
 import { DeleteSpeaker } from '../queries/mutations';
 import { GetSpeakers } from '../queries/queries';
@@ -23,8 +23,6 @@ import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 import SpeakerAvatar from './SpeakerAvatar';
-
-class GetSpeakersQuery extends Query<GetSpeakersQueryResult, GetSpeakersQueryVariables> {}
 
 interface IProps extends DispatchProp<any> {}
 
@@ -93,7 +91,10 @@ class Speakers extends React.Component<IProps, IState> {
           />
         </div>
 
-        <GetSpeakersQuery query={GetSpeakers} variables={{ name: this.state.search }}>
+        <Query<GetSpeakersQuery, GetSpeakersQueryVariables>
+          query={GetSpeakers}
+          variables={{ name: this.state.search }}
+        >
           {(props) => {
             if (props.loading) {
               return <Loading />;
@@ -212,7 +213,7 @@ class Speakers extends React.Component<IProps, IState> {
               </div>
             );
           }}
-        </GetSpeakersQuery>
+        </Query>
       </div>
     );
   }

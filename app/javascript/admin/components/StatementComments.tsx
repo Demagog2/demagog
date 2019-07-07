@@ -11,12 +11,12 @@ import { Mention, MentionsInput } from 'react-mentions';
 
 import {
   CommentInput,
-  CreateCommentMutation,
-  CreateCommentMutationVariables,
-  GetStatementCommentsQuery,
-  GetStatementCommentsQueryVariables,
-  GetUsersQuery,
-  GetUsersQueryVariables,
+  CreateComment as CreateCommentMutation,
+  CreateCommentVariables as CreateCommentMutationVariables,
+  GetStatementComments as GetStatementCommentsQuery,
+  GetStatementCommentsVariables as GetStatementCommentsQueryVariables,
+  GetUsers as GetUsersQuery,
+  GetUsersVariables as GetUsersQueryVariables,
 } from '../operation-result-types';
 import { CreateComment } from '../queries/mutations';
 import { GetStatementComments, GetUsers } from '../queries/queries';

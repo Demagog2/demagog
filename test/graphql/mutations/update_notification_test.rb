@@ -17,7 +17,8 @@ class UpdateNotificationMutationTest < GraphQLTestCase
 
   test "should require authentication" do
     user = create(:user)
-    notification = create(:notification, recipient: user)
+    statement = create(:statement)
+    notification = create(:notification, recipient: user, statement: statement)
 
     result = execute_with_errors(mutation(notification, Time.now))
 
@@ -26,7 +27,8 @@ class UpdateNotificationMutationTest < GraphQLTestCase
 
   test "should update an notification" do
     user = create(:user)
-    notification = create(:notification, recipient: user)
+    statement = create(:statement)
+    notification = create(:notification, recipient: user, statement: statement)
 
     read_at = Time.now
 

@@ -28,9 +28,9 @@ class Comment < ApplicationRecord
         recipient = User.find(mention[0])
 
         notifications << Notification.new(
-          content: "#{comment.user.display_in_notification} tě zmínil/a v komentáři #{comment.display_in_notification} u výroku #{comment.statement.display_in_notification}",
-          action_link: "/admin/statements/#{comment.statement.id}",
-          action_text: "Na detail výroku",
+          statement_text: "#{comment.user.display_in_notification} tě zmínil/a v komentáři #{comment.display_in_notification("long")}",
+          full_text: "#{comment.user.display_in_notification} tě zmínil/a v komentáři #{comment.display_in_notification} u výroku #{comment.statement.display_in_notification}",
+          statement_id: comment.statement.id,
           recipient: recipient
         )
       end
@@ -38,18 +38,18 @@ class Comment < ApplicationRecord
       # Temporarily commented out, because we are finetuning the notifications for expert
       # if comment.statement.source.expert
       #   notifications << Notification.new(
-      #     content: "#{comment.user.display_in_notification} přidal/a komentář #{comment.display_in_notification} u tebou expertovaného výroku #{comment.statement.display_in_notification}",
-      #     action_link: "/admin/statements/#{comment.statement.id}",
-      #     action_text: "Na detail výroku",
+      #     statement_text: "#{comment.user.display_in_notification} přidal/a komentář #{comment.display_in_notification("long")}",
+      #     full_text: "#{comment.user.display_in_notification} přidal/a komentář #{comment.display_in_notification} u tebou expertovaného výroku #{comment.statement.display_in_notification}",
+      #     statement_id: comment.statement.id,
       #     recipient: comment.statement.source.expert
       #   )
       # end
 
       if comment.statement.assessment.evaluator
         notifications << Notification.new(
-          content: "#{comment.user.display_in_notification} přidal/a komentář #{comment.display_in_notification} u tebou ověřovaného výroku #{comment.statement.display_in_notification}",
-          action_link: "/admin/statements/#{comment.statement.id}",
-          action_text: "Na detail výroku",
+          statement_text: "#{comment.user.display_in_notification} přidal/a komentář #{comment.display_in_notification("long")}",
+          full_text: "#{comment.user.display_in_notification} přidal/a komentář #{comment.display_in_notification} u tebou ověřovaného výroku #{comment.statement.display_in_notification}",
+          statement_id: comment.statement.id,
           recipient: comment.statement.assessment.evaluator
         )
       end
@@ -60,7 +60,7 @@ class Comment < ApplicationRecord
     end
   end
 
-  def display_in_notification
-    "„#{display_content.truncate(40, omission: '…')}‟"
+  def display_in_notification(type = "short")
+    "„#{display_content.truncate(type == "short" ? 40 : 160, omission: '…')}‟"
   end
 end
