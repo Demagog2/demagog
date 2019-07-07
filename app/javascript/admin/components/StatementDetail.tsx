@@ -123,11 +123,11 @@ class StatementDetail extends React.Component<IProps, IState> {
             console.error(error); // tslint:disable-line:no-console
           }
 
-          if (loading) {
+          if (loading && (!data || !data.statement)) {
             return <Loading />;
           }
 
-          if (!data) {
+          if (!data || !data.statement) {
             return null;
           }
 

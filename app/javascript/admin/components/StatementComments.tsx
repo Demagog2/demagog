@@ -56,7 +56,7 @@ class StatementComments extends React.PureComponent<IProps> {
             return <Loading />;
           }
 
-          if (!data) {
+          if (!data || !data.statement) {
             return null;
           }
 
