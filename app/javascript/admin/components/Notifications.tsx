@@ -265,6 +265,9 @@ const UnreadNotificationsPanel = ({ handleUnreadStatementClick }) => {
                     <tr
                       key={statementId}
                       className={css`
+                        td {
+                          border-bottom: 1px solid rgba(16, 22, 26, 0.15);
+                        }
                         background-color: #e6f5ff;
                       `}
                       onClick={() => handleUnreadStatementClick(notifications)}
@@ -292,7 +295,14 @@ const UnreadNotificationsPanel = ({ handleUnreadStatementClick }) => {
                         >
                           <tbody>
                             {notifications.map((notification) => (
-                              <tr key={notification.id}>
+                              <tr
+                                key={notification.id}
+                                className={css`
+                                  td {
+                                    border-bottom: 1px solid rgba(16, 22, 26, 0.15);
+                                  }
+                                `}
+                              >
                                 <td>
                                   {notification.statementText}
                                   <br />
@@ -384,7 +394,7 @@ class AllNotificationsPanel extends React.Component<
                         onClick={handleNotificationClick(notification)}
                       >
                         <td>
-                          {notification.statementText}
+                          {notification.fullText}
                           <br />
                           <small className={Classes.TEXT_MUTED}>
                             {distanceInWordsToNow(notification.createdAt, {

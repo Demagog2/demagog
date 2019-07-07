@@ -2271,6 +2271,7 @@ export interface GetNotifications_notifications_items_statement {
 export interface GetNotifications_notifications_items {
   __typename: "Notification";
   id: string;
+  fullText: string;
   statementText: string;
   statement: GetNotifications_notifications_items_statement;
   createdAt: GraphQLCustomScalar_DateTime;

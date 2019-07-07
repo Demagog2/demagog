@@ -529,6 +529,7 @@ export const GetNotifications = gql`
       totalCount
       items {
         id
+        fullText
         statementText
         statement {
           id
