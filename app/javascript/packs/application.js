@@ -1,6 +1,7 @@
 /* eslint-env browser */
 
-import '@babel/polyfill';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 // NodeList.forEach is in core-js v3, but since we are using still v2 through
 // webpacker/babel-preset-env, we just polyfill it ourselves here

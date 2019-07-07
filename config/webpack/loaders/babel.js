@@ -11,8 +11,9 @@ module.exports = {
           [
             '@babel/preset-env',
             {
-              // Means that we replace @babel/polyfill with specific polyfills
-              // based on our browserslist config in .browserslistrc
+              corejs: 3,
+              // Means that we replace core-js & regenerator-runtime imports with
+              // specific polyfills based on our browserslist config in .browserslistrc
               useBuiltIns: 'entry',
             },
           ],

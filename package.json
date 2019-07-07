@@ -6,9 +6,10 @@
     "lint": "tslint 'app/javascript/**/*.{ts,tsx}'"
   },
   "dependencies": {
+    "@babel/core": "^7.5.0",
     "@blueprintjs/core": "~3.8.0",
     "@blueprintjs/datetime": "^3.3.1",
-    "@rails/webpacker": "https://github.com/rails/webpacker",
+    "@rails/webpacker": "^4.0.7",
     "@sentry/browser": "^4.3.0",
     "@types/classnames": "^2.2.4",
     "@types/enzyme": "^3.1.10",
@@ -36,9 +37,12 @@
     "apollo-client": "^2.6.3",
     "apollo-client-preset": "^1.0.6",
     "apollo-link": "^1.2.11",
+    "babel-loader": "^8.0.6",
     "classlist-polyfill": "^1.2.0",
     "classnames": "^2.2.6",
     "copy-to-clipboard": "^3.0.8",
+    "core-js": "^3.1.4",
+    "css-loader": "^2.1.1",
     "css-vars-ponyfill": "^1.17.2",
     "date-fns": "^1.29.0",
     "element-closest": "^3.0.1",
@@ -78,6 +82,7 @@
     "react-window": "^1.8.3",
     "redux": "^4.0.1",
     "redux-observable": "^1.0.0",
+    "regenerator-runtime": "^0.13.2",
     "rxjs": "^6.3.3",
     "slate": "^0.44.5",
     "slate-html-serializer": "^0.7.29",
@@ -106,7 +111,7 @@
     "tslint": "^5.11.0",
     "tslint-plugin-prettier": "^2.0.0",
     "webpack-cli": "^3.2.1",
-    "webpack-dev-server": "^3.1.14"
+    "webpack-dev-server": "^3.7.2"
   },
   "resolutions": {
     "fstream": "1.0.12",
