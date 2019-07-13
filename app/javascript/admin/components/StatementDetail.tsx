@@ -647,6 +647,8 @@ class StatementDetail extends React.Component<IProps, IState> {
                                         __html: values.assessment.explanation_html || '',
                                       }}
                                       className={css`
+                                        word-break: break-word;
+
                                         img {
                                           max-width: 100%;
                                         }

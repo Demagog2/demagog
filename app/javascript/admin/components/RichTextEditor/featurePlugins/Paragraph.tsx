@@ -27,7 +27,7 @@ const ParagraphNode = (props: RenderNodeProps) => {
     // Using <div> element, not <p>, because <p> cannot have non-text
     // descendant elements and we need descendant divs for the interactivity
     // of at least links.
-    <div style={{ marginBottom: '1rem' }} {...attributes}>
+    <div style={{ marginBottom: '1rem', wordBreak: 'break-word' }} {...attributes}>
       {children}
     </div>
   );
