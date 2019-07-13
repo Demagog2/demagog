@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 13. července 2019
+- Opraveno: Dlouhé odkazy či slova v odůvodnění se zalamují a nenatahují stránku do šířky ([#425](https://github.com/Demagog2/demagog/pull/425))
+
 ## 23. června 2019
 - Změněno: Diskuze může mít víc expertů ([#404](https://github.com/Demagog2/demagog/pull/404))
 
