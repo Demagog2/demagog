@@ -4,6 +4,7 @@ Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [K
 
 ## 13. července 2019
 - Opraveno: Dlouhé odkazy či slova v odůvodnění se zalamují a nenatahují stránku do šířky ([#425](https://github.com/Demagog2/demagog/pull/425))
+- Opraveno: Při zadávání příslušnosti řečníka ke straně jde vybrat datum před rokem 1999 ([#426](https://github.com/Demagog2/demagog/pull/426))
 
 ## 23. června 2019
 - Změněno: Diskuze může mít víc expertů ([#404](https://github.com/Demagog2/demagog/pull/404))
