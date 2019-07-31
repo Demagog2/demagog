@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 31. července 2019
+- Opraveno: Výrok jde měnit i když není vybraný ověřovatel ([#428](https://github.com/Demagog2/demagog/pull/428))
+
 ## 22. července 2019
 - Změněno: Datum lze vybrat od 1.1.1990
 
