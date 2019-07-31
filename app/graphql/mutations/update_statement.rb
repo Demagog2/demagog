@@ -25,7 +25,7 @@ module Mutations
 
               if evaluator_id.nil?
                 assessment_input[:evaluator] = nil
-              elsif !evaluator_id.nil?
+              else
                 assessment_input[:evaluator] = User.find(evaluator_id)
               end
             end
