@@ -20,12 +20,14 @@ module Mutations
       begin
         Statement.transaction do
           if assessment_input
-            evaluator_id = assessment_input.delete(:evaluator_id)
+            if assessment_input.key?(:evaluator_id)
+              evaluator_id = assessment_input.delete(:evaluator_id)
 
-            if evaluator_id.nil? && args[:statement_input][:assessment].key?(:evaluator_id)
-              assessment_input[:evaluator] = nil
-            elsif !evaluator_id.nil?
-              assessment_input[:evaluator] = User.find(evaluator_id)
+              if evaluator_id.nil?
+                assessment_input[:evaluator] = nil
+              elsif !evaluator_id.nil?
+                assessment_input[:evaluator] = User.find(evaluator_id)
+              end
             end
 
             statement.assessment.assign_attributes(assessment_input)
