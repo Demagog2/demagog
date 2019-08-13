@@ -3,6 +3,10 @@
 require "test_helper"
 
 class AssessmentTest < ActiveSupport::TestCase
+  def setup
+    I18n.locale = :en
+  end
+
   test "admin should be authorized to change anything" do
     assessment = create(:assessment, :being_evaluated)
     user = create(:user, :admin)
