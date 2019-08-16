@@ -3,7 +3,7 @@
 module SearchHelper
   RECORD_NAMES_HASH = {
     speakers: "politiků",
-    articles: "článků",
+    articles: "výstupů",
     statements: "výroků"
   }
 

@@ -144,12 +144,12 @@
 
       li.menu-item {
         display: block;
-        margin: 0;
+        margin: 0 1.25rem;
 
         > button {
           display: block;
           margin: 0;
-          padding: 0 2.5rem 0 0;
+          padding: 0;
           border: none;
           background: none;
           font-family: var(--font-family);
@@ -167,17 +167,21 @@
           }
         }
 
-        &.menu-item-search a {
-          padding: 0 .5rem;
-          vertical-align: middle;
+        &.menu-item-search {
+          margin: 0;
 
-          svg {
+          a {
             display: block;
-          }
+            padding: 0 .5rem 0 1.25rem;
 
-          &:hover, &:focus {
-            svg path {
-              fill: var(--orange);
+            svg {
+              display: block;
+            }
+
+            &:hover, &:focus {
+              svg path {
+                fill: var(--orange);
+              }
             }
           }
         }

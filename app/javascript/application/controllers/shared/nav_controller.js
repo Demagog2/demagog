@@ -8,12 +8,13 @@ export default class extends Controller {
     this.desktopNavigationMenuItemButtonTargets.forEach((el) => {
       tippy(el, {
         appendTo: 'parent',
-        boundary: 'viewport',
+        boundary: document.querySelector('body'),
         content: (menuItemButtonEl) => {
           const submenuItemsEl = menuItemButtonEl.parentElement.querySelector('.submenu-items');
           return document.importNode(submenuItemsEl, true);
         },
         duration: 0,
+        flip: false,
         interactive: true,
         interactiveBorder: 0,
         onHidden: (tippyInstance) => {
