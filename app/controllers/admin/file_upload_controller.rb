@@ -14,13 +14,11 @@ class Admin::FileUploadController < ApplicationController
   end
 
   def delete_article_illustration
-    begin
-      article = Article.find(params[:id])
+    article = Article.find(params[:id])
 
-      article.illustration.purge
-    rescue ActiveRecord::RecordNotFound
-      head :not_found
-    end
+    article.illustration.purge
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
   end
 
   def upload_user_avatar
@@ -32,13 +30,11 @@ class Admin::FileUploadController < ApplicationController
   end
 
   def delete_user_avatar
-    begin
-      user = User.find(params[:id])
+    user = User.find(params[:id])
 
-      user.avatar.purge
-    rescue ActiveRecord::RecordNotFound
-      head :not_found
-    end
+    user.avatar.purge
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
   end
 
   def upload_profile_picture
@@ -50,13 +46,11 @@ class Admin::FileUploadController < ApplicationController
   end
 
   def delete_profile_picture
-    begin
-      speaker = Speaker.find(params[:id])
+    speaker = Speaker.find(params[:id])
 
-      speaker.avatar.purge
-    rescue ActiveRecord::RecordNotFound
-      head :not_found
-    end
+    speaker.avatar.purge
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
   end
 
   def upload_body_logo
@@ -68,13 +62,11 @@ class Admin::FileUploadController < ApplicationController
   end
 
   def delete_body_logo
-    begin
-      body = Body.find(params[:id])
+    body = Body.find(params[:id])
 
-      body.logo.purge
-    rescue ActiveRecord::RecordNotFound
-      head :not_found
-    end
+    body.logo.purge
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
   end
 
   def upload_content_image

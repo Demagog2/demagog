@@ -2,7 +2,6 @@
 
 class FrontendController < ApplicationController
   protected
-
     def set_locale
       # Whole app is using English except frontend which we want to
       # have with proper Czech localized dates and pagination

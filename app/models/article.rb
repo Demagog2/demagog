@@ -216,7 +216,7 @@ class Article < ApplicationRecord
 
     begin
       article.segments.find(segment_id)
-    rescue ActiveRecord::RecordNotFound => err
+    rescue ActiveRecord::RecordNotFound
       ArticleSegment.new
     end
   end

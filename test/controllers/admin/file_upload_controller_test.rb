@@ -49,9 +49,9 @@ class Admin::FileUploadControllerTest < ActionController::TestCase
   test "delete profile picture" do
     sign_in create(:user)
 
-    speaker = create(:speaker) do |speaker|
+    speaker = create(:speaker) do |s|
       fixture = fixture_file_upload("files/speaker.png", "image/png")
-      speaker.avatar.attach fixture
+      s.avatar.attach fixture
     end
 
     assert_changes -> { speaker.reload.avatar.attached? } do
@@ -64,7 +64,7 @@ class Admin::FileUploadControllerTest < ActionController::TestCase
   test "handling missing speaker id" do
     sign_in create(:user)
 
-    speaker = create(:speaker)
+    create(:speaker)
 
     delete "delete_profile_picture", params: { id: "non-existent" }
 

@@ -21,11 +21,9 @@ class Types::QueryType < GraphQL::Schema::Object
   end
 
   def source(id:)
-    begin
-      Source.find(id)
-    rescue ActiveRecord::RecordNotFound
-      raise GraphQL::ExecutionError.new("Could not find Source with id=#{id}")
-    end
+    Source.find(id)
+  rescue ActiveRecord::RecordNotFound
+    raise GraphQL::ExecutionError.new("Could not find Source with id=#{id}")
   end
 
   field :sources, [Types::SourceType], null: false do
@@ -78,11 +76,9 @@ class Types::QueryType < GraphQL::Schema::Object
   end
 
   def medium(id:)
-    begin
-      Medium.find(id)
-    rescue ActiveRecord::RecordNotFound
-      raise GraphQL::ExecutionError.new("Could not find Medium with id=#{args[:id]}")
-    end
+    Medium.find(id)
+  rescue ActiveRecord::RecordNotFound
+    raise GraphQL::ExecutionError.new("Could not find Medium with id=#{args[:id]}")
   end
 
   field :media_personalities, [Types::MediaPersonalityType], null: false do
@@ -104,11 +100,9 @@ class Types::QueryType < GraphQL::Schema::Object
   end
 
   def media_personality(id:)
-    begin
-      MediaPersonality.find(id)
-    rescue ActiveRecord::RecordNotFound
-      raise GraphQL::ExecutionError.new("Could not find MediaPersonality with id=#{id}")
-    end
+    MediaPersonality.find(id)
+  rescue ActiveRecord::RecordNotFound
+    raise GraphQL::ExecutionError.new("Could not find MediaPersonality with id=#{id}")
   end
 
   field :speaker, Types::SpeakerType, null: false do
@@ -116,11 +110,9 @@ class Types::QueryType < GraphQL::Schema::Object
   end
 
   def speaker(id:)
-    begin
-      Speaker.find(id)
-    rescue ActiveRecord::RecordNotFound
-      raise GraphQL::ExecutionError.new("Could not find Speaker with id=#{id}")
-    end
+    Speaker.find(id)
+  rescue ActiveRecord::RecordNotFound
+    raise GraphQL::ExecutionError.new("Could not find Speaker with id=#{id}")
   end
 
 
@@ -153,18 +145,16 @@ class Types::QueryType < GraphQL::Schema::Object
   end
 
   def statement(args)
-    begin
-      if args[:include_unpublished]
-        # Public cannot access unpublished statements
-        raise Errors::AuthenticationNeededError.new unless context[:current_user]
+    if args[:include_unpublished]
+      # Public cannot access unpublished statements
+      raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
-        return Statement.find(args[:id])
-      end
-
-      Statement.published.find(args[:id])
-    rescue ActiveRecord::RecordNotFound
-      raise GraphQL::ExecutionError.new("Could not find Statement with id=#{args[:id]}")
+      return Statement.find(args[:id])
     end
+
+    Statement.published.find(args[:id])
+  rescue ActiveRecord::RecordNotFound
+    raise GraphQL::ExecutionError.new("Could not find Statement with id=#{args[:id]}")
   end
 
   field :statements, [Types::StatementType], null: false do
@@ -219,11 +209,9 @@ class Types::QueryType < GraphQL::Schema::Object
   end
 
   def body(id:)
-    begin
-      Body.find(id)
-    rescue ActiveRecord::RecordNotFound
-      raise GraphQL::ExecutionError.new("Could not find Body with id=#{id}")
-    end
+    Body.find(id)
+  rescue ActiveRecord::RecordNotFound
+    raise GraphQL::ExecutionError.new("Could not find Body with id=#{id}")
   end
 
   field :parties, [Types::PartyType], null: false, deprecation_reason: "Replaced by 'bodies', as not all speakers must be members a political party" do
@@ -286,18 +274,16 @@ class Types::QueryType < GraphQL::Schema::Object
   end
 
   def article(args)
-    begin
-      if args[:include_unpublished]
-        # Public cannot access unpublished articles
-        raise Errors::AuthenticationNeededError.new unless context[:current_user]
+    if args[:include_unpublished]
+      # Public cannot access unpublished articles
+      raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
-        return Article.friendly.find(args[:slug] || args[:id])
-      end
-
-      Article.published.friendly.find(args[:slug] || args[:id])
-    rescue ActiveRecord::RecordNotFound
-      raise GraphQL::ExecutionError.new("Could not find Article with id=#{args[:id]} or slug=#{args[:slug]}")
+      return Article.friendly.find(args[:slug] || args[:id])
     end
+
+    Article.published.friendly.find(args[:slug] || args[:id])
+  rescue ActiveRecord::RecordNotFound
+    raise GraphQL::ExecutionError.new("Could not find Article with id=#{args[:id]} or slug=#{args[:slug]}")
   end
 
   field :articles, [Types::ArticleType], null: false do
@@ -362,18 +348,16 @@ class Types::QueryType < GraphQL::Schema::Object
   end
 
   def page(args)
-    begin
-      if args[:include_unpublished]
-        # Public cannot access unpublished pages
-        raise Errors::AuthenticationNeededError.new unless context[:current_user]
+    if args[:include_unpublished]
+      # Public cannot access unpublished pages
+      raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
-        return Page.friendly.find(args[:slug] || args[:id])
-      end
-
-      Page.published.friendly.find(args[:slug] || args[:id])
-    rescue ActiveRecord::RecordNotFound
-      raise GraphQL::ExecutionError.new("Could not find Page with id=#{args[:id]} or slug=#{args[:slug]}")
+      return Page.friendly.find(args[:slug] || args[:id])
     end
+
+    Page.published.friendly.find(args[:slug] || args[:id])
+  rescue ActiveRecord::RecordNotFound
+    raise GraphQL::ExecutionError.new("Could not find Page with id=#{args[:id]} or slug=#{args[:slug]}")
   end
 
   field :user, Types::UserType, null: false do

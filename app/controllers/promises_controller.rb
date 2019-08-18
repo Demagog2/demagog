@@ -266,9 +266,8 @@ class PromisesController < FrontendController
   end
 
   private
-
     def druha_vlada_andreje_babise_get_promise_document_position(statement)
-      position = {
+      {
         17518 => [22, 0, 22, 71], # privatizace
         17565 => [1, 0, 2, 36], # odpolitizovani statni spravy
         17516 => [27, 43, 28, 6], # nebudeme zvysovat danovou zatez

@@ -64,7 +64,6 @@ class HtmlContentHelperTest < ActiveSupport::TestCase
   end
 
   private
-
     def assert_out_to_cleaned_in(filename)
       in_html = File.read(__dir__ + "/data/#{filename}.in.html").strip
       out_html = File.read(__dir__ + "/data/#{filename}.out.html").strip
