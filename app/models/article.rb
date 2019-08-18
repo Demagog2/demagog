@@ -29,23 +29,19 @@ class Article < ApplicationRecord
 
   mapping do
     indexes :id, type: "long"
-    indexes :title, type: "keyword" do
-      # Using both analyzers as titles could be both specific names and sentences
-      indexes :czech_stemmer, type: "text", analyzer: "czech_stemmer"
-      indexes :czech_lowercase, type: "text", analyzer: "czech_lowercase"
-    end
-    indexes :perex, type: "text", analyzer: "czech_stemmer"
-    indexes :segments_text, type: "text", analyzer: "czech_stemmer"
+    ElasticMapping.indexes_text_field self, :title
+    ElasticMapping.indexes_text_field self, :perex
+    ElasticMapping.indexes_text_field self, :segments_text
     indexes :published, type: "boolean"
     indexes :published_at, type: "date"
 
     # Special types for factcheck articles, so they are searchable also by medium or moderators
     indexes :article_type_default_indexed_context do
       indexes :medium do
-        indexes :name, type: "text", analyzer: "czech_lowercase"
+        ElasticMapping.indexes_name_field self, :name
       end
       indexes :media_personalities do
-        indexes :name, type: "text", analyzer: "czech_lowercase"
+        ElasticMapping.indexes_name_field self, :name
       end
     end
   end
@@ -61,7 +57,7 @@ class Article < ApplicationRecord
     search(
       query: {
         bool: {
-          must: { simple_query_string: { query: query, default_operator: "AND", flags: "AND|NOT|OR|PHRASE|PRECEDENCE|WHITESPACE" } },
+          must: { simple_query_string: simple_query_string_defaults.merge(query: query) },
           filter: [
             { term: { published: true } },
             { range: { published_at: { lte: "now" } } }

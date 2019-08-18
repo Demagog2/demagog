@@ -71,23 +71,23 @@ class Statement < ApplicationRecord
   mapping do
     indexes :id, type: "long"
     indexes :statement_type, type: "keyword"
-    indexes :content, type: "text", analyzer: "czech_stemmer"
+    ElasticMapping.indexes_text_field self, :content
     indexes :published, type: "boolean"
     indexes :assessment do
-      indexes :short_explanation, type: "text", analyzer: "czech_stemmer"
-      indexes :explanation_text, type: "text", analyzer: "czech_stemmer"
+      ElasticMapping.indexes_text_field self, :short_explanation
+      ElasticMapping.indexes_text_field self, :explanation_text
       indexes :veracity do
-        indexes :name, type: "text", analyzer: "czech_lowercase"
+        ElasticMapping.indexes_name_field self, :name
       end
     end
     indexes :source do
       indexes :released_at, type: "date"
       indexes :medium do
-        indexes :name, type: "text", analyzer: "czech_lowercase"
+        ElasticMapping.indexes_name_field self, :name
       end
     end
     indexes :speaker do
-      indexes :full_name, type: "text", analyzer: "czech_lowercase"
+      ElasticMapping.indexes_name_field self, :full_name
     end
   end
 
@@ -117,7 +117,7 @@ class Statement < ApplicationRecord
     search(
       query: {
         bool: {
-          must: { simple_query_string: { query: query, default_operator: "AND", flags: "AND|NOT|OR|PHRASE|PRECEDENCE|WHITESPACE" } },
+          must: { simple_query_string: simple_query_string_defaults.merge(query: query) },
           filter: [
             { term: { published: true } },
             { term: { statement_type: TYPE_FACTUAL } }
