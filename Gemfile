@@ -29,7 +29,7 @@ gem "uglifier", ">= 1.3.0"
 # Add gem for paging
 gem "kaminari"
 # Add webpack support
-# gem "webpacker", ">= 4.0.x"
+gem "webpacker", "~> 4.0.7"
 # Add graphql support
 gem "graphql"
 # Allow CORS setup
