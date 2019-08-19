@@ -22,9 +22,20 @@ module Searchable
           # not in elasticsearch out of the box. So to have simpler installation at least for now,
           # we are using just the asciifolding and Czech stemmer, which seem to be good enough.
           #
+          # Analyzer czech_lowercase just transforms to lowercase and removes accents.
+          # It is useful for strings where their exact form is important like names
+          # (of people, media, etc.).
+          czech_lowercase: {
+            type: "custom",
+            tokenizer: "standard",
+            filter: [
+              "lowercase",
+              "asciifolding"
+            ]
+          },
           # Analyzer czech_stemmer converts meaningful words into their lowercase and unaccented
           # stems so it can match words even when they are declensed. It is useful for
-          # sentence-based texts.
+          # sentence-based texts as a second analyzer next to the czech_lowercase.
           czech_stemmer: {
             type: "custom",
             tokenizer: "standard",
@@ -36,17 +47,6 @@ module Searchable
               "asciifolding", # Not using icu_folding now so we have simpler installation
               "unique_on_same_position"
             ],
-          },
-          # Analyzer czech_lowercase just transforms to lowercase and removes accents.
-          # It is useful for strings where their exact form is important like names
-          # (of people, media, etc.).
-          czech_lowercase: {
-            type: "custom",
-            tokenizer: "standard",
-            filter: [
-              "lowercase",
-              "asciifolding"
-            ]
           }
         },
         filter: {
@@ -69,5 +69,14 @@ module Searchable
         },
       }
     }
+  end
+
+  class_methods do
+    def simple_query_string_defaults
+      {
+        default_operator: "AND",
+        flags: "AND|NOT|OR|PHRASE|PRECEDENCE|WHITESPACE"
+      }
+    end
   end
 end

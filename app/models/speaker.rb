@@ -19,7 +19,7 @@ class Speaker < ApplicationRecord
 
   mapping do
     indexes :id, type: "long"
-    indexes :full_name, type: "text", analyzer: "czech_lowercase"
+    ElasticMapping.indexes_name_field self, :full_name
     indexes :factual_and_published_statements_count, type: "long"
   end
 
@@ -34,7 +34,7 @@ class Speaker < ApplicationRecord
     search(
       query: {
         bool: {
-          must: { simple_query_string: { query: query, default_operator: "AND", flags: "AND|NOT|OR|PHRASE|PRECEDENCE|WHITESPACE" } }
+          must: { simple_query_string: simple_query_string_defaults.merge(query: query) }
         }
       },
       sort: [

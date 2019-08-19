@@ -20,6 +20,7 @@ module Demagog
     # -- all .rb files in that directory are automatically loaded.
 
     config.autoload_paths << Rails.root.join("app/graphql/utils")
+    config.autoload_paths << Rails.root.join("lib")
 
     # Enable CORS to /graphql resource from anywhere
     config.middleware.insert_before 0, Rack::Cors do
