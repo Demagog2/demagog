@@ -10,6 +10,7 @@ export default class extends Controller {
     'areaTagFilterClear',
     'promiseRatingFilterOption',
     'promiseRatingFilterClear',
+    'explanationHtml',
   ];
 
   initialize() {
@@ -19,6 +20,11 @@ export default class extends Controller {
     this.measureAllPromiseDetailHeights();
     this.propagateExpandedIdToDom();
     this.propagateFiltersToDom();
+
+    // Open all links from explanation in the new window
+    this.explanationHtmlTarget.querySelectorAll('a').forEach((linkElement) => {
+      linkElement.setAttribute('target', '_blank');
+    });
   }
 
   handleWindowPopstate() {

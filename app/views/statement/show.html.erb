@@ -1,11 +1,15 @@
-<section class="container-statement-show <% if @statement.important? %>important-statement<% end %>">
+<section
+  class="container-statement-show <% if @statement.important? %>important-statement<% end %>"
+  data-controller="statement--show"
+  data-action="resize@window->statement--show#handleWindowResize"
+>
   <a href="<%= speaker_path(@statement.speaker.id) %>" class="speaker">
     <%= render(partial: 'shared/portrait', object: @statement.speaker, as: :speaker) %>
     <span class="name"><%= @statement.speaker.full_name %></span>
   </a>
 
   <div class="statement-content">
-    <blockquote>
+    <blockquote data-target="statement--show.blockquote">
       <%= content_to_html(@statement.content) %>
       <cite><%= @statement.source.medium.name %>, <span class="date"><%= raw(l(@statement.source.released_at, format: :long)) %></span></cite>
 
@@ -31,7 +35,9 @@
           <p><%= @statement.approved_assessment.short_explanation %></p>
         <% end %>
 
-        <%= raw(@statement.approved_assessment.explanation_html) %>
+        <div data-target="statement--show.explanationHtml">
+          <%= raw(@statement.approved_assessment.explanation_html) %>
+        </div>
       </section>
     </article>
 

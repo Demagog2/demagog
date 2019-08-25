@@ -12,7 +12,7 @@
         <span class="label factcheck">Ověřili jsme</span><br>
         <%= @article.source.medium.name %> ze dne <%= raw(l(@article.source.released_at, format: :long)) %>
         <% if @article.source.media_personalities.size > 0 %>
-          (<%= @article.source.media_personalities.size > 1 ? "moderátoři" : "moderátor" %> <%= @article.source.media_personalities.pluck(:name).to_sentence %><% unless @article.source.source_url.empty? %>, <a class="ext" href="<%= @article.source.source_url %>">záznam</a><% end %>)
+          (<%= @article.source.media_personalities.size > 1 ? "moderátoři" : "moderátor" %> <%= @article.source.media_personalities.pluck(:name).to_sentence %><% unless @article.source.source_url.empty? %>, <a class="ext" href="<%= @article.source.source_url %>" target="_blank">záznam</a><% end %>)
         <% end %>
       </p>
     <% end %>
