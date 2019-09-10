@@ -39,7 +39,19 @@ class UserNew extends React.Component<IUserNewProps> {
 
         let uploadPromise: Promise<any> = Promise.resolve();
         if (avatar instanceof File) {
-          uploadPromise = uploadUserAvatar(userId, avatar);
+          uploadPromise = uploadUserAvatar(userId, avatar).catch((error) => {
+            if (error.status === 413) {
+              this.props.dispatch(
+                addFlashMessage(
+                  'Obrázek je větší než teď povolujeme, zmenšete ho a nahrajte znovu.',
+                  'warning',
+                ),
+              );
+              return Promise.reject();
+            } else {
+              return Promise.reject(error);
+            }
+          });
         }
 
         uploadPromise.then(() => {
@@ -47,7 +59,9 @@ class UserNew extends React.Component<IUserNewProps> {
         });
       })
       .catch((error) => {
-        this.onError(error);
+        if (error) {
+          this.onError(error);
+        }
       });
   };
 
