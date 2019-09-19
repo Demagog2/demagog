@@ -111,6 +111,9 @@ gem "sentry-raven"
 gem "elasticsearch-model", "~> 7.0.0.pre"
 gem "elasticsearch-rails", "~> 7.0.0.pre"
 
+# Posting to Slack
+gem "slack-notifier"
+
 # Use Capistrano for deployment
 group :development do
   gem "capistrano", require: false

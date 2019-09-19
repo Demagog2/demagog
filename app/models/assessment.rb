@@ -223,4 +223,15 @@ class Assessment < ApplicationRecord
       Notification.create_notifications(notifications, current_user)
     end
   end
+
+  def post_to_proofreading_slack
+    if evaluation_status_previously_changed? && evaluation_status == STATUS_PROOFREADING_NEEDED
+      proofreading_needed_count = statement.source.statements.select { |s| s.assessment.evaluation_status == STATUS_PROOFREADING_NEEDED }.size
+
+      if proofreading_needed_count > 0 && proofreading_needed_count % 5 == 0
+        source_url = "https://demagog.cz/admin/sources/#{statement.source.id}?filter=%7B%22field%22%3A%22assessment.evaluationStatus%22%2C%22value%22%3A%22proofreading_needed%22%7D"
+        SlackNotifier::ProofreadingNotifier.post text: "Ahoj, máme tu v diskuzi *#{statement.source.name}* už #{proofreading_needed_count} výroků ke korektuře. Prosíme o projití. Díky!\n#{source_url}"
+      end
+    end
+  end
 end
