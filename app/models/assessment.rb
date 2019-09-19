@@ -164,15 +164,6 @@ class Assessment < ApplicationRecord
             statement_id: statement.id,
             recipient: evaluator
           )
-
-          statement.source.experts.each do |expert|
-            notifications << Notification.new(
-              statement_text: "#{current_user.display_in_notification} vybral/a #{evaluator.display_in_notification} jako ověřovatele/ku",
-              full_text: "#{current_user.display_in_notification} vybral/a #{evaluator.display_in_notification} jako ověřovatele/ku tebou expertovaného výroku #{statement.display_in_notification}",
-              statement_id: statement.id,
-              recipient: expert
-            )
-          end
         rescue ActiveRecord::RecordNotFound
           logger.debug "User #{user_id} not found. Notification not send."
         end
@@ -188,15 +179,6 @@ class Assessment < ApplicationRecord
             statement_id: statement.id,
             recipient: evaluator_was
           )
-
-          statement.source.experts.each do |expert|
-            notifications << Notification.new(
-              statement_text: "#{current_user.display_in_notification} odebral/a #{evaluator_was.display_in_notification} z pozice ověřovatele/ky",
-              full_text: "#{current_user.display_in_notification} odebral/a #{evaluator_was.display_in_notification} z pozice ověřovatele/ky tebou expertovaného výroku #{statement.display_in_notification}",
-              statement_id: statement.id,
-              recipient: expert
-            )
-          end
         rescue ActiveRecord::RecordNotFound
           logger.debug "User #{user_id_was} not found. Notification not send."
         end
