@@ -38,6 +38,7 @@ module Mutations
 
             statement.assessment.create_notifications(context[:current_user])
             statement.assessment.save!
+            statement.assessment.post_to_proofreading_slack
           end
 
           if statement_input.key?(:tags)

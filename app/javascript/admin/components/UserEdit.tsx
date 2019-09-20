@@ -48,7 +48,19 @@ class UserEdit extends React.Component<IUserEditProps> {
     // gets automatically refresh in Apollo's cache from the mutation result data
     let avatarPromise: Promise<any> = Promise.resolve();
     if (avatar instanceof File) {
-      avatarPromise = uploadUserAvatar(id, avatar);
+      avatarPromise = uploadUserAvatar(id, avatar).catch((error) => {
+        if (error.status === 413) {
+          this.props.dispatch(
+            addFlashMessage(
+              'Obrázek je větší než teď povolujeme, zmenšete ho a nahrajte znovu.',
+              'warning',
+            ),
+          );
+          return Promise.reject();
+        } else {
+          return Promise.reject(error);
+        }
+      });
     } else if (avatar === null && previousData.user.avatar !== null) {
       avatarPromise = deleteUserAvatar(id);
     }
@@ -59,7 +71,9 @@ class UserEdit extends React.Component<IUserEditProps> {
         this.onCompleted();
       })
       .catch((error) => {
-        this.onError(error);
+        if (error) {
+          this.onError(error);
+        }
       });
   };
 

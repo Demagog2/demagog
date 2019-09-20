@@ -1,5 +1,7 @@
 <article
-  class="statement <% if statement.important? %>important-statement<% end %> s-statement"
+  class="container-statement-detail statement <% if statement.important? %>important-statement<% end %> s-statement"
+  data-controller="statement--detail"
+  data-action="resize@window->statement--detail#handleWindowResize"
   id="<%= statement.id %>"
 >
   <a href="<%= speaker_path(statement.speaker.id) %>" class="speaker">
@@ -8,7 +10,7 @@
   </a>
 
   <div class="statement-content">
-    <blockquote>
+    <blockquote data-target="statement--detail.blockquote">
       <%= content_to_html(statement.content) %>
       <% if show_when_and_where %>
         <cite><%= statement.source.medium.name -%>, <span class="date"><%= raw(l(statement.source.released_at, format: :long)) %></span></cite>
@@ -25,7 +27,7 @@
       </span>
 
       <% if statement.approved_assessment.short_explanation.nil? %>
-        <a href="#" class="show-reasons">
+        <a href="#" class="show-reasons" data-action="statement--detail#toggleExplanation">
           <span class="collapsed">zobrazit odůvodnění</span>
           <span class="open">skrýt odůvodnění</span>
         </a>
@@ -41,13 +43,13 @@
         </p>
       </section>
 
-      <a href="#" class="show-reasons">
+      <a href="#" class="show-reasons" data-action="statement--detail#toggleExplanation">
         <span class="collapsed">zobrazit&nbsp;celé&nbsp;odůvodnění</span>
         <span class="open">skrýt&nbsp;celé&nbsp;odůvodnění</span>
       </a>
     <% end %>
 
-    <section class="reasons">
+    <section class="reasons" data-target="statement--detail.explanationHtml">
       <%= raw(statement.approved_assessment.explanation_html) %>
     </section>
   </div>

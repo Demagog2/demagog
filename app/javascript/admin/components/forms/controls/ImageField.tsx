@@ -54,7 +54,13 @@ class ImageInput extends React.Component<IImageInputProps, IImageInputState> {
             >
               {value !== null ? 'Vybrat novou fotku' : 'Vybrat fotku'}
             </button>
+            <div>
+              <small className={Classes.TEXT_MUTED}>
+                Formáty .png, .jpg, .jpeg nebo .gif. Velikost max 4 MB.
+              </small>
+            </div>
           </Dropzone>
+
           {value !== null && (
             <button
               type="button"
