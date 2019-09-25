@@ -5,7 +5,6 @@ module Types
     # Mandatory fields
 
     argument :email, String, required: true
-    argument :active, Boolean, required: true
     argument :first_name, String, required: true
     argument :last_name, String, required: true
     argument :role_id, ID, required: true
@@ -18,5 +17,6 @@ module Types
     argument :phone, String, required: false
     argument :order, Int, required: false
     argument :rank, Int, required: false
+    argument :user_public, Boolean, required: false
   end
 end

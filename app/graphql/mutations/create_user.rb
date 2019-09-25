@@ -12,7 +12,7 @@ module Mutations
       Utils::Auth.authenticate(context)
       Utils::Auth.authorize(context, ["users:edit"])
 
-      { user: User.create!(user_input.to_h) }
+      { user: User.create_user(user_input.to_h) }
     end
   end
 end

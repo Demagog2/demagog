@@ -8,7 +8,7 @@ class CreateUserMutationTest < GraphQLTestCase
 
     "
       mutation {
-        createUser(userInput: { firstName: \"John\", lastName: \"Doe\", email: \"john.doe@example.com\", active: true, roleId: #{role.id}, emailNotifications: false }) {
+        createUser(userInput: { firstName: \"John\", lastName: \"Doe\", email: \"john.doe@example.com\", roleId: #{role.id}, emailNotifications: false }) {
           user {
             id
             firstName

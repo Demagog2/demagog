@@ -6,7 +6,7 @@ class UpdateUserMutationTest < GraphQLTestCase
   def mutation(user)
     "
       mutation {
-        updateUser(id: #{user.id}, userInput: { firstName: \"Jim\", lastName: \"Boe\", email: \"john.doe@example.com\", active: true, roleId: #{user.role.id}, emailNotifications: false }) {
+        updateUser(id: #{user.id}, userInput: { firstName: \"Jim\", lastName: \"Boe\", email: \"john.doe@example.com\", roleId: #{user.role.id}, emailNotifications: false }) {
           user {
             id
             firstName

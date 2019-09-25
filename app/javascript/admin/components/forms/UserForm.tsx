@@ -34,7 +34,6 @@ export class UserForm extends React.Component<IUserFormProps> {
     const initialValues = user
       ? { ...user, roleId: user.role.id }
       : {
-          active: true,
           email: '',
           firstName: '',
           lastName: '',
@@ -43,6 +42,7 @@ export class UserForm extends React.Component<IUserFormProps> {
           roleId: null,
           positionDescription: '',
           emailNotifications: false,
+          userPublic: false,
         };
 
     return (
@@ -60,13 +60,13 @@ export class UserForm extends React.Component<IUserFormProps> {
         onSubmit={(values, { setSubmitting }) => {
           const formData: IUserFormData = {
             email: values.email,
-            active: values.active,
             firstName: values.firstName,
             lastName: values.lastName,
             positionDescription: values.positionDescription,
             bio: values.bio,
             avatar: values.avatar,
             emailNotifications: values.emailNotifications,
+            userPublic: values.userPublic,
 
             // role_id will always be a string, because null won't pass validation
             roleId: values.roleId || '',
@@ -127,9 +127,6 @@ export class UserForm extends React.Component<IUserFormProps> {
                 >
                   <TextField name="email" />
                 </FormGroup>
-                <div style={{ marginTop: 15, marginBottom: 15 }}>
-                  <SwitchField name="active" label="Aktivovaný uživatel" />
-                </div>
                 <FormGroup label="Přístupová práva" name="roleId">
                   <SelectComponentField name="roleId">
                     {(renderProps) => <RoleSelect {...renderProps} />}
@@ -154,6 +151,9 @@ export class UserForm extends React.Component<IUserFormProps> {
                 <h4 className={Classes.HEADING}>Veřejný profil</h4>
               </div>
               <div style={{ flex: '1 1' }}>
+                <div style={{ marginBottom: 15 }}>
+                  <SwitchField name="userPublic" label="Zobrazit profil v sekci O nás" />
+                </div>
                 <FormGroup label="Portrét" name="avatar" optional>
                   <ImageField name="avatar" renderImage={(src) => <SpeakerAvatar avatar={src} />} />
                 </FormGroup>

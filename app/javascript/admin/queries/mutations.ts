@@ -346,24 +346,12 @@ export const UpdateUser = gql`
   }
 `;
 
-export const UpdateUserPublicity = gql`
-  mutation UpdateUserPublicity($id: Int!, $userPublicity: Boolean!) {
-    updateUserPublicity(id: $id, userPublic: $userPublicity) {
+export const UpdateUserActiveness = gql`
+  mutation UpdateUserActiveness($id: Int!, $userActive: Boolean!) {
+    updateUserActiveness(id: $id, userActive: $userActive) {
       user {
         id
-        firstName
-        lastName
-        email
-        avatar
         active
-        positionDescription
-        bio
-        emailNotifications
-        userPublic
-        role {
-          id
-          name
-        }
       }
     }
   }
