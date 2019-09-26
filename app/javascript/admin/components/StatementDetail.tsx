@@ -438,17 +438,21 @@ class StatementDetail extends React.Component<IProps, IState> {
                               )}
                               {statement.source.sourceUrl && (
                                 <>
-                                  , <a href={statement.source.sourceUrl}>odkaz</a>
+                                  ,{' '}
+                                  <a href={statement.source.sourceUrl} target="_blank">
+                                    odkaz
+                                  </a>
                                 </>
                               )}
                               {' — '}
                               {statement.statementTranscriptPosition ? (
-                                <Link
+                                <a
                                   // tslint:disable-next-line:max-line-length
-                                  to={`/admin/sources/${statement.source.id}/statements-from-transcript?highlightStatementId=${statement.id}`}
+                                  href={`/admin/sources/${statement.source.id}/statements-from-transcript?highlightStatementId=${statement.id}`}
+                                  target="_blank"
                                 >
                                   Ukázat výrok v kontextu přepisu
-                                </Link>
+                                </a>
                               ) : (
                                 <>Výrok nelze ukázat v kontextu přepisu, je vytvořený ručně</>
                               )}
