@@ -13,20 +13,19 @@ Bundler.require(*Rails.groups)
 module Demagog
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.1
+    config.load_defaults "6.0"
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    config.autoload_paths << Rails.root.join("app/graphql/utils")
     config.autoload_paths << Rails.root.join("lib")
 
     # Enable CORS to /graphql resource from anywhere
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins "*"
-        resource "/graphql", headers: :any, methods: [:get, :post, :options]
+        resource "/graphql", headers: :any, methods: %i[get post options]
       end
     end
 
