@@ -15,10 +15,10 @@ module Mutations
       id = id.to_i
 
       begin
-        User.discard(id)
+        User.delete_user(id)
 
         { id: id }
-      rescue ActiveRecord::RecordNotFound => e
+      rescue ActiveRecord::RecordNotFound, ActiveModel::ValidationError => e
         raise GraphQL::ExecutionError.new(e.to_s)
       end
     end

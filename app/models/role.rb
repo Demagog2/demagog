@@ -44,7 +44,6 @@ EXPERT_PERMISSIONS = [
 
   "users:view",
   "users:edit",
-  "users:edit-user-public",
 
   "visualizations:view",
 ]

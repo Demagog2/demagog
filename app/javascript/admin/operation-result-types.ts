@@ -815,45 +815,30 @@ export interface UpdateUserVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: UpdateUserPublicity
+// GraphQL mutation operation: UpdateUserActiveness
 // ====================================================
 
-export interface UpdateUserPublicity_updateUserPublicity_user_role {
-  __typename: "Role";
-  id: string;
-  name: string;
-}
-
-export interface UpdateUserPublicity_updateUserPublicity_user {
+export interface UpdateUserActiveness_updateUserActiveness_user {
   __typename: "User";
   id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  avatar: string | null;
   active: boolean;
-  positionDescription: string | null;
-  bio: string | null;
-  emailNotifications: boolean;
-  userPublic: boolean;
-  role: UpdateUserPublicity_updateUserPublicity_user_role;
 }
 
-export interface UpdateUserPublicity_updateUserPublicity {
-  __typename: "UpdateUserPublicityPayload";
-  user: UpdateUserPublicity_updateUserPublicity_user;
+export interface UpdateUserActiveness_updateUserActiveness {
+  __typename: "UpdateUserActivenessPayload";
+  user: UpdateUserActiveness_updateUserActiveness_user;
 }
 
-export interface UpdateUserPublicity {
+export interface UpdateUserActiveness {
   /**
-   * Update user publicity
+   * Toggle user active. Inactive user cannot access the system.
    */
-  updateUserPublicity: UpdateUserPublicity_updateUserPublicity | null;
+  updateUserActiveness: UpdateUserActiveness_updateUserActiveness | null;
 }
 
-export interface UpdateUserPublicityVariables {
+export interface UpdateUserActivenessVariables {
   id: number;
-  userPublicity: boolean;
+  userActive: boolean;
 }
 
 /* tslint:disable */
@@ -2574,7 +2559,6 @@ export interface UpdateStatementInput {
 
 export interface UserInput {
   email: string;
-  active: boolean;
   firstName: string;
   lastName: string;
   roleId: string;
@@ -2584,6 +2568,7 @@ export interface UserInput {
   phone?: string | null;
   order?: number | null;
   rank?: number | null;
+  userPublic?: boolean | null;
 }
 
 //==============================================================

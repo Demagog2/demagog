@@ -23,7 +23,7 @@ class UpdateUsersRankMutationTest < GraphQLTestCase
     assert_auth_needed_error result
   end
 
-  test "should update publicity" do
+  test "should update rank" do
     users = create_list(:user, 3, :admin)
 
     result = execute(mutation(users.reverse), context: authenticated_user_context(user: users.first))

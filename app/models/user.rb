@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :comments
   has_many :assessments
   has_many :notifications, foreign_key: "recipient_id"
+  has_and_belongs_to_many :sources, join_table: "sources_experts"
 
   has_one_attached :avatar
 
@@ -57,5 +58,23 @@ class User < ApplicationRecord
     end
 
     User.order(rank: :asc)
+  end
+
+  def self.create_user(user_input)
+    user_input = user_input.deep_symbolize_keys
+    user_input[:active] = true
+    User.create!(user_input)
+  end
+
+  def self.delete_user(id)
+    user = User.find(id)
+
+    if user.comments.size > 0 || user.assessments.size > 0 || user.sources.size > 0 || user.notifications.size > 0
+      user.errors.add(:base, :is_linked_to_some_data,
+        message: "cannot be deleted if it is already linked to some comments, assessments, etc.")
+      raise ActiveModel::ValidationError.new(user)
+    end
+
+    user.discard
   end
 end

@@ -13,7 +13,7 @@ module Types
     field :createUser, mutation: Mutations::CreateUser
     field :updateUser, mutation: Mutations::UpdateUser
     field :deleteUser, mutation: Mutations::DeleteUser
-    field :updateUserPublicity, mutation: Mutations::UpdateUserPublicity
+    field :updateUserActiveness, mutation: Mutations::UpdateUserActiveness
     field :updateUsersRank, mutation: Mutations::UpdateUsersRank
 
     field :createMediaPersonality, mutation: Mutations::CreateMediaPersonality
