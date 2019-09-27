@@ -3,10 +3,6 @@
 include ActionDispatch::TestProcess
 
 FactoryBot.define do
-  factory :attachment, aliases: [:illustration] do
-    file { "photo.png" }
-  end
-
   factory :media_personality
 
   factory :medium
@@ -17,9 +13,7 @@ FactoryBot.define do
     released_at { 1.week.ago }
     source_url { "http://example.com" }
 
-    after(:create) do |source|
-      create(:media_personality, sources: [source])
-    end
+    after(:create) { |source| create(:media_personality, sources: [source]) }
   end
 
   factory :article_type
@@ -30,7 +24,6 @@ FactoryBot.define do
     end
 
     perex { "Lorem ipsum" }
-    illustration
     published { true }
     published_at { 1.day.ago }
 
@@ -40,6 +33,14 @@ FactoryBot.define do
 
     factory :static do
       association :article_type, factory: :article_type, name: "static"
+    end
+
+    trait :with_illustration do
+      after :create do |account|
+        file_path = Rails.root.join("test", "support", "assets", "test-image.png")
+        file = fixture_file_upload(file_path, "image/png")
+        account.avatar.attach(file)
+      end
     end
   end
 
@@ -54,9 +55,7 @@ FactoryBot.define do
   end
 
   factory :body do
-    transient do
-      member_count { 5 }
-    end
+    transient { member_count { 5 } }
 
     after(:create) do |party, evaluator|
       create_list(:membership, evaluator.member_count, body: party)
@@ -102,7 +101,9 @@ FactoryBot.define do
     statement
     association :evaluator, factory: :user
     veracity { Veracity.find_by(key: Veracity::TRUE) }
-    assessment_methodology { AssessmentMethodology.find_by(name: "Demagog.cz fact-checking metodika") }
+    assessment_methodology do
+      AssessmentMethodology.find_by(name: "Demagog.cz fact-checking metodika")
+    end
 
     evaluation_status { Assessment::STATUS_APPROVED }
     explanation_html { "Lorem ipsum <strong>dolor</strong> sit amet" }
@@ -122,7 +123,11 @@ FactoryBot.define do
     trait :promise_assessment do
       veracity { nil }
       promise_rating { PromiseRating.find_by(key: PromiseRating::FULFILLED) }
-      assessment_methodology { AssessmentMethodology.find_by(name: "Demagog.cz metodika analýzy slibů druhé vlády Andreje Babiše") }
+      assessment_methodology do
+        AssessmentMethodology.find_by(
+          name: "Demagog.cz metodika analýzy slibů druhé vlády Andreje Babiše"
+        )
+      end
     end
   end
 
@@ -154,9 +159,7 @@ FactoryBot.define do
     end
 
     trait :with_transcript_position do
-      transient do
-        transcript_position { [0, 0, 0, 20] }
-      end
+      transient { transcript_position { [0, 0, 0, 20] } }
 
       after(:create) do |statement, evaluator|
         create(
@@ -166,7 +169,7 @@ FactoryBot.define do
           start_line: evaluator.transcript_position[0],
           start_offset: evaluator.transcript_position[1],
           end_line: evaluator.transcript_position[2],
-          end_offset: evaluator.transcript_position[3],
+          end_offset: evaluator.transcript_position[3]
         )
       end
     end
@@ -176,8 +179,8 @@ FactoryBot.define do
       title { "Promise title" }
     end
 
-    factory :important_statement, traits: [:important]
-    factory :unpublished_statement, traits: [:unpublished]
+    factory :important_statement, traits: %i[important]
+    factory :unpublished_statement, traits: %i[unpublished]
   end
 
   factory :statement_transcript_position
@@ -189,7 +192,7 @@ FactoryBot.define do
 
   factory :speaker do
     first_name { "John" }
-    last_name  { "Doe" }
+    last_name { "Doe" }
 
     transient do
       statement_count { 3 }
@@ -204,9 +207,7 @@ FactoryBot.define do
     end
 
     factory :speaker_with_party do
-      transient do
-        memberships_count { 1 }
-      end
+      transient { memberships_count { 1 } }
 
       after(:create) do |speaker, evaluator|
         create_list(:membership, evaluator.memberships_count, speaker: speaker)
