@@ -3,13 +3,13 @@ FROM ruby:2.6.3-alpine3.9
 ENV RAILS_ENV production
 
 RUN apk add --no-cache --update build-base \
-                                linux-headers \
-                                git \
-                                postgresql-dev \
-                                nodejs \
-                                nodejs-npm \
-                                tzdata && \
-                                gem install bundler
+  linux-headers \
+  git \
+  postgresql-dev \
+  nodejs \
+  nodejs-npm \
+  tzdata && \
+  gem install bundler
 
 WORKDIR /app
 
@@ -27,7 +27,7 @@ RUN yarn install
 
 COPY . .
 
-RUN DATABASE_URL=postgresql:doesnt_exist SECRET_KEY_BASE=does-not-matter bundle exec rails assets:precompile && \
+RUN PRODUCTION_DATABASE_URL=postgresql:doesnt_exist SECRET_KEY_BASE=does-not-matter bundle exec rails assets:precompile && \
   yarn cache clean && \
   rm -rf node_modules
 
