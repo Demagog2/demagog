@@ -25,21 +25,26 @@
       max-width: 135px;
       max-height: 70px;
     }
+
+    &#ifcn img {
+      max-height: 150px;
+    }
   }
 
   @media (min-width: 900px) {
     flex-direction: row;
+    flex-wrap: wrap;
 
     .organizations {
       flex: 1 0 50%;
       max-width: 50%; // for IE11 not respecting border-box with flex-basis
       box-sizing: border-box;
 
-      #supporters {
+      &#supporters {
         padding-right: 25px;
       }
 
-      #partners {
+      &#partners {
         padding-left: 25px;
       }
     }
