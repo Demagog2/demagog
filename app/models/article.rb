@@ -111,6 +111,11 @@ class Article < ApplicationRecord
     source_statements_segment ? source_statements_segment.source : nil
   end
 
+  def statements
+    source_statements_segment = segments.source_statements_type_only.first
+    source_statements_segment.all_published_statements
+  end
+
   def unique_speakers
     return [] unless source
 

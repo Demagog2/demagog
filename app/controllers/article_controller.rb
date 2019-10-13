@@ -33,6 +33,8 @@ class ArticleController < FrontendController
       end
     end
 
+    @show_factcheck_video = @article.slug == "vojtech-filip-predseda-kscm-na-radiozurnalu"
+
     # return unless Rails.env.production?
 
     # TODO: revisit cache headers and do properly

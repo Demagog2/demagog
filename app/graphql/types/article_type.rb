@@ -34,12 +34,12 @@ module Types
     end
 
     field :statements, [Types::StatementType], null: true do
-      argument :veracity, Types::VeracityKeyType, required: false
-      argument :speaker, Int, required: false
+      argument :veracity, Types::VeracityKeyType, required: false, default_value: nil
+      argument :speaker, Int, required: false, default_value: nil
     end
 
     def statements(args)
-      statements = object.statements.published
+      statements = object.statements
       statements = statements.joins(:veracities).where(veracities: { key: args[:veracity] }) if args[:veracity]
       statements = statements.where(speaker_id: args[:speaker]) if args[:speaker]
 

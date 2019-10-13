@@ -15,6 +15,12 @@
           (<%= @article.source.media_personalities.size > 1 ? "moderátoři" : "moderátor" %> <%= @article.source.media_personalities.pluck(:name).to_sentence %><% unless @article.source.source_url.empty? %>, <a class="ext" href="<%= @article.source.source_url %>" target="_blank">záznam</a><% end %>)
         <% end %>
       </p>
+
+      <% if @show_factcheck_video %>
+        <div id="article-factcheck-video-app-root" class="article-factcheck-video">
+          <img src="<%= url_for(@article.illustration) %>" alt="Ilustrační obrázek k výstupu <%= @article.title %>">
+        </div>
+      <% end %>
     <% end %>
 
     <% if @article_type == "editorial" %>
@@ -107,3 +113,7 @@
     </section>
   <% end %>
 </article>
+
+<% if @show_factcheck_video %>
+  <%= javascript_pack_tag 'article-factcheck-video'  %>
+<% end %>
