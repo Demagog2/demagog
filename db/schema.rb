@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_18_094651) do
+ActiveRecord::Schema.define(version: 2019_10_14_183806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -317,6 +317,15 @@ ActiveRecord::Schema.define(version: 2019_08_18_094651) do
     t.integer "end_offset", null: false
     t.index ["source_id"], name: "index_statement_transcript_positions_on_source_id"
     t.index ["statement_id"], name: "index_statement_transcript_positions_on_statement_id"
+  end
+
+  create_table "statement_video_marks", force: :cascade do |t|
+    t.integer "start"
+    t.integer "stop"
+    t.integer "source_id"
+    t.integer "statement_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "statements", force: :cascade do |t|
