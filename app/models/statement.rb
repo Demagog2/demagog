@@ -19,6 +19,7 @@ class Statement < ApplicationRecord
   has_one :assessment
   has_one :veracity, through: :assessment
   has_one :statement_transcript_position
+  has_one :statement_video_mark
   has_and_belongs_to_many :tags
 
   default_scope {

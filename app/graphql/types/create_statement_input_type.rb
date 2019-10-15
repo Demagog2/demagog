@@ -12,6 +12,7 @@ module Types
     argument :count_in_statistics, Boolean, required: true
     argument :assessment, CreateAssessmentInputType, required: true
     argument :statement_transcript_position, StatementTranscriptPositionInputType, required: false
+    argument :statement_video_mark, StatementVideoMarkInputType, required: false
     argument :first_comment_content, String, required: false
   end
 end

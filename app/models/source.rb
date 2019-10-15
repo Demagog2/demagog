@@ -5,6 +5,7 @@ class Source < ApplicationRecord
 
   has_many :article_segments
   has_many :statements
+  has_many :statement_video_marks
   has_many :statement_transcript_positions
   has_and_belongs_to_many :speakers
   belongs_to :medium, optional: true
