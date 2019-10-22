@@ -181,7 +181,7 @@ class Statement < ApplicationRecord
   end
 
   def display_in_notification
-    "#{speaker.first_name} #{speaker.last_name}: „#{content.truncate(50, omission: '…')}‟"
+    "#{speaker.first_name} #{speaker.last_name}: „#{content.truncate(50, omission: '…')}“"
   end
 
   def mentioning_articles

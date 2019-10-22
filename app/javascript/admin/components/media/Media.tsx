@@ -125,7 +125,7 @@ class Media extends React.Component<IProps, IState> {
               <div style={{ marginTop: 15 }}>
                 {confirmDeleteModalMedium && (
                   <ConfirmDeleteModal
-                    message={`Opravdu chcete smazat pořad „${confirmDeleteModalMedium.name}‟?`}
+                    message={`Opravdu chcete smazat pořad „${confirmDeleteModalMedium.name}“?`}
                     onCancel={this.hideConfirmDeleteModal}
                     mutation={DeleteMedium}
                     mutationProps={{
@@ -187,7 +187,7 @@ class Media extends React.Component<IProps, IState> {
                 )}
 
                 {mediaLength === 0 && this.state.search !== '' && (
-                  <p>Nenašli jsme žádný pořad s názvem „{this.state.search}‟.</p>
+                  <p>Nenašli jsme žádný pořad s názvem „{this.state.search}“.</p>
                 )}
               </div>
             );

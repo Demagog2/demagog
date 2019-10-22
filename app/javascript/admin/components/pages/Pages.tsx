@@ -112,7 +112,7 @@ class Pages extends React.Component<DispatchProp, IState> {
               <div style={{ marginTop: 15 }}>
                 {confirmDeleteModalPage && (
                   <ConfirmDeleteModal
-                    message={`Opravdu chcete smazat stránku „${confirmDeleteModalPage.title}‟?`}
+                    message={`Opravdu chcete smazat stránku „${confirmDeleteModalPage.title}“?`}
                     onCancel={this.hideConfirmDeleteModal}
                     mutation={DeletePage}
                     mutationProps={{

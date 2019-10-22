@@ -5,7 +5,7 @@
   data-action="resize@window->promises--promise-embed#handleWindowResize click->promises--promise-embed#containerClick"
 >
   <blockquote>
-    <p>„<%= content_to_html(@statement.content) %>‟</p>
+    <p>„<%= content_to_html(@statement.content) %>“</p>
     <cite><a href="<%= @get_statement_source_url.call(@statement) %>" target="_blank"><%= @get_statement_source_label.call(@statement) %></a></cite>
   </blockquote>
   <div class="assessment">

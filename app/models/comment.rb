@@ -61,6 +61,6 @@ class Comment < ApplicationRecord
   end
 
   def display_in_notification(type = "short")
-    "„#{display_content.truncate(type == "short" ? 40 : 160, omission: '…')}‟"
+    "„#{display_content.truncate(type == "short" ? 40 : 160, omission: '…')}“"
   end
 end
