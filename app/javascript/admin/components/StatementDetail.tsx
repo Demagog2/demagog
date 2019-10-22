@@ -315,7 +315,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                     if (isBeingEvaluated) {
                       canEditStatusTo = canEditStatusTo.concat([ASSESSMENT_STATUS_APPROVAL_NEEDED]);
                     } else if (isApprovalNeeded) {
-                      if (canEditAsEvaluator) {
+                      if (canEditAsEvaluator && !canEditEverything) {
                         // Evaluator can only return, not move status forward
                         canEditStatusTo = canEditStatusTo.concat([
                           ASSESSMENT_STATUS_BEING_EVALUATED,
