@@ -52,6 +52,7 @@ import StatementDetail from './components/StatementDetail';
 import StatementNew from './components/StatementNew';
 import StatementsFromTranscript from './components/StatementsFromTranscript';
 import StatementsSort from './components/StatementsSort';
+import StatementsVideoMarks from './components/StatementsVideoMarks';
 
 import UserEdit from './components/UserEdit';
 import UserNew from './components/UserNew';
@@ -124,6 +125,11 @@ class App extends React.Component<IProps> {
                   path="/admin/sources/:sourceId/statements-sort"
                   exact
                   component={StatementsSort}
+                />
+                <Route
+                  path="/admin/sources/:sourceId/statements-video-marks"
+                  exact
+                  component={StatementsVideoMarks}
                 />
 
                 <Route path="/admin/statements/:id" exact component={StatementDetail} />

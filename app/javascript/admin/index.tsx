@@ -15,7 +15,7 @@ import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
+// import { AppContainer } from 'react-hot-loader';
 
 import { ApolloProvider } from 'react-apollo';
 import { Provider } from 'react-redux';
@@ -42,13 +42,11 @@ epicMiddleware.run(rootEpic);
 
 const render = (RootContainer) =>
   ReactDOM.render(
-    <AppContainer>
-      <ApolloProvider client={apolloClient}>
-        <Provider store={store}>
-          <RootContainer />
-        </Provider>
-      </ApolloProvider>
-    </AppContainer>,
+    <ApolloProvider client={apolloClient}>
+      <Provider store={store}>
+        <RootContainer />
+      </Provider>
+    </ApolloProvider>,
     document.getElementById('app-root'),
   );
 
