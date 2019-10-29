@@ -1,16 +1,24 @@
-import { Button, Classes, Dialog, Intent, Position, Tooltip } from '@blueprintjs/core';
+import {
+  Button,
+  Classes,
+  Dialog,
+  Intent,
+  NonIdealState,
+  Position,
+  Tooltip,
+} from '@blueprintjs/core';
 import { TimePicker, TimePrecision } from '@blueprintjs/datetime';
 import { IconNames } from '@blueprintjs/icons';
 import { css } from 'emotion';
 import { Field, FieldProps, Formik } from 'formik';
 import * as React from 'react';
-import { Query } from 'react-apollo';
+import { useQuery } from 'react-apollo';
 import { RouteComponentProps } from 'react-router';
 
 import { IVideo } from '../../article-factcheck-video/video/shared';
 import YoutubeVideo from '../../article-factcheck-video/video/YoutubeVideo';
 import * as ResultTypes from '../operation-result-types';
-import { GetSource, GetSourceStatements } from '../queries/queries';
+import { GetSourceWithStatementsAndVideoMarks } from '../queries/queries';
 import { newlinesToBr } from '../utils';
 import Breadcrumbs from './Breadcrumbs';
 import SelectField from './forms/controls/SelectField';
@@ -19,47 +27,32 @@ import FormGroup from './forms/FormGroup';
 import Loading from './Loading';
 
 export default function StatementsVideoMarks(props: RouteComponentProps<{ sourceId: string }>) {
+  const { data, loading, refetch } = useQuery<
+    ResultTypes.GetSourceWithStatementsAndVideoMarks,
+    ResultTypes.GetSourceWithStatementsAndVideoMarksVariables
+  >(GetSourceWithStatementsAndVideoMarks, {
+    variables: { id: parseInt(props.match.params.sourceId, 10), includeUnpublished: true },
+  });
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (!data) {
+    return <NonIdealState title="Statement video marks" />;
+  }
+
   return (
-    <Query<ResultTypes.GetSource>
-      query={GetSource}
-      variables={{ id: parseInt(props.match.params.sourceId, 10) }}
-    >
-      {({ data: sourceData, loading: sourceLoading, refetch: sourceRefetch }) => (
-        <Query<ResultTypes.GetSourceStatements>
-          query={GetSourceStatements}
-          variables={{
-            sourceId: parseInt(props.match.params.sourceId, 10),
-            includeUnpublished: true,
-          }}
-        >
-          {({ data: statementsData, loading: statementsLoading, refetch: statementsRefetch }) => {
-            const isFirstSourceLoading = sourceLoading && (!sourceData || !sourceData.source);
-            const isFirstStatementsLoading =
-              statementsLoading && (!statementsData || !statementsData.statements);
-            if (isFirstSourceLoading || isFirstStatementsLoading) {
-              return <Loading />;
-            }
-
-            if (!sourceData || !statementsData) {
-              return null;
-            }
-
-            return (
-              <StatementsVideoMarksInner
-                onSourceChange={() => {
-                  sourceRefetch();
-                }}
-                onStatementsChange={() => {
-                  statementsRefetch();
-                }}
-                source={sourceData.source}
-                statements={statementsData.statements}
-              />
-            );
-          }}
-        </Query>
-      )}
-    </Query>
+    <StatementsVideoMarksInner
+      onSourceChange={() => {
+        refetch();
+      }}
+      onStatementsChange={() => {
+        refetch();
+      }}
+      source={data.source}
+      statements={data.source.statements}
+    />
   );
 }
 
@@ -70,8 +63,8 @@ function StatementsVideoMarksInner({
 }: {
   onSourceChange: () => void;
   onStatementsChange: () => void;
-  source: ResultTypes.GetSource['source'];
-  statements: ResultTypes.GetSourceStatements['statements'];
+  source: ResultTypes.GetSourceWithStatementsAndVideoMarks['source'];
+  statements: ResultTypes.GetSourceWithStatementsAndVideoMarks['source']['statements'];
 }) {
   const [showVideoModal, setShowVideoModal] = React.useState(false);
 
@@ -137,7 +130,6 @@ function StatementsVideoMarksInner({
             onSourceChange();
             setShowVideoModal(false);
           }}
-          source={source}
         />
       )}
       <Breadcrumbs items={breadcrumbs} />
@@ -237,7 +229,6 @@ function VideoModal({
 }: {
   onRequestClose: () => void;
   onSaveCompleted: () => void;
-  source: ResultTypes.GetSource['source'];
 }) {
   // TODO: fill from source
   const initialValues = {

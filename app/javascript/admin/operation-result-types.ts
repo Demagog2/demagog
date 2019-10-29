@@ -2403,6 +2403,39 @@ export interface GetMediaPersonalitiesForSelect {
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
+// ====================================================
+// GraphQL query operation: GetSourceWithStatementsAndVideoMarks
+// ====================================================
+
+export interface GetSourceWithStatementsAndVideoMarks_source_statements {
+  __typename: "Statement";
+  id: string;
+  content: string;
+}
+
+export interface GetSourceWithStatementsAndVideoMarks_source {
+  __typename: "Source";
+  id: string;
+  name: string;
+  sourceUrl: string | null;
+  releasedAt: string;
+  transcript: string | null;
+  statements: GetSourceWithStatementsAndVideoMarks_source_statements[];
+}
+
+export interface GetSourceWithStatementsAndVideoMarks {
+  source: GetSourceWithStatementsAndVideoMarks_source;
+}
+
+export interface GetSourceWithStatementsAndVideoMarksVariables {
+  id: number;
+  includeUnpublished?: boolean | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
@@ -2477,6 +2510,7 @@ export interface CreateStatementInput {
   countInStatistics: boolean;
   assessment: CreateAssessmentInput;
   statementTranscriptPosition?: StatementTranscriptPositionInput | null;
+  statementVideoMark?: StatementVideoMarkInput | null;
   firstCommentContent?: string | null;
 }
 
@@ -2526,6 +2560,11 @@ export interface StatementTranscriptPositionInput {
   startOffset: number;
   endLine: number;
   endOffset: number;
+}
+
+export interface StatementVideoMarkInput {
+  start: number;
+  stop: number;
 }
 
 export interface UpdateAssessmentInput {
