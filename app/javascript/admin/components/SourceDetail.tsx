@@ -486,7 +486,16 @@ class SourceDetail extends React.Component<IProps, IState> {
                   <div style={{ flex: '1 1' }}>
                     <div style={{ float: 'right' }}>
                       <Authorize permissions={['statements:edit']}>
-                        <Button onClick={this.toggleMassStatementsPublishModal}>
+                        <Link
+                          to={`/admin/sources/${source.id}/statements-video-marks`}
+                          className={Classes.BUTTON}
+                        >
+                          Propojení s videozáznamem
+                        </Link>
+                        <Button
+                          style={{ marginLeft: 7 }}
+                          onClick={this.toggleMassStatementsPublishModal}
+                        >
                           Zveřejnit všechny schválené výroky…
                         </Button>
                       </Authorize>
