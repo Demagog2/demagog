@@ -16,6 +16,8 @@ module Types
     field :media_personalities, [Types::MediaPersonalityType], null: false
     field :speakers, [Types::SpeakerType], null: false
     field :experts, [Types::UserType], null: false
+    field :video_type, String, null: true
+    field :video_id, String, null: true
 
     def transcript
       # Transcript is mostly from Newton Media and cannot be offered publicly

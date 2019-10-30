@@ -618,6 +618,8 @@ export const GetSourceWithStatementsAndVideoMarks = gql`
       sourceUrl
       releasedAt
       transcript
+      videoType
+      videoId
       statements(includeUnpublished: $includeUnpublished) {
         id
         content

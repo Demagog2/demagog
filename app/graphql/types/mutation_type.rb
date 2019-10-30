@@ -27,6 +27,7 @@ module Types
     field :createSource, mutation: Mutations::CreateSource
     field :updateSource, mutation: Mutations::UpdateSource
     field :deleteSource, mutation: Mutations::DeleteSource
+    field :updateSourceVideoFields, mutation: Mutations::UpdateSourceVideoFields
 
     field :createStatement, mutation: Mutations::CreateStatement
     field :updateStatement, mutation: Mutations::UpdateStatement

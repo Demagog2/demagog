@@ -11,4 +11,9 @@ module Types
     argument :speakers, [ID], required: true
     argument :experts, [ID], required: true
   end
+
+  class SourceInputVideoFieldsType < GraphQL::Schema::InputObject
+    argument :video_type, String, required: true
+    argument :video_id, String, required: true
+  end
 end

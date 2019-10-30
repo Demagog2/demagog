@@ -3,6 +3,7 @@
 class Source < ApplicationRecord
   include Discardable
 
+  enum video_type: [:facebook, :youtube]
   has_many :article_segments
   has_many :statements
   has_many :statement_video_marks

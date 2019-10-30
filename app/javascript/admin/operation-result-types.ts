@@ -1264,6 +1264,37 @@ export interface MarkUnreadNotificationsAsReadVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: UpdateSourceVideoFields
+// ====================================================
+
+export interface UpdateSourceVideoFields_updateSourceVideoFields_source {
+  __typename: "Source";
+  videoType: string | null;
+  videoId: string | null;
+}
+
+export interface UpdateSourceVideoFields_updateSourceVideoFields {
+  __typename: "UpdateSourceVideoFieldsPayload";
+  source: UpdateSourceVideoFields_updateSourceVideoFields_source;
+}
+
+export interface UpdateSourceVideoFields {
+  /**
+   * Update source video fields
+   */
+  updateSourceVideoFields: UpdateSourceVideoFields_updateSourceVideoFields | null;
+}
+
+export interface UpdateSourceVideoFieldsVariables {
+  id: string;
+  sourceVideoFieldsInput: SourceInputVideoFields;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetPages
 // ====================================================
 
@@ -2407,10 +2438,17 @@ export interface GetMediaPersonalitiesForSelect {
 // GraphQL query operation: GetSourceWithStatementsAndVideoMarks
 // ====================================================
 
+export interface GetSourceWithStatementsAndVideoMarks_source_statements_speaker {
+  __typename: "Speaker";
+  firstName: string;
+  lastName: string;
+}
+
 export interface GetSourceWithStatementsAndVideoMarks_source_statements {
   __typename: "Statement";
   id: string;
   content: string;
+  speaker: GetSourceWithStatementsAndVideoMarks_source_statements_speaker;
 }
 
 export interface GetSourceWithStatementsAndVideoMarks_source {
@@ -2420,6 +2458,8 @@ export interface GetSourceWithStatementsAndVideoMarks_source {
   sourceUrl: string | null;
   releasedAt: string;
   transcript: string | null;
+  videoType: string | null;
+  videoId: string | null;
   statements: GetSourceWithStatementsAndVideoMarks_source_statements[];
 }
 
@@ -2546,6 +2586,11 @@ export interface SourceInput {
   transcript: string;
   speakers: string[];
   experts: string[];
+}
+
+export interface SourceInputVideoFields {
+  videoType: string;
+  videoId: string;
 }
 
 export interface SpeakerInput {
