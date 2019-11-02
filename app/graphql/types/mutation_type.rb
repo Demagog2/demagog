@@ -43,6 +43,7 @@ module Types
 
     field :updateSourceStatementsOrder, mutation: Mutations::UpdateSourceStatementsOrder
     field :publishApprovedSourceStatements, mutation: Mutations::PublishApprovedSourceStatements
+    field :updateStatementsVideoMarks, mutation: Mutations::UpdateStatementsVideoMarks
 
     field :createComment, mutation: Mutations::CreateComment
 
