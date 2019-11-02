@@ -19,6 +19,7 @@ export default function StatementsVideoMarks(props: RouteComponentProps<{ source
     ResultTypes.GetSourceWithStatementsAndVideoMarks,
     ResultTypes.GetSourceWithStatementsAndVideoMarksVariables
   >(GetSourceWithStatementsAndVideoMarks, {
+    fetchPolicy: 'cache-and-network',
     variables: { id: parseInt(props.match.params.sourceId, 10), includeUnpublished: true },
   });
 
@@ -27,7 +28,7 @@ export default function StatementsVideoMarks(props: RouteComponentProps<{ source
   }
 
   if (!data) {
-    return <NonIdealState title="Statement video marks" />;
+    return <NonIdealState title="Zdroj nenalezen" />;
   }
 
   return (

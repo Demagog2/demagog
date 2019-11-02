@@ -1269,6 +1269,7 @@ export interface MarkUnreadNotificationsAsReadVariables {
 
 export interface UpdateSourceVideoFields_updateSourceVideoFields_source {
   __typename: "Source";
+  id: string;
   videoType: string | null;
   videoId: string | null;
 }
@@ -2440,6 +2441,7 @@ export interface GetMediaPersonalitiesForSelect {
 
 export interface GetSourceWithStatementsAndVideoMarks_source_statements_speaker {
   __typename: "Speaker";
+  id: string;
   firstName: string;
   lastName: string;
 }

@@ -21,7 +21,11 @@ export function VideoModalContainer(props: IVideoModalContainerProps) {
   const [updateVideoFields] = useMutation<
     UpdateSourceVideoFields,
     UpdateSourceVideoFieldsVariables
-  >(mutations.UpdateSourceVideoFields);
+  >(mutations.UpdateSourceVideoFields, {
+    onCompleted() {
+      props.onRequestClose();
+    },
+  });
 
   return (
     <VideoModal

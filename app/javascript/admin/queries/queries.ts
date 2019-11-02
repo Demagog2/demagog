@@ -624,6 +624,7 @@ export const GetSourceWithStatementsAndVideoMarks = gql`
         id
         content
         speaker {
+          id
           firstName
           lastName
         }
