@@ -645,7 +645,6 @@ class MassStatementsPublishModal extends React.Component<IMassStatementsPublishM
               <Mutation<any, any>
                 mutation={PublishApprovedSourceStatements}
                 variables={{ id: source.id }}
-                optimisticResponse={false}
               >
                 {(mutate, { loading }) => (
                   <Button

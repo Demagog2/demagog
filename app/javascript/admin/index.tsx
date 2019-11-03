@@ -36,7 +36,8 @@ const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ||
 
 const epicMiddleware = createEpicMiddleware();
 
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(epicMiddleware)));
+// Any used to fool broken provider store
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(epicMiddleware))) as any;
 
 epicMiddleware.run(rootEpic);
 

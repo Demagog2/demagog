@@ -205,7 +205,6 @@ class Users extends React.Component<IProps, IUsersState> {
                               Upravit
                             </Link>
                             <Mutation<any, any>
-                              optimisticResponse={false}
                               mutation={UpdateUserActiveness}
                               onCompleted={() => {
                                 refetchUsers();

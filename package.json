@@ -24,7 +24,7 @@
     "@types/react-dom": "^16.9.2",
     "@types/react-dropzone": "^4.2.0",
     "@types/react-icons": "^2.2.5",
-    "@types/react-redux": "^6.0.9",
+    "@types/react-redux": "^7.1.5",
     "@types/react-router": "^4.4.1",
     "@types/react-router-dom": "^4.3.1",
     "@types/react-select": "^2.0.6",
@@ -36,9 +36,10 @@
     "@types/yup": "^0.26.1",
     "activestorage": "^5.2.0",
     "anchorme": "^1.1.2",
-    "apollo-client": "2.6.4",
-    "apollo-client-preset": "^1.0.6",
+    "apollo-cache-inmemory": "^1.6.3",
+    "apollo-client": "^2.6.4",
     "apollo-link": "1.2.13",
+    "apollo-link-http": "1.5.16",
     "babel-loader": "^8.0.6",
     "classlist-polyfill": "^1.2.0",
     "classnames": "^2.2.6",
@@ -63,7 +64,6 @@
     "micromodal": "^0.4.0",
     "pdfjs-dist": "^2.0.943",
     "postcss-cssnext": "^3.1.0",
-    "prop-types": "^15.6.0",
     "query-string": "^6.1.0",
     "react": "^16.10.2",
     "react-apollo": "3.1.3",
@@ -75,7 +75,7 @@
     "react-in-viewport": "^0.0.37",
     "react-mentions": "^2.0.1",
     "react-pdf": "^4.0.5",
-    "react-redux": "^5.1.1",
+    "react-redux": "^7.1.1",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-select": "^2.1.1",
@@ -106,6 +106,7 @@
   },
   "devDependencies": {
     "@prettier/plugin-ruby": "^0.14.0",
+    "@types/node": "^12.12.5",
     "apollo": "2.21.0",
     "enzyme": "3.8.0",
     "enzyme-adapter-react-16": "1.9.1",
@@ -122,7 +123,7 @@
   "resolutions": {
     "fstream": "1.0.12",
     "@types/graphql": "14.2.2",
-    "apollo-link": "1.2.13"
+    "@types/react": "16.9.11"
   },
   "jest": {
     "setupFilesAfterEnv": [

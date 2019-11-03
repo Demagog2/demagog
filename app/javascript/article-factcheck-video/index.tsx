@@ -2,7 +2,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
-import { HttpLink, InMemoryCache } from 'apollo-client-preset';
+import { HttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import ArticleFactcheckVideoApp from './ArticleFactcheckVideoApp';
 
 const cache = new InMemoryCache();
 const link = new HttpLink({
@@ -10,8 +12,6 @@ const link = new HttpLink({
 });
 
 const client = new ApolloClient({ link, cache });
-
-import ArticleFactcheckVideoApp from './ArticleFactcheckVideoApp';
 
 const appRootElement = document.getElementById('article-factcheck-video-app-root');
 if (appRootElement !== null) {

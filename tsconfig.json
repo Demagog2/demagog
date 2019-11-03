@@ -11,6 +11,7 @@
     "strictNullChecks": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "allowSyntheticDefaultImports": true,
     "jsx": "react",
   },
   "exclude": [
