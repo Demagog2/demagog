@@ -129,7 +129,7 @@ class Articles extends React.Component<IProps, IState> {
               <div style={{ marginTop: 15 }}>
                 {confirmDeleteModalArticle && (
                   <ConfirmDeleteModal
-                    message={`Opravdu chcete smazat článek „${confirmDeleteModalArticle.title}‟?`}
+                    message={`Opravdu chcete smazat článek „${confirmDeleteModalArticle.title}“?`}
                     onCancel={this.hideConfirmDeleteModal}
                     mutation={DeleteArticle}
                     mutationProps={{
@@ -250,7 +250,7 @@ class Articles extends React.Component<IProps, IState> {
                 )}
 
                 {articlesLength === 0 && this.state.search !== '' && (
-                  <p>Nenašli jsme žádný článek s názvem „{this.state.search}‟.</p>
+                  <p>Nenašli jsme žádný článek s názvem „{this.state.search}“.</p>
                 )}
               </div>
             );

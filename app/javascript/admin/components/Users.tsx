@@ -293,7 +293,7 @@ class Users extends React.Component<IProps, IUsersState> {
                 ))}
 
                 {props.data.users.length === 0 && this.state.search !== '' && (
-                  <p>Nenašli jsme žádného člena týmu se jménem „{this.state.search}‟.</p>
+                  <p>Nenašli jsme žádného člena týmu se jménem „{this.state.search}“.</p>
                 )}
               </div>
             );

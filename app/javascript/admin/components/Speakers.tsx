@@ -205,7 +205,7 @@ class Speakers extends React.Component<IProps, IState> {
                 ))}
 
                 {props.data.speakers.length === 0 && this.state.search !== '' && (
-                  <p>Nenašli jsme žádnou osobu se jménem „{this.state.search}‟.</p>
+                  <p>Nenašli jsme žádnou osobu se jménem „{this.state.search}“.</p>
                 )}
               </div>
             );

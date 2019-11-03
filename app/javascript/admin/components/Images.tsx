@@ -185,7 +185,7 @@ class Images extends React.Component<IProps, IState> {
               }
 
               if (this.state.search !== '' && data.contentImages.totalCount === 0) {
-                return <p>Nenašli jsme žádný obrázek s názvem „{this.state.search}‟.</p>;
+                return <p>Nenašli jsme žádný obrázek s názvem „{this.state.search}“.</p>;
               }
 
               const confirmDeleteModalContentImage = data.contentImages.items.find(

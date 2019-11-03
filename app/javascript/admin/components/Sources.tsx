@@ -101,7 +101,7 @@ class Sources extends React.Component<{}, IState> {
               }
 
               if (this.state.search !== '' && props.data.sources.length === 0) {
-                return <p>Nenašli jsme žádnou diskuzi s názvem „{this.state.search}‟.</p>;
+                return <p>Nenašli jsme žádnou diskuzi s názvem „{this.state.search}“.</p>;
               }
 
               return (

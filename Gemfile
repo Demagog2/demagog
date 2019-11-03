@@ -57,7 +57,7 @@ gem "friendly_id", "~> 5.1.0"
 gem "meta-tags"
 
 # Use prometheus for tracking
-gem "prometheus-client"
+gem "prometheus_exporter"
 
 # Enables env. specific configuration
 gem "config"
