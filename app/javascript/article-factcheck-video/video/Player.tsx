@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { css } from 'emotion';
-import { orderBy } from 'lodash';
+import { orderBy, padStart } from 'lodash';
 import * as React from 'react';
 import ReactTooltip from 'react-tooltip';
 import demagogLogoIconOnly from '../demagog-logo-icon-only.png';
@@ -16,6 +16,10 @@ interface IPlayerProps {
 interface IPlayerState {
   highlightStatementId: string | null;
   time: number;
+}
+
+function formatTime(timeInSeconds: number): string {
+  return `${Math.floor(timeInSeconds / 60)}:${padStart(`${timeInSeconds % 60}`, 2, '0')}`;
 }
 
 export class Player extends React.Component<IPlayerProps, IPlayerState> {
@@ -134,6 +138,7 @@ export class Player extends React.Component<IPlayerProps, IPlayerState> {
             const timing = statement.statementVideoMark;
             const highlighted = highlightStatementId === statement.id;
             const lastStatement = index + 1 === statementsSortedByTimingsStart.length;
+            const formattedStartTime = formatTime(timing.start);
             return (
               <StatementContainer
                 key={statement.id}
@@ -144,10 +149,10 @@ export class Player extends React.Component<IPlayerProps, IPlayerState> {
                   <TimeButton
                     type="button"
                     onClick={() => this.goToTimeOfStatement(statement)}
-                    data-tip={`Kliknutím skočte na čas ${timing.start}`}
+                    data-tip={`Kliknutím skočte na čas ${formattedStartTime}`}
                     data-for={`statement-${statement.id}`}
                   >
-                    {timing[0]}
+                    {formattedStartTime}
                   </TimeButton>
                   <ReactTooltip place="top" id={`statement-${statement.id}`} effect="solid" />
                   {!lastStatement && <TimeLine />}
