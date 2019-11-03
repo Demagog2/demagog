@@ -36,9 +36,9 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-yarn-dependencies-{{ checksum "yarn.lock" }}
+            - v2-yarn-dependencies-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
-            - v1-yarn-dependencies-
+            - v2-yarn-dependencies-
 
       - run:
           name: Yarn Install
@@ -47,7 +47,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.cache/yarn
-          key: v1-yarn-dependencies-{{ checksum "yarn.lock" }}
+          key: v2-yarn-dependencies-{{ checksum "yarn.lock" }}
 
       - persist_to_workspace:
           root: /tmp
