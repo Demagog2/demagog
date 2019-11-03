@@ -819,46 +819,6 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                             <hr style={{ borderTop: '2px solid #ccc' }} />
 
-                            <div
-                              className={classNames(Classes.FORM_GROUP, Classes.INLINE)}
-                              style={{
-                                marginBottom: 10,
-                                // flex-start needed to align switch without label correctly
-                                alignItems: 'flex-start',
-                              }}
-                            >
-                              <label
-                                htmlFor="start"
-                                className={Classes.LABEL}
-                                style={{ flex: '1' }}
-                              >
-                                Začátek
-                              </label>
-
-                              <TimePicker precision={TimePrecision.SECOND} />
-                            </div>
-
-                            <div
-                              className={classNames(Classes.FORM_GROUP, Classes.INLINE)}
-                              style={{
-                                marginBottom: 10,
-                                // flex-start needed to align switch without label correctly
-                                alignItems: 'flex-start',
-                              }}
-                            >
-                              <label
-                                htmlFor="start"
-                                className={Classes.LABEL}
-                                style={{ flex: '1' }}
-                              >
-                                Konec
-                              </label>
-
-                              <TimePicker precision={TimePrecision.SECOND} />
-                            </div>
-
-                            <hr style={{ borderTop: '2px solid #ccc' }} />
-
                             <StatementComments statementId={statement.id} />
                           </div>
                         </div>
