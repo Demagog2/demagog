@@ -1296,6 +1296,44 @@ export interface UpdateSourceVideoFieldsVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: UpdateStatementsVideoMarks
+// ====================================================
+
+export interface UpdateStatementsVideoMarks_updateStatementsVideoMarks_statements_statementVideoMark {
+  __typename: "StatementVideoMark";
+  id: string;
+  start: number;
+  stop: number;
+}
+
+export interface UpdateStatementsVideoMarks_updateStatementsVideoMarks_statements {
+  __typename: "Statement";
+  id: string;
+  statementVideoMark: UpdateStatementsVideoMarks_updateStatementsVideoMarks_statements_statementVideoMark | null;
+}
+
+export interface UpdateStatementsVideoMarks_updateStatementsVideoMarks {
+  __typename: "UpdateStatementsVideoMarksPayload";
+  statements: UpdateStatementsVideoMarks_updateStatementsVideoMarks_statements[];
+}
+
+export interface UpdateStatementsVideoMarks {
+  /**
+   * Update video marks for given statements
+   */
+  updateStatementsVideoMarks: UpdateStatementsVideoMarks_updateStatementsVideoMarks | null;
+}
+
+export interface UpdateStatementsVideoMarksVariables {
+  id: string;
+  statementsVideoMarksInput: StatementsVideoMarksInput[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetPages
 // ====================================================
 
@@ -2446,11 +2484,19 @@ export interface GetSourceWithStatementsAndVideoMarks_source_statements_speaker 
   lastName: string;
 }
 
+export interface GetSourceWithStatementsAndVideoMarks_source_statements_statementVideoMark {
+  __typename: "StatementVideoMark";
+  id: string;
+  start: number;
+  stop: number;
+}
+
 export interface GetSourceWithStatementsAndVideoMarks_source_statements {
   __typename: "Statement";
   id: string;
   content: string;
   speaker: GetSourceWithStatementsAndVideoMarks_source_statements_speaker;
+  statementVideoMark: GetSourceWithStatementsAndVideoMarks_source_statements_statementVideoMark | null;
 }
 
 export interface GetSourceWithStatementsAndVideoMarks_source {
@@ -2610,6 +2656,12 @@ export interface StatementTranscriptPositionInput {
 }
 
 export interface StatementVideoMarkInput {
+  start: number;
+  stop: number;
+}
+
+export interface StatementsVideoMarksInput {
+  statementId: string;
   start: number;
   stop: number;
 }

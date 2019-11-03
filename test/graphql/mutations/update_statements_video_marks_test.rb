@@ -4,17 +4,20 @@ require "graphql/graphql_testcase"
 
 class UpdateStatementsVideoMarksMutationTest < GraphQLTestCase
   def mutation(source, updated_video_marks)
-    input = updated_video_marks.map do |updated_video_mark|
-      statement_id, start, stop = updated_video_mark
+    input =
+      updated_video_marks.map do |updated_video_mark|
+        statement_id, start, stop = updated_video_mark
 
-      "{ statementId: #{statement_id}, start: #{start}, stop: #{stop} }"
-    end
+        "{ statementId: #{statement_id}, start: #{start}, stop: #{stop} }"
+      end
 
     "
       mutation {
         updateStatementsVideoMarks(id: #{
       source.id
-    }, statementsVideoMarksInput: [#{input.join(",")}]) {
+    }, statementsVideoMarksInput: [#{
+      input.join(",")
+    }]) {
           statements {
             id
             statementVideoMark {
@@ -41,12 +44,13 @@ class UpdateStatementsVideoMarksMutationTest < GraphQLTestCase
     statement = create(:statement, source: source)
 
     result =
-      execute(
-        mutation(source, [[statement.id, 10, 50]]),
-        context: authenticated_user_context
-      )
+      execute(mutation(source, [[statement.id, 10, 50]]), context: authenticated_user_context)
 
     assert_equal 10, result.data.updateStatementsVideoMarks.statements[0].statementVideoMark.start
     assert_equal 50, result.data.updateStatementsVideoMarks.statements[0].statementVideoMark.stop
+
+    statement.reload
+    assert_equal 10, statement.statement_video_mark.start
+    assert_equal 50, statement.statement_video_mark.stop
   end
 end

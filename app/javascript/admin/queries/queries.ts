@@ -628,6 +628,11 @@ export const GetSourceWithStatementsAndVideoMarks = gql`
           firstName
           lastName
         }
+        statementVideoMark {
+          id
+          start
+          stop
+        }
       }
     }
   }

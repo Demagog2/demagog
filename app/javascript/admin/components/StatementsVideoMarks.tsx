@@ -2,26 +2,32 @@ import { Button, Classes, Intent, NonIdealState } from '@blueprintjs/core';
 import { css } from 'emotion';
 import { Field, Formik } from 'formik';
 import * as React from 'react';
-import { useQuery } from 'react-apollo';
+import { useQuery, useMutation } from 'react-apollo';
 import { RouteComponentProps } from 'react-router';
 
 import { IVideo } from '../../article-factcheck-video/video/shared';
 import YoutubeVideo from '../../article-factcheck-video/video/YoutubeVideo';
 import * as ResultTypes from '../operation-result-types';
 import { GetSourceWithStatementsAndVideoMarks } from '../queries/queries';
+import { UpdateStatementsVideoMarks } from '../queries/mutations';
 import Breadcrumbs from './Breadcrumbs';
 import Loading from './Loading';
 import { StatementInput } from './statementVideoMarks/StatementInput';
 import { VideoModalContainer } from './statementVideoMarks/VideoModalContainer';
 
 export default function StatementsVideoMarks(props: RouteComponentProps<{ sourceId: string }>) {
-  const { data, loading, refetch } = useQuery<
+  const { data, loading } = useQuery<
     ResultTypes.GetSourceWithStatementsAndVideoMarks,
     ResultTypes.GetSourceWithStatementsAndVideoMarksVariables
   >(GetSourceWithStatementsAndVideoMarks, {
     fetchPolicy: 'cache-and-network',
     variables: { id: parseInt(props.match.params.sourceId, 10), includeUnpublished: true },
   });
+
+  const [mutate, { loading: saving }] = useMutation<
+    ResultTypes.UpdateStatementsVideoMarks,
+    ResultTypes.UpdateStatementsVideoMarksVariables
+  >(UpdateStatementsVideoMarks);
 
   if (loading) {
     return <Loading />;
@@ -33,27 +39,37 @@ export default function StatementsVideoMarks(props: RouteComponentProps<{ source
 
   return (
     <StatementsVideoMarksInner
-      onSourceChange={() => {
-        refetch();
-      }}
-      onStatementsChange={() => {
-        refetch();
-      }}
+      saving={saving}
       source={data.source}
       statements={data.source.statements}
+      onStatementsVideoMarksSave={(values) => {
+        mutate({
+          variables: {
+            id: data.source.id,
+            statementsVideoMarksInput: Object.keys(values.marks).map((statementId) => ({
+              statementId,
+              start: values.marks[statementId].start || 0,
+              stop: values.marks[statementId].stop || 0,
+            })),
+          },
+        });
+      }}
     />
   );
 }
 
 function StatementsVideoMarksInner({
-  onSourceChange,
+  saving,
   source,
   statements,
+  onStatementsVideoMarksSave,
 }: {
-  onSourceChange: () => void;
-  onStatementsChange: () => void;
+  saving: boolean;
   source: ResultTypes.GetSourceWithStatementsAndVideoMarks['source'];
   statements: ResultTypes.GetSourceWithStatementsAndVideoMarks['source']['statements'];
+  onStatementsVideoMarksSave: (values: {
+    marks: { [id: number]: { start: number; stop: number } };
+  }) => void;
 }) {
   const [showVideoModal, setShowVideoModal] = React.useState(false);
 
@@ -93,36 +109,22 @@ function StatementsVideoMarksInner({
   const initialValues = React.useMemo(() => {
     return {
       marks: statements.reduce((carry, statement) => {
-        // TODO: fill start & stop from actual statement marks properties
         carry[statement.id] = {
-          start: 0,
-          stop: 0,
+          start: statement.statementVideoMark ? statement.statementVideoMark.start : 0,
+          stop: statement.statementVideoMark ? statement.statementVideoMark.stop : 0,
         };
         return carry;
       }, {}),
     };
   }, [statements]);
 
-  const onSubmit = React.useCallback((values) => {
-    // TODO: add actual saving of video marks
-    // tslint:disable-next-line:no-console
-    console.log('-----', { values });
-  }, []);
-
   return (
     <>
       {showVideoModal && (
-        <VideoModalContainer
-          source={source}
-          onRequestClose={() => setShowVideoModal(false)}
-          onSaveCompleted={() => {
-            onSourceChange();
-            setShowVideoModal(false);
-          }}
-        />
+        <VideoModalContainer source={source} onRequestClose={() => setShowVideoModal(false)} />
       )}
       <Breadcrumbs items={breadcrumbs} />
-      <Formik initialValues={initialValues} onSubmit={onSubmit}>
+      <Formik initialValues={initialValues} onSubmit={onStatementsVideoMarksSave}>
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <div
@@ -141,7 +143,7 @@ function StatementsVideoMarksInner({
               >
                 <h2 className={Classes.HEADING}>Propojení videozáznamu s výroky z diskuze</h2>
                 {hasVideo && (
-                  <Button type="submit" intent={Intent.PRIMARY}>
+                  <Button type="submit" intent={Intent.PRIMARY} loading={saving}>
                     Uložit časování výroků
                   </Button>
                 )}

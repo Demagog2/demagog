@@ -544,3 +544,21 @@ export const UpdateSourceVideoFields = gql`
     }
   }
 `;
+
+export const UpdateStatementsVideoMarks = gql`
+  mutation UpdateStatementsVideoMarks(
+    $id: ID!
+    $statementsVideoMarksInput: [StatementsVideoMarksInput!]!
+  ) {
+    updateStatementsVideoMarks(id: $id, statementsVideoMarksInput: $statementsVideoMarksInput) {
+      statements {
+        id
+        statementVideoMark {
+          id
+          start
+          stop
+        }
+      }
+    }
+  }
+`;

@@ -14,7 +14,6 @@ interface IVideoModalContainerProps {
     videoId?: string | null;
   };
   onRequestClose(): void;
-  onSaveCompleted(): void;
 }
 
 export function VideoModalContainer(props: IVideoModalContainerProps) {
