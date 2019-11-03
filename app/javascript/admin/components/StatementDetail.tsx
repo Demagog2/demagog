@@ -1,4 +1,3 @@
-import { TimePicker, TimePrecision } from '@blueprintjs/datetime';
 import * as React from 'react';
 
 import {
