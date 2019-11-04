@@ -15,12 +15,18 @@ const client = new ApolloClient({ link, cache });
 
 const appRootElement = document.getElementById('article-factcheck-video-app-root');
 if (appRootElement !== null) {
+  const articleId = appRootElement.dataset.articleId;
   const articleIllustrationImageHtml = appRootElement.innerHTML;
 
-  ReactDOM.render(
-    <ApolloProvider client={client}>
-      <ArticleFactcheckVideoApp articleIllustrationImageHtml={articleIllustrationImageHtml} />
-    </ApolloProvider>,
-    appRootElement,
-  );
+  if (articleId) {
+    ReactDOM.render(
+      <ApolloProvider client={client}>
+        <ArticleFactcheckVideoApp
+          articleId={parseInt(articleId, 10)}
+          articleIllustrationImageHtml={articleIllustrationImageHtml}
+        />
+      </ApolloProvider>,
+      appRootElement,
+    );
+  }
 }

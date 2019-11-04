@@ -3,10 +3,10 @@ import { css } from 'emotion';
 import { orderBy, padStart } from 'lodash';
 import * as React from 'react';
 import ReactTooltip from 'react-tooltip';
-import demagogLogoIconOnly from '../demagog-logo-icon-only.png';
-import { IArticleStatementsQueryResult } from '../types';
-import { IVideo } from './shared';
-import YoutubeVideo from './YoutubeVideo';
+import demagogLogoIconOnly from './demagog-logo-icon-only.png';
+import { IArticleStatementsQueryResult } from './types';
+import { IVideo } from './video/shared';
+import YoutubeVideo from './video/YoutubeVideo';
 
 interface IPlayerProps {
   article: IArticleStatementsQueryResult['article'];
@@ -131,7 +131,10 @@ export class Player extends React.Component<IPlayerProps, IPlayerState> {
           </HeaderBarCloseButton>
         </HeaderBar>
         <VideoColumn>
-          <YoutubeVideo onReady={this.onVideoReady} videoId="LHX2OdsApCc" />
+          {article.source.videoType === 'youtube' && (
+            <YoutubeVideo onReady={this.onVideoReady} videoId={article.source.videoId} />
+          )}
+          {/* TODO: add facebook */}
         </VideoColumn>
         <StatementsColumn ref={(statementsColumn) => (this.statementsColumn = statementsColumn)}>
           {statementsSortedByTimingsStart.map((statement, index) => {

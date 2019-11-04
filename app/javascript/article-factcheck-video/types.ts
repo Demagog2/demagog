@@ -3,6 +3,11 @@ export interface IArticleStatementsQueryResult {
   article: {
     id: string;
     title: string;
+    source: {
+      id: string;
+      videoType: string;
+      videoId: string;
+    };
     statements: Array<{
       id: string;
       content: string;

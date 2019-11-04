@@ -8,13 +8,18 @@ import { useQuery } from 'react-apollo';
 import 'whatwg-fetch';
 import playIcon from './play-icon.svg';
 import { IArticleStatementsQueryResult } from './types';
-import { Player } from './video/Player';
+import { Player } from './Player';
 
 const articleStatementsQuery = gql`
   query getArticle($articleId: ID!) {
     article(id: $articleId) {
       id
       title
+      source {
+        id
+        videoType
+        videoId
+      }
       statements {
         id
         content
@@ -45,13 +50,14 @@ const articleStatementsQuery = gql`
 `;
 
 interface IProps {
+  articleId: number;
   articleIllustrationImageHtml: string;
 }
 
 function ArticleFactcheckVideoApp(props: IProps) {
   const [isPlayerOpen, setPlayerOpen] = useState<boolean>(false);
   const { data } = useQuery<IArticleStatementsQueryResult>(articleStatementsQuery, {
-    variables: { articleId: 774 },
+    variables: { articleId: props.articleId },
   });
 
   function openPlayer() {

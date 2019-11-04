@@ -178,6 +178,7 @@ function StatementsVideoMarksInner({
                       {videoType === 'youtube' && (
                         <YoutubeVideo onReady={handleVideoReady} videoId={videoId || ''} />
                       )}
+                      {/* TODO: add facebook */}
                       <p style={{ marginTop: 15 }}>
                         Videozáznam {videoType}:{videoId}
                       </p>

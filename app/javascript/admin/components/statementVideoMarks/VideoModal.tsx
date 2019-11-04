@@ -24,7 +24,8 @@ export function VideoModal(props: IVideoModalProps) {
 
   const typeOptions = [
     { label: 'YouTube', value: 'youtube' },
-    { label: 'Facebook', value: 'facebook' },
+    // TODO: uncomment when facebook video implementation is added
+    // { label: 'Facebook', value: 'facebook' },
   ];
 
   return (

@@ -2,6 +2,6 @@
 
 module ArticleHelper
   def show_article_factcheck_video(article)
-    article.slug == "vojtech-filip-predseda-kscm-na-radiozurnalu"
+    article.article_type.name == "default" && !article.source.nil? && !article.source.video_type.nil? && !article.source.video_id.nil?
   end
 end

@@ -17,7 +17,7 @@
       </p>
 
       <% if show_article_factcheck_video(@article) %>
-        <div id="article-factcheck-video-app-root" class="article-factcheck-video">
+        <div id="article-factcheck-video-app-root" class="article-factcheck-video" data-article-id="<%= @article.id %>">
           <img src="<%= url_for(@article.illustration) %>" alt="Ilustrační obrázek k výstupu <%= @article.title %>">
         </div>
       <% end %>
