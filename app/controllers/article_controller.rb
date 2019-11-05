@@ -57,6 +57,6 @@ class ArticleController < FrontendController
 
   helper_method :promise_segment_widget_url
   def promise_segment_widget_url(promise_path)
-    request.protocol + request.host_with_port + promise_path
+    root_url(only_path: false).delete_suffix("/") + promise_path
   end
 end
