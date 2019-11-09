@@ -47,7 +47,7 @@ export class Player extends React.Component<IPlayerProps, IPlayerState> {
   }
 
   public componentWillUnmount() {
-    document.body.style.position = null;
+    document.body.style.position = 'static';
 
     if (this.headMetaViewport && this.headMetaViewportContentBefore) {
       this.headMetaViewport.setAttribute('content', this.headMetaViewportContentBefore);
