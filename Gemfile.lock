@@ -103,7 +103,7 @@ GEM
       deep_merge (~> 1.2, >= 1.2.1)
       dry-schema (~> 1.0)
     connection_pool (2.2.2)
-    crass (1.0.4)
+    crass (1.0.5)
     deep_merge (1.2.1)
     devise (4.7.1)
       bcrypt (~> 3.0)
@@ -231,7 +231,7 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
-    loofah (2.2.3)
+    loofah (2.3.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.13)
@@ -465,7 +465,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   kaminari
   listen (>= 3.0.5, < 3.2)
-  loofah (~> 2.2.1)
+  loofah (~> 2.3.1)
   meta-tags
   nokogiri
   omniauth-google-oauth2
