@@ -273,8 +273,10 @@ export default class extends Controller {
     this.detailRowTargets.forEach((el) => {
       const slideAnimationContainer = el.querySelector('.slide-animation-container');
       const hidingContainerEl = el.querySelector('.hiding-container');
+      const hadHiddenClass = el.classList.contains('hidden');
 
       // Make sure all promise details are visible
+      el.classList.remove('hidden');
       slideAnimationContainer.style.transition = 'none';
       slideAnimationContainer.style.height = '2000px';
       hidingContainerEl.style.display = 'block';
@@ -282,6 +284,7 @@ export default class extends Controller {
       this.measurePromiseDetailHeight(el);
 
       // Hide them again
+      el.classList.toggle('hidden', hadHiddenClass);
       hidingContainerEl.style.display = null;
       slideAnimationContainer.style.height = null;
       slideAnimationContainer.style.transition = null;
