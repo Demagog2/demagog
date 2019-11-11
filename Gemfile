@@ -87,7 +87,7 @@ gem "sprockets", "~> 3.7.2"
 gem "ffi", "~> 1.9.24"
 
 # Patches security vulnerability CVE-2018-1000544
-gem "rubyzip", "~> 1.2.2"
+gem "rubyzip", "~> 1.3.0"
 
 # Enable image processing for active storage
 gem "image_processing", "~> 1.2"
