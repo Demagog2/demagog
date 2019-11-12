@@ -116,4 +116,34 @@ namespace :source do
       puts "Soft deleted #{source.name} (##{source.id}) and also all its statements"
     end
   end
+
+  desc "Propagate who has the statement assigned as evaluator"
+  task :propagate_statements_assignees, [:from_source_id, :to_source_id] => [:environment] do |task, args|
+    if args.from_source_id.nil? || args.to_source_id.nil?
+      raise Exception.new("Please provide from_source_id and to_source_id arguments, e.g. rake source:propagate_statements_assignees[123,456]")
+    end
+
+    Source.transaction do
+      from_source = Source.unscoped.find(args.from_source_id)
+      to_source = Source.unscoped.find(args.to_source_id)
+
+      Statement.unscoped.where(source_id: from_source.id).each do |from_statement|
+        to_statement = Statement.find_by!(
+          # Using title, because content of one of promise statements has been changed
+          title: from_statement.title,
+          speaker_id: from_statement.speaker_id,
+          source_id: to_source.id
+        )
+
+        from_assessment = from_statement.assessment
+        to_assessment = to_statement.assessment
+
+        to_assessment.user_id = from_assessment.user_id
+        to_assessment.save!
+      end
+
+      puts "-------------------------------------------------------"
+      puts "Propagated statements assignees from #{from_source.name} (##{from_source.id}) to #{to_source.name} (##{to_source.id})"
+    end
+  end
 end
