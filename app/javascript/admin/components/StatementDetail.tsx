@@ -281,14 +281,15 @@ class StatementDetail extends React.Component<IProps, IState> {
                     const canEditEvaluator = canEditEverything && isBeingEvaluated;
                     const canEditPublished = canEditEverything && isApproved;
                     const canEditImportant = canEditEverything;
-                    const canEditCountInStatistics = canEditEverything;
+                    // const canEditCountInStatistics = canEditEverything;
 
                     const isApprovedAndNotPublished = isApproved && !values.published;
                     const isBeingEvaluatedAndEvaluationFilled =
                       isBeingEvaluated &&
                       values.assessment.short_explanation &&
                       values.assessment.explanation_html &&
-                      ((statement.statementType === StatementType.factual &&
+                      (((statement.statementType === StatementType.factual ||
+                        statement.statementType === StatementType.newyears) &&
                         values.assessment.veracity_id) ||
                         (statement.statementType === StatementType.promise &&
                           values.assessment.promise_rating_id));
@@ -372,9 +373,13 @@ class StatementDetail extends React.Component<IProps, IState> {
                         <div style={{ display: 'flex' }}>
                           <h2 className={Classes.HEADING}>
                             Detail výroku{' '}
-                            {statement.statementType === StatementType.promise
-                              ? '(slib)'
-                              : '(faktický)'}
+                            {
+                              {
+                                [StatementType.factual]: '(faktický)',
+                                [StatementType.promise]: '(slib)',
+                                [StatementType.newyears]: '(silvestrovský)',
+                              }[statement.statementType]
+                            }
                           </h2>
 
                           {canEditSomething && (
@@ -768,7 +773,7 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                             <hr style={{ borderTop: '2px solid #ccc' }} />
 
-                            <div
+                            {/* <div
                               className={classNames(Classes.FORM_GROUP, Classes.INLINE)}
                               style={{ marginTop: 10, marginBottom: 10 }}
                             >
@@ -788,7 +793,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                   disabled={!canEditCountInStatistics}
                                 />
                               </div>
-                            </div>
+                            </div> */}
 
                             <div
                               className={classNames(Classes.FORM_GROUP, Classes.INLINE)}

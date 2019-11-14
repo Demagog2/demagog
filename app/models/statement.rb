@@ -3,6 +3,7 @@
 class Statement < ApplicationRecord
   TYPE_FACTUAL = "factual"
   TYPE_PROMISE = "promise"
+  TYPE_NEWYEARS = "newyears"
 
   include ActiveModel::Dirty
   include Searchable

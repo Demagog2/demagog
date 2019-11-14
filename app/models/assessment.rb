@@ -11,7 +11,7 @@ class AssessmentValidator < ActiveModel::Validator
           assessment.errors[:evaluation_status] << "Can only change status to #{Assessment::STATUS_APPROVAL_NEEDED} when assessment has status #{Assessment::STATUS_BEING_EVALUATED}"
         end
 
-        if assessment.statement.statement_type == Statement::TYPE_FACTUAL
+        if assessment.statement.statement_type == Statement::TYPE_FACTUAL || assessment.statement.statement_type == Statement::TYPE_NEWYEARS
           if !assessment.veracity || !assessment.short_explanation || !assessment.explanation_html
             assessment.errors[:evaluation_status] << "To be able to change status to #{Assessment::STATUS_APPROVAL_NEEDED}, please fill veracity, short_explanation, and explanation"
           end

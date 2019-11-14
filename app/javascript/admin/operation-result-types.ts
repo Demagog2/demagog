@@ -2543,6 +2543,7 @@ export enum PromiseRatingKey {
 
 export enum StatementType {
   factual = "factual",
+  newyears = "newyears",
   promise = "promise",
 }
 

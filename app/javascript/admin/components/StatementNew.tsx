@@ -211,6 +211,10 @@ const STATEMENT_TYPE_OPTIONS = [
     label: 'Slib',
     value: StatementType.promise,
   },
+  {
+    label: 'Silvestrovský',
+    value: StatementType.newyears,
+  },
 ];
 
 export default connect()(withRouter(StatementNew));
