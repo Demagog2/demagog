@@ -137,7 +137,6 @@ FactoryBot.define do
     source
     content { "Lorem ipsum dolor sit amet" }
     published { true }
-    count_in_statistics { true }
     excerpted_at { 1.month.ago }
     important { false }
 

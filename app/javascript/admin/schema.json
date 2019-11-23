@@ -2343,22 +2343,6 @@
             "deprecationReason": null
           },
           {
-            "name": "countInStatistics",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "excerptedAt",
             "description": null,
             "args": [],
@@ -7048,20 +7032,6 @@
             "defaultValue": null
           },
           {
-            "name": "countInStatistics",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
             "name": "assessment",
             "description": null,
             "type": {
@@ -8169,16 +8139,6 @@
           },
           {
             "name": "published",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "countInStatistics",
             "description": null,
             "type": {
               "kind": "SCALAR",

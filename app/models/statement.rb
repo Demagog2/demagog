@@ -57,12 +57,6 @@ class Statement < ApplicationRecord
       .where(statement_type: Statement::TYPE_FACTUAL)
   }
 
-  scope :factual_and_relevant_for_statistics, -> {
-    published
-      .where(count_in_statistics: true)
-      .where(statement_type: Statement::TYPE_FACTUAL)
-  }
-
   scope :published_important_first, -> {
     # We first call order and then the published scope so the important DESC
     # order rule is used first and then the ones from scope ordered

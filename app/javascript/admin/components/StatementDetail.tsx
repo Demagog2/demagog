@@ -129,7 +129,6 @@ class StatementDetail extends React.Component<IProps, IState> {
             title: statement.title,
             published: statement.published,
             important: statement.important,
-            count_in_statistics: statement.countInStatistics,
             tags: statement.tags.map((t) => t.id),
             speaker: statement.speaker.id,
             assessment: {
@@ -205,7 +204,6 @@ class StatementDetail extends React.Component<IProps, IState> {
                           explanationSlatejson: values.assessment.explanation_slatejson,
                           shortExplanation: values.assessment.short_explanation,
                         },
-                        countInStatistics: values.count_in_statistics,
                         content: values.content,
                         title: values.title,
                         important: values.important,
@@ -281,7 +279,6 @@ class StatementDetail extends React.Component<IProps, IState> {
                     const canEditEvaluator = canEditEverything && isBeingEvaluated;
                     const canEditPublished = canEditEverything && isApproved;
                     const canEditImportant = canEditEverything;
-                    // const canEditCountInStatistics = canEditEverything;
 
                     const isApprovedAndNotPublished = isApproved && !values.published;
                     const isBeingEvaluatedAndEvaluationFilled =
@@ -772,28 +769,6 @@ class StatementDetail extends React.Component<IProps, IState> {
                             </div>
 
                             <hr style={{ borderTop: '2px solid #ccc' }} />
-
-                            {/* <div
-                              className={classNames(Classes.FORM_GROUP, Classes.INLINE)}
-                              style={{ marginTop: 10, marginBottom: 10 }}
-                            >
-                              <label
-                                htmlFor="count_in_statistics"
-                                className={classNames(Classes.LABEL, Classes.INLINE)}
-                                style={{ flex: '1' }}
-                              >
-                                Ve&nbsp;statistikách
-                              </label>
-                              <div className={Classes.FORM_CONTENT} style={{ flex: '2' }}>
-                                <Switch
-                                  id="count_in_statistics"
-                                  name="count_in_statistics"
-                                  checked={values.count_in_statistics}
-                                  onChange={handleChange}
-                                  disabled={!canEditCountInStatistics}
-                                />
-                              </div>
-                            </div> */}
 
                             <div
                               className={classNames(Classes.FORM_GROUP, Classes.INLINE)}

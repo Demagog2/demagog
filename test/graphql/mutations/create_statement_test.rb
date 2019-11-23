@@ -6,7 +6,7 @@ class CreateStatementMutationTest < GraphQLTestCase
   def mutation(statement_type, speaker, source, evaluator)
     "
       mutation {
-        createStatement(statementInput: { statementType: #{statement_type}, content: \"Lorem ipsum\", excerptedAt: \"2018-01-01\", important: false, speakerId: #{speaker.id}, sourceId: #{source.id}, published: false, countInStatistics: true, assessment: { evaluatorId: #{evaluator.id} } }) {
+        createStatement(statementInput: { statementType: #{statement_type}, content: \"Lorem ipsum\", excerptedAt: \"2018-01-01\", important: false, speakerId: #{speaker.id}, sourceId: #{source.id}, published: false, assessment: { evaluatorId: #{evaluator.id} } }) {
           statement {
             content
           }

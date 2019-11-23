@@ -94,7 +94,6 @@ class StatementNew extends React.Component<IProps> {
                       sourceId: source.id,
                       important: false,
                       published: false,
-                      countInStatistics: true,
                       excerptedAt: DateTime.utc().toISO(),
                       assessment: {
                         evaluatorId: values.evaluator_id,

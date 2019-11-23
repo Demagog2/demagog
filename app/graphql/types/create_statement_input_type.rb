@@ -9,7 +9,6 @@ module Types
     argument :speaker_id, ID, required: true
     argument :source_id, ID, required: true
     argument :published, Boolean, required: true
-    argument :count_in_statistics, Boolean, required: true
     argument :assessment, CreateAssessmentInputType, required: true
     argument :statement_transcript_position, StatementTranscriptPositionInputType, required: false
     argument :statement_video_mark, StatementVideoMarkInputType, required: false

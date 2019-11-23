@@ -2149,7 +2149,6 @@ export interface GetStatement_statement {
   important: boolean;
   published: boolean;
   excerptedAt: string;
-  countInStatistics: boolean;
   speaker: GetStatement_statement_speaker;
   assessment: GetStatement_statement_assessment;
   source: GetStatement_statement_source;
@@ -2596,7 +2595,6 @@ export interface CreateStatementInput {
   speakerId: string;
   sourceId: string;
   published: boolean;
-  countInStatistics: boolean;
   assessment: CreateAssessmentInput;
   statementTranscriptPosition?: StatementTranscriptPositionInput | null;
   statementVideoMark?: StatementVideoMarkInput | null;
@@ -2690,7 +2688,6 @@ export interface UpdateStatementInput {
   title?: string | null;
   important?: boolean | null;
   published?: boolean | null;
-  countInStatistics?: boolean | null;
   assessment?: UpdateAssessmentInput | null;
   tags?: string[] | null;
   speaker?: string | null;

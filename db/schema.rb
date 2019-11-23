@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_14_203411) do
+ActiveRecord::Schema.define(version: 2019_11_23_171028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -335,7 +335,6 @@ ActiveRecord::Schema.define(version: 2019_11_14_203411) do
     t.datetime "excerpted_at"
     t.boolean "important"
     t.boolean "published"
-    t.boolean "count_in_statistics"
     t.bigint "speaker_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -426,7 +425,7 @@ ActiveRecord::Schema.define(version: 2019_11_14_203411) do
        JOIN sources ON ((sources.id = statements.source_id)))
        JOIN article_segments ON ((article_segments.source_id = sources.id)))
        JOIN articles ON ((articles.id = article_segments.article_id)))
-    WHERE (((assessments.evaluation_status)::text = 'approved'::text) AND ((article_segments.segment_type)::text = 'source_statements'::text) AND (statements.published = true) AND (statements.count_in_statistics = true))
+    WHERE (((assessments.evaluation_status)::text = 'approved'::text) AND ((article_segments.segment_type)::text = 'source_statements'::text) AND (statements.published = true))
     GROUP BY veracities.key, statements.speaker_id, article_segments.article_id;
   SQL
   create_view "speaker_stats", sql_definition: <<-SQL
@@ -437,7 +436,7 @@ ActiveRecord::Schema.define(version: 2019_11_14_203411) do
        JOIN speakers ON ((speakers.id = statements.speaker_id)))
        JOIN assessments ON ((statements.id = assessments.statement_id)))
        JOIN veracities ON ((assessments.veracity_id = veracities.id)))
-    WHERE (((assessments.evaluation_status)::text = 'approved'::text) AND (statements.published = true) AND (statements.count_in_statistics = true))
+    WHERE (((assessments.evaluation_status)::text = 'approved'::text) AND (statements.published = true))
     GROUP BY veracities.key, statements.speaker_id;
   SQL
 end

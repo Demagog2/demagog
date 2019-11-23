@@ -15,7 +15,6 @@ module Types
     field :statement_video_mark, Types::StatementVideoMarkType, null: true
     field :assessment, Types::AssessmentType, null: false
     field :published, Boolean, null: false
-    field :count_in_statistics, Boolean, null: false
     field :tags, [Types::TagType], null: false
 
     field :comments, [Types::CommentType], null: false, resolve: ->(obj, args, ctx) do

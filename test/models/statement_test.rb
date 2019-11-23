@@ -29,19 +29,6 @@ class StatementTest < ActiveSupport::TestCase
     end
   end
 
-  test "#factual_and_relevant_for_statistics" do
-    create(:statement)
-    create(:statement, count_in_statistics: false)
-    create(:statement, :promise_statement)
-
-    statements = Statement.factual_and_relevant_for_statistics
-
-    statements.each do |statement|
-      assert_equal Statement::TYPE_FACTUAL, statement.statement_type
-      assert statement.count_in_statistics?
-    end
-  end
-
   test "ordered should return statements by source_order, then statement_transcript_position, and then excerpted_at" do
     source = create(:source)
 
