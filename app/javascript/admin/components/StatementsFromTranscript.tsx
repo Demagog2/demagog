@@ -669,6 +669,7 @@ const addMarksFromStatements = (
             object: 'point',
           },
           mark: {
+            object: 'mark',
             type: `statement-${statement.id}`,
             data: { selected: selectedIds.includes(statement.id) },
           },
@@ -725,7 +726,10 @@ const highlightNewStatementSelection = (
           offset: newStatementSelection.endOffset,
           object: 'point',
         },
-        mark: { type: 'new-statement' },
+        mark: {
+          object: 'mark',
+          type: 'new-statement',
+        },
       }),
     );
   }

@@ -291,7 +291,7 @@ const UnreadNotificationsPanel = ({ handleUnreadStatementClick }) => {
                       </td>
                       <td style={{ width: '50%' }}>
                         <table
-                          className={cx(Classes.HTML_TABLE, Classes.CONDENSED)}
+                          className={cx(Classes.HTML_TABLE, Classes.HTML_TABLE_CONDENSED)}
                           style={{ width: '100%' }}
                         >
                           <tbody>

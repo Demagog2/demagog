@@ -222,6 +222,7 @@ const DEFAULT_VALUE: Slate.ValueJSON = {
             object: 'text',
             leaves: [
               {
+                object: 'leaf',
                 text: '',
               },
             ],

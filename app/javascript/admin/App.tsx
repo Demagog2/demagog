@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import { css, cx } from 'emotion';
-import createBrowserHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
+import { hot } from 'react-hot-loader/root';
 import { connect, DispatchProp } from 'react-redux';
 import { Redirect, Route, Router, Switch } from 'react-router';
 
@@ -189,4 +190,4 @@ const mapStateToProps = (state: IState) => ({
   currentUser: state.currentUser.user,
 });
 
-export default connect(mapStateToProps)(App);
+export default hot(connect(mapStateToProps)(App));

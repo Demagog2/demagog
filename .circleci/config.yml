@@ -17,6 +17,15 @@ jobs:
     steps:
       - checkout
 
+      - run:
+          name: "Update Node.js"
+          command: |
+            curl -sSL "https://nodejs.org/dist/v12.13.1/node-v12.13.1-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v12.13.1-linux-x64/bin/node
+
+      - run:
+          name: Check current version of node
+          command: node -v
+
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -79,6 +88,15 @@ jobs:
       - attach_workspace:
           at: /tmp
 
+      - run:
+          name: "Update Node.js"
+          command: |
+            curl -sSL "https://nodejs.org/dist/v12.13.1/node-v12.13.1-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v12.13.1-linux-x64/bin/node
+
+      - run:
+          name: Check current version of node
+          command: node -v
+
       # Database setup
       - run: bin/rails db:create
       - run: bin/rails db:schema:load
@@ -124,6 +142,15 @@ jobs:
     steps:
       - attach_workspace:
           at: /tmp
+
+      - run:
+          name: "Update Node.js"
+          command: |
+            curl -sSL "https://nodejs.org/dist/v12.13.1/node-v12.13.1-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v12.13.1-linux-x64/bin/node
+
+      - run:
+          name: Check current version of node
+          command: node -v
 
       - add_ssh_keys:
           fingerprints:

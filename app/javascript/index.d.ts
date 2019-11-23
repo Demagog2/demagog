@@ -17,6 +17,7 @@ type GraphQLCustomScalar_JSON = object;
 // Add custom elements
 // tslint:disable-next-line:no-namespace
 declare namespace JSX {
+  // tslint:disable-next-line:interface-name
   interface IntrinsicElements {
     'demagogcz-widget': any;
   }

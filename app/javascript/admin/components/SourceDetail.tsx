@@ -100,7 +100,7 @@ class SourceDetail extends React.Component<IProps, IState> {
 
     let filter;
     try {
-      filter = JSON.parse(queryParams.filter);
+      filter = JSON.parse(queryParams.filter as string);
     } catch (e) {
       return;
     }

@@ -28,7 +28,7 @@ export default {
           const paragraph = Slate.Block.fromJSON({
             object: 'block',
             type: 'paragraph',
-            nodes: [{ object: 'text', leaves: [{ text: '' }] }],
+            nodes: [{ object: 'text', leaves: [{ object: 'leaf', text: '' }] }],
           });
           return editor.insertNodeByKey(error.node.key, error.node.nodes.size, paragraph);
         }

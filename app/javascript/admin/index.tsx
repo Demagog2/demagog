@@ -13,9 +13,11 @@ import '@blueprintjs/core/lib/css/blueprint';
 import '@blueprintjs/datetime/lib/css/blueprint-datetime.css';
 import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 
+// Hot loader needs to be loaded before react
+import 'react-hot-loader';
+
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-// import { AppContainer } from 'react-hot-loader';
 
 import { ApolloProvider } from 'react-apollo';
 import { Provider } from 'react-redux';
