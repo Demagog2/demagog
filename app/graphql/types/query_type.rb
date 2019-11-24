@@ -288,7 +288,7 @@ class Types::QueryType < GraphQL::Schema::Object
     Article.published.friendly.find(args[:slug] || args[:id])
   rescue ActiveRecord::RecordNotFound
     raise GraphQL::ExecutionError.new(
-            "Could not find Article with id=#{args[:id]} or slug=#{args[:slug]}"
+      "Could not find Article with id=#{args[:id]} or slug=#{args[:slug]}"
           )
   end
 
@@ -360,7 +360,7 @@ class Types::QueryType < GraphQL::Schema::Object
     Page.published.friendly.find(args[:slug] || args[:id])
   rescue ActiveRecord::RecordNotFound
     raise GraphQL::ExecutionError.new(
-            "Could not find Page with id=#{args[:id]} or slug=#{args[:slug]}"
+      "Could not find Page with id=#{args[:id]} or slug=#{args[:slug]}"
           )
   end
 
