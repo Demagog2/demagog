@@ -217,13 +217,8 @@ ActiveRecord::Schema.define(version: 2019_11_23_171028) do
 
   create_table "ministers", force: :cascade do |t|
     t.integer "government_id"
-    t.integer "ministry_id"
     t.integer "speaker_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "ministries", force: :cascade do |t|
+    t.integer "ordering"
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
