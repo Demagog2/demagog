@@ -25,6 +25,7 @@
     end
   )
 ]
+@donate_url = "https://www.darujme.cz/darovat/1202355?amount=500"
 
 %>
 
@@ -56,6 +57,11 @@
             </svg>
           </button>
         <% end %>
+      </li>
+      <li class="menu-item menu-item-donate">
+        <a href="<%= @donate_url %>" role="menuitem">
+          Darujte
+        </a>
       </li>
       <% @nav.each_with_index do |submenu| %>
         <li class="menu-item">
@@ -97,6 +103,11 @@
           </ul>
         </li>
       <% end %>
+      <li class="menu-item menu-item-donate">
+        <a href="<%= @donate_url %>" role="menuitem">
+          Darujte
+        </a>
+      </li>
       <li class="menu-item menu-item-search">
         <a href="<%= search_path %>" title="Vyhledávání" role="menuitem">
           <svg height="17" viewBox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg">

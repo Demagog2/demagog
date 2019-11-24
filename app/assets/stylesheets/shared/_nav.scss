@@ -84,6 +84,21 @@
             }
           }
         }
+
+        &.menu-item-donate {
+          a {
+            display: block;
+            padding: 1rem;
+            color: var(--white);
+            background-color: var(--orange);
+            font-weight: bold;
+            text-decoration: none;
+
+            &:hover, &:focus {
+              color: var(--violet);
+            }
+          }
+        }
       }
     }
 
@@ -164,6 +179,20 @@
         &:hover, &:focus {
           > button {
             color: var(--orange);
+          }
+        }
+
+        &.menu-item-donate {
+          a {
+            font-family: var(--font-family);
+            font-size: var(--medium-typesize);
+            font-weight: bold;
+            color: var(--orange);
+
+            &:hover, &:focus {
+              color: var(--violet);
+              text-decoration: none;
+            }
           }
         }
 
