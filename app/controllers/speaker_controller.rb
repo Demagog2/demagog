@@ -22,6 +22,14 @@ class SpeakerController < FrontendController
         speaker.factual_and_published_statements
       end
 
+      # We just sort the statements by release date of source first, and then
+      # for the same source the statements are sorted by the usual ordering
+      statements = statements
+        .reorder(nil)
+        .joins(:source)
+        .order("sources.released_at" => :desc)
+        .ordered
+
       statements.page(params[:page])
     end
 end
