@@ -30,15 +30,15 @@ class Types::QueryType < GraphQL::Schema::Object
     argument :limit, Int, required: false, default_value: 10
     argument :offset, Int, required: false, default_value: 0
     argument :name, String, required: false
-    argument :include_ones_without_published_statements, Boolean, default_value: false, required: false
+    argument :include_ones_without_published_statements,
+             Boolean,
+             default_value: false, required: false
   end
 
   def sources(args)
-    sources = Source
-      .includes(:medium, :media_personalities)
-      .order(released_at: :desc)
-      .offset(args[:offset])
-      .limit(args[:limit])
+    sources =
+      Source.includes(:medium, :media_personalities).order(released_at: :desc).offset(args[:offset])
+        .limit(args[:limit])
 
     if args[:name].present?
       # Source name is internal
@@ -64,11 +64,7 @@ class Types::QueryType < GraphQL::Schema::Object
   def media(name:)
     media = Medium.order(name: :asc)
 
-    if name
-      media.matching_name(name)
-    else
-      media
-    end
+    name ? media.matching_name(name) : media
   end
 
   field :medium, Types::MediumType, null: false do
@@ -88,11 +84,7 @@ class Types::QueryType < GraphQL::Schema::Object
   def media_personalities(**args)
     media_personalities = MediaPersonality.order(name: :asc)
 
-    if args[:name]
-      media_personalities.matching_name(args[:name])
-    else
-      media_personalities
-    end
+    args[:name] ? media_personalities.matching_name(args[:name]) : media_personalities
   end
 
   field :media_personality, Types::MediaPersonalityType, null: false do
@@ -115,7 +107,6 @@ class Types::QueryType < GraphQL::Schema::Object
     raise GraphQL::ExecutionError.new("Could not find Speaker with id=#{id}")
   end
 
-
   field :speakers, [Types::SpeakerType], null: false do
     argument :limit, Int, required: false, default_value: 10
     argument :offset, Int, required: false, default_value: 0
@@ -125,10 +116,7 @@ class Types::QueryType < GraphQL::Schema::Object
   end
 
   def speakers(args)
-    speakers = Speaker
-                 .offset(args[:offset])
-                 .limit(args[:limit])
-                 .order(last_name: :asc)
+    speakers = Speaker.offset(args[:offset]).limit(args[:limit]).order(last_name: :asc)
 
     body = args[:party] || args[:body]
     speakers = speakers.active_body_members(body) if body.present?
@@ -137,6 +125,14 @@ class Types::QueryType < GraphQL::Schema::Object
     speakers = speakers.matching_name(name) if name.present?
 
     speakers
+  end
+
+  field :government, Types::GovernmentType, null: true do
+    argument :id, Int, required: true
+  end
+
+  def government(args)
+    Government.find(args[:id])
   end
 
   field :statement, Types::StatementType, null: false do
@@ -180,23 +176,26 @@ class Types::QueryType < GraphQL::Schema::Object
 
     statements = statements.where(source: args[:source]) if args[:source]
     statements = statements.where(speaker: args[:speaker]) if args[:speaker]
-    statements = statements.joins(:veracities).where(veracities: { key: args[:veracity] }) if args[:veracity]
+    if args[:veracity]
+      statements = statements.joins(:veracities).where(veracities: { key: args[:veracity] })
+    end
 
     # Include these basics as they are part of most of queries for statements
     # and seriously speed those queries
     #
     # TODO: When we have graphql-ruby 1.9+, lets use lookaheads for smart includes.
     # See https://graphql-ruby.org/queries/lookahead.html
-    statements = statements.includes(
-      { assessment: :veracity },
-      { speaker: :body },
-      { source: :medium }
-    )
+    statements =
+      statements.includes({ assessment: :veracity }, { speaker: :body }, { source: :medium })
 
     statements
   end
 
-  field :party, Types::PartyType, null: false, deprecation_reason: "Replaced by 'body', as not all speakers must be members of a political party" do
+  field :party,
+        Types::PartyType,
+        null: false,
+        deprecation_reason:
+          "Replaced by 'body', as not all speakers must be members of a political party" do
     argument :id, Int, required: true
   end
 
@@ -214,7 +213,11 @@ class Types::QueryType < GraphQL::Schema::Object
     raise GraphQL::ExecutionError.new("Could not find Body with id=#{id}")
   end
 
-  field :parties, [Types::PartyType], null: false, deprecation_reason: "Replaced by 'bodies', as not all speakers must be members a political party" do
+  field :parties,
+        [Types::PartyType],
+        null: false,
+        deprecation_reason:
+          "Replaced by 'bodies', as not all speakers must be members a political party" do
     argument :limit, Int, required: false, default_value: 10
     argument :offset, Int, required: false, default_value: 0
   end
@@ -222,7 +225,6 @@ class Types::QueryType < GraphQL::Schema::Object
   def parties(args)
     Body.offset(args[:offset]).limit(args[:limit])
   end
-
 
   field :bodies, [Types::BodyType], null: false do
     argument :limit, Int, required: false, default_value: 10
@@ -262,7 +264,9 @@ class Types::QueryType < GraphQL::Schema::Object
   def tags(args)
     tags = Tag.offset(args[:offset]).limit(args[:limit]).order(name: :asc)
 
-    tags = tags.where(for_statement_type: args[:for_statement_type]) unless args[:for_statement_type].nil?
+    unless args[:for_statement_type].nil?
+      tags = tags.where(for_statement_type: args[:for_statement_type])
+    end
 
     tags
   end
@@ -283,7 +287,9 @@ class Types::QueryType < GraphQL::Schema::Object
 
     Article.published.friendly.find(args[:slug] || args[:id])
   rescue ActiveRecord::RecordNotFound
-    raise GraphQL::ExecutionError.new("Could not find Article with id=#{args[:id]} or slug=#{args[:slug]}")
+    raise GraphQL::ExecutionError.new(
+            "Could not find Article with id=#{args[:id]} or slug=#{args[:slug]}"
+          )
   end
 
   field :articles, [Types::ArticleType], null: false do
@@ -303,11 +309,10 @@ class Types::QueryType < GraphQL::Schema::Object
       articles = Article.kept.published
     end
 
-    articles = articles
-                 .includes(:article_type)
-                 .offset(args[:offset])
-                 .limit(args[:limit])
-                 .order(Arel.sql("COALESCE(published_at, created_at) DESC"))
+    articles =
+      articles.includes(:article_type).offset(args[:offset]).limit(args[:limit]).order(
+        Arel.sql("COALESCE(published_at, created_at) DESC")
+      )
 
     articles = articles.matching_title(args[:title]) if args[:title].present?
 
@@ -331,10 +336,7 @@ class Types::QueryType < GraphQL::Schema::Object
       pages = Page.kept.published
     end
 
-    pages = pages
-              .offset(args[:offset])
-              .limit(args[:limit])
-              .order(title: :asc)
+    pages = pages.offset(args[:offset]).limit(args[:limit]).order(title: :asc)
 
     pages = pages.matching_title(args[:title]) if args[:title].present?
 
@@ -357,7 +359,9 @@ class Types::QueryType < GraphQL::Schema::Object
 
     Page.published.friendly.find(args[:slug] || args[:id])
   rescue ActiveRecord::RecordNotFound
-    raise GraphQL::ExecutionError.new("Could not find Page with id=#{args[:id]} or slug=#{args[:slug]}")
+    raise GraphQL::ExecutionError.new(
+            "Could not find Page with id=#{args[:id]} or slug=#{args[:slug]}"
+          )
   end
 
   field :user, Types::UserType, null: false do
@@ -395,10 +399,7 @@ class Types::QueryType < GraphQL::Schema::Object
 
     {
       total_count: notifications.count,
-      items: notifications
-      .offset(args[:offset])
-      .limit(args[:limit])
-      .order(created_at: :desc)
+      items: notifications.offset(args[:offset]).limit(args[:limit]).order(created_at: :desc)
     }
   end
 
@@ -413,10 +414,8 @@ class Types::QueryType < GraphQL::Schema::Object
   def users(args)
     raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
-    users = User.kept
-      .order(last_name: :asc, first_name: :asc)
-      .limit(args[:limit])
-      .offset(args[:offset])
+    users =
+      User.kept.order(last_name: :asc, first_name: :asc).limit(args[:limit]).offset(args[:offset])
 
     users = users.where(active: true) unless args[:include_inactive]
 
@@ -450,10 +449,7 @@ class Types::QueryType < GraphQL::Schema::Object
 
     {
       total_count: content_images.count,
-      items: content_images
-        .offset(args[:offset])
-        .limit(args[:limit])
-        .order(created_at: :desc)
+      items: content_images.offset(args[:offset]).limit(args[:limit]).order(created_at: :desc)
     }
   end
 end

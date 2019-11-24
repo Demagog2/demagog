@@ -2,5 +2,5 @@
 
 class Minister < ApplicationRecord
   belongs_to :government
-  has_one :speaker
+  belongs_to :speaker
 end
