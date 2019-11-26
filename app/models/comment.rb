@@ -11,7 +11,7 @@ class Comment < ApplicationRecord
   }
 
   def display_content
-    content.gsub(/@\[([^\]]+)\]\([^\)]+\)/, '\1')
+    content.gsub(/@\[([^\]]+)\]\([^\)]+\)/, '@\1')
   end
 
   def self.create_comment(comment_input, current_user)
@@ -25,14 +25,16 @@ class Comment < ApplicationRecord
       notifications = []
 
       comment.content.scan(/@\[[^\]]+\]\(([^\)]+)\)/).each do |mention|
-        recipient = User.find(mention[0])
+        recipients = mention[0] == "experts" ? comment.statement.source.experts : [User.find(mention[0])]
 
-        notifications << Notification.new(
-          statement_text: "#{comment.user.display_in_notification} tě zmínil/a v komentáři #{comment.display_in_notification("long")}",
-          full_text: "#{comment.user.display_in_notification} tě zmínil/a v komentáři #{comment.display_in_notification} u výroku #{comment.statement.display_in_notification}",
-          statement_id: comment.statement.id,
-          recipient: recipient
-        )
+        recipients.each do |recipient|
+          notifications << Notification.new(
+            statement_text: "#{comment.user.display_in_notification} tě zmínil/a v komentáři #{comment.display_in_notification("long")}",
+            full_text: "#{comment.user.display_in_notification} tě zmínil/a v komentáři #{comment.display_in_notification} u výroku #{comment.statement.display_in_notification}",
+            statement_id: comment.statement.id,
+            recipient: recipient
+          )
+        end
       end
 
       # Temporarily commented out, because we are finetuning the notifications for expert
