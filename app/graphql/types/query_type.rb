@@ -113,6 +113,7 @@ class Types::QueryType < GraphQL::Schema::Object
     argument :party, Int, required: false
     argument :body, Int, required: false
     argument :name, String, required: false
+    argument :osoba_id, String, required: false
   end
 
   def speakers(args)
@@ -123,6 +124,9 @@ class Types::QueryType < GraphQL::Schema::Object
 
     name = args[:name]
     speakers = speakers.matching_name(name) if name.present?
+
+    osoba_id = args[:osoba_id]
+    speakers = speakers.where(osoba_id: osoba_id) if osoba_id.present?
 
     speakers
   end

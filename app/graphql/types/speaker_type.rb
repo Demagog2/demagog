@@ -3,6 +3,7 @@
 module Types
   class SpeakerType < BaseObject
     field :id, ID, null: false
+    field :osoba_id, String, null: true
     field :before_name, String, null: false
     field :first_name, String, null: false
     field :first_name, String, null: false, camelize: false, deprecation_reason: "switch to camelCase version"
