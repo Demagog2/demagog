@@ -113,7 +113,8 @@ class Types::QueryType < GraphQL::Schema::Object
     argument :party, Int, required: false
     argument :body, Int, required: false
     argument :name, String, required: false
-    argument :osoba_id, String, required: false
+    argument :osoba_id, String, required: false, description: "Temporary IDs from Hlidac statu, please use Wikidata ID instead"
+    argument :wikidata_id, String, required: false
   end
 
   def speakers(args)
@@ -127,6 +128,9 @@ class Types::QueryType < GraphQL::Schema::Object
 
     osoba_id = args[:osoba_id]
     speakers = speakers.where(osoba_id: osoba_id) if osoba_id.present?
+
+    wikidata_id = args[:wikidata_id]
+    speakers = speakers.where(wikidata_id: wikidata_id) if wikidata_id.present?
 
     speakers
   end
