@@ -114,6 +114,9 @@ gem "elasticsearch-rails", "~> 7.0.0"
 # Posting to Slack
 gem "slack-notifier"
 
+gem "graphlient"
+gem "tty-prompt"
+
 # Use Capistrano for deployment
 group :development do
   gem "capistrano", require: false
