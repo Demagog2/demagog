@@ -2,10 +2,15 @@
 
 namespace :speakers do
   desc "Find and save Wikidata IDs for speakers without them"
-  task :find_and_save_wikidata_ids, [] => [:environment] do |task, args|
+  task :find_and_save_wikidata_ids, [:start_with_speaker_id] => [:environment] do |task, args|
     prompt = TTY::Prompt.new
 
-    Speaker.where(wikidata_id: nil).order(id: :asc).each do |speaker|
+    speakers = Speaker.where(wikidata_id: nil).order(id: :asc)
+    unless args.start_with_speaker_id.nil?
+      speakers = speakers.where("id >= ?", args.start_with_speaker_id.to_i)
+    end
+
+    speakers.each do |speaker|
       ignore_list = [
         "Koalice 2014-2017",
         "Koalice 2018-2021",
