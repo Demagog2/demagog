@@ -620,6 +620,11 @@ export interface CreateSpeaker_createSpeaker_speaker {
   lastName: string;
   avatar: string | null;
   websiteUrl: string;
+  /**
+   * Temporary IDs from Hlidac statu, please use Wikidata ID instead
+   */
+  osobaId: string | null;
+  wikidataId: string | null;
   body: CreateSpeaker_createSpeaker_speaker_body | null;
   memberships: CreateSpeaker_createSpeaker_speaker_memberships[] | null;
 }
@@ -674,6 +679,11 @@ export interface UpdateSpeaker_updateSpeaker_speaker {
   lastName: string;
   avatar: string | null;
   websiteUrl: string;
+  /**
+   * Temporary IDs from Hlidac statu, please use Wikidata ID instead
+   */
+  osobaId: string | null;
+  wikidataId: string | null;
   body: UpdateSpeaker_updateSpeaker_speaker_body | null;
   memberships: UpdateSpeaker_updateSpeaker_speaker_memberships[] | null;
 }
@@ -1977,6 +1987,11 @@ export interface GetSpeaker_speaker {
   lastName: string;
   websiteUrl: string;
   avatar: string | null;
+  /**
+   * Temporary IDs from Hlidac statu, please use Wikidata ID instead
+   */
+  osobaId: string | null;
+  wikidataId: string | null;
   memberships: GetSpeaker_speaker_memberships[] | null;
 }
 
@@ -2022,6 +2037,11 @@ export interface GetSpeakers_speakers {
   lastName: string;
   avatar: string | null;
   websiteUrl: string;
+  /**
+   * Temporary IDs from Hlidac statu, please use Wikidata ID instead
+   */
+  osobaId: string | null;
+  wikidataId: string | null;
   body: GetSpeakers_speakers_body | null;
   memberships: GetSpeakers_speakers_memberships[] | null;
 }
@@ -2645,6 +2665,8 @@ export interface SpeakerInput {
   lastName: string;
   websiteUrl?: string | null;
   memberships: MembershipInput[];
+  osobaId?: string | null;
+  wikidataId?: string | null;
 }
 
 export interface StatementTranscriptPositionInput {

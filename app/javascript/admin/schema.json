@@ -925,7 +925,7 @@
               },
               {
                 "name": "osobaId",
-                "description": null,
+                "description": "Temporary IDs from Hlidac statu, please use Wikidata ID instead",
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1794,7 +1794,7 @@
           },
           {
             "name": "osobaId",
-            "description": null,
+            "description": "Temporary IDs from Hlidac statu, please use Wikidata ID instead",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -7046,6 +7046,26 @@
                   }
                 }
               }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "osobaId",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "wikidataId",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null
           }

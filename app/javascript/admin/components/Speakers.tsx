@@ -167,12 +167,44 @@ class Speakers extends React.Component<IProps, IState> {
 
                         <ul className={Classes.LIST_UNSTYLED}>
                           <li>
+                            <span className={Classes.TEXT_MUTED}>Wikidata ID: </span>
+                            <p>
+                              {speaker.wikidataId ? (
+                                <a
+                                  href={`https://www.wikidata.org/wiki/${speaker.wikidataId}`}
+                                  target="_blank"
+                                >
+                                  {speaker.wikidataId}
+                                </a>
+                              ) : (
+                                '–'
+                              )}
+                            </p>
+                          </li>
+                          <li>
+                            <span className={Classes.TEXT_MUTED}>Hlídač státu OsobaID: </span>
+                            <p>
+                              {speaker.osobaId ? (
+                                <a
+                                  href={`https://www.hlidacstatu.cz/osoba/${speaker.osobaId}`}
+                                  target="_blank"
+                                >
+                                  {speaker.osobaId}
+                                </a>
+                              ) : (
+                                '–'
+                              )}
+                            </p>
+                          </li>
+                          <li>
                             <span className={Classes.TEXT_MUTED}>Respektovaný odkaz: </span>
                             <p>
                               {speaker.websiteUrl ? (
-                                <a href={speaker.websiteUrl}>{speaker.websiteUrl}</a>
+                                <a href={speaker.websiteUrl} target="_blank">
+                                  {speaker.websiteUrl}
+                                </a>
                               ) : (
-                                'Nevyplněn'
+                                '–'
                               )}
                             </p>
                           </li>

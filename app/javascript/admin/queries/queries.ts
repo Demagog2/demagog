@@ -340,6 +340,8 @@ export const GetSpeaker = gql`
       lastName
       websiteUrl
       avatar
+      osobaId
+      wikidataId
       memberships {
         id
         body {
@@ -361,6 +363,8 @@ export const GetSpeakers = gql`
       lastName
       avatar
       websiteUrl
+      osobaId
+      wikidataId
       body {
         shortName
       }

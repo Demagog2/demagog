@@ -44,6 +44,8 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
             until: m.until,
           }))
         : [],
+      osoba_id: speaker ? speaker.osobaId : null,
+      wikidata_id: speaker ? speaker.wikidataId : null,
     };
 
     return (
@@ -70,6 +72,8 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
               until: m.until,
             })),
             websiteUrl: values.website_url,
+            wikidataId: cleanWikidataOrOsobaId(values.wikidata_id),
+            osobaId: cleanWikidataOrOsobaId(values.osoba_id),
           };
 
           this.props
@@ -120,6 +124,27 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
                 <FormGroup label="Portrét" name="avatar" optional>
                   <ImageField name="avatar" renderImage={(src) => <SpeakerAvatar avatar={src} />} />
                 </FormGroup>
+
+                <div style={{ display: 'flex' }}>
+                  <div style={{ flex: '1 1' }}>
+                    <FormGroup label="Wikidata ID" name="wikidata_id" optional>
+                      <>
+                        <TextField name="wikidata_id" />
+                        <div className={Classes.FORM_HELPER_TEXT}>
+                          Používá se pro párování s jinými zdroji, vyplňujte prosím. Wikidata ID
+                          získáte najitím stránky politika na Wikipedii a kliknutím na "Položka
+                          Wikidat" vlevo. Je to ten kód začínající velkým Q a pokračující číslem,
+                          např. Q939539.
+                        </div>
+                      </>
+                    </FormGroup>
+                  </div>
+                  <div style={{ flex: '1 1', marginLeft: 15 }}>
+                    <FormGroup label="Hlídač státu OsobaID" name="osoba_id" optional>
+                      <TextField name="osoba_id" />
+                    </FormGroup>
+                  </div>
+                </div>
 
                 <FormGroup
                   label="Respektovaný odkaz (wiki, nasipolitici)"
@@ -186,3 +211,11 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
     );
   }
 }
+
+const cleanWikidataOrOsobaId = (input: string | null): string | null => {
+  if (input === null) {
+    return null;
+  }
+  const trimmed = input.trim();
+  return trimmed !== '' ? trimmed : null;
+};

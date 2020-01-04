@@ -249,6 +249,8 @@ export const CreateSpeaker = gql`
         lastName
         avatar
         websiteUrl
+        osobaId
+        wikidataId
         body {
           shortName
         }
@@ -275,6 +277,8 @@ export const UpdateSpeaker = gql`
         lastName
         avatar
         websiteUrl
+        osobaId
+        wikidataId
         body {
           shortName
         }
