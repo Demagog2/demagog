@@ -8,9 +8,9 @@ class UpdateSourceVideoFieldsMutationTest < GraphQLTestCase
       mutation {
         updateSourceVideoFields(id: #{
       source.id
-    }, sourceVideoFieldsInput: { videoType: #{video_type}, videoId: #{
+    }, sourceVideoFieldsInput: { videoType: \"#{video_type}\", videoId: \"#{
       video_id
-    } }) {
+    }\" }) {
           source {
             videoType
             videoId
