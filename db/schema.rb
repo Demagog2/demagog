@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_23_161257) do
+ActiveRecord::Schema.define(version: 2020_01_04_102349) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -455,7 +455,7 @@ ActiveRecord::Schema.define(version: 2019_12_23_161257) do
        JOIN speakers ON ((speakers.id = statements.speaker_id)))
        JOIN assessments ON ((statements.id = assessments.statement_id)))
        JOIN veracities ON ((assessments.veracity_id = veracities.id)))
-    WHERE (((assessments.evaluation_status)::text = 'approved'::text) AND (statements.published = true))
+    WHERE (((assessments.evaluation_status)::text = 'approved'::text) AND (statements.published = true) AND ((statements.statement_type)::text = 'factual'::text))
     GROUP BY veracities.key, statements.speaker_id;
   SQL
 end
