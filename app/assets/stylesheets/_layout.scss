@@ -16,8 +16,14 @@
     margin: calc(2 * var(--gutter)) 0;
   }
 
-  article img {
-    max-width: 100%;
+  article {
+    img {
+      max-width: 100%;
+    }
+
+    .smap img {
+      max-width: none;
+    }
   }
 
   article iframe {
@@ -41,8 +47,14 @@
 }
 
 @media (min-width: 900px) {
-  article img {
-    max-width: 100%;
+  article {
+    img {
+      max-width: 100%;
+    }
+
+    .smap img {
+      max-width: none;
+    }
   }
 
   article iframe {
