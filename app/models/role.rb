@@ -52,6 +52,22 @@ ADMIN_PERMISSIONS = EXPERT_PERMISSIONS + [
   "admin:become-another-user"
 ]
 
+INTERN_PERMISSIONS = [
+  "availability:view",
+  "bodies:view",
+  "images:view",
+  "images:add",
+  "media:view",
+  "media-personalities:view",
+  "sources:view",
+  "speakers:view",
+  "statements:edit-as-evaluator",
+  "statements:view-evaluation-as-evaluator",
+  "statements:comments:add",
+  "tags:view",
+  "visualizations:view",
+]
+
 class Role < ApplicationRecord
   ADMIN = "admin"
   EXPERT = "expert"
@@ -66,22 +82,12 @@ class Role < ApplicationRecord
     case key
     when ADMIN then ADMIN_PERMISSIONS
     when EXPERT then EXPERT_PERMISSIONS
-    when SOCIAL_MEDIA_MANAGER then [
+    when SOCIAL_MEDIA_MANAGER then INTERN_PERMISSIONS + [
         "articles:view",
-        "availability:view",
-        "bodies:view",
-        "images:view",
-        "media:view",
-        "media-personalities:view",
         "menu:view",
         "pages:view",
-        "sources:view",
-        "speakers:view",
         "statements:view-unapproved-evaluation",
-        "statements:comments:add",
-        "tags:view",
         "users:view",
-        "visualizations:view",
       ]
     when PROOFREADER then [
         "articles:view",
@@ -99,21 +105,7 @@ class Role < ApplicationRecord
         "tags:view",
         "visualizations:view",
       ]
-    when INTERN then [
-        "availability:view",
-        "bodies:view",
-        "images:view",
-        "images:add",
-        "media:view",
-        "media-personalities:view",
-        "sources:view",
-        "speakers:view",
-        "statements:edit-as-evaluator",
-        "statements:view-evaluation-as-evaluator",
-        "statements:comments:add",
-        "tags:view",
-        "visualizations:view",
-      ]
+    when INTERN then INTERN_PERMISSIONS
     else raise Exception.new("Permissions for role #{key} have not been implemented yet")
     end
   end
