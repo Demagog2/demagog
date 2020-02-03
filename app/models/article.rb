@@ -129,12 +129,6 @@ class Article < ApplicationRecord
     ArticleStat.where(article_id: id, speaker_id: speaker.id).normalize
   end
 
-  def self.cover_story
-    published
-      .order(published_at: :desc)
-      .first
-  end
-
   def self.create_article(article_input)
     article = article_input.deep_symbolize_keys
 

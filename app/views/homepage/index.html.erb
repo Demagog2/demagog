@@ -10,7 +10,7 @@
   <p class="full-width"><b>Strana <%= @page_number %></b> z archivu článků:</p>
 <% end %>
 
-<% @articles.drop(1).each do |article| %>
+<% @articles.each do |article| %>
   <%= render partial: "article/preview", object: article, as: :article %>
 <% end %>
 

@@ -2,8 +2,10 @@
 
 class HomepageController < FrontendController
   def index
+    cover_story = Article.published.order(published_at: :desc).first
+
     unless params[:page].present?
-      @cover_story = Article.cover_story
+      @cover_story = cover_story
       @interesting_statements = Statement.interesting_statements
       @show_promises = true
       @promises_stats = get_promises_stats
@@ -15,7 +17,9 @@ class HomepageController < FrontendController
     @articles = Article
       .published
       .order(published_at: :desc)
+      .where.not(id: cover_story.id)
       .page(params[:page])
+      .per(10)
 
     # return unless Rails.env.production?
 
