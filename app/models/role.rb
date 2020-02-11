@@ -80,22 +80,12 @@ class Role < ApplicationRecord
           users:view
         ]
     when PROOFREADER
-      %w[
-        articles:view
-        availability:view
-        bodies:view
-        images:view
-        images:add
-        media:view
-        media-personalities:view
-        sources:view
-        speakers:view
-        statements:edit-as-proofreader
-        statements:view-unapproved-evaluation
-        statements:comments:add
-        tags:view
-        visualizations:view
-      ]
+      INTERN_PERMISSIONS +
+        %w[
+          articles:view
+          statements:edit-as-proofreader
+          statements:view-unapproved-evaluation
+        ]
     when INTERN
       INTERN_PERMISSIONS
     else
