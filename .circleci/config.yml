@@ -7,7 +7,7 @@ jobs:
   build-job:
     docker:
       # specify the version you desire here
-      - image: circleci/ruby:2.5.1-node
+      - image: circleci/ruby:2.7.0-node
         environment:
           BUNDLE_PATH: vendor/bundle
           RAILS_ENV: test
@@ -65,7 +65,7 @@ jobs:
 
   test-job:
     docker:
-      - image: circleci/ruby:2.5.1-node
+      - image: circleci/ruby:2.7.0-node
         environment:
           DB_HOST: localhost
           DB_USERNAME: circleci-demo-go
@@ -131,7 +131,7 @@ jobs:
 
   deploy-job:
     docker:
-      - image: circleci/ruby:2.5.1-node
+      - image: circleci/ruby:2.7.0-node
         environment:
           RAILS_ENV: production
           # This is necessary only to build assets in PRODUCTION mode
