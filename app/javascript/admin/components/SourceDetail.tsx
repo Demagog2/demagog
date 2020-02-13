@@ -295,7 +295,7 @@ class SourceDetail extends React.Component<IProps, IState> {
                   {source.experts.length > 0 && (
                     <>
                       <br />
-                      {source.experts.length === 1 ? 'Expert: ' : 'Experti: '}
+                      {source.experts.length === 1 ? 'Editor: ' : 'Editoři: '}
                       {source.experts
                         .map((expert) => `${expert.firstName} ${expert.lastName}`)
                         .join(', ')}

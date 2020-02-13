@@ -115,7 +115,7 @@ class Sources extends React.Component<{}, IState> {
                         <th scope="col" style={{ width: '50%' }}>
                           Diskuze
                         </th>
-                        <th scope="col">Experti</th>
+                        <th scope="col">Editoři</th>
                         <th scope="col">
                           Výroky
                           <br />

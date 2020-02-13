@@ -162,12 +162,12 @@ class SourceForm extends React.Component<ISourceFormProps> {
 
             <div style={{ display: 'flex', marginTop: 30 }}>
               <div style={{ flex: '0 0 200px', marginRight: 15 }}>
-                <h4 className={Classes.HEADING}>Experti</h4>
+                <h4 className={Classes.HEADING}>Editoři</h4>
 
                 <p>Vybraní budou dostávat notifikace při změnách výroků v rámci této diskuze.</p>
               </div>
               <div style={{ flex: '1 1' }}>
-                <FormGroup name="experts" label="Experti" optional>
+                <FormGroup name="experts" label="Editoři" optional>
                   <SelectComponentField name="experts">
                     {(renderProps) => (
                       <UserSelect isMulti roles={['expert', 'admin']} {...renderProps} />

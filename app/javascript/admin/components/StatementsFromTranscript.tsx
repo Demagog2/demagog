@@ -141,7 +141,7 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                   {source.experts.length > 0 && (
                     <>
                       <br />
-                      Experti:{' '}
+                      Editoři:{' '}
                       {source.experts
                         .map((expert) => `${expert.firstName} ${expert.lastName}`)
                         .join(', ')}

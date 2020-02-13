@@ -204,7 +204,7 @@ class Assessment < ApplicationRecord
         statement.source.experts.each do |expert|
           notifications << Notification.new(
             statement_text: "#{current_user.display_in_notification} změnil/a stav na #{evaluation_status_label}",
-            full_text: "#{current_user.display_in_notification} změnil/a stav tebou expertovaného výroku #{statement.display_in_notification} na #{evaluation_status_label}",
+            full_text: "#{current_user.display_in_notification} změnil/a stav tebou editovaného výroku #{statement.display_in_notification} na #{evaluation_status_label}",
             statement_id: statement.id,
             recipient: expert
           )
