@@ -2,13 +2,16 @@
 
 require "json"
 
-Types::Scalars::JsonType = GraphQL::ScalarType.define do
-  name "JSON"
+module Types
+  module Scalars
+    class JsonType < GraphQL::Schema::Scalar
+      def self.coerce_input(value, ctx)
+        value.to_h.to_json
+      end
 
-  coerce_input ->(value, ctx) {
-    value.to_h.to_json
-  }
-  coerce_result ->(value, ctx) {
-    JSON.parse(value)
-  }
+      def self.coerse_result(value, ctx)
+        JSON.parse(value)
+      end
+    end
+  end
 end

@@ -17,7 +17,7 @@ class HomepageController < FrontendController
     @articles = Article
       .published
       .order(published_at: :desc)
-      .where.not(id: cover_story.id)
+      .where.not(id: cover_story)
       .page(params[:page])
       .per(10)
 

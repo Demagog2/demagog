@@ -60,7 +60,7 @@ gem "meta-tags"
 gem "prometheus_exporter"
 
 # Enables env. specific configuration
-gem "config"
+gem "config", "~> 2.2.1"
 
 # Authentication
 gem "devise", "~> 4.7.1"

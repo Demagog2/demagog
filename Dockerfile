@@ -1,4 +1,4 @@
-FROM ruby:2.6.3-alpine3.9
+FROM ruby:2.7.0-alpine3.11
 
 ENV RAILS_ENV production
 
@@ -31,7 +31,7 @@ RUN PRODUCTION_DATABASE_URL=postgresql:doesnt_exist SECRET_KEY_BASE=does-not-mat
   yarn cache clean && \
   rm -rf node_modules
 
-FROM ruby:2.6.3-alpine3.9
+FROM ruby:2.7.0-alpine3.11
 LABEL maintainer="bohac.v@gmail.com"
 
 ENV RAILS_ENV production

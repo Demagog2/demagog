@@ -2,12 +2,12 @@
 
 module Types
   class StatsType < BaseObject
-    field :true, Int, null: true
+    field :true, Int, null: true, resolver_method: :resolve_true
     field :untrue, Int, null: true
     field :misleading, Int, null: true
     field :unverifiable, Int, null: true
 
-    def true
+    def resolve_true
       object[:true]
     end
 

@@ -6,12 +6,12 @@
 # this custom scalar type will be used for a mutation input parameter
 module Types
   module Scalars
-    FileType = GraphQL::ScalarType.define do
-      name "File"
+    class FileType < GraphQL::Schema::Scalar
       description "action_dispatch_uploaded_file"
-      coerce_input ->(action_dispatch_uploaded_file, ctx) {
+
+      def self.coerce_input(action_dispatch_uploaded_file, _ctx)
         action_dispatch_uploaded_file
-      }
+      end
     end
   end
 end
