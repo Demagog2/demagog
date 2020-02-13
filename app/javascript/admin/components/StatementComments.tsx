@@ -172,7 +172,7 @@ const AddCommentForm = (props: IAddCommentFormProps) => {
                 {values.content.trim() !== '' && (
                   <div className={Classes.FORM_HELPER_TEXT}>
                     Tip: Můžeš zmínit kohokoli z týmu — stačí napsat @ a vybrat koho. Také dostane
-                    upozornění na tvůj komentář. @Experti upozorní všechny experty u tohoto výroku.
+                    upozornění na tvůj komentář. @Editoři upozorní všechny editory u tohoto výroku.
                   </div>
                 )}
               </div>
@@ -215,7 +215,7 @@ const CommentInput = (props: ICommentInputProps) => {
         }));
         suggestions.unshift({
           id: 'experts',
-          display: 'Experti',
+          display: 'Editoři',
         });
 
         return (

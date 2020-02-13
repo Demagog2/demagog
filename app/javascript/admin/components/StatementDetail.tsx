@@ -691,7 +691,7 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                             <div className={classNames(Classes.FORM_GROUP, Classes.INLINE)}>
                               <label className={Classes.LABEL} style={{ flex: '1' }}>
-                                {statement.source.experts.length === 1 ? 'Expert' : 'Experti'}
+                                {statement.source.experts.length === 1 ? 'Editor' : 'Editoři'}
                               </label>
                               <div style={{ flex: '2', paddingTop: 6 }}>
                                 {statement.source.experts
