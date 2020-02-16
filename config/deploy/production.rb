@@ -23,7 +23,9 @@ server "demagog.cz", user: "rails", port: 22, roles: [:web, :app, :db], primary:
 # role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
 # role :db,  %w{deploy@example.com}
 
-set :rvm_custom_path, "/usr/local/rvm"
+# set :rvm_custom_path, "/usr/local/rvm"
+
+set :rvm1_ruby_version, "2.7.0"
 
 # Configuration
 # =============
