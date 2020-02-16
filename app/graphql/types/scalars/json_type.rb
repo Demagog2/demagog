@@ -9,7 +9,7 @@ module Types
         value.to_h.to_json
       end
 
-      def self.coerse_result(value, ctx)
+      def self.coerce_result(value, ctx)
         JSON.parse(value)
       end
     end
