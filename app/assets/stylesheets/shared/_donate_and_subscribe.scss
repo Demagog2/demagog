@@ -1,0 +1,66 @@
+.container-shared-donate_and_subscribe {
+  flex: 1 0 100%;
+  margin-top: 6rem;
+  display: flex;
+  flex-direction: column;
+
+  .subscribe-to-newsletter-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+
+    .email-input {
+      border: 1px solid var(--violet);
+      margin: 0;
+      padding: 0.5rem 0.9rem;
+      font-size: var(--normal-typesize);
+      font-family: var(--font-family);
+      line-height: 1.4;
+      color: var(--violet);
+    }
+
+    .submit-button {
+      align-self: flex-start;
+      font-size: var(--normal-typesize);
+      font-family: var(--font-family);
+      line-height: 1.4;
+      color: var(--orange);
+      background: none;
+      border-radius: 0;
+      border: 2px solid var(--orange);
+      margin: 10px 0 0 0;
+      padding: 0.4rem 0.9rem;
+      cursor: pointer;
+
+      &:hover, &:active {
+        background-color: var(--orange);
+        color: #ffffff;
+      }
+    }
+
+    .accept-terms {
+      margin-top: 15px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+  }
+
+  @media (min-width: 900px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    aside {
+      flex: 1 0 50%;
+      max-width: 50%; // for IE11 not respecting border-box with flex-basis
+      box-sizing: border-box;
+
+      &.donate {
+        padding-right: 25px;
+      }
+
+      &.subscribe {
+        padding-left: 25px;
+      }
+    }
+  }
+}
