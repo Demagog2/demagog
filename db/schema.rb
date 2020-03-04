@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_13_101940) do
+ActiveRecord::Schema.define(version: 2020_03_04_152047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -327,6 +327,8 @@ ActiveRecord::Schema.define(version: 2020_02_13_101940) do
     t.datetime "updated_at", null: false
     t.string "osoba_id"
     t.string "wikidata_id"
+    t.index ["osoba_id"], name: "index_speakers_on_osoba_id"
+    t.index ["wikidata_id"], name: "index_speakers_on_wikidata_id"
   end
 
   create_table "statement_transcript_positions", force: :cascade do |t|
