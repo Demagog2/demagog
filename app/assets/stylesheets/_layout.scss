@@ -21,6 +21,16 @@
       max-width: 100%;
     }
 
+    figure.image {
+      margin: 0 0 1rem;
+
+      > figcaption {
+        font-size: 14px;
+        color: #9a95ab;
+        margin: .3rem 0 0 0;
+      }
+    }
+
     .smap img {
       max-width: none;
     }
@@ -50,6 +60,16 @@
   article {
     img {
       max-width: 100%;
+    }
+
+    figure.image {
+      margin: 0 0 1rem;
+
+      > figcaption {
+        font-size: 14px;
+        color: #9a95ab;
+        margin: .3rem 0 0 0;
+      }
     }
 
     .smap img {

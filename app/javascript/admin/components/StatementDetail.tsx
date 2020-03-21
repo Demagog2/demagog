@@ -51,7 +51,8 @@ import VeracitySelect from './forms/controls/VeracitySelect';
 import FormGroup from './forms/FormGroup';
 import FormikAutoSave from './forms/FormikAutoSave';
 import Loading from './Loading';
-import RichTextEditor from './RichTextEditor';
+// import RichTextEditor from './RichTextEditor';
+import ExplanationEditor from './ExplanationEditor';
 import StatementComments from './StatementComments';
 
 // Little more than 10s so it does not sync with other polls
@@ -622,7 +623,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                     label="Odůvodnění"
                                     labelFor="assessment-explanation"
                                   >
-                                    <RichTextEditor
+                                    {/* <RichTextEditor
                                       value={values.assessment.explanation_slatejson}
                                       html={values.assessment.explanation_html}
                                       onChange={(value, html) => {
@@ -630,6 +631,13 @@ class StatementDetail extends React.Component<IProps, IState> {
                                         setFieldValue('assessment.explanation_html', html);
                                       }}
                                       statementExplanation
+                                    /> */}
+                                    <ExplanationEditor
+                                      html={values.assessment.explanation_html}
+                                      onChange={(html) => {
+                                        setFieldValue('assessment.explanation_slatejson', null);
+                                        setFieldValue('assessment.explanation_html', html);
+                                      }}
                                     />
                                   </BlueprintFormGroup>
                                 ) : (
@@ -641,6 +649,14 @@ class StatementDetail extends React.Component<IProps, IState> {
                                       }}
                                       className={css`
                                         word-break: break-word;
+
+                                        figure.image {
+                                          margin: 1rem 0;
+                                        }
+
+                                        figure.table {
+                                          margin: 1rem 0;
+                                        }
 
                                         img {
                                           max-width: 100%;

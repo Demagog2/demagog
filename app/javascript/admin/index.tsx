@@ -1,5 +1,6 @@
 /* eslint-env browser */
 
+import '@babel/polyfill';
 import 'whatwg-fetch';
 
 import * as Sentry from '@sentry/browser';
