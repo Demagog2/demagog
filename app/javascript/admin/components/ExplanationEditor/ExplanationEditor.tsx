@@ -101,8 +101,11 @@ const editorConfiguration = {
 
     SpecialCharacters,
     SpecialCharactersEssentials,
+    SpecialCharactersSpaces,
 
     PasteFromOffice,
+
+    NonBreakableSpaceKeystrokes,
 
     // Table,
     // TableToolbar,
@@ -162,6 +165,21 @@ const editorConfiguration = {
 // From https://github.com/ckeditor/ckeditor5-typing/blob/cd4fa3ea2dcd5789e91fae92d7f220ef850cc7b6/src/texttransformation.js
 function buildQuotesRegExp(quoteCharacter) {
   return new RegExp(`(^|\\s)(${quoteCharacter})([^${quoteCharacter}]*)(${quoteCharacter})$`);
+}
+
+function SpecialCharactersSpaces(editor) {
+  editor.plugins
+    .get('SpecialCharacters')
+    .addItems('Spaces', [{ title: 'non-breakable space', character: '\u00a0' }]);
+}
+
+function NonBreakableSpaceKeystrokes(editor) {
+  // Mac non-breakable space hack, see https://github.com/ckeditor/ckeditor5/issues/1669#issuecomment-478934583
+  editor.keystrokes.set('Alt+space', (_0, stop) => {
+    editor.execute('input', { text: '\u00a0' });
+    stop();
+  });
+  // TODO: Add also for alt+0160 on Windows
 }
 
 // tslint:disable-next-line:no-unused-expression
