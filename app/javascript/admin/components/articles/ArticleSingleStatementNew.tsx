@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { Formik } from 'formik';
 import { Mutation, MutationFunction } from 'react-apollo';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
