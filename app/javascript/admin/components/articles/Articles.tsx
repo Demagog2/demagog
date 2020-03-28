@@ -5,7 +5,7 @@ import * as React from 'react';
 import { Button, Classes, Icon, Intent, Tag } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { ApolloError } from 'apollo-client';
-import * as classNames from 'classnames';
+import { css, cx } from 'emotion';
 import { Query } from 'react-apollo';
 import { connect, DispatchProp } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -28,11 +28,13 @@ const ARTICLES_PER_PAGE = 50;
 const ARTICLE_TYPE_INTENT = {
   default: Intent.PRIMARY,
   static: Intent.WARNING,
+  single_statement: Intent.PRIMARY,
 };
 
 const ARTICLE_TYPE_LABEL = {
   default: 'Ověřeno',
   static: 'Komentář',
+  single_statement: 'Jednotlivý výrok',
 };
 
 interface IProps extends DispatchProp<any> {}
@@ -80,14 +82,27 @@ class Articles extends React.Component<IProps, IState> {
         <Authorize permissions={['articles:edit']}>
           <div style={{ float: 'right' }}>
             <Link
-              className={classNames(
+              className={cx(
                 Classes.BUTTON,
                 Classes.INTENT_PRIMARY,
                 Classes.iconClass(IconNames.PLUS),
               )}
+              to="/admin/articles/new-single-statement"
+            >
+              Přidat jednotlivý výrok
+            </Link>
+            <Link
+              className={cx(
+                Classes.BUTTON,
+                Classes.INTENT_PRIMARY,
+                Classes.iconClass(IconNames.PLUS),
+                css`
+                  margin-left: 10px;
+                `,
+              )}
               to="/admin/articles/new"
             >
-              Přidat článek
+              Přidat komentář/ověřeno
             </Link>
           </div>
         </Authorize>
@@ -153,7 +168,7 @@ class Articles extends React.Component<IProps, IState> {
                 {articlesLength > 0 && (
                   <React.Fragment>
                     <table
-                      className={classNames(Classes.HTML_TABLE, Classes.HTML_TABLE_STRIPED)}
+                      className={cx(Classes.HTML_TABLE, Classes.HTML_TABLE_STRIPED)}
                       style={{ width: '100%' }}
                     >
                       <thead>
@@ -204,11 +219,12 @@ class Articles extends React.Component<IProps, IState> {
                             <td>
                               <div style={{ display: 'flex' }}>
                                 <Link
-                                  to={`/admin/articles/edit/${article.id}`}
-                                  className={classNames(
-                                    Classes.BUTTON,
-                                    Classes.iconClass(IconNames.EDIT),
-                                  )}
+                                  to={
+                                    article.articleType === 'single_statement'
+                                      ? `/admin/articles/edit-single-statement/${article.id}`
+                                      : `/admin/articles/edit/${article.id}`
+                                  }
+                                  className={cx(Classes.BUTTON, Classes.iconClass(IconNames.EDIT))}
                                 >
                                   Upravit
                                 </Link>

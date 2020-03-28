@@ -9,6 +9,7 @@ module Types
     field :source, Types::SourceType, null: true
     field :statements, [Types::StatementType], null: false
     field :promise_url, String, null: true
+    field :statement_id, String, null: true
 
     def statements
       object.all_published_statements

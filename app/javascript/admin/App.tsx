@@ -12,6 +12,8 @@ import { IState } from './reducers';
 
 import ArticleEdit from './components/articles/ArticleEdit';
 import ArticleNew from './components/articles/ArticleNew';
+import ArticleSingleStatementEdit from './components/articles/ArticleSingleStatementEdit';
+import ArticleSingleStatementNew from './components/articles/ArticleSingleStatementNew';
 import Articles from './components/articles/Articles';
 
 import Availability from './components/Availability';
@@ -104,6 +106,16 @@ class App extends React.Component<IProps> {
                 <Route path="/admin/articles" exact component={Articles} />
                 <Route path="/admin/articles/new" exact component={ArticleNew} />
                 <Route path="/admin/articles/edit/:id" exact component={ArticleEdit} />
+                <Route
+                  path="/admin/articles/new-single-statement"
+                  exact
+                  component={ArticleSingleStatementNew}
+                />
+                <Route
+                  path="/admin/articles/edit-single-statement/:id"
+                  exact
+                  component={ArticleSingleStatementEdit}
+                />
 
                 <Route path="/admin/images" exact component={Images} />
 

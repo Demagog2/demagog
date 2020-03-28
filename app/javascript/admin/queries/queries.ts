@@ -41,6 +41,7 @@ export const GetArticle = gql`
         textHtml
         textSlatejson
         promiseUrl
+        statementId
         source {
           id
         }

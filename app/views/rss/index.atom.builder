@@ -11,7 +11,13 @@ atom_feed(
   @articles.each do |article|
     feed.entry(article, published: article.published_at, updated: article.published_at) do |entry|
       entry.title(article.title)
-      entry.content(article.perex, type: "html") if article.perex.present?
+
+      if article.perex.present?
+        entry.content(article.perex, type: "html")
+      elsif article.article_type.name == "single_statement"
+        entry.content("„" + article.single_statement.content.strip + "“ hodnotíme jako " + article.single_statement.approved_assessment.veracity.name.downcase + ".", type: "html")
+      end
+
       entry.author do |author|
         author.name("Demagog.cz")
       end

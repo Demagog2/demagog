@@ -9,6 +9,12 @@ class ArticleController < FrontendController
     end
 
     @article = Article.published.friendly.find(params[:slug])
+
+    # Single statement article does not have any view, redirects directly to statement
+    if @article.article_type.name == "single_statement"
+      return redirect_to statement_url(@article.single_statement), status: 301
+    end
+
     @article_type = @article.article_type.name == "default" ? "factcheck" : "editorial"
 
     @statements_filters = {}

@@ -18,30 +18,42 @@
       </h1>
 
       <section class="article-meta">
-        <span class="label <%= @cover_story.article_type.name == "default" ? "factcheck" : "editorial" %>">
-          <% if @cover_story.article_type.name == "default" %>
-              Ověřeno
-          <% end %>
-          <% if @cover_story.article_type.name == "static" %>
-              Komentář
-          <% end %>
-        </span>
-
-        <% if @cover_story.article_type.name == "default" && @cover_story.source %>
+        <% if @cover_story.article_type.name == "default" %>
+          <span class="label factcheck">Ověřeno</span>
+          <% if @cover_story.source %>
             <i><%= @cover_story.source.medium.name %>, <%= raw(l(@cover_story.source.released_at, format: :long)) %></i>
+          <% end %>
         <% end %>
 
         <% if @cover_story.article_type.name == "static" %>
+          <span class="label editorial">Komentář</span>
           <i><%= raw(l(@cover_story.published_at, format: :long)) %></i>
+        <% end %>
+
+        <% if @cover_story.article_type.name == "single_statement" %>
+          <span class="label veracity <%= @cover_story.single_statement.approved_assessment.veracity.default_name %>">
+            <%= @cover_story.single_statement.approved_assessment.veracity.name %>
+          </span>
+          <i><%= @cover_story.single_statement.source.medium.name %>, <%= raw(l(@cover_story.single_statement.source.released_at, format: :long)) %></i>
         <% end %>
       </section>
 
-      <p class="perex">
-        <%= strip_tags(@cover_story.perex) %>
-        <a href="<%= article_path(@cover_story) %>">
-          Číst&nbsp;dál&nbsp;&rarr;
-        </a>
-      </p>
+      <% if @cover_story.article_type.name == "default" || @cover_story.article_type.name == "static" %>
+        <p class="perex">
+          <%= strip_tags(@cover_story.perex) %>
+          <a href="<%= article_path(@cover_story) %>">
+            Číst&nbsp;dál&nbsp;&rarr;
+          </a>
+        </p>
+      <% end %>
+      <% if @cover_story.article_type.name == "single_statement" %>
+        <p class="perex">
+          „<%= @cover_story.single_statement.content.strip %>“
+          <a href="<%= statement_path(@cover_story.single_statement) %>">
+            Číst&nbsp;odůvodnění&nbsp;&rarr;
+          </a>
+        </p>
+      <% end %>
 
       <section class="speakers">
         <% @cover_story.unique_speakers.each do |speaker| %>
@@ -55,6 +67,9 @@
               })
             %>
           </div>
+        <% end %>
+        <% if @cover_story.article_type.name == "single_statement" %>
+          <%= render(partial: 'shared/portrait', object: @cover_story.single_statement.speaker, as: :speaker) %>
         <% end %>
       </section>
     </div>

@@ -412,6 +412,16 @@ p.lead {
 
   &.important::after { content: ') '; }
   &.important::before { content: ' ('; }
+
+  &.veracity {
+    @include veracity;
+
+    position: relative;
+    top: 1px;
+
+    font-weight: bold;
+    margin-right: 2px;
+  }
 }
 
 

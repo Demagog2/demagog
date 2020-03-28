@@ -10,7 +10,7 @@ interface ITextSegment {
   id: string | undefined | null;
   segment_type: string;
   text_html: string | null;
-  text_slatejson: GraphQLCustomScalar_JSON | null;
+  text_slatejson: GraphQLCustomScalar_Json | null;
 }
 
 interface IProps {

@@ -183,7 +183,7 @@ export interface CreatePage_createPage_page {
   slug: string;
   published: boolean;
   textHtml: string | null;
-  textSlatejson: GraphQLCustomScalar_JSON | null;
+  textSlatejson: GraphQLCustomScalar_Json | null;
 }
 
 export interface CreatePage_createPage {
@@ -217,7 +217,7 @@ export interface UpdatePage_updatePage_page {
   slug: string;
   published: boolean;
   textHtml: string | null;
-  textSlatejson: GraphQLCustomScalar_JSON | null;
+  textSlatejson: GraphQLCustomScalar_Json | null;
 }
 
 export interface UpdatePage_updatePage {
@@ -279,8 +279,9 @@ export interface CreateArticle_createArticle_article_segments {
   id: string;
   segmentType: string;
   textHtml: string | null;
-  textSlatejson: GraphQLCustomScalar_JSON | null;
+  textSlatejson: GraphQLCustomScalar_Json | null;
   promiseUrl: string | null;
+  statementId: string | null;
   statements: CreateArticle_createArticle_article_segments_statements[];
 }
 
@@ -337,8 +338,9 @@ export interface UpdateArticle_updateArticle_article_segments {
   id: string;
   segmentType: string;
   textHtml: string | null;
-  textSlatejson: GraphQLCustomScalar_JSON | null;
+  textSlatejson: GraphQLCustomScalar_Json | null;
   promiseUrl: string | null;
+  statementId: string | null;
   statements: UpdateArticle_updateArticle_article_segments_statements[];
 }
 
@@ -998,7 +1000,7 @@ export interface UpdateStatement_updateStatement_statement_assessment {
   id: string;
   shortExplanation: string | null;
   explanationHtml: string | null;
-  explanationSlatejson: GraphQLCustomScalar_JSON | null;
+  explanationSlatejson: GraphQLCustomScalar_Json | null;
   evaluationStatus: string;
   evaluator: UpdateStatement_updateStatement_statement_assessment_evaluator | null;
   veracity: UpdateStatement_updateStatement_statement_assessment_veracity | null;
@@ -1380,7 +1382,7 @@ export interface GetPage_page {
   slug: string;
   published: boolean;
   textHtml: string | null;
-  textSlatejson: GraphQLCustomScalar_JSON | null;
+  textSlatejson: GraphQLCustomScalar_Json | null;
 }
 
 export interface GetPage {
@@ -1409,8 +1411,9 @@ export interface GetArticle_article_segments {
   id: string;
   segmentType: string;
   textHtml: string | null;
-  textSlatejson: GraphQLCustomScalar_JSON | null;
+  textSlatejson: GraphQLCustomScalar_Json | null;
   promiseUrl: string | null;
+  statementId: string | null;
   source: GetArticle_article_segments_source | null;
 }
 
@@ -2103,7 +2106,7 @@ export interface GetStatement_statement_assessment {
   id: string;
   assessmentMethodology: GetStatement_statement_assessment_assessmentMethodology;
   explanationHtml: string | null;
-  explanationSlatejson: GraphQLCustomScalar_JSON | null;
+  explanationSlatejson: GraphQLCustomScalar_Json | null;
   shortExplanation: string | null;
   evaluationStatus: string;
   evaluator: GetStatement_statement_assessment_evaluator | null;
@@ -2569,7 +2572,7 @@ export enum StatementType {
 export interface ArticleInput {
   articleType: string;
   title: string;
-  perex: string;
+  perex?: string | null;
   segments: ArticleSegmentInput[];
   slug?: string | null;
   published?: boolean | null;
@@ -2581,9 +2584,10 @@ export interface ArticleSegmentInput {
   id?: string | null;
   segmentType: string;
   textHtml?: string | null;
-  textSlatejson?: GraphQLCustomScalar_JSON | null;
+  textSlatejson?: GraphQLCustomScalar_Json | null;
   sourceId?: string | null;
   promiseUrl?: string | null;
+  statementId?: string | null;
 }
 
 export interface BodyInput {
@@ -2639,7 +2643,7 @@ export interface MembershipInput {
 export interface PageInput {
   title: string;
   textHtml?: string | null;
-  textSlatejson?: GraphQLCustomScalar_JSON | null;
+  textSlatejson?: GraphQLCustomScalar_Json | null;
   published?: boolean | null;
   slug?: string | null;
 }
@@ -2691,7 +2695,7 @@ export interface UpdateAssessmentInput {
   evaluatorId?: string | null;
   evaluationStatus?: string | null;
   explanationHtml?: string | null;
-  explanationSlatejson?: GraphQLCustomScalar_JSON | null;
+  explanationSlatejson?: GraphQLCustomScalar_Json | null;
   shortExplanation?: string | null;
   veracityId?: string | null;
   promiseRatingId?: string | null;

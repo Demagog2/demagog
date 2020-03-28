@@ -31,10 +31,12 @@ import ArticleTextSegment from './ArticleTextSegment';
 
 const ARTICLE_TYPE_DEFAULT = 'default';
 const ARTICLE_TYPE_STATIC = 'static';
+const ARTICLE_TYPE_SINGLE_STATEMENT = 'single_statement';
 
 const ARTICLE_TYPE_OPTIONS = [
   { label: 'Ověřeno', value: ARTICLE_TYPE_DEFAULT },
   { label: 'Komentář', value: ARTICLE_TYPE_STATIC },
+  { label: 'Jednotlivý výrok', value: ARTICLE_TYPE_SINGLE_STATEMENT },
 ];
 
 type SegmentType = 'text' | 'source_statements' | 'promise';
