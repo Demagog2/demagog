@@ -3,6 +3,7 @@ export interface IArticleStatementsQueryResult {
   article: {
     id: string;
     title: string;
+    illustration: string | null;
     source: {
       id: string;
       videoType: string;

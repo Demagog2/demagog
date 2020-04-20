@@ -6,6 +6,7 @@ import ReactTooltip from 'react-tooltip';
 import demagogLogoIconOnly from './demagog-logo-icon-only.png';
 import { IArticleStatementsQueryResult } from './types';
 import { IVideo } from './video/shared';
+import AudioOnlyVideo from './video/AudioOnlyVideo';
 import YoutubeVideo from './video/YoutubeVideo';
 
 interface IPlayerProps {
@@ -133,6 +134,13 @@ export class Player extends React.Component<IPlayerProps, IPlayerState> {
         <VideoColumn>
           {article.source.videoType === 'youtube' && (
             <YoutubeVideo onReady={this.onVideoReady} videoId={article.source.videoId} />
+          )}
+          {article.source.videoType === 'audio' && (
+            <AudioOnlyVideo
+              onReady={this.onVideoReady}
+              posterImageUrl={article.illustration !== null ? article.illustration : undefined}
+              videoId={article.source.videoId}
+            />
           )}
           {/* TODO: add facebook */}
         </VideoColumn>

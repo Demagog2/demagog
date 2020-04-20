@@ -5,6 +5,7 @@ import * as React from 'react';
 import { useQuery, useMutation } from 'react-apollo';
 import { RouteComponentProps } from 'react-router';
 
+import AudioOnlyVideo from '../../article-factcheck-video/video/AudioOnlyVideo';
 import { IVideo } from '../../article-factcheck-video/video/shared';
 import YoutubeVideo from '../../article-factcheck-video/video/YoutubeVideo';
 import * as ResultTypes from '../operation-result-types';
@@ -178,6 +179,9 @@ function StatementsVideoMarksInner({
                       {videoType === 'youtube' && (
                         <YoutubeVideo onReady={handleVideoReady} videoId={videoId || ''} />
                       )}
+                      {videoType === 'audio' && (
+                        <AudioOnlyVideo onReady={handleVideoReady} videoId={videoId || ''} />
+                      )}
                       {/* TODO: add facebook */}
                       <p style={{ marginTop: 15 }}>
                         Videozáznam {videoType}:{videoId}
@@ -191,6 +195,7 @@ function StatementsVideoMarksInner({
                       className={css`
                         flex: 1;
                         overflow-y: auto;
+                        margin-left: 30px;
                       `}
                     >
                       {statements.map((statement) => (

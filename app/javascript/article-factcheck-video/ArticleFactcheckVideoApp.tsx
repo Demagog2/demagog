@@ -15,6 +15,7 @@ const articleStatementsQuery = gql`
     article(id: $articleId) {
       id
       title
+      illustration
       source {
         id
         videoType
@@ -101,6 +102,11 @@ function ArticleFactcheckVideoApp(props: IProps) {
 
   const { article } = data;
 
+  let recordName = 'videozáznam';
+  if (article !== null && article.source.videoType === 'audio') {
+    recordName = 'audiozáznam';
+  }
+
   return (
     <>
       {isPlayerOpen && article && <Player article={article} onRequestClose={closePlayer} />}
@@ -120,9 +126,9 @@ function ArticleFactcheckVideoApp(props: IProps) {
         {article !== null && (
           <OpenPlayerButton type="button" onClick={openPlayer}>
             <OpenPlayerButtonOverlay>
-              <OpenPlayerButtonOverlayPlayIcon src={playIcon} alt="Spustit videozáznam" />
+              <OpenPlayerButtonOverlayPlayIcon src={playIcon} alt={`Spustit ${recordName}`} />
               <OpenPlayerButtonOverlayText>
-                Spustit videozáznam propojený s&nbsp;ověřením
+                Spustit {recordName} propojený s&nbsp;ověřením
               </OpenPlayerButtonOverlayText>
             </OpenPlayerButtonOverlay>
           </OpenPlayerButton>

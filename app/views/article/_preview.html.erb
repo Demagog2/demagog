@@ -4,8 +4,8 @@
       <img class="lazy-load" data-src="<%= url_for(article.illustration) %>">
       <% if show_article_factcheck_video(article) %>
         <div class="factcheck-video-label">
-          <img src="<%= asset_path("play-icon.svg") %>" class="factcheck-video-label-play-icon" alt="Spustit videozáznam">
-          <span class="factcheck-video-label-text">Videozáznam propojený s ověřením</span>
+          <img src="<%= asset_path("play-icon.svg") %>" class="factcheck-video-label-play-icon" alt="Spustit <%= article_factcheck_video_record_name(article) %>">
+          <span class="factcheck-video-label-text"><%= article_factcheck_video_record_name(article).capitalize %> propojený s ověřením</span>
         </div>
       <% end %>
     </a>

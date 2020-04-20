@@ -24,6 +24,7 @@ export function VideoModal(props: IVideoModalProps) {
 
   const typeOptions = [
     { label: 'YouTube', value: 'youtube' },
+    { label: 'Audio', value: 'audio' },
     // TODO: uncomment when facebook video implementation is added
     // { label: 'Facebook', value: 'facebook' },
   ];
@@ -39,6 +40,8 @@ export function VideoModal(props: IVideoModalProps) {
             videoIdFormHelperText =
               'Hash najdete v adresovém řádku prohlížeče v parametru v,' +
               ' tedy například hash videa https://www.youtube.com/watch?v=dQw4w9WgXcQ je dQw4w9WgXcQ';
+          } else if (values.video_type === 'audio') {
+            videoIdLabel = 'URL audio souboru';
           } else if (values.video_type === 'facebook') {
             videoIdLabel = 'Facebook ID videa';
             videoIdFormHelperText =
