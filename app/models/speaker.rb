@@ -44,14 +44,18 @@ class Speaker < ApplicationRecord
   end
 
   def self.top_speakers
+    speakers_evaluated_since(6.months.ago)
+      .order("statements_count DESC")
+      .limit(8)
+  end
+
+  def self.speakers_evaluated_since(time_since)
     joins(:statements)
       .select("speakers.*, COUNT(statements.id) as statements_count")
-      .where("statements.excerpted_at >= ?", 6.months.ago)
+      .where("statements.excerpted_at >= ?", time_since)
       .where("statements.published = ?", true)
       .where("statements.statement_type = ?", Statement::TYPE_FACTUAL)
       .group("speakers.id")
-      .order("statements_count DESC")
-      .limit(8)
   end
 
   def self.active_members_of_body(body_id)

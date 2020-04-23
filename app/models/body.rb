@@ -22,10 +22,12 @@ class Body < ApplicationRecord
     )
   end
 
-  def self.min_members(count)
+  def self.min_members_and_evaluated_since(min_members_count, time_since)
+    speaker_ids = Speaker.speakers_evaluated_since(time_since).map { |s| s.id }
+
     joins(:memberships)
-      .where(memberships: { until: nil })
-      .having("COUNT(memberships.id) > ?", count)
+      .where(memberships: { until: nil, speaker_id: speaker_ids })
+      .having("COUNT(memberships.id) >= ?", min_members_count)
       .group(:id)
       .order(name: :asc)
   end
