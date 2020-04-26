@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_30_170607) do
+ActiveRecord::Schema.define(version: 2020_04_26_203102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -405,6 +405,7 @@ ActiveRecord::Schema.define(version: 2020_03_30_170607) do
     t.boolean "user_public", default: false
     t.datetime "deleted_at"
     t.boolean "notify_on_approval", default: false
+    t.boolean "notify_on_statement_publish", default: false
   end
 
   create_table "users_roles", force: :cascade do |t|
