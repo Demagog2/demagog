@@ -76,6 +76,25 @@ class CommentTest < ActiveSupport::TestCase
     assert_not_nil notification
   end
 
+  def test_create_comment_with_proofreaders_mention
+    statement = create(:statement)
+    user = create(:user)
+    proofreader = create(:user, :proofreader)
+    message = "Hello, @[Korektori](proofreaders)"
+
+    comment = create_comment(message, statement, user)
+
+    assert_equal message, comment.content
+    assert_equal user, comment.user
+    assert_equal statement, comment.statement
+
+    notification = Notification.find_by(statement: statement, recipient: statement.assessment.evaluator)
+    assert_not_nil notification
+
+    notification = Notification.find_by(statement: statement, recipient: proofreader)
+    assert_not_nil notification
+  end
+
   private
     def create_comment(message, statement, user)
       comment = { statement: statement, content: message }
