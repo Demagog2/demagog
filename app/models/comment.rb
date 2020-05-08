@@ -10,6 +10,8 @@ class Comment < ApplicationRecord
     order(created_at: :asc)
   }
 
+  MENTION_ALIAS_EXPERTS = "experts"
+
   def display_content
     content.gsub(/@\[([^\]]+)\]\([^\)]+\)/, '@\1')
   end
@@ -25,7 +27,7 @@ class Comment < ApplicationRecord
       notifications = []
 
       comment.content.scan(/@\[[^\]]+\]\(([^\)]+)\)/).each do |mention|
-        recipients = mention[0] == "experts" ? comment.statement.source.experts : [User.find(mention[0])]
+        recipients = comment.mentioned_recipients(mention[0], comment)
 
         recipients.each do |recipient|
           notifications << Notification.new(
@@ -64,5 +66,14 @@ class Comment < ApplicationRecord
 
   def display_in_notification(type = "short")
     "„#{display_content.truncate(type == "short" ? 40 : 160, omission: '…')}“"
+  end
+
+  def mentioned_recipients(mention, comment)
+    case mention
+    when MENTION_ALIAS_EXPERTS
+      comment.statement.source.experts
+    else
+      [User.find(mention)]
+    end
   end
 end
