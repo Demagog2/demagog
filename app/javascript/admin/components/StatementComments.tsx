@@ -217,6 +217,14 @@ const CommentInput = (props: ICommentInputProps) => {
           id: 'experts',
           display: 'Editoři',
         });
+        suggestions.unshift({
+          id: 'proofreaders',
+          display: 'Korektoři',
+        });
+        suggestions.unshift({
+          id: 'social_media_managers',
+          display: 'Síťaři',
+        });
 
         return (
           <MentionsInput
