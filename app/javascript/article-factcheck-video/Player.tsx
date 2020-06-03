@@ -7,6 +7,7 @@ import demagogLogoIconOnly from './demagog-logo-icon-only.png';
 import { IArticleStatementsQueryResult } from './types';
 import { IVideo } from './video/shared';
 import AudioOnlyVideo from './video/AudioOnlyVideo';
+import FacebookVideo from './video/FacebookVideo';
 import YoutubeVideo from './video/YoutubeVideo';
 
 interface IPlayerProps {
@@ -142,7 +143,9 @@ export class Player extends React.Component<IPlayerProps, IPlayerState> {
               videoId={article.source.videoId}
             />
           )}
-          {/* TODO: add facebook */}
+          {article.source.videoType === 'facebook' && (
+            <FacebookVideo onReady={this.onVideoReady} videoId={article.source.videoId} />
+          )}
         </VideoColumn>
         <StatementsColumn ref={(statementsColumn) => (this.statementsColumn = statementsColumn)}>
           {statementsSortedByTimingsStart.map((statement, index) => {

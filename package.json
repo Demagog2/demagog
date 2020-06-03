@@ -90,6 +90,7 @@
     "react-beautiful-dnd": "^7.1.3",
     "react-dom": "^16.12.0",
     "react-dropzone": "^4.3.0",
+    "react-facebook-player": "^0.1.0",
     "react-fast-compare": "^2.0.4",
     "react-hot-loader": "^4.12.18",
     "react-in-viewport": "^0.0.37",
