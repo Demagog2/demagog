@@ -181,6 +181,6 @@ class Statement < ApplicationRecord
   end
 
   def mentioning_articles
-    Article.joins(:segments).where(article_segments: { source_id: source.id }).distinct.order(published_at: :desc)
+    Article.kept.joins(:segments).where(article_segments: { source_id: source.id }).distinct.order(published_at: :desc)
   end
 end

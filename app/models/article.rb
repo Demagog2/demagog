@@ -5,8 +5,6 @@ class Article < ApplicationRecord
   include Discardable
   include Searchable
 
-  default_scope { kept }
-
   after_create { ElasticsearchWorker.perform_async(:article, :index, self.id) }
   after_update { ElasticsearchWorker.perform_async(:article, :update, self.id) }
   after_discard { ElasticsearchWorker.perform_async(:article, :destroy, self.id) }

@@ -113,7 +113,10 @@ class Types::QueryType < GraphQL::Schema::Object
     argument :party, Int, required: false
     argument :body, Int, required: false
     argument :name, String, required: false
-    argument :osoba_id, String, required: false, description: "Temporary IDs from Hlidac statu, please use Wikidata ID instead"
+    argument :osoba_id,
+             String,
+             required: false,
+             description: "Temporary IDs from Hlidac statu, please use Wikidata ID instead"
     argument :wikidata_id, String, required: false
   end
 
@@ -290,10 +293,10 @@ class Types::QueryType < GraphQL::Schema::Object
       # Public cannot access unpublished articles
       raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
-      return Article.friendly.find(args[:slug] || args[:id])
+      return Article.kept.friendly.find(args[:slug] || args[:id])
     end
 
-    Article.published.friendly.find(args[:slug] || args[:id])
+    Article.kept.published.friendly.find(args[:slug] || args[:id])
   rescue ActiveRecord::RecordNotFound
     raise GraphQL::ExecutionError.new(
       "Could not find Article with id=#{args[:id]} or slug=#{args[:slug]}"
