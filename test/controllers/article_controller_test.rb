@@ -12,7 +12,7 @@ class ArticleControllerTest < ActionDispatch::IntegrationTest
         statements: [create(:statement, speaker: speaker), create(:statement, speaker: speaker)]
       )
     segment = create(:article_segment_source_statements, source: source)
-    article = create(:fact_check, segments: [segment])
+    create(:fact_check, segments: [segment])
   end
 
   test "should render fact checking" do
