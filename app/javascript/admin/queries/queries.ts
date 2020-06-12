@@ -172,6 +172,15 @@ export const GetSource = gql`
   }
 `;
 
+export const GetSourceInternalStats = gql`
+  query GetSourceInternalStats($id: Int!) {
+    source(id: $id) {
+      id
+      internalStats
+    }
+  }
+`;
+
 export const GetSourcesForSelect = gql`
   query GetSourcesForSelect {
     sources(offset: 0, limit: 10000, includeOnesWithoutPublishedStatements: true) {

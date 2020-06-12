@@ -1688,6 +1688,28 @@ export interface GetSourceVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetSourceInternalStats
+// ====================================================
+
+export interface GetSourceInternalStats_source {
+  __typename: "Source";
+  id: string;
+  internalStats: GraphQLCustomScalar_JSON;
+}
+
+export interface GetSourceInternalStats {
+  source: GetSourceInternalStats_source;
+}
+
+export interface GetSourceInternalStatsVariables {
+  id: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetSourcesForSelect
 // ====================================================
 

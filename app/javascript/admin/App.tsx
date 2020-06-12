@@ -50,6 +50,7 @@ import SourceDetail from './components/SourceDetail';
 import SourceEdit from './components/SourceEdit';
 import SourceNew from './components/SourceNew';
 import Sources from './components/Sources';
+import SourceStats from './components/SourceStats';
 
 import StatementDetail from './components/StatementDetail';
 import StatementNew from './components/StatementNew';
@@ -139,6 +140,7 @@ class App extends React.Component<IProps> {
                   exact
                   component={StatementsSort}
                 />
+                <Route path="/admin/sources/:sourceId/stats" exact component={SourceStats} />
                 <Route
                   path="/admin/sources/:sourceId/statements-video-marks"
                   exact

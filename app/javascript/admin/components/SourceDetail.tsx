@@ -485,10 +485,14 @@ class SourceDetail extends React.Component<IProps, IState> {
                   </div>
                   <div style={{ flex: '1 1' }}>
                     <div style={{ float: 'right' }}>
+                      <Link to={`/admin/sources/${source.id}/stats`} className={Classes.BUTTON}>
+                        Statistiky
+                      </Link>
                       <Authorize permissions={['statements:edit']}>
                         <Link
                           to={`/admin/sources/${source.id}/statements-video-marks`}
                           className={Classes.BUTTON}
+                          style={{ marginLeft: 7 }}
                         >
                           Propojení s videozáznamem
                         </Link>

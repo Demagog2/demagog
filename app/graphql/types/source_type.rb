@@ -18,6 +18,7 @@ module Types
     field :experts, [Types::UserType], null: false
     field :video_type, String, null: true
     field :video_id, String, null: true
+    field :internal_stats, GraphQL::Types::JSON, null: false
 
     def transcript
       # Transcript is mostly from Newton Media and cannot be offered publicly
@@ -67,5 +68,11 @@ module Types
         }
       end
     }
+
+    def internal_stats
+      raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+      object.internal_stats
+    end
   end
 end

@@ -120,6 +120,8 @@ gem "tty-prompt"
 # Datadog integration
 gem "ddtrace"
 
+gem "addressable"
+
 # Use Capistrano for deployment
 group :development do
   gem "capistrano", require: false
