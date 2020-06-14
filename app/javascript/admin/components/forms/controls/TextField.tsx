@@ -38,7 +38,6 @@ const TextField = (props: ITextFieldProps) => {
       render={({ field, form }: FieldProps) => (
         <TextInput
           id={name}
-          name={name}
           error={getIn(form.touched, name) && getIn(form.errors, name)}
           {...field}
           {...restProps}
