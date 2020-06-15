@@ -60,7 +60,7 @@ import StatementsVideoMarks from './components/StatementsVideoMarks';
 
 import UserEdit from './components/UserEdit';
 import UserNew from './components/UserNew';
-import Users from './components/Users';
+import { UsersPageContainer } from './components/users/UsersPageContainer';
 import UsersSortOnAboutUsPage from './components/UsersSortOnAboutUsPage';
 
 const history = createBrowserHistory();
@@ -177,7 +177,7 @@ class App extends React.Component<IProps> {
                 <Route path="/admin/pages/new" exact component={PageNew} />
                 <Route path="/admin/pages/edit/:id" exact component={PageEdit} />
 
-                <Route path="/admin/users" exact component={Users} />
+                <Route path="/admin/users" exact component={UsersPageContainer} />
                 <Route path="/admin/users/new" exact component={UserNew} />
                 <Route path="/admin/users/edit/:id" exact component={UserEdit} />
                 <Route
