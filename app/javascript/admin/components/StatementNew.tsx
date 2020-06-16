@@ -11,6 +11,7 @@ import { Link, withRouter } from 'react-router-dom';
 import * as yup from 'yup';
 
 import { addFlashMessage } from '../actions/flashMessages';
+import { STATEMENT_TYPES } from '../constants';
 import {
   CreateStatement as CreateStatementMutation,
   CreateStatementInput,
@@ -201,19 +202,9 @@ class StatementNew extends React.Component<IProps> {
   }
 }
 
-const STATEMENT_TYPE_OPTIONS = [
-  {
-    label: 'Faktický',
-    value: StatementType.factual,
-  },
-  {
-    label: 'Slib',
-    value: StatementType.promise,
-  },
-  {
-    label: 'Silvestrovský',
-    value: StatementType.newyears,
-  },
-];
+const STATEMENT_TYPE_OPTIONS = Object.keys(STATEMENT_TYPES).map((statementType) => ({
+  label: STATEMENT_TYPES[statementType],
+  value: statementType,
+}));
 
 export default connect()(withRouter(StatementNew));

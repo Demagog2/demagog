@@ -18,6 +18,7 @@ import SlatePlainSerializer from 'slate-plain-serializer';
 import { Editor, RenderMarkProps } from 'slate-react';
 
 import { isAuthorized } from '../authorization';
+import { STATEMENT_TYPES } from '../constants';
 import {
   CreateStatement as CreateStatementMutation,
   CreateStatementInput,
@@ -755,20 +756,10 @@ const removeDecorationsWithMarkType = (
   }) as Immutable.List<Slate.Decoration>;
 };
 
-const STATEMENT_TYPE_OPTIONS = [
-  {
-    label: 'Faktický',
-    value: StatementType.factual,
-  },
-  {
-    label: 'Slib',
-    value: StatementType.promise,
-  },
-  {
-    label: 'Silvestrovský',
-    value: StatementType.newyears,
-  },
-];
+const STATEMENT_TYPE_OPTIONS = Object.keys(STATEMENT_TYPES).map((statementType) => ({
+  label: STATEMENT_TYPES[statementType],
+  value: statementType,
+}));
 
 const mapStateToProps = (state: ReduxState) => ({
   isAuthorized: isAuthorized(state.currentUser.user),

@@ -575,6 +575,18 @@ export const GetPromiseRatingsForSelect = gql`
   }
 `;
 
+export const GetTags = gql`
+  query GetTags {
+    tags(limit: 10000) {
+      id
+      name
+      forStatementType
+      publishedStatementsCount
+      allStatementsCount
+    }
+  }
+`;
+
 export const GetTagsForSelect = gql`
   query GetTagsForSelect($forStatementType: StatementType!) {
     tags(limit: 10000, forStatementType: $forStatementType) {

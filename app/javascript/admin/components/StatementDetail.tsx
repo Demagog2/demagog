@@ -28,6 +28,7 @@ import {
   ASSESSMENT_STATUS_BEING_EVALUATED,
   ASSESSMENT_STATUS_LABELS,
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
+  STATEMENT_TYPES,
 } from '../constants';
 import {
   AssessmentMethodologyRatingModel,
@@ -370,14 +371,7 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                         <div style={{ display: 'flex' }}>
                           <h2 className={Classes.HEADING}>
-                            Detail výroku{' '}
-                            {
-                              {
-                                [StatementType.factual]: '(faktický)',
-                                [StatementType.promise]: '(slib)',
-                                [StatementType.newyears]: '(silvestrovský)',
-                              }[statement.statementType]
-                            }
+                            Detail výroku {STATEMENT_TYPES[statement.statementType].toLowerCase()}
                           </h2>
 
                           {canEditSomething && (
@@ -392,21 +386,56 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                         <div style={{ display: 'flex', marginTop: 20, marginBottom: 30 }}>
                           <div style={{ flex: '2 0' }}>
-                            {canEditEverything ? (
-                              <BlueprintFormGroup label="Řečník" labelFor="speaker">
-                                <SelectField
-                                  name="speaker"
-                                  options={statement.source.speakers.map((s) => ({
-                                    label: `${s.firstName} ${s.lastName}`,
-                                    value: s.id,
-                                  }))}
-                                />
-                              </BlueprintFormGroup>
-                            ) : (
-                              <h5 className={Classes.HEADING}>
-                                {statement.speaker.firstName} {statement.speaker.lastName}
-                              </h5>
-                            )}
+                            <div style={{ display: 'flex' }}>
+                              <div style={{ flex: '0 0 auto', marginRight: 50 }}>
+                                {canEditEverything ? (
+                                  <BlueprintFormGroup label="Řečník" labelFor="speaker" inline>
+                                    <SelectField
+                                      name="speaker"
+                                      options={statement.source.speakers.map((s) => ({
+                                        label: `${s.firstName} ${s.lastName}`,
+                                        value: s.id,
+                                      }))}
+                                    />
+                                  </BlueprintFormGroup>
+                                ) : (
+                                  <h5 className={Classes.HEADING}>
+                                    {statement.speaker.firstName} {statement.speaker.lastName}
+                                  </h5>
+                                )}
+                              </div>
+                              {[StatementType.promise].includes(statement.statementType) && (
+                                <div style={{ flex: '1 1 0', marginRight: 15 }}>
+                                  {canEditStatement ? (
+                                    <FormGroup label="Titulek" name="title" inline>
+                                      <TextField name="title" />
+                                    </FormGroup>
+                                  ) : (
+                                    <p>Titulek: {values.title}</p>
+                                  )}
+                                </div>
+                              )}
+                              {[StatementType.promise, StatementType.factual].includes(
+                                statement.statementType,
+                              ) && (
+                                <div style={{ flex: '1 1 0', maxWidth: '50%' }}>
+                                  {canEditStatement ? (
+                                    <FormGroup label="Štítky" name="tags" inline>
+                                      <SelectComponentField name="tags">
+                                        {(renderProps) => (
+                                          <TagsSelect
+                                            forStatementType={statement.statementType}
+                                            {...renderProps}
+                                          />
+                                        )}
+                                      </SelectComponentField>
+                                    </FormGroup>
+                                  ) : (
+                                    <p>Štítky: {statement.tags.map((t) => t.name).join(', ')}</p>
+                                  )}
+                                </div>
+                              )}
+                            </div>
                             {canEditStatement ? (
                               <textarea
                                 className={classNames(Classes.INPUT, Classes.FILL)}
@@ -452,41 +481,6 @@ class StatementDetail extends React.Component<IProps, IState> {
                                 <>Výrok nelze ukázat v kontextu přepisu, je vytvořený ručně</>
                               )}
                             </p>
-
-                            {statement.statementType === StatementType.promise && (
-                              <>
-                                {canEditStatement ? (
-                                  <div style={{ display: 'flex' }}>
-                                    <div style={{ flex: '1 1 0' }}>
-                                      <FormGroup label="Titulek" name="title">
-                                        <TextField name="title" />
-                                      </FormGroup>
-                                    </div>
-                                    <div style={{ flex: '1 1 0', marginLeft: '15px' }}>
-                                      <FormGroup label="Štítky" name="tags">
-                                        <SelectComponentField name="tags">
-                                          {(renderProps) => (
-                                            <TagsSelect
-                                              forStatementType={StatementType.promise}
-                                              {...renderProps}
-                                            />
-                                          )}
-                                        </SelectComponentField>
-                                      </FormGroup>
-                                    </div>
-                                  </div>
-                                ) : (
-                                  <div style={{ display: 'flex' }}>
-                                    <div style={{ flex: '1 1 0' }}>
-                                      <p>Titulek: {values.title}</p>
-                                    </div>
-                                    <div style={{ flex: '1 1 0', marginLeft: '15px' }}>
-                                      <p>Štítky: {statement.tags.map((t) => t.name).join(', ')}</p>
-                                    </div>
-                                  </div>
-                                )}
-                              </>
-                            )}
 
                             <hr
                               style={{

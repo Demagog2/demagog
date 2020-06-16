@@ -63,6 +63,8 @@ import UserNew from './components/UserNew';
 import { UsersPageContainer } from './components/users/UsersPageContainer';
 import UsersSortOnAboutUsPage from './components/UsersSortOnAboutUsPage';
 
+import Tags from './components/tags/Tags';
+
 const history = createBrowserHistory();
 
 const hoff = css`
@@ -185,6 +187,8 @@ class App extends React.Component<IProps> {
                   exact
                   component={UsersSortOnAboutUsPage}
                 />
+
+                <Route path="/admin/tags" exact component={Tags} />
 
                 <Route path="/admin/notifications/:tab?" exact component={Notifications} />
 
