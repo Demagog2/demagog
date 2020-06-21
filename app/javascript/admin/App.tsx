@@ -59,7 +59,7 @@ import StatementsSort from './components/StatementsSort';
 import StatementsVideoMarks from './components/StatementsVideoMarks';
 
 import UserEdit from './components/UserEdit';
-import UserNew from './components/UserNew';
+import { UserNew } from './components/users/UserNew';
 import { UsersPageContainer } from './components/users/UsersPageContainer';
 import UsersSortOnAboutUsPage from './components/UsersSortOnAboutUsPage';
 
