@@ -12,7 +12,7 @@ export default function Bold() {
   };
 }
 
-const SPECIAL_CHARACTERS = ['„', '“', '–', '—', '€', '£', '¥', '½', '±', '×'];
+const SPECIAL_CHARACTERS = ['„', '“', '–', '—', '€', '£', '¥', '½', '²', '±', '×'];
 
 const toolbarItem: IToolbarItem = {
   renderItem(props) {

@@ -168,9 +168,11 @@ function buildQuotesRegExp(quoteCharacter) {
 }
 
 function SpecialCharactersSpaces(editor) {
-  editor.plugins
-    .get('SpecialCharacters')
-    .addItems('Spaces', [{ title: 'non-breakable space', character: '\u00a0' }]);
+  const specialCharactersPlugin = editor.plugins.get('SpecialCharacters');
+  specialCharactersPlugin.addItems('Spaces', [
+    { title: 'non-breakable space', character: '\u00a0' },
+  ]);
+  specialCharactersPlugin.addItems('Mathematical', [{ title: 'Superscript 2', character: '²' }]);
 }
 
 function NonBreakableSpaceKeystrokes(editor) {
