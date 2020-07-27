@@ -392,10 +392,12 @@ class StatementDetail extends React.Component<IProps, IState> {
                                   <BlueprintFormGroup label="Řečník" labelFor="speaker" inline>
                                     <SelectField
                                       name="speaker"
-                                      options={statement.source.speakers.map((s) => ({
-                                        label: `${s.firstName} ${s.lastName}`,
-                                        value: s.id,
-                                      }))}
+                                      options={
+                                        statement.source.speakers?.map((s) => ({
+                                          label: `${s.firstName} ${s.lastName}`,
+                                          value: s.id,
+                                        })) ?? []
+                                      }
                                     />
                                   </BlueprintFormGroup>
                                 ) : (
@@ -459,9 +461,12 @@ class StatementDetail extends React.Component<IProps, IState> {
                               <p>{newlinesToBr(values.content)}</p>
                             )}
                             <p className={Classes.TEXT_MUTED}>
-                              Diskuze: {statement.source.name}, {statement.source.medium.name} ze
-                              dne {displayDate(statement.source.releasedAt)}
-                              {statement.source.mediaPersonalities.length > 0 && (
+                              Diskuze: {statement.source.name}, {statement.source.medium?.name} ze
+                              dne{' '}
+                              {statement.source.releasedAt
+                                ? displayDate(statement.source.releasedAt)
+                                : 'neuvedeno'}
+                              {statement.source.mediaPersonalities?.length && (
                                 <>
                                   ,{' '}
                                   {statement.source.mediaPersonalities
@@ -710,13 +715,13 @@ class StatementDetail extends React.Component<IProps, IState> {
 
                             <div className={classNames(Classes.FORM_GROUP, Classes.INLINE)}>
                               <label className={Classes.LABEL} style={{ flex: '1' }}>
-                                {statement.source.experts.length === 1 ? 'Editor' : 'Editoři'}
+                                {statement.source.experts?.length === 1 ? 'Editor' : 'Editoři'}
                               </label>
                               <div style={{ flex: '2', paddingTop: 6 }}>
                                 {statement.source.experts
-                                  .map((expert) => `${expert.firstName} ${expert.lastName}`)
+                                  ?.map((expert) => `${expert.firstName} ${expert.lastName}`)
                                   .join(', ')}
-                                {statement.source.experts.length === 0 && (
+                                {statement.source.experts?.length === 0 && (
                                   <span className={Classes.TEXT_MUTED}>Nepřiřazení</span>
                                 )}
                               </div>

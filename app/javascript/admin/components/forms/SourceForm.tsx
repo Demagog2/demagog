@@ -35,14 +35,14 @@ class SourceForm extends React.Component<ISourceFormProps> {
     const { backPath, currentUser, source, title } = this.props;
 
     const initialValues = {
-      name: source ? source.name : '',
-      medium_id: source ? source.medium.id : null,
-      media_personalities: source ? source.mediaPersonalities.map((p) => p.id) : [],
-      released_at: source ? source.releasedAt : DateTime.local().toISODate(),
-      source_url: source ? source.sourceUrl : '',
-      speakers: source ? source.speakers.map((s) => s.id) : [],
-      transcript: source && source.transcript ? source.transcript : '',
-      experts: source ? source.experts.map((u) => u.id) : [],
+      name: source?.name ?? '',
+      medium_id: source?.medium?.id,
+      media_personalities: source?.mediaPersonalities?.map((p) => p.id) ?? [],
+      released_at: source?.releasedAt ?? DateTime.local().toISODate(),
+      source_url: source?.sourceUrl ?? '',
+      speakers: source?.speakers?.map((s) => s.id) ?? [],
+      transcript: source?.transcript ?? '',
+      experts: source?.experts?.map((u) => u.id) ?? [],
     };
 
     // When creating new source, prefill experts with the current user
@@ -55,9 +55,9 @@ class SourceForm extends React.Component<ISourceFormProps> {
         initialValues={initialValues}
         validationSchema={yup.object().shape({
           name: yup.string().required('Je třeba vyplnit název'),
-          medium_id: yup.mixed().notOneOf([null, ''], 'Je třeba vybrat pořad'),
-          released_at: yup.mixed().notOneOf([null, ''], 'Je třeba vyplnit datum publikace'),
-          speakers: yup.array().min(1, 'Je třeba vybrat alespoň jednoho řečníka'),
+          medium_id: yup.string().nullable(),
+          released_at: yup.string().nullable(),
+          speakers: yup.array().nullable(),
         })}
         onSubmit={(values, { setSubmitting }) => {
           const formData: SourceInput = {

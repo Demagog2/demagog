@@ -9,13 +9,13 @@ module Types
   class SourceType < BaseObject
     field :id, ID, null: false
     field :name, String, null: false
-    field :released_at, String, null: false
+    field :released_at, String, null: true
     field :source_url, String, null: true
     field :transcript, String, null: true
-    field :medium, Types::MediumType, null: false
-    field :media_personalities, [Types::MediaPersonalityType], null: false
-    field :speakers, [Types::SpeakerType], null: false
-    field :experts, [Types::UserType], null: false
+    field :medium, Types::MediumType, null: true
+    field :media_personalities, [Types::MediaPersonalityType], null: true
+    field :speakers, [Types::SpeakerType], null: true
+    field :experts, [Types::UserType], null: true
     field :video_type, String, null: true
     field :video_id, String, null: true
     field :internal_stats, GraphQL::Types::JSON, null: false

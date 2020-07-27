@@ -1649,12 +1649,12 @@ export interface GetSources_sources {
   id: string;
   name: string;
   sourceUrl: string | null;
-  releasedAt: string;
-  medium: GetSources_sources_medium;
-  mediaPersonalities: GetSources_sources_mediaPersonalities[];
+  releasedAt: string | null;
+  medium: GetSources_sources_medium | null;
+  mediaPersonalities: GetSources_sources_mediaPersonalities[] | null;
   statementsCountsByEvaluationStatus: GetSources_sources_statementsCountsByEvaluationStatus[];
   statements: GetSources_sources_statements[];
-  experts: GetSources_sources_experts[];
+  experts: GetSources_sources_experts[] | null;
 }
 
 export interface GetSources {
@@ -1713,13 +1713,13 @@ export interface GetSource_source {
   id: string;
   name: string;
   sourceUrl: string | null;
-  releasedAt: string;
+  releasedAt: string | null;
   transcript: string | null;
-  medium: GetSource_source_medium;
-  mediaPersonalities: GetSource_source_mediaPersonalities[];
+  medium: GetSource_source_medium | null;
+  mediaPersonalities: GetSource_source_mediaPersonalities[] | null;
   statementsCountsByEvaluationStatus: GetSource_source_statementsCountsByEvaluationStatus[];
-  speakers: GetSource_source_speakers[];
-  experts: GetSource_source_experts[];
+  speakers: GetSource_source_speakers[] | null;
+  experts: GetSource_source_experts[] | null;
 }
 
 export interface GetSource {
@@ -1772,8 +1772,8 @@ export interface GetSourcesForSelect_sources {
   __typename: "Source";
   id: string;
   name: string;
-  releasedAt: string;
-  medium: GetSourcesForSelect_sources_medium;
+  releasedAt: string | null;
+  medium: GetSourcesForSelect_sources_medium | null;
 }
 
 export interface GetSourcesForSelect {
@@ -2225,11 +2225,11 @@ export interface GetStatement_statement_source {
   id: string;
   name: string;
   sourceUrl: string | null;
-  releasedAt: string;
-  medium: GetStatement_statement_source_medium;
-  mediaPersonalities: GetStatement_statement_source_mediaPersonalities[];
-  experts: GetStatement_statement_source_experts[];
-  speakers: GetStatement_statement_source_speakers[];
+  releasedAt: string | null;
+  medium: GetStatement_statement_source_medium | null;
+  mediaPersonalities: GetStatement_statement_source_mediaPersonalities[] | null;
+  experts: GetStatement_statement_source_experts[] | null;
+  speakers: GetStatement_statement_source_speakers[] | null;
 }
 
 export interface GetStatement_statement_statementTranscriptPosition {
@@ -2640,7 +2640,7 @@ export interface GetSourceWithStatementsAndVideoMarks_source {
   id: string;
   name: string;
   sourceUrl: string | null;
-  releasedAt: string;
+  releasedAt: string | null;
   transcript: string | null;
   videoType: string | null;
   videoId: string | null;
@@ -2765,13 +2765,13 @@ export interface PageInput {
 
 export interface SourceInput {
   name: string;
-  releasedAt: string;
+  releasedAt?: string | null;
   sourceUrl?: string | null;
-  mediumId: string;
-  mediaPersonalities: string[];
-  transcript: string;
-  speakers: string[];
-  experts: string[];
+  mediumId?: string | null;
+  mediaPersonalities?: string[] | null;
+  transcript?: string | null;
+  speakers?: string[] | null;
+  experts?: string[] | null;
 }
 
 export interface SourceInputVideoFields {

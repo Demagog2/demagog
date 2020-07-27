@@ -283,16 +283,17 @@ class SourceDetail extends React.Component<IProps, IState> {
                 <h2 className={Classes.HEADING}>{source.name}</h2>
 
                 <span>
-                  {source.medium.name} ze dne {displayDate(source.releasedAt)}
-                  {source.mediaPersonalities.length > 0 && (
-                    <>, {source.mediaPersonalities.map((p) => p.name).join(' & ')}</>
+                  {source.medium?.name} ze dne{' '}
+                  {source.releasedAt ? displayDate(source.releasedAt) : 'neuvedeno'}
+                  {source.mediaPersonalities?.length && (
+                    <>, {source.mediaPersonalities?.map((p) => p.name).join(' & ')}</>
                   )}
                   {source.sourceUrl && (
                     <>
                       , <a href={source.sourceUrl}>odkaz</a>
                     </>
                   )}
-                  {source.experts.length > 0 && (
+                  {source.experts?.length && (
                     <>
                       <br />
                       {source.experts.length === 1 ? 'Editor: ' : 'Editoři: '}
@@ -687,7 +688,7 @@ interface ISpeakerStatsProps {
 const SpeakersStats = (props: ISpeakerStatsProps) => {
   const assessmentMethodology = props.statements[0].assessment.assessmentMethodology;
 
-  const statsBySpeaker = props.speakers.map((speaker) => {
+  const statsBySpeaker = props.speakers?.map((speaker) => {
     const speakerStatements = props.statements.filter(
       (statement) => statement.speaker.id === speaker.id,
     );
@@ -789,7 +790,7 @@ const SpeakersStats = (props: ISpeakerStatsProps) => {
         margin-top: 20px;
       `}
     >
-      {statsBySpeaker.map(({ speaker, stats }) => (
+      {statsBySpeaker?.map(({ speaker, stats }) => (
         <p key={speaker.id}>
           <strong>
             {speaker.firstName} {speaker.lastName}
