@@ -41,7 +41,7 @@ Rails.application.routes.draw do
     get "/policy" => "admin#policy"
 
     # Exports
-    get "/export/factual-statements" => "export#factual_statements"
+    post "/export/mail-factual-statements" => "export#mail_factual_statements"
     get "/export/speakers" => "export#speakers"
 
     # For development and testing we need a way to login as somebody even when

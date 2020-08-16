@@ -64,3 +64,7 @@ export const uploadContentImage = (image: File): Promise<Response> => {
     body: formData,
   });
 };
+
+export const mailFactualStatementsExport = () => {
+  return callApi('/admin/export/mail-factual-statements', { method: 'POST' });
+};
