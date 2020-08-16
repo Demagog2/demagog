@@ -58,6 +58,8 @@ import StatementsFromTranscript from './components/StatementsFromTranscript';
 import StatementsSort from './components/StatementsSort';
 import StatementsVideoMarks from './components/StatementsVideoMarks';
 
+import OverallStats from './components/OverallStats';
+
 import { UserEdit } from './components/users/UserEdit';
 import { UserNew } from './components/users/UserNew';
 import { UsersPageContainer } from './components/users/UsersPageContainer';
@@ -193,6 +195,8 @@ class App extends React.Component<IProps> {
                 <Route path="/admin/notifications/:tab?" exact component={Notifications} />
 
                 <Route path="/admin/availability" exact component={Availability} />
+
+                <Route path="/admin/overall-stats" exact component={OverallStats} />
 
                 <Route component={NotFound} />
               </Switch>

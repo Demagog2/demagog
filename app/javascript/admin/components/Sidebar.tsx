@@ -17,6 +17,12 @@ const categories = [
       { to: '/admin/sources', title: 'Výroky', enabled: true, permissions: ['sources:view'] },
       { to: '/admin/visualizations', title: 'Vizualizace', permissions: ['visualizations:view'] },
       { to: '/admin/images', title: 'Obrázky', enabled: true, permissions: ['images:view'] },
+      {
+        to: '/admin/overall-stats',
+        title: 'Statistiky',
+        enabled: true,
+        permissions: ['stats:view'],
+      },
     ],
   },
   {

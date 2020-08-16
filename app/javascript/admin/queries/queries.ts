@@ -662,3 +662,12 @@ export const GetSourceWithStatementsAndVideoMarks = gql`
     }
   }
 `;
+
+export const GetInternalOverallStats = gql`
+  query GetInternalOverallStats {
+    internalOverallStats {
+      factualAndPublishedStatementsCount
+      speakersWithFactualAndPublishedStatementsCount
+    }
+  }
+`;

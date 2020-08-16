@@ -122,6 +122,9 @@ gem "ddtrace"
 
 gem "addressable"
 
+gem "caxlsx"
+gem "caxlsx_rails"
+
 # Use Capistrano for deployment
 group :development do
   gem "capistrano", require: false

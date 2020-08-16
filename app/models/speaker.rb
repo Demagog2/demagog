@@ -71,6 +71,12 @@ class Speaker < ApplicationRecord
     )
   end
 
+  def self.with_factual_and_published_statements
+    speaker_ids = Statement.factual_and_published.map { |statement| statement.speaker_id }.uniq
+
+    where("speakers.id IN (?)", speaker_ids)
+  end
+
   def factual_and_published_statements
     statements.factual_and_published
   end

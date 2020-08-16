@@ -1,0 +1,22 @@
+# frozen_string_literal: true
+
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Řečníci") do |sheet|
+  sheet.add_row [
+    "ID řečníka",
+    "Křestní jméno řečníka",
+    "Příjmení řečníka",
+
+    "Počet výroků"
+  ]
+
+  @speakers.each do |speaker|
+    sheet.add_row [
+      speaker.id,
+      speaker.first_name,
+      speaker.last_name,
+
+      @statement_counts_by_speaker_id[speaker.id]
+    ]
+  end
+end

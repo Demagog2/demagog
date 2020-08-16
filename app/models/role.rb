@@ -29,6 +29,7 @@ EXPERT_PERMISSIONS = %w[
   statements:view-evaluation-as-evaluator
   statements:comments:add
   statements:delete
+  stats:view
   tags:view
   users:view
   users:edit

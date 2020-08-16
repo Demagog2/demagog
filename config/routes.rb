@@ -40,6 +40,10 @@ Rails.application.routes.draw do
     # Admin service policy - necessary for OAuth
     get "/policy" => "admin#policy"
 
+    # Exports
+    get "/export/factual-statements" => "export#factual_statements"
+    get "/export/speakers" => "export#speakers"
+
     # For development and testing we need a way to login as somebody even when
     # we don't have access to their Google account
     unless Rails.env.production?

@@ -463,4 +463,15 @@ class Types::QueryType < GraphQL::Schema::Object
       items: content_images.offset(args[:offset]).limit(args[:limit]).order(created_at: :desc)
     }
   end
+
+  field :internal_overall_stats, Types::InternalOverallStatsType, null: false
+
+  def internal_overall_stats
+    raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+    {
+      factual_and_published_statements_count: Statement.factual_and_published.count,
+      speakers_with_factual_and_published_statements_count: Speaker.with_factual_and_published_statements.count
+    }
+  end
 end

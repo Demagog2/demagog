@@ -2661,6 +2661,25 @@ export interface GetSourceWithStatementsAndVideoMarksVariables {
 // @generated
 // This file was automatically generated and should not be edited.
 
+// ====================================================
+// GraphQL query operation: GetInternalOverallStats
+// ====================================================
+
+export interface GetInternalOverallStats_internalOverallStats {
+  __typename: "InternalOverallStats";
+  factualAndPublishedStatementsCount: number;
+  speakersWithFactualAndPublishedStatementsCount: number;
+}
+
+export interface GetInternalOverallStats {
+  internalOverallStats: GetInternalOverallStats_internalOverallStats;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
