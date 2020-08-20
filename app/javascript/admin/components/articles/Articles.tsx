@@ -29,12 +29,14 @@ const ARTICLE_TYPE_INTENT = {
   default: Intent.PRIMARY,
   static: Intent.WARNING,
   single_statement: Intent.PRIMARY,
+  facebook_factcheck: Intent.PRIMARY,
 };
 
 const ARTICLE_TYPE_LABEL = {
   default: 'Ověřeno',
   static: 'Komentář',
   single_statement: 'Jednotlivý výrok',
+  facebook_factcheck: 'Facebook factcheck',
 };
 
 interface IProps extends DispatchProp<any> {}
@@ -102,7 +104,7 @@ class Articles extends React.Component<IProps, IState> {
               )}
               to="/admin/articles/new"
             >
-              Přidat komentář/ověřeno
+              Přidat komentář/ověřeno/facebook factcheck
             </Link>
           </div>
         </Authorize>

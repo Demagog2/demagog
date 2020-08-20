@@ -408,6 +408,7 @@ p.lead {
 
   &.factcheck { color: var(--true); }
   &.editorial { color: var(--orange); }
+  &.facebook-factcheck { color: #4267B2; }
   &.important { color: var(--steel); }
 
   &.important::after { content: ') '; }

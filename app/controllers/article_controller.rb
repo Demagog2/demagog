@@ -13,11 +13,9 @@ class ArticleController < FrontendController
       return redirect_to statement_url(@article.single_statement), status: 301
     end
 
-    @article_type = @article.article_type.name == "default" ? "factcheck" : "editorial"
-
     @statements_filters = {}
 
-    if @article_type == "factcheck"
+    if @article.article_type.name == "default"
       @statements_filters[:speaker_id] = params[:recnik].to_i if params[:recnik]
 
       if params[:hodnoceni]

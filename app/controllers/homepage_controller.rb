@@ -2,7 +2,7 @@
 
 class HomepageController < FrontendController
   def index
-    cover_story = Article.kept.published.order(published_at: :desc).first
+    cover_story = Article.kept.published.for_homepage.order(published_at: :desc).first
 
     unless params[:page].present?
       @cover_story = cover_story
@@ -15,7 +15,7 @@ class HomepageController < FrontendController
     end
 
     @articles =
-      Article.kept.published.order(published_at: :desc).where.not(id: cover_story).page(
+      Article.kept.published.for_homepage.order(published_at: :desc).where.not(id: cover_story).page(
         params[:page]
       )
         .per(10)
