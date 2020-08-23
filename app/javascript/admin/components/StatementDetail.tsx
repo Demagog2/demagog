@@ -52,8 +52,7 @@ import VeracitySelect from './forms/controls/VeracitySelect';
 import FormGroup from './forms/FormGroup';
 import FormikAutoSave from './forms/FormikAutoSave';
 import Loading from './Loading';
-// import RichTextEditor from './RichTextEditor';
-import ExplanationEditor from './ExplanationEditor';
+import RichTextEditor from './RichTextEditor';
 import StatementComments from './StatementComments';
 
 // Little more than 10s so it does not sync with other polls
@@ -631,21 +630,13 @@ class StatementDetail extends React.Component<IProps, IState> {
                                     label="Odůvodnění"
                                     labelFor="assessment-explanation"
                                   >
-                                    {/* <RichTextEditor
-                                      value={values.assessment.explanation_slatejson}
-                                      html={values.assessment.explanation_html}
-                                      onChange={(value, html) => {
-                                        setFieldValue('assessment.explanation_slatejson', value);
-                                        setFieldValue('assessment.explanation_html', html);
-                                      }}
-                                      statementExplanation
-                                    /> */}
-                                    <ExplanationEditor
+                                    <RichTextEditor
                                       html={values.assessment.explanation_html}
                                       onChange={(html) => {
                                         setFieldValue('assessment.explanation_slatejson', null);
                                         setFieldValue('assessment.explanation_html', html);
                                       }}
+                                      headings={false}
                                     />
                                   </BlueprintFormGroup>
                                 ) : (

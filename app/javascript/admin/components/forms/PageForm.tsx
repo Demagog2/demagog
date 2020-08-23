@@ -3,7 +3,6 @@
 import * as React from 'react';
 
 import { Button, Classes, EditableText, Intent } from '@blueprintjs/core';
-import { css } from 'emotion';
 import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 
@@ -88,24 +87,11 @@ export class PageForm extends React.Component<IPageFormProps> {
                 </h2>
 
                 <RichTextEditor
-                  value={values.text_slatejson}
                   html={values.text_html}
-                  onChange={(json, html) => {
+                  onChange={(html) => {
                     setFieldValue('text_html', html);
-                    setFieldValue('text_slatejson', json);
+                    setFieldValue('text_slatejson', null);
                   }}
-                  className={css`
-                    font-family: 'Lato', sans-serif;
-                    font-size: 16px;
-                    line-height: 25.6px;
-                    letter-spacing: 0.4px;
-
-                    h2 {
-                      margin: 15px 0 8px 0;
-                      font-size: 18px;
-                      font-weight: 700px;
-                    }
-                  `}
                 />
               </div>
 
