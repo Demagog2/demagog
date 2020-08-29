@@ -126,6 +126,9 @@ gem "addressable"
 gem "caxlsx"
 gem "caxlsx_rails"
 
+gem "ferrum"
+gem "mini_magick"
+
 # Use Capistrano for deployment
 group :development do
   gem "capistrano", require: false
