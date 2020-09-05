@@ -41,8 +41,8 @@ class HomepageController < FrontendController
         )
           .includes(:assessment, assessment: :promise_rating)
 
-      keys.map do |key|
-        [key, statements.where(assessments: { promise_ratings: { key: key } }).count]
-      end.to_h
+      keys.index_with do |key|
+        statements.where(assessments: { promise_ratings: { key: key } }).count
+      end
     end
 end
