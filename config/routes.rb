@@ -46,6 +46,9 @@ Rails.application.routes.draw do
     post "/export/mail-factual-statements" => "export#mail_factual_statements"
     get "/export/speakers" => "export#speakers"
 
+    # Misc
+    post "/article/generate-illustration-image-for-tweet" => "article#generate_illustration_image_for_tweet", defaults: { format: "json" }, constraints: { format: "json" }
+
     # For development and testing we need a way to login as somebody even when
     # we don't have access to their Google account
     unless Rails.env.production?

@@ -7,7 +7,7 @@ namespace :screenshot do
     tweet_uri = args.tweet_uri
 
     puts "Creating screenshot from tweet at #{tweet_uri}..."
-    tweet_image_path = Screenshots.screenshot_tweet(tweet_uri)
-    puts "Done, screenshot path: #{tweet_image_path}"
+    tweet_image = Screenshots.screenshot_tweet(tweet_uri, { with_attachment: true })
+    puts "Done, screenshot path: #{tweet_image[:path]}"
   end
 end

@@ -4,13 +4,22 @@ require "tempfile"
 require "mini_magick"
 
 module Screenshots
-  def self.screenshot_tweet(tweet_uri)
+  def self.screenshot_tweet(tweet_uri, options)
+    with_attachment = options.key?(:with_attachment) ? options[:with_attachment] : true
+
     # Big window height so we can screenshot also tweets with longer content like photos
     browser = Ferrum::Browser.new(timeout: 10, window_size: [1024, 1200])
     browser.goto(tweet_uri)
 
     # It takes a moment to render the tweet and browser.network.wait_for_idle does not help
     sleep(5)
+
+    unless with_attachment
+      # If the tweet has a photo, video or a card, remove it, we don't want that in the screenshot
+      browser.evaluate("(() => { const el = document.querySelector('a[href*=\"photo\"]'); el && el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode); })()")
+      browser.evaluate("(() => { const el = document.querySelector('div[data-testid*=\"card\"]'); el && el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode); })()")
+      browser.evaluate("(() => { const el = document.querySelector('div[data-testid*=\"videoPlayer\"]'); el && el.parentNode.parentNode.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode.parentNode.parentNode); })()")
+    end
 
     tmpfile = Tempfile.new("demagog-tweetscreenshot-")
 
@@ -33,13 +42,14 @@ module Screenshots
 
     image.crop "#{image_width}x#{image_height - crop_bottom_px}+0+0"
 
-    result_file_path = "#{Rails.root}/storage/tweet-#{SecureRandom.alphanumeric(10)}.png"
+    file_name = "tweet-#{SecureRandom.alphanumeric(10)}.png"
+    file_path = "#{Rails.root}/storage/#{file_name}"
 
-    image.write result_file_path
+    image.write file_path
 
     tmpfile.close
     tmpfile.unlink
 
-    result_file_path
+    { name: file_name, path: file_path, mime: "image/png" }
   end
 end
