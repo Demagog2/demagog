@@ -798,7 +798,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                 className={Classes.LABEL}
                                 style={{ flex: '1' }}
                               >
-                                Důležitý
+                                Výběr
                               </label>
                               <div className={Classes.FORM_CONTENT} style={{ flex: '2' }}>
                                 <Switch
