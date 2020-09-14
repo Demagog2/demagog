@@ -8,4 +8,9 @@ module ApplicationHelper
 
     sprintf(text, num: num)
   end
+
+  def get_web_content(system_id, key)
+    web_content = WebContent.find_by(system_id: system_id)
+    web_content ? web_content.data.fetch(key, "") : ""
+  end
 end

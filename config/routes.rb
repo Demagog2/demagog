@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'sidekiq/web'
+require "sidekiq/web"
 
 Rails.application.routes.draw do
   get "page_controller/show"
@@ -69,7 +69,15 @@ Rails.application.routes.draw do
     get "(page/:page)", action: :index, on: :collection, as: ""
   end
 
+  get "vyroky" => "statement#index", as: "statements"
   get "vyrok/:id" => "statement#show", as: "statement"
+
+  # TODO: Ready for when intro texts on those pages are written
+  # get "diskuze" => "article#discussions"
+  # get "socialni-site" => "article#social_media"
+  # get "spoluprace-s-facebookem" => "article#collaboration_with_facebook"
+  # get "komentare" => "article#editorials"
+
   get "diskuze/:slug" => "article#index", as: "article"
   get "vypis-recniku(/:id)" => "speaker#index", as: "speakers"
   get "politici/:id(/*name)" => "speaker#show", as: "speaker", concerns: :paginatable

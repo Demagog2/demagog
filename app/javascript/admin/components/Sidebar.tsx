@@ -55,6 +55,12 @@ const categories = [
         permissions: ['availability:view'],
       },
       { to: '/admin/pages', title: 'Stránky', enabled: true, permissions: ['pages:view'] },
+      {
+        to: '/admin/web-contents',
+        title: 'Webový obsah',
+        enabled: true,
+        permissions: ['web_contents:view'],
+      },
       { to: '/admin/navigation', title: 'Menu', permissions: ['menu:view'] },
     ],
   },

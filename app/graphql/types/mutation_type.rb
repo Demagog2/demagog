@@ -41,6 +41,8 @@ module Types
     field :updatePage, mutation: Mutations::UpdatePage
     field :deletePage, mutation: Mutations::DeletePage
 
+    field :updateWebContent, mutation: Mutations::UpdateWebContent
+
     field :updateSourceStatementsOrder, mutation: Mutations::UpdateSourceStatementsOrder
     field :publishApprovedSourceStatements, mutation: Mutations::PublishApprovedSourceStatements
     field :updateStatementsVideoMarks, mutation: Mutations::UpdateStatementsVideoMarks

@@ -46,6 +46,22 @@ class ArticleController < FrontendController
     # end
   end
 
+  def discussions
+    articles_of_type(ArticleType::DEFAULT)
+  end
+
+  def social_media
+    articles_of_type(ArticleType::SINGLE_STATEMENT)
+  end
+
+  def collaboration_with_facebook
+    articles_of_type(ArticleType::FACEBOOK_FACTCHECK)
+  end
+
+  def editorials
+    articles_of_type(ArticleType::STATIC)
+  end
+
   helper_method :replace_segment_text_html_special_strings
   def replace_segment_text_html_special_strings(text_html)
     playbuzz_quiz_html = <<-HEREDOC
@@ -62,4 +78,20 @@ class ArticleController < FrontendController
   def promise_segment_widget_url(promise_path)
     root_url(only_path: false).delete_suffix("/") + promise_path
   end
+
+  private
+    def articles_of_type(article_type_name)
+      if params[:page].present?
+        @page_number = params[:page]
+      end
+
+      @articles = Article
+        .kept
+        .published
+        .joins(:article_type)
+        .where(article_types: { name: article_type_name })
+        .order(published_at: :desc)
+        .page(@page_number)
+        .per(10)
+    end
 end

@@ -67,6 +67,9 @@ import { UsersSortOnAboutUsPageContainer } from './components/users/UsersSortOnA
 
 import Tags from './components/tags/Tags';
 
+import WebContents from './components/webContents/WebContents';
+import WebContentEdit from './components/webContents/WebContentEdit';
+
 const history = createBrowserHistory();
 
 const hoff = css`
@@ -180,6 +183,9 @@ class App extends React.Component<IProps> {
                 <Route path="/admin/pages" exact component={Pages} />
                 <Route path="/admin/pages/new" exact component={PageNew} />
                 <Route path="/admin/pages/edit/:id" exact component={PageEdit} />
+
+                <Route path="/admin/web-contents" exact component={WebContents} />
+                <Route path="/admin/web-contents/edit/:id" exact component={WebContentEdit} />
 
                 <Route path="/admin/users" exact component={UsersPageContainer} />
                 <Route path="/admin/users/new" exact component={UserNew} />

@@ -568,3 +568,20 @@ export const UpdateStatementsVideoMarks = gql`
     }
   }
 `;
+
+export const UpdateWebContent = gql`
+  mutation UpdateWebContent($id: ID!, $webContentInput: WebContentInput!) {
+    updateWebContent(id: $id, webContentInput: $webContentInput) {
+      webContent {
+        id
+        systemId
+        name
+        urlPath
+        dynamicPage
+        dynamicPagePublished
+        structure
+        data
+      }
+    }
+  }
+`;

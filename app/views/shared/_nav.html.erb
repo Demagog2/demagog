@@ -1,23 +1,37 @@
 <%
 
 @nav = [
-  Struct::Submenu.new(
+  # TODO: Ready for when intro texts on those pages are written
+  # Struct::NavSubmenu.new(
+  #   "Factcheck",
+  #   [
+  #     Struct::NavLink.new('Diskuze', '/diskuze'),
+  #     Struct::NavLink.new('Sociální sítě', '/socialni-site'),
+  #     Struct::NavLink.new('Spolupráce s Facebookem', '/spoluprace-s-facebookem')
+  #   ]
+  # ),
+  # Struct::NavLink.new("Komentáře", '/komentare'),
+  Struct::NavSubmenu.new(
     "Přehledy",
-    [Struct::Link.new('Politici', speakers_path())]
-  ),
-  Struct::Submenu.new(
-    'Speciály',
     [
-      Struct::Link.new('Sliby vlády Andreje Babiše', '/sliby/druha-vlada-andreje-babise'),
-      Struct::Link.new('Sliby Sobotkovy vlády', '/sliby/sobotkova-vlada'),
-      Struct::Link.new('Sliby Miloše Zemana', 'https://zpravy.aktualne.cz/domaci/zverejnujeme-velkou-inventuru-zemanovych-slibu-ktere-slovo-d/r~9ebe8728ff6911e7adc2ac1f6b220ee8/')
+      # TODO: Browsing through statements needs to be implemented first
+      # Struct::NavLink.new('Výroky', '/vyroky'),
+      Struct::NavLink.new('Politici', speakers_path())
     ]
   ),
-  Struct::Submenu.new(
+  Struct::NavSubmenu.new(
+    'Speciály',
+    [
+      Struct::NavLink.new('Sliby vlády Andreje Babiše', '/sliby/druha-vlada-andreje-babise'),
+      Struct::NavLink.new('Sliby Sobotkovy vlády', '/sliby/sobotkova-vlada'),
+      Struct::NavLink.new('Sliby Miloše Zemana', 'https://zpravy.aktualne.cz/domaci/zverejnujeme-velkou-inventuru-zemanovych-slibu-ktere-slovo-d/r~9ebe8728ff6911e7adc2ac1f6b220ee8/')
+    ]
+  ),
+  Struct::NavSubmenu.new(
     "O nás",
     controller.menu_items.map do |menu_item|
       case menu_item.kind
-      when MenuItem::KIND_PAGE then Struct::Link.new(menu_item.title, page_url(slug: menu_item.page.slug))
+      when MenuItem::KIND_PAGE then Struct::NavLink.new(menu_item.title, page_url(slug: menu_item.page.slug))
       when MenuItem::KIND_DIVIDER then '<hr>'
       else
         raise Error("Unknown menu item kind #{menu_item.kind}")
@@ -63,45 +77,62 @@
           Darujte
         </a>
       </li>
-      <% @nav.each_with_index do |submenu| %>
-        <li class="menu-item">
-          <span><%= submenu.name %></span>
+      <% @nav.each do |nav_item| %>
+        <% if nav_item.class.name == 'Struct::NavLink' %>
+          <li class="menu-item">
+            <span><%= nav_item.text %></span>
+            <ul class="submenu-items">
+              <li class="submenu-item">
+                <a href="<%= nav_item.href %>" role="menuitem"><%= nav_item.text %></a>
+              </li>
+            </ul>
+          </li>
+        <% elsif nav_item.class.name == 'Struct::NavSubmenu' %>
+          <li class="menu-item">
+            <span><%= nav_item.name %></span>
 
-          <ul class="submenu-items">
-            <% submenu.items.each do |item| %>
-              <% if (item.is_a? String) %>
-                <%= raw item %>
-              <% else %>
-                <li class="submenu-item">
-                  <a href="<%= item.href %>" role="menuitem">
-                    <%= item.text %>
-                  </a>
-                </li>
+            <ul class="submenu-items">
+              <% nav_item.items.each do |item| %>
+                <% if (item.is_a? String) %>
+                  <%= raw item %>
+                <% else %>
+                  <li class="submenu-item">
+                    <a href="<%= item.href %>" role="menuitem">
+                      <%= item.text %>
+                    </a>
+                  </li>
+                <% end %>
               <% end %>
-            <% end %>
-          </ul>
-        </li>
+            </ul>
+          </li>
+        <% end %>
       <% end %>
     </ul>
   </div>
 
   <div class="desktop-navigation">
     <ul class="menu-items" role="menu">
-      <% @nav.each_with_index do |submenu| %>
-        <li class="menu-item">
-          <button type="button" data-target="shared--nav.desktopNavigationMenuItemButton" role="menuitem" aria-haspopup="true" aria-expanded="false">
-            <%= submenu.name %> ▾
-          </button>
-          <ul class="submenu-items">
-            <% submenu.items.each do |item| %>
-              <% if (item.is_a? String) %>
-                <%= raw item %>
-              <% else %>
-                <li class="submenu-item"><a href="<%= item.href %>" role="menuitem"><%= item.text %></a></li>
+      <% @nav.each do |nav_item| %>
+        <% if nav_item.class.name == 'Struct::NavLink' %>
+          <li class="menu-item">
+            <a href="<%= nav_item.href %>" role="menuitem"><%= nav_item.text %></a>
+          </li>
+        <% elsif nav_item.class.name == 'Struct::NavSubmenu' %>
+          <li class="menu-item">
+            <button type="button" data-target="shared--nav.desktopNavigationMenuItemButton" role="menuitem" aria-haspopup="true" aria-expanded="false">
+              <%= nav_item.name %> ▾
+            </button>
+            <ul class="submenu-items">
+              <% nav_item.items.each do |item| %>
+                <% if (item.is_a? String) %>
+                  <%= raw item %>
+                <% else %>
+                  <li class="submenu-item"><a href="<%= item.href %>" role="menuitem"><%= item.text %></a></li>
+                <% end %>
               <% end %>
-            <% end %>
-          </ul>
-        </li>
+            </ul>
+          </li>
+        <% end %>
       <% end %>
       <li class="menu-item menu-item-donate">
         <a href="<%= @donate_url %>" role="menuitem">

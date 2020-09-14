@@ -34,6 +34,8 @@ EXPERT_PERMISSIONS = %w[
   users:view
   users:edit
   visualizations:view
+  web_contents:view
+  web_contents:edit
 ]
 
 ADMIN_PERMISSIONS = EXPERT_PERMISSIONS + %w[admin:become-another-user]
@@ -79,6 +81,7 @@ class Role < ApplicationRecord
           pages:view
           statements:view-unapproved-evaluation
           users:view
+          web_contents:view
         ]
     when PROOFREADER
       INTERN_PERMISSIONS +

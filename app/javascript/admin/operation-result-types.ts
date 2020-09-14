@@ -1384,6 +1384,44 @@ export interface UpdateStatementsVideoMarksVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: UpdateWebContent
+// ====================================================
+
+export interface UpdateWebContent_updateWebContent_webContent {
+  __typename: "WebContent";
+  id: string;
+  systemId: string;
+  name: string;
+  urlPath: string;
+  dynamicPage: boolean;
+  dynamicPagePublished: boolean;
+  structure: GraphQLCustomScalar_JSON;
+  data: GraphQLCustomScalar_JSON;
+}
+
+export interface UpdateWebContent_updateWebContent {
+  __typename: "UpdateWebContentPayload";
+  webContent: UpdateWebContent_updateWebContent_webContent;
+}
+
+export interface UpdateWebContent {
+  /**
+   * Update web content
+   */
+  updateWebContent: UpdateWebContent_updateWebContent | null;
+}
+
+export interface UpdateWebContentVariables {
+  id: string;
+  webContentInput: WebContentInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetPages
 // ====================================================
 
@@ -2680,6 +2718,60 @@ export interface GetInternalOverallStats {
 // @generated
 // This file was automatically generated and should not be edited.
 
+// ====================================================
+// GraphQL query operation: GetWebContents
+// ====================================================
+
+export interface GetWebContents_webContents {
+  __typename: "WebContent";
+  id: string;
+  systemId: string;
+  name: string;
+  urlPath: string;
+  dynamicPage: boolean;
+  dynamicPagePublished: boolean;
+  structure: GraphQLCustomScalar_JSON;
+  data: GraphQLCustomScalar_JSON;
+}
+
+export interface GetWebContents {
+  webContents: GetWebContents_webContents[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetWebContent
+// ====================================================
+
+export interface GetWebContent_webContent {
+  __typename: "WebContent";
+  id: string;
+  systemId: string;
+  name: string;
+  urlPath: string;
+  dynamicPage: boolean;
+  dynamicPagePublished: boolean;
+  structure: GraphQLCustomScalar_JSON;
+  data: GraphQLCustomScalar_JSON;
+}
+
+export interface GetWebContent {
+  webContent: GetWebContent_webContent;
+}
+
+export interface GetWebContentVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
@@ -2865,6 +2957,14 @@ export interface UserInput {
   order?: number | null;
   rank?: number | null;
   userPublic?: boolean | null;
+}
+
+export interface WebContentInput {
+  name?: string | null;
+  urlPath?: string | null;
+  dynamicPage?: boolean | null;
+  dynamicPagePublished?: boolean | null;
+  data?: GraphQLCustomScalar_JSON | null;
 }
 
 //==============================================================
