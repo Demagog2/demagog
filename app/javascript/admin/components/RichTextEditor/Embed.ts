@@ -1,12 +1,9 @@
-import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
-
 import { IconSvgPaths20 } from '@blueprintjs/icons';
-
+import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
 import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview';
-
 import { toWidget } from '@ckeditor/ckeditor5-widget/src/utils';
-
 import '@ckeditor/ckeditor5-media-embed/theme/mediaembed.css';
+import { injectGlobal } from 'emotion';
 
 export default class Embed extends Plugin {
   public editor;
@@ -31,12 +28,12 @@ export default class Embed extends Plugin {
       view: (modelElement, viewWriter) => {
         const code = modelElement.getAttribute('code');
 
-        return viewWriter.createUIElement('div', {}, function(domDocument) {
+        return viewWriter.createUIElement('figure', { class: 'embed' }, function(domDocument) {
           const domElement = this.toDomElement(domDocument);
 
           domElement.innerHTML = code;
 
-          return domElement.children[0];
+          return domElement;
         });
       },
     });
@@ -47,24 +44,43 @@ export default class Embed extends Plugin {
       view: (modelElement, viewWriter) => {
         const code = modelElement.getAttribute('code');
 
-        const viewElement = viewWriter.createUIElement('div', { class: 'media' }, function(
-          domDocument,
-        ) {
-          const domElement = this.toDomElement(domDocument);
+        const iframeWrapperElement = viewWriter.createRawElement(
+          'div',
+          {
+            class: 'ck-media__wrapper',
+          },
+          (domElement) => {
+            domElement.innerHTML = code;
+          },
+        );
 
-          domElement.innerHTML = code;
+        const figureElement = viewWriter.createContainerElement('figure', { class: 'media' });
 
-          return domElement;
-        });
+        viewWriter.insert(viewWriter.createPositionAt(figureElement, 0), iframeWrapperElement);
 
-        return toWidget(viewElement, viewWriter, { label: 'embed widget' });
+        return toWidget(figureElement, viewWriter, { label: 'embed widget' });
       },
     });
 
     // View -> Model
     conversion
       .for('upcast')
-      // iframe
+      // figure.embed (Preferred way to represent embed)
+      .elementToElement({
+        view: {
+          name: 'figure',
+          attributes: {
+            class: 'embed',
+          },
+        },
+        model: (viewFigure, modelWriter) => {
+          const figureEl = domConverter.viewToDom(viewFigure, window.document);
+          const code = figureEl.innerHTML;
+
+          return modelWriter.createElement('embed', { code });
+        },
+      })
+      // iframe (To be able to parse older representation)
       .elementToElement({
         view: {
           name: 'iframe',
@@ -76,7 +92,7 @@ export default class Embed extends Plugin {
           return modelWriter.createElement('embed', { code });
         },
       })
-      // div.infogram-embed
+      // div.infogram-embed (To be able to parse older representation)
       .elementToElement({
         view: {
           name: 'div',
@@ -105,6 +121,11 @@ export default class Embed extends Plugin {
       view.on('execute', () => {
         const code = prompt('Vložte embedovaný kód (začíná většinou znaky "<iframe "):');
 
+        if (code === null || code.trim() === '') {
+          // Prompt cancelled or nothing put in
+          return;
+        }
+
         editor.model.change((writer) => {
           const embedElement = writer.createElement('embed', {
             code,
@@ -127,3 +148,11 @@ const codeIcon =
   IconSvgPaths20.code +
   '" />' +
   '</svg>';
+
+// tslint:disable-next-line:no-unused-expression
+injectGlobal`
+  /* Allow interaction in the embed only when the embed is selected */
+  .ck-editor__editable:not(.ck-read-only) .ck-widget:not(.ck-widget_selected) .ck-media__wrapper > * {
+    pointer-events: none;
+  }
+`;

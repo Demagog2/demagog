@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_26_203102) do
+ActiveRecord::Schema.define(version: 2020_09_14_135357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -432,6 +432,18 @@ ActiveRecord::Schema.define(version: 2020_04_26_203102) do
     t.datetime "created_at"
     t.text "object_changes"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+  end
+
+  create_table "web_contents", force: :cascade do |t|
+    t.string "system_id"
+    t.string "name", null: false
+    t.string "url_path"
+    t.boolean "dynamic_page", default: false
+    t.boolean "dynamic_page_published", default: false
+    t.json "structure", default: "[]", null: false
+    t.json "data", default: "{}", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

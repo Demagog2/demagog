@@ -1,0 +1,17 @@
+<article class="container-article-social_media">
+  <h1><%= get_web_content("article.social_media", "title") %></h1>
+  <%= raw(get_web_content("article.social_media", "intro")) %>
+  <a class="logo" title="Nadační fond nezávislé žurnalistiky" href="https://www.nfnz.cz/">
+    <img src="<%= asset_path("partners/nfnz.svg") %>" alt="Nadační fond nezávislé žurnalistiky" style="width: 220px;" />
+  </a>
+</article>
+
+<% if @page_number %>
+  <p class="full-width"><b>Strana <%= @page_number %></b> z archivu ověřených příspěvků na sociálních sítích:</p>
+<% end %>
+
+<% @articles.each do |article| %>
+  <%= render partial: "article/preview", object: article, as: :article %>
+<% end %>
+
+<%= paginate(@articles) %>

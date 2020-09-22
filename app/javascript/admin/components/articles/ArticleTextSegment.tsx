@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { Button } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { css } from 'emotion';
 
 import RichTextEditor from '../RichTextEditor';
 
@@ -33,27 +32,14 @@ export default function ArticleTextSegment(props: IProps) {
       </div>
 
       <RichTextEditor
-        value={props.segment.text_slatejson}
         html={props.segment.text_html}
-        onChange={(json, html) => {
+        onChange={(html) => {
           props.onChange({
             ...props.segment,
             text_html: html,
-            text_slatejson: json,
+            text_slatejson: null,
           });
         }}
-        className={css`
-          font-family: 'Lato', sans-serif;
-          font-size: 16px;
-          line-height: 25.6px;
-          letter-spacing: 0.4px;
-
-          h2 {
-            margin: 15px 0 8px 0;
-            font-size: 18px;
-            font-weight: 700px;
-          }
-        `}
       />
     </div>
   );

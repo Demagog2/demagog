@@ -18,19 +18,19 @@
       </h1>
 
       <section class="article-meta">
-        <% if @cover_story.article_type.name == "default" %>
+        <% if @cover_story.article_type.name == ArticleType::DEFAULT %>
           <span class="label factcheck">Ověřeno</span>
           <% if @cover_story.source %>
             <i><%= @cover_story.source.medium.name %>, <%= raw(l(@cover_story.source.released_at, format: :long)) %></i>
           <% end %>
         <% end %>
 
-        <% if @cover_story.article_type.name == "static" %>
+        <% if @cover_story.article_type.name == ArticleType::STATIC %>
           <span class="label editorial">Komentář</span>
           <i><%= raw(l(@cover_story.published_at, format: :long)) %></i>
         <% end %>
 
-        <% if @cover_story.article_type.name == "single_statement" %>
+        <% if @cover_story.article_type.name == ArticleType::SINGLE_STATEMENT %>
           <span class="label veracity <%= @cover_story.single_statement.approved_assessment.veracity.default_name %>">
             <%= @cover_story.single_statement.approved_assessment.veracity.name %>
           </span>
@@ -38,7 +38,7 @@
         <% end %>
       </section>
 
-      <% if @cover_story.article_type.name == "default" || @cover_story.article_type.name == "static" %>
+      <% if @cover_story.article_type.name == ArticleType::DEFAULT || @cover_story.article_type.name == ArticleType::STATIC %>
         <p class="perex">
           <%= strip_tags(@cover_story.perex) %>
           <a href="<%= article_path(@cover_story) %>">
@@ -46,7 +46,7 @@
           </a>
         </p>
       <% end %>
-      <% if @cover_story.article_type.name == "single_statement" %>
+      <% if @cover_story.article_type.name == ArticleType::SINGLE_STATEMENT %>
         <p class="perex">
           „<%= @cover_story.single_statement.content.strip %>“
           <a href="<%= statement_path(@cover_story.single_statement) %>">
@@ -68,7 +68,7 @@
             %>
           </div>
         <% end %>
-        <% if @cover_story.article_type.name == "single_statement" %>
+        <% if @cover_story.article_type.name == ArticleType::SINGLE_STATEMENT %>
           <%= render(partial: 'shared/portrait', object: @cover_story.single_statement.speaker, as: :speaker) %>
         <% end %>
       </section>

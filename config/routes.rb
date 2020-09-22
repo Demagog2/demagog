@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "sidekiq/web"
+
 Rails.application.routes.draw do
   get "page_controller/show"
 
@@ -40,6 +42,13 @@ Rails.application.routes.draw do
     # Admin service policy - necessary for OAuth
     get "/policy" => "admin#policy"
 
+    # Exports
+    post "/export/mail-factual-statements" => "export#mail_factual_statements"
+    get "/export/speakers" => "export#speakers"
+
+    # Misc
+    post "/article/generate-illustration-image-for-tweet" => "article#generate_illustration_image_for_tweet", defaults: { format: "json" }, constraints: { format: "json" }
+
     # For development and testing we need a way to login as somebody even when
     # we don't have access to their Google account
     unless Rails.env.production?
@@ -49,6 +58,10 @@ Rails.application.routes.draw do
     get "(/*all)" => "admin#index"
   end
 
+  authenticate :user do
+    mount Sidekiq::Web => "/sidekiq"
+  end
+
   mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
 
   post "/graphql", to: "graphql#execute"
@@ -56,7 +69,15 @@ Rails.application.routes.draw do
     get "(page/:page)", action: :index, on: :collection, as: ""
   end
 
+  get "vyroky" => "statement#index", as: "statements"
   get "vyrok/:id" => "statement#show", as: "statement"
+
+  # TODO: Ready for when intro texts on those pages are written
+  # get "diskuze" => "article#discussions"
+  # get "socialni-site" => "article#social_media"
+  # get "spoluprace-s-facebookem" => "article#collaboration_with_facebook"
+  # get "komentare" => "article#editorials"
+
   get "diskuze/:slug" => "article#index", as: "article"
   get "vypis-recniku(/:id)" => "speaker#index", as: "speakers"
   get "politici/:id(/*name)" => "speaker#show", as: "speaker", concerns: :paginatable

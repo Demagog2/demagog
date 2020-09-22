@@ -662,3 +662,42 @@ export const GetSourceWithStatementsAndVideoMarks = gql`
     }
   }
 `;
+
+export const GetInternalOverallStats = gql`
+  query GetInternalOverallStats {
+    internalOverallStats {
+      factualAndPublishedStatementsCount
+      speakersWithFactualAndPublishedStatementsCount
+    }
+  }
+`;
+
+export const GetWebContents = gql`
+  query GetWebContents {
+    webContents {
+      id
+      systemId
+      name
+      urlPath
+      dynamicPage
+      dynamicPagePublished
+      structure
+      data
+    }
+  }
+`;
+
+export const GetWebContent = gql`
+  query GetWebContent($id: ID!) {
+    webContent(id: $id) {
+      id
+      systemId
+      name
+      urlPath
+      dynamicPage
+      dynamicPagePublished
+      structure
+      data
+    }
+  }
+`;

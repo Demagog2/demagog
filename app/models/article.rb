@@ -22,6 +22,11 @@ class Article < ApplicationRecord
 
   scope :published, -> { where(published: true).where("published_at <= NOW()") }
 
+  scope :for_homepage, -> {
+    joins(:article_type)
+      .where("article_types.name IN (?)", [ArticleType::DEFAULT, ArticleType::STATIC, ArticleType::SINGLE_STATEMENT])
+  }
+
   mapping do
     indexes :id, type: "long"
     ElasticMapping.indexes_text_field self, :title
@@ -75,7 +80,7 @@ class Article < ApplicationRecord
   end
 
   def article_type_default_indexed_context
-    return {} if article_type.name != "default" || !source
+    return {} if article_type.name != ArticleType::DEFAULT || !source
 
     medium = nil
     medium = source.medium.slice("name") if source.medium

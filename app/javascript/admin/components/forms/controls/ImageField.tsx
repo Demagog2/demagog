@@ -9,6 +9,7 @@ import Dropzone, { ImageFile } from 'react-dropzone';
 export type ImageValueType = string | ImageFile | null;
 
 interface IImageInputProps {
+  additionalActions?: any;
   renderImage: (src: string | null) => React.ReactNode;
   value: ImageValueType;
   onChange(file: ImageValueType);
@@ -30,7 +31,7 @@ class ImageInput extends React.Component<IImageInputProps, IImageInputState> {
   };
 
   public render() {
-    const { value } = this.props;
+    const { additionalActions, value } = this.props;
 
     return (
       <div style={{ display: 'flex' }}>
@@ -52,7 +53,7 @@ class ImageInput extends React.Component<IImageInputProps, IImageInputState> {
               type="button"
               className={classNames(Classes.BUTTON, Classes.iconClass(IconNames.FOLDER_OPEN))}
             >
-              {value !== null ? 'Vybrat novou fotku' : 'Vybrat fotku'}
+              {value !== null ? 'Vybrat nový obrázek' : 'Vybrat obrázek'}
             </button>
             <div>
               <small className={Classes.TEXT_MUTED}>
@@ -68,9 +69,11 @@ class ImageInput extends React.Component<IImageInputProps, IImageInputState> {
               style={{ marginTop: 7 }}
               onClick={this.onRemoveClick}
             >
-              Odstranit tuto fotku
+              Odstranit tento obrázek
             </button>
           )}
+
+          {additionalActions}
         </div>
       </div>
     );

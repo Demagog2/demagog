@@ -10,21 +10,18 @@ module Mutations
 
     def resolve(source_input:)
       Utils::Auth.authenticate(context)
-      Utils::Auth.authorize(context, ["sources:edit"])
+      Utils::Auth.authorize(context, %w[sources:edit])
 
       source = source_input.to_h
 
-      source[:experts] = source[:experts].map do |user_id|
-        User.find(user_id)
-      end
+      source[:experts] = source.fetch(:experts, []).map { |user_id| User.find(user_id) }
 
-      source[:speakers] = source[:speakers].map do |speaker_id|
-        Speaker.find(speaker_id)
-      end
+      source[:speakers] = source.fetch(:speakers, []).map { |speaker_id| Speaker.find(speaker_id) }
 
-      source[:media_personalities] = source[:media_personalities].map do |media_personality_id|
-        MediaPersonality.find(media_personality_id)
-      end
+      source[:media_personalities] =
+        source.fetch(:media_personalities, []).map do |media_personality_id|
+          MediaPersonality.find(media_personality_id)
+        end
 
       { source: Source.create!(source) }
     end

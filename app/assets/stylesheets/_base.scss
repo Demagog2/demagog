@@ -102,14 +102,24 @@ figure {
   margin: 0;
 }
 
+header {
+  display: flex;
+  align-items: center;
 
-header h1 {
-  margin-right: 4rem;
-}
+  > h1 {
+    flex: 1 0 auto;
+    margin: 1.5rem 2rem 1rem 0;
 
-header h1 img {
-  max-width: 250px;
-  max-height: 52px;
+    a {
+      display: block;
+
+      img {
+        display: block;
+        max-width: 250px;
+        max-height: 52px;
+      }
+    }
+  }
 }
 
 blockquote {
@@ -408,6 +418,7 @@ p.lead {
 
   &.factcheck { color: var(--true); }
   &.editorial { color: var(--orange); }
+  &.facebook-factcheck { color: #4267B2; }
   &.important { color: var(--steel); }
 
   &.important::after { content: ') '; }

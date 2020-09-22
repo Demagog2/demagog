@@ -36,6 +36,7 @@ class Statement < ApplicationRecord
         :statement_transcript_position
       )
       .order(
+        "statements.source_id ASC",
         Arel.sql("source_order ASC NULLS LAST"),
         Arel.sql("statement_transcript_positions.start_line ASC NULLS LAST"),
         Arel.sql("statement_transcript_positions.start_offset ASC NULLS LAST"),

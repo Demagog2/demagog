@@ -58,12 +58,17 @@ import StatementsFromTranscript from './components/StatementsFromTranscript';
 import StatementsSort from './components/StatementsSort';
 import StatementsVideoMarks from './components/StatementsVideoMarks';
 
+import OverallStats from './components/OverallStats';
+
 import { UserEdit } from './components/users/UserEdit';
 import { UserNew } from './components/users/UserNew';
 import { UsersPageContainer } from './components/users/UsersPageContainer';
 import { UsersSortOnAboutUsPageContainer } from './components/users/UsersSortOnAboutUsPageContainer';
 
 import Tags from './components/tags/Tags';
+
+import WebContents from './components/webContents/WebContents';
+import WebContentEdit from './components/webContents/WebContentEdit';
 
 const history = createBrowserHistory();
 
@@ -179,6 +184,9 @@ class App extends React.Component<IProps> {
                 <Route path="/admin/pages/new" exact component={PageNew} />
                 <Route path="/admin/pages/edit/:id" exact component={PageEdit} />
 
+                <Route path="/admin/web-contents" exact component={WebContents} />
+                <Route path="/admin/web-contents/edit/:id" exact component={WebContentEdit} />
+
                 <Route path="/admin/users" exact component={UsersPageContainer} />
                 <Route path="/admin/users/new" exact component={UserNew} />
                 <Route path="/admin/users/edit/:id" exact component={UserEdit} />
@@ -193,6 +201,8 @@ class App extends React.Component<IProps> {
                 <Route path="/admin/notifications/:tab?" exact component={Notifications} />
 
                 <Route path="/admin/availability" exact component={Availability} />
+
+                <Route path="/admin/overall-stats" exact component={OverallStats} />
 
                 <Route component={NotFound} />
               </Switch>

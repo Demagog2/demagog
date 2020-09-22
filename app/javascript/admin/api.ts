@@ -64,3 +64,21 @@ export const uploadContentImage = (image: File): Promise<Response> => {
     body: formData,
   });
 };
+
+export const mailFactualStatementsExport = () => {
+  return callApi('/admin/export/mail-factual-statements', { method: 'POST' });
+};
+
+export const generateIllustrationImageForTweet = (
+  tweetUrl: string,
+  options: { withAttachment: boolean },
+) => {
+  const formData = new FormData();
+  formData.append('tweet_url', tweetUrl);
+  formData.append('with_attachment', options.withAttachment ? 'true' : 'false');
+
+  return callApi('/admin/article/generate-illustration-image-for-tweet', {
+    method: 'POST',
+    body: formData,
+  });
+};

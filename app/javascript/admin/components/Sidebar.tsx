@@ -17,6 +17,12 @@ const categories = [
       { to: '/admin/sources', title: 'Výroky', enabled: true, permissions: ['sources:view'] },
       { to: '/admin/visualizations', title: 'Vizualizace', permissions: ['visualizations:view'] },
       { to: '/admin/images', title: 'Obrázky', enabled: true, permissions: ['images:view'] },
+      {
+        to: '/admin/overall-stats',
+        title: 'Statistiky',
+        enabled: true,
+        permissions: ['stats:view'],
+      },
     ],
   },
   {
@@ -49,6 +55,12 @@ const categories = [
         permissions: ['availability:view'],
       },
       { to: '/admin/pages', title: 'Stránky', enabled: true, permissions: ['pages:view'] },
+      {
+        to: '/admin/web-contents',
+        title: 'Webový obsah',
+        enabled: true,
+        permissions: ['web_contents:view'],
+      },
       { to: '/admin/navigation', title: 'Menu', permissions: ['menu:view'] },
     ],
   },

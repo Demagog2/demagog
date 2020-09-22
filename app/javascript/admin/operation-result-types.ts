@@ -1384,6 +1384,44 @@ export interface UpdateStatementsVideoMarksVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: UpdateWebContent
+// ====================================================
+
+export interface UpdateWebContent_updateWebContent_webContent {
+  __typename: "WebContent";
+  id: string;
+  systemId: string;
+  name: string;
+  urlPath: string;
+  dynamicPage: boolean;
+  dynamicPagePublished: boolean;
+  structure: GraphQLCustomScalar_JSON;
+  data: GraphQLCustomScalar_JSON;
+}
+
+export interface UpdateWebContent_updateWebContent {
+  __typename: "UpdateWebContentPayload";
+  webContent: UpdateWebContent_updateWebContent_webContent;
+}
+
+export interface UpdateWebContent {
+  /**
+   * Update web content
+   */
+  updateWebContent: UpdateWebContent_updateWebContent | null;
+}
+
+export interface UpdateWebContentVariables {
+  id: string;
+  webContentInput: WebContentInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetPages
 // ====================================================
 
@@ -1649,12 +1687,12 @@ export interface GetSources_sources {
   id: string;
   name: string;
   sourceUrl: string | null;
-  releasedAt: string;
-  medium: GetSources_sources_medium;
-  mediaPersonalities: GetSources_sources_mediaPersonalities[];
+  releasedAt: string | null;
+  medium: GetSources_sources_medium | null;
+  mediaPersonalities: GetSources_sources_mediaPersonalities[] | null;
   statementsCountsByEvaluationStatus: GetSources_sources_statementsCountsByEvaluationStatus[];
   statements: GetSources_sources_statements[];
-  experts: GetSources_sources_experts[];
+  experts: GetSources_sources_experts[] | null;
 }
 
 export interface GetSources {
@@ -1713,13 +1751,13 @@ export interface GetSource_source {
   id: string;
   name: string;
   sourceUrl: string | null;
-  releasedAt: string;
+  releasedAt: string | null;
   transcript: string | null;
-  medium: GetSource_source_medium;
-  mediaPersonalities: GetSource_source_mediaPersonalities[];
+  medium: GetSource_source_medium | null;
+  mediaPersonalities: GetSource_source_mediaPersonalities[] | null;
   statementsCountsByEvaluationStatus: GetSource_source_statementsCountsByEvaluationStatus[];
-  speakers: GetSource_source_speakers[];
-  experts: GetSource_source_experts[];
+  speakers: GetSource_source_speakers[] | null;
+  experts: GetSource_source_experts[] | null;
 }
 
 export interface GetSource {
@@ -1772,8 +1810,8 @@ export interface GetSourcesForSelect_sources {
   __typename: "Source";
   id: string;
   name: string;
-  releasedAt: string;
-  medium: GetSourcesForSelect_sources_medium;
+  releasedAt: string | null;
+  medium: GetSourcesForSelect_sources_medium | null;
 }
 
 export interface GetSourcesForSelect {
@@ -2225,11 +2263,11 @@ export interface GetStatement_statement_source {
   id: string;
   name: string;
   sourceUrl: string | null;
-  releasedAt: string;
-  medium: GetStatement_statement_source_medium;
-  mediaPersonalities: GetStatement_statement_source_mediaPersonalities[];
-  experts: GetStatement_statement_source_experts[];
-  speakers: GetStatement_statement_source_speakers[];
+  releasedAt: string | null;
+  medium: GetStatement_statement_source_medium | null;
+  mediaPersonalities: GetStatement_statement_source_mediaPersonalities[] | null;
+  experts: GetStatement_statement_source_experts[] | null;
+  speakers: GetStatement_statement_source_speakers[] | null;
 }
 
 export interface GetStatement_statement_statementTranscriptPosition {
@@ -2640,7 +2678,7 @@ export interface GetSourceWithStatementsAndVideoMarks_source {
   id: string;
   name: string;
   sourceUrl: string | null;
-  releasedAt: string;
+  releasedAt: string | null;
   transcript: string | null;
   videoType: string | null;
   videoId: string | null;
@@ -2654,6 +2692,79 @@ export interface GetSourceWithStatementsAndVideoMarks {
 export interface GetSourceWithStatementsAndVideoMarksVariables {
   id: number;
   includeUnpublished?: boolean | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetInternalOverallStats
+// ====================================================
+
+export interface GetInternalOverallStats_internalOverallStats {
+  __typename: "InternalOverallStats";
+  factualAndPublishedStatementsCount: number;
+  speakersWithFactualAndPublishedStatementsCount: number;
+}
+
+export interface GetInternalOverallStats {
+  internalOverallStats: GetInternalOverallStats_internalOverallStats;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetWebContents
+// ====================================================
+
+export interface GetWebContents_webContents {
+  __typename: "WebContent";
+  id: string;
+  systemId: string;
+  name: string;
+  urlPath: string;
+  dynamicPage: boolean;
+  dynamicPagePublished: boolean;
+  structure: GraphQLCustomScalar_JSON;
+  data: GraphQLCustomScalar_JSON;
+}
+
+export interface GetWebContents {
+  webContents: GetWebContents_webContents[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetWebContent
+// ====================================================
+
+export interface GetWebContent_webContent {
+  __typename: "WebContent";
+  id: string;
+  systemId: string;
+  name: string;
+  urlPath: string;
+  dynamicPage: boolean;
+  dynamicPagePublished: boolean;
+  structure: GraphQLCustomScalar_JSON;
+  data: GraphQLCustomScalar_JSON;
+}
+
+export interface GetWebContent {
+  webContent: GetWebContent_webContent;
+}
+
+export interface GetWebContentVariables {
+  id: string;
 }
 
 /* tslint:disable */
@@ -2765,13 +2876,13 @@ export interface PageInput {
 
 export interface SourceInput {
   name: string;
-  releasedAt: string;
+  releasedAt?: string | null;
   sourceUrl?: string | null;
-  mediumId: string;
-  mediaPersonalities: string[];
-  transcript: string;
-  speakers: string[];
-  experts: string[];
+  mediumId?: string | null;
+  mediaPersonalities?: string[] | null;
+  transcript?: string | null;
+  speakers?: string[] | null;
+  experts?: string[] | null;
 }
 
 export interface SourceInputVideoFields {
@@ -2846,6 +2957,14 @@ export interface UserInput {
   order?: number | null;
   rank?: number | null;
   userPublic?: boolean | null;
+}
+
+export interface WebContentInput {
+  name?: string | null;
+  urlPath?: string | null;
+  dynamicPage?: boolean | null;
+  dynamicPagePublished?: boolean | null;
+  data?: GraphQLCustomScalar_JSON | null;
 }
 
 //==============================================================

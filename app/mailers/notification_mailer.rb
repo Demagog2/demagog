@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class NotificationMailer < ApplicationMailer
-  default from: "Upozornění z administace Demagog.cz <noreply@demagog.cz>"
+  default from: "Administrace Demagog.cz <noreply@demagog.cz>"
 
   def notification_email
     @notification = params[:notification]

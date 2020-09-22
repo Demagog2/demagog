@@ -1,0 +1,11 @@
+.container-article-discussions {
+  flex: 1 0 66.6667%;
+  margin-left: 16.6667%;
+  margin-right: 16.6667%;
+
+  @media (max-width: 899.9px) {
+    flex: 1 0 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}

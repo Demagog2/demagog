@@ -7,7 +7,7 @@
     <h1><%= @article.title %></h1>
     <p class="lead"><%= raw(@article.perex) %></p>
 
-    <% if @article_type == "factcheck" && @article.source %>
+    <% if @article.article_type.name == "default" && @article.source %>
       <p class="lead">
         <span class="label factcheck">Ověřili jsme</span><br>
         <%= @article.source.medium.name %> ze dne <%= raw(l(@article.source.released_at, format: :long)) %>
@@ -23,9 +23,15 @@
       <% end %>
     <% end %>
 
-    <% if @article_type == "editorial" %>
+    <% if @article.article_type.name == "static" %>
       <p>
         <span class="label editorial">Komentář</span> <i><%= raw(l(@article.published_at, format: :long)) %></i>
+      </p>
+    <% end %>
+
+    <% if @article.article_type.name == ArticleType::FACEBOOK_FACTCHECK %>
+      <p>
+        <span class="label facebook-factcheck">Facebook factcheck</span> <i><%= raw(l(@article.published_at, format: :long)) %></i>
       </p>
     <% end %>
   </section>

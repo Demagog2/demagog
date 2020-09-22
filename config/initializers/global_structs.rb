@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
-Struct.new("Submenu", :name, :items)
-Struct.new("Link", :text, :href)
+Struct.new("NavSubmenu", :name, :items)
+Struct.new("NavLink", :text, :href)

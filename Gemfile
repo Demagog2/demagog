@@ -72,7 +72,8 @@ gem "omniauth-google-oauth2"
 gem "redis", "~> 4.0", ">= 4.0.1"
 
 # Use sidekiq for background jobs
-gem "sidekiq"
+# sidekiq v6 needs redis v4, but we have redis v3 on production, so we need to stick to v5 for now
+gem "sidekiq", "~> 5.0"
 
 # Use Amazon S3 for active storage for production environment
 gem "aws-sdk-s3", require: false
@@ -121,6 +122,12 @@ gem "tty-prompt"
 gem "ddtrace"
 
 gem "addressable"
+
+gem "caxlsx"
+gem "caxlsx_rails"
+
+gem "ferrum"
+gem "mini_magick"
 
 # Use Capistrano for deployment
 group :development do

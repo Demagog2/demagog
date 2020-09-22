@@ -463,4 +463,35 @@ class Types::QueryType < GraphQL::Schema::Object
       items: content_images.offset(args[:offset]).limit(args[:limit]).order(created_at: :desc)
     }
   end
+
+  field :internal_overall_stats, Types::InternalOverallStatsType, null: false
+
+  def internal_overall_stats
+    raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+    {
+      factual_and_published_statements_count: Statement.factual_and_published.count,
+      speakers_with_factual_and_published_statements_count: Speaker.with_factual_and_published_statements.count
+    }
+  end
+
+  field :web_contents, [Types::WebContentType], null: false
+
+  def web_contents
+    raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+    WebContent.all.order(name: :asc)
+  end
+
+  field :web_content, Types::WebContentType, null: false do
+    argument :id, ID, required: true
+  end
+
+  def web_content(args)
+    raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+    WebContent.find(args[:id])
+  rescue ActiveRecord::RecordNotFound
+    raise GraphQL::ExecutionError.new("Could not find WebContent with id=#{args[:id]}")
+  end
 end
