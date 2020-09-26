@@ -53,7 +53,7 @@ import Sources from './components/Sources';
 import SourceStats from './components/SourceStats';
 
 import StatementDetail from './components/StatementDetail';
-import StatementNew from './components/StatementNew';
+import { StatementNewContainer } from './components/statements/StatementNewContainer';
 import StatementsFromTranscript from './components/StatementsFromTranscript';
 import StatementsSort from './components/StatementsSort';
 import StatementsVideoMarks from './components/StatementsVideoMarks';
@@ -140,7 +140,7 @@ class App extends React.Component<IProps> {
                 <Route
                   path="/admin/sources/:sourceId/statements/new"
                   exact
-                  component={StatementNew}
+                  component={StatementNewContainer}
                 />
                 <Route
                   path="/admin/sources/:sourceId/statements-sort"

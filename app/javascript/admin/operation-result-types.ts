@@ -2833,6 +2833,7 @@ export interface CommentInput {
 
 export interface CreateAssessmentInput {
   evaluatorId?: string | null;
+  secondaryEvaluatorIds?: string[] | null;
   shortExplanation?: string | null;
   veracityId?: string | null;
 }

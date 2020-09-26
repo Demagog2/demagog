@@ -113,6 +113,13 @@ ActiveRecord::Schema.define(version: 2020_09_14_135357) do
     t.index ["veracity_id"], name: "index_assessments_on_veracity_id"
   end
 
+  create_table "assessments_users", id: false, force: :cascade do |t|
+    t.bigint "assessment_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["assessment_id"], name: "index_assessments_users_on_assessment_id"
+    t.index ["user_id"], name: "index_assessments_users_on_user_id"
+  end
+
   create_table "attachments", force: :cascade do |t|
     t.string "attachment_type"
     t.string "file"
