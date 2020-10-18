@@ -1,15 +1,17 @@
-<article class="preview s-article <% unless article.illustration.attached? %>without-illustration<% end %>">
-  <% if article.illustration.attached? %>
-    <a title="<%= article.title %>" href="<%= article_path(article) %>" class="illustration">
-      <img class="lazy-load" data-src="<%= url_for(article.illustration) %>">
-      <% if show_article_factcheck_video(article) %>
-        <div class="factcheck-video-label">
-          <img src="<%= asset_path("play-icon.svg") %>" class="factcheck-video-label-play-icon" alt="Spustit <%= article_factcheck_video_record_name(article) %>">
-          <span class="factcheck-video-label-text"><%= article_factcheck_video_record_name(article).capitalize %> propojený s ověřením</span>
-        </div>
-      <% end %>
-    </a>
-  <% end %>
+<article class="preview s-article">
+  <a title="<%= article.title %>" href="<%= article_path(article) %>" class="illustration">
+    <% if article.illustration.attached? %>
+      <img class="lazy-load" data-src="<%= url_for(article.illustration) %>" alt="Ilustrační obrázek k výstupu <%= article.title %>">
+    <% else %>
+      <img src="<%= asset_path("article-illustration-default-preview.svg") %>" alt="Ilustrační obrázek k výstupu <%= article.title %>">
+    <% end %>
+    <% if show_article_factcheck_video(article) %>
+      <div class="factcheck-video-label">
+        <img src="<%= asset_path("play-icon.svg") %>" class="factcheck-video-label-play-icon" alt="Spustit <%= article_factcheck_video_record_name(article) %>">
+        <span class="factcheck-video-label-text"><%= article_factcheck_video_record_name(article).capitalize %> propojený s ověřením</span>
+      </div>
+    <% end %>
+  </a>
 
   <div class="rest">
     <div class="speakers">
