@@ -1,16 +1,15 @@
 <%
 
 @nav = [
-  # TODO: Ready for when intro texts on those pages are written
-  # Struct::NavSubmenu.new(
-  #   "Factcheck",
-  #   [
-  #     Struct::NavLink.new('Diskuze', '/diskuze'),
-  #     Struct::NavLink.new('Sociální sítě', '/socialni-site'),
-  #     Struct::NavLink.new('Spolupráce s Facebookem', '/spoluprace-s-facebookem')
-  #   ]
-  # ),
-  # Struct::NavLink.new("Komentáře", '/komentare'),
+  Struct::NavSubmenu.new(
+    "Factcheck",
+    [
+      Struct::NavLink.new('Diskuze', '/diskuze'),
+      Struct::NavLink.new('Sociální sítě', '/socialni-site'),
+      Struct::NavLink.new('Spolupráce s Facebookem', '/spoluprace-s-facebookem')
+    ]
+  ),
+  Struct::NavLink.new("Komentáře", '/komentare'),
   Struct::NavSubmenu.new(
     "Přehledy",
     [

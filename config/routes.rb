@@ -72,11 +72,10 @@ Rails.application.routes.draw do
   get "vyroky" => "statement#index", as: "statements"
   get "vyrok/:id" => "statement#show", as: "statement"
 
-  # TODO: Ready for when intro texts on those pages are written
-  # get "diskuze" => "article#discussions"
-  # get "socialni-site" => "article#social_media"
-  # get "spoluprace-s-facebookem" => "article#collaboration_with_facebook"
-  # get "komentare" => "article#editorials"
+  get "diskuze" => "article#discussions"
+  get "socialni-site" => "article#social_media"
+  get "spoluprace-s-facebookem" => "article#collaboration_with_facebook"
+  get "komentare" => "article#editorials"
 
   get "diskuze/:slug" => "article#index", as: "article"
   get "vypis-recniku(/:id)" => "speaker#index", as: "speakers"
