@@ -2171,6 +2171,8 @@ export interface GetSpeakers {
 }
 
 export interface GetSpeakersVariables {
+  limit?: number | null;
+  offset?: number | null;
   name?: string | null;
 }
 

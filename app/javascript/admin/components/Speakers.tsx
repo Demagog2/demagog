@@ -93,7 +93,7 @@ class Speakers extends React.Component<IProps, IState> {
 
         <Query<GetSpeakersQuery, GetSpeakersQueryVariables>
           query={GetSpeakers}
-          variables={{ name: this.state.search }}
+          variables={{ name: this.state.search, limit: SPEAKERS_PER_PAGE, offset: 0 }}
         >
           {(props) => {
             if (props.loading) {
@@ -236,6 +236,30 @@ class Speakers extends React.Component<IProps, IState> {
                   </Card>
                 ))}
 
+                {props.data.speakers.length > 0 && (
+                  <Button
+                    onClick={() =>
+                      props.fetchMore({
+                        variables: {
+                          offset: props.data ? props.data.speakers.length : 0,
+                        },
+
+                        updateQuery: (prev, { fetchMoreResult }) => {
+                          if (!fetchMoreResult) {
+                            return prev;
+                          }
+
+                          return {
+                            ...prev,
+                            speakers: [...prev.speakers, ...fetchMoreResult.speakers],
+                          };
+                        },
+                      })
+                    }
+                    text="Načíst další"
+                  />
+                )}
+
                 {props.data.speakers.length === 0 && this.state.search !== '' && (
                   <p>Nenašli jsme žádnou osobu se jménem „{this.state.search}“.</p>
                 )}
@@ -247,5 +271,7 @@ class Speakers extends React.Component<IProps, IState> {
     );
   }
 }
+
+const SPEAKERS_PER_PAGE = 50;
 
 export default connect()(Speakers);

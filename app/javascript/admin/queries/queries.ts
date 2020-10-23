@@ -366,8 +366,8 @@ export const GetSpeaker = gql`
 `;
 
 export const GetSpeakers = gql`
-  query GetSpeakers($name: String) {
-    speakers(limit: 100, name: $name) {
+  query GetSpeakers($limit: Int, $offset: Int, $name: String) {
+    speakers(limit: $limit, offset: $offset, name: $name) {
       id
       firstName
       lastName
