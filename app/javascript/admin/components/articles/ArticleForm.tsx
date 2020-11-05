@@ -25,7 +25,7 @@ import ImageField, { ImageValueType } from '../forms/controls/ImageField';
 import SelectField from '../forms/controls/SelectField';
 import SwitchField from '../forms/controls/SwitchField';
 import FormGroup from '../forms/FormGroup';
-import ArticleIllustration from './ArticleIllustration';
+import PreviewableArticleIllustration from './PreviewableArticleIllustration';
 import ArticlePromiseSegment from './ArticlePromiseSegment';
 import ArticleSourceStatementsSegment from './ArticleSourceStatementsSegment';
 import ArticleTextSegment from './ArticleTextSegment';
@@ -236,7 +236,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                   <ImageField
                     name="illustration"
                     renderImage={(src) => (
-                      <ArticleIllustration illustration={src} title={values.title} />
+                      <PreviewableArticleIllustration illustration={src} title={values.title} />
                     )}
                   />
                 </FormGroup>
