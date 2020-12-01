@@ -1422,6 +1422,36 @@ export interface UpdateWebContentVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: CreateTag
+// ====================================================
+
+export interface CreateTag_createTag_tag {
+  __typename: "Tag";
+  name: string;
+}
+
+export interface CreateTag_createTag {
+  __typename: "CreateTagPayload";
+  tag: CreateTag_createTag_tag;
+}
+
+export interface CreateTag {
+  /**
+   * Add new tag
+   */
+  createTag: CreateTag_createTag | null;
+}
+
+export interface CreateTagVariables {
+  tagInput: TagInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetPages
 // ====================================================
 
@@ -2917,6 +2947,11 @@ export interface StatementsVideoMarksInput {
   statementId: string;
   start: number;
   stop: number;
+}
+
+export interface TagInput {
+  name: string;
+  forStatementType: StatementType;
 }
 
 export interface UpdateAssessmentInput {
