@@ -8,16 +8,16 @@ import FormGroup from './FormGroup';
 import { StatementType } from '../../operation-result-types';
 import { STATEMENT_TYPES } from '../../constants';
 
-export interface TagFormValues {
+export interface ITagFormValues {
   name: string;
   forStatementType: StatementType;
 }
 
-interface TagFormProps {
-  onSubmit(values: TagFormValues): Promise<void>;
+interface ITagFormProps {
+  onSubmit(values: ITagFormValues): Promise<void>;
 }
 
-const initialValues: TagFormValues = {
+const initialValues: ITagFormValues = {
   name: '',
   forStatementType: StatementType.factual,
 };
@@ -30,7 +30,7 @@ const validationSchema = yup.object().shape({
     .required(),
 });
 
-export function TagForm(props: TagFormProps) {
+export function TagForm(props: ITagFormProps) {
   return (
     <Formik
       initialValues={initialValues}

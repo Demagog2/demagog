@@ -9,12 +9,12 @@ import { STATEMENT_TYPES } from '../../constants';
 import Loading from '../Loading';
 import { GetTags_tags } from '../../operation-result-types';
 
-interface TagsProps {
+interface ITagsProps {
   loading: boolean;
   tags: GetTags_tags[];
 }
 
-export function Tags(props: TagsProps) {
+export function Tags(props: ITagsProps) {
   if (props.loading) {
     return <Loading />;
   }
