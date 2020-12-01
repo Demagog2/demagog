@@ -47,6 +47,8 @@ module Types
     field :publishApprovedSourceStatements, mutation: Mutations::PublishApprovedSourceStatements
     field :updateStatementsVideoMarks, mutation: Mutations::UpdateStatementsVideoMarks
 
+    field :createTag, mutation: Mutations::CreateTag
+
     field :createComment, mutation: Mutations::CreateComment
 
     field :deleteContentImage, mutation: Mutations::DeleteContentImage
