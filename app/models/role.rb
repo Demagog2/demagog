@@ -87,7 +87,7 @@ class Role < ApplicationRecord
       INTERN_PERMISSIONS +
         %w[
           articles:view
-          statements:edit-as-proofreader
+          statements:edit
           statements:view-unapproved-evaluation
         ]
     when INTERN
