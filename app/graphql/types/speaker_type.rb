@@ -47,7 +47,7 @@ module Types
 
       if args[:veracity]
         statements
-          .joins(:assessments, :veracities)
+          .joins(:assessment, :veracity)
           .where(
             assessments: {
               evaluation_status: Assessment::STATUS_APPROVED
