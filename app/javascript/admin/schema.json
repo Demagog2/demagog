@@ -1569,7 +1569,7 @@
           },
           {
             "name": "statements",
-            "description": null,
+            "description": "If article has source_statements segment, returns statements from that segment",
             "args": [
               {
                 "name": "veracity",
@@ -1605,8 +1605,8 @@
                 }
               }
             },
-            "isDeprecated": false,
-            "deprecationReason": null
+            "isDeprecated": true,
+            "deprecationReason": "Query statements from article segments"
           },
           {
             "name": "title",
@@ -4425,7 +4425,7 @@
           },
           {
             "name": "promiseUrl",
-            "description": null,
+            "description": "If promise segment type, returns the url of promise for this segment",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -4437,7 +4437,7 @@
           },
           {
             "name": "segmentType",
-            "description": null,
+            "description": "Can be: source_statements, single_statement, promise or text",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4453,7 +4453,7 @@
           },
           {
             "name": "source",
-            "description": null,
+            "description": "If source_statements segment type, returns the source from which we take the statements for this segment",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -4465,7 +4465,7 @@
           },
           {
             "name": "statementId",
-            "description": null,
+            "description": "If single_statement segment type, returns the ID of statement for this segment",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -4477,7 +4477,7 @@
           },
           {
             "name": "statements",
-            "description": null,
+            "description": "If source_statements or single_statement segment type, returns the statements for this segment",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4501,7 +4501,7 @@
           },
           {
             "name": "textHtml",
-            "description": null,
+            "description": "If text segment type, returns the text in HTML for this segment",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -4513,15 +4513,15 @@
           },
           {
             "name": "textSlatejson",
-            "description": null,
+            "description": "If text segment type, returns the text in JSON for this segment",
             "args": [],
             "type": {
               "kind": "SCALAR",
               "name": "Json",
               "ofType": null
             },
-            "isDeprecated": false,
-            "deprecationReason": null
+            "isDeprecated": true,
+            "deprecationReason": "We don't use JSON text representation anymore"
           }
         ],
         "inputFields": null,
@@ -5542,6 +5542,33 @@
             "type": {
               "kind": "OBJECT",
               "name": "CreateStatementPayload",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createTag",
+            "description": "Add new tag",
+            "args": [
+              {
+                "name": "tagInput",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "TagInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CreateTagPayload",
               "ofType": null
             },
             "isDeprecated": false,
@@ -7797,6 +7824,72 @@
               "ofType": {
                 "kind": "OBJECT",
                 "name": "Statement",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "TagInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "name",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "forStatementType",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "StatementType",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CreateTagPayload",
+        "description": "Autogenerated return type of CreateTag",
+        "fields": [
+          {
+            "name": "tag",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Tag",
                 "ofType": null
               }
             },

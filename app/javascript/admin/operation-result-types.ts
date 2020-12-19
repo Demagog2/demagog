@@ -287,11 +287,29 @@ export interface CreateArticle_createArticle_article_segments_statements {
 export interface CreateArticle_createArticle_article_segments {
   __typename: "ArticleSegment";
   id: string;
+  /**
+   * Can be: source_statements, single_statement, promise or text
+   */
   segmentType: string;
+  /**
+   * If text segment type, returns the text in HTML for this segment
+   */
   textHtml: string | null;
+  /**
+   * If text segment type, returns the text in JSON for this segment
+   */
   textSlatejson: GraphQLCustomScalar_Json | null;
+  /**
+   * If promise segment type, returns the url of promise for this segment
+   */
   promiseUrl: string | null;
+  /**
+   * If single_statement segment type, returns the ID of statement for this segment
+   */
   statementId: string | null;
+  /**
+   * If source_statements or single_statement segment type, returns the statements for this segment
+   */
   statements: CreateArticle_createArticle_article_segments_statements[];
 }
 
@@ -347,11 +365,29 @@ export interface UpdateArticle_updateArticle_article_segments_statements {
 export interface UpdateArticle_updateArticle_article_segments {
   __typename: "ArticleSegment";
   id: string;
+  /**
+   * Can be: source_statements, single_statement, promise or text
+   */
   segmentType: string;
+  /**
+   * If text segment type, returns the text in HTML for this segment
+   */
   textHtml: string | null;
+  /**
+   * If text segment type, returns the text in JSON for this segment
+   */
   textSlatejson: GraphQLCustomScalar_Json | null;
+  /**
+   * If promise segment type, returns the url of promise for this segment
+   */
   promiseUrl: string | null;
+  /**
+   * If single_statement segment type, returns the ID of statement for this segment
+   */
   statementId: string | null;
+  /**
+   * If source_statements or single_statement segment type, returns the statements for this segment
+   */
   statements: UpdateArticle_updateArticle_article_segments_statements[];
 }
 
@@ -1487,11 +1523,29 @@ export interface GetArticle_article_segments_source {
 export interface GetArticle_article_segments {
   __typename: "ArticleSegment";
   id: string;
+  /**
+   * Can be: source_statements, single_statement, promise or text
+   */
   segmentType: string;
+  /**
+   * If text segment type, returns the text in HTML for this segment
+   */
   textHtml: string | null;
+  /**
+   * If text segment type, returns the text in JSON for this segment
+   */
   textSlatejson: GraphQLCustomScalar_Json | null;
+  /**
+   * If promise segment type, returns the url of promise for this segment
+   */
   promiseUrl: string | null;
+  /**
+   * If single_statement segment type, returns the ID of statement for this segment
+   */
   statementId: string | null;
+  /**
+   * If source_statements segment type, returns the source from which we take the statements for this segment
+   */
   source: GetArticle_article_segments_source | null;
 }
 
