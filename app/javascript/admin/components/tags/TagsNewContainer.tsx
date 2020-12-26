@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { captureException } from '@sentry/browser';
 import * as ResultTypes from '../../operation-result-types';
 import { CreateTag } from '../../queries/mutations';
-import { TagForm, TagFormValues } from '../forms/TagForm';
+import { TagForm, ITagFormValues } from '../forms/TagForm';
 import { useFlashMessage } from '../../hooks/use-flash-messages';
 
 export function TagsNewContainer() {
@@ -22,7 +22,7 @@ export function TagsNewContainer() {
   });
 
   const onSubmit = useCallback(
-    async (variables: TagFormValues) => {
+    async (variables: ITagFormValues) => {
       await mutate({
         variables: {
           tagInput: {
