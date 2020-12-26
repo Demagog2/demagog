@@ -65,7 +65,8 @@ import { UserNew } from './components/users/UserNew';
 import { UsersPageContainer } from './components/users/UsersPageContainer';
 import { UsersSortOnAboutUsPageContainer } from './components/users/UsersSortOnAboutUsPageContainer';
 
-import Tags from './components/tags/Tags';
+import { TagsContainer } from './components/tags/TagsContainer';
+import { TagsNewContainer } from './components/tags/TagsNewContainer';
 
 import WebContents from './components/webContents/WebContents';
 import WebContentEdit from './components/webContents/WebContentEdit';
@@ -196,7 +197,8 @@ class App extends React.Component<IProps> {
                   component={UsersSortOnAboutUsPageContainer}
                 />
 
-                <Route path="/admin/tags" exact component={Tags} />
+                <Route path="/admin/tags" exact component={TagsContainer} />
+                <Route path="/admin/tags/new" exact component={TagsNewContainer} />
 
                 <Route path="/admin/notifications/:tab?" exact component={Notifications} />
 
