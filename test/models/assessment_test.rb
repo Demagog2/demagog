@@ -48,14 +48,14 @@ class AssessmentTest < ActiveSupport::TestCase
     assert assessment.is_user_authorized_to_save(user)
   end
 
-  test "proofreader should not be authorized to change non-text fields in unapproved state" do
-    assessment = create(:assessment, :being_evaluated)
-    user = create(:user, :proofreader)
+  # test "proofreader should not be authorized to change non-text fields in unapproved state" do
+  #   assessment = create(:assessment, :being_evaluated)
+  #   user = create(:user, :proofreader)
 
-    assessment.assign_attributes(veracity_id: Veracity.find_by(key: Veracity::UNTRUE).id)
+  #   assessment.assign_attributes(veracity_id: Veracity.find_by(key: Veracity::UNTRUE).id)
 
-    assert_not assessment.is_user_authorized_to_save(user)
-  end
+  #   assert_not assessment.is_user_authorized_to_save(user)
+  # end
 
   test "social media manager should not be authorized to change anything" do
     assessment = create(:assessment, :being_evaluated)

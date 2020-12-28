@@ -12,7 +12,7 @@ import ImageField, { ImageValueType } from '../forms/controls/ImageField';
 import SwitchField from '../forms/controls/SwitchField';
 import TextField from '../forms/controls/TextField';
 import FormGroup from '../forms/FormGroup';
-import ArticleIllustration from './ArticleIllustration';
+import PreviewableArticleIllustration from './PreviewableArticleIllustration';
 import ArticleSingleStatementSegment from './ArticleSingleStatementSegment';
 
 const ARTICLE_TYPE_SINGLE_STATEMENT = 'single_statement';
@@ -158,7 +158,7 @@ export const ArticleSingleStatementForm = ({
                   }
                   name="illustration"
                   renderImage={(src) => (
-                    <ArticleIllustration illustration={src} title={values.title} />
+                    <PreviewableArticleIllustration illustration={src} title={values.title} />
                   )}
                 />
               </FormGroup>

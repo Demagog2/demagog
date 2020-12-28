@@ -43,9 +43,15 @@ class ArticleSegment < ApplicationRecord
   end
 
   def all_published_statements
-    return [] unless is_source_statements?
+    if is_source_statements?
+      return source.statements.published_important_first
+    end
 
-    source.statements.published_important_first
+    if is_single_statement? && statement
+      return Statement.published_important_first.where(id: statement.id)
+    end
+
+    []
   end
 
   def filtered_published_statements(statements_filters)

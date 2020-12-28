@@ -110,7 +110,7 @@ class Article < ApplicationRecord
 
   def statements
     source_statements_segment = segments.source_statements_type_only.first
-    source_statements_segment.all_published_statements
+    source_statements_segment ? source_statements_segment.all_published_statements : nil
   end
 
   def single_statement

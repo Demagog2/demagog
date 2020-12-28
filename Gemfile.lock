@@ -202,7 +202,7 @@ GEM
       cliver (~> 0.3)
       concurrent-ruby (~> 1.1)
       websocket-driver (>= 0.6, < 0.8)
-    ffi (1.9.25)
+    ffi (1.13.1)
     formatador (0.2.5)
     friendly_id (5.1.0)
       activerecord (>= 4.0.0)
@@ -521,7 +521,6 @@ DEPENDENCIES
   elasticsearch-rails (~> 7.0.0)
   factory_bot_rails (~> 5.1.0)
   ferrum
-  ffi (~> 1.9.24)
   friendly_id (~> 5.1.0)
   graphiql-rails (~> 1.4.11)
   graphlient

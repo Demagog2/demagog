@@ -18,8 +18,13 @@ gem "rails", "~> 6.0"
 gem "pg"
 # Use scenic for materilized views
 gem "scenic"
-# Use Unicorn as the app server
-gem "unicorn"
+
+# Unicorn is *nix only
+unless Gem.win_platform?
+  # Use Unicorn as the app server
+  gem "unicorn"
+end
+
 # Use SCSS for stylesheets
 gem "sass-rails", "~> 5.0"
 # Use Uglifier as compressor for JavaScript assets
@@ -84,9 +89,6 @@ gem "loofah", "~> 2.3.1"
 # Patches security vulnerability CVE-2018-3760
 gem "sprockets", "~> 3.7.2"
 
-# Patches security vulnerability CVE-2018-1000201
-gem "ffi", "~> 1.9.24"
-
 # Patches security vulnerability CVE-2018-1000544
 gem "rubyzip", "~> 1.3.0"
 
@@ -135,7 +137,11 @@ group :development do
   gem "capistrano-rvm", require: false
   gem "capistrano-rails", require: false
   gem "capistrano-bundler", require: false
-  gem "capistrano3-unicorn", require: false
+
+  unless Gem.win_platform?
+    gem "capistrano3-unicorn", require: false
+  end
+
   gem "guard-livereload", "~> 2.5", require: false
 end
 

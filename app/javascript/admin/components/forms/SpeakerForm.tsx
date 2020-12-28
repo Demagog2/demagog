@@ -131,17 +131,24 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
                       <>
                         <TextField name="wikidata_id" />
                         <div className={Classes.FORM_HELPER_TEXT}>
-                          Používá se pro párování s jinými zdroji, vyplňujte prosím. Wikidata ID
-                          získáte najitím stránky politika na Wikipedii a kliknutím na "Položka
-                          Wikidat" vlevo. Je to ten kód začínající velkým Q a pokračující číslem,
-                          např. Q939539.
+                          Používá se pro párování s jinými zdroji jako například Hlídač státu,
+                          vyplňujte prosím. Wikidata ID získáte najitím stránky politika na
+                          Wikipedii a kliknutím na "Položka Wikidat" vlevo. Je to ten kód začínající
+                          velkým Q a pokračující číslem, např. Q939539.
                         </div>
                       </>
                     </FormGroup>
                   </div>
                   <div style={{ flex: '1 1', marginLeft: 15 }}>
                     <FormGroup label="Hlídač státu OsobaID" name="osoba_id" optional>
-                      <TextField name="osoba_id" />
+                      <>
+                        <TextField name="osoba_id" />
+                        <div className={Classes.FORM_HELPER_TEXT}>
+                          Dřív se OsobaID používalo pro párování s osobami na Hlídači státu. Od
+                          října 2020 se graduálně posouváme k párování přes Wikidata ID, tím pádem
+                          již toto pole není třeba pro nové osoby vyplňovat.
+                        </div>
+                      </>
                     </FormGroup>
                   </div>
                 </div>

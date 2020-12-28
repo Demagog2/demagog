@@ -585,3 +585,13 @@ export const UpdateWebContent = gql`
     }
   }
 `;
+
+export const CreateTag = gql`
+  mutation CreateTag($tagInput: TagInput!) {
+    createTag(tagInput: $tagInput) {
+      tag {
+        name
+      }
+    }
+  }
+`;
