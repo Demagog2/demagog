@@ -87,7 +87,7 @@ class HtmlContentHelper
       next_node = top_level_text_node.next
       while next_node && (["text", "a", "i", "em", "b", "strong"].include?(next_node.name))
         next_node_content = next_node.to_html
-        unless next_node_content.match(/^[\.,;:\)“]/) || new_paragraph_content.match(/[„\(]$/)
+        unless next_node_content.match(/^[\.,;:\)“]/) || new_paragraph_content.match(/[„\(]$/) # rubocop:disable Style/RedundantRegexpEscape
           next_node_content = " " + next_node_content
         end
 
