@@ -71,7 +71,7 @@ class ArticleController < FrontendController
     playbuzz_quiz_html =
       "<div style=\"margin-bottom: 1rem; background: white;\">" + playbuzz_quiz_html + "</div>"
 
-    text_html.gsub(%r{(<p>\[playbuzzkviz\]<\/p>)}, playbuzz_quiz_html)
+    text_html.gsub(%r{(<p>\[playbuzzkviz\]</p>)}, playbuzz_quiz_html)
   end
 
   helper_method :promise_segment_widget_url

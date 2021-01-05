@@ -8,34 +8,34 @@ class AssessmentValidator < ActiveModel::Validator
       case assessment.evaluation_status_was
       when Assessment::STATUS_BEING_EVALUATED
         if assessment.evaluation_status != Assessment::STATUS_APPROVAL_NEEDED
-          assessment.errors[:evaluation_status] << "Can only change status to #{Assessment::STATUS_APPROVAL_NEEDED} when assessment has status #{Assessment::STATUS_BEING_EVALUATED}"
+          assessment.errors.add(:evaluation_status, "Can only change status to #{Assessment::STATUS_APPROVAL_NEEDED} when assessment has status #{Assessment::STATUS_BEING_EVALUATED}")
         end
 
         if assessment.statement.statement_type == Statement::TYPE_FACTUAL || assessment.statement.statement_type == Statement::TYPE_NEWYEARS
           if !assessment.veracity || !assessment.short_explanation || !assessment.explanation_html
-            assessment.errors[:evaluation_status] << "To be able to change status to #{Assessment::STATUS_APPROVAL_NEEDED}, please fill veracity, short_explanation, and explanation"
+            assessment.errors.add(:evaluation_status, "To be able to change status to #{Assessment::STATUS_APPROVAL_NEEDED}, please fill veracity, short_explanation, and explanation")
           end
         end
         if assessment.statement.statement_type == Statement::TYPE_PROMISE
           if !assessment.promise_rating || !assessment.short_explanation || !assessment.explanation_html
-            assessment.errors[:evaluation_status] << "To be able to change status to #{Assessment::STATUS_APPROVAL_NEEDED}, please fill promise rating, short_explanation, and explanation"
+            assessment.errors.add(:evaluation_status, "To be able to change status to #{Assessment::STATUS_APPROVAL_NEEDED}, please fill promise rating, short_explanation, and explanation")
           end
         end
       when Assessment::STATUS_APPROVAL_NEEDED
         if assessment.evaluation_status != Assessment::STATUS_BEING_EVALUATED && assessment.evaluation_status != Assessment::STATUS_PROOFREADING_NEEDED
-          assessment.errors[:evaluation_status] << "Can change status either to #{Assessment::STATUS_BEING_EVALUATED} or #{Assessment::STATUS_PROOFREADING_NEEDED} when assessment has status #{Assessment::STATUS_APPROVAL_NEEDED}"
+          assessment.errors.add(:evaluation_status, "Can change status either to #{Assessment::STATUS_BEING_EVALUATED} or #{Assessment::STATUS_PROOFREADING_NEEDED} when assessment has status #{Assessment::STATUS_APPROVAL_NEEDED}")
         end
       when Assessment::STATUS_PROOFREADING_NEEDED
         if assessment.evaluation_status != Assessment::STATUS_BEING_EVALUATED && assessment.evaluation_status != Assessment::STATUS_APPROVED
-          assessment.errors[:evaluation_status] << "Can change status either to #{Assessment::STATUS_BEING_EVALUATED} or #{Assessment::STATUS_APPROVED} when assessment has status #{Assessment::STATUS_PROOFREADING_NEEDED}"
+          assessment.errors.add(:evaluation_status, "Can change status either to #{Assessment::STATUS_BEING_EVALUATED} or #{Assessment::STATUS_APPROVED} when assessment has status #{Assessment::STATUS_PROOFREADING_NEEDED}")
         end
       when Assessment::STATUS_APPROVED
         if assessment.evaluation_status != Assessment::STATUS_BEING_EVALUATED
-          assessment.errors[:evaluation_status] << "Can only change status to #{Assessment::STATUS_BEING_EVALUATED} when assessment has status #{Assessment::STATUS_APPROVED}"
+          assessment.errors.add(:evaluation_status, "Can only change status to #{Assessment::STATUS_BEING_EVALUATED} when assessment has status #{Assessment::STATUS_APPROVED}")
         end
 
         if assessment.statement.published
-          assessment.errors[:evaluation_status] << "Cannot change status of published statement, unpublish before changing it"
+          assessment.errors.add(:evaluation_status, "Cannot change status of published statement, unpublish before changing it")
         end
       else
         raise "Unknown assessment status #{assessment.evaluation_status_was}"

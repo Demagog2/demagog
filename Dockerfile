@@ -16,7 +16,7 @@ WORKDIR /app
 COPY Gemfile .
 COPY Gemfile.lock .
 
-RUN bundle install --without development test
+RUN bundle install
 
 RUN npm install -g yarn
 
@@ -31,14 +31,12 @@ RUN PRODUCTION_DATABASE_URL=postgresql:doesnt_exist SECRET_KEY_BASE=does-not-mat
 RUN yarn cache clean
 RUN rm -rf node_modules
 
-FROM ruby:2.7.0-alpine3.11
+FROM ruby:2.7.1-alpine3.11
 LABEL maintainer="bohac.v@gmail.com"
 
-ENV RAILS_ENV production
-ENV RAILS_SERVE_STATIC_FILES true
-ENV RAILS_LOG_TO_STDOUT true
-
 RUN apk --no-cache add ca-certificates postgresql-dev nodejs tzdata
+
+ENV BUNDLE_USER_HOME=/tmp
 
 WORKDIR /app
 

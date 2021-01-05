@@ -15,7 +15,7 @@ class Comment < ApplicationRecord
   MENTION_ALIAS_SOCIAL_MEDIA_MANAGERS = "social_media_managers"
 
   def display_content
-    content.gsub(/@\[([^\]]+)\]\([^\)]+\)/, '@\1')
+    content.gsub(/@\[([^\]]+)\]\([^)]+\)/, '@\1')
   end
 
   def self.create_comment(comment_input, current_user)
@@ -28,7 +28,7 @@ class Comment < ApplicationRecord
 
       notifications = []
 
-      comment.content.scan(/@\[[^\]]+\]\(([^\)]+)\)/).each do |mention|
+      comment.content.scan(/@\[[^\]]+\]\(([^)]+)\)/).each do |mention|
         recipients = comment.mentioned_recipients(mention[0], comment)
 
         recipients.each do |recipient|
