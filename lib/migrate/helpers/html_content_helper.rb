@@ -11,7 +11,7 @@ class HtmlContentHelper
       # Remove tags which we don't support
       allowed = ["p", "h1", "h2", "h3", "h4", "h5", "h6", "b", "strong", "i", "em", "a", "img", "iframe", "br", "ul", "ol", "li", "text"]
       unless allowed.include? node.name
-        node.replace node.inner_html
+        node.replace node.inner_html if node.parent
         next
       end
 
@@ -87,7 +87,7 @@ class HtmlContentHelper
       next_node = top_level_text_node.next
       while next_node && (["text", "a", "i", "em", "b", "strong"].include?(next_node.name))
         next_node_content = next_node.to_html
-        unless next_node_content.match(/^[\.,;:\)“]/) || new_paragraph_content.match(/[„\(]$/) # rubocop:disable Style/RedundantRegexpEscape
+        unless next_node_content.match(/^[.,;:)“]/) || new_paragraph_content.match(/[„(]$/)
           next_node_content = " " + next_node_content
         end
 
