@@ -11,7 +11,7 @@ end
 gem "dotenv-rails"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~> 6.0"
+gem "rails", "~> 6.1"
 # Add possibility for bulk insert to Active Record models
 # gem "bulk_insert"
 # Use Postgresql as the database for Active Record

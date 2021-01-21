@@ -12,7 +12,7 @@
       <div class="author">
         <figure class="portrait">
           <% if user.avatar.attached? %>
-            <img src="<%= polymorphic_url(user.avatar, only_path: true) %>" alt="<%= user.full_name %>" />
+            <img src="<%= user.avatar.url %>" alt="<%= user.full_name %>" />
           <% end %>
         </figure>
 

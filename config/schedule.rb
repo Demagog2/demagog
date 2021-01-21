@@ -21,6 +21,9 @@
 
 # Learn more: http://github.com/javan/whenever
 
+# Because passing environment via -e param does not work in rails 6, see https://github.com/javan/whenever/issues/810
+set :bundle_command, "RAILS_ENV=#{ENV["RAILS_ENV"]} bundle exec"
+
 every 5.minutes do
   runner "Notification.email_unread_notifications"
 end

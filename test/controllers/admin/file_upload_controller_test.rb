@@ -16,7 +16,7 @@ class Admin::FileUploadControllerTest < ActionController::TestCase
   end
 
   test "upload profile picture requires authorization" do
-    fixture = fixture_file_upload("files/speaker.png", "image/png")
+    fixture = fixture_file_upload("speaker.png", "image/png")
 
     speaker = create(:speaker)
 
@@ -31,7 +31,7 @@ class Admin::FileUploadControllerTest < ActionController::TestCase
     speaker = create(:speaker)
 
     assert_changes -> { speaker.reload.avatar.attached? } do
-      fixture = fixture_file_upload("files/speaker.png", "image/png")
+      fixture = fixture_file_upload("speaker.png", "image/png")
       post "upload_profile_picture", params: { id: speaker.id, file: fixture }
     end
 
@@ -50,7 +50,7 @@ class Admin::FileUploadControllerTest < ActionController::TestCase
     sign_in create(:user)
 
     speaker = create(:speaker) do |s|
-      fixture = fixture_file_upload("files/speaker.png", "image/png")
+      fixture = fixture_file_upload("speaker.png", "image/png")
       s.avatar.attach fixture
     end
 

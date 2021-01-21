@@ -2,7 +2,7 @@
   <article class="container-homepage-cover_story">
     <% if @cover_story.illustration.attached? %>
       <a title="<%= @cover_story.title %>" href="<%= article_path(@cover_story) %>" class="illustration">
-        <img src="<%= polymorphic_url(@cover_story.illustration, only_path: true) %>" alt="<%= @cover_story.title %>" />
+        <img src="<%= @cover_story.illustration.url %>" alt="<%= @cover_story.title %>" />
         <% if show_article_factcheck_video(@cover_story) %>
           <div class="factcheck-video-label">
             <img src="<%= asset_path("play-icon.svg") %>" class="factcheck-video-label-play-icon" alt="Spustit <%= article_factcheck_video_record_name(@cover_story) %>">
