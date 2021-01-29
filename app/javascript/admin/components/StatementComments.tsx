@@ -40,7 +40,7 @@ export default function StatementComments(props: IProps) {
   if (showStatements) {
     allStatements = (
       <div>
-        {data.statement.comments.slice(-3).map((comment) => (
+        {data.statement.comments.slice(0, data.statement.comments.length - 3).map((comment) => (
           <div key={comment.id} style={{ marginBottom: 15 }}>
             <strong>
               {comment.user.firstName} {comment.user.lastName}
@@ -94,22 +94,22 @@ export default function StatementComments(props: IProps) {
   return (
     <div>
       {data.statement.comments.length > 3 && (
-        <Button
-          minimal
+        <a
+          role="button"
           onClick={onClick}
           className={css`
-            margin-top: 7px;
+            display: block;
+            margin-top: 10px;
             margin-bottom: 10px;
           `}
         >
-          {' '}
           {textButtonHide}
-        </Button>
+        </a>
       )}
 
       {allStatements}
 
-      {data.statement.comments.slice(data.statement.comments.length - 3).map((comment) => (
+      {data.statement.comments.slice(-3).map((comment) => (
         <div key={comment.id} style={{ marginBottom: 15 }}>
           <strong>
             {comment.user.firstName} {comment.user.lastName}
@@ -230,7 +230,6 @@ const AddCommentForm = (props: IAddCommentFormProps) => {
                 )}
               </div>
               <Button
-                minimal
                 type="submit"
                 disabled={isSubmitting || values.content.trim() === ''}
                 text={isSubmitting ? 'Přidávám …' : 'Přidat komentář'}
