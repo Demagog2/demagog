@@ -6,10 +6,27 @@ test:
   service: Disk
   root: <%= Rails.root.join("tmp/storage") %>
 
-amazon:
+s3_private:
   service: S3
   access_key_id: <%= ENV["AMAZON_S3_ACCESS_KEY_ID"] %>
   secret_access_key: <%= ENV["AMAZON_S3_SECRET_ACCESS_KEY"] %>
   region: <%= ENV["AMAZON_S3_REGION"] %>
   bucket: <%= ENV["AMAZON_S3_BUCKET"] %>
   endpoint: <%= ENV["AMAZON_S3_ENDPOINT"] %>
+
+s3_public:
+  service: S3
+  access_key_id: <%= ENV["AMAZON_S3_PUBLIC_ACCESS_KEY_ID"] %>
+  secret_access_key: <%= ENV["AMAZON_S3_PUBLIC_SECRET_ACCESS_KEY"] %>
+  region: <%= ENV["AMAZON_S3_PUBLIC_REGION"] %>
+  bucket: <%= ENV["AMAZON_S3_PUBLIC_BUCKET"] %>
+  endpoint: <%= ENV["AMAZON_S3_PUBLIC_ENDPOINT"] %>
+  public: true
+  upload:
+    acl: "public-read"
+
+amazon:
+  service: Mirror
+  primary: s3_private
+  mirrors:
+    - s3_public
