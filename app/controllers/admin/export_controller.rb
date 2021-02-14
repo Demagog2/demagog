@@ -28,11 +28,11 @@ class Admin::ExportController < ApplicationController
 
   def statements_evaluation_process
     @statements = Statement.factual_and_published
-      .where('assessments.evaluator_first_assigned_at IS NOT NULL')
-      .where('assessments.evaluation_started_at IS NOT NULL')
-      .where('assessments.first_requested_approval_at IS NOT NULL')
-      .where('assessments.first_requested_proofreading_at IS NOT NULL')
-      .where('assessments.first_approved_at IS NOT NULL')
+      .where("assessments.evaluator_first_assigned_at IS NOT NULL")
+      .where("assessments.evaluation_started_at IS NOT NULL")
+      .where("assessments.first_requested_approval_at IS NOT NULL")
+      .where("assessments.first_requested_proofreading_at IS NOT NULL")
+      .where("assessments.first_approved_at IS NOT NULL")
 
     respond_to do |format|
       format.xlsx {
