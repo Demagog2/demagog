@@ -64,6 +64,8 @@ class Assessment < ApplicationRecord
   validates :veracity, absence: true, unless: Proc.new { |a| a.assessment_methodology.rating_model == AssessmentMethodology::RATING_MODEL_VERACITY }
   validates :promise_rating, absence: true, unless: Proc.new { |a| a.assessment_methodology.rating_model == AssessmentMethodology::RATING_MODEL_PROMISE_RATING }
 
+  before_save :record_evaluation_process_timestamps
+
   def approved?
     evaluation_status == STATUS_APPROVED
   end
@@ -246,4 +248,33 @@ class Assessment < ApplicationRecord
       end
     end
   end
+
+  private
+    def record_evaluation_process_timestamps
+      if !user_id.nil? && evaluator_first_assigned_at.nil?
+        self.evaluator_first_assigned_at = Time.now
+      end
+
+      if evaluation_status == Assessment::STATUS_APPROVAL_NEEDED && first_requested_approval_at.nil?
+        self.first_requested_approval_at = Time.now
+      end
+
+      if evaluation_status == Assessment::STATUS_PROOFREADING_NEEDED && first_requested_proofreading_at.nil?
+        self.first_requested_proofreading_at = Time.now
+      end
+
+      if evaluation_status == Assessment::STATUS_APPROVED && first_approved_at.nil?
+        self.first_approved_at = Time.now
+      end
+
+      is_updating_evaluation = short_explanation_changed? || explanation_html_changed? || veracity_id_changed? || promise_rating_id_changed?
+
+      if is_updating_evaluation && evaluation_started_at.nil?
+        self.evaluation_started_at = Time.now
+      end
+
+      if is_updating_evaluation
+        self.evaluation_ended_at = Time.now
+      end
+    end
 end

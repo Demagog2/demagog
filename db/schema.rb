@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_05_132552) do
+ActiveRecord::Schema.define(version: 2021_02_14_123655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,6 +113,12 @@ ActiveRecord::Schema.define(version: 2021_01_05_132552) do
     t.text "short_explanation"
     t.bigint "assessment_methodology_id", null: false
     t.bigint "promise_rating_id"
+    t.datetime "evaluator_first_assigned_at"
+    t.datetime "first_requested_approval_at"
+    t.datetime "first_requested_proofreading_at"
+    t.datetime "first_approved_at"
+    t.datetime "evaluation_started_at"
+    t.datetime "evaluation_ended_at"
     t.index ["assessment_methodology_id"], name: "index_assessments_on_assessment_methodology_id"
     t.index ["promise_rating_id"], name: "index_assessments_on_promise_rating_id"
     t.index ["statement_id"], name: "index_assessments_on_statement_id"
