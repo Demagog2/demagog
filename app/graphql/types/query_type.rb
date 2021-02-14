@@ -209,7 +209,7 @@ class Types::QueryType < GraphQL::Schema::Object
       statements.includes({ assessment: :veracity }, { speaker: :body }, { source: :medium })
 
     if args[:sort_sources_in_reverse_chronological_order]
-      statements = Statement.sort_statements_query(statements.reorder(''), sources_chronologically = false)
+      statements = Statement.sort_statements_query(statements.reorder(""), false)
     end
 
     statements
