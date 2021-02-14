@@ -2858,6 +2858,128 @@ export interface GetWebContentVariables {
 // @generated
 // This file was automatically generated and should not be edited.
 
+// ====================================================
+// GraphQL query operation: GetUserStatements
+// ====================================================
+
+export interface GetUserStatements_statements_source_medium {
+  __typename: "Medium";
+  id: string;
+  name: string;
+}
+
+export interface GetUserStatements_statements_source_mediaPersonalities {
+  __typename: "MediaPersonality";
+  id: string;
+  name: string;
+}
+
+export interface GetUserStatements_statements_source_experts {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetUserStatements_statements_source_speakers {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetUserStatements_statements_source {
+  __typename: "Source";
+  id: string;
+  name: string;
+  sourceUrl: string | null;
+  releasedAt: string | null;
+  medium: GetUserStatements_statements_source_medium | null;
+  mediaPersonalities: GetUserStatements_statements_source_mediaPersonalities[] | null;
+  experts: GetUserStatements_statements_source_experts[] | null;
+  speakers: GetUserStatements_statements_source_speakers[] | null;
+}
+
+export interface GetUserStatements_statements_speaker {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+  avatar: string | null;
+}
+
+export interface GetUserStatements_statements_assessment_evaluator {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetUserStatements_statements_assessment_veracity {
+  __typename: "Veracity";
+  id: string;
+  key: GraphQLCustomScalar_VeracityKey;
+  name: string;
+}
+
+export interface GetUserStatements_statements_assessment_promiseRating {
+  __typename: "PromiseRating";
+  id: string;
+  key: PromiseRatingKey;
+  name: string;
+}
+
+export interface GetUserStatements_statements_assessment {
+  __typename: "Assessment";
+  id: string;
+  evaluationStatus: string;
+  evaluator: GetUserStatements_statements_assessment_evaluator | null;
+  veracity: GetUserStatements_statements_assessment_veracity | null;
+  promiseRating: GetUserStatements_statements_assessment_promiseRating | null;
+  shortExplanation: string | null;
+  shortExplanationCharactersLength: number;
+  explanationCharactersLength: number;
+}
+
+export interface GetUserStatements_statements_tags {
+  __typename: "Tag";
+  id: string;
+  name: string;
+}
+
+export interface GetUserStatements_statements {
+  __typename: "Statement";
+  id: string;
+  statementType: StatementType;
+  content: string;
+  title: string | null;
+  important: boolean;
+  published: boolean;
+  source: GetUserStatements_statements_source;
+  speaker: GetUserStatements_statements_speaker;
+  assessment: GetUserStatements_statements_assessment;
+  tags: GetUserStatements_statements_tags[];
+  commentsCount: number;
+  sourceOrder: number | null;
+}
+
+export interface GetUserStatements {
+  statements: GetUserStatements_statements[];
+}
+
+export interface GetUserStatementsVariables {
+  limit?: number | null;
+  offset?: number | null;
+  includeUnpublished?: boolean | null;
+  evaluatedByUserId?: string | null;
+  sortSourcesInReverseChronologicalOrder?: boolean | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
 //==============================================================
 // START Enums and Input Objects
 //==============================================================

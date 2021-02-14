@@ -1084,6 +1084,26 @@
                   "ofType": null
                 },
                 "defaultValue": "false"
+              },
+              {
+                "name": "evaluatedByUserId",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "sortSourcesInReverseChronologicalOrder",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                },
+                "defaultValue": "false"
               }
             ],
             "type": {
@@ -10064,7 +10084,9 @@
         "description": "Marks an element of a GraphQL schema as no longer supported.",
         "locations": [
           "FIELD_DEFINITION",
-          "ENUM_VALUE"
+          "ENUM_VALUE",
+          "ARGUMENT_DEFINITION",
+          "INPUT_FIELD_DEFINITION"
         ],
         "args": [
           {

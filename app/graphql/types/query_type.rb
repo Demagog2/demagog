@@ -171,12 +171,14 @@ class Types::QueryType < GraphQL::Schema::Object
     argument :speaker, Int, required: false
     argument :veracity, Types::VeracityKeyType, required: false
     argument :include_unpublished, Boolean, required: false, default_value: false
+    argument :evaluated_by_user_id, ID, required: false
+    argument :sort_sources_in_reverse_chronological_order, Boolean, required: false, default_value: false
   end
 
   def statements(args)
     if args[:include_unpublished]
       # Public cannot access unpublished statements
-      raise Errors::AuthenticationNeededError.new unless context[:current_user]
+      Utils::Auth.authenticate(context)
 
       statements = Statement.ordered
     else
@@ -191,6 +193,13 @@ class Types::QueryType < GraphQL::Schema::Object
       statements = statements.joins(:veracity).where(veracities: { key: args[:veracity] })
     end
 
+    if args[:evaluated_by_user_id]
+      # Public cannot filter by evaluator
+      Utils::Auth.authenticate(context)
+
+      statements = statements.joins(:assessment).where(assessments: { user_id: args[:evaluated_by_user_id] })
+    end
+
     # Include these basics as they are part of most of queries for statements
     # and seriously speed those queries
     #
@@ -198,6 +207,10 @@ class Types::QueryType < GraphQL::Schema::Object
     # See https://graphql-ruby.org/queries/lookahead.html
     statements =
       statements.includes({ assessment: :veracity }, { speaker: :body }, { source: :medium })
+
+    if args[:sort_sources_in_reverse_chronological_order]
+      statements = Statement.sort_statements_query(statements.reorder(''), sources_chronologically = false)
+    end
 
     statements
   end

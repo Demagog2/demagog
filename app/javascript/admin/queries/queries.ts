@@ -701,3 +701,86 @@ export const GetWebContent = gql`
     }
   }
 `;
+
+export const GetUserStatements = gql`
+  query GetUserStatements(
+    $limit: Int
+    $offset: Int
+    $includeUnpublished: Boolean
+    $evaluatedByUserId: ID
+    $sortSourcesInReverseChronologicalOrder: Boolean
+  ) {
+    statements(
+      limit: $limit
+      offset: $offset
+      includeUnpublished: $includeUnpublished
+      evaluatedByUserId: $evaluatedByUserId
+      sortSourcesInReverseChronologicalOrder: $sortSourcesInReverseChronologicalOrder
+    ) {
+      id
+      statementType
+      content
+      title
+      important
+      published
+      source {
+        id
+        name
+        sourceUrl
+        releasedAt
+        medium {
+          id
+          name
+        }
+        mediaPersonalities {
+          id
+          name
+        }
+        experts {
+          id
+          firstName
+          lastName
+        }
+        speakers {
+          id
+          firstName
+          lastName
+        }
+      }
+      speaker {
+        id
+        firstName
+        lastName
+        avatar
+      }
+      assessment {
+        id
+        evaluationStatus
+        evaluator {
+          id
+          firstName
+          lastName
+        }
+        veracity {
+          id
+          key
+          name
+        }
+        promiseRating {
+          id
+          key
+          name
+        }
+        shortExplanation
+        shortExplanationCharactersLength
+        explanationCharactersLength
+      }
+      tags {
+        id
+        name
+      }
+      commentsCount
+      sourceOrder
+    }
+  }
+`;

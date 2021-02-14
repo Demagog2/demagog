@@ -30,18 +30,7 @@ class Statement < ApplicationRecord
   }
 
   scope :ordered, -> {
-    kept
-      .left_outer_joins(
-        # Doing left outer join so it returns also statements without transcript position
-        :statement_transcript_position
-      )
-      .order(
-        "statements.source_id ASC",
-        Arel.sql("source_order ASC NULLS LAST"),
-        Arel.sql("statement_transcript_positions.start_line ASC NULLS LAST"),
-        Arel.sql("statement_transcript_positions.start_offset ASC NULLS LAST"),
-        "excerpted_at ASC"
-      )
+    Statement.sort_statements_query(kept)
   }
 
   scope :published, -> {
@@ -138,6 +127,24 @@ class Statement < ApplicationRecord
       .limit(4)
       .includes(:speaker)
       .where(important: true)
+  end
+
+  def self.sort_statements_query(query, sources_chronologically = true)
+    query
+      .joins(:source)
+      .left_outer_joins(
+        # Doing left outer join so it returns also statements without transcript position
+        :statement_transcript_position
+      )
+      .order(
+        "sources.released_at #{sources_chronologically ? 'ASC' : 'DESC'}",
+
+        # Inside source we keep always the same order
+        Arel.sql("source_order ASC NULLS LAST"),
+        Arel.sql("statement_transcript_positions.start_line ASC NULLS LAST"),
+        Arel.sql("statement_transcript_positions.start_offset ASC NULLS LAST"),
+        "excerpted_at ASC"
+      )
   end
 
   # @return [Assessment]
