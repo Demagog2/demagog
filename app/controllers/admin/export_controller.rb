@@ -21,7 +21,22 @@ class Admin::ExportController < ApplicationController
 
     respond_to do |format|
       format.xlsx {
-        response.headers["Content-Disposition"] = 'attachment; filename="Řečníci na Demagog.cz.xlsx"'
+        response.headers["Content-Disposition"] = 'attachment; filename="Demagog_cz - Řečníci a jejich počty výroků.xlsx"'
+      }
+    end
+  end
+
+  def statements_evaluation_process
+    @statements = Statement.factual_and_published
+      .where('assessments.evaluator_first_assigned_at IS NOT NULL')
+      .where('assessments.evaluation_started_at IS NOT NULL')
+      .where('assessments.first_requested_approval_at IS NOT NULL')
+      .where('assessments.first_requested_proofreading_at IS NOT NULL')
+      .where('assessments.first_approved_at IS NOT NULL')
+
+    respond_to do |format|
+      format.xlsx {
+        response.headers["Content-Disposition"] = 'attachment; filename="Demagog_cz - Výroky s čísly o délce ověřování.xlsx"'
       }
     end
   end

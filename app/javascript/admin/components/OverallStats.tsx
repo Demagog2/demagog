@@ -81,6 +81,23 @@ const OverallStats = () => {
             Export řečníků s počty výroků do Excelu
           </a>
         </p>
+
+        <h3
+          className={cx(
+            Classes.HEADING,
+            css`
+              margin-top: 20px;
+            `,
+          )}
+        >
+          Délka ověřování
+        </h3>
+
+        <p>
+          <a href="/admin/export/statements-evaluation-process.xlsx" className={Classes.BUTTON}>
+            Export výroků se statistikami o délce ověřování
+          </a>
+        </p>
       </div>
     </>
   );

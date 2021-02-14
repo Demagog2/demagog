@@ -40,5 +40,8 @@ module Demagog
     # see https://mattbrictson.com/dynamic-rails-error-pages
     # or https://pooreffort.com/blog/custom-rails-error-pages/
     config.exceptions_app = self.routes
+
+    # Default time zone
+    config.time_zone = 'Europe/Prague'
   end
 end

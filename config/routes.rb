@@ -45,6 +45,7 @@ Rails.application.routes.draw do
     # Exports
     post "/export/mail-factual-statements" => "export#mail_factual_statements"
     get "/export/speakers" => "export#speakers"
+    get "/export/statements-evaluation-process" => "export#statements_evaluation_process"
 
     # Misc
     post "/article/generate-illustration-image-for-tweet" => "article#generate_illustration_image_for_tweet", defaults: { format: "json" }, constraints: { format: "json" }

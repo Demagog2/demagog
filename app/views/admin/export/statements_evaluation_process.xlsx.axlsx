@@ -1,0 +1,64 @@
+# frozen_string_literal: true
+
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Výroky") do |sheet|
+  sheet.add_row [
+    "ID výroku",
+    "Výrok",
+    "Řečník",
+    "Diskuze",
+    "Diskuze ze dne",
+    "Článek s ověřením publikován",
+    "Dní od diskuze k publikaci",
+    "Ověřovatel/ka",
+
+    "Datum a čas vytvoření výroku",
+    
+    "Datum a čas prvního přiřazení k ověření",
+    "Minut k prvnímu přiřazení k ověření",
+    
+    "Datum a čas první práce na odůvodnění",
+    "Minut k první práci na odůvodnění",
+
+    "Datum a čas prvního přesunutí ke kontrole",
+    "Minut k prvnímu přesunutí ke kontrole",
+
+    "Datum a čas prvního přesunutí ke korektuře",
+    "Minut k prvnímu přesunutí ke korektuře",
+
+    "Datum a čas prvního schválení",
+    "Minut k prvnímu schválení",
+  ]
+
+  @statements.each do |statement|
+    article = statement.mentioning_articles[0]
+
+    sheet.add_row [
+      statement.id,
+      statement.content,
+      statement.speaker.first_name + ' ' + statement.speaker.last_name,
+      statement.source.name,
+      statement.source.released_at.strftime('%F'),
+      article ? article.published_at.strftime('%F') : nil,
+      article ? (article.published_at.to_date - statement.source.released_at.to_date).round : nil,
+      statement.assessment.evaluator ? statement.assessment.evaluator.first_name + ' ' + statement.assessment.evaluator.last_name : nil,
+
+      statement.created_at.strftime('%F %T'),
+      
+      statement.assessment.evaluator_first_assigned_at.strftime('%F %T'),
+      ((statement.assessment.evaluator_first_assigned_at - statement.created_at) / 60).round,
+      
+      statement.assessment.evaluation_started_at.strftime('%F %T'),
+      ((statement.assessment.evaluation_started_at - statement.assessment.evaluator_first_assigned_at) / 60).round,
+      
+      statement.assessment.first_requested_approval_at.strftime('%F %T'),
+      ((statement.assessment.first_requested_approval_at - statement.assessment.evaluation_started_at) / 60).round,
+      
+      statement.assessment.first_requested_proofreading_at.strftime('%F %T'),
+      ((statement.assessment.first_requested_proofreading_at - statement.assessment.first_requested_approval_at) / 60).round,
+      
+      statement.assessment.first_approved_at.strftime('%F %T'),
+      ((statement.assessment.first_approved_at - statement.assessment.first_requested_proofreading_at) / 60).round
+    ]
+  end
+end
