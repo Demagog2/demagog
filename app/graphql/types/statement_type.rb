@@ -18,13 +18,15 @@ module Types
     field :tags, [Types::TagType], null: false
 
     field :comments, [Types::CommentType], null: false, resolve: ->(obj, args, ctx) do
-      raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+      # Public cannot access comments
+      Utils::Auth.authenticate(ctx)
 
       obj.comments.ordered
     end
 
     field :comments_count, Int, null: false, resolve: ->(obj, args, ctx) do
-      raise Errors::AuthenticationNeededError.new unless ctx[:current_user]
+      # Public cannot access comments
+      Utils::Auth.authenticate(ctx)
 
       obj.comments.size
     end
