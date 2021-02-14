@@ -189,7 +189,7 @@ class Statement < ApplicationRecord
   end
 
   def mentioning_articles
-    Article.kept.joins(:segments)
+    Article.published.joins(:segments)
       .where(article_segments: { source_id: source.id })
       .or(Article.where(article_segments: { statement_id: id }))
       .distinct.order(published_at: :desc)
