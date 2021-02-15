@@ -46,19 +46,47 @@ wb.add_worksheet(name: "Výroky") do |sheet|
       statement.created_at.strftime("%F %T"),
 
       statement.assessment.evaluator_first_assigned_at.strftime("%F %T"),
-      ((statement.assessment.evaluator_first_assigned_at - statement.created_at) / 60).round,
+      @statements_stats[statement.id][:evaluator_first_assigned_mins],
 
       statement.assessment.evaluation_started_at.strftime("%F %T"),
-      ((statement.assessment.evaluation_started_at - statement.assessment.evaluator_first_assigned_at) / 60).round,
+      @statements_stats[statement.id][:evaluation_started_mins],
 
       statement.assessment.first_requested_approval_at.strftime("%F %T"),
-      ((statement.assessment.first_requested_approval_at - statement.assessment.evaluation_started_at) / 60).round,
+      @statements_stats[statement.id][:first_requested_approval_mins],
 
       statement.assessment.first_requested_proofreading_at.strftime("%F %T"),
-      ((statement.assessment.first_requested_proofreading_at - statement.assessment.first_requested_approval_at) / 60).round,
+      @statements_stats[statement.id][:first_requested_proofreading_mins],
 
       statement.assessment.first_approved_at.strftime("%F %T"),
-      ((statement.assessment.first_approved_at - statement.assessment.first_requested_proofreading_at) / 60).round
+      @statements_stats[statement.id][:first_approved_mins]
+    ]
+  end
+end
+
+wb.add_worksheet(name: "Diskuze") do |sheet|
+  sheet.add_row [
+    "Diskuze",
+    "Diskuze ze dne",
+
+    "Průměrně hodin k prvnímu přiřazení k ověření",
+    "Průměrně hodin k první práci na odůvodnění",
+    "Průměrně hodin k prvnímu přesunutí ke kontrole",
+    "Průměrně hodin k prvnímu přesunutí ke korektuře",
+    "Průměrně hodin k prvnímu schválení",
+  ]
+
+  @sources_stats.each do |item|
+    source = item[:source]
+
+    sheet.add_row [
+      source.name,
+      source.released_at.strftime("%F"),
+
+      item[:evaluator_first_assigned_mins] / 60,
+      item[:evaluation_started_mins] / 60,
+      item[:first_requested_approval_mins] / 60,
+      item[:first_requested_proofreading_mins] / 60,
+      item[:first_approved_mins] / 60
     ]
   end
 end
