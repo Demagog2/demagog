@@ -27,6 +27,6 @@ s3_public:
 
 amazon:
   service: Mirror
-  primary: s3_private
+  primary: s3_public
   mirrors:
-    - s3_public
+    - s3_private
