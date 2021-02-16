@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Dialog } from '@blueprintjs/core';
 
-import bodyLogoPlaceholder from 'admin/images/body_logo_placeholder.png';
+import bodyLogoPlaceholder from '../../images/body_logo_placeholder.png';
 import ArticleIllustration from './ArticleIllustration';
 
 const PREVIEW_WIDTH_SIZE = '80vw';

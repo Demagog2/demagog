@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Colors } from '@blueprintjs/core';
 
-import bodyLogoPlaceholder from 'admin/images/body_logo_placeholder.png';
+import bodyLogoPlaceholder from '../images/body_logo_placeholder.png';
 
 interface IBodyLogoProps {
   logo: string | null;
