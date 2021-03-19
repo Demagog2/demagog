@@ -285,15 +285,15 @@ class SourceDetail extends React.Component<IProps, IState> {
                 <span>
                   {source.medium?.name} ze dne{' '}
                   {source.releasedAt ? displayDate(source.releasedAt) : 'neuvedeno'}
-                  {source.mediaPersonalities?.length && (
-                    <>, {source.mediaPersonalities?.map((p) => p.name).join(' & ')}</>
+                  {source.mediaPersonalities && source.mediaPersonalities.length > 0 && (
+                    <>, {source.mediaPersonalities.map((p) => p.name).join(' & ')}</>
                   )}
                   {source.sourceUrl && (
                     <>
                       , <a href={source.sourceUrl}>odkaz</a>
                     </>
                   )}
-                  {source.experts?.length && (
+                  {source.experts && source.experts.length > 0 && (
                     <>
                       <br />
                       {source.experts.length === 1 ? 'Editor: ' : 'Editoři: '}
