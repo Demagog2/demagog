@@ -56,8 +56,10 @@ module Types
       statements
     end
 
-    field :statements_counts_by_evaluation_status, [StatementsCountsByEvaluationStatusItemType], null: false, resolve: ->(obj, args, ctx) {
-      grouped = obj.statements.includes(:assessment).group_by do |statement|
+    field :statements_counts_by_evaluation_status, [StatementsCountsByEvaluationStatusItemType], null: false
+
+    def statements_counts_by_evaluation_status
+      grouped = object.statements.includes(:assessment).group_by do |statement|
         statement.assessment.evaluation_status
       end
 
@@ -67,7 +69,7 @@ module Types
           statements_count: grouped[evaluation_status].size
         }
       end
-    }
+    end
 
     def internal_stats
       raise Errors::AuthenticationNeededError.new unless context[:current_user]

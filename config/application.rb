@@ -32,10 +32,6 @@ module Demagog
     # Needed to be able to use JSON type in GraphQL
     config.action_controller.permit_all_parameters = true
 
-    # Setup error logging to Sentry.io (DSN is set via SENTRY_DSN environment
-    # variable)
-    Raven.configure
-
     # We are using dynamic error pages,
     # see https://mattbrictson.com/dynamic-rails-error-pages
     # or https://pooreffort.com/blog/custom-rails-error-pages/
