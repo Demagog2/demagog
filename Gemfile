@@ -68,7 +68,8 @@ gem "prometheus_exporter"
 gem "config", "~> 2.2.1"
 
 # Authentication
-gem "devise", "~> 4.7.1"
+# Return back to specific version when changes around using OmniAuth v2 are released, see https://github.com/heartcombo/devise/pull/5327
+gem "devise", github: "heartcombo/devise", branch: "master"
 
 # Enables devise & omniauth to authenticate against Google OAuth 2
 gem "omniauth-google-oauth2"
@@ -108,7 +109,9 @@ gem "htmlbeautifier"
 # Add skylight profiler
 # gem "skylight"
 
-gem "sentry-raven"
+gem "sentry-ruby"
+gem "sentry-rails"
+gem "sentry-sidekiq"
 
 # Add elasticsearch integration
 gem "elasticsearch-model", "~> 7.0.0"

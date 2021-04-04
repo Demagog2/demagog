@@ -17,18 +17,22 @@ module Types
     field :published, Boolean, null: false
     field :tags, [Types::TagType], null: false
 
-    field :comments, [Types::CommentType], null: false, resolve: ->(obj, args, ctx) do
-      # Public cannot access comments
-      Utils::Auth.authenticate(ctx)
+    field :comments, [Types::CommentType], null: false
 
-      obj.comments.ordered
+    def comments
+      # Public cannot access comments
+      Utils::Auth.authenticate(context)
+
+      object.comments.ordered
     end
 
-    field :comments_count, Int, null: false, resolve: ->(obj, args, ctx) do
-      # Public cannot access comments
-      Utils::Auth.authenticate(ctx)
+    field :comments_count, Int, null: false
 
-      obj.comments.size
+    def comments_count
+      # Public cannot access comments
+      Utils::Auth.authenticate(context)
+
+      object.comments.size
     end
   end
 end
