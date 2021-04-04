@@ -73,6 +73,7 @@ gem "devise", github: "heartcombo/devise", branch: "master"
 
 # Enables devise & omniauth to authenticate against Google OAuth 2
 gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"
 
 # Use redis for store layer
 gem "redis", "~> 4.0", ">= 4.0.1"
