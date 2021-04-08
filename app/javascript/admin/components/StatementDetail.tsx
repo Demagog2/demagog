@@ -748,7 +748,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                                 className={Classes.LABEL}
                                 style={{ flex: '1' }}
                               >
-                                Zvěřejněný
+                                Zveřejněný
                               </label>
                               <div className={Classes.FORM_CONTENT} style={{ flex: '2' }}>
                                 <div style={{ display: 'inline-block' }}>
