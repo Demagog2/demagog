@@ -9,7 +9,8 @@
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
-server "188.226.140.217", user: "rails", port: 22, roles: [:web, :app, :db], primary: true
+server "188.226.140.217", user: "rails", port: 22, roles: [:web, :app], primary: true
+server "82.196.15.81",    user: "rails", port: 22, roles: [:web, :app]
 
 # role-based syntax
 # ==================
@@ -31,7 +32,6 @@ server "188.226.140.217", user: "rails", port: 22, roles: [:web, :app, :db], pri
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-
 
 
 # Custom SSH Options
