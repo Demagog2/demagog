@@ -127,6 +127,9 @@ gem "tty-prompt"
 # Datadog integration
 gem "ddtrace"
 
+# Production logging
+gem "lograge"
+
 gem "addressable"
 
 gem "caxlsx"
