@@ -11,4 +11,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       redirect_to admin_path
     end
   end
+
+  def failure
+    redirect_to admin_path
+  end
 end
