@@ -21,29 +21,32 @@ const articleStatementsQuery = gql`
         videoType
         videoId
       }
-      statements {
-        id
-        content
-        important
-        statementVideoMark {
-          start
-          stop
-        }
-        assessment {
+      segments {
+        segmentType
+        statements {
           id
-          veracity {
-            id
-            key
-            name
+          content
+          important
+          statementVideoMark {
+            start
+            stop
           }
-          shortExplanation
-          explanationHtml
-        }
-        speaker {
-          id
-          firstName
-          lastName
-          avatar
+          assessment {
+            id
+            veracity {
+              id
+              key
+              name
+            }
+            shortExplanation
+            explanationHtml
+          }
+          speaker {
+            id
+            firstName
+            lastName
+            avatar
+          }
         }
       }
     }
@@ -107,9 +110,16 @@ function ArticleFactcheckVideoApp(props: IProps) {
     recordName = 'audiozáznam';
   }
 
+  let statements: IArticleStatementsQueryResult['article']['segments'][0]['statements'] = [];
+  if (article.segments.length > 0 && article.segments[0].segmentType === 'source_statements') {
+    statements = article.segments[0].statements;
+  }
+
   return (
     <>
-      {isPlayerOpen && article && <Player article={article} onRequestClose={closePlayer} />}
+      {isPlayerOpen && article && (
+        <Player article={article} statements={statements} onRequestClose={closePlayer} />
+      )}
       <div
         className={css`
           position: relative;
