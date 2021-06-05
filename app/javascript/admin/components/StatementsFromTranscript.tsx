@@ -18,6 +18,7 @@ import SlatePlainSerializer from 'slate-plain-serializer';
 import { Editor, RenderMarkProps } from 'slate-react';
 
 import { isAuthorized } from '../authorization';
+import { STATEMENT_TYPES } from '../constants';
 import {
   CreateStatement as CreateStatementMutation,
   CreateStatementInput,
@@ -129,8 +130,9 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                 <h2 className={Classes.HEADING}>{source.name}</h2>
 
                 <span>
-                  {source.medium.name} ze dne {displayDate(source.releasedAt)}
-                  {source.mediaPersonalities.length > 0 && (
+                  {source.medium?.name} ze dne{' '}
+                  {source.releasedAt ? displayDate(source.releasedAt) : 'neuvedeno'}
+                  {source.mediaPersonalities?.length && (
                     <>, {source.mediaPersonalities.map((p) => p.name).join(' & ')}</>
                   )}
                   {source.sourceUrl && (
@@ -138,10 +140,10 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                       , <a href={source.sourceUrl}>odkaz</a>
                     </>
                   )}
-                  {source.experts.length > 0 && (
+                  {source.experts?.length && (
                     <>
                       <br />
-                      Experti:{' '}
+                      Editoři:{' '}
                       {source.experts
                         .map((expert) => `${expert.firstName} ${expert.lastName}`)
                         .join(', ')}
@@ -755,20 +757,10 @@ const removeDecorationsWithMarkType = (
   }) as Immutable.List<Slate.Decoration>;
 };
 
-const STATEMENT_TYPE_OPTIONS = [
-  {
-    label: 'Faktický',
-    value: StatementType.factual,
-  },
-  {
-    label: 'Slib',
-    value: StatementType.promise,
-  },
-  {
-    label: 'Silvestrovský',
-    value: StatementType.newyears,
-  },
-];
+const STATEMENT_TYPE_OPTIONS = Object.keys(STATEMENT_TYPES).map((statementType) => ({
+  label: STATEMENT_TYPES[statementType],
+  value: statementType,
+}));
 
 const mapStateToProps = (state: ReduxState) => ({
   isAuthorized: isAuthorized(state.currentUser.user),

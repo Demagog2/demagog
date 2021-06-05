@@ -14,6 +14,7 @@ Role.find_or_create_by!(key: "intern", name: "Stážista")
 
 ArticleType.find_or_create_by!(name: "default")
 ArticleType.find_or_create_by!(name: "static")
+ArticleType.find_or_create_by!(name: "single_statement")
 
 Veracity.find_or_create_by!(key: Veracity::TRUE, name: "Pravda")
 Veracity.find_or_create_by!(key: Veracity::UNTRUE, name: "Nepravda")

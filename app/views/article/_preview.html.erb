@@ -1,52 +1,77 @@
-<article class="preview s-article <% unless article.illustration.attached? %>without-illustration<% end %>">
-  <% if article.illustration.attached? %>
-    <a title="<%= article.title %>" href="<%= article_path(article) %>" class="illustration">
-      <img class="lazy-load" data-src="<%= url_for(article.illustration) %>">
-      <% if show_article_factcheck_video(article) %>
-        <div class="factcheck-video-label">
-          <img src="<%= asset_path("play-icon.svg") %>" class="factcheck-video-label-play-icon" alt="Spustit videozáznam">
-          <span class="factcheck-video-label-text">Videozáznam propojený s ověřením</span>
-        </div>
-      <% end %>
-    </a>
-  <% end %>
+<article class="preview s-article">
+  <a title="<%= article.title %>" href="<%= article_path(article) %>" class="illustration">
+    <% if article.illustration.attached? %>
+      <img class="lazy-load" data-src="<%= url_for(article.illustration) %>" alt="Ilustrační obrázek k výstupu <%= article.title %>">
+    <% else %>
+      <img src="<%= asset_path("article-illustration-default-preview.svg") %>" alt="Ilustrační obrázek k výstupu <%= article.title %>">
+    <% end %>
+    <% if show_article_factcheck_video(article) %>
+      <div class="factcheck-video-label">
+        <img src="<%= asset_path("play-icon.svg") %>" class="factcheck-video-label-play-icon" alt="Spustit <%= article_factcheck_video_record_name(article) %>">
+        <span class="factcheck-video-label-text"><%= article_factcheck_video_record_name(article).capitalize %> propojený s ověřením</span>
+      </div>
+    <% end %>
+  </a>
 
   <div class="rest">
     <div class="speakers">
+      <% if article.article_type.name == ArticleType::DEFAULT %>
         <% for speaker in article.unique_speakers %>
           <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
         <% end %>
+      <% end %>
+      <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
+        <%= render(partial: 'shared/portrait', object: article.single_statement.speaker, as: :speaker) %>
+      <% end %>
     </div>
 
     <h2 class="s-title"><%= link_to(article.title, article_path(article), class: "title") %></h2>
 
     <p class="clickthrough">
-      <span class="label <%= article.article_type.name == "default" ? "factcheck" : "editorial" %>">
-        <% if article.article_type.name == "default" %>
-            Ověřeno
-        <% end %>
-        <% if article.article_type.name == "static" %>
-            Komentář
-        <% end %>
-      </span>
-
-      <% if article.article_type.name == "default" && article.source %>
+      <% if article.article_type.name == ArticleType::DEFAULT %>
+        <span class="label factcheck">Ověřeno</span>
+        <% if article.source %>
           <i><%= article.source.medium.name %>, <%= raw(l(article.source.released_at, format: :long)) %></i>
+        <% end %>
       <% end %>
 
-      <% if article.article_type.name == "static" %>
+      <% if article.article_type.name == ArticleType::STATIC %>
+        <span class="label editorial">Komentář</span>
+        <i><%= raw(l(article.published_at, format: :long)) %></i>
+      <% end %>
+
+      <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
+        <span class="label veracity <%= article.single_statement.approved_assessment.veracity.default_name %>">
+          <%= article.single_statement.approved_assessment.veracity.name %>
+        </span>
+        <i><%= article.single_statement.source.medium.name %>, <%= raw(l(article.single_statement.source.released_at, format: :long)) %></i>
+      <% end %>
+
+      <% if article.article_type.name == ArticleType::FACEBOOK_FACTCHECK %>
+        <span class="label facebook-factcheck">Facebook factcheck</span>
         <i><%= raw(l(article.published_at, format: :long)) %></i>
       <% end %>
 
       <% if article.perex %>
         &mdash;
-
         <%= strip_tags(article.perex).truncate(230) %>
       <% end %>
 
-      <a href="<%= article_path(article) %>">
+      <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
+        &mdash;
+        „<%= article.single_statement.content.strip %>“
+      <% end %>
+
+      <% if article.article_type.name == ArticleType::DEFAULT || article.article_type.name == ArticleType::STATIC || article.article_type.name == ArticleType::FACEBOOK_FACTCHECK %>
+        <a href="<%= article_path(article) %>">
           <span>Číst&nbsp;dál&nbsp;&rarr;</span>
-      </a>
+        </a>
+      <% end %>
+      <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
+        <a href="<%= statement_path(article.single_statement) %>">
+          <span>Číst&nbsp;odůvodnění&nbsp;&rarr;</span>
+        </a>
+      <% end %>
     </p>
   </div>
 </article>

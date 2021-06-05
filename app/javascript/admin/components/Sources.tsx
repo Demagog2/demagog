@@ -115,7 +115,7 @@ class Sources extends React.Component<{}, IState> {
                         <th scope="col" style={{ width: '50%' }}>
                           Diskuze
                         </th>
-                        <th scope="col">Experti</th>
+                        <th scope="col">Editoři</th>
                         <th scope="col">
                           Výroky
                           <br />
@@ -145,10 +145,14 @@ class Sources extends React.Component<{}, IState> {
                             <td>
                               <div className={Classes.TEXT_LARGE}>{source.name}</div>
                               <div className={Classes.TEXT_MUTED} style={{ marginTop: 5 }}>
-                                {source.medium.name} ze dne {displayDate(source.releasedAt)}
-                                {source.mediaPersonalities.length > 0 && (
-                                  <>, {source.mediaPersonalities.map((p) => p.name).join(' & ')}</>
-                                )}
+                                {source.medium?.name} ze dne{' '}
+                                {source.releasedAt ? displayDate(source.releasedAt) : 'neuvedeno'}
+                                {source.mediaPersonalities &&
+                                  source.mediaPersonalities.length > 0 && (
+                                    <>
+                                      , {source.mediaPersonalities?.map((p) => p.name).join(' & ')}
+                                    </>
+                                  )}
                                 {source.sourceUrl && (
                                   <>
                                     , <a href={source.sourceUrl}>odkaz</a>
@@ -158,9 +162,9 @@ class Sources extends React.Component<{}, IState> {
                             </td>
                             <td>
                               {source.experts
-                                .map((expert) => `${expert.firstName} ${expert.lastName}`)
+                                ?.map((expert) => `${expert.firstName} ${expert.lastName}`)
                                 .join(', ')}
-                              {source.experts.length === 0 && (
+                              {source.experts && source.experts.length === 0 && (
                                 <span className={Classes.TEXT_MUTED}>Nepřiřazení</span>
                               )}
                             </td>

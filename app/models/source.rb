@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
+require "addressable/uri"
+require "nokogiri"
+
 class Source < ApplicationRecord
   include Discardable
 
-  enum video_type: { facebook: "facebook", youtube: "youtube" }
+  enum video_type: { facebook: "facebook", youtube: "youtube", audio: "audio" }
   has_many :article_segments
   has_many :statements
   has_many :statement_video_marks
@@ -48,5 +51,48 @@ class Source < ApplicationRecord
       statements.reload
       self
     end
+  end
+
+  def internal_stats
+    all_links = []
+
+    statements.published.each do |statement|
+      doc = Nokogiri::HTML(statement.assessment.explanation_html)
+      links = doc.css("a")
+
+      links.each do |link|
+        all_links.push({
+          statement: statement,
+          host: Addressable::URI.parse(link["href"].strip).host,
+          link: link["href"].strip
+        })
+      end
+    end
+
+    grouped_by_link = {}
+    all_links.each do |link|
+      grouped_by_link[link[:link]] = 0 unless grouped_by_link.key?(link[:link])
+      grouped_by_link[link[:link]] += 1
+    end
+    grouped_by_link = grouped_by_link.map do |link, count|
+      { link: link, count: count }
+    end
+    grouped_by_link = grouped_by_link.sort_by { |item| -item[:count] }
+
+    grouped_by_host = {}
+    all_links.each do |link|
+      grouped_by_host[link[:host]] = 0 unless grouped_by_host.key?(link[:host])
+      grouped_by_host[link[:host]] += 1
+    end
+    grouped_by_host = grouped_by_host.map do |host, count|
+      { host: host, count: count }
+    end
+    grouped_by_host = grouped_by_host.sort_by { |item| -item[:count] }
+
+    {
+      all_links_count: all_links.size,
+      grouped_by_link: grouped_by_link,
+      grouped_by_host: grouped_by_host
+    }
   end
 end

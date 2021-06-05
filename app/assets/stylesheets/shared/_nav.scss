@@ -159,7 +159,7 @@
 
       li.menu-item {
         display: block;
-        margin: 0 1.25rem;
+        margin: 0 1rem;
 
         > button {
           display: block;
@@ -182,10 +182,19 @@
           }
         }
 
+        > a {
+          font-family: var(--font-family);
+          font-size: var(--medium-typesize);
+          color: var(--violet);
+          text-decoration: none;
+
+          &:hover, &:focus {
+            color: var(--orange);
+          }
+        }
+
         &.menu-item-donate {
-          a {
-            font-family: var(--font-family);
-            font-size: var(--medium-typesize);
+          > a {
             font-weight: bold;
             color: var(--orange);
 

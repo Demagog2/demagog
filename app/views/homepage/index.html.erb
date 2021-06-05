@@ -3,14 +3,14 @@
 
 <% if @interesting_statements %>
   <%= render partial: "interesting_statements" %>
-  <%= render partial: "darujme" %>
+  <%= render partial: "homepage_donate_and_subscribe" %>
 <% end %>
 
 <% if @page_number %>
-  <p class="full-width"><b>Strana <%= @page_number %></b> z archivu článků:</p>
+  <p class="full-width"><b>Strana <%= @page_number %></b> z archivu výstupů:</p>
 <% end %>
 
-<% @articles.drop(1).each do |article| %>
+<% @articles.each do |article| %>
   <%= render partial: "article/preview", object: article, as: :article %>
 <% end %>
 

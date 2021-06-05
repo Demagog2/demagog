@@ -4,7 +4,7 @@ module Types
   class ArticleInputType < GraphQL::Schema::InputObject
     argument :article_type, String, required: true
     argument :title, String, required: true
-    argument :perex, String, required: true
+    argument :perex, String, required: false
     argument :segments, [Types::ArticleSegmentInputType], required: true
 
     argument :slug, String, required: false

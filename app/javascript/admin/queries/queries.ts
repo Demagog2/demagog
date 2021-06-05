@@ -41,6 +41,7 @@ export const GetArticle = gql`
         textHtml
         textSlatejson
         promiseUrl
+        statementId
         source {
           id
         }
@@ -167,6 +168,15 @@ export const GetSource = gql`
         firstName
         lastName
       }
+    }
+  }
+`;
+
+export const GetSourceInternalStats = gql`
+  query GetSourceInternalStats($id: Int!) {
+    source(id: $id) {
+      id
+      internalStats
     }
   }
 `;
@@ -340,6 +350,8 @@ export const GetSpeaker = gql`
       lastName
       websiteUrl
       avatar
+      osobaId
+      wikidataId
       memberships {
         id
         body {
@@ -354,13 +366,15 @@ export const GetSpeaker = gql`
 `;
 
 export const GetSpeakers = gql`
-  query GetSpeakers($name: String) {
-    speakers(limit: 100, name: $name) {
+  query GetSpeakers($limit: Int, $offset: Int, $name: String) {
+    speakers(limit: $limit, offset: $offset, name: $name) {
       id
       firstName
       lastName
       avatar
       websiteUrl
+      osobaId
+      wikidataId
       body {
         shortName
       }
@@ -561,6 +575,18 @@ export const GetPromiseRatingsForSelect = gql`
   }
 `;
 
+export const GetTags = gql`
+  query GetTags {
+    tags(limit: 10000) {
+      id
+      name
+      forStatementType
+      publishedStatementsCount
+      allStatementsCount
+    }
+  }
+`;
+
 export const GetTagsForSelect = gql`
   query GetTagsForSelect($forStatementType: StatementType!) {
     tags(limit: 10000, forStatementType: $forStatementType) {
@@ -633,6 +659,128 @@ export const GetSourceWithStatementsAndVideoMarks = gql`
           stop
         }
       }
+    }
+  }
+`;
+
+export const GetInternalOverallStats = gql`
+  query GetInternalOverallStats {
+    internalOverallStats {
+      factualAndPublishedStatementsCount
+      speakersWithFactualAndPublishedStatementsCount
+    }
+  }
+`;
+
+export const GetWebContents = gql`
+  query GetWebContents {
+    webContents {
+      id
+      systemId
+      name
+      urlPath
+      dynamicPage
+      dynamicPagePublished
+      structure
+      data
+    }
+  }
+`;
+
+export const GetWebContent = gql`
+  query GetWebContent($id: ID!) {
+    webContent(id: $id) {
+      id
+      systemId
+      name
+      urlPath
+      dynamicPage
+      dynamicPagePublished
+      structure
+      data
+    }
+  }
+`;
+
+export const GetUserStatements = gql`
+  query GetUserStatements(
+    $limit: Int
+    $offset: Int
+    $includeUnpublished: Boolean
+    $evaluatedByUserId: ID
+    $sortSourcesInReverseChronologicalOrder: Boolean
+  ) {
+    statements(
+      limit: $limit
+      offset: $offset
+      includeUnpublished: $includeUnpublished
+      evaluatedByUserId: $evaluatedByUserId
+      sortSourcesInReverseChronologicalOrder: $sortSourcesInReverseChronologicalOrder
+    ) {
+      id
+      statementType
+      content
+      title
+      important
+      published
+      source {
+        id
+        name
+        sourceUrl
+        releasedAt
+        medium {
+          id
+          name
+        }
+        mediaPersonalities {
+          id
+          name
+        }
+        experts {
+          id
+          firstName
+          lastName
+        }
+        speakers {
+          id
+          firstName
+          lastName
+        }
+      }
+      speaker {
+        id
+        firstName
+        lastName
+        avatar
+      }
+      assessment {
+        id
+        evaluationStatus
+        evaluator {
+          id
+          firstName
+          lastName
+        }
+        veracity {
+          id
+          key
+          name
+        }
+        promiseRating {
+          id
+          key
+          name
+        }
+        shortExplanation
+        shortExplanationCharactersLength
+        explanationCharactersLength
+      }
+      tags {
+        id
+        name
+      }
+      commentsCount
+      sourceOrder
     }
   }
 `;

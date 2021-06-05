@@ -4,9 +4,11 @@ class ArticleSegment < ApplicationRecord
   TYPE_TEXT = "text"
   TYPE_SOURCE_STATEMENTS = "source_statements"
   TYPE_PROMISE = "promise"
+  TYPE_SINGLE_STATEMENT = "single_statement"
 
   belongs_to :source, optional: true
   belongs_to :article, optional: true
+  belongs_to :statement, optional: true
 
   scope :ordered, -> {
     order(order: :asc)
@@ -18,6 +20,10 @@ class ArticleSegment < ApplicationRecord
 
   scope :text_type_only, -> {
     where(segment_type: ArticleSegment::TYPE_TEXT)
+  }
+
+  scope :single_statement_only, -> {
+    where(segment_type: ArticleSegment::TYPE_SINGLE_STATEMENT)
   }
 
   def is_text?
@@ -32,10 +38,20 @@ class ArticleSegment < ApplicationRecord
     segment_type == ArticleSegment::TYPE_PROMISE
   end
 
-  def all_published_statements
-    return [] unless is_source_statements?
+  def is_single_statement?
+    segment_type == ArticleSegment::TYPE_SINGLE_STATEMENT
+  end
 
-    source.statements.published_important_first
+  def all_published_statements
+    if is_source_statements?
+      return source.statements.published_important_first
+    end
+
+    if is_single_statement? && statement
+      return Statement.published_important_first.where(id: statement.id)
+    end
+
+    []
   end
 
   def filtered_published_statements(statements_filters)

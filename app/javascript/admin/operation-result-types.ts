@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -30,6 +31,7 @@ export interface CreateMediaPersonalityVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -61,6 +63,7 @@ export interface UpdateMediaPersonalityVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -85,6 +88,7 @@ export interface DeleteMediaPersonalityVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -115,6 +119,7 @@ export interface CreateMediumVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -146,6 +151,7 @@ export interface UpdateMediumVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -170,6 +176,7 @@ export interface DeleteMediumVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -183,7 +190,7 @@ export interface CreatePage_createPage_page {
   slug: string;
   published: boolean;
   textHtml: string | null;
-  textSlatejson: GraphQLCustomScalar_JSON | null;
+  textSlatejson: GraphQLCustomScalar_Json | null;
 }
 
 export interface CreatePage_createPage {
@@ -204,6 +211,7 @@ export interface CreatePageVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -217,7 +225,7 @@ export interface UpdatePage_updatePage_page {
   slug: string;
   published: boolean;
   textHtml: string | null;
-  textSlatejson: GraphQLCustomScalar_JSON | null;
+  textSlatejson: GraphQLCustomScalar_Json | null;
 }
 
 export interface UpdatePage_updatePage {
@@ -239,6 +247,7 @@ export interface UpdatePageVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -263,6 +272,7 @@ export interface DeletePageVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -277,10 +287,29 @@ export interface CreateArticle_createArticle_article_segments_statements {
 export interface CreateArticle_createArticle_article_segments {
   __typename: "ArticleSegment";
   id: string;
+  /**
+   * Can be: source_statements, single_statement, promise or text
+   */
   segmentType: string;
+  /**
+   * If text segment type, returns the text in HTML for this segment
+   */
   textHtml: string | null;
-  textSlatejson: GraphQLCustomScalar_JSON | null;
+  /**
+   * If text segment type, returns the text in JSON for this segment
+   */
+  textSlatejson: GraphQLCustomScalar_Json | null;
+  /**
+   * If promise segment type, returns the url of promise for this segment
+   */
   promiseUrl: string | null;
+  /**
+   * If single_statement segment type, returns the ID of statement for this segment
+   */
+  statementId: string | null;
+  /**
+   * If source_statements or single_statement segment type, returns the statements for this segment
+   */
   statements: CreateArticle_createArticle_article_segments_statements[];
 }
 
@@ -321,6 +350,7 @@ export interface CreateArticleVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -335,10 +365,29 @@ export interface UpdateArticle_updateArticle_article_segments_statements {
 export interface UpdateArticle_updateArticle_article_segments {
   __typename: "ArticleSegment";
   id: string;
+  /**
+   * Can be: source_statements, single_statement, promise or text
+   */
   segmentType: string;
+  /**
+   * If text segment type, returns the text in HTML for this segment
+   */
   textHtml: string | null;
-  textSlatejson: GraphQLCustomScalar_JSON | null;
+  /**
+   * If text segment type, returns the text in JSON for this segment
+   */
+  textSlatejson: GraphQLCustomScalar_Json | null;
+  /**
+   * If promise segment type, returns the url of promise for this segment
+   */
   promiseUrl: string | null;
+  /**
+   * If single_statement segment type, returns the ID of statement for this segment
+   */
+  statementId: string | null;
+  /**
+   * If source_statements or single_statement segment type, returns the statements for this segment
+   */
   statements: UpdateArticle_updateArticle_article_segments_statements[];
 }
 
@@ -380,6 +429,7 @@ export interface UpdateArticleVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -404,6 +454,7 @@ export interface DeleteArticleVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -434,6 +485,7 @@ export interface CreateSourceVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -465,6 +517,7 @@ export interface UpdateSourceVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -489,6 +542,7 @@ export interface DeleteSourceVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -526,6 +580,7 @@ export interface CreateBodyVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -564,6 +619,7 @@ export interface UpdateBodyVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -588,6 +644,7 @@ export interface DeleteBodyVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -620,6 +677,11 @@ export interface CreateSpeaker_createSpeaker_speaker {
   lastName: string;
   avatar: string | null;
   websiteUrl: string;
+  /**
+   * Temporary IDs from Hlidac statu, please use Wikidata ID instead
+   */
+  osobaId: string | null;
+  wikidataId: string | null;
   body: CreateSpeaker_createSpeaker_speaker_body | null;
   memberships: CreateSpeaker_createSpeaker_speaker_memberships[] | null;
 }
@@ -642,6 +704,7 @@ export interface CreateSpeakerVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -674,6 +737,11 @@ export interface UpdateSpeaker_updateSpeaker_speaker {
   lastName: string;
   avatar: string | null;
   websiteUrl: string;
+  /**
+   * Temporary IDs from Hlidac statu, please use Wikidata ID instead
+   */
+  osobaId: string | null;
+  wikidataId: string | null;
   body: UpdateSpeaker_updateSpeaker_speaker_body | null;
   memberships: UpdateSpeaker_updateSpeaker_speaker_memberships[] | null;
 }
@@ -697,6 +765,7 @@ export interface UpdateSpeakerVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -721,6 +790,7 @@ export interface DeleteSpeakerVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -766,6 +836,7 @@ export interface CreateUserVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -812,6 +883,7 @@ export interface UpdateUserVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -843,6 +915,7 @@ export interface UpdateUserActivenessVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -873,6 +946,7 @@ export interface UpdateUsersRankVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -897,6 +971,7 @@ export interface DeleteUserVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -948,6 +1023,7 @@ export interface CreateStatementVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -988,7 +1064,7 @@ export interface UpdateStatement_updateStatement_statement_assessment {
   id: string;
   shortExplanation: string | null;
   explanationHtml: string | null;
-  explanationSlatejson: GraphQLCustomScalar_JSON | null;
+  explanationSlatejson: GraphQLCustomScalar_Json | null;
   evaluationStatus: string;
   evaluator: UpdateStatement_updateStatement_statement_assessment_evaluator | null;
   veracity: UpdateStatement_updateStatement_statement_assessment_veracity | null;
@@ -1047,6 +1123,7 @@ export interface UpdateStatementVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1071,6 +1148,7 @@ export interface DeleteStatementVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1110,6 +1188,7 @@ export interface CreateCommentVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1140,6 +1219,7 @@ export interface UpdateSourceStatementsOrderVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1176,6 +1256,7 @@ export interface PublishApprovedSourceStatementsVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1200,6 +1281,7 @@ export interface DeleteContentImageVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1231,6 +1313,7 @@ export interface UpdateNotificationVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1261,6 +1344,7 @@ export interface MarkUnreadNotificationsAsReadVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1293,6 +1377,7 @@ export interface UpdateSourceVideoFieldsVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1331,6 +1416,75 @@ export interface UpdateStatementsVideoMarksVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateWebContent
+// ====================================================
+
+export interface UpdateWebContent_updateWebContent_webContent {
+  __typename: "WebContent";
+  id: string;
+  systemId: string;
+  name: string;
+  urlPath: string;
+  dynamicPage: boolean;
+  dynamicPagePublished: boolean;
+  structure: GraphQLCustomScalar_JSON;
+  data: GraphQLCustomScalar_JSON;
+}
+
+export interface UpdateWebContent_updateWebContent {
+  __typename: "UpdateWebContentPayload";
+  webContent: UpdateWebContent_updateWebContent_webContent;
+}
+
+export interface UpdateWebContent {
+  /**
+   * Update web content
+   */
+  updateWebContent: UpdateWebContent_updateWebContent | null;
+}
+
+export interface UpdateWebContentVariables {
+  id: string;
+  webContentInput: WebContentInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: CreateTag
+// ====================================================
+
+export interface CreateTag_createTag_tag {
+  __typename: "Tag";
+  name: string;
+}
+
+export interface CreateTag_createTag {
+  __typename: "CreateTagPayload";
+  tag: CreateTag_createTag_tag;
+}
+
+export interface CreateTag {
+  /**
+   * Add new tag
+   */
+  createTag: CreateTag_createTag | null;
+}
+
+export interface CreateTagVariables {
+  tagInput: TagInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1357,6 +1511,7 @@ export interface GetPagesVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1370,7 +1525,7 @@ export interface GetPage_page {
   slug: string;
   published: boolean;
   textHtml: string | null;
-  textSlatejson: GraphQLCustomScalar_JSON | null;
+  textSlatejson: GraphQLCustomScalar_Json | null;
 }
 
 export interface GetPage {
@@ -1383,6 +1538,7 @@ export interface GetPageVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1397,10 +1553,29 @@ export interface GetArticle_article_segments_source {
 export interface GetArticle_article_segments {
   __typename: "ArticleSegment";
   id: string;
+  /**
+   * Can be: source_statements, single_statement, promise or text
+   */
   segmentType: string;
+  /**
+   * If text segment type, returns the text in HTML for this segment
+   */
   textHtml: string | null;
-  textSlatejson: GraphQLCustomScalar_JSON | null;
+  /**
+   * If text segment type, returns the text in JSON for this segment
+   */
+  textSlatejson: GraphQLCustomScalar_Json | null;
+  /**
+   * If promise segment type, returns the url of promise for this segment
+   */
   promiseUrl: string | null;
+  /**
+   * If single_statement segment type, returns the ID of statement for this segment
+   */
+  statementId: string | null;
+  /**
+   * If source_statements segment type, returns the source from which we take the statements for this segment
+   */
   source: GetArticle_article_segments_source | null;
 }
 
@@ -1433,6 +1608,7 @@ export interface GetArticleVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1461,6 +1637,7 @@ export interface GetArticlesVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1483,6 +1660,7 @@ export interface GetMediaPersonalitiesVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1505,6 +1683,7 @@ export interface GetMediaPersonalityVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1527,6 +1706,7 @@ export interface GetMediaVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1549,6 +1729,7 @@ export interface GetMediumVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1590,12 +1771,12 @@ export interface GetSources_sources {
   id: string;
   name: string;
   sourceUrl: string | null;
-  releasedAt: string;
-  medium: GetSources_sources_medium;
-  mediaPersonalities: GetSources_sources_mediaPersonalities[];
+  releasedAt: string | null;
+  medium: GetSources_sources_medium | null;
+  mediaPersonalities: GetSources_sources_mediaPersonalities[] | null;
   statementsCountsByEvaluationStatus: GetSources_sources_statementsCountsByEvaluationStatus[];
   statements: GetSources_sources_statements[];
-  experts: GetSources_sources_experts[];
+  experts: GetSources_sources_experts[] | null;
 }
 
 export interface GetSources {
@@ -1610,6 +1791,7 @@ export interface GetSourcesVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1653,13 +1835,13 @@ export interface GetSource_source {
   id: string;
   name: string;
   sourceUrl: string | null;
-  releasedAt: string;
+  releasedAt: string | null;
   transcript: string | null;
-  medium: GetSource_source_medium;
-  mediaPersonalities: GetSource_source_mediaPersonalities[];
+  medium: GetSource_source_medium | null;
+  mediaPersonalities: GetSource_source_mediaPersonalities[] | null;
   statementsCountsByEvaluationStatus: GetSource_source_statementsCountsByEvaluationStatus[];
-  speakers: GetSource_source_speakers[];
-  experts: GetSource_source_experts[];
+  speakers: GetSource_source_speakers[] | null;
+  experts: GetSource_source_experts[] | null;
 }
 
 export interface GetSource {
@@ -1672,6 +1854,30 @@ export interface GetSourceVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetSourceInternalStats
+// ====================================================
+
+export interface GetSourceInternalStats_source {
+  __typename: "Source";
+  id: string;
+  internalStats: GraphQLCustomScalar_JSON;
+}
+
+export interface GetSourceInternalStats {
+  source: GetSourceInternalStats_source;
+}
+
+export interface GetSourceInternalStatsVariables {
+  id: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1688,8 +1894,8 @@ export interface GetSourcesForSelect_sources {
   __typename: "Source";
   id: string;
   name: string;
-  releasedAt: string;
-  medium: GetSourcesForSelect_sources_medium;
+  releasedAt: string | null;
+  medium: GetSourcesForSelect_sources_medium | null;
 }
 
 export interface GetSourcesForSelect {
@@ -1698,6 +1904,7 @@ export interface GetSourcesForSelect {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1795,6 +2002,7 @@ export interface GetSourceStatementsVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1834,6 +2042,7 @@ export interface GetUsersVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1871,6 +2080,7 @@ export interface GetUserVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1900,6 +2110,7 @@ export interface GetBodiesVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1929,6 +2140,7 @@ export interface GetBodyVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1950,6 +2162,7 @@ export interface GetSpeakerBodies {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1977,6 +2190,11 @@ export interface GetSpeaker_speaker {
   lastName: string;
   websiteUrl: string;
   avatar: string | null;
+  /**
+   * Temporary IDs from Hlidac statu, please use Wikidata ID instead
+   */
+  osobaId: string | null;
+  wikidataId: string | null;
   memberships: GetSpeaker_speaker_memberships[] | null;
 }
 
@@ -1990,6 +2208,7 @@ export interface GetSpeakerVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2022,6 +2241,11 @@ export interface GetSpeakers_speakers {
   lastName: string;
   avatar: string | null;
   websiteUrl: string;
+  /**
+   * Temporary IDs from Hlidac statu, please use Wikidata ID instead
+   */
+  osobaId: string | null;
+  wikidataId: string | null;
   body: GetSpeakers_speakers_body | null;
   memberships: GetSpeakers_speakers_memberships[] | null;
 }
@@ -2031,11 +2255,14 @@ export interface GetSpeakers {
 }
 
 export interface GetSpeakersVariables {
+  limit?: number | null;
+  offset?: number | null;
   name?: string | null;
 }
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2083,7 +2310,7 @@ export interface GetStatement_statement_assessment {
   id: string;
   assessmentMethodology: GetStatement_statement_assessment_assessmentMethodology;
   explanationHtml: string | null;
-  explanationSlatejson: GraphQLCustomScalar_JSON | null;
+  explanationSlatejson: GraphQLCustomScalar_Json | null;
   shortExplanation: string | null;
   evaluationStatus: string;
   evaluator: GetStatement_statement_assessment_evaluator | null;
@@ -2122,11 +2349,11 @@ export interface GetStatement_statement_source {
   id: string;
   name: string;
   sourceUrl: string | null;
-  releasedAt: string;
-  medium: GetStatement_statement_source_medium;
-  mediaPersonalities: GetStatement_statement_source_mediaPersonalities[];
-  experts: GetStatement_statement_source_experts[];
-  speakers: GetStatement_statement_source_speakers[];
+  releasedAt: string | null;
+  medium: GetStatement_statement_source_medium | null;
+  mediaPersonalities: GetStatement_statement_source_mediaPersonalities[] | null;
+  experts: GetStatement_statement_source_experts[] | null;
+  speakers: GetStatement_statement_source_speakers[] | null;
 }
 
 export interface GetStatement_statement_statementTranscriptPosition {
@@ -2167,6 +2394,7 @@ export interface GetStatementVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2205,6 +2433,7 @@ export interface GetStatementCommentsVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2224,6 +2453,7 @@ export interface GetRoles {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2253,6 +2483,7 @@ export interface GetCurrentUser {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2294,6 +2525,7 @@ export interface GetContentImagesVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2350,6 +2582,7 @@ export interface GetNotificationsVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2369,6 +2602,29 @@ export interface GetPromiseRatingsForSelect {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetTags
+// ====================================================
+
+export interface GetTags_tags {
+  __typename: "Tag";
+  id: string;
+  name: string;
+  forStatementType: StatementType;
+  publishedStatementsCount: number;
+  allStatementsCount: number;
+}
+
+export interface GetTags {
+  tags: GetTags_tags[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2391,6 +2647,7 @@ export interface GetTagsForSelectVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2410,6 +2667,7 @@ export interface GetVeracitiesForSelect {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2433,6 +2691,7 @@ export interface GetUsersForSelectVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2452,6 +2711,7 @@ export interface GetSpeakersForSelect {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2470,6 +2730,7 @@ export interface GetMediaPersonalitiesForSelect {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2503,7 +2764,7 @@ export interface GetSourceWithStatementsAndVideoMarks_source {
   id: string;
   name: string;
   sourceUrl: string | null;
-  releasedAt: string;
+  releasedAt: string | null;
   transcript: string | null;
   videoType: string | null;
   videoId: string | null;
@@ -2521,6 +2782,202 @@ export interface GetSourceWithStatementsAndVideoMarksVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetInternalOverallStats
+// ====================================================
+
+export interface GetInternalOverallStats_internalOverallStats {
+  __typename: "InternalOverallStats";
+  factualAndPublishedStatementsCount: number;
+  speakersWithFactualAndPublishedStatementsCount: number;
+}
+
+export interface GetInternalOverallStats {
+  internalOverallStats: GetInternalOverallStats_internalOverallStats;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetWebContents
+// ====================================================
+
+export interface GetWebContents_webContents {
+  __typename: "WebContent";
+  id: string;
+  systemId: string;
+  name: string;
+  urlPath: string;
+  dynamicPage: boolean;
+  dynamicPagePublished: boolean;
+  structure: GraphQLCustomScalar_JSON;
+  data: GraphQLCustomScalar_JSON;
+}
+
+export interface GetWebContents {
+  webContents: GetWebContents_webContents[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetWebContent
+// ====================================================
+
+export interface GetWebContent_webContent {
+  __typename: "WebContent";
+  id: string;
+  systemId: string;
+  name: string;
+  urlPath: string;
+  dynamicPage: boolean;
+  dynamicPagePublished: boolean;
+  structure: GraphQLCustomScalar_JSON;
+  data: GraphQLCustomScalar_JSON;
+}
+
+export interface GetWebContent {
+  webContent: GetWebContent_webContent;
+}
+
+export interface GetWebContentVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetUserStatements
+// ====================================================
+
+export interface GetUserStatements_statements_source_medium {
+  __typename: "Medium";
+  id: string;
+  name: string;
+}
+
+export interface GetUserStatements_statements_source_mediaPersonalities {
+  __typename: "MediaPersonality";
+  id: string;
+  name: string;
+}
+
+export interface GetUserStatements_statements_source_experts {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetUserStatements_statements_source_speakers {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetUserStatements_statements_source {
+  __typename: "Source";
+  id: string;
+  name: string;
+  sourceUrl: string | null;
+  releasedAt: string | null;
+  medium: GetUserStatements_statements_source_medium | null;
+  mediaPersonalities: GetUserStatements_statements_source_mediaPersonalities[] | null;
+  experts: GetUserStatements_statements_source_experts[] | null;
+  speakers: GetUserStatements_statements_source_speakers[] | null;
+}
+
+export interface GetUserStatements_statements_speaker {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+  avatar: string | null;
+}
+
+export interface GetUserStatements_statements_assessment_evaluator {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetUserStatements_statements_assessment_veracity {
+  __typename: "Veracity";
+  id: string;
+  key: GraphQLCustomScalar_VeracityKey;
+  name: string;
+}
+
+export interface GetUserStatements_statements_assessment_promiseRating {
+  __typename: "PromiseRating";
+  id: string;
+  key: PromiseRatingKey;
+  name: string;
+}
+
+export interface GetUserStatements_statements_assessment {
+  __typename: "Assessment";
+  id: string;
+  evaluationStatus: string;
+  evaluator: GetUserStatements_statements_assessment_evaluator | null;
+  veracity: GetUserStatements_statements_assessment_veracity | null;
+  promiseRating: GetUserStatements_statements_assessment_promiseRating | null;
+  shortExplanation: string | null;
+  shortExplanationCharactersLength: number;
+  explanationCharactersLength: number;
+}
+
+export interface GetUserStatements_statements_tags {
+  __typename: "Tag";
+  id: string;
+  name: string;
+}
+
+export interface GetUserStatements_statements {
+  __typename: "Statement";
+  id: string;
+  statementType: StatementType;
+  content: string;
+  title: string | null;
+  important: boolean;
+  published: boolean;
+  source: GetUserStatements_statements_source;
+  speaker: GetUserStatements_statements_speaker;
+  assessment: GetUserStatements_statements_assessment;
+  tags: GetUserStatements_statements_tags[];
+  commentsCount: number;
+  sourceOrder: number | null;
+}
+
+export interface GetUserStatements {
+  statements: GetUserStatements_statements[];
+}
+
+export interface GetUserStatementsVariables {
+  limit?: number | null;
+  offset?: number | null;
+  includeUnpublished?: boolean | null;
+  evaluatedByUserId?: string | null;
+  sortSourcesInReverseChronologicalOrder?: boolean | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 //==============================================================
@@ -2549,7 +3006,7 @@ export enum StatementType {
 export interface ArticleInput {
   articleType: string;
   title: string;
-  perex: string;
+  perex?: string | null;
   segments: ArticleSegmentInput[];
   slug?: string | null;
   published?: boolean | null;
@@ -2561,9 +3018,10 @@ export interface ArticleSegmentInput {
   id?: string | null;
   segmentType: string;
   textHtml?: string | null;
-  textSlatejson?: GraphQLCustomScalar_JSON | null;
+  textSlatejson?: GraphQLCustomScalar_Json | null;
   sourceId?: string | null;
   promiseUrl?: string | null;
+  statementId?: string | null;
 }
 
 export interface BodyInput {
@@ -2619,20 +3077,20 @@ export interface MembershipInput {
 export interface PageInput {
   title: string;
   textHtml?: string | null;
-  textSlatejson?: GraphQLCustomScalar_JSON | null;
+  textSlatejson?: GraphQLCustomScalar_Json | null;
   published?: boolean | null;
   slug?: string | null;
 }
 
 export interface SourceInput {
   name: string;
-  releasedAt: string;
+  releasedAt?: string | null;
   sourceUrl?: string | null;
-  mediumId: string;
-  mediaPersonalities: string[];
-  transcript: string;
-  speakers: string[];
-  experts: string[];
+  mediumId?: string | null;
+  mediaPersonalities?: string[] | null;
+  transcript?: string | null;
+  speakers?: string[] | null;
+  experts?: string[] | null;
 }
 
 export interface SourceInputVideoFields {
@@ -2645,6 +3103,8 @@ export interface SpeakerInput {
   lastName: string;
   websiteUrl?: string | null;
   memberships: MembershipInput[];
+  osobaId?: string | null;
+  wikidataId?: string | null;
 }
 
 export interface StatementTranscriptPositionInput {
@@ -2665,11 +3125,16 @@ export interface StatementsVideoMarksInput {
   stop: number;
 }
 
+export interface TagInput {
+  name: string;
+  forStatementType: StatementType;
+}
+
 export interface UpdateAssessmentInput {
   evaluatorId?: string | null;
   evaluationStatus?: string | null;
   explanationHtml?: string | null;
-  explanationSlatejson?: GraphQLCustomScalar_JSON | null;
+  explanationSlatejson?: GraphQLCustomScalar_Json | null;
   shortExplanation?: string | null;
   veracityId?: string | null;
   promiseRatingId?: string | null;
@@ -2705,6 +3170,14 @@ export interface UserInput {
   order?: number | null;
   rank?: number | null;
   userPublic?: boolean | null;
+}
+
+export interface WebContentInput {
+  name?: string | null;
+  urlPath?: string | null;
+  dynamicPage?: boolean | null;
+  dynamicPagePublished?: boolean | null;
+  data?: GraphQLCustomScalar_JSON | null;
 }
 
 //==============================================================

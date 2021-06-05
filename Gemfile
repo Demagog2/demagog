@@ -11,15 +11,20 @@ end
 gem "dotenv-rails"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~> 6.0"
+gem "rails", "~> 6.1"
 # Add possibility for bulk insert to Active Record models
 # gem "bulk_insert"
 # Use Postgresql as the database for Active Record
 gem "pg"
 # Use scenic for materilized views
 gem "scenic"
-# Use Unicorn as the app server
-gem "unicorn"
+
+# Unicorn is *nix only
+unless Gem.win_platform?
+  # Use Unicorn as the app server
+  gem "unicorn"
+end
+
 # Use SCSS for stylesheets
 gem "sass-rails", "~> 5.0"
 # Use Uglifier as compressor for JavaScript assets
@@ -60,19 +65,22 @@ gem "meta-tags"
 gem "prometheus_exporter"
 
 # Enables env. specific configuration
-gem "config"
+gem "config", "~> 2.2.1"
 
 # Authentication
-gem "devise", "~> 4.7.1"
+# Return back to specific version when changes around using OmniAuth v2 are released, see https://github.com/heartcombo/devise/pull/5327
+gem "devise", github: "heartcombo/devise", branch: "master"
 
 # Enables devise & omniauth to authenticate against Google OAuth 2
 gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"
 
 # Use redis for store layer
 gem "redis", "~> 4.0", ">= 4.0.1"
 
 # Use sidekiq for background jobs
-gem "sidekiq"
+# sidekiq v6 needs redis v4, but we have redis v3 on production, so we need to stick to v5 for now
+gem "sidekiq", "~> 5.0"
 
 # Use Amazon S3 for active storage for production environment
 gem "aws-sdk-s3", require: false
@@ -82,9 +90,6 @@ gem "loofah", "~> 2.3.1"
 
 # Patches security vulnerability CVE-2018-3760
 gem "sprockets", "~> 3.7.2"
-
-# Patches security vulnerability CVE-2018-1000201
-gem "ffi", "~> 1.9.24"
 
 # Patches security vulnerability CVE-2018-1000544
 gem "rubyzip", "~> 1.3.0"
@@ -105,7 +110,9 @@ gem "htmlbeautifier"
 # Add skylight profiler
 # gem "skylight"
 
-gem "sentry-raven"
+gem "sentry-ruby"
+gem "sentry-rails"
+gem "sentry-sidekiq"
 
 # Add elasticsearch integration
 gem "elasticsearch-model", "~> 7.0.0"
@@ -114,13 +121,34 @@ gem "elasticsearch-rails", "~> 7.0.0"
 # Posting to Slack
 gem "slack-notifier"
 
+gem "graphlient"
+gem "tty-prompt"
+
+# Datadog integration
+gem "ddtrace"
+
+# Production logging
+gem "lograge"
+
+gem "addressable"
+
+gem "caxlsx"
+gem "caxlsx_rails"
+
+gem "ferrum"
+gem "mini_magick"
+
 # Use Capistrano for deployment
 group :development do
   gem "capistrano", require: false
   gem "capistrano-rvm", require: false
   gem "capistrano-rails", require: false
   gem "capistrano-bundler", require: false
-  gem "capistrano3-unicorn", require: false
+
+  unless Gem.win_platform?
+    gem "capistrano3-unicorn", require: false
+  end
+
   gem "guard-livereload", "~> 2.5", require: false
 end
 

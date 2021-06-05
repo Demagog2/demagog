@@ -1,236 +1,227 @@
 import * as React from 'react';
 
-import { css, cx } from 'emotion';
-import * as Immutable from 'immutable';
-import { debounce, isEqual } from 'lodash';
-import * as Slate from 'slate';
-import HtmlSerializer from 'slate-html-serializer';
-import { Editor, getEventTransfer } from 'slate-react';
-import SoftBreak from 'slate-soft-break';
+import { injectGlobal } from 'emotion';
+import debounce from 'lodash/debounce';
 
-import Bold from './featurePlugins/Bold';
-import Embed from './featurePlugins/Embed';
-import Header from './featurePlugins/Header';
-import Image from './featurePlugins/Image';
-import Italic from './featurePlugins/Italic';
-import Link from './featurePlugins/Link';
-import List from './featurePlugins/List';
-import Paragraph from './featurePlugins/Paragraph';
-import SpecialCharacters from './featurePlugins/SpecialCharacters';
+import CKEditor from '@ckeditor/ckeditor5-react';
 
-import schema from './schema';
-import { IToolbarItem } from './toolbar';
-import ToolbarDivider from './toolbar/ToolbarDivider';
+import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
 
-const bold = Bold();
-const embed = Embed();
-const image = Image();
-const italic = Italic();
-const header = Header();
-const link = Link();
-const list = List();
-const paragraph = Paragraph();
-const specialCharacters = SpecialCharacters();
-const toolbarDivider = ToolbarDivider();
+import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
+import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
+import Heading from '@ckeditor/ckeditor5-heading/src/heading';
+import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
+import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
+import Strikethrough from '@ckeditor/ckeditor5-basic-styles/src/strikethrough';
+import Link from '@ckeditor/ckeditor5-link/src/link';
+import List from '@ckeditor/ckeditor5-list/src/list';
 
-interface IProps {
-  value: object | null;
-  onChange: (value: object, html: string) => void;
-  className?: string;
-  statementExplanation?: boolean;
-  html?: string | null;
-}
+import Image from '@ckeditor/ckeditor5-image/src/image';
+import ImageCaption from '@ckeditor/ckeditor5-image/src/imagecaption';
 
-interface IState {
-  value: Slate.Value;
-}
+import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation';
 
-class RichTextEditor extends React.Component<IProps, IState> {
-  public editor: Slate.Editor;
-  public htmlSerializer: HtmlSerializer;
-  public toolbar: IToolbarItem[];
-  public plugins: any[];
-  public debouncedPropagateChange: () => void;
+import SpecialCharacters from '@ckeditor/ckeditor5-special-characters/src/specialcharacters';
+import SpecialCharactersEssentials from '@ckeditor/ckeditor5-special-characters/src/specialcharactersessentials';
 
-  constructor(props: IProps) {
-    super(props);
+import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice';
 
-    this.htmlSerializer = new HtmlSerializer({
-      rules: [
-        bold.htmlSerializerRule,
-        embed.htmlSerializerRule,
-        ...(props.statementExplanation ? [] : [header.htmlSerializerRule]),
-        image.htmlSerializerRule,
-        italic.htmlSerializerRule,
-        link.htmlSerializerRule,
-        list.htmlSerializerRule,
-        paragraph.htmlSerializerRule,
-      ],
-    });
+// import Table from '@ckeditor/ckeditor5-table/src/table';
+// import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
 
-    let value: Slate.Value;
-    if (props.value !== null) {
-      value = Slate.Value.fromJSON(props.value);
-    } else if (props.html) {
-      value = this.htmlSerializer.deserialize(props.html);
-    } else {
-      value = Slate.Value.fromJSON(DEFAULT_VALUE);
+import Autoformat from '@ckeditor/ckeditor5-autoformat/src/autoformat';
+
+import Embed from './Embed';
+import InsertImageViaUrl from './InsertImageViaUrl';
+
+const ExplanationEditor = ({
+  html,
+  onChange,
+
+  headings = true,
+}: {
+  html: string | null;
+  onChange: (html: string) => void;
+
+  headings?: boolean;
+}) => {
+  const [data, setData] = React.useState(html);
+  const [isEditing, setIsEditing] = React.useState(false);
+
+  const stoppedEditing = React.useCallback(() => {
+    setIsEditing(false);
+  }, [setIsEditing]);
+
+  const debouncedOnChange = React.useMemo(() => debounce(onChange, 200), [onChange]);
+  const debouncedStoppedEditing = React.useMemo(() => debounce(stoppedEditing, 15000), [
+    stoppedEditing,
+  ]);
+
+  React.useEffect(() => {
+    if (!isEditing) {
+      setData(html);
     }
+  }, [html, isEditing]);
 
-    this.state = {
-      value,
-    };
+  const onCKEditorChange = React.useCallback(
+    (_0, editor) => {
+      setIsEditing(true);
+      debouncedStoppedEditing();
+      debouncedOnChange(editor.getData());
+    },
+    [setIsEditing, debouncedOnChange],
+  );
 
-    this.toolbar = [
-      bold.toolbarItem,
-      italic.toolbarItem,
-      toolbarDivider,
-      ...(props.statementExplanation ? [] : [header.toolbarItem, toolbarDivider]),
-      link.toolbarItem,
-      toolbarDivider,
-      ...list.toolbarItems,
-      toolbarDivider,
-      image.toolbarItem,
-      embed.toolbarItem,
-      toolbarDivider,
-      specialCharacters.toolbarItem,
-    ];
+  const editorConfiguration = React.useMemo(() => {
+    return createEditorConfiguration({ headings });
+  }, [headings]);
 
-    this.plugins = [
-      SoftBreak({
-        shift: true,
-      }),
-
-      ...bold.plugins,
-      ...embed.plugins,
-      ...(props.statementExplanation ? [] : header.plugins),
-      ...image.plugins,
-      ...italic.plugins,
-      ...link.plugins,
-      ...list.plugins,
-      ...paragraph.plugins,
-    ];
-
-    this.debouncedPropagateChange = debounce(this.propagateChange, 200);
-  }
-
-  public componentDidUpdate(prevProps: IProps) {
-    if (
-      (prevProps.value !== this.props.value &&
-        !isEqual(this.props.value, this.state.value.toJSON())) ||
-      (prevProps.html !== this.props.html &&
-        this.props.html !== this.htmlSerializer.serialize(this.state.value))
-    ) {
-      let value: Slate.Value;
-      if (this.props.value !== null) {
-        value = Slate.Value.fromJSON(this.props.value);
-      } else if (this.props.html) {
-        value = this.htmlSerializer.deserialize(this.props.html);
-      } else {
-        value = Slate.Value.fromJSON(DEFAULT_VALUE);
-      }
-
-      this.setState({ value });
-    }
-  }
-
-  public onChange = (change: {
-    operations: Immutable.List<Slate.Operation>;
-    value: Slate.Value;
-  }) => {
-    if (change.value.document !== this.state.value.document) {
-      this.debouncedPropagateChange();
-    }
-
-    this.setState({ value: change.value });
-  };
-
-  public propagateChange = () => {
-    this.props.onChange(this.state.value.toJSON(), this.htmlSerializer.serialize(this.state.value));
-  };
-
-  public handleToolbarCommand = (command: (editor: Slate.Editor) => void) => {
-    this.editor.command(command as any);
-  };
-
-  public onPaste = (event: Event, editor: Slate.Editor, next: () => void) => {
-    const transfer = getEventTransfer(event);
-    if (transfer.type !== 'html') {
-      return next();
-    }
-    const { document } = this.htmlSerializer.deserialize((transfer as any).html);
-    editor.insertFragment(document);
-  };
-
-  public render() {
-    return (
-      <div>
-        <div
-          style={{
-            padding: '6px 5px',
-            border: '1px solid #ced4da',
-            borderBottom: 'none',
-            borderRadius: '.25rem .25rem 0 0',
-          }}
-        >
-          {this.toolbar.map((item, index) => (
-            <span key={index}>
-              {item.renderItem({
-                onCommand: this.handleToolbarCommand,
-                value: this.state.value,
-              })}
-            </span>
-          ))}
-        </div>
-
-        <div
-          style={{
-            padding: 10,
-            border: '1px solid #ced4da',
-            borderRadius: '0 0 .25rem .25rem',
-          }}
-        >
-          <Editor
-            ref={(editor) => editor && (this.editor = editor.controller)}
-            value={this.state.value}
-            onChange={this.onChange}
-            onPaste={this.onPaste}
-            plugins={this.plugins}
-            spellCheck
-            className={cx(
-              this.props.className,
-              css`
-                min-height: 200px;
-              `,
-            )}
-            schema={schema as any}
-          />
-        </div>
-      </div>
-    );
-  }
-}
-
-const DEFAULT_VALUE: Slate.ValueJSON = {
-  document: {
-    nodes: [
-      {
-        object: 'block',
-        type: 'paragraph',
-        nodes: [
-          {
-            object: 'text',
-            leaves: [
-              {
-                object: 'leaf',
-                text: '',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
+  return (
+    <CKEditor
+      editor={ClassicEditor}
+      config={editorConfiguration}
+      data={data}
+      onChange={onCKEditorChange}
+    />
+  );
 };
 
-export default RichTextEditor;
+export default ExplanationEditor;
+
+const createEditorConfiguration = ({ headings }: { headings: boolean }) => ({
+  plugins: [
+    Essentials,
+    Autoformat,
+
+    ...(headings ? [Heading] : []),
+
+    Bold,
+    Italic,
+    Strikethrough,
+    Paragraph,
+    Link,
+    List,
+
+    Image,
+    ImageCaption,
+    InsertImageViaUrl,
+
+    Embed,
+
+    TextTransformation,
+
+    SpecialCharacters,
+    SpecialCharactersEssentials,
+    SpecialCharactersSpaces,
+
+    PasteFromOffice,
+
+    NonBreakableSpaceKeystrokes,
+
+    // Table,
+    // TableToolbar,
+  ],
+  toolbar: {
+    viewportTopOffset: 50, // because navbar
+    items: [
+      ...(headings ? ['heading', '|'] : []),
+      'bold',
+      'italic',
+      'strikethrough',
+      '|',
+      'link',
+      '|',
+      'bulletedList',
+      'numberedList',
+      // '|',
+      // 'insertTable',
+      '|',
+      'insertImageViaUrl',
+      'embed',
+      '|',
+      'specialCharacters',
+      '|',
+      'undo',
+      'redo',
+    ],
+  },
+  link: {
+    defaultProtocol: 'http://',
+  },
+  image: {
+    toolbar: [],
+  },
+  typing: {
+    transformations: {
+      remove: [
+        // Do not use the US quotes
+        'quotes',
+      ],
+      extra: [
+        // Czech double quotes
+        {
+          from: buildQuotesRegExp('"'),
+          to: [null, '„', null, '“'],
+        },
+        // Czech single quotes
+        {
+          from: buildQuotesRegExp("'"), // tslint:disable-line:quotemark
+          to: [null, '‚', null, '‘'],
+        },
+      ],
+    },
+  },
+  ...(headings
+    ? {
+        heading: {
+          options: [
+            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+            { model: 'heading1', view: 'h2', title: 'Heading', class: 'ck-heading_heading1' },
+          ],
+        },
+      }
+    : {}),
+  // table: {
+  //   contentToolbar: ['tableColumn', 'tableRow'],
+  // },
+});
+
+// tslint:disable-next-line:max-line-length
+// From https://github.com/ckeditor/ckeditor5-typing/blob/cd4fa3ea2dcd5789e91fae92d7f220ef850cc7b6/src/texttransformation.js
+function buildQuotesRegExp(quoteCharacter) {
+  return new RegExp(`(^|\\s)(${quoteCharacter})([^${quoteCharacter}]*)(${quoteCharacter})$`);
+}
+
+function SpecialCharactersSpaces(editor) {
+  const specialCharactersPlugin = editor.plugins.get('SpecialCharacters');
+  specialCharactersPlugin.addItems('Spaces', [
+    { title: 'non-breakable space', character: '\u00a0' },
+  ]);
+  specialCharactersPlugin.addItems('Mathematical', [{ title: 'Superscript 2', character: '²' }]);
+}
+
+function NonBreakableSpaceKeystrokes(editor) {
+  // Mac non-breakable space hack, see https://github.com/ckeditor/ckeditor5/issues/1669#issuecomment-478934583
+  editor.keystrokes.set('Alt+space', (_0, stop) => {
+    editor.execute('input', { text: '\u00a0' });
+    stop();
+  });
+  // TODO: Add also for alt+0160 on Windows
+}
+
+// tslint:disable-next-line:no-unused-expression
+injectGlobal`
+  .ck-content .image {
+    margin-left: 0;
+  }
+
+  .ck-content .table {
+    margin-left: 0;
+  }
+
+  .ck-content h2 {
+    margin: 15px 0 8px 0;
+    font-size: 18px;
+    font-weight: 700px;
+  }
+`;

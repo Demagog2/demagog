@@ -4,32 +4,34 @@ class ArticleController < FrontendController
   def index
     # Redirect pages to new url
     page = Page.published.friendly.find_by(slug: params[:slug])
-    if page
-      return redirect_to page_url(page), status: 301
+    return redirect_to page_url(page), status: 301 if page
+
+    @article = Article.kept.published.friendly.find(params[:slug])
+
+    # Single statement article does not have any view, redirects directly to statement
+    if @article.article_type.name == "single_statement"
+      return redirect_to statement_url(@article.single_statement), status: 301
     end
 
-    @article = Article.published.friendly.find(params[:slug])
-    @article_type = @article.article_type.name == "default" ? "factcheck" : "editorial"
-
     @statements_filters = {}
-    if @article_type == "factcheck"
-      if params[:recnik]
-        @statements_filters[:speaker_id] = params[:recnik].to_i
-      end
+
+    if @article.article_type.name == "default"
+      @statements_filters[:speaker_id] = params[:recnik].to_i if params[:recnik]
 
       if params[:hodnoceni]
-        @statements_filters[:veracity_key] = case params[:hodnoceni]
-                                             when "pravda"
-                                               :true
-                                             when "nepravda"
-                                               :untrue
-                                             when "zavadejici"
-                                               :misleading
-                                             when "neoveritelne"
-                                               :unverifiable
-                                             else
-                                               nil
-        end
+        @statements_filters[:veracity_key] =
+          case params[:hodnoceni]
+          when "pravda"
+            :true
+          when "nepravda"
+            :untrue
+          when "zavadejici"
+            :misleading
+          when "neoveritelne"
+            :unverifiable
+          else
+            nil
+          end
       end
     end
 
@@ -44,19 +46,52 @@ class ArticleController < FrontendController
     # end
   end
 
+  def discussions
+    articles_of_type(ArticleType::DEFAULT)
+  end
+
+  def social_media
+    articles_of_type(ArticleType::SINGLE_STATEMENT)
+  end
+
+  def collaboration_with_facebook
+    articles_of_type(ArticleType::FACEBOOK_FACTCHECK)
+  end
+
+  def editorials
+    articles_of_type(ArticleType::STATIC)
+  end
+
   helper_method :replace_segment_text_html_special_strings
   def replace_segment_text_html_special_strings(text_html)
     playbuzz_quiz_html = <<-HEREDOC
 <script>(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src='https://embed.playbuzz.com/sdk.js';fjs.parentNode.insertBefore(js,fjs);}(document,'script','playbuzz-sdk'));</script>
 <div class="playbuzz" data-id="0c39f886-6c12-4243-9ff9-c2d890ae32c0" data-show-share="false" data-show-info="false" data-comments="false"></div>
     HEREDOC
-    playbuzz_quiz_html = '<div style="margin-bottom: 1rem; background: white;">' + playbuzz_quiz_html + "</div>"
+    playbuzz_quiz_html =
+      "<div style=\"margin-bottom: 1rem; background: white;\">" + playbuzz_quiz_html + "</div>"
 
-    text_html.gsub(/(<p>\[playbuzzkviz\]<\/p>)/, playbuzz_quiz_html)
+    text_html.gsub(%r{(<p>\[playbuzzkviz\]</p>)}, playbuzz_quiz_html)
   end
 
   helper_method :promise_segment_widget_url
   def promise_segment_widget_url(promise_path)
     root_url(only_path: false).delete_suffix("/") + promise_path
   end
+
+  private
+    def articles_of_type(article_type_name)
+      if params[:page].present?
+        @page_number = params[:page]
+      end
+
+      @articles = Article
+        .kept
+        .published
+        .joins(:article_type)
+        .where(article_types: { name: article_type_name })
+        .order(published_at: :desc)
+        .page(@page_number)
+        .per(10)
+    end
 end

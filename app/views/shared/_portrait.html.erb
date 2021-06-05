@@ -1,9 +1,9 @@
 <% if speaker.avatar.attached? %>
   <figure class="portrait">
     <% if local_assigns[:lazy_load_images] == false %>
-      <img class="lazy-load" data-src="<%= polymorphic_url(speaker.avatar, only_path: true) %>" alt="<%= speaker.full_name %>">
+      <img class="lazy-load" data-src="<%= speaker.avatar.url %>" alt="<%= speaker.full_name %>">
     <% else %>
-      <img src="<%= polymorphic_url(speaker.avatar, only_path: true) %>" alt="<%= speaker.full_name %>" />
+      <img src="<%= speaker.avatar.url %>" alt="<%= speaker.full_name %>" />
     <% end %>
   </figure>
 <% end %>

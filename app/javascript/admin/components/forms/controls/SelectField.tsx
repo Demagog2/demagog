@@ -48,7 +48,6 @@ const SelectField = (props: ISelectFieldProps) => {
       render={({ field, form }: FieldProps) => (
         <SelectInput
           id={name}
-          name={name}
           error={getIn(form.touched, name) && getIn(form.errors, name)}
           {...field}
           {...restProps}

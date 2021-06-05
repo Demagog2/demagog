@@ -16,8 +16,24 @@
     margin: calc(2 * var(--gutter)) 0;
   }
 
-  article img {
-    max-width: 100%;
+  article {
+    img {
+      max-width: 100%;
+    }
+
+    figure.image {
+      margin: 0 0 1rem;
+
+      > figcaption {
+        font-size: 14px;
+        color: #9a95ab;
+        margin: .3rem 0 0 0;
+      }
+    }
+
+    .smap img {
+      max-width: none;
+    }
   }
 
   article iframe {
@@ -41,8 +57,24 @@
 }
 
 @media (min-width: 900px) {
-  article img {
-    max-width: 100%;
+  article {
+    img {
+      max-width: 100%;
+    }
+
+    figure.image {
+      margin: 0 0 1rem;
+
+      > figcaption {
+        font-size: 14px;
+        color: #9a95ab;
+        margin: .3rem 0 0 0;
+      }
+    }
+
+    .smap img {
+      max-width: none;
+    }
   }
 
   article iframe {
@@ -96,21 +128,11 @@
         margin-top: 0;
       }
     }
-
-    &.without-illustration .rest {
-      margin-left: 0;
-    }
   }
 
   .box {
     margin: 0 -2rem;
     padding: 2rem 2rem 1rem;
-  }
-
-  #darujme-widget {
-    h2 {
-      margin: 0 0 20px;
-    }
   }
 
   .container {
@@ -161,11 +183,6 @@
     h2 {
       margin: 0 0 1rem;
     }
-  }
-
-  #darujme-widget {
-    flex: 1 0 33.33333333%;
-    margin-top: 3rem;
   }
 
   article > h1:first-child,

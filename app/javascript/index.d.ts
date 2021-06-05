@@ -12,7 +12,9 @@ declare module '*.svg';
 // GraphQL custom scalar types
 type GraphQLCustomScalar_VeracityKey = 'true' | 'untrue' | 'misleading' | 'unverifiable';
 type GraphQLCustomScalar_DateTime = string;
-type GraphQLCustomScalar_JSON = object;
+type GraphQLCustomScalar_Json = object;
+// tslint:disable-next-line:interface-over-type-literal
+type GraphQLCustomScalar_JSON = { [key: string]: any };
 
 // Add custom elements
 // tslint:disable-next-line:no-namespace

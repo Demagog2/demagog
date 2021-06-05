@@ -26,6 +26,20 @@ class User < ApplicationRecord
     user
   end
 
+  # Devise uses Warden to save information about current user to session and
+  # saves into session two pieces of information [1], result of user.to_key,
+  # which is user id, and authenticatable_salt, which is by default part of
+  # encrypted password [2]. Since we dont have passwords in Demagog app,
+  # authenticatable_salt is nil and in session is only user id. To make sure
+  # we dont misidentify user, we therefore implement authenticatable_salt as
+  # partial hash of email.
+  #
+  # [1] https://github.com/heartcombo/devise/blob/master/lib/devise/models/authenticatable.rb#L237-L239
+  # [2] https://github.com/heartcombo/devise/blob/master/lib/devise/models/database_authenticatable.rb#L176-L178
+  def authenticatable_salt
+    Digest::SHA256.hexdigest(email)[0, 29]
+  end
+
   # We right now expect exactly one role per user
   def role
     roles.first

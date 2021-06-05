@@ -51,4 +51,7 @@ if ! $DATABASE_ONLY; then
     mkdir -p "$LOCAL_STORAGE_DIR/$dir"
     mv "$ACTIVE_STORAGE_BLOBS_DUMP_DIR/$filename" "$LOCAL_STORAGE_DIR/$dir"
   done
+
+  # Needed to make Active Storage resolve urls from local and not from amazon
+  psql -U postgres -d demagog_development -c "UPDATE active_storage_blobs SET service_name = 'local'";
 fi

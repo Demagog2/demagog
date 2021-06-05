@@ -14,25 +14,28 @@
 #   end
 # end
 
-Types::VeracityKeyType = GraphQL::ScalarType.define do
-  name "VeracityKey"
-  description "Assessment veracity – can be either true, untrue, misleading or unverifiable"
+module Types
+  class VeracityKeyType < GraphQL::Schema::Scalar
+    description "Assessment veracity – can be either true, untrue, misleading or unverifiable"
 
-  VERACITY_KEY_VALUES = [
-    Veracity::TRUE,
-    Veracity::UNTRUE,
-    Veracity::MISLEADING,
-    Veracity::UNVERIFIABLE
-  ]
+    VERACITY_KEY_VALUES = [
+      Veracity::TRUE,
+      Veracity::UNTRUE,
+      Veracity::MISLEADING,
+      Veracity::UNVERIFIABLE
+    ]
 
-  coerce_input ->(value, ctx) do
-    unless VERACITY_KEY_VALUES.include?(value)
-      raise GraphQL::CoercionError, "Cannot coerce #{value.inspect} to veracity. \
-Known values are true, untrue, misleading or unverifiable."
+    def self.coerce_input(value, ctx)
+      unless VERACITY_KEY_VALUES.include?(value)
+        raise GraphQL::CoercionError, "Cannot coerce #{value.inspect} to veracity. \
+  Known values are true, untrue, misleading or unverifiable."
+      end
+
+      value
     end
 
-    value
+    def self.coerce_result(value, ctx)
+      value.to_s
+    end
   end
-
-  coerce_result ->(value, ctx) { value.to_s }
 end

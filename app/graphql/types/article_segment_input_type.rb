@@ -8,5 +8,6 @@ module Types
     argument :text_slatejson, Types::Scalars::JsonType, required: false
     argument :source_id, ID, required: false
     argument :promise_url, String, required: false
+    argument :statement_id, ID, required: false
   end
 end

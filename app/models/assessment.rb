@@ -8,34 +8,34 @@ class AssessmentValidator < ActiveModel::Validator
       case assessment.evaluation_status_was
       when Assessment::STATUS_BEING_EVALUATED
         if assessment.evaluation_status != Assessment::STATUS_APPROVAL_NEEDED
-          assessment.errors[:evaluation_status] << "Can only change status to #{Assessment::STATUS_APPROVAL_NEEDED} when assessment has status #{Assessment::STATUS_BEING_EVALUATED}"
+          assessment.errors.add(:evaluation_status, "Can only change status to #{Assessment::STATUS_APPROVAL_NEEDED} when assessment has status #{Assessment::STATUS_BEING_EVALUATED}")
         end
 
         if assessment.statement.statement_type == Statement::TYPE_FACTUAL || assessment.statement.statement_type == Statement::TYPE_NEWYEARS
           if !assessment.veracity || !assessment.short_explanation || !assessment.explanation_html
-            assessment.errors[:evaluation_status] << "To be able to change status to #{Assessment::STATUS_APPROVAL_NEEDED}, please fill veracity, short_explanation, and explanation"
+            assessment.errors.add(:evaluation_status, "To be able to change status to #{Assessment::STATUS_APPROVAL_NEEDED}, please fill veracity, short_explanation, and explanation")
           end
         end
         if assessment.statement.statement_type == Statement::TYPE_PROMISE
           if !assessment.promise_rating || !assessment.short_explanation || !assessment.explanation_html
-            assessment.errors[:evaluation_status] << "To be able to change status to #{Assessment::STATUS_APPROVAL_NEEDED}, please fill promise rating, short_explanation, and explanation"
+            assessment.errors.add(:evaluation_status, "To be able to change status to #{Assessment::STATUS_APPROVAL_NEEDED}, please fill promise rating, short_explanation, and explanation")
           end
         end
       when Assessment::STATUS_APPROVAL_NEEDED
         if assessment.evaluation_status != Assessment::STATUS_BEING_EVALUATED && assessment.evaluation_status != Assessment::STATUS_PROOFREADING_NEEDED
-          assessment.errors[:evaluation_status] << "Can change status either to #{Assessment::STATUS_BEING_EVALUATED} or #{Assessment::STATUS_PROOFREADING_NEEDED} when assessment has status #{Assessment::STATUS_APPROVAL_NEEDED}"
+          assessment.errors.add(:evaluation_status, "Can change status either to #{Assessment::STATUS_BEING_EVALUATED} or #{Assessment::STATUS_PROOFREADING_NEEDED} when assessment has status #{Assessment::STATUS_APPROVAL_NEEDED}")
         end
       when Assessment::STATUS_PROOFREADING_NEEDED
         if assessment.evaluation_status != Assessment::STATUS_BEING_EVALUATED && assessment.evaluation_status != Assessment::STATUS_APPROVED
-          assessment.errors[:evaluation_status] << "Can change status either to #{Assessment::STATUS_BEING_EVALUATED} or #{Assessment::STATUS_APPROVED} when assessment has status #{Assessment::STATUS_PROOFREADING_NEEDED}"
+          assessment.errors.add(:evaluation_status, "Can change status either to #{Assessment::STATUS_BEING_EVALUATED} or #{Assessment::STATUS_APPROVED} when assessment has status #{Assessment::STATUS_PROOFREADING_NEEDED}")
         end
       when Assessment::STATUS_APPROVED
         if assessment.evaluation_status != Assessment::STATUS_BEING_EVALUATED
-          assessment.errors[:evaluation_status] << "Can only change status to #{Assessment::STATUS_BEING_EVALUATED} when assessment has status #{Assessment::STATUS_APPROVED}"
+          assessment.errors.add(:evaluation_status, "Can only change status to #{Assessment::STATUS_BEING_EVALUATED} when assessment has status #{Assessment::STATUS_APPROVED}")
         end
 
         if assessment.statement.published
-          assessment.errors[:evaluation_status] << "Cannot change status of published statement, unpublish before changing it"
+          assessment.errors.add(:evaluation_status, "Cannot change status of published statement, unpublish before changing it")
         end
       else
         raise "Unknown assessment status #{assessment.evaluation_status_was}"
@@ -63,6 +63,8 @@ class Assessment < ApplicationRecord
   validates_with AssessmentValidator
   validates :veracity, absence: true, unless: Proc.new { |a| a.assessment_methodology.rating_model == AssessmentMethodology::RATING_MODEL_VERACITY }
   validates :promise_rating, absence: true, unless: Proc.new { |a| a.assessment_methodology.rating_model == AssessmentMethodology::RATING_MODEL_PROMISE_RATING }
+
+  before_save :record_evaluation_process_timestamps
 
   def approved?
     evaluation_status == STATUS_APPROVED
@@ -204,7 +206,7 @@ class Assessment < ApplicationRecord
         statement.source.experts.each do |expert|
           notifications << Notification.new(
             statement_text: "#{current_user.display_in_notification} změnil/a stav na #{evaluation_status_label}",
-            full_text: "#{current_user.display_in_notification} změnil/a stav tebou expertovaného výroku #{statement.display_in_notification} na #{evaluation_status_label}",
+            full_text: "#{current_user.display_in_notification} změnil/a stav tebou editovaného výroku #{statement.display_in_notification} na #{evaluation_status_label}",
             statement_id: statement.id,
             recipient: expert
           )
@@ -218,6 +220,18 @@ class Assessment < ApplicationRecord
           statement_id: statement.id,
           recipient: User.find(user_id)
         )
+      end
+
+      if evaluation_status == STATUS_APPROVED
+        # These notifications will be skipped for users who are being already notified about processed changes
+        User.active.where(notify_on_approval: true).each do |user|
+          notifications << Notification.new(
+            statement_text: "#{current_user.display_in_notification} změnil/a stav na #{evaluation_status_label}",
+            full_text: "#{current_user.display_in_notification} změnil/a stav výroku #{statement.display_in_notification} na #{evaluation_status_label}",
+            statement_id: statement.id,
+            recipient: user
+          )
+        end
       end
 
       Notification.create_notifications(notifications, current_user)
@@ -234,4 +248,33 @@ class Assessment < ApplicationRecord
       end
     end
   end
+
+  private
+    def record_evaluation_process_timestamps
+      if !user_id.nil? && evaluator_first_assigned_at.nil?
+        self.evaluator_first_assigned_at = Time.now
+      end
+
+      if evaluation_status == Assessment::STATUS_APPROVAL_NEEDED && first_requested_approval_at.nil?
+        self.first_requested_approval_at = Time.now
+      end
+
+      if evaluation_status == Assessment::STATUS_PROOFREADING_NEEDED && first_requested_proofreading_at.nil?
+        self.first_requested_proofreading_at = Time.now
+      end
+
+      if evaluation_status == Assessment::STATUS_APPROVED && first_approved_at.nil?
+        self.first_approved_at = Time.now
+      end
+
+      is_updating_evaluation = short_explanation_changed? || explanation_html_changed? || veracity_id_changed? || promise_rating_id_changed?
+
+      if is_updating_evaluation && evaluation_started_at.nil?
+        self.evaluation_started_at = Time.now
+      end
+
+      if is_updating_evaluation
+        self.evaluation_ended_at = Time.now
+      end
+    end
 end

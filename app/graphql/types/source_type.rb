@@ -9,15 +9,16 @@ module Types
   class SourceType < BaseObject
     field :id, ID, null: false
     field :name, String, null: false
-    field :released_at, String, null: false
+    field :released_at, String, null: true
     field :source_url, String, null: true
     field :transcript, String, null: true
-    field :medium, Types::MediumType, null: false
-    field :media_personalities, [Types::MediaPersonalityType], null: false
-    field :speakers, [Types::SpeakerType], null: false
-    field :experts, [Types::UserType], null: false
+    field :medium, Types::MediumType, null: true
+    field :media_personalities, [Types::MediaPersonalityType], null: true
+    field :speakers, [Types::SpeakerType], null: true
+    field :experts, [Types::UserType], null: true
     field :video_type, String, null: true
     field :video_id, String, null: true
+    field :internal_stats, GraphQL::Types::JSON, null: false
 
     def transcript
       # Transcript is mostly from Newton Media and cannot be offered publicly
@@ -55,8 +56,10 @@ module Types
       statements
     end
 
-    field :statements_counts_by_evaluation_status, [StatementsCountsByEvaluationStatusItemType], null: false, resolve: ->(obj, args, ctx) {
-      grouped = obj.statements.includes(:assessment).group_by do |statement|
+    field :statements_counts_by_evaluation_status, [StatementsCountsByEvaluationStatusItemType], null: false
+
+    def statements_counts_by_evaluation_status
+      grouped = object.statements.includes(:assessment).group_by do |statement|
         statement.assessment.evaluation_status
       end
 
@@ -66,6 +69,12 @@ module Types
           statements_count: grouped[evaluation_status].size
         }
       end
-    }
+    end
+
+    def internal_stats
+      raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+      object.internal_stats
+    end
   end
 end

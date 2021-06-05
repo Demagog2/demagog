@@ -5,10 +5,18 @@ module Types
     field :id, ID, null: false
     field :evaluation_status, String, null: false
     field :statement, Types::StatementType, null: false
-    field :evaluator, Types::UserType, null: true
     field :short_explanation_characters_length, Int, null: false
     field :explanation_characters_length, Int, null: false
     field :assessment_methodology, Types::AssessmentMethodologyType, null: false
+
+    field :evaluator, Types::UserType, null: true
+
+    def evaluator
+      # Public cannot see who is the evaluator
+      Utils::Auth.authenticate(context)
+
+      object.evaluator
+    end
 
     field :veracity, Types::VeracityType, null: true
 

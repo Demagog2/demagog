@@ -6,10 +6,13 @@ import ReactTooltip from 'react-tooltip';
 import demagogLogoIconOnly from './demagog-logo-icon-only.png';
 import { IArticleStatementsQueryResult } from './types';
 import { IVideo } from './video/shared';
+import AudioOnlyVideo from './video/AudioOnlyVideo';
+import FacebookVideo from './video/FacebookVideo';
 import YoutubeVideo from './video/YoutubeVideo';
 
 interface IPlayerProps {
   article: IArticleStatementsQueryResult['article'];
+  statements: IArticleStatementsQueryResult['article']['segments'][0]['statements'];
   onRequestClose: () => void;
 }
 
@@ -61,7 +64,7 @@ export class Player extends React.Component<IPlayerProps, IPlayerState> {
 
   public componentDidUpdate(_, prevState) {
     if (prevState.time !== this.state.time && this.state.time !== null) {
-      const foundStatement = this.props.article.statements.find((statement) => {
+      const foundStatement = this.props.statements.find((statement) => {
         const timing = statement.statementVideoMark;
 
         return timing && this.state.time >= timing.start && this.state.time <= timing.stop;
@@ -87,11 +90,11 @@ export class Player extends React.Component<IPlayerProps, IPlayerState> {
   }
 
   public render() {
-    const { article, onRequestClose } = this.props;
+    const { article, onRequestClose, statements } = this.props;
     const { highlightStatementId } = this.state;
 
     const statementsSortedByTimingsStart = orderBy(
-      article.statements.filter((s) => s.statementVideoMark),
+      statements.filter((s) => s.statementVideoMark),
       [(s) => s.statementVideoMark.start],
       ['asc'],
     );
@@ -134,7 +137,16 @@ export class Player extends React.Component<IPlayerProps, IPlayerState> {
           {article.source.videoType === 'youtube' && (
             <YoutubeVideo onReady={this.onVideoReady} videoId={article.source.videoId} />
           )}
-          {/* TODO: add facebook */}
+          {article.source.videoType === 'audio' && (
+            <AudioOnlyVideo
+              onReady={this.onVideoReady}
+              posterImageUrl={article.illustration !== null ? article.illustration : undefined}
+              videoId={article.source.videoId}
+            />
+          )}
+          {article.source.videoType === 'facebook' && (
+            <FacebookVideo onReady={this.onVideoReady} videoId={article.source.videoId} />
+          )}
         </VideoColumn>
         <StatementsColumn ref={(statementsColumn) => (this.statementsColumn = statementsColumn)}>
           {statementsSortedByTimingsStart.map((statement, index) => {
@@ -296,7 +308,7 @@ const TimeLine = styled.div`
 
 interface IDisplayStatementProps {
   highlighted: boolean;
-  statement: IArticleStatementsQueryResult['article']['statements'][0];
+  statement: IArticleStatementsQueryResult['article']['segments'][0]['statements'][0];
 }
 
 interface IDisplayStatementState {

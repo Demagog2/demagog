@@ -8,7 +8,13 @@
 @import "base";
 @import "layout";
 
+@import "article/collaboration_with_facebook";
+@import "article/discussions";
+@import "article/editorials";
+@import "article/social_media";
+
 @import "homepage/cover_story";
+@import "homepage/homepage_donate_and_subscribe";
 @import "homepage/promises";
 
 @import "page/show";
@@ -19,6 +25,7 @@
 
 @import "search/index";
 
+@import "shared/donate_and_subscribe";
 @import "shared/nav";
 @import "shared/partners";
 @import "shared/speaker_stat";

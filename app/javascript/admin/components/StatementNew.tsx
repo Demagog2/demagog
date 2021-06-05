@@ -11,6 +11,7 @@ import { Link, withRouter } from 'react-router-dom';
 import * as yup from 'yup';
 
 import { addFlashMessage } from '../actions/flashMessages';
+import { STATEMENT_TYPES } from '../constants';
 import {
   CreateStatement as CreateStatementMutation,
   CreateStatementInput,
@@ -63,7 +64,7 @@ class StatementNew extends React.Component<IProps> {
           const initialValues = {
             statement_type: StatementType.factual,
             content: '',
-            speaker_id: source.speakers[0].id,
+            speaker_id: source.speakers?.length ? source.speakers[0].id : null,
             evaluator_id: null,
             note: '',
           };
@@ -83,6 +84,7 @@ class StatementNew extends React.Component<IProps> {
                   initialValues={initialValues}
                   validationSchema={yup.object().shape({
                     content: yup.string().required('Je třeba vyplnit znění výroku'),
+                    speaker_id: yup.mixed().notOneOf([null, ''], 'Je třeba vybrat řečníka'),
                   })}
                   onSubmit={(values, { setSubmitting }) => {
                     const note = values.note.trim();
@@ -90,7 +92,7 @@ class StatementNew extends React.Component<IProps> {
                     const statementInput: CreateStatementInput = {
                       statementType: values.statement_type,
                       content: values.content,
-                      speakerId: values.speaker_id,
+                      speakerId: values.speaker_id ?? '',
                       sourceId: source.id,
                       important: false,
                       published: false,
@@ -149,10 +151,12 @@ class StatementNew extends React.Component<IProps> {
                                 <FormGroup label="Řečník" name="speaker_id">
                                   <SelectField
                                     name="speaker_id"
-                                    options={source.speakers.map((s) => ({
-                                      label: `${s.firstName} ${s.lastName}`,
-                                      value: s.id,
-                                    }))}
+                                    options={
+                                      source.speakers?.map((s) => ({
+                                        label: `${s.firstName} ${s.lastName}`,
+                                        value: s.id,
+                                      })) ?? []
+                                    }
                                   />
                                 </FormGroup>
                               </div>
@@ -201,19 +205,9 @@ class StatementNew extends React.Component<IProps> {
   }
 }
 
-const STATEMENT_TYPE_OPTIONS = [
-  {
-    label: 'Faktický',
-    value: StatementType.factual,
-  },
-  {
-    label: 'Slib',
-    value: StatementType.promise,
-  },
-  {
-    label: 'Silvestrovský',
-    value: StatementType.newyears,
-  },
-];
+const STATEMENT_TYPE_OPTIONS = Object.keys(STATEMENT_TYPES).map((statementType) => ({
+  label: STATEMENT_TYPES[statementType],
+  value: statementType,
+}));
 
 export default connect()(withRouter(StatementNew));

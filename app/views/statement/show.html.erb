@@ -16,7 +16,7 @@
       <% if @statement.important? %>
         <span class="important-statement-sign">
           <span class="important-statement-icon">!</span><br>
-          Důležitý výrok
+          Výběr Demagog.cz
         </span>
       <% end %>
     </blockquote>
@@ -41,11 +41,13 @@
       </section>
     </article>
 
-    <aside>
-      <h1>Výrok jsme zmínili</h1>
-      <% @statement.mentioning_articles.each do |article| %>
-        <%= render(partial: 'article/preview', object: article, as: :article) %>
-      <% end %>
-    </aside>
+    <% if @statement.mentioning_articles.size > 0 %>
+      <aside>
+        <h1>Výrok jsme zmínili</h1>
+        <% @statement.mentioning_articles.each do |article| %>
+          <%= render(partial: 'article/preview', object: article, as: :article) %>
+        <% end %>
+      </aside>
+    <% end %>
   </div>
 </section>

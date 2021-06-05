@@ -3,35 +3,39 @@ export interface IArticleStatementsQueryResult {
   article: {
     id: string;
     title: string;
+    illustration: string | null;
     source: {
       id: string;
       videoType: string;
       videoId: string;
     };
-    statements: Array<{
-      id: string;
-      content: string;
-      important: boolean;
-      statementVideoMark: {
-        start: number;
-        stop: number;
-      };
-      assessment: {
+    segments: Array<{
+      segmentType: string;
+      statements: Array<{
         id: string;
-        veracity: {
-          id: string;
-          key: string;
-          name: string;
+        content: string;
+        important: boolean;
+        statementVideoMark: {
+          start: number;
+          stop: number;
         };
-        shortExplanation: string;
-        explanationHtml: string;
-      };
-      speaker: {
-        id: string;
-        firstName: string;
-        lastName: string;
-        avatar: string;
-      };
+        assessment: {
+          id: string;
+          veracity: {
+            id: string;
+            key: string;
+            name: string;
+          };
+          shortExplanation: string;
+          explanationHtml: string;
+        };
+        speaker: {
+          id: string;
+          firstName: string;
+          lastName: string;
+          avatar: string;
+        };
+      }>;
     }>;
   };
 }

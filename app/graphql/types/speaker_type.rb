@@ -3,7 +3,8 @@
 module Types
   class SpeakerType < BaseObject
     field :id, ID, null: false
-    field :osoba_id, String, null: true
+    field :osoba_id, String, null: true, description: "Temporary IDs from Hlidac statu, please use Wikidata ID instead"
+    field :wikidata_id, String, null: true
     field :before_name, String, null: false
     field :first_name, String, null: false
     field :first_name, String, null: false, camelize: false, deprecation_reason: "switch to camelCase version"
@@ -46,7 +47,7 @@ module Types
 
       if args[:veracity]
         statements
-          .joins(:assessments, :veracities)
+          .joins(:assessment, :veracity)
           .where(
             assessments: {
               evaluation_status: Assessment::STATUS_APPROVED

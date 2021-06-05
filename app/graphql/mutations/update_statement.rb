@@ -57,6 +57,8 @@ module Mutations
             raise Errors::NotAuthorizedError.new
           end
 
+          UserNotificationService.new(statement: statement, current_user: context[:current_user]).run
+
           statement.save!
 
           { statement: statement }

@@ -1,5 +1,6 @@
 /* eslint-env browser */
 
+import '@babel/polyfill';
 import 'whatwg-fetch';
 
 import * as Sentry from '@sentry/browser';
@@ -19,6 +20,7 @@ import 'react-hot-loader';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
+import { ModalProvider } from 'react-modal-hook';
 import { ApolloProvider } from 'react-apollo';
 import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
@@ -46,9 +48,11 @@ epicMiddleware.run(rootEpic);
 const render = (RootContainer) =>
   ReactDOM.render(
     <ApolloProvider client={apolloClient}>
-      <Provider store={store}>
-        <RootContainer />
-      </Provider>
+      <ModalProvider>
+        <Provider store={store}>
+          <RootContainer />
+        </Provider>
+      </ModalProvider>
     </ApolloProvider>,
     document.getElementById('app-root'),
   );

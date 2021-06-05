@@ -113,7 +113,11 @@ class Types::QueryType < GraphQL::Schema::Object
     argument :party, Int, required: false
     argument :body, Int, required: false
     argument :name, String, required: false
-    argument :osoba_id, String, required: false
+    argument :osoba_id,
+             String,
+             required: false,
+             description: "Temporary IDs from Hlidac statu, please use Wikidata ID instead"
+    argument :wikidata_id, String, required: false
   end
 
   def speakers(args)
@@ -127,6 +131,9 @@ class Types::QueryType < GraphQL::Schema::Object
 
     osoba_id = args[:osoba_id]
     speakers = speakers.where(osoba_id: osoba_id) if osoba_id.present?
+
+    wikidata_id = args[:wikidata_id]
+    speakers = speakers.where(wikidata_id: wikidata_id) if wikidata_id.present?
 
     speakers
   end
@@ -164,12 +171,14 @@ class Types::QueryType < GraphQL::Schema::Object
     argument :speaker, Int, required: false
     argument :veracity, Types::VeracityKeyType, required: false
     argument :include_unpublished, Boolean, required: false, default_value: false
+    argument :evaluated_by_user_id, ID, required: false
+    argument :sort_sources_in_reverse_chronological_order, Boolean, required: false, default_value: false
   end
 
   def statements(args)
     if args[:include_unpublished]
       # Public cannot access unpublished statements
-      raise Errors::AuthenticationNeededError.new unless context[:current_user]
+      Utils::Auth.authenticate(context)
 
       statements = Statement.ordered
     else
@@ -181,7 +190,14 @@ class Types::QueryType < GraphQL::Schema::Object
     statements = statements.where(source: args[:source]) if args[:source]
     statements = statements.where(speaker: args[:speaker]) if args[:speaker]
     if args[:veracity]
-      statements = statements.joins(:veracities).where(veracities: { key: args[:veracity] })
+      statements = statements.joins(:veracity).where(veracities: { key: args[:veracity] })
+    end
+
+    if args[:evaluated_by_user_id]
+      # Public cannot filter by evaluator
+      Utils::Auth.authenticate(context)
+
+      statements = statements.joins(:assessment).where(assessments: { user_id: args[:evaluated_by_user_id] })
     end
 
     # Include these basics as they are part of most of queries for statements
@@ -191,6 +207,10 @@ class Types::QueryType < GraphQL::Schema::Object
     # See https://graphql-ruby.org/queries/lookahead.html
     statements =
       statements.includes({ assessment: :veracity }, { speaker: :body }, { source: :medium })
+
+    if args[:sort_sources_in_reverse_chronological_order]
+      statements = Statement.sort_statements_query(statements.reorder(""), false)
+    end
 
     statements
   end
@@ -286,10 +306,10 @@ class Types::QueryType < GraphQL::Schema::Object
       # Public cannot access unpublished articles
       raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
-      return Article.friendly.find(args[:slug] || args[:id])
+      return Article.kept.friendly.find(args[:slug] || args[:id])
     end
 
-    Article.published.friendly.find(args[:slug] || args[:id])
+    Article.kept.published.friendly.find(args[:slug] || args[:id])
   rescue ActiveRecord::RecordNotFound
     raise GraphQL::ExecutionError.new(
       "Could not find Article with id=#{args[:id]} or slug=#{args[:slug]}"
@@ -455,5 +475,36 @@ class Types::QueryType < GraphQL::Schema::Object
       total_count: content_images.count,
       items: content_images.offset(args[:offset]).limit(args[:limit]).order(created_at: :desc)
     }
+  end
+
+  field :internal_overall_stats, Types::InternalOverallStatsType, null: false
+
+  def internal_overall_stats
+    raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+    {
+      factual_and_published_statements_count: Statement.factual_and_published.count,
+      speakers_with_factual_and_published_statements_count: Speaker.with_factual_and_published_statements.count
+    }
+  end
+
+  field :web_contents, [Types::WebContentType], null: false
+
+  def web_contents
+    raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+    WebContent.all.order(name: :asc)
+  end
+
+  field :web_content, Types::WebContentType, null: false do
+    argument :id, ID, required: true
+  end
+
+  def web_content(args)
+    raise Errors::AuthenticationNeededError.new unless context[:current_user]
+
+    WebContent.find(args[:id])
+  rescue ActiveRecord::RecordNotFound
+    raise GraphQL::ExecutionError.new("Could not find WebContent with id=#{args[:id]}")
   end
 end

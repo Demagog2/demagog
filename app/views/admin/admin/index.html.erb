@@ -5,7 +5,9 @@
     <h3 style="margin-top: 30px">Přihlášení</h3>
 
     <div style="margin-top: 60px; margin-bottom: 60px;">
-      <a class="google-signin-btn" href="<%= user_google_oauth2_omniauth_authorize_path %>"></a>
+      <%= form_tag(user_google_oauth2_omniauth_authorize_path, method: 'post') do %>
+        <button type="submit" class="google-signin-btn"></button>
+      <% end %>
     </div>
 
     <p>

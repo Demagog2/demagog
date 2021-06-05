@@ -1,0 +1,368 @@
+<div id="page-workshops-map" style="height:400px; margin-bottom: 15px;"></div>
+
+<script type="text/javascript" src="https://api.mapy.cz/loader.js"></script>
+<script type="text/javascript">Loader.load()</script>
+<script type="text/javascript">
+  var workshops = [
+    {
+      "name": "Skautský institut v Plzni",
+      "address": "Americká 29,  303 00 Plzeň",
+      "lon": 13.3767,
+      "lat": 49.7436
+    },
+    {
+      "name": "Gymnázium Uherské Hradiště",
+      "address": "Velehradská tř. 218, 686 17 Uherské Hradiště",
+      "lon": 17.4619,
+      "lat": 49.0709
+    },
+    {
+      "name": "Gymnázium Nymburk",
+      "address": "Komenského 779/10, 288 02 Nymburk",
+      "lon": 15.0421,
+      "lat": 50.1909
+    },
+    {
+      "name": "Gymnázium Opatov ",
+      "address": "Konstantinova 1500, 149 00 Praha 4-Chodov",
+      "lon": 14.5186,
+      "lat": 50.0284
+    },
+    {
+      "name": "Střední škola automobilní a informatiky",
+      "address": "Weilova 4, 102 00 Praha 15",
+      "lon": 14.541,
+      "lat": 50.0526
+    },
+    {
+      "name": "Střední průmyslová škola Ostrov",
+      "address": "Klínovecká 1197, 363 01 Ostrov",
+      "lon": 12.9522,
+      "lat": 50.3048
+    },
+    {
+      "name": "Gymnázium a SOŠ Plasy ",
+      "address": "Stará cesta 363, 33101 Plasy",
+      "lon": 13.3954,
+      "lat": 49.9355
+    },
+    {
+      "name": "Workshop Národního informačního semináře",
+      "address": "Arna Nováka 1, 602 00 Brno",
+      "lon": 16.5979,
+      "lat": 49.2007
+    },
+    {
+      "name": "Soukromá střední odborná škola Trading Centre",
+      "address": "Tyršova 237, 570 01 Litomyšl",
+      "lon": 16.3151,
+      "lat": 49.8677
+    },
+    {
+      "name": "Gymnázium Frýdlant",
+      "address": "Mládeže 884, 464 01 Frýdlant",
+      "lon": 15.0815,
+      "lat": 50.9251
+    },
+    {
+      "name": "Hradec Králové - Proč? Proto!",
+      "address": "Masarykovo náměstí, Hradec Králové",
+      "lon": 15.8248,
+      "lat": 50.2123
+    },
+    {
+      "name": "Gymnázium Rožnov pod Radhoštěm",
+      "address": "Koryčanské Paseky 1725, 756 61 Rožnov pod Radhoštěm",
+      "lon": 18.129,
+      "lat": 49.4664
+    },
+    {
+      "name": "Gymnázium na Zatlance",
+      "address": "Na Zatlance 1330/11, 150 00 Praha 5-Anděl",
+      "lon": 14.3993,
+      "lat": 50.0709
+    },
+    {
+      "name": "Euroškola Česká Lípa",
+      "address": "Železničářská 2232, 470 01 Česká Lípa",
+      "lon": 14.5296,
+      "lat": 50.6928
+    },
+    {
+      "name": "Gymnázium Tábor",
+      "address": "Náměstí Františka Křižíka 860, 390 01 Tábor",
+      "lon": 14.664,
+      "lat": 49.4135
+    },
+    {
+      "name": "Gymnázium Elišky Krásnohorské Praha",
+      "address": "Ohradní 111/55, 140 00 Praha 4",
+      "lon": 14.4551,
+      "lat": 50.0525
+    },
+    {
+      "name": "Jeden svět Třinec",
+      "address": "Třinec",
+      "lon": 18.6708,
+      "lat": 49.6776
+    },
+    {
+      "name": "Na Kavalírce Praha, politologický seminář ",
+      "address": "Plzeňská 173, 150 00 Praha",
+      "lon": 14.3723,
+      "lat": 50.0698
+    },
+    {
+      "name": "Gymnázium Boženy Němcové ",
+      "address": "Pospíšilova 324/7, 500 03 Hradec Králové",
+      "lon": 15.839,
+      "lat": 50.2124
+    },
+    {
+      "name": "Vysoká škola ekonomická v Praze, Fakulta managementu ",
+      "address": "Jarošovská 1117, Jindřichův Hradec II, 377 01 Jindřichův Hradec",
+      "lon": 15.0063,
+      "lat": 49.1488
+    },
+    {
+      "name": "Open Gate Babice",
+      "address": "Na Návsi 5, 251 01 Babice",
+      "lon": 14.7286,
+      "lat": 49.9817
+    },
+    {
+      "name": "Bankovní akademie - Gymnázium, Střední odborná škola a Vyšší odborná škola ",
+      "address": "Kodaňská 54/10, 101 00 Praha-Vršovice",
+      "lon": 14.4524,
+      "lat": 50.0712
+    },
+    {
+      "name": "Biskupské gymnázium J. N. Neumanna České Budějovice",
+      "address": "Jirsíkova 420/5, 370 01 České Budějovice",
+      "lon": 14.4763,
+      "lat": 48.9731
+    },
+    {
+      "name": "Gymnázium Ústí nad Labem",
+      "address": "Jateční 22, 400 01 Ústí nad Labem-město",
+      "lon": 14.0105,
+      "lat": 50.6638
+    },
+    {
+      "name": "Gymnázium, Střední odborná škola ekonomická a SOU",
+      "address": "Pohorská 86, Kaplice 382 41",
+      "lon": 14.5002,
+      "lat": 48.7359
+    },
+    {
+      "name": "Pedagogická fakulta - PedF UK - Univezita Karlova ",
+      "address": "Magdalény Rettigové 4, 116 39 Praha 1",
+      "lon": 14.4202,
+      "lat": 50.0795
+    },
+    {
+      "name": "Elpida ",
+      "address": "Na Strži 40, 140 00 Praha 4",
+      "lon": 14.4408,
+      "lat": 50.0486
+    },
+    {
+      "name": "Polsko-české studentské dny",
+      "address": "Český Těšín",
+      "lon": 18.6238,
+      "lat": 49.747
+    },
+    {
+      "name": "Děčín ",
+      "address": "Děčín",
+      "lon": 14.2128,
+      "lat": 50.7726
+    },
+    {
+      "name": "Sdružení Arachné",
+      "address": "Oucmanice",
+      "lon": 16.2818,
+      "lat": 49.9894
+    },
+    {
+      "name": "Central European Studies ",
+      "address": "Štulcova 89/1, 128 00 Praha 2-Vyšehrad",
+      "lon": 14.4174,
+      "lat": 50.0653
+    },
+    {
+      "name": "Dvorky 2018 (Pedagogická fakulta - PedF UK - Univezita Karlova)",
+      "address": "Magdalény Rettigové 4, 116 39 Praha 1",
+      "lon": 14.4202,
+      "lat": 50.0795
+    },
+    {
+      "name": "Katedra společenských věd - PF JCU - Jihočeská univerzita",
+      "address": "U Tří lvů 1/A, 371 15 České Budějovice",
+      "lon": 14.478,
+      "lat": 48.9712
+    },
+    {
+      "name": "Člověk v tísni",
+      "address": "Šafaříkova 635/24, 120 00 Vinohrady",
+      "lon": 14.4339,
+      "lat": 50.0719
+    },
+    {
+      "name": "LIBCON Hostivice ",
+      "address": "Weilova 1271/6, 102 00 Praha 10",
+      "lon": 14.5394,
+      "lat": 50.0529
+    },
+    {
+      "name": "Gymnázium Hostivice",
+      "address": "Komenského 141, 253 01 Hostivice",
+      "lon": 14.2566,
+      "lat": 50.0782
+    },
+    {
+      "name": "Gymnázium Přípotoční ",
+      "address": "Přípotoční 1337/1a, 101 00 Praha 10-Vršovice",
+      "lon": 14.4547,
+      "lat": 50.0652
+    },
+    {
+      "name": "Biskupské gymnázium Brno a mateřská škola",
+      "address": "Barvičova 85, 602 00 Brno-střed",
+      "lon": 16.5734,
+      "lat": 49.2022
+    },
+    {
+      "name": "Střední průmyslová škola zeměměřičská",
+      "address": "Pod Táborem 300/7, 190 00 Praha",
+      "lon": 14.5124,
+      "lat": 50.0916
+    },
+    {
+      "name": "Člověk v tísni",
+      "address": "Šafaříkova 635/24, 120 00 Vinohrady",
+      "lon": 14.4339,
+      "lat": 50.0719
+    },
+    {
+      "name": "Gymnázium Hradec Králové",
+      "address": "Tylovo nábř. 682/12, 500 02 Hradec Králové",
+      "lon": 15.8255,
+      "lat": 50.2087
+    },
+    {
+      "name": "Vysoká škola ekonomická v Praze",
+      "address": "nám. Winstona Churchilla 1938/4, 130 67 Praha 3-Žižkov",
+      "lon": 14.4416,
+      "lat": 50.0833
+    },
+    {
+      "name": "Gymnázium Jana Nerudy Praha",
+      "address": "Hellichova 457/3, 118 00 Malá Strana",
+      "lon": 14.4052,
+      "lat": 50.084
+    },
+    {
+      "name": "Elpida ",
+      "address": "Na Strži 40, 140 00 Praha 4",
+      "lon": 14.4408,
+      "lat": 50.0486
+    },
+    {
+      "name": "Evangelická škola Praha 4",
+      "address": "Hrusická 2537/7, 141 00 Praha 4",
+      "lon": 14.4868,
+      "lat": 50.0481
+    },
+    {
+      "name": "spolek Minerva",
+      "address": "Mladá Boleslav",
+      "lon": 14.9084,
+      "lat": 50.4134
+    },
+    {
+      "name": "CDK - Občanský průkaz",
+      "address": "CDK - Občanský průkaz, 614 00 Brno",
+      "lon": 16.6068,
+      "lat": 49.1951
+    },
+    {
+      "name": "Plzeň (Kohovolit.eu)",
+      "address": "Plzeň",
+      "lon": 13.3736,
+      "lat": 49.7384
+    },
+    {
+      "name": "Masarykovo gymnázium Plzeň",
+      "address": "Petákova 2055/2, 301 00 Plzeň 3",
+      "lon": 13.3735,
+      "lat": 49.7417
+    },
+    {
+      "name": "Biskupské gymnázium J. N. Neumanna České Budějovice",
+      "address": "Jirsíkova 420/5, 370 01 České Budějovice",
+      "lon": 14.4763,
+      "lat": 48.9731
+    },
+    {
+      "name": "Hradec Králové - Europeum",
+      "address": "Hradec Králové",
+      "lon": 15.8252,
+      "lat": 50.2104
+    },
+    {
+      "name": "Biskupské gymnázium Brno ",
+      "address": "Barvičova 85, 602 00 Brno-střed",
+      "lon": 16.5734,
+      "lat": 49.2022
+    },
+    {
+      "name": "Gymnázium Přípotoční",
+      "address": "Přípotoční 1337, Praha 10 Vršovice",
+      "lon": 14.4574,
+      "lat": 50.0651
+    },
+    {
+      "name": "KBC Shared Service Center CZ",
+      "address": "Palachovo nám. 726/2, 625 00 Brno-Starý Lískovec",
+      "lon": 16.5664,
+      "lat": 49.1756
+    },
+    {
+      "name": "Gymnázium Opatov",
+      "address": "Konstantinova 1500, 149 00 Praha 4-Chodov",
+      "lon": 14.5186,
+      "lat": 50.0284
+    },
+    {
+      "name": "Vysoká škola ekonomická v Praze",
+      "address": "nám. Winstona Churchilla 1938/4, 130 67 Praha 3-Žižkov",
+      "lon": 14.4416,
+      "lat": 50.0833
+    },
+    {
+      "name": "Nesehnutí",
+      "address": "Křížová 463/15, 603 00 Brno",
+      "lon": 16.5949,
+      "lat": 49.1873
+    }
+  ]
+
+  var mapDefaultPos = SMap.Coords.fromWGS84(15.3052254, 49.9109299)
+  var map = new SMap(JAK.gel("page-workshops-map"), mapDefaultPos, 7);
+  map.addDefaultLayer(SMap.DEF_BASE).enable();
+  map.addDefaultControls();
+
+  var markersLayer = new SMap.Layer.Marker();
+  map.addLayer(markersLayer).enable();
+
+  for (var i = 0; i < workshops.length; i++) {
+    var markerCard = new SMap.Card();
+    markerCard.getHeader().innerHTML = "<strong>" + workshops[i].name + "</strong>";
+
+    var marker = new SMap.Marker(SMap.Coords.fromWGS84(workshops[i].lon, workshops[i].lat));
+    marker.decorate(SMap.Marker.Feature.Card, markerCard);
+
+    markersLayer.addMarker(marker);
+  }
+</script>

@@ -28,8 +28,6 @@ class DeleteArticleMutationTest < GraphQLTestCase
 
     assert result.data.deleteArticle, article.id
 
-    assert_raise(Exception) do
-      Article.find(article.id)
-    end
+    assert_raise(Exception) { Article.kept.find(article.id) }
   end
 end

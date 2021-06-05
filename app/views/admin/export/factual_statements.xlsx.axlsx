@@ -1,0 +1,50 @@
+# frozen_string_literal: true
+
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Výroky") do |sheet|
+  sheet.add_row [
+    "ID výroku",
+    "Výrok",
+    "Výběr Demagog.cz",
+
+    "ID řečníka",
+    "Křestní jméno řečníka",
+    "Příjmení řečníka",
+
+    "Hodnocení",
+    "Zkrácené odůvodnění",
+    "Štítky",
+
+    "ID diskuze",
+    "Diskuze",
+    "Pořad",
+    "Moderátoři",
+    "Publikováno",
+    "Odkaz na diskuzi"
+  ]
+
+  # Fetching in batches to reduce memory footprint, because fetching all at once
+  # will get killed on server
+  @statements.find_each(batch_size: 100) do |statement|
+    sheet.add_row [
+      statement.id,
+      statement.content,
+      statement.important ? "Ano" : "Ne",
+
+      statement.speaker.id,
+      statement.speaker.first_name,
+      statement.speaker.last_name,
+
+      statement.assessment.veracity.name,
+      statement.assessment.short_explanation,
+      statement.tags.map { |tag| tag.name }.join(", "),
+
+      statement.source.id,
+      statement.source.name,
+      statement.source.medium ? statement.source.medium.name : "",
+      statement.source.media_personalities.map { |mp| mp.name }.join(", "),
+      statement.source.released_at,
+      statement.source.source_url
+    ]
+  end
+end

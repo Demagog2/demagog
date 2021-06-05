@@ -35,7 +35,6 @@ const TextareaField = (props: ITextareaFieldProps) => {
       render={({ field, form }: FieldProps) => (
         <TextareaInput
           id={name}
-          name={name}
           error={getIn(form.touched, name) && getIn(form.errors, name)}
           {...field}
           {...restProps}

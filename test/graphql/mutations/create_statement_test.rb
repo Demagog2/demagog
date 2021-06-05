@@ -52,6 +52,6 @@ class CreateStatementMutationTest < GraphQLTestCase
 
     result = execute_with_errors(mutation("fake_news", speaker, source, evaluator), context: authenticated_user_context)
 
-    assert_graphql_error "Argument 'statementType' on InputObject 'CreateStatementInput' has an invalid value. Expected type 'StatementType!'.", result
+    assert_graphql_error "Argument 'statementType' on InputObject 'CreateStatementInput' has an invalid value (fake_news). Expected type 'StatementType!'.", result
   end
 end

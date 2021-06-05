@@ -10,8 +10,12 @@ class Comment < ApplicationRecord
     order(created_at: :asc)
   }
 
+  MENTION_ALIAS_EXPERTS = "experts"
+  MENTION_ALIAS_PROOFREADERS = "proofreaders"
+  MENTION_ALIAS_SOCIAL_MEDIA_MANAGERS = "social_media_managers"
+
   def display_content
-    content.gsub(/@\[([^\]]+)\]\([^\)]+\)/, '@\1')
+    content.gsub(/@\[([^\]]+)\]\([^)]+\)/, '@\1')
   end
 
   def self.create_comment(comment_input, current_user)
@@ -24,8 +28,8 @@ class Comment < ApplicationRecord
 
       notifications = []
 
-      comment.content.scan(/@\[[^\]]+\]\(([^\)]+)\)/).each do |mention|
-        recipients = mention[0] == "experts" ? comment.statement.source.experts : [User.find(mention[0])]
+      comment.content.scan(/@\[[^\]]+\]\(([^)]+)\)/).each do |mention|
+        recipients = comment.mentioned_recipients(mention[0], comment)
 
         recipients.each do |recipient|
           notifications << Notification.new(
@@ -64,5 +68,18 @@ class Comment < ApplicationRecord
 
   def display_in_notification(type = "short")
     "„#{display_content.truncate(type == "short" ? 40 : 160, omission: '…')}“"
+  end
+
+  def mentioned_recipients(mention, comment)
+    case mention
+    when MENTION_ALIAS_EXPERTS
+      comment.statement.source.experts
+    when MENTION_ALIAS_SOCIAL_MEDIA_MANAGERS
+      User.active.joins(:roles).where(roles: { key: Role::SOCIAL_MEDIA_MANAGER })
+    when MENTION_ALIAS_PROOFREADERS
+      User.active.joins(:roles).where(roles: { key: Role::PROOFREADER })
+    else
+      [User.find(mention)]
+    end
   end
 end

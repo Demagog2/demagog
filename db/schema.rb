@@ -2,15 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_14_080641) do
+ActiveRecord::Schema.define(version: 2021_02_14_133953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,14 @@ ActiveRecord::Schema.define(version: 2019_12_14_080641) do
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
     t.datetime "created_at", null: false
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "article_segments", force: :cascade do |t|
@@ -47,6 +54,7 @@ ActiveRecord::Schema.define(version: 2019_12_14_080641) do
     t.bigint "article_id"
     t.integer "order"
     t.string "promise_url"
+    t.string "statement_id"
     t.index ["article_id"], name: "index_article_segments_on_article_id"
   end
 
@@ -105,6 +113,12 @@ ActiveRecord::Schema.define(version: 2019_12_14_080641) do
     t.text "short_explanation"
     t.bigint "assessment_methodology_id", null: false
     t.bigint "promise_rating_id"
+    t.datetime "evaluator_first_assigned_at"
+    t.datetime "first_requested_approval_at"
+    t.datetime "first_requested_proofreading_at"
+    t.datetime "first_approved_at"
+    t.datetime "evaluation_started_at"
+    t.datetime "evaluation_ended_at"
     t.index ["assessment_methodology_id"], name: "index_assessments_on_assessment_methodology_id"
     t.index ["promise_rating_id"], name: "index_assessments_on_promise_rating_id"
     t.index ["statement_id"], name: "index_assessments_on_statement_id"
@@ -326,6 +340,9 @@ ActiveRecord::Schema.define(version: 2019_12_14_080641) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "osoba_id"
+    t.string "wikidata_id"
+    t.index ["osoba_id"], name: "index_speakers_on_osoba_id"
+    t.index ["wikidata_id"], name: "index_speakers_on_wikidata_id"
   end
 
   create_table "statement_transcript_positions", force: :cascade do |t|
@@ -400,6 +417,8 @@ ActiveRecord::Schema.define(version: 2019_12_14_080641) do
     t.boolean "email_notifications", default: false
     t.boolean "user_public", default: false
     t.datetime "deleted_at"
+    t.boolean "notify_on_approval", default: false
+    t.boolean "notify_on_statement_publish", default: false
   end
 
   create_table "users_roles", force: :cascade do |t|
@@ -428,7 +447,20 @@ ActiveRecord::Schema.define(version: 2019_12_14_080641) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  create_table "web_contents", force: :cascade do |t|
+    t.string "system_id"
+    t.string "name", null: false
+    t.string "url_path"
+    t.boolean "dynamic_page", default: false
+    t.boolean "dynamic_page_published", default: false
+    t.json "structure", default: "[]", null: false
+    t.json "data", default: "{}", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "article_segments", "articles"
 
   create_view "article_stats", sql_definition: <<-SQL
@@ -454,7 +486,7 @@ ActiveRecord::Schema.define(version: 2019_12_14_080641) do
        JOIN speakers ON ((speakers.id = statements.speaker_id)))
        JOIN assessments ON ((statements.id = assessments.statement_id)))
        JOIN veracities ON ((assessments.veracity_id = veracities.id)))
-    WHERE (((assessments.evaluation_status)::text = 'approved'::text) AND (statements.published = true))
+    WHERE (((assessments.evaluation_status)::text = 'approved'::text) AND (statements.published = true) AND ((statements.statement_type)::text = 'factual'::text))
     GROUP BY veracities.key, statements.speaker_id;
   SQL
 end

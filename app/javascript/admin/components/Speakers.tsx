@@ -93,7 +93,7 @@ class Speakers extends React.Component<IProps, IState> {
 
         <Query<GetSpeakersQuery, GetSpeakersQueryVariables>
           query={GetSpeakers}
-          variables={{ name: this.state.search }}
+          variables={{ name: this.state.search, limit: SPEAKERS_PER_PAGE, offset: 0 }}
         >
           {(props) => {
             if (props.loading) {
@@ -167,12 +167,44 @@ class Speakers extends React.Component<IProps, IState> {
 
                         <ul className={Classes.LIST_UNSTYLED}>
                           <li>
+                            <span className={Classes.TEXT_MUTED}>Wikidata ID: </span>
+                            <p>
+                              {speaker.wikidataId ? (
+                                <a
+                                  href={`https://www.wikidata.org/wiki/${speaker.wikidataId}`}
+                                  target="_blank"
+                                >
+                                  {speaker.wikidataId}
+                                </a>
+                              ) : (
+                                '–'
+                              )}
+                            </p>
+                          </li>
+                          <li>
+                            <span className={Classes.TEXT_MUTED}>Hlídač státu OsobaID: </span>
+                            <p>
+                              {speaker.osobaId ? (
+                                <a
+                                  href={`https://www.hlidacstatu.cz/osoba/${speaker.osobaId}`}
+                                  target="_blank"
+                                >
+                                  {speaker.osobaId}
+                                </a>
+                              ) : (
+                                '–'
+                              )}
+                            </p>
+                          </li>
+                          <li>
                             <span className={Classes.TEXT_MUTED}>Respektovaný odkaz: </span>
                             <p>
                               {speaker.websiteUrl ? (
-                                <a href={speaker.websiteUrl}>{speaker.websiteUrl}</a>
+                                <a href={speaker.websiteUrl} target="_blank">
+                                  {speaker.websiteUrl}
+                                </a>
                               ) : (
-                                'Nevyplněn'
+                                '–'
                               )}
                             </p>
                           </li>
@@ -204,6 +236,30 @@ class Speakers extends React.Component<IProps, IState> {
                   </Card>
                 ))}
 
+                {props.data.speakers.length > 0 && (
+                  <Button
+                    onClick={() =>
+                      props.fetchMore({
+                        variables: {
+                          offset: props.data ? props.data.speakers.length : 0,
+                        },
+
+                        updateQuery: (prev, { fetchMoreResult }) => {
+                          if (!fetchMoreResult) {
+                            return prev;
+                          }
+
+                          return {
+                            ...prev,
+                            speakers: [...prev.speakers, ...fetchMoreResult.speakers],
+                          };
+                        },
+                      })
+                    }
+                    text="Načíst další"
+                  />
+                )}
+
                 {props.data.speakers.length === 0 && this.state.search !== '' && (
                   <p>Nenašli jsme žádnou osobu se jménem „{this.state.search}“.</p>
                 )}
@@ -215,5 +271,7 @@ class Speakers extends React.Component<IProps, IState> {
     );
   }
 }
+
+const SPEAKERS_PER_PAGE = 50;
 
 export default connect()(Speakers);

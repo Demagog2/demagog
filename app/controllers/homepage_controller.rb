@@ -2,8 +2,10 @@
 
 class HomepageController < FrontendController
   def index
+    cover_story = Article.kept.published.for_homepage.order(published_at: :desc).first
+
     unless params[:page].present?
-      @cover_story = Article.cover_story
+      @cover_story = cover_story
       @interesting_statements = Statement.interesting_statements
       @show_promises = true
       @promises_stats = get_promises_stats
@@ -12,10 +14,11 @@ class HomepageController < FrontendController
       @show_promises = false
     end
 
-    @articles = Article
-      .published
-      .order(published_at: :desc)
-      .page(params[:page])
+    @articles =
+      Article.kept.published.for_homepage.order(published_at: :desc).where.not(id: cover_story).page(
+        params[:page]
+      )
+        .per(10)
 
     # return unless Rails.env.production?
 
@@ -25,16 +28,21 @@ class HomepageController < FrontendController
 
   protected
     def get_promises_stats
-      keys = [PromiseRating::FULFILLED, PromiseRating::IN_PROGRESS, PromiseRating::BROKEN, PromiseRating::STALLED]
+      keys = [
+        PromiseRating::FULFILLED,
+        PromiseRating::IN_PROGRESS,
+        PromiseRating::BROKEN,
+        PromiseRating::STALLED
+      ]
 
-      statements = Statement
-        .where(source_id: [562])
-        .where(published: true)
-        .where(assessments: {
-          evaluation_status: Assessment::STATUS_APPROVED,
-        })
-        .includes(:assessment, assessment: :promise_rating)
+      statements =
+        Statement.where(source_id: [562]).where(published: true).where(
+          assessments: { evaluation_status: Assessment::STATUS_APPROVED }
+        )
+          .includes(:assessment, assessment: :promise_rating)
 
-      keys.map { |key| [key, statements.where(assessments: { promise_ratings: { key: key } }).count] }.to_h
+      keys.index_with do |key|
+        statements.where(assessments: { promise_ratings: { key: key } }).count
+      end
     end
 end

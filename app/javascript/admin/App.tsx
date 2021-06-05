@@ -12,6 +12,8 @@ import { IState } from './reducers';
 
 import ArticleEdit from './components/articles/ArticleEdit';
 import ArticleNew from './components/articles/ArticleNew';
+import ArticleSingleStatementEdit from './components/articles/ArticleSingleStatementEdit';
+import ArticleSingleStatementNew from './components/articles/ArticleSingleStatementNew';
 import Articles from './components/articles/Articles';
 
 import Availability from './components/Availability';
@@ -48,6 +50,7 @@ import SourceDetail from './components/SourceDetail';
 import SourceEdit from './components/SourceEdit';
 import SourceNew from './components/SourceNew';
 import Sources from './components/Sources';
+import SourceStats from './components/SourceStats';
 
 import StatementDetail from './components/StatementDetail';
 import StatementNew from './components/StatementNew';
@@ -55,10 +58,18 @@ import StatementsFromTranscript from './components/StatementsFromTranscript';
 import StatementsSort from './components/StatementsSort';
 import StatementsVideoMarks from './components/StatementsVideoMarks';
 
-import UserEdit from './components/UserEdit';
-import UserNew from './components/UserNew';
-import Users from './components/Users';
-import UsersSortOnAboutUsPage from './components/UsersSortOnAboutUsPage';
+import OverallStats from './components/OverallStats';
+
+import { UserEdit } from './components/users/UserEdit';
+import { UserNew } from './components/users/UserNew';
+import { UsersPageContainer } from './components/users/UsersPageContainer';
+import { UsersSortOnAboutUsPageContainer } from './components/users/UsersSortOnAboutUsPageContainer';
+
+import { TagsContainer } from './components/tags/TagsContainer';
+import { TagsNewContainer } from './components/tags/TagsNewContainer';
+
+import WebContents from './components/webContents/WebContents';
+import WebContentEdit from './components/webContents/WebContentEdit';
 
 const history = createBrowserHistory();
 
@@ -104,6 +115,16 @@ class App extends React.Component<IProps> {
                 <Route path="/admin/articles" exact component={Articles} />
                 <Route path="/admin/articles/new" exact component={ArticleNew} />
                 <Route path="/admin/articles/edit/:id" exact component={ArticleEdit} />
+                <Route
+                  path="/admin/articles/new-single-statement"
+                  exact
+                  component={ArticleSingleStatementNew}
+                />
+                <Route
+                  path="/admin/articles/edit-single-statement/:id"
+                  exact
+                  component={ArticleSingleStatementEdit}
+                />
 
                 <Route path="/admin/images" exact component={Images} />
 
@@ -127,6 +148,7 @@ class App extends React.Component<IProps> {
                   exact
                   component={StatementsSort}
                 />
+                <Route path="/admin/sources/:sourceId/stats" exact component={SourceStats} />
                 <Route
                   path="/admin/sources/:sourceId/statements-video-marks"
                   exact
@@ -163,18 +185,26 @@ class App extends React.Component<IProps> {
                 <Route path="/admin/pages/new" exact component={PageNew} />
                 <Route path="/admin/pages/edit/:id" exact component={PageEdit} />
 
-                <Route path="/admin/users" exact component={Users} />
+                <Route path="/admin/web-contents" exact component={WebContents} />
+                <Route path="/admin/web-contents/edit/:id" exact component={WebContentEdit} />
+
+                <Route path="/admin/users" exact component={UsersPageContainer} />
                 <Route path="/admin/users/new" exact component={UserNew} />
                 <Route path="/admin/users/edit/:id" exact component={UserEdit} />
                 <Route
                   path="/admin/users/sort-on-about-us-page"
                   exact
-                  component={UsersSortOnAboutUsPage}
+                  component={UsersSortOnAboutUsPageContainer}
                 />
+
+                <Route path="/admin/tags" exact component={TagsContainer} />
+                <Route path="/admin/tags/new" exact component={TagsNewContainer} />
 
                 <Route path="/admin/notifications/:tab?" exact component={Notifications} />
 
                 <Route path="/admin/availability" exact component={Availability} />
+
+                <Route path="/admin/overall-stats" exact component={OverallStats} />
 
                 <Route component={NotFound} />
               </Switch>

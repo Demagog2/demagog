@@ -6,15 +6,13 @@ import { format, isToday, isYesterday } from 'date-fns';
 import * as dateFnsCsLocale from 'date-fns/locale/cs';
 import { css, cx } from 'emotion';
 import { Formik } from 'formik';
-import { Mutation, Query } from 'react-apollo';
+import { Mutation, Query, useQuery } from 'react-apollo';
 import { Mention, MentionsInput } from 'react-mentions';
 
 import {
   CommentInput,
   CreateComment as CreateCommentMutation,
   CreateCommentVariables as CreateCommentMutationVariables,
-  GetStatementComments as GetStatementCommentsQuery,
-  GetStatementCommentsVariables as GetStatementCommentsQueryVariables,
   GetUsers as GetUsersQuery,
   GetUsersVariables as GetUsersQueryVariables,
 } from '../operation-result-types';
@@ -27,72 +25,127 @@ interface IProps {
   statementId: string;
 }
 
-class StatementComments extends React.PureComponent<IProps> {
-  public render() {
-    return (
-      <Query<GetStatementCommentsQuery, GetStatementCommentsQueryVariables>
-        query={GetStatementComments}
-        variables={{ id: parseInt(this.props.statementId, 10) }}
-        pollInterval={20350} // Little more than 20s so it does not sync with other polls
-      >
-        {({ data, loading, error, refetch }) => {
-          if (error) {
-            console.error(error); // tslint:disable-line:no-console
-          }
+export default function StatementComments(props: IProps) {
+  const { data, error, loading, refetch } = useQuery(GetStatementComments, {
+    variables: { id: parseInt(props.statementId, 10) },
+    pollInterval: 20350, /// Little more than 20s so it does not sync with other polls
+  });
 
-          if (loading && (!data || !data.statement)) {
-            return <Loading />;
-          }
+  const [showStatements, setShowStatements] = React.useState(false);
+  const onClick = () => {
+    setShowStatements((s) => !s);
+  };
 
-          if (!data || !data.statement) {
-            return null;
-          }
+  let allStatements;
+  if (showStatements) {
+    allStatements = (
+      <div>
+        {data.statement.comments.slice(0, data.statement.comments.length - 3).map((comment) => (
+          <div key={comment.id} style={{ marginBottom: 15 }}>
+            <strong>
+              {comment.user.firstName} {comment.user.lastName}
+            </strong>
+            <small className={Classes.TEXT_MUTED} style={{ marginLeft: 10 }}>
+              {formatCreatedAt(comment.createdAt)}
+            </small>
+            <div
+              style={{ marginTop: 3 }}
+              className={css`
+                p {
+                  margin: 3px 0 5px 0;
+                  word-break: break-word;
 
-          return (
-            <div>
-              {data.statement.comments.map((comment) => (
-                <div key={comment.id} style={{ marginBottom: 15 }}>
-                  <strong>
-                    {comment.user.firstName} {comment.user.lastName}
-                  </strong>
-                  <small className={Classes.TEXT_MUTED} style={{ marginLeft: 10 }}>
-                    {formatCreatedAt(comment.createdAt)}
-                  </small>
-                  <div
-                    style={{ marginTop: 3 }}
-                    className={css`
-                      p {
-                        margin: 3px 0 5px 0;
-                        word-break: break-word;
-
-                        span.highlight {
-                          background-color: rgb(206, 230, 249);
-                        }
-                      }
-                    `}
-                    dangerouslySetInnerHTML={{
-                      __html: newlinesToParagraphsAndBreaks(
-                        highlightMentions(nicerLinks(comment.content)),
-                      ),
-                    }}
-                  />
-                </div>
-              ))}
-
-              <Authorize permissions={['statements:comments:add']}>
-                <AddCommentForm
-                  statementId={this.props.statementId}
-                  onCommentAdded={() => {
-                    refetch({ id: parseInt(this.props.statementId, 10) });
-                  }}
-                />
-              </Authorize>
-            </div>
-          );
-        }}
-      </Query>
+                  span.highlight {
+                    background-color: rgb(206, 230, 249);
+                  }
+                }
+              `}
+              dangerouslySetInnerHTML={{
+                __html: newlinesToParagraphsAndBreaks(
+                  highlightMentions(nicerLinks(comment.content)),
+                ),
+              }}
+            />
+          </div>
+        ))}
+      </div>
     );
   }
+
+  if (error) {
+    console.error(error); // tslint:disable-line:no-console
+  }
+
+  if (loading && (!data || !data.statement)) {
+    return <Loading />;
+  }
+
+  if (!data || !data.statement) {
+    return null;
+  }
+
+  let textButtonHide;
+  if (showStatements) {
+    textButtonHide = 'Zobrazit jen poslední 3 komentáře';
+  } else {
+    textButtonHide = `Zobrazit ${data.statement.comments.length - 3} předchozích komentářů`;
+  }
+
+  return (
+    <div>
+      {data.statement.comments.length > 3 && (
+        <a
+          role="button"
+          onClick={onClick}
+          className={css`
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 10px;
+          `}
+        >
+          {textButtonHide}
+        </a>
+      )}
+
+      {allStatements}
+
+      {data.statement.comments.slice(-3).map((comment) => (
+        <div key={comment.id} style={{ marginBottom: 15 }}>
+          <strong>
+            {comment.user.firstName} {comment.user.lastName}
+          </strong>
+          <small className={Classes.TEXT_MUTED} style={{ marginLeft: 10 }}>
+            {formatCreatedAt(comment.createdAt)}
+          </small>
+          <div
+            style={{ marginTop: 3 }}
+            className={css`
+              p {
+                margin: 3px 0 5px 0;
+                word-break: break-word;
+
+                span.highlight {
+                  background-color: rgb(206, 230, 249);
+                }
+              }
+            `}
+            dangerouslySetInnerHTML={{
+              __html: newlinesToParagraphsAndBreaks(highlightMentions(nicerLinks(comment.content))),
+            }}
+          />
+        </div>
+      ))}
+
+      <Authorize permissions={['statements:comments:add']}>
+        <AddCommentForm
+          statementId={props.statementId}
+          onCommentAdded={() => {
+            refetch({ id: parseInt(props.statementId, 10) });
+          }}
+        />
+      </Authorize>
+    </div>
+  );
 }
 
 const highlightMentions = (commentContent: string) =>
@@ -172,7 +225,7 @@ const AddCommentForm = (props: IAddCommentFormProps) => {
                 {values.content.trim() !== '' && (
                   <div className={Classes.FORM_HELPER_TEXT}>
                     Tip: Můžeš zmínit kohokoli z týmu — stačí napsat @ a vybrat koho. Také dostane
-                    upozornění na tvůj komentář. @Experti upozorní všechny experty u tohoto výroku.
+                    upozornění na tvůj komentář. @Editoři upozorní všechny editory u tohoto výroku.
                   </div>
                 )}
               </div>
@@ -215,7 +268,15 @@ const CommentInput = (props: ICommentInputProps) => {
         }));
         suggestions.unshift({
           id: 'experts',
-          display: 'Experti',
+          display: 'Editoři',
+        });
+        suggestions.unshift({
+          id: 'proofreaders',
+          display: 'Korektoři',
+        });
+        suggestions.unshift({
+          id: 'social_media_managers',
+          display: 'Síťaři',
         });
 
         return (
@@ -281,7 +342,9 @@ const CommentInput = (props: ICommentInputProps) => {
 };
 
 const formatCreatedAt = (createdAt: string) => {
-  let datePart = format(createdAt, 'dd D. M. YYYY', { locale: dateFnsCsLocale });
+  let datePart = format(createdAt, 'dd D. M. YYYY', {
+    locale: dateFnsCsLocale,
+  });
   if (isToday(createdAt)) {
     datePart = 'dnes';
   } else if (isYesterday(createdAt)) {
@@ -290,5 +353,3 @@ const formatCreatedAt = (createdAt: string) => {
 
   return datePart + format(createdAt, ' H:mm', { locale: dateFnsCsLocale });
 };
-
-export default StatementComments;

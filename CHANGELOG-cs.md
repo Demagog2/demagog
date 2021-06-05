@@ -2,6 +2,9 @@
 
 Seznam změn v aplikaci za webem Demagog.cz. Struktura inspirována projektem [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## 27. července 2020
+- Změněno: Je možné uložit diskuzi bez vybrání pořadu, moderátora a řečníků
+
 ## 4. listopadu 2019
 - Přidáno: Propojování výroku s videi ([#453](https://github.com/Demagog2/demagog/pull/453))
 

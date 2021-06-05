@@ -7,7 +7,7 @@ jobs:
   build-job:
     docker:
       # specify the version you desire here
-      - image: circleci/ruby:2.5.1-node
+      - image: circleci/ruby:2.7.1-node
         environment:
           BUNDLE_PATH: vendor/bundle
           RAILS_ENV: test
@@ -20,7 +20,7 @@ jobs:
       - run:
           name: "Update Node.js"
           command: |
-            curl -sSL "https://nodejs.org/dist/v12.13.1/node-v12.13.1-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v12.13.1-linux-x64/bin/node
+            curl -sSL "https://nodejs.org/dist/v12.18.0/node-v12.18.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v12.18.0-linux-x64/bin/node
 
       - run:
           name: Check current version of node
@@ -65,7 +65,7 @@ jobs:
 
   test-job:
     docker:
-      - image: circleci/ruby:2.5.1-node
+      - image: circleci/ruby:2.7.1-node
         environment:
           DB_HOST: localhost
           DB_USERNAME: circleci-demo-go
@@ -131,7 +131,7 @@ jobs:
 
   deploy-job:
     docker:
-      - image: circleci/ruby:2.5.1-node
+      - image: circleci/ruby:2.7.1-node
         environment:
           RAILS_ENV: production
           # This is necessary only to build assets in PRODUCTION mode

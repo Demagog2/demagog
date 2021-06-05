@@ -1,0 +1,92 @@
+# frozen_string_literal: true
+
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Výroky") do |sheet|
+  sheet.add_row [
+    "ID výroku",
+    "Výrok",
+    "Řečník",
+    "Diskuze",
+    "Diskuze ze dne",
+    "Článek s ověřením publikován",
+    "Dní od diskuze k publikaci",
+    "Ověřovatel/ka",
+
+    "Datum a čas vytvoření výroku",
+
+    "Datum a čas prvního přiřazení k ověření",
+    "Minut k prvnímu přiřazení k ověření",
+
+    "Datum a čas první práce na odůvodnění",
+    "Minut k první práci na odůvodnění",
+
+    "Datum a čas prvního přesunutí ke kontrole",
+    "Minut k prvnímu přesunutí ke kontrole",
+
+    "Datum a čas prvního přesunutí ke korektuře",
+    "Minut k prvnímu přesunutí ke korektuře",
+
+    "Datum a čas prvního schválení",
+    "Minut k prvnímu schválení",
+  ]
+
+  @statements.each do |statement|
+    article = statement.mentioning_articles[0]
+
+    sheet.add_row [
+      statement.id,
+      statement.content,
+      statement.speaker.first_name + " " + statement.speaker.last_name,
+      statement.source.name,
+      statement.source.released_at.strftime("%F"),
+      article ? article.published_at.strftime("%F") : nil,
+      article ? (article.published_at.to_date - statement.source.released_at.to_date).round : nil,
+      statement.assessment.evaluator ? statement.assessment.evaluator.first_name + " " + statement.assessment.evaluator.last_name : nil,
+
+      statement.created_at.strftime("%F %T"),
+
+      statement.assessment.evaluator_first_assigned_at.strftime("%F %T"),
+      @statements_stats[statement.id][:evaluator_first_assigned_mins],
+
+      statement.assessment.evaluation_started_at.strftime("%F %T"),
+      @statements_stats[statement.id][:evaluation_started_mins],
+
+      statement.assessment.first_requested_approval_at.strftime("%F %T"),
+      @statements_stats[statement.id][:first_requested_approval_mins],
+
+      statement.assessment.first_requested_proofreading_at.strftime("%F %T"),
+      @statements_stats[statement.id][:first_requested_proofreading_mins],
+
+      statement.assessment.first_approved_at.strftime("%F %T"),
+      @statements_stats[statement.id][:first_approved_mins]
+    ]
+  end
+end
+
+wb.add_worksheet(name: "Diskuze") do |sheet|
+  sheet.add_row [
+    "Diskuze",
+    "Diskuze ze dne",
+
+    "Průměrně hodin k prvnímu přiřazení k ověření",
+    "Průměrně hodin k první práci na odůvodnění",
+    "Průměrně hodin k prvnímu přesunutí ke kontrole",
+    "Průměrně hodin k prvnímu přesunutí ke korektuře",
+    "Průměrně hodin k prvnímu schválení",
+  ]
+
+  @sources_stats.each do |item|
+    source = item[:source]
+
+    sheet.add_row [
+      source.name,
+      source.released_at.strftime("%F"),
+
+      item[:evaluator_first_assigned_mins] / 60,
+      item[:evaluation_started_mins] / 60,
+      item[:first_requested_approval_mins] / 60,
+      item[:first_requested_proofreading_mins] / 60,
+      item[:first_approved_mins] / 60
+    ]
+  end
+end

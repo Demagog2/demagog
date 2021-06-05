@@ -27,7 +27,7 @@ class QueryTypePageTest < GraphQLTestCase
 
     query_string = "
       query {
-        page(slug: #{page.slug}) {
+        page(slug: \"#{page.slug}\") {
           id
           title
         }
@@ -79,7 +79,7 @@ class QueryTypePageTest < GraphQLTestCase
 
     query_string = "
       query {
-        page(slug: #{page.slug}, includeUnpublished: true) {
+        page(slug: \"#{page.slug}\", includeUnpublished: true) {
           id
           title
         }

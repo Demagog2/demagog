@@ -116,6 +116,7 @@ export const CreateArticle = gql`
           textHtml
           textSlatejson
           promiseUrl
+          statementId
           statements {
             id
           }
@@ -146,6 +147,7 @@ export const UpdateArticle = gql`
           textHtml
           textSlatejson
           promiseUrl
+          statementId
           statements {
             id
           }
@@ -249,6 +251,8 @@ export const CreateSpeaker = gql`
         lastName
         avatar
         websiteUrl
+        osobaId
+        wikidataId
         body {
           shortName
         }
@@ -275,6 +279,8 @@ export const UpdateSpeaker = gql`
         lastName
         avatar
         websiteUrl
+        osobaId
+        wikidataId
         body {
           shortName
         }
@@ -558,6 +564,33 @@ export const UpdateStatementsVideoMarks = gql`
           start
           stop
         }
+      }
+    }
+  }
+`;
+
+export const UpdateWebContent = gql`
+  mutation UpdateWebContent($id: ID!, $webContentInput: WebContentInput!) {
+    updateWebContent(id: $id, webContentInput: $webContentInput) {
+      webContent {
+        id
+        systemId
+        name
+        urlPath
+        dynamicPage
+        dynamicPagePublished
+        structure
+        data
+      }
+    }
+  }
+`;
+
+export const CreateTag = gql`
+  mutation CreateTag($tagInput: TagInput!) {
+    createTag(tagInput: $tagInput) {
+      tag {
+        name
       }
     }
   }

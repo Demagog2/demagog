@@ -30,17 +30,7 @@ class Statement < ApplicationRecord
   }
 
   scope :ordered, -> {
-    kept
-      .left_outer_joins(
-        # Doing left outer join so it returns also statements without transcript position
-        :statement_transcript_position
-      )
-      .order(
-        Arel.sql("source_order ASC NULLS LAST"),
-        Arel.sql("statement_transcript_positions.start_line ASC NULLS LAST"),
-        Arel.sql("statement_transcript_positions.start_offset ASC NULLS LAST"),
-        "excerpted_at ASC"
-      )
+    Statement.sort_statements_query(kept)
   }
 
   scope :published, -> {
@@ -139,6 +129,24 @@ class Statement < ApplicationRecord
       .where(important: true)
   end
 
+  def self.sort_statements_query(query, sources_chronologically = true)
+    query
+      .joins(:source)
+      .left_outer_joins(
+        # Doing left outer join so it returns also statements without transcript position
+        :statement_transcript_position
+      )
+      .order(
+        "sources.released_at #{sources_chronologically ? 'ASC' : 'DESC'}",
+
+        # Inside source we keep always the same order
+        Arel.sql("source_order ASC NULLS LAST"),
+        Arel.sql("statement_transcript_positions.start_line ASC NULLS LAST"),
+        Arel.sql("statement_transcript_positions.start_offset ASC NULLS LAST"),
+        "excerpted_at ASC"
+      )
+  end
+
   # @return [Assessment]
   def approved_assessment
     Assessment.find_by(
@@ -181,6 +189,9 @@ class Statement < ApplicationRecord
   end
 
   def mentioning_articles
-    Article.joins(:segments).where(article_segments: { source_id: source.id }).distinct.order(published_at: :desc)
+    Article.published.joins(:segments)
+      .where(article_segments: { source_id: source.id })
+      .or(Article.where(article_segments: { statement_id: id }))
+      .distinct.order(published_at: :desc)
   end
 end

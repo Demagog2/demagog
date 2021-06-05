@@ -19,22 +19,25 @@ import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
 import { ArticleInput, GetArticle as GetArticleQuery } from '../../operation-result-types';
+import { isSameOrAfterToday } from '../../utils';
 import DateField from '../forms/controls/DateField';
 import ImageField, { ImageValueType } from '../forms/controls/ImageField';
 import SelectField from '../forms/controls/SelectField';
 import SwitchField from '../forms/controls/SwitchField';
 import FormGroup from '../forms/FormGroup';
-import ArticleIllustration from './ArticleIllustration';
+import PreviewableArticleIllustration from './PreviewableArticleIllustration';
 import ArticlePromiseSegment from './ArticlePromiseSegment';
 import ArticleSourceStatementsSegment from './ArticleSourceStatementsSegment';
 import ArticleTextSegment from './ArticleTextSegment';
 
 const ARTICLE_TYPE_DEFAULT = 'default';
 const ARTICLE_TYPE_STATIC = 'static';
+const ARTICLE_TYPE_FACEBOOK_FACTCHECK = 'facebook_factcheck';
 
 const ARTICLE_TYPE_OPTIONS = [
   { label: 'Ověřeno', value: ARTICLE_TYPE_DEFAULT },
   { label: 'Komentář', value: ARTICLE_TYPE_STATIC },
+  { label: 'Facebook factcheck', value: ARTICLE_TYPE_FACEBOOK_FACTCHECK },
 ];
 
 type SegmentType = 'text' | 'source_statements' | 'promise';
@@ -78,7 +81,9 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
       <Formik
         initialValues={initialValues}
         validationSchema={yup.object().shape({
-          article_type: yup.string().oneOf([ARTICLE_TYPE_DEFAULT, ARTICLE_TYPE_STATIC]),
+          article_type: yup
+            .string()
+            .oneOf([ARTICLE_TYPE_DEFAULT, ARTICLE_TYPE_STATIC, ARTICLE_TYPE_FACEBOOK_FACTCHECK]),
         })}
         onSubmit={(values, { setSubmitting }) => {
           const formData: IArticleFormData = {
@@ -231,7 +236,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                   <ImageField
                     name="illustration"
                     renderImage={(src) => (
-                      <ArticleIllustration illustration={src} title={values.title} />
+                      <PreviewableArticleIllustration illustration={src} title={values.title} />
                     )}
                   />
                 </FormGroup>
@@ -245,6 +250,17 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                 <FormGroup label="Datum zveřejnění" name="published_at">
                   <DateField name="published_at" />
                 </FormGroup>
+
+                {article?.articleType === ARTICLE_TYPE_FACEBOOK_FACTCHECK &&
+                  article.published &&
+                  article.publishedAt &&
+                  isSameOrAfterToday(article.publishedAt) && (
+                    <div>
+                      <a href={`/diskuze/${article.slug}`} target="_blank">
+                        Veřejný odkaz
+                      </a>
+                    </div>
+                  )}
               </div>
             </div>
           </Form>
