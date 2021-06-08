@@ -1,0 +1,54 @@
+.container-statement-show_preview {
+  width: 1000px;
+  height: 500px;
+  background-color: #0060FF;
+  position: relative;
+
+  .demagog-logo {
+    position: absolute;
+    top: 50px;
+    left: 60px;
+    width: 260px;
+  }
+
+  .statement-content {
+    position: absolute;
+    left: 250px;
+    right: 250px;
+    top: 120px;
+    bottom: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .statement-content-inner {
+      text-align: center;
+      font-size: 34px;
+      line-height: 1.45;
+      color: white;
+    }
+  }
+
+  .speaker-portrait-wrapper {
+    position: absolute;
+    top: 160px;
+    left: -50px;
+
+    .portrait {
+      display: block;
+      width: 280px;
+      height: 280px;
+    }
+  }
+
+  .veracity-badge {
+    position: absolute;
+    right: 50px;
+    bottom: 40px;
+
+    img {
+      width: 180px;
+
+    }
+  }
+}
