@@ -13,6 +13,9 @@ class Statement < ApplicationRecord
   after_update { ElasticsearchWorker.perform_async(:statement, :update, self.id) }
   after_discard { ElasticsearchWorker.perform_async(:statement, :destroy, self.id) }
 
+  after_create :generate_preview_image, if: Proc.new { |statement| statement.published && statement.published_previously_changed? }
+  after_update :generate_preview_image, if: Proc.new { |statement| statement.published && statement.published_previously_changed? }
+
   belongs_to :speaker
   belongs_to :source, optional: true
   has_many :comments
@@ -22,6 +25,7 @@ class Statement < ApplicationRecord
   has_one :statement_transcript_position
   has_one :statement_video_mark
   has_and_belongs_to_many :tags
+  has_one_attached :preview_image
 
   default_scope {
     # We keep here only soft-delete, ordering cannot be here because
@@ -194,4 +198,9 @@ class Statement < ApplicationRecord
       .or(Article.where(article_segments: { statement_id: id }))
       .distinct.order(published_at: :desc)
   end
+
+  private
+    def generate_preview_image
+      GenerateStatementPreviewImageWorker.perform_async(self.id,)
+    end
 end

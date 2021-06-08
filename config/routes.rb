@@ -72,6 +72,7 @@ Rails.application.routes.draw do
 
   get "vyroky" => "statement#index", as: "statements"
   get "vyrok/:id" => "statement#show", as: "statement"
+  get "vyrok-nahled/:id" => "statement#show_preview"
 
   get "diskuze" => "article#discussions"
   get "socialni-site" => "article#social_media"
