@@ -4,7 +4,7 @@
   <img src="<%= asset_path("demagog-neg-logo.svg") %>" alt="Logo Demagog.cz" class="demagog-logo">
 
   <div class="statement-content">
-    <div class="statement-content-inner" style="font-size: <%= @font_size %>px">
+    <div class="statement-content-inner" style="font-size: <%= @font_size %>px; line-height: <%= @line_height %>">
       „<%= content_to_html(@statement.content) %>“
     </div>
   </div>
