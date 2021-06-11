@@ -32,7 +32,6 @@ import Loading from '../Loading';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
 import StatementCard from '../StatementCard';
 import { EmptySourceDetail } from './EmptySourceDetail';
-import { SpeakersStats } from './SpeakersStats';
 import { MassStatementsPublishModal } from './MassStatementsPublishModal';
 import { SpeakerStatsContainer } from './SpeakerStatsContainer';
 
@@ -536,8 +535,6 @@ class SourceDetail extends React.Component<IProps, IState> {
                       />
                     ))}
                   </div>
-
-                  <SpeakersStats speakers={source.speakers ?? []} statements={data.statements} />
 
                   <SpeakerStatsContainer
                     speakers={source.speakers ?? []}
