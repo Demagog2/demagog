@@ -11,7 +11,7 @@
 *.swp
 
 # Ignore editor files
-/.idea
+.idea
 /.vscode
 
 # Ignore local env properties

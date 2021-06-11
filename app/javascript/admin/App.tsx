@@ -46,7 +46,7 @@ import MediaPersonalities from './components/mediaPersonalities/MediaPersonaliti
 import MediaPersonalityEdit from './components/mediaPersonalities/MediaPersonalityEdit';
 import MediaPersonalityNew from './components/mediaPersonalities/MediaPersonalityNew';
 
-import SourceDetail from './components/SourceDetail';
+import SourceDetail from './components/sources/SourceDetail';
 import SourceEdit from './components/SourceEdit';
 import SourceNew from './components/SourceNew';
 import Sources from './components/Sources';

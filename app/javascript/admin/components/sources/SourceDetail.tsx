@@ -2,50 +2,39 @@
 
 import * as React from 'react';
 
-import {
-  Button,
-  Classes,
-  Colors,
-  Dialog,
-  Intent,
-  Menu,
-  MenuDivider,
-  MenuItem,
-  NonIdealState,
-  Popover,
-  Position,
-} from '@blueprintjs/core';
+import { Button, Classes, Menu, MenuDivider, MenuItem, Popover, Position } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import * as Sentry from '@sentry/browser';
 import { ApolloError } from 'apollo-client';
-import { css, cx } from 'emotion';
-import { get, groupBy, orderBy } from 'lodash';
+import { cx } from 'emotion';
+import { get, orderBy } from 'lodash';
 import * as queryString from 'query-string';
-import { Mutation, Query } from 'react-apollo';
+import { Query } from 'react-apollo';
 import { connect, DispatchProp } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
-import { addFlashMessage } from '../actions/flashMessages';
-import apolloClient from '../apolloClient';
+import { addFlashMessage } from '../../actions/flashMessages';
 import {
   ASSESSMENT_STATUS_APPROVAL_NEEDED,
   ASSESSMENT_STATUS_APPROVED,
   ASSESSMENT_STATUS_BEING_EVALUATED,
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
-} from '../constants';
+} from '../../constants';
 import {
-  AssessmentMethodologyRatingModel,
   GetSource as GetSourceQuery,
   GetSourceStatements as GetSourceStatementsQuery,
   GetSourceStatementsVariables as GetSourceStatementsQueryVariables,
-} from '../operation-result-types';
-import { DeleteSource, PublishApprovedSourceStatements } from '../queries/mutations';
-import { GetSource, GetSources, GetSourceStatements } from '../queries/queries';
-import { displayDate } from '../utils';
-import Authorize from './Authorize';
-import Loading from './Loading';
-import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
-import StatementCard from './StatementCard';
+} from '../../operation-result-types';
+import { DeleteSource } from '../../queries/mutations';
+import { GetSource, GetSources, GetSourceStatements } from '../../queries/queries';
+import { displayDate } from '../../utils';
+import Authorize from '../Authorize';
+import Loading from '../Loading';
+import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
+import StatementCard from '../StatementCard';
+import { EmptySourceDetail } from './EmptySourceDetail';
+import { SpeakersStats } from './SpeakersStats';
+import { MassStatementsPublishModal } from './MassStatementsPublishModal';
+import { SpeakerStatsContainer } from './SpeakerStatsContainer';
 
 const STATUS_FILTER_LABELS = {
   [ASSESSMENT_STATUS_BEING_EVALUATED]: 'Ve zpracování',
@@ -256,24 +245,6 @@ class SourceDetail extends React.Component<IProps, IState> {
                     >
                       <Button text="Diskuzi…" />
                     </Popover>
-
-                    {/* <>
-                      <Link
-                        to={`/admin/sources/edit/${source.id}`}
-                        className={Classes.BUTTON}
-                        style={{ marginLeft: 7 }}
-                      >
-                        Upravit údaje o diskuzi
-                      </Link>
-                      <button
-                        type="button"
-                        className={Classes.BUTTON}
-                        style={{ marginLeft: 7 }}
-                        onClick={this.toggleConfirmDeleteModal}
-                      >
-                        Smazat diskuzi
-                      </button>
-                    </> */}
                   </Authorize>
                   <Link to="/admin/sources" className={Classes.BUTTON} style={{ marginLeft: 7 }}>
                     Zpět na seznam diskuzí
@@ -337,21 +308,7 @@ class SourceDetail extends React.Component<IProps, IState> {
           if (data.statements.length === 0) {
             return (
               <div style={{ marginTop: 50 }}>
-                <NonIdealState title="Zatím tu nejsou žádné výroky">
-                  <Link
-                    to={`/admin/sources/${source.id}/statements-from-transcript`}
-                    className={Classes.BUTTON}
-                  >
-                    Přidat výroky výběrem z přepisu
-                  </Link>
-                  <div style={{ margin: '5px 0' }}>nebo</div>
-                  <Link
-                    to={`/admin/sources/${source.id}/statements/new`}
-                    className={Classes.BUTTON}
-                  >
-                    Přidat výrok ručně
-                  </Link>
-                </NonIdealState>
+                <EmptySourceDetail source={source} />
               </div>
             );
           }
@@ -580,7 +537,12 @@ class SourceDetail extends React.Component<IProps, IState> {
                     ))}
                   </div>
 
-                  <SpeakersStats speakers={source.speakers} statements={data.statements} />
+                  <SpeakersStats speakers={source.speakers ?? []} statements={data.statements} />
+
+                  <SpeakerStatsContainer
+                    speakers={source.speakers ?? []}
+                    statements={data.statements}
+                  />
                 </div>
                 <div style={{ flex: '1 1' }}>
                   {statementsToDisplay.map((statement) => (
@@ -615,195 +577,4 @@ class SourceDetail extends React.Component<IProps, IState> {
   }
 }
 
-interface IMassStatementsPublishModalProps {
-  statements: GetSourceStatementsQuery['statements'];
-  source: GetSourceQuery['source'];
-  onCancel: () => any;
-  onCompleted: () => any;
-  onError: (error: ApolloError) => any;
-}
-
-class MassStatementsPublishModal extends React.Component<IMassStatementsPublishModalProps> {
-  public render() {
-    const { source, statements, onCancel, onCompleted, onError } = this.props;
-
-    const approvedAndNotPublished = statements.filter(
-      (s) => s.assessment.evaluationStatus === ASSESSMENT_STATUS_APPROVED && !s.published,
-    );
-
-    return (
-      <Dialog isOpen onClose={onCancel} title="Opravdu zveřejnit?">
-        <div className={Classes.DIALOG_BODY}>
-          {approvedAndNotPublished.length > 0 ? (
-            <>
-              Opravdu chceš zveřejnit všech {approvedAndNotPublished.length} schválených a
-              nezveřejněných výroků v rámci této diskuze?
-            </>
-          ) : (
-            <>V rámci diskuze teď nemáš žádné schválené a nezveřejněné výroky.</>
-          )}
-        </div>
-        <div className={Classes.DIALOG_FOOTER}>
-          <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-            <Button text="Zpět" onClick={onCancel} />
-            {approvedAndNotPublished.length > 0 && (
-              <Mutation<any, any>
-                mutation={PublishApprovedSourceStatements}
-                variables={{ id: source.id }}
-              >
-                {(mutate, { loading }) => (
-                  <Button
-                    intent={Intent.PRIMARY}
-                    onClick={() =>
-                      mutate()
-                        // Adding the onCompleted/onError callbacks here, because on Apollo's Mutation
-                        // component they don't work in this setup for some reason :/
-                        .then(onCompleted)
-                        .catch(onError)
-                    }
-                    text={
-                      loading
-                        ? 'Zveřejňuju …'
-                        : `Zveřejnit ${approvedAndNotPublished.length} výroků`
-                    }
-                    disabled={loading}
-                  />
-                )}
-              </Mutation>
-            )}
-          </div>
-        </div>
-      </Dialog>
-    );
-  }
-}
-
 export default connect()(SourceDetail);
-
-interface ISpeakerStatsProps {
-  speakers: GetSourceQuery['source']['speakers'];
-  statements: GetSourceStatementsQuery['statements'];
-}
-
-const SpeakersStats = (props: ISpeakerStatsProps) => {
-  const assessmentMethodology = props.statements[0].assessment.assessmentMethodology;
-
-  const statsBySpeaker = props.speakers?.map((speaker) => {
-    const speakerStatements = props.statements.filter(
-      (statement) => statement.speaker.id === speaker.id,
-    );
-
-    const grouped = groupBy(speakerStatements, (statement) => {
-      switch (statement.assessment.evaluationStatus) {
-        case ASSESSMENT_STATUS_APPROVED:
-        // When statement is already in proofreading state, the rating won't
-        // change, so we can already include it in the stats as well
-        case ASSESSMENT_STATUS_PROOFREADING_NEEDED:
-          if (
-            statement.assessment.assessmentMethodology.ratingModel ===
-            AssessmentMethodologyRatingModel.veracity
-          ) {
-            if (statement.assessment.veracity === null) {
-              // If the statement does not have veracity set in proofreading or approved
-              // state, don't fail and just log this to sentry
-              Sentry.withScope((scope) => {
-                scope.setLevel(Sentry.Severity.Warning);
-                scope.setExtra('apollo_cache', JSON.stringify(apolloClient.extract()));
-                Sentry.captureException(
-                  `Expected non-null veracity for statement #${statement.id}`,
-                );
-              });
-              // tslint:disable-next-line:no-console
-              console.warn(`Expected non-null veracity for statement #${statement.id}`);
-
-              return 'being-evaluated';
-            }
-
-            return statement.assessment.veracity.key;
-          }
-
-          if (
-            statement.assessment.assessmentMethodology.ratingModel ===
-            AssessmentMethodologyRatingModel.promise_rating
-          ) {
-            if (statement.assessment.promiseRating === null) {
-              Sentry.withScope((scope) => {
-                scope.setLevel(Sentry.Severity.Warning);
-                scope.setExtra('apollo_cache', JSON.stringify(apolloClient.extract()));
-                Sentry.captureException(
-                  `Expected non-null promise rating for statement #${statement.id}`,
-                );
-              });
-              // tslint:disable-next-line:no-console
-              console.warn(`Expected non-null promise rating for statement #${statement.id}`);
-
-              return 'being-evaluated';
-            }
-
-            return statement.assessment.promiseRating.key;
-          }
-
-        default:
-          return 'being-evaluated';
-      }
-    });
-
-    const stats: string[] = [];
-    if (assessmentMethodology.ratingModel === AssessmentMethodologyRatingModel.veracity) {
-      assessmentMethodology.ratingKeys.forEach((ratingKey) => {
-        const labels = {
-          true: 'pravda',
-          untrue: 'nepravda',
-          misleading: 'zavádějící',
-          unverifiable: 'neověřitelné',
-        };
-
-        stats.push(get(grouped, [ratingKey, 'length'], 0) + ' ' + labels[ratingKey]);
-      });
-    }
-    if (assessmentMethodology.ratingModel === AssessmentMethodologyRatingModel.promise_rating) {
-      assessmentMethodology.ratingKeys.forEach((ratingKey) => {
-        const labels = {
-          fulfilled: 'splněno',
-          in_progress: 'průběžně plněno',
-          partially_fulfilled: 'částečně splněno',
-          broken: 'porušeno',
-          stalled: 'nerealizovano',
-        };
-
-        stats.push(get(grouped, [ratingKey, 'length'], 0) + ' ' + labels[ratingKey]);
-      });
-    }
-    stats.push(get(grouped, 'being-evaluated.length', 0) + ' se ještě ověřuje');
-
-    return {
-      speaker,
-      stats,
-    };
-  });
-
-  return (
-    <div
-      className={css`
-        background-color: ${Colors.LIGHT_GRAY5};
-        padding: 15px 15px 5px 15px;
-        margin-top: 20px;
-      `}
-    >
-      {statsBySpeaker?.map(({ speaker, stats }) => (
-        <p key={speaker.id}>
-          <strong>
-            {speaker.firstName} {speaker.lastName}
-          </strong>
-          <br />
-          {stats.map((stat, index) => (
-            <React.Fragment key={index}>
-              {stat}
-              <br />
-            </React.Fragment>
-          ))}
-        </p>
-      ))}
-    </div>
-  );
-};
