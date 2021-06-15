@@ -29,6 +29,12 @@ interface IFilterViewModel {
 export interface ISourceViewModel {
   id: string;
   name: string;
+  sourceUrl?: string;
+  releasedAt?: string;
+  experts: string[];
+  medium?: string;
+  mediaPersonalities: string[];
+  statementsTotalCount: number;
   filters: Array<IFilterGroup | IFilterViewModel>;
   speakerStats: StatsReportViewModel[];
 }
@@ -40,6 +46,12 @@ export class SourceDetailPresenter {
     return {
       id: this.source.id,
       name: this.source.name,
+      sourceUrl: this.source.sourceUrl ?? undefined,
+      releasedAt: this.source.releasedAt ?? undefined,
+      experts: this.buildExperts(),
+      medium: this.source.medium?.name,
+      mediaPersonalities: this.buildMediaPersonalities(),
+      statementsTotalCount: this.source.statements.length,
       filters: [
         this.buildFilterGroup(
           'Filtrovat dle stavu',
@@ -61,6 +73,14 @@ export class SourceDetailPresenter {
       ],
       speakerStats: this.buildSpeakerStats(),
     };
+  }
+
+  private buildMediaPersonalities() {
+    return this.source.mediaPersonalities.map((mediaPersonality) => mediaPersonality.getName());
+  }
+
+  private buildExperts() {
+    return this.source.experts.map((expert) => expert.getFullName());
   }
 
   private buildSpeakerStats() {

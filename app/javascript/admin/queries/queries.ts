@@ -177,7 +177,22 @@ export const GetSourceDetail = gql`
     source(id: $id) {
       id
       name
+      sourceUrl
+      releasedAt
       speakers {
+        id
+        firstName
+        lastName
+      }
+      medium {
+        id
+        name
+      }
+      mediaPersonalities {
+        id
+        name
+      }
+      experts {
         id
         firstName
         lastName

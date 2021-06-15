@@ -10,6 +10,9 @@ import {
 } from '../../../../constants';
 import { Evaluator } from '../model/Evaluator';
 import { speakerFactory } from '../model/SpeakerFactory';
+import { Expert } from '../../model/Expert';
+import { Medium } from '../model/Medium';
+import { MediaPersonality } from '../model/MediaPersonality';
 
 const filterViewModelFactory = Factory.define<{ key: string; label: string; active: boolean }>(
   () => ({
@@ -23,28 +26,38 @@ const filterViewModelFactory = Factory.define<{ key: string; label: string; acti
 describe('SourceDetailPresenter', () => {
   const evaluator = new Evaluator('1', 'John', 'Doe');
 
-  const source = new Source('1', 'Source name', speakerFactory.buildList(2), [
-    ...statementFactory
-      .withEvaluator(evaluator)
-      .published()
-      .buildList(2),
-    statementFactory
-      .withEvaluator(evaluator)
-      .approved()
-      .build(),
-    statementFactory
-      .withoutEvaluator()
-      .beingEvaluated()
-      .build(),
-    statementFactory
-      .withEvaluator(evaluator)
-      .proofread()
-      .build(),
-    statementFactory
-      .withEvaluator(evaluator)
-      .approvalNeeded()
-      .build(),
-  ]);
+  const source = new Source(
+    '1',
+    'Source name',
+    'https://example.com',
+    '2020-01-13 17:00',
+    [new Expert('1', 'John', 'Expert')],
+    speakerFactory.buildList(2),
+    [
+      ...statementFactory
+        .withEvaluator(evaluator)
+        .published()
+        .buildList(2),
+      statementFactory
+        .withEvaluator(evaluator)
+        .approved()
+        .build(),
+      statementFactory
+        .withoutEvaluator()
+        .beingEvaluated()
+        .build(),
+      statementFactory
+        .withEvaluator(evaluator)
+        .proofread()
+        .build(),
+      statementFactory
+        .withEvaluator(evaluator)
+        .approvalNeeded()
+        .build(),
+    ],
+    [new MediaPersonality('1', 'John Doe')],
+    new Medium('1', 'BBC News'),
+  );
 
   const presenter = new SourceDetailPresenter(source, ['published']);
 
@@ -54,6 +67,24 @@ describe('SourceDetailPresenter', () => {
     it('contains information about source', () => {
       expect(model.id).toEqual(source.id);
       expect(model.name).toEqual(source.name);
+      expect(model.sourceUrl).toEqual(source.sourceUrl);
+      expect(model.releasedAt).toEqual(source.releasedAt);
+    });
+
+    it('contains information about experts', () => {
+      expect(model.experts).toEqual(['John Expert']);
+    });
+
+    it('contains information about total number of statements', () => {
+      expect(model.statementsTotalCount).toBe(6);
+    });
+
+    it('contains information about media', () => {
+      expect(model.medium).toEqual('BBC News');
+    });
+
+    it('contains information about media personalities', () => {
+      expect(model.mediaPersonalities).toEqual(['John Doe']);
     });
 
     it('contains information about filters', () => {

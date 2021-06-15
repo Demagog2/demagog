@@ -1868,11 +1868,35 @@ export interface GetSourceDetail_source_speakers {
   lastName: string;
 }
 
+export interface GetSourceDetail_source_medium {
+  __typename: "Medium";
+  id: string;
+  name: string;
+}
+
+export interface GetSourceDetail_source_mediaPersonalities {
+  __typename: "MediaPersonality";
+  id: string;
+  name: string;
+}
+
+export interface GetSourceDetail_source_experts {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
 export interface GetSourceDetail_source {
   __typename: "Source";
   id: string;
   name: string;
+  sourceUrl: string | null;
+  releasedAt: string | null;
   speakers: GetSourceDetail_source_speakers[] | null;
+  medium: GetSourceDetail_source_medium | null;
+  mediaPersonalities: GetSourceDetail_source_mediaPersonalities[] | null;
+  experts: GetSourceDetail_source_experts[] | null;
 }
 
 export interface GetSourceDetail_statements_assessment_assessmentMethodology {

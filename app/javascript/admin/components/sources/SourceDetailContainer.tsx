@@ -11,8 +11,9 @@ import { useModal } from 'react-modal-hook';
 import { RemoveSourceModalContainer } from './RemoveSourceModalContainer';
 import { useStatementFilters } from './hooks/statement-filters';
 import { SourceDetail } from './SourceDetail';
-import { createSourceFromQuery } from './data-mappers/source-data-mapper';
+import { createSourceFromQuery } from './data-mappers/SourceDataMapper';
 import { Source } from './model/Source';
+import { SourceDetailPresenter } from './speaker-stats-report/presenters/SourceDetailPresenter';
 
 export function SourceDetailContainer() {
   const { params } = useRouteMatch<{ sourceId: string }>();
@@ -27,8 +28,11 @@ export function SourceDetailContainer() {
   );
 
   const source = useMemo(() => {
-    return data ? createSourceFromQuery(data) : new Source('', 'Empty source', [], []);
+    return data ? createSourceFromQuery(data) : new Source('', 'Empty source', [], [], [], null);
   }, [data]);
+
+  // TODO: Pass in real active filters
+  const sourceViewModel = new SourceDetailPresenter(source, []).buildViewModel();
 
   const [showMassStatementsPublishModal, closeMassStatementsPublishModal] = useModal(
     () => (
@@ -54,7 +58,7 @@ export function SourceDetailContainer() {
 
   return (
     <SourceDetail
-      source={source}
+      source={sourceViewModel}
       loading={loading}
       onMassStatementsPublish={showMassStatementsPublishModal}
       onDeleteSource={showRemoveSourceModal}
