@@ -9,6 +9,9 @@ import { UnpublishedVerifiedStatementFilter } from './UnpublishedVerifiedStateme
 import { Evaluator } from '../model/Evaluator';
 import { EvaluatorStatementFilter } from '../model/filters/EvaluatorStatementFilter';
 import { UnassignedEvaluatorStatementFilter } from '../model/filters/UnassignedEvaluatorStatementFilter';
+import { StatsReportViewModel } from '../view/StatsReportViewModel';
+import { SpeakerStatsReportBuilder } from '../SpeakerStatsReportBuilder';
+import { StatsReportTranslator } from '../translator/StatsReportTranslator';
 
 interface IFilterGroup {
   type: 'filter-group';
@@ -27,6 +30,7 @@ export interface ISourceViewModel {
   id: string;
   name: string;
   filters: Array<IFilterGroup | IFilterViewModel>;
+  speakerStats: StatsReportViewModel[];
 }
 
 export class SourceDetailPresenter {
@@ -55,7 +59,25 @@ export class SourceDetailPresenter {
             : []),
         ]),
       ],
+      speakerStats: this.buildSpeakerStats(),
     };
+  }
+
+  private buildSpeakerStats() {
+    const statements = this.source.statements;
+
+    return this.source.speakers.map((speaker) => {
+      const report = new SpeakerStatsReportBuilder(speaker, statements).buildReport();
+
+      // build view model from report
+      return {
+        id: report.id,
+        title: report.title,
+        stats: report.stats.map(({ key, count }) =>
+          new StatsReportTranslator().translate(key, count),
+        ),
+      };
+    });
   }
 
   private buildFilters(filters: IStatementFilter[]): IFilterViewModel[] {

@@ -15,9 +15,9 @@ import Authorize from '../Authorize';
 import Loading from '../Loading';
 import StatementCard from '../StatementCard';
 import { EmptySourceDetail } from './EmptySourceDetail';
-import { SpeakerStatsContainer } from './SpeakerStatsContainer';
 import { Source } from './model/Source';
 import { ISourceViewModel } from './speaker-stats-report/presenters/SourceDetailPresenter';
+import { SpeakersStats } from './speaker-stats-report/view/SpeakersStats';
 
 function Statements(props: { source: ISourceViewModel; applyStatementFilter(key: string): void }) {
   const { statementsFilter } = this.state;
@@ -138,8 +138,7 @@ function Statements(props: { source: ISourceViewModel; applyStatementFilter(key:
               ),
             )}
           </div>
-
-          <SpeakerStatsContainer source={props.source} />
+          <SpeakersStats statsReports={props.source.speakerStats} />;
         </div>
         <div style={{ flex: '1 1' }}>
           {statementsToDisplay.map((statement) => (

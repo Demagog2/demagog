@@ -9,6 +9,7 @@ import {
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
 } from '../../../../constants';
 import { Evaluator } from '../model/Evaluator';
+import { speakerFactory } from '../model/SpeakerFactory';
 
 const filterViewModelFactory = Factory.define<{ key: string; label: string; active: boolean }>(
   () => ({
@@ -20,85 +21,109 @@ const filterViewModelFactory = Factory.define<{ key: string; label: string; acti
 );
 
 describe('SourceDetailPresenter', () => {
-  it('builds view model', () => {
-    const evaluator = new Evaluator('1', 'John', 'Doe');
+  const evaluator = new Evaluator('1', 'John', 'Doe');
 
-    const source = new Source(
-      '1',
-      'Source name',
-      [],
-      [
-        ...statementFactory
-          .withEvaluator(evaluator)
-          .published()
-          .buildList(2),
-        statementFactory
-          .withEvaluator(evaluator)
-          .approved()
-          .build(),
-        statementFactory
-          .withoutEvaluator()
-          .beingEvaluated()
-          .build(),
-        statementFactory
-          .withEvaluator(evaluator)
-          .proofread()
-          .build(),
-        statementFactory
-          .withEvaluator(evaluator)
-          .approvalNeeded()
-          .build(),
-      ],
-    );
-    const presenter = new SourceDetailPresenter(source, ['published']);
+  const source = new Source('1', 'Source name', speakerFactory.buildList(2), [
+    ...statementFactory
+      .withEvaluator(evaluator)
+      .published()
+      .buildList(2),
+    statementFactory
+      .withEvaluator(evaluator)
+      .approved()
+      .build(),
+    statementFactory
+      .withoutEvaluator()
+      .beingEvaluated()
+      .build(),
+    statementFactory
+      .withEvaluator(evaluator)
+      .proofread()
+      .build(),
+    statementFactory
+      .withEvaluator(evaluator)
+      .approvalNeeded()
+      .build(),
+  ]);
 
-    const model = presenter.buildViewModel();
+  const presenter = new SourceDetailPresenter(source, ['published']);
 
-    expect(model.id).toEqual(source.id);
-    expect(model.name).toEqual(source.name);
-    expect(model.filters).toEqual([
-      {
-        type: 'filter-group',
-        label: 'Filtrovat dle stavu',
-        filters: [
-          filterViewModelFactory.build({
-            key: ASSESSMENT_STATUS_BEING_EVALUATED,
-            label: 'Ve zpracování (1)',
+  const model = presenter.buildViewModel();
+
+  describe('#buildViewModel', () => {
+    it('contains information about source', () => {
+      expect(model.id).toEqual(source.id);
+      expect(model.name).toEqual(source.name);
+    });
+
+    it('contains information about filters', () => {
+      expect(model.filters).toEqual([
+        {
+          type: 'filter-group',
+          label: 'Filtrovat dle stavu',
+          filters: [
+            filterViewModelFactory.build({
+              key: ASSESSMENT_STATUS_BEING_EVALUATED,
+              label: 'Ve zpracování (1)',
+            }),
+            filterViewModelFactory.build({
+              key: ASSESSMENT_STATUS_APPROVAL_NEEDED,
+              label: 'Ke kontrole (1)',
+            }),
+            filterViewModelFactory.build({
+              key: ASSESSMENT_STATUS_PROOFREADING_NEEDED,
+              label: 'Ke korektuře (1)',
+            }),
+            filterViewModelFactory.build({
+              key: ASSESSMENT_STATUS_APPROVED,
+              label: 'Schválené (3)',
+            }),
+          ],
+        },
+        {
+          type: 'filter-group',
+          label: 'Filtrovat dle zveřejnění',
+          filters: [
+            filterViewModelFactory.build({
+              key: 'published',
+              label: 'Published (2)',
+              active: true,
+            }),
+            filterViewModelFactory.build({ key: 'unpublished', label: 'Unpublished (4)' }),
+          ],
+        },
+        filterViewModelFactory.build({
+          key: 'unpublished-and-verified',
+          label: 'Nezveřejněné, schválené (1)',
+        }),
+        {
+          type: 'filter-group',
+          label: 'Filtrovat dle ověřovatele',
+          filters: [
+            filterViewModelFactory.build({ key: 'evaluator-1', label: 'John Doe (5)' }),
+            filterViewModelFactory.build({ key: 'unassigned-evaluator', label: 'Nepřiřazené (1)' }),
+          ],
+        },
+      ]);
+    });
+
+    it('contains information about speaker stats', () => {
+      expect(model.speakerStats).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            id: expect.any(String),
+            title: expect.any(String),
+            // TODO: Is there a better way how to do this?
+            stats: expect.arrayContaining([
+              expect.any(String),
+              expect.any(String),
+              expect.any(String),
+              expect.any(String),
+              expect.any(String),
+            ]),
           }),
-          filterViewModelFactory.build({
-            key: ASSESSMENT_STATUS_APPROVAL_NEEDED,
-            label: 'Ke kontrole (1)',
-          }),
-          filterViewModelFactory.build({
-            key: ASSESSMENT_STATUS_PROOFREADING_NEEDED,
-            label: 'Ke korektuře (1)',
-          }),
-          filterViewModelFactory.build({
-            key: ASSESSMENT_STATUS_APPROVED,
-            label: 'Schválené (3)',
-          }),
-        ],
-      },
-      {
-        type: 'filter-group',
-        label: 'Filtrovat dle zveřejnění',
-        filters: [
-          filterViewModelFactory.build({ key: 'published', label: 'Published (2)', active: true }),
-          filterViewModelFactory.build({ key: 'unpublished', label: 'Unpublished (4)' }),
-        ],
-      },
-      filterViewModelFactory.build({
-        key: 'unpublished-and-verified',
-        label: 'Nezveřejněné, schválené (1)',
-      }),
-      {
-        type: 'filter-group',
-        label: 'Filtrovat dle ověřovatele',
-        filters: [
-          filterViewModelFactory.build({ key: 'evaluator-1', label: 'John Doe (5)' }),
-          filterViewModelFactory.build({ key: 'unassigned-evaluator', label: 'Nepřiřazené (1)' }),
-        ],
-      },
-    ]);
+        ]),
+      );
+    });
   });
 });

@@ -7,7 +7,7 @@ export class StatsReportTranslator {
     evaluated: '{count} se ještě ověřuje',
   };
 
-  translate(key: string, count: number): string {
-    return this.TRANSLATIONS[key].replaceAll('{count}', count);
+  public translate(key: string, count: number): string {
+    return this.TRANSLATIONS[key].replace('{count}', count);
   }
 }
