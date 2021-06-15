@@ -1858,6 +1858,74 @@ export interface GetSourceVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetSourceDetail
+// ====================================================
+
+export interface GetSourceDetail_source_speakers {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetSourceDetail_source {
+  __typename: "Source";
+  id: string;
+  name: string;
+  speakers: GetSourceDetail_source_speakers[] | null;
+}
+
+export interface GetSourceDetail_statements_assessment_assessmentMethodology {
+  __typename: "AssessmentMethodology";
+  id: string;
+  ratingModel: AssessmentMethodologyRatingModel;
+  ratingKeys: string[];
+}
+
+export interface GetSourceDetail_statements_assessment_veracity {
+  __typename: "Veracity";
+  id: string;
+  key: GraphQLCustomScalar_VeracityKey;
+  name: string;
+}
+
+export interface GetSourceDetail_statements_assessment_promiseRating {
+  __typename: "PromiseRating";
+  id: string;
+  key: PromiseRatingKey;
+  name: string;
+}
+
+export interface GetSourceDetail_statements_assessment {
+  __typename: "Assessment";
+  id: string;
+  assessmentMethodology: GetSourceDetail_statements_assessment_assessmentMethodology;
+  evaluationStatus: string;
+  veracity: GetSourceDetail_statements_assessment_veracity | null;
+  promiseRating: GetSourceDetail_statements_assessment_promiseRating | null;
+}
+
+export interface GetSourceDetail_statements {
+  __typename: "Statement";
+  id: string;
+  assessment: GetSourceDetail_statements_assessment;
+}
+
+export interface GetSourceDetail {
+  source: GetSourceDetail_source;
+  statements: GetSourceDetail_statements[];
+}
+
+export interface GetSourceDetailVariables {
+  id: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetSourceInternalStats
 // ====================================================
 

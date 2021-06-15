@@ -1,28 +1,16 @@
 import React, { useMemo } from 'react';
 import { SpeakerStatsReportBuilder } from './speaker-stats-report/SpeakerStatsReportBuilder';
-import {
-  GetSource_source_speakers,
-  GetSourceStatements as GetSourceStatementsQuery,
-} from '../../operation-result-types';
 import { SpeakersStats } from './speaker-stats-report/view/SpeakersStats';
 import { StatsReportTranslator } from './speaker-stats-report/translator/StatsReportTranslator';
-import { createSpeakerFromQuery } from './speaker-stats-report/data-mappers/SpeakerDataMapper';
-import { createStatementFromQuery } from './speaker-stats-report/data-mappers/StatementDataMapper';
 
-export function SpeakerStatsContainer(props: {
-  speakers: GetSource_source_speakers[];
-  statements: GetSourceStatementsQuery['statements'];
-}) {
+import { Source } from './model/Source';
+
+export function SpeakerStatsContainer(props: { source: Source }) {
   const speakerStats = useMemo(() => {
-    const statements = props.statements.map((queryStatement) =>
-      createStatementFromQuery(queryStatement),
-    );
+    const statements = props.source.getStatements();
 
-    return props.speakers.map((speaker) => {
-      const report = new SpeakerStatsReportBuilder(
-        createSpeakerFromQuery(speaker),
-        statements,
-      ).buildReport();
+    return props.source.getSpeakers().map((speaker) => {
+      const report = new SpeakerStatsReportBuilder(speaker, statements).buildReport();
 
       // build view model from report
       return {
@@ -33,7 +21,7 @@ export function SpeakerStatsContainer(props: {
         ),
       };
     });
-  }, [props.speakers, props.statements]);
+  }, [props.source]);
 
   return <SpeakersStats statsReports={speakerStats} />;
 }
