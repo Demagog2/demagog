@@ -1,9 +1,9 @@
 import React from 'react';
 import { css } from 'emotion';
 import { Colors } from '@blueprintjs/core';
-import { StatsReportViewModel } from './StatsReportViewModel';
+import { IStatsReportViewModel } from './IStatsReportViewModel';
 
-export function SpeakersStats(props: { statsReports: StatsReportViewModel[] }) {
+export function SpeakersStats(props: { statsReports: IStatsReportViewModel[] }) {
   return (
     <div
       className={css`

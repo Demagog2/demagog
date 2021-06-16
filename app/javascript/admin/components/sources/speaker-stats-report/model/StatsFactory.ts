@@ -1,18 +1,18 @@
 import { Factory } from 'fishery';
 
 class StatsFactory extends Factory<
-  { key: string; count: number }[],
+  Array<{ key: string; count: number }>,
   { true: number; untrue: number; beingEvaluated: number }
 > {
-  true(count: number) {
+  public true(count: number) {
     return this.transient({ true: count });
   }
 
-  untrue(count: number) {
+  public untrue(count: number) {
     return this.transient({ untrue: count });
   }
 
-  beingEvaluated(count: number) {
+  public beingEvaluated(count: number) {
     return this.transient({ beingEvaluated: count });
   }
 }

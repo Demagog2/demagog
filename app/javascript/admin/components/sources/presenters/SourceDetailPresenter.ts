@@ -1,6 +1,6 @@
 import { ISource } from '../model/Source';
 import { IStatementFilter } from '../model/filters/StatementFilter';
-import { StatsReportViewModel } from '../speaker-stats-report/view/StatsReportViewModel';
+import { IStatsReportViewModel } from '../speaker-stats-report/view/IStatsReportViewModel';
 import { SpeakerStatsReportBuilder } from '../speaker-stats-report/SpeakerStatsReportBuilder';
 import { StatsReportTranslator } from '../speaker-stats-report/translator/StatsReportTranslator';
 import { Statement } from '../model/Statement';
@@ -39,7 +39,7 @@ export interface ISourceViewModel {
   hasActiveFilter: boolean;
   filteredStatements: IStatementViewModel[];
   filters: Array<IFilterGroup | IFilterViewModel>;
-  speakerStats: StatsReportViewModel[];
+  speakerStats: IStatsReportViewModel[];
 }
 
 export class SourceDetailPresenter {

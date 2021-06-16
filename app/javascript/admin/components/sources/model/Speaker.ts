@@ -1,19 +1,19 @@
 export class Speaker {
   constructor(private id: string, private firstName: string, private lastName: string) {}
 
-  getId() {
+  public getId() {
     return this.id;
   }
 
-  getFirstName() {
+  public getFirstName() {
     return this.firstName;
   }
 
-  getLastName() {
+  public getLastName() {
     return this.lastName;
   }
 
-  getFullName() {
+  public getFullName() {
     return `${this.firstName} ${this.lastName}`;
   }
 }
