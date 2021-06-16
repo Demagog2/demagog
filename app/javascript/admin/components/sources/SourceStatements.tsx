@@ -12,8 +12,10 @@ import * as React from 'react';
 export function SourceStatements(props: {
   source: ISourceViewModel;
   applyStatementFilter(key: string): void;
+  onMassStatementsPublish(): void;
+  onRemoveStatementsFilter(event: React.MouseEvent<HTMLAnchorElement>): void;
 }) {
-  const { statementsFilter } = this.state;
+  const statementsFilter = null;
 
   if (props.source.statementsTotalCount === 0) {
     return (
@@ -23,23 +25,8 @@ export function SourceStatements(props: {
     );
   }
 
-  // const statementsToDisplay = props.source.statements.filter((statement) => {
-  //   if (statementsFilter !== null) {
-  //     if (statementsFilter.field === 'verifiedAndUnpublished') {
-  //       return (
-  //         statement.assessment.evaluationStatus === ASSESSMENT_STATUS_APPROVED &&
-  //         statement.published === false
-  //       );
-  //     }
-  //
-  //     return get(statement, statementsFilter.field, null) === statementsFilter.value;
-  //   } else {
-  //     return true;
-  //   }
-  // });
-
   // TODO: Pass filtered statements to the view
-  const statementsToDisplay = [];
+  const statementsToDisplay = props.source.filteredStatements;
 
   return (
     <>
@@ -84,7 +71,7 @@ export function SourceStatements(props: {
                 >
                   Propojení s videozáznamem
                 </Link>
-                <Button style={{ marginLeft: 7 }} onClick={this.props.onMassStatementsPublish}>
+                <Button style={{ marginLeft: 7 }} onClick={props.onMassStatementsPublish}>
                   Zveřejnit všechny schválené výroky…
                 </Button>
               </Authorize>
@@ -108,7 +95,7 @@ export function SourceStatements(props: {
             <MenuItem
               active={statementsFilter === null}
               text={`Všechny výroky (${props.source.statementsTotalCount})`}
-              onClick={this.props.onRemoveStatementsFilter}
+              onClick={props.onRemoveStatementsFilter}
             />
 
             {props.source.filters.map((filterOrGroup) =>
@@ -134,7 +121,7 @@ export function SourceStatements(props: {
               ),
             )}
           </div>
-          <SpeakersStats statsReports={props.source.speakerStats} />;
+          <SpeakersStats statsReports={props.source.speakerStats} />
         </div>
         <div style={{ flex: '1 1' }}>
           {statementsToDisplay.map((statement) => (
@@ -144,12 +131,12 @@ export function SourceStatements(props: {
               refetchQueriesAfterDelete={[
                 {
                   query: GetSource,
-                  variables: { id: parseInt(this.props.match.params.sourceId, 10) },
+                  variables: { id: props.source.id },
                 },
                 {
                   query: GetSourceStatements,
                   variables: {
-                    sourceId: parseInt(props.source.id, 10),
+                    sourceId: props.source.id,
                     includeUnpublished: true,
                   },
                 },

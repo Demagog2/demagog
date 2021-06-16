@@ -7,21 +7,24 @@ import {
   ASSESSMENT_STATUS_BEING_EVALUATED,
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
 } from '../../../../constants';
-import { Assessment } from './Assessment';
 import { Evaluator } from './Evaluator';
+import { speakerFactory } from './SpeakerFactory';
 
 class StatementFactory extends Factory<
   Statement,
   {
-    speaker_id: string;
+    speaker: Speaker;
     veracity: string;
     evaluationStatus: string;
     published: boolean;
     evaluator: Evaluator | null;
+    explanationCharactersLength: number;
+    shortExplanationCharactersLength: number;
+    commentsCount: number;
   }
 > {
   public withSpeaker(speaker: Speaker) {
-    return this.transient({ speaker_id: speaker.getId() });
+    return this.transient({ speaker });
   }
 
   public published() {
@@ -63,14 +66,17 @@ class StatementFactory extends Factory<
 
 export const statementFactory = StatementFactory.define(({ sequence, transientParams }) => {
   return new Statement(
-    transientParams.speaker_id || String(sequence),
+    String(sequence),
+    `Content ${sequence}`,
+    transientParams.speaker || speakerFactory.build(),
     transientParams.published ?? false,
-    new Assessment(
-      transientParams.evaluationStatus ?? ASSESSMENT_STATUS_APPROVED,
-      transientParams.veracity,
-    ),
+    transientParams.evaluationStatus ?? ASSESSMENT_STATUS_APPROVED,
+    transientParams.explanationCharactersLength || 560,
+    transientParams.shortExplanationCharactersLength || 100,
+    transientParams.commentsCount || 30,
     typeof transientParams.evaluator !== 'undefined'
       ? transientParams.evaluator
       : new Evaluator(String(sequence), `John ${sequence}`, `Doe`),
+    transientParams.veracity,
   );
 });

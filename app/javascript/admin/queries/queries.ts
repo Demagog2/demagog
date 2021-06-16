@@ -198,14 +198,29 @@ export const GetSourceDetail = gql`
         lastName
       }
     }
-    statements(source: $id) {
+    statements(source: $id, includeUnpublished: true) {
       id
+      content
+      published
+      commentsCount
+      speaker {
+        id
+        firstName
+        lastName
+      }
       assessment {
         id
+        explanationCharactersLength
+        shortExplanationCharactersLength
         assessmentMethodology {
           id
           ratingModel
           ratingKeys
+        }
+        evaluator {
+          id
+          firstName
+          lastName
         }
         evaluationStatus
         veracity {

@@ -87,6 +87,30 @@ describe('SourceDetailPresenter', () => {
       expect(model.mediaPersonalities).toEqual(['John Doe']);
     });
 
+    it('contains information about filtered statements', () => {
+      const statement = model.filteredStatements[0];
+
+      expect(statement).toEqual({
+        id: '1',
+        content: 'Content 1',
+        published: true,
+        speaker: {
+          firstName: 'First name 3',
+          lastName: 'Doe',
+        },
+        assessment: {
+          evaluator: {
+            firstName: 'John',
+            lastName: 'Doe',
+          },
+          evaluationStatus: ASSESSMENT_STATUS_APPROVED,
+          explanationCharactersLength: 560,
+          shortExplanationCharactersLength: 100,
+        },
+        commentsCount: 30,
+      });
+    });
+
     it('contains information about filters', () => {
       expect(model.filters).toEqual([
         {

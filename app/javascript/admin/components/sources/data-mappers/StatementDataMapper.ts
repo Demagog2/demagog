@@ -1,13 +1,18 @@
-import { GetSourceStatements_statements } from '../../../operation-result-types';
+import { GetSourceDetail_statements } from '../../../operation-result-types';
 import { Statement } from '../speaker-stats-report/model/Statement';
-import { Assessment } from '../speaker-stats-report/model/Assessment';
 import { Evaluator } from '../speaker-stats-report/model/Evaluator';
+import { Speaker } from '../speaker-stats-report/model/Speaker';
 
-export function createStatementFromQuery(statement: GetSourceStatements_statements) {
+export function createStatementFromQuery(statement: GetSourceDetail_statements) {
   return new Statement(
-    statement.speaker.id,
+    statement.id,
+    statement.content,
+    new Speaker(statement.speaker.id, statement.speaker.firstName, statement.speaker.lastName),
     statement.published,
-    new Assessment(statement.assessment.evaluationStatus, statement.assessment.veracity?.key),
+    statement.assessment.evaluationStatus,
+    statement.assessment.explanationCharactersLength,
+    statement.assessment.shortExplanationCharactersLength,
+    statement.commentsCount,
     statement.assessment.evaluator
       ? new Evaluator(
           statement.assessment.evaluator?.id,
@@ -15,5 +20,6 @@ export function createStatementFromQuery(statement: GetSourceStatements_statemen
           statement.assessment.evaluator?.lastName,
         )
       : null,
+    statement.assessment.veracity?.key,
   );
 }

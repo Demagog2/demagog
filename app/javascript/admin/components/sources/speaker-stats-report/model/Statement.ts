@@ -3,27 +3,48 @@ import {
   ASSESSMENT_STATUS_APPROVED,
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
 } from '../../../../constants';
-import { Assessment } from './Assessment';
 import { Evaluator } from './Evaluator';
 
 export class Statement {
   constructor(
-    private speakerId: string,
+    private id: string,
+    private content: string,
+    private speaker: Speaker,
     private published: boolean,
-    private assessment: Assessment,
+    private evaluationStatus: string,
+    private explanationCharactersLength: number,
+    private shortExplanationCharactersLength: number,
+    private commentsCount: number,
     private evaluator: Evaluator | null,
+    private veracity?: string,
   ) {}
 
+  public getId() {
+    return this.id;
+  }
+
+  public getContent() {
+    return this.content;
+  }
+
+  public getSpeaker() {
+    return this.speaker;
+  }
+
   public getVeracity() {
-    return this.assessment.getVeracity();
+    return this.veracity;
   }
 
   public getEvaluator() {
     return this.evaluator;
   }
 
+  public getCommentsCount() {
+    return this.commentsCount;
+  }
+
   public belongsTo(speaker: Speaker) {
-    return this.speakerId === speaker.getId();
+    return this.speaker.getId() === speaker.getId();
   }
 
   public evaluatedBy(evaluator: Evaluator) {
@@ -39,12 +60,24 @@ export class Statement {
   }
 
   public hasEvaluationStatus(status: string) {
-    return this.assessment.getEvaluationStatus() === status;
+    return this.evaluationStatus === status;
   }
 
   public isFinallyEvaluated() {
     return [ASSESSMENT_STATUS_APPROVED, ASSESSMENT_STATUS_PROOFREADING_NEEDED].includes(
-      this.assessment.getEvaluationStatus(),
+      this.evaluationStatus,
     );
+  }
+
+  public getEvaluationStatus() {
+    return this.evaluationStatus;
+  }
+
+  public getShortExplanationCharactersLength() {
+    return this.shortExplanationCharactersLength;
+  }
+
+  public getExplanationCharactersLength() {
+    return this.explanationCharactersLength;
   }
 }

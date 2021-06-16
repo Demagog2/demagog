@@ -28,7 +28,9 @@ export function SourceDetailContainer() {
   );
 
   const source = useMemo(() => {
-    return data ? createSourceFromQuery(data) : new Source('', 'Empty source', [], [], [], null);
+    return data
+      ? createSourceFromQuery(data)
+      : new Source('', 'Empty source', null, null, [], [], [], [], null);
   }, [data]);
 
   // TODO: Pass in real active filters

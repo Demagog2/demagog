@@ -5,6 +5,14 @@ export class Evaluator {
     return this.id;
   }
 
+  public getFirstName() {
+    return this.firstName;
+  }
+
+  public getLastName() {
+    return this.lastName;
+  }
+
   public getFullName() {
     return `${this.firstName} ${this.lastName}`;
   }

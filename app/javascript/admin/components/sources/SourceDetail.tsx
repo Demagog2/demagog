@@ -92,7 +92,12 @@ export function SourceDetail(props: ISourceDetailProps) {
       </div>
 
       {/* TODO: Pass filter application to the container */}
-      <SourceStatements source={source} applyStatementFilter={() => ({})} />
+      <SourceStatements
+        source={source}
+        applyStatementFilter={() => ({})}
+        onMassStatementsPublish={props.onMassStatementsPublish}
+        onRemoveStatementsFilter={props.onRemoveStatementsFilter}
+      />
     </div>
   );
 }

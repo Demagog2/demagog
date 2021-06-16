@@ -26,6 +26,26 @@ interface IFilterViewModel {
   active: boolean;
 }
 
+interface IStatementViewModel {
+  id: string;
+  content: string;
+  published: boolean;
+  speaker: {
+    firstName: string;
+    lastName: string;
+  };
+  assessment: {
+    evaluationStatus: string;
+    evaluator: null | {
+      firstName: string | null;
+      lastName: string | null;
+    };
+    shortExplanationCharactersLength: number;
+    explanationCharactersLength: number;
+  };
+  commentsCount: number;
+}
+
 export interface ISourceViewModel {
   id: string;
   name: string;
@@ -35,6 +55,7 @@ export interface ISourceViewModel {
   medium?: string;
   mediaPersonalities: string[];
   statementsTotalCount: number;
+  filteredStatements: IStatementViewModel[];
   filters: Array<IFilterGroup | IFilterViewModel>;
   speakerStats: StatsReportViewModel[];
 }
@@ -52,6 +73,7 @@ export class SourceDetailPresenter {
       medium: this.source.medium?.name,
       mediaPersonalities: this.buildMediaPersonalities(),
       statementsTotalCount: this.source.statements.length,
+      filteredStatements: this.buildFilteredStatements(),
       filters: [
         this.buildFilterGroup(
           'Filtrovat dle stavu',
@@ -75,6 +97,34 @@ export class SourceDetailPresenter {
     };
   }
 
+  private buildFilteredStatements(): IStatementViewModel[] {
+    return this.source.statements.map((s) => {
+      const evaluator = s.getEvaluator();
+
+      return {
+        id: s.getId(),
+        published: s.isPublished(),
+        content: s.getContent(),
+        commentsCount: s.getCommentsCount(),
+        assessment: {
+          evaluator: evaluator
+            ? {
+                firstName: evaluator.getFirstName(),
+                lastName: evaluator.getLastName(),
+              }
+            : null,
+          evaluationStatus: s.getEvaluationStatus(),
+          shortExplanationCharactersLength: s.getShortExplanationCharactersLength(),
+          explanationCharactersLength: s.getExplanationCharactersLength(),
+        },
+        speaker: {
+          firstName: s.getSpeaker().getFirstName(),
+          lastName: s.getSpeaker().getLastName(),
+        },
+      };
+    });
+  }
+
   private buildMediaPersonalities() {
     return this.source.mediaPersonalities.map((mediaPersonality) => mediaPersonality.getName());
   }
@@ -89,7 +139,6 @@ export class SourceDetailPresenter {
     return this.source.speakers.map((speaker) => {
       const report = new SpeakerStatsReportBuilder(speaker, statements).buildReport();
 
-      // build view model from report
       return {
         id: report.id,
         title: report.title,

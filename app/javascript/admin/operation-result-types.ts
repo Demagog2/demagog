@@ -1899,11 +1899,25 @@ export interface GetSourceDetail_source {
   experts: GetSourceDetail_source_experts[] | null;
 }
 
+export interface GetSourceDetail_statements_speaker {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
 export interface GetSourceDetail_statements_assessment_assessmentMethodology {
   __typename: "AssessmentMethodology";
   id: string;
   ratingModel: AssessmentMethodologyRatingModel;
   ratingKeys: string[];
+}
+
+export interface GetSourceDetail_statements_assessment_evaluator {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
 }
 
 export interface GetSourceDetail_statements_assessment_veracity {
@@ -1923,7 +1937,10 @@ export interface GetSourceDetail_statements_assessment_promiseRating {
 export interface GetSourceDetail_statements_assessment {
   __typename: "Assessment";
   id: string;
+  explanationCharactersLength: number;
+  shortExplanationCharactersLength: number;
   assessmentMethodology: GetSourceDetail_statements_assessment_assessmentMethodology;
+  evaluator: GetSourceDetail_statements_assessment_evaluator | null;
   evaluationStatus: string;
   veracity: GetSourceDetail_statements_assessment_veracity | null;
   promiseRating: GetSourceDetail_statements_assessment_promiseRating | null;
@@ -1932,6 +1949,10 @@ export interface GetSourceDetail_statements_assessment {
 export interface GetSourceDetail_statements {
   __typename: "Statement";
   id: string;
+  content: string;
+  published: boolean;
+  commentsCount: number;
+  speaker: GetSourceDetail_statements_speaker;
   assessment: GetSourceDetail_statements_assessment;
 }
 
