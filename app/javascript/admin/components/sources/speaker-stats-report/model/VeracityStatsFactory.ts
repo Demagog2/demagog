@@ -1,6 +1,6 @@
 import { Factory } from 'fishery';
 
-class StatsFactory extends Factory<
+class VeracityStatsFactory extends Factory<
   Array<{ key: string; count: number }>,
   { true: number; untrue: number; beingEvaluated: number }
 > {
@@ -17,7 +17,7 @@ class StatsFactory extends Factory<
   }
 }
 
-export const statsFactory = StatsFactory.define(({ transientParams }) => [
+export const veracityStatsFactory = VeracityStatsFactory.define(({ transientParams }) => [
   { key: 'true', count: transientParams.true ?? 0 },
   { key: 'untrue', count: transientParams.untrue ?? 0 },
   { key: 'misleading', count: 0 },

@@ -3,14 +3,15 @@ import { speakerFactory } from '../model/SpeakerFactory';
 import { Speaker } from '../model/Speaker';
 import { Statement } from '../model/Statement';
 import { statementFactory } from '../model/StatementFactory';
-import { statsFactory } from './model/StatsFactory';
+import { veracityStatsFactory } from './model/VeracityStatsFactory';
+import { promiseRatingStatsFactory } from './model/PromiseRatingStatsFactory';
 
 function createReport(speaker: Speaker, statements: Statement[] = []) {
   return new SpeakerStatsReportBuilder(speaker, statements).buildReport();
 }
 
 describe('SpeakerStatsReportBuilder', () => {
-  describe('stats for political speaker', () => {
+  describe('stats for statements', () => {
     const speaker = speakerFactory.build();
 
     it('has id derived from speaker', () => {
@@ -23,7 +24,7 @@ describe('SpeakerStatsReportBuilder', () => {
 
     describe('no statements', () => {
       it('has default stats for statement assessment veracities', () => {
-        expect(createReport(speaker).stats).toEqual(statsFactory.build());
+        expect(createReport(speaker).stats).toEqual(veracityStatsFactory.build());
       });
     });
 
@@ -42,7 +43,9 @@ describe('SpeakerStatsReportBuilder', () => {
             .build(),
         ];
 
-        expect(createReport(speaker, statements).stats).toEqual(statsFactory.true(1).build());
+        expect(createReport(speaker, statements).stats).toEqual(
+          veracityStatsFactory.true(1).build(),
+        );
       });
     });
 
@@ -51,7 +54,7 @@ describe('SpeakerStatsReportBuilder', () => {
         const statements = [statementFactory.withSpeaker(speaker).build()];
 
         expect(createReport(speaker, statements).stats).toEqual(
-          statsFactory.beingEvaluated(1).build(),
+          veracityStatsFactory.beingEvaluated(1).build(),
         );
       });
     });
@@ -72,7 +75,7 @@ describe('SpeakerStatsReportBuilder', () => {
         ];
 
         expect(createReport(speaker, statements).stats).toEqual(
-          statsFactory.beingEvaluated(2).build(),
+          veracityStatsFactory.beingEvaluated(2).build(),
         );
       });
     });
@@ -93,7 +96,7 @@ describe('SpeakerStatsReportBuilder', () => {
         ];
 
         expect(createReport(speaker, statements).stats).toEqual(
-          statsFactory
+          veracityStatsFactory
             .true(1)
             .untrue(1)
             .build(),
@@ -111,8 +114,50 @@ describe('SpeakerStatsReportBuilder', () => {
             .build(),
         ];
 
-        expect(createReport(speaker, statements).stats).toEqual(statsFactory.true(1).build());
+        expect(createReport(speaker, statements).stats).toEqual(
+          veracityStatsFactory.true(1).build(),
+        );
       });
+    });
+  });
+
+  describe('stats for promises', () => {
+    const speaker = speakerFactory.build();
+
+    it('builds stats for broken promises', () => {
+      const statements = statementFactory
+        .withSpeaker(speaker)
+        .withPromiseAssessment()
+        .brokenPromise()
+        .buildList(2);
+
+      expect(createReport(speaker, statements).stats).toEqual(
+        promiseRatingStatsFactory.broken(2).build(),
+      );
+    });
+
+    it('builds stats for fulfilled promises', () => {
+      const statements = statementFactory
+        .withSpeaker(speaker)
+        .withPromiseAssessment()
+        .fulfilledPromise()
+        .buildList(2);
+
+      expect(createReport(speaker, statements).stats).toEqual(
+        promiseRatingStatsFactory.fulfilled(2).build(),
+      );
+    });
+
+    it('builds stats for in progress promises', () => {
+      const statements = statementFactory
+        .withSpeaker(speaker)
+        .withPromiseAssessment()
+        .inProgressPromise()
+        .buildList(2);
+
+      expect(createReport(speaker, statements).stats).toEqual(
+        promiseRatingStatsFactory.inProgress(2).build(),
+      );
     });
   });
 });

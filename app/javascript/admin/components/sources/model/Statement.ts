@@ -12,11 +12,13 @@ export class Statement {
     private speaker: Speaker,
     private published: boolean,
     private evaluationStatus: string,
+    private assessmentMethodology: string,
     private explanationCharactersLength: number,
     private shortExplanationCharactersLength: number,
     private commentsCount: number,
     private evaluator: Evaluator | null,
     private veracity?: string,
+    private promiseRating?: string,
   ) {}
 
   public getId() {
@@ -33,6 +35,10 @@ export class Statement {
 
   public getVeracity() {
     return this.veracity;
+  }
+
+  public getPromiseRating() {
+    return this.promiseRating;
   }
 
   public getEvaluator() {
@@ -57,6 +63,10 @@ export class Statement {
 
   public isPublished() {
     return this.published;
+  }
+
+  public getAssessmentMethodology() {
+    return this.assessmentMethodology;
   }
 
   public hasEvaluationStatus(status: string) {

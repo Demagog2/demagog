@@ -8,13 +8,7 @@ export class SpeakerStatsReportBuilder {
   private BEING_EVALUATED_STATS_KEY = 'evaluated';
 
   public buildReport(): IStatsReport {
-    const DEFAULT_STATS_INDEX = {
-      true: 0,
-      untrue: 0,
-      misleading: 0,
-      unverifiable: 0,
-      [this.BEING_EVALUATED_STATS_KEY]: 0,
-    };
+    const DEFAULT_STATS_INDEX = this.getDefaultStatsIndex();
 
     const statsIndex = this.statements
       .filter((statement) => statement.belongsTo(this.speaker))
@@ -34,13 +28,48 @@ export class SpeakerStatsReportBuilder {
     };
   }
 
-  private statsKey(statement: Statement): string {
-    const veracity = statement.getVeracity();
-
-    if (statement.isFinallyEvaluated() && veracity) {
-      return veracity;
+  private getDefaultStatsIndex() {
+    if (this.statements[0]?.getAssessmentMethodology() === 'promise_rating') {
+      return {
+        broken: 0,
+        fulfilled: 0,
+        in_progress: 0,
+        partially_fulfilled: 0,
+        stalled: 0,
+        [this.BEING_EVALUATED_STATS_KEY]: 0,
+      };
     }
 
-    return this.BEING_EVALUATED_STATS_KEY;
+    return {
+      true: 0,
+      untrue: 0,
+      misleading: 0,
+      unverifiable: 0,
+      [this.BEING_EVALUATED_STATS_KEY]: 0,
+    };
+  }
+
+  private statsKey(statement: Statement): string {
+    switch (statement.getAssessmentMethodology()) {
+      case 'veracity':
+        const veracity = statement.getVeracity();
+
+        if (statement.isFinallyEvaluated() && veracity) {
+          return veracity;
+        }
+
+        return this.BEING_EVALUATED_STATS_KEY;
+
+      case 'promise_rating':
+        const promiseRating = statement.getPromiseRating();
+
+        if (statement.isFinallyEvaluated() && promiseRating) {
+          return promiseRating;
+        }
+
+        return this.BEING_EVALUATED_STATS_KEY;
+      default:
+        return this.BEING_EVALUATED_STATS_KEY;
+    }
   }
 }
