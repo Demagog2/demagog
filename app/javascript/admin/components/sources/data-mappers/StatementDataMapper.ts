@@ -1,7 +1,7 @@
 import { GetSourceDetail_statements } from '../../../operation-result-types';
-import { Statement } from '../speaker-stats-report/model/Statement';
-import { Evaluator } from '../speaker-stats-report/model/Evaluator';
-import { Speaker } from '../speaker-stats-report/model/Speaker';
+import { Statement } from '../model/Statement';
+import { Evaluator } from '../model/Evaluator';
+import { Speaker } from '../model/Speaker';
 
 export function createStatementFromQuery(statement: GetSourceDetail_statements) {
   return new Statement(

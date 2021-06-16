@@ -17,4 +17,8 @@ export class UnassignedEvaluatorStatementFilter implements IStatementFilter {
       return !statement.getEvaluator();
     });
   }
+
+  public getGroupLabel(): string {
+    return 'Filtrovat dle ověřovatele';
+  }
 }

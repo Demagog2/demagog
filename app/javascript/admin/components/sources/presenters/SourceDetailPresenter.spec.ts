@@ -1,5 +1,5 @@
 import { SourceDetailPresenter } from './SourceDetailPresenter';
-import { Source } from '../../model/Source';
+import { Source } from '../model/Source';
 import { Factory } from 'fishery';
 import { statementFactory } from '../model/StatementFactory';
 import {
@@ -7,10 +7,10 @@ import {
   ASSESSMENT_STATUS_APPROVED,
   ASSESSMENT_STATUS_BEING_EVALUATED,
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
-} from '../../../../constants';
+} from '../../../constants';
 import { Evaluator } from '../model/Evaluator';
 import { speakerFactory } from '../model/SpeakerFactory';
-import { Expert } from '../../model/Expert';
+import { Expert } from '../model/Expert';
 import { Medium } from '../model/Medium';
 import { MediaPersonality } from '../model/MediaPersonality';
 

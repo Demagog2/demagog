@@ -2,7 +2,7 @@ import { Speaker } from './Speaker';
 import {
   ASSESSMENT_STATUS_APPROVED,
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
-} from '../../../../constants';
+} from '../../../constants';
 import { Evaluator } from './Evaluator';
 
 export class Statement {

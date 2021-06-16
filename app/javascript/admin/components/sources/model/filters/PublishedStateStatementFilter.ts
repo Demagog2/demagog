@@ -19,4 +19,8 @@ export class PublishedStateStatementFilter implements IStatementFilter {
       this.state === 'published' ? statement.isPublished() : !statement.isPublished(),
     );
   }
+
+  public getGroupLabel(): string {
+    return 'Filtrovat dle zveřejnění';
+  }
 }

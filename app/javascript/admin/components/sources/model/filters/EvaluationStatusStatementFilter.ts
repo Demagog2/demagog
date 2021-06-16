@@ -5,7 +5,7 @@ import {
   ASSESSMENT_STATUS_APPROVED,
   ASSESSMENT_STATUS_BEING_EVALUATED,
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
-} from '../../../../../constants';
+} from '../../../../constants';
 
 export const STATUS_FILTER_LABELS = {
   [ASSESSMENT_STATUS_BEING_EVALUATED]: 'Ve zpracování',
@@ -29,5 +29,9 @@ export class EvaluationStatusStatementFilter implements IStatementFilter {
 
   public apply(statements: Statement[]): Statement[] {
     return statements.filter((statement) => statement.hasEvaluationStatus(this.evaluationStatus));
+  }
+
+  public getGroupLabel() {
+    return 'Filtrovat dle stavu';
   }
 }

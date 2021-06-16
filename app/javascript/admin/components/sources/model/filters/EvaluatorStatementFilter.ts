@@ -20,4 +20,8 @@ export class EvaluatorStatementFilter implements IStatementFilter {
       return statement.evaluatedBy(this.evaluator);
     });
   }
+
+  public getGroupLabel(): string {
+    return 'Filtrovat dle ověřovatele';
+  }
 }

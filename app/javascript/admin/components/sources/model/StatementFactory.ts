@@ -6,7 +6,7 @@ import {
   ASSESSMENT_STATUS_APPROVED,
   ASSESSMENT_STATUS_BEING_EVALUATED,
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
-} from '../../../../constants';
+} from '../../../constants';
 import { Evaluator } from './Evaluator';
 import { speakerFactory } from './SpeakerFactory';
 

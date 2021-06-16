@@ -1,8 +1,8 @@
 import { SpeakerStatsReportBuilder } from './SpeakerStatsReportBuilder';
-import { speakerFactory } from './model/SpeakerFactory';
-import { Speaker } from './model/Speaker';
-import { Statement } from './model/Statement';
-import { statementFactory } from './model/StatementFactory';
+import { speakerFactory } from '../model/SpeakerFactory';
+import { Speaker } from '../model/Speaker';
+import { Statement } from '../model/Statement';
+import { statementFactory } from '../model/StatementFactory';
 import { statsFactory } from './model/StatsFactory';
 
 function createReport(speaker: Speaker, statements: Statement[] = []) {

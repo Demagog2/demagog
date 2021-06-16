@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { displayDate } from '../../utils';
 import Authorize from '../Authorize';
 import Loading from '../Loading';
-import { ISourceViewModel } from './speaker-stats-report/presenters/SourceDetailPresenter';
+import { ISourceViewModel } from './presenters/SourceDetailPresenter';
 import { SourceStatements } from './SourceStatements';
 
 interface ISourceDetailProps {
@@ -15,10 +15,7 @@ interface ISourceDetailProps {
   loading: boolean;
   onDeleteSource(): void;
   onMassStatementsPublish(): void;
-  onStatementFiltersUpdate(
-    field: string,
-    value: any,
-  ): (event: React.MouseEvent<HTMLAnchorElement>) => void;
+  onStatementFiltersUpdate(field: string): void;
   onRemoveStatementsFilter(event: React.MouseEvent<HTMLAnchorElement>): void;
 }
 
@@ -94,7 +91,7 @@ export function SourceDetail(props: ISourceDetailProps) {
       {/* TODO: Pass filter application to the container */}
       <SourceStatements
         source={source}
-        applyStatementFilter={() => ({})}
+        applyStatementFilter={props.onStatementFiltersUpdate}
         onMassStatementsPublish={props.onMassStatementsPublish}
         onRemoveStatementsFilter={props.onRemoveStatementsFilter}
       />

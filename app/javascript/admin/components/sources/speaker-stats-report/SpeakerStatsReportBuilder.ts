@@ -1,6 +1,6 @@
-import { Speaker } from './model/Speaker';
+import { Speaker } from '../model/Speaker';
 import { StatsReport } from './model/StatsReport';
-import { Statement } from './model/Statement';
+import { Statement } from '../model/Statement';
 
 export class SpeakerStatsReportBuilder {
   private BEING_EVALUATED_STATS_KEY = 'evaluated';

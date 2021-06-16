@@ -1,8 +1,8 @@
-import { Speaker } from '../speaker-stats-report/model/Speaker';
-import { Statement } from '../speaker-stats-report/model/Statement';
+import { Speaker } from './Speaker';
+import { Statement } from './Statement';
 import { Expert } from './Expert';
-import { Medium } from '../speaker-stats-report/model/Medium';
-import { MediaPersonality } from '../speaker-stats-report/model/MediaPersonality';
+import { Medium } from './Medium';
+import { MediaPersonality } from './MediaPersonality';
 
 export class Source {
   constructor(

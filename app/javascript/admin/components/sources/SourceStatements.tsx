@@ -1,4 +1,4 @@
-import { ISourceViewModel } from './speaker-stats-report/presenters/SourceDetailPresenter';
+import { ISourceViewModel } from './presenters/SourceDetailPresenter';
 import { EmptySourceDetail } from './EmptySourceDetail';
 import Authorize from '../Authorize';
 import { Button, Classes, Menu, MenuDivider, MenuItem, Popover, Position } from '@blueprintjs/core';
@@ -15,8 +15,6 @@ export function SourceStatements(props: {
   onMassStatementsPublish(): void;
   onRemoveStatementsFilter(event: React.MouseEvent<HTMLAnchorElement>): void;
 }) {
-  const statementsFilter = null;
-
   if (props.source.statementsTotalCount === 0) {
     return (
       <div style={{ marginTop: 50 }}>
@@ -93,7 +91,7 @@ export function SourceStatements(props: {
         <div style={{ flex: '0 0 220px', marginRight: 15 }}>
           <div className={Classes.LIST_UNSTYLED}>
             <MenuItem
-              active={statementsFilter === null}
+              disabled={!props.source.hasActiveFilter}
               text={`Všechny výroky (${props.source.statementsTotalCount})`}
               onClick={props.onRemoveStatementsFilter}
             />

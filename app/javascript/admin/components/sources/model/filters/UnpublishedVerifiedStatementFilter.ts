@@ -1,5 +1,5 @@
-import { IStatementFilter } from '../model/filters/StatementFilter';
-import { Statement } from '../model/Statement';
+import { IStatementFilter } from './StatementFilter';
+import { Statement } from '../Statement';
 import { ASSESSMENT_STATUS_APPROVED } from '../../../../constants';
 
 export class UnpublishedVerifiedStatementFilter implements IStatementFilter {

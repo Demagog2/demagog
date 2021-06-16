@@ -13,11 +13,12 @@ import { useStatementFilters } from './hooks/statement-filters';
 import { SourceDetail } from './SourceDetail';
 import { createSourceFromQuery } from './data-mappers/SourceDataMapper';
 import { Source } from './model/Source';
-import { SourceDetailPresenter } from './speaker-stats-report/presenters/SourceDetailPresenter';
+import { SourceDetailPresenter } from './presenters/SourceDetailPresenter';
 
 export function SourceDetailContainer() {
   const { params } = useRouteMatch<{ sourceId: string }>();
-  const { onStatementsFilterUpdate, onRemoveStatementsFilters } = useStatementFilters();
+  const { state, onStatementsFilterUpdate, onRemoveStatementsFilters } = useStatementFilters();
+
   const { data, loading } = useQuery<GetSourceDetailQuery, GetSourceDetailVariables>(
     GetSourceDetail,
     {
@@ -33,8 +34,7 @@ export function SourceDetailContainer() {
       : new Source('', 'Empty source', null, null, [], [], [], [], null);
   }, [data]);
 
-  // TODO: Pass in real active filters
-  const sourceViewModel = new SourceDetailPresenter(source, []).buildViewModel();
+  const sourceViewModel = new SourceDetailPresenter(source, state ? [state] : []).buildViewModel();
 
   const [showMassStatementsPublishModal, closeMassStatementsPublishModal] = useModal(
     () => (
