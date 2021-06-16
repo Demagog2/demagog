@@ -37,7 +37,6 @@ class FormGroup extends React.Component<IFormGroupProps> {
         intent={error ? Intent.DANGER : Intent.NONE}
         helperText={helperText}
         labelInfo={requiredLabel}
-        labelFor={name}
         {...restProps}
       />
     );
