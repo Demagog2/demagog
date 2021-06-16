@@ -1,5 +1,5 @@
 import { SourceDetailPresenter } from './SourceDetailPresenter';
-import { Source } from '../model/Source';
+import { ISource } from '../model/Source';
 import { Factory } from 'fishery';
 import { statementFactory } from '../model/StatementFactory';
 import {
@@ -26,14 +26,14 @@ const filterViewModelFactory = Factory.define<{ key: string; label: string; acti
 describe('SourceDetailPresenter', () => {
   const evaluator = new Evaluator('1', 'John', 'Doe');
 
-  const source = new Source(
-    '1',
-    'Source name',
-    'https://example.com',
-    '2020-01-13 17:00',
-    [new Expert('1', 'John', 'Expert')],
-    speakerFactory.buildList(2),
-    [
+  const source: ISource = {
+    id: '1',
+    name: 'Source name',
+    sourceUrl: 'http://example.com',
+    releasedAt: '2020-01-13 17:00',
+    experts: [new Expert('1', 'John', 'Expert')],
+    speakers: speakerFactory.buildList(2),
+    statements: [
       ...statementFactory
         .withEvaluator(evaluator)
         .published()
@@ -55,9 +55,9 @@ describe('SourceDetailPresenter', () => {
         .approvalNeeded()
         .build(),
     ],
-    [new MediaPersonality('1', 'John Doe')],
-    new Medium('1', 'BBC News'),
-  );
+    mediaPersonalities: [new MediaPersonality('1', 'John Doe')],
+    medium: new Medium('1', 'BBC News'),
+  };
 
   const presenter = new SourceDetailPresenter(source, ['published']);
 
@@ -141,10 +141,10 @@ describe('SourceDetailPresenter', () => {
           filters: [
             filterViewModelFactory.build({
               key: 'published',
-              label: 'Published (2)',
+              label: 'Zveřejněné (2)',
               active: true,
             }),
-            filterViewModelFactory.build({ key: 'unpublished', label: 'Unpublished (4)' }),
+            filterViewModelFactory.build({ key: 'unpublished', label: 'Nezveřejněné (4)' }),
           ],
         },
         filterViewModelFactory.build({

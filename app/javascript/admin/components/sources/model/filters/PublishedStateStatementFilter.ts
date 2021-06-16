@@ -11,7 +11,7 @@ export class PublishedStateStatementFilter implements IStatementFilter {
   public getLabel(statements: Statement[]): string {
     const count = this.apply(statements).length;
 
-    return this.state === 'published' ? `Published (${count})` : `Unpublished (${count})`;
+    return this.state === 'published' ? `Zveřejněné (${count})` : `Nezveřejněné (${count})`;
   }
 
   public apply(statements: Statement[]): Statement[] {

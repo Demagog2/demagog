@@ -1,31 +1,11 @@
-import { Source } from '../model/Source';
-import { PublishedStateStatementFilter } from '../model/filters/PublishedStateStatementFilter';
+import { ISource } from '../model/Source';
 import { IStatementFilter } from '../model/filters/StatementFilter';
-import {
-  EvaluationStatusStatementFilter,
-  STATUS_FILTER_LABELS,
-} from '../model/filters/EvaluationStatusStatementFilter';
-import { UnpublishedVerifiedStatementFilter } from '../model/filters/UnpublishedVerifiedStatementFilter';
-import { Evaluator } from '../model/Evaluator';
-import { EvaluatorStatementFilter } from '../model/filters/EvaluatorStatementFilter';
-import { UnassignedEvaluatorStatementFilter } from '../model/filters/UnassignedEvaluatorStatementFilter';
 import { StatsReportViewModel } from '../speaker-stats-report/view/StatsReportViewModel';
 import { SpeakerStatsReportBuilder } from '../speaker-stats-report/SpeakerStatsReportBuilder';
 import { StatsReportTranslator } from '../speaker-stats-report/translator/StatsReportTranslator';
 import { Statement } from '../model/Statement';
-
-interface IFilterGroup {
-  type: 'filter-group';
-  label: string;
-  filters: IFilterViewModel[];
-}
-
-interface IFilterViewModel {
-  type: 'filter';
-  key: string;
-  label: string;
-  active: boolean;
-}
+import { FiltersViewModelBuilder, IFilterGroup, IFilterViewModel } from './FiltersViewModelBuilder';
+import { FiltersFactory } from '../model/filters/FiltersFactory';
 
 interface IStatementViewModel {
   id: string;
@@ -63,11 +43,11 @@ export interface ISourceViewModel {
 }
 
 export class SourceDetailPresenter {
-  constructor(private source: Source, private activeFilterKeys: string[]) {
-    this.filters = this.createFilters();
+  constructor(private source: ISource, private activeFilterKeys: string[]) {
+    this.filters = new FiltersFactory(this.source).createFilters();
   }
 
-  private filters: IStatementFilter[] = [];
+  private readonly filters: IStatementFilter[] = [];
 
   public buildViewModel(): ISourceViewModel {
     return {
@@ -81,7 +61,11 @@ export class SourceDetailPresenter {
       statementsTotalCount: this.source.statements.length,
       filteredStatements: this.buildStatementsViewModels(this.getFilteredStatements()),
       hasActiveFilter: this.activeFilterKeys.length > 0,
-      filters: this.buildFiltersViewModel(),
+      filters: new FiltersViewModelBuilder(
+        this.filters,
+        this.activeFilterKeys,
+        this.source.statements,
+      ).buildViewModel(),
       speakerStats: this.buildSpeakerStats(),
     };
   }
@@ -100,24 +84,6 @@ export class SourceDetailPresenter {
 
     return this.source.statements;
   }
-
-  private createFilters(): IStatementFilter[] {
-    return [
-      ...Object.keys(STATUS_FILTER_LABELS).map((key) => new EvaluationStatusStatementFilter(key)),
-      // TODO: Translations
-      new PublishedStateStatementFilter('published'),
-      new PublishedStateStatementFilter('unpublished'),
-      new UnpublishedVerifiedStatementFilter(),
-      ...[
-        // TODO: Sort by count and label, desc and asc
-        ...this.getEvaluators().map((evaluator) => new EvaluatorStatementFilter(evaluator)),
-        ...(this.source.statements.some((statement) => !statement.getEvaluator())
-          ? [new UnassignedEvaluatorStatementFilter()]
-          : []),
-      ],
-    ];
-  }
-
   private buildStatementsViewModels(statements: Statement[]): IStatementViewModel[] {
     return statements.map((s) => {
       const evaluator = s.getEvaluator();
@@ -168,65 +134,5 @@ export class SourceDetailPresenter {
         ),
       };
     });
-  }
-
-  // private buildFilters(filters: IStatementFilter[]): IFilterViewModel[] {
-  //   return filters.map((filter) => this.buildFilter(filter));
-  // }
-
-  private buildFilter(filter: IStatementFilter) {
-    return {
-      type: 'filter' as const,
-      active: this.activeFilterKeys.includes(filter.getKey()),
-      key: filter.getKey(),
-      label: filter.getLabel(this.source.statements),
-    };
-  }
-
-  // private buildFilterGroup(label: string, filters: IStatementFilter[]): IFilterGroup {
-  //   return {
-  //     type: 'filter-group' as const,
-  //     label,
-  //     filters: this.buildFilters(filters),
-  //   };
-  // }
-
-  private getEvaluators(): Evaluator[] {
-    const evaluators: Map<string, Evaluator> = new Map();
-    for (const statement of this.source.statements) {
-      const evaluator = statement.getEvaluator();
-      if (evaluator) {
-        evaluators.set(evaluator.getId(), evaluator);
-      }
-    }
-    return Array.from(evaluators.values());
-  }
-
-  private buildFiltersViewModel() {
-    const groups: Array<IFilterViewModel | IFilterGroup> = [];
-
-    for (const filter of this.filters) {
-      const groupLabel = filter.getGroupLabel?.();
-
-      if (!groupLabel) {
-        groups.push(this.buildFilter(filter));
-      } else {
-        const group = groups.find((g) => g.type === 'filter-group' && g.label === groupLabel) as
-          | IFilterGroup
-          | undefined;
-
-        if (group) {
-          group.filters.push(this.buildFilter(filter));
-        } else {
-          groups.push({
-            type: 'filter-group',
-            label: groupLabel,
-            filters: [this.buildFilter(filter)],
-          });
-        }
-      }
-    }
-
-    return groups;
   }
 }

@@ -12,8 +12,9 @@ import { RemoveSourceModalContainer } from './RemoveSourceModalContainer';
 import { useStatementFilters } from './hooks/statement-filters';
 import { SourceDetail } from './SourceDetail';
 import { createSourceFromQuery } from './data-mappers/SourceDataMapper';
-import { Source } from './model/Source';
+import { EMPTY_SOURCE, ISource } from './model/Source';
 import { SourceDetailPresenter } from './presenters/SourceDetailPresenter';
+import { ASSESSMENT_STATUS_APPROVED } from '../../constants';
 
 export function SourceDetailContainer() {
   const { params } = useRouteMatch<{ sourceId: string }>();
@@ -28,11 +29,9 @@ export function SourceDetailContainer() {
     },
   );
 
-  const source = useMemo(() => {
-    return data
-      ? createSourceFromQuery(data)
-      : new Source('', 'Empty source', null, null, [], [], [], [], null);
-  }, [data]);
+  const source = useMemo<ISource>(() => (data ? createSourceFromQuery(data) : EMPTY_SOURCE), [
+    data,
+  ]);
 
   const sourceViewModel = new SourceDetailPresenter(source, state ? [state] : []).buildViewModel();
 
@@ -40,11 +39,15 @@ export function SourceDetailContainer() {
     () => (
       <MassStatementsPublishModalContainer
         sourceId={source.id}
-        readyToPublishStatementsCount={0}
+        readyToPublishStatementsCount={
+          source.statements.filter(
+            (s) => s.hasEvaluationStatus(ASSESSMENT_STATUS_APPROVED) && !s.isPublished(),
+          ).length
+        }
         onClose={closeMassStatementsPublishModal}
       />
     ),
-    [data?.source],
+    [source],
   );
 
   const [showRemoveSourceModal, closeRemoveSourceModal] = useModal(
@@ -55,7 +58,7 @@ export function SourceDetailContainer() {
         onClose={closeRemoveSourceModal}
       />
     ),
-    [data?.source],
+    [source],
   );
 
   return (
