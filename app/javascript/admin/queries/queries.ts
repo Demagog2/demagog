@@ -172,6 +172,72 @@ export const GetSource = gql`
   }
 `;
 
+export const GetSourceDetail = gql`
+  query GetSourceDetail($id: Int!) {
+    source(id: $id) {
+      id
+      name
+      sourceUrl
+      releasedAt
+      speakers {
+        id
+        firstName
+        lastName
+      }
+      medium {
+        id
+        name
+      }
+      mediaPersonalities {
+        id
+        name
+      }
+      experts {
+        id
+        firstName
+        lastName
+      }
+    }
+    statements(source: $id, includeUnpublished: true) {
+      id
+      content
+      published
+      commentsCount
+      speaker {
+        id
+        firstName
+        lastName
+      }
+      assessment {
+        id
+        explanationCharactersLength
+        shortExplanationCharactersLength
+        assessmentMethodology {
+          id
+          ratingModel
+          ratingKeys
+        }
+        evaluator {
+          id
+          firstName
+          lastName
+        }
+        evaluationStatus
+        veracity {
+          id
+          key
+          name
+        }
+        promiseRating {
+          id
+          key
+          name
+        }
+      }
+    }
+  }
+`;
+
 export const GetSourceInternalStats = gql`
   query GetSourceInternalStats($id: Int!) {
     source(id: $id) {

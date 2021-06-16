@@ -17,30 +17,20 @@ import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 
 interface IStatement {
   id: string;
-  statementType: 'factual' | 'promise' | 'newyears';
   content: string;
   published: boolean;
   speaker: {
-    id: string;
     firstName: string;
     lastName: string;
-    avatar: string | null;
   };
   assessment: {
     evaluationStatus: string;
     evaluator: null | {
-      id: string;
       firstName: string | null;
       lastName: string | null;
     };
     shortExplanationCharactersLength: number;
     explanationCharactersLength: number;
-  };
-  statementTranscriptPosition: null | {
-    startLine: number;
-    startOffset: number;
-    endLine: number;
-    endOffset: number;
   };
   commentsCount: number;
 }
@@ -73,7 +63,7 @@ class StatementCard extends React.Component<IProps, IState> {
   };
 
   public onDeleteError = (error: ApolloError) => {
-    this.props.dispatch(addFlashMessage('Doško k chybě při mazání výroku.', 'error'));
+    this.props.dispatch(addFlashMessage('Došlo k chybě při mazání výroku.', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };

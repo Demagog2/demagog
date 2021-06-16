@@ -1858,6 +1858,119 @@ export interface GetSourceVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetSourceDetail
+// ====================================================
+
+export interface GetSourceDetail_source_speakers {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetSourceDetail_source_medium {
+  __typename: "Medium";
+  id: string;
+  name: string;
+}
+
+export interface GetSourceDetail_source_mediaPersonalities {
+  __typename: "MediaPersonality";
+  id: string;
+  name: string;
+}
+
+export interface GetSourceDetail_source_experts {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetSourceDetail_source {
+  __typename: "Source";
+  id: string;
+  name: string;
+  sourceUrl: string | null;
+  releasedAt: string | null;
+  speakers: GetSourceDetail_source_speakers[] | null;
+  medium: GetSourceDetail_source_medium | null;
+  mediaPersonalities: GetSourceDetail_source_mediaPersonalities[] | null;
+  experts: GetSourceDetail_source_experts[] | null;
+}
+
+export interface GetSourceDetail_statements_speaker {
+  __typename: "Speaker";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetSourceDetail_statements_assessment_assessmentMethodology {
+  __typename: "AssessmentMethodology";
+  id: string;
+  ratingModel: AssessmentMethodologyRatingModel;
+  ratingKeys: string[];
+}
+
+export interface GetSourceDetail_statements_assessment_evaluator {
+  __typename: "User";
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface GetSourceDetail_statements_assessment_veracity {
+  __typename: "Veracity";
+  id: string;
+  key: GraphQLCustomScalar_VeracityKey;
+  name: string;
+}
+
+export interface GetSourceDetail_statements_assessment_promiseRating {
+  __typename: "PromiseRating";
+  id: string;
+  key: PromiseRatingKey;
+  name: string;
+}
+
+export interface GetSourceDetail_statements_assessment {
+  __typename: "Assessment";
+  id: string;
+  explanationCharactersLength: number;
+  shortExplanationCharactersLength: number;
+  assessmentMethodology: GetSourceDetail_statements_assessment_assessmentMethodology;
+  evaluator: GetSourceDetail_statements_assessment_evaluator | null;
+  evaluationStatus: string;
+  veracity: GetSourceDetail_statements_assessment_veracity | null;
+  promiseRating: GetSourceDetail_statements_assessment_promiseRating | null;
+}
+
+export interface GetSourceDetail_statements {
+  __typename: "Statement";
+  id: string;
+  content: string;
+  published: boolean;
+  commentsCount: number;
+  speaker: GetSourceDetail_statements_speaker;
+  assessment: GetSourceDetail_statements_assessment;
+}
+
+export interface GetSourceDetail {
+  source: GetSourceDetail_source;
+  statements: GetSourceDetail_statements[];
+}
+
+export interface GetSourceDetailVariables {
+  id: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetSourceInternalStats
 // ====================================================
 

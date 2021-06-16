@@ -46,7 +46,7 @@ import MediaPersonalities from './components/mediaPersonalities/MediaPersonaliti
 import MediaPersonalityEdit from './components/mediaPersonalities/MediaPersonalityEdit';
 import MediaPersonalityNew from './components/mediaPersonalities/MediaPersonalityNew';
 
-import SourceDetail from './components/SourceDetail';
+import { SourceDetailContainer } from './components/sources/SourceDetailContainer';
 import SourceEdit from './components/SourceEdit';
 import SourceNew from './components/SourceNew';
 import Sources from './components/Sources';
@@ -132,7 +132,7 @@ class App extends React.Component<IProps> {
                 <Route path="/admin/sources/new" exact component={SourceNew} />
                 <Route path="/admin/sources/edit/:id" exact component={SourceEdit} />
 
-                <Route path="/admin/sources/:sourceId" exact component={SourceDetail} />
+                <Route path="/admin/sources/:sourceId" exact component={SourceDetailContainer} />
                 <Route
                   path="/admin/sources/:sourceId/statements-from-transcript"
                   exact
