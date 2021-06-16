@@ -10,6 +10,7 @@ export function createStatementFromQuery(statement: GetSourceDetail_statements) 
     new Speaker(statement.speaker.id, statement.speaker.firstName, statement.speaker.lastName),
     statement.published,
     statement.assessment.evaluationStatus,
+    statement.assessment.assessmentMethodology.ratingModel,
     statement.assessment.explanationCharactersLength,
     statement.assessment.shortExplanationCharactersLength,
     statement.commentsCount,
@@ -21,5 +22,6 @@ export function createStatementFromQuery(statement: GetSourceDetail_statements) 
         )
       : null,
     statement.assessment.veracity?.key,
+    statement.assessment.promiseRating?.key,
   );
 }

@@ -20,6 +20,8 @@ class StatementFactory extends Factory<
     evaluator: Evaluator | null;
     explanationCharactersLength: number;
     shortExplanationCharactersLength: number;
+    assessmentMethodology: string;
+    promiseRating: string;
     commentsCount: number;
   }
 > {
@@ -62,6 +64,22 @@ class StatementFactory extends Factory<
   public withEvaluator(evaluator: Evaluator) {
     return this.transient({ evaluator });
   }
+
+  public withPromiseAssessment() {
+    return this.transient({ assessmentMethodology: 'promise_rating' });
+  }
+
+  public brokenPromise() {
+    return this.transient({ promiseRating: 'broken' });
+  }
+
+  public fulfilledPromise() {
+    return this.transient({ promiseRating: 'fulfilled' });
+  }
+
+  public inProgressPromise() {
+    return this.transient({ promiseRating: 'in_progress' });
+  }
 }
 
 export const statementFactory = StatementFactory.define(({ sequence, transientParams }) => {
@@ -71,6 +89,7 @@ export const statementFactory = StatementFactory.define(({ sequence, transientPa
     transientParams.speaker || speakerFactory.build(),
     transientParams.published ?? false,
     transientParams.evaluationStatus ?? ASSESSMENT_STATUS_APPROVED,
+    transientParams.assessmentMethodology || 'veracity',
     transientParams.explanationCharactersLength || 560,
     transientParams.shortExplanationCharactersLength || 100,
     transientParams.commentsCount || 30,
@@ -78,5 +97,6 @@ export const statementFactory = StatementFactory.define(({ sequence, transientPa
       ? transientParams.evaluator
       : new Evaluator(String(sequence), `John ${sequence}`, `Doe`),
     transientParams.veracity,
+    transientParams.promiseRating,
   );
 });
