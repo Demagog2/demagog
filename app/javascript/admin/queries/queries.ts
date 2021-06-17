@@ -198,7 +198,7 @@ export const GetSourceDetail = gql`
         lastName
       }
     }
-    statements(source: $id, includeUnpublished: true) {
+    statements(source: $id, includeUnpublished: true, limit: 500) {
       id
       content
       published
