@@ -144,10 +144,6 @@ group :development do
   gem "capistrano-rails", require: false
   gem "capistrano-bundler", require: false
 
-  unless Gem.win_platform?
-    gem "capistrano3-unicorn", require: false
-  end
-
   gem "guard-livereload", "~> 2.5", require: false
 end
 
