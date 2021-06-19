@@ -60,9 +60,6 @@ gem "friendly_id", "~> 5.1.0"
 # Use meta tags to add SEO tags to the head
 gem "meta-tags"
 
-# Use prometheus for tracking
-gem "prometheus_exporter"
-
 # Enables env. specific configuration
 gem "config", "~> 2.2.1"
 
