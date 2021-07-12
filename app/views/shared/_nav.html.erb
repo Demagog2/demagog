@@ -21,9 +21,9 @@
   Struct::NavSubmenu.new(
     'Sliby',
     [
-      Struct::NavLink.new('Sliby vlády Andreje Babiše', '/sliby/druha-vlada-andreje-babise'),
-      Struct::NavLink.new('Sliby Sobotkovy vlády', '/sliby/sobotkova-vlada'),
-      Struct::NavLink.new('Sliby Miloše Zemana', 'https://zpravy.aktualne.cz/domaci/zverejnujeme-velkou-inventuru-zemanovych-slibu-ktere-slovo-d/r~9ebe8728ff6911e7adc2ac1f6b220ee8/')
+      Struct::NavLink.new('Sliby vlády Andreje Babiše (2018—dnes)', '/sliby/druha-vlada-andreje-babise'),
+      Struct::NavLink.new('Sliby vlády Bohuslava Sobotky (2014—2017)', '/sliby/sobotkova-vlada'),
+      Struct::NavLink.new('Sliby prezidenta Miloše Zemana (2013—2018)', 'https://zpravy.aktualne.cz/domaci/zverejnujeme-velkou-inventuru-zemanovych-slibu-ktere-slovo-d/r~9ebe8728ff6911e7adc2ac1f6b220ee8/')
     ]
   ),
   Struct::NavSubmenu.new(
@@ -71,11 +71,6 @@
           </button>
         <% end %>
       </li>
-      <li class="menu-item menu-item-donate">
-        <a href="<%= @donate_url %>" role="menuitem">
-          Darujte
-        </a>
-      </li>
       <% @nav.each do |nav_item| %>
         <% if nav_item.class.name == 'Struct::NavLink' %>
           <li class="menu-item">
@@ -106,6 +101,11 @@
           </li>
         <% end %>
       <% end %>
+      <li class="menu-item menu-item-donate">
+        <a href="<%= @donate_url %>" role="menuitem">
+          Darujte
+        </a>
+      </li>
     </ul>
   </div>
 
