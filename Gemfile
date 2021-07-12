@@ -141,6 +141,7 @@ group :development do
   gem "capistrano-rvm", require: false
   gem "capistrano-rails", require: false
   gem "capistrano-bundler", require: false
+  gem "capistrano3-unicorn", require: false
 
   gem "guard-livereload", "~> 2.5", require: false
 
