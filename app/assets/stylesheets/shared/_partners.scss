@@ -29,6 +29,10 @@
     &#ifcn img {
       max-height: 150px;
     }
+
+    &#facebook-partner img {
+      max-height: 150px;
+    }
   }
 
   @media (min-width: 900px) {
@@ -40,11 +44,11 @@
       max-width: 50%; // for IE11 not respecting border-box with flex-basis
       box-sizing: border-box;
 
-      &#supporters {
+      &#supporters, &#ifcn {
         padding-right: 25px;
       }
 
-      &#partners {
+      &#partners, &#facebook-partner {
         padding-left: 25px;
       }
     }
