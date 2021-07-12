@@ -142,6 +142,10 @@ group :development do
   gem "capistrano-bundler", require: false
 
   gem "guard-livereload", "~> 2.5", require: false
+
+  # Needed to be able to use ed25519 ssh keys for deploying
+  gem "ed25519"
+  gem "bcrypt_pbkdf"
 end
 
 group :development, :test do

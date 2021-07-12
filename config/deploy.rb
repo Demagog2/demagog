@@ -23,7 +23,7 @@ set :ssh_options,     forward_agent: true, user: fetch(:user)
 set :unicorn_config_path, "/etc/unicorn.conf"
 
 set :rvm_type,         :system # Use rvm from /usr/local/rvm
-set :rvm_ruby_version, "2.7.1" # Defaults to: 'default'
+set :rvm_ruby_version, "2.7.2" # Defaults to: 'default'
 
 ## Defaults:
 # set :scm,           :git
