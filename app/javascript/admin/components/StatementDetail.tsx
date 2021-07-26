@@ -465,14 +465,15 @@ class StatementDetail extends React.Component<IProps, IState> {
                               {statement.source.releasedAt
                                 ? displayDate(statement.source.releasedAt)
                                 : 'neuvedeno'}
-                              {statement.source.mediaPersonalities?.length && (
-                                <>
-                                  ,{' '}
-                                  {statement.source.mediaPersonalities
-                                    .map((p) => p.name)
-                                    .join(' & ')}
-                                </>
-                              )}
+                              {statement.source.mediaPersonalities &&
+                                statement.source.mediaPersonalities.length > 0 && (
+                                  <>
+                                    ,{' '}
+                                    {statement.source.mediaPersonalities
+                                      .map((p) => p.name)
+                                      .join(' & ')}
+                                  </>
+                                )}
                               {statement.source.sourceUrl && (
                                 <>
                                   ,{' '}

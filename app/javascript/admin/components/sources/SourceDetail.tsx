@@ -72,13 +72,15 @@ export function SourceDetail(props: ISourceDetailProps) {
 
         <span>
           {source.medium} ze dne {source.releasedAt ? displayDate(source.releasedAt) : 'neuvedeno'}
-          {source.mediaPersonalities.length && <>, {source.mediaPersonalities.join(' & ')}</>}
+          {source.mediaPersonalities && source.mediaPersonalities.length > 0 && (
+            <>, {source.mediaPersonalities.join(' & ')}</>
+          )}
           {source.sourceUrl && (
             <>
               , <a href={source.sourceUrl}>odkaz</a>
             </>
           )}
-          {source.experts.length && (
+          {source.experts && source.experts.length > 0 && (
             <>
               <br />
               {source.experts.length === 1 ? 'Editor: ' : 'Editoři: '}

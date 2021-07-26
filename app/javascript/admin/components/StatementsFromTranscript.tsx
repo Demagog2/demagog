@@ -132,7 +132,7 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                 <span>
                   {source.medium?.name} ze dne{' '}
                   {source.releasedAt ? displayDate(source.releasedAt) : 'neuvedeno'}
-                  {source.mediaPersonalities?.length && (
+                  {source.mediaPersonalities && source.mediaPersonalities.length > 0 && (
                     <>, {source.mediaPersonalities.map((p) => p.name).join(' & ')}</>
                   )}
                   {source.sourceUrl && (
