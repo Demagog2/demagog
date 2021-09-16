@@ -10,6 +10,7 @@ class GenerateStatementPreviewImageService
 
     raise Exception.new("Could not find statement with ID #{statement_id}") unless statement
     raise Exception.new("Statement ID #{statement_id} is not published") unless statement.published
+    raise Exception.new("Statement ID #{statement_id} is not of factual type") unless statement.statement_type == Statement::TYPE_FACTUAL
 
     preview_image_url = "#{ENV['BASE_URL']}/vyrok-nahled/#{statement.id}"
 
@@ -18,6 +19,9 @@ class GenerateStatementPreviewImageService
     browser.goto(preview_image_url)
 
     if !browser.network.response || browser.network.response.status != 200
+      # It is important to kill the running browser, otherwise the chromium process will stay running under sidekiq
+      browser.quit
+
       raise Exception.new("HTTP response status from #{preview_image_url} was not 200")
     end
 

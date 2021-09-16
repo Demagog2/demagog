@@ -13,8 +13,8 @@ class Statement < ApplicationRecord
   after_update { ElasticsearchWorker.perform_async(:statement, :update, self.id) }
   after_discard { ElasticsearchWorker.perform_async(:statement, :destroy, self.id) }
 
-  after_create :generate_preview_image, if: Proc.new { |statement| statement.published && statement.published_previously_changed? }
-  after_update :generate_preview_image, if: Proc.new { |statement| statement.published && statement.published_previously_changed? }
+  after_create :generate_preview_image, if: Proc.new { |statement| statement.statement_type == Statement::TYPE_FACTUAL && statement.published && statement.published_previously_changed? }
+  after_update :generate_preview_image, if: Proc.new { |statement| statement.statement_type == Statement::TYPE_FACTUAL && statement.published && statement.published_previously_changed? }
 
   belongs_to :speaker
   belongs_to :source, optional: true
