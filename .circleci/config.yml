@@ -129,43 +129,6 @@ jobs:
           path: /tmp/test-results
           destination: test-results
 
-  deploy-job:
-    docker:
-      - image: circleci/ruby:2.7.4-node
-        environment:
-          RAILS_ENV: production
-          # This is necessary only to build assets in PRODUCTION mode
-          DATABASE_URL: postgres://myuser:mypass@localhost/somedatabase
-
-    working_directory: /tmp/build
-
-    steps:
-      - attach_workspace:
-          at: /tmp
-
-      - run:
-          name: "Update Node.js"
-          command: |
-            curl -sSL "https://nodejs.org/dist/v12.13.1/node-v12.13.1-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v12.13.1-linux-x64/bin/node
-
-      - run:
-          name: Check current version of node
-          command: node -v
-
-      - add_ssh_keys:
-          fingerprints:
-            - "58:90:71:2a:18:2d:40:bf:7e:bb:26:a5:3e:4d:d9:25"
-
-      - run: bundler install --with=development
-
-      - run: sudo apt install rsync
-
-      - run:
-          name: Deploy to production
-          command: |
-            bundle exec cap production deploy
-            bundle exec cap production unicorn:restart
-
 workflows:
   version: 2
   build-test-hold-deploy:
@@ -175,15 +138,3 @@ workflows:
       - test-job:
           requires:
             - build-job
-
-      - hold:
-          type: approval
-          requires:
-           - test-job
-          filters:
-            branches:
-              only: master
-
-      - deploy-job:
-          requires:
-            - hold

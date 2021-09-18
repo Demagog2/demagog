@@ -96,25 +96,3 @@ It's used to cache:
 
 * speaker statistics
 * speaker statistics for debate (article)
-
-### Deployment instructions
-
-Deploy to production:
-```sh
-cap production deploy
-```
-
-Stop production unicorn:
-```sh
-cap production rvm:hook unicorn:stop
-```
-
-Start production unicorn:
-```sh
-cap production rvm:hook unicorn:start
-```
-
-Reload production unicorn:
-```sh
-cap production rvm:hook unicorn:reload
-```
