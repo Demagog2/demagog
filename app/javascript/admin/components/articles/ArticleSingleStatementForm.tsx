@@ -14,6 +14,7 @@ import TextField from '../forms/controls/TextField';
 import FormGroup from '../forms/FormGroup';
 import PreviewableArticleIllustration from './PreviewableArticleIllustration';
 import ArticleSingleStatementSegment from './ArticleSingleStatementSegment';
+import { useFlashMessage } from '../../hooks/use-flash-messages';
 
 const ARTICLE_TYPE_SINGLE_STATEMENT = 'single_statement';
 
@@ -182,6 +183,7 @@ export const ArticleSingleStatementForm = ({
 
 const GenerateImageForTweetModal = ({ onHide, onSave }) => {
   const [tweetImageFile, setTweetImageFile] = React.useState<File | null>(null);
+  const addFlashMessage = useFlashMessage();
 
   return (
     <Dialog isOpen onClose={onHide} title="Vygenerovat ilustrační obrázek pro tweet">
@@ -190,20 +192,22 @@ const GenerateImageForTweetModal = ({ onHide, onSave }) => {
         onSubmit={(values, { setSubmitting }) => {
           generateIllustrationImageForTweet(values.tweetUrl, {
             withAttachment: values.withAttachment,
-          }).then((response) => {
-            setSubmitting(false);
-            if (response.ok) {
-              response.json().then((payload) => {
-                fetch(payload.data_url)
-                  .then((res) => res.blob())
-                  .then((blob) => {
-                    const file = new File([blob], payload.name, { type: payload.mime });
-                    (file as any).preview = window.URL.createObjectURL(file);
-                    setTweetImageFile(file);
-                  });
-              });
-            }
-          });
+          })
+            .then((response) => {
+              if (response.ok) {
+                response.json().then((payload) => {
+                  fetch(payload.data_url)
+                    .then((res) => res.blob())
+                    .then((blob) => {
+                      const file = new File([blob], payload.name, { type: payload.mime });
+                      (file as any).preview = window.URL.createObjectURL(file);
+                      setTweetImageFile(file);
+                    });
+                });
+              }
+            })
+            .catch(() => addFlashMessage('Při generování obrázku došlo k chybě.', 'error'))
+            .finally(() => setSubmitting(false));
         }}
       >
         {({ handleSubmit, isSubmitting }) => (
