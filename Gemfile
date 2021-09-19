@@ -96,9 +96,6 @@ gem "image_processing", "~> 1.2"
 # For migration progress display
 gem "ruby-progressbar"
 
-# For cron jobs
-gem "whenever", require: false
-
 gem "nokogiri"
 
 gem "htmlbeautifier"
@@ -119,9 +116,6 @@ gem "slack-notifier"
 
 gem "graphlient"
 gem "tty-prompt"
-
-# Datadog integration
-gem "ddtrace"
 
 # Production logging
 gem "lograge"
