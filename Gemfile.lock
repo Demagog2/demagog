@@ -93,8 +93,6 @@ GEM
       aws-eventstream (~> 1, >= 1.0.2)
     backport (1.1.2)
     bcrypt (3.1.16)
-    bcrypt_pbkdf (1.1.0)
-    bcrypt_pbkdf (1.1.0-x86-mingw32)
     benchmark (0.1.1)
     bindex (0.8.1)
     builder (3.2.4)
@@ -157,7 +155,6 @@ GEM
       dry-initializer (~> 3.0)
       dry-schema (~> 1.5, >= 1.5.2)
     e2mmap (0.1.0)
-    ed25519 (1.2.4)
     elasticsearch (7.12.0)
       elasticsearch-api (= 7.12.0)
       elasticsearch-transport (= 7.12.0)
@@ -517,7 +514,6 @@ PLATFORMS
 DEPENDENCIES
   addressable
   aws-sdk-s3
-  bcrypt_pbkdf
   byebug
   caxlsx
   caxlsx_rails
@@ -525,7 +521,6 @@ DEPENDENCIES
   devise!
   discard (~> 1.0)
   dotenv-rails
-  ed25519
   elasticsearch-model (~> 7.0.0)
   elasticsearch-rails (~> 7.0.0)
   factory_bot_rails (~> 5.1.0)

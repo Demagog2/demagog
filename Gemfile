@@ -128,14 +128,6 @@ gem "caxlsx_rails"
 gem "ferrum"
 gem "mini_magick"
 
-group :development do
-  gem "guard-livereload", "~> 2.5", require: false
-
-  # Needed to be able to use ed25519 ssh keys for deploying
-  gem "ed25519"
-  gem "bcrypt_pbkdf"
-end
-
 group :development, :test do
   gem "rubocop-rails_config"
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -162,6 +154,8 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"
+
+  gem "guard-livereload", "~> 2.5", require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
