@@ -20,7 +20,7 @@
     "@ckeditor/ckeditor5-image": "^21.0.0",
     "@ckeditor/ckeditor5-link": "^21.0.0",
     "@ckeditor/ckeditor5-list": "^21.0.0",
-    "@ckeditor/ckeditor5-media-embed": "^21.0.0",
+    "@ckeditor/ckeditor5-media-embed": "^27.0.0",
     "@ckeditor/ckeditor5-paragraph": "^21.0.0",
     "@ckeditor/ckeditor5-paste-from-office": "^21.0.0",
     "@ckeditor/ckeditor5-react": "^2.1.0",
