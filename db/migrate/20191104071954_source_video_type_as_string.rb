@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SourceVideoTypeAsString < ActiveRecord::Migration[6.0]
   def change
     change_column :sources, :video_type, :string

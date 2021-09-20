@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "open-uri"
 
 class MigrationToUserAvatar < ActiveRecord::Migration[5.2]

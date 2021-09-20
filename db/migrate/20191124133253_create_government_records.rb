@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateGovernmentRecords < ActiveRecord::Migration[6.0]
   def up
     Government.transaction do

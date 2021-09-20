@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SourcesMediaPersonalities < ActiveRecord::Migration[5.2]
   def change
     # Having personalities linked to media does not help experts

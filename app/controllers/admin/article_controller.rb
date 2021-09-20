@@ -51,7 +51,7 @@ class Admin::ArticleController < ApplicationController
     end
 
     render json: {
-      data_url: "data:image/png;base64," + Base64.encode64(result_image.to_blob).gsub("\n", ""),
+      data_url: "data:image/png;base64," + Base64.encode64(result_image.to_blob).delete("\n"),
       name: screenshot[:name],
       mime: screenshot[:mime]
     }

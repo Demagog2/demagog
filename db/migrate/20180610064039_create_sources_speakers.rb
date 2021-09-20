@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSourcesSpeakers < ActiveRecord::Migration[5.2]
   def change
     create_table :sources_speakers, id: false do |t|

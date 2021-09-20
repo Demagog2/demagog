@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SourceNameNotNull < ActiveRecord::Migration[5.2]
   def up
     Source.unscoped.where(name: nil).update_all(name: "")

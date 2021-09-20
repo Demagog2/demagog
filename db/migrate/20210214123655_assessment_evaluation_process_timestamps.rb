@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AssessmentEvaluationProcessTimestamps < ActiveRecord::Migration[6.1]
   def change
     add_column :assessments, :evaluator_first_assigned_at, :datetime

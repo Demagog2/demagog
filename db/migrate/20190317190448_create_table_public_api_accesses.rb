@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateTablePublicApiAccesses < ActiveRecord::Migration[5.2]
   def up
     create_table :public_api_accesses do |t|

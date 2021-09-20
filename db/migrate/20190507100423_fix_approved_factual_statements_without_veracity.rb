@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FixApprovedFactualStatementsWithoutVeracity < ActiveRecord::Migration[5.2]
   def up
     # These sources with their single statement should be just text articles

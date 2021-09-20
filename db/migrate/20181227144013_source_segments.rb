@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SourceSegments < ActiveRecord::Migration[5.2]
   def change
     # We are dropping the statements_set segment for now in favor

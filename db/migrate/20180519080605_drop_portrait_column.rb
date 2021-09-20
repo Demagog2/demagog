@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DropPortraitColumn < ActiveRecord::Migration[5.2]
   def up
     remove_column :speakers, :attachment_id, :bigint

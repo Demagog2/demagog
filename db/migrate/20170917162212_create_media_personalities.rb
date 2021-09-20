@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateMediaPersonalities < ActiveRecord::Migration[5.1]
   def change
     create_table :media_personalities do |t|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SegmentsCleanup < ActiveRecord::Migration[5.2]
   def change
     # Because we are not using it anymore

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddNewExplanationColumnsToAssessment < ActiveRecord::Migration[5.2]
   def change
     rename_column :assessments, :explanation, :explanation_html

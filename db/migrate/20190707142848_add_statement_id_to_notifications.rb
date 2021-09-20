@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddStatementIdToNotifications < ActiveRecord::Migration[5.2]
   def up
     add_column :notifications, :statement_id, :bigint
@@ -5,10 +7,10 @@ class AddStatementIdToNotifications < ActiveRecord::Migration[5.2]
     select_all("SELECT * FROM notifications").each do |notification|
       match = notification["action_link"].match(/\/admin\/statements\/(\d+)/)
       statement_id = match[1].to_i
-      
+
       execute "UPDATE notifications SET statement_id = #{statement_id} WHERE id = #{notification['id']}"
     end
-    
+
     change_column :notifications, :statement_id, :bigint, null: false
     remove_column :notifications, :action_link
     remove_column :notifications, :action_text

@@ -38,6 +38,6 @@ module Demagog
     config.exceptions_app = self.routes
 
     # Default time zone
-    config.time_zone = 'Europe/Prague'
+    config.time_zone = "Europe/Prague"
   end
 end

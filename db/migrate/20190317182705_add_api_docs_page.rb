@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddApiDocsPage < ActiveRecord::Migration[5.2]
   def change
     page = Page.create(title: "API pro vývojáře", slug: "api-pro-vyvojare", published: true, template: "api_docs")
