@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MigrationToSpeakerAvatar < ActiveRecord::Migration[5.2]
   def up
     Speaker.all.each do |speaker|

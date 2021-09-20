@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddWebContents < ActiveRecord::Migration[6.0]
   def up
     create_table :web_contents do |t|

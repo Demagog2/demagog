@@ -313,7 +313,7 @@ class Types::QueryType < GraphQL::Schema::Object
   rescue ActiveRecord::RecordNotFound
     raise GraphQL::ExecutionError.new(
       "Could not find Article with id=#{args[:id]} or slug=#{args[:slug]}"
-          )
+    )
   end
 
   field :articles, [Types::ArticleType], null: false do
@@ -385,7 +385,7 @@ class Types::QueryType < GraphQL::Schema::Object
   rescue ActiveRecord::RecordNotFound
     raise GraphQL::ExecutionError.new(
       "Could not find Page with id=#{args[:id]} or slug=#{args[:slug]}"
-          )
+    )
   end
 
   field :user, Types::UserType, null: false do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Promises < ActiveRecord::Migration[5.2]
   def up
     # Add new assessment methodology table
@@ -38,11 +40,11 @@ class Promises < ActiveRecord::Migration[5.2]
     add_column :assessments, :promise_rating_id, :bigint
     add_index :assessments, :promise_rating_id
 
-    promise_rating_fulfilled = PromiseRating.create!(name: 'Splněno', key: PromiseRating::FULFILLED)
-    promise_rating_in_progress = PromiseRating.create!(name: 'Průběžně plněno', key: PromiseRating::IN_PROGRESS)
-    promise_rating_partially_fulfilled = PromiseRating.create!(name: 'Částečně splněno', key: PromiseRating::PARTIALLY_FULFILLED)
-    promise_rating_broken = PromiseRating.create!(name: 'Porušeno', key: PromiseRating::BROKEN)
-    promise_rating_stalled = PromiseRating.create!(name: 'Nerealizováno', key: PromiseRating::STALLED)
+    promise_rating_fulfilled = PromiseRating.create!(name: "Splněno", key: PromiseRating::FULFILLED)
+    promise_rating_in_progress = PromiseRating.create!(name: "Průběžně plněno", key: PromiseRating::IN_PROGRESS)
+    promise_rating_partially_fulfilled = PromiseRating.create!(name: "Částečně splněno", key: PromiseRating::PARTIALLY_FULFILLED)
+    promise_rating_broken = PromiseRating.create!(name: "Porušeno", key: PromiseRating::BROKEN)
+    promise_rating_stalled = PromiseRating.create!(name: "Nerealizováno", key: PromiseRating::STALLED)
 
     # Update tags schema
     remove_column :tags, :is_policy_area, :boolean
@@ -82,9 +84,9 @@ class Promises < ActiveRecord::Migration[5.2]
 
       if statement.assessment.veracity
         statement.assessment.promise_rating = {
-          'true' => promise_rating_fulfilled,
-          'untrue' => promise_rating_broken,
-          'misleading' => promise_rating_partially_fulfilled
+          "true" => promise_rating_fulfilled,
+          "untrue" => promise_rating_broken,
+          "misleading" => promise_rating_partially_fulfilled
         }[statement.assessment.veracity.key]
 
         statement.assessment.veracity = nil
@@ -117,10 +119,10 @@ class Promises < ActiveRecord::Migration[5.2]
 
       if statement.assessment.veracity
         statement.assessment.promise_rating = {
-          'true' => promise_rating_fulfilled,
-          'untrue' => promise_rating_broken,
-          'misleading' => promise_rating_in_progress,
-          'unverifiable' => promise_rating_stalled
+          "true" => promise_rating_fulfilled,
+          "untrue" => promise_rating_broken,
+          "misleading" => promise_rating_in_progress,
+          "unverifiable" => promise_rating_stalled
         }[statement.assessment.veracity.key]
 
         statement.assessment.veracity = nil
@@ -170,7 +172,6 @@ class Promises < ActiveRecord::Migration[5.2]
   end
 
   private
-
     def sobotkova_vlada_get_promise_title(statement)
       explicit_transform = {
         15046 => "Online sázení podle EU",

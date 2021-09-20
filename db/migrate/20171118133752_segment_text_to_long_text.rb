@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SegmentTextToLongText < ActiveRecord::Migration[5.1]
   def up
     # PostgreSQL does not have longtext, in pg text is unlimited

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameEvaluationStatuses < ActiveRecord::Migration[5.2]
   def change
     # Only these two statuses needs to be migrated, because other ones were

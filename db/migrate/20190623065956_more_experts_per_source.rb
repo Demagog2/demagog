@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MoreExpertsPerSource < ActiveRecord::Migration[5.2]
   def change
     # Add new sources_experts table

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FacebookFactcheckArticleType < ActiveRecord::Migration[6.0]
   def up
     execute "INSERT INTO article_types (name, template, created_at, updated_at) VALUES ('facebook_factcheck', NULL, NOW(), NOW())"

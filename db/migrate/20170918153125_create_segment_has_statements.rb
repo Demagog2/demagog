@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSegmentHasStatements < ActiveRecord::Migration[5.1]
   def change
     create_table :segment_has_statements do |t|

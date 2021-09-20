@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NotificationText < ActiveRecord::Migration[5.2]
   def up
     rename_column :notifications, :content, :full_text

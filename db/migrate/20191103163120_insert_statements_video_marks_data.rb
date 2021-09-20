@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InsertStatementsVideoMarksData < ActiveRecord::Migration[6.0]
   TIMINGS = {
     18_598 => %w[0:46 1:03],

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateStatementTranscriptPosition < ActiveRecord::Migration[5.2]
   def change
     create_table :statement_transcript_positions do |t|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveDuplicateSeedRecords < ActiveRecord::Migration[5.2]
   def change
     # Roles

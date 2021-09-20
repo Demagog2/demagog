@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SingleStatementArticleType < ActiveRecord::Migration[6.0]
   def up
     execute "INSERT INTO article_types (name, template, created_at, updated_at) VALUES ('single_statement', NULL, NOW(), NOW())"

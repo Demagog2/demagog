@@ -22,7 +22,7 @@ class ImageUrlHelper
     image_service_url + path
   end
 
-  def self.open_image(path)
+  def self.open_image(path, &block)
     absolute_url = self.absolute_url(path)
 
     if ENV["MIGRATION_IMAGE_CACHE"]
@@ -43,15 +43,11 @@ class ImageUrlHelper
         end
       end
 
-      open(cache_file_path) do |file|
-        yield file
-      end
+      open(cache_file_path, &block)
 
       return
     end
 
-    open(absolute_url) do |file|
-      yield file
-    end
+    open(absolute_url, &block)
   end
 end
