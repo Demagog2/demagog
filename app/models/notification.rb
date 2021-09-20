@@ -24,7 +24,7 @@ class Notification < ApplicationRecord
       .joins(:recipient)
       .joins(:statement)
       .where(read_at: nil)
-      .where("notifications.created_at > ?", Time.now - 15.minutes)
+      .where("notifications.created_at > ?", Time.now - 24.hours)
       .where(emailed_at: nil)
       .where(users: { email_notifications: true })
       .includes(:recipient)

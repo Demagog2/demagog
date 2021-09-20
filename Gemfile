@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+ruby "2.7.4"
+
 source "https://rubygems.org"
 
 git_source(:github) do |repo_name|
@@ -19,11 +21,8 @@ gem "pg"
 # Use scenic for materilized views
 gem "scenic"
 
-# Unicorn is *nix only
-unless Gem.win_platform?
-  # Use Unicorn as the app server
-  gem "unicorn"
-end
+# Use puma as a web server
+gem "puma", "~> 5.0"
 
 # Use SCSS for stylesheets
 gem "sass-rails", "~> 5.0"
@@ -97,9 +96,6 @@ gem "image_processing", "~> 1.2"
 # For migration progress display
 gem "ruby-progressbar"
 
-# For cron jobs
-gem "whenever", require: false
-
 gem "nokogiri"
 
 gem "htmlbeautifier"
@@ -121,9 +117,6 @@ gem "slack-notifier"
 gem "graphlient"
 gem "tty-prompt"
 
-# Datadog integration
-gem "ddtrace"
-
 # Production logging
 gem "lograge"
 
@@ -134,21 +127,6 @@ gem "caxlsx_rails"
 
 gem "ferrum"
 gem "mini_magick"
-
-# Use Capistrano for deployment
-group :development do
-  gem "capistrano", require: false
-  gem "capistrano-rvm", require: false
-  gem "capistrano-rails", require: false
-  gem "capistrano-bundler", require: false
-  gem "capistrano3-unicorn", require: false
-
-  gem "guard-livereload", "~> 2.5", require: false
-
-  # Needed to be able to use ed25519 ssh keys for deploying
-  gem "ed25519"
-  gem "bcrypt_pbkdf"
-end
 
 group :development, :test do
   gem "rubocop-rails_config"
@@ -176,6 +154,8 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"
+
+  gem "guard-livereload", "~> 2.5", require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
