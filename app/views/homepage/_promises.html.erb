@@ -24,9 +24,8 @@
             <%= (
               {
                 PromiseRating::FULFILLED => cs_pluralize(count, "splněný", "splněné", "splněných"),
-                PromiseRating::IN_PROGRESS => cs_pluralize(count, "průběžně plněný", "průběžně plněné", "průběžně plněných"),
-                PromiseRating::BROKEN => cs_pluralize(count, "porušený", "porušené", "porušených"),
-                PromiseRating::STALLED => cs_pluralize(count, "nerealizovaný", "nerealizované", "nerealizovaných")
+                PromiseRating::PARTIALLY_FULFILLED => cs_pluralize(count, "částečně splněný", "částečně splněné", "částečně splněných"),
+                PromiseRating::BROKEN => cs_pluralize(count, "porušený", "porušené", "porušených")
               }[promise_rating_key]
             ) %>
           </span>
