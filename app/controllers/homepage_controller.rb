@@ -30,9 +30,8 @@ class HomepageController < FrontendController
     def get_promises_stats
       keys = [
         PromiseRating::FULFILLED,
-        PromiseRating::IN_PROGRESS,
-        PromiseRating::BROKEN,
-        PromiseRating::STALLED
+        PromiseRating::PARTIALLY_FULFILLED,
+        PromiseRating::BROKEN
       ]
 
       statements =
