@@ -28,7 +28,7 @@
     "@ckeditor/ckeditor5-table": "^21.0.0",
     "@ckeditor/ckeditor5-theme-lark": "^21.0.0",
     "@ckeditor/ckeditor5-typing": "^21.0.0",
-    "@ckeditor/ckeditor5-widget": "^21.0.0",
+    "@ckeditor/ckeditor5-widget": "^27.0.0",
     "@emotion/core": "^10.0.27",
     "@emotion/styled": "^10.0.27",
     "@rails/webpacker": "4.2.0",
