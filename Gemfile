@@ -64,8 +64,7 @@ gem "meta-tags"
 gem "config", "~> 2.2.1"
 
 # Authentication
-# Return back to specific version when changes around using OmniAuth v2 are released, see https://github.com/heartcombo/devise/pull/5327
-gem "devise", github: "heartcombo/devise", branch: "master"
+gem "devise", "~> 4.8"
 
 # Enables devise & omniauth to authenticate against Google OAuth 2
 gem "omniauth-google-oauth2"

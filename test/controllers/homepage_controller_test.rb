@@ -4,12 +4,12 @@ require "test_helper"
 
 class HomepageControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
-    speaker = create(:speaker)
+    source_speaker = create(:source_speaker)
     source =
       create(
         :source,
-        speakers: [speaker],
-        statements: [create(:statement, speaker: speaker), create(:statement, speaker: speaker)]
+        source_speakers: [source_speaker],
+        statements: [create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker)]
       )
     segment = create(:article_segment_source_statements, source: source)
     create(:fact_check, segments: [segment])
@@ -19,9 +19,20 @@ class HomepageControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "deleted articles should not be present on the homepage" do
-    article_one = create(:fact_check, title: "Article one", segments: [], published: true)
-    article_two = create(:fact_check, title: "Article two", segments: [], published: true)
-    article_three = create(:fact_check, title: "Article three", segments: [], published: true)
+    source_speaker = create(:source_speaker)
+    source =
+      create(
+        :source,
+        source_speakers: [source_speaker],
+        statements: [create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker)]
+      )
+    segment_one = create(:article_segment_source_statements, source: source)
+    segment_two = create(:article_segment_source_statements, source: source)
+    segment_three = create(:article_segment_source_statements, source: source)
+
+    article_one = create(:fact_check, title: "Article one", segments: [segment_one], published: true)
+    article_two = create(:fact_check, title: "Article two", segments: [segment_two], published: true)
+    article_three = create(:fact_check, title: "Article three", segments: [segment_three], published: true)
 
     article_three.discard!
 

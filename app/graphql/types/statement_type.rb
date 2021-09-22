@@ -8,7 +8,7 @@ module Types
     field :title, String, null: true
     field :excerpted_at, String, null: false
     field :important, Boolean, null: false
-    field :speaker, Types::SpeakerType, null: false
+    field :source_speaker, Types::SourceSpeakerType, null: false
     field :source, Types::SourceType, null: false
     field :source_order, Int, null: true
     field :statement_transcript_position, Types::StatementTranscriptPositionType, null: true

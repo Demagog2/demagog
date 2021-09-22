@@ -4,12 +4,12 @@ require "test_helper"
 
 class ArticleControllerTest < ActionDispatch::IntegrationTest
   def create_article
-    speaker = create(:speaker)
+    source_speaker = create(:source_speaker)
     source =
       create(
         :source,
-        speakers: [speaker],
-        statements: [create(:statement, speaker: speaker), create(:statement, speaker: speaker)]
+        source_speakers: [source_speaker],
+        statements: [create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker)]
       )
     segment = create(:article_segment_source_statements, source: source)
     create(:fact_check, segments: [segment])

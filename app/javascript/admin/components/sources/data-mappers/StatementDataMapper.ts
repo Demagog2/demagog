@@ -1,13 +1,13 @@
 import { GetSourceDetail_statements } from '../../../operation-result-types';
 import { Statement } from '../model/Statement';
 import { Evaluator } from '../model/Evaluator';
-import { Speaker } from '../model/Speaker';
+import { SourceSpeaker } from '../model/SourceSpeaker';
 
 export function createStatementFromQuery(statement: GetSourceDetail_statements) {
   return new Statement(
     statement.id,
     statement.content,
-    new Speaker(statement.speaker.id, statement.speaker.firstName, statement.speaker.lastName),
+    new SourceSpeaker(statement.sourceSpeaker.id, statement.sourceSpeaker.firstName, statement.sourceSpeaker.lastName),
     statement.published,
     statement.assessment.evaluationStatus,
     statement.assessment.assessmentMethodology.ratingModel,

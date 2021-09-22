@@ -131,7 +131,7 @@ class StatementDetail extends React.Component<IProps, IState> {
             published: statement.published,
             important: statement.important,
             tags: statement.tags.map((t) => t.id),
-            speaker: statement.speaker.id,
+            source_speaker_id: statement.sourceSpeaker.id,
             assessment: {
               evaluation_status: statement.assessment.evaluationStatus,
               veracity_id: statement.assessment.veracity ? statement.assessment.veracity.id : null,
@@ -210,7 +210,7 @@ class StatementDetail extends React.Component<IProps, IState> {
                         important: values.important,
                         published: values.published,
                         tags: values.tags,
-                        speaker: values.speaker,
+                        sourceSpeakerId: values.source_speaker_id,
                       };
 
                       this.updateStatementPromise = updateStatement({
@@ -387,12 +387,16 @@ class StatementDetail extends React.Component<IProps, IState> {
                           <div style={{ flex: '2 0' }}>
                             <div style={{ display: 'flex' }}>
                               <div style={{ flex: '0 0 auto', marginRight: 50 }}>
-                                {canEditEverything ? (
-                                  <BlueprintFormGroup label="Řečník" labelFor="speaker" inline>
+                                {canEditStatement ? (
+                                  <BlueprintFormGroup
+                                    label="Řečník"
+                                    labelFor="source_speaker_id"
+                                    inline
+                                  >
                                     <SelectField
-                                      name="speaker"
+                                      name="source_speaker_id"
                                       options={
-                                        statement.source.speakers?.map((s) => ({
+                                        statement.source.sourceSpeakers?.map((s) => ({
                                           label: `${s.firstName} ${s.lastName}`,
                                           value: s.id,
                                         })) ?? []
@@ -401,7 +405,8 @@ class StatementDetail extends React.Component<IProps, IState> {
                                   </BlueprintFormGroup>
                                 ) : (
                                   <h5 className={Classes.HEADING}>
-                                    {statement.speaker.firstName} {statement.speaker.lastName}
+                                    {statement.sourceSpeaker.firstName}{' '}
+                                    {statement.sourceSpeaker.lastName}
                                   </h5>
                                 )}
                               </div>
@@ -441,7 +446,10 @@ class StatementDetail extends React.Component<IProps, IState> {
                                       </SelectComponentField>
                                     </FormGroup>
                                   ) : (
-                                    <p>Štítky: {statement.tags.map((t) => t.name).join(', ')}</p>
+                                    <p>
+                                      Štítky: {statement.tags.map((t) => t.name).join(', ')}
+                                      {statement.tags.length === 0 ? 'Žádné' : null}
+                                    </p>
                                   )}
                                 </div>
                               )}

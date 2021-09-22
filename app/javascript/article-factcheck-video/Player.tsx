@@ -337,13 +337,13 @@ class DisplayStatement extends React.Component<IDisplayStatementProps, IDisplayS
   public render() {
     const { highlighted, statement } = this.props;
     const { showExplanation } = this.state;
-    const speakerFullName = `${statement.speaker.firstName} ${statement.speaker.lastName}`;
+    const speakerFullName = `${statement.sourceSpeaker.firstName} ${statement.sourceSpeaker.lastName}`;
 
     return (
       <div>
         <SpeakerContainer>
           <SpeakerAvatarMask>
-            <img src={statement.speaker.avatar} alt={speakerFullName} />
+            <img src={statement.sourceSpeaker.speaker.avatar} alt={speakerFullName} />
           </SpeakerAvatarMask>
           <SpeakerFullName>{speakerFullName}</SpeakerFullName>
         </SpeakerContainer>

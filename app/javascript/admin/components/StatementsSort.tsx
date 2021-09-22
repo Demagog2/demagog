@@ -32,7 +32,7 @@ interface ISource {
 interface IStatement {
   id: string;
   content: string;
-  speaker: {
+  sourceSpeaker: {
     firstName: string;
     lastName: string;
   };
@@ -143,7 +143,7 @@ class StatementsSort extends React.Component<IProps, IState> {
                         >
                           <div style={{ flex: '1 0' }}>
                             <h5 className={Classes.HEADING}>
-                              {statement.speaker.firstName} {statement.speaker.lastName}
+                              {statement.sourceSpeaker.firstName} {statement.sourceSpeaker.lastName}
                             </h5>
                           </div>
                           <div style={{ flex: '2 0' }}>{newlinesToBr(statement.content)}</div>

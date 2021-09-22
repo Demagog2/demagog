@@ -4,8 +4,19 @@ require "graphql/graphql_testcase"
 
 class QueryTypeSpeakersTest < GraphQLTestCase
   test "speakers with portrait, body and stats should be returnable (Seznam.cz integration query)" do
-    source = create(:source)
-    create(:speaker, statement_source: source)
+    source_speaker = create(:source_speaker)
+    source =
+      create(
+        :source,
+        source_speakers: [source_speaker],
+        statements: [
+          create(:statement, source_speaker: source_speaker),
+          create(:statement, source_speaker: source_speaker),
+          create(:statement, source_speaker: source_speaker)
+        ]
+      )
+    segment = create(:article_segment_source_statements, source: source)
+    create(:fact_check, segments: [segment])
 
     query_string = "
       query {

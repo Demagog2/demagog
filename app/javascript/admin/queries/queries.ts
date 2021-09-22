@@ -158,10 +158,18 @@ export const GetSource = gql`
         evaluationStatus
         statementsCount
       }
-      speakers {
+      sourceSpeakers {
         id
         firstName
         lastName
+        role
+        speaker {
+          id
+          avatar
+        }
+        body {
+          id
+        }
       }
       experts {
         id
@@ -179,10 +187,17 @@ export const GetSourceDetail = gql`
       name
       sourceUrl
       releasedAt
-      speakers {
+      sourceSpeakers {
         id
         firstName
         lastName
+        role
+        speaker {
+          id
+        }
+        body {
+          id
+        }
       }
       medium {
         id
@@ -203,10 +218,13 @@ export const GetSourceDetail = gql`
       content
       published
       commentsCount
-      speaker {
+      sourceSpeaker {
         id
         firstName
         lastName
+        speaker {
+          id
+        }
       }
       assessment {
         id
@@ -271,11 +289,15 @@ export const GetSourceStatements = gql`
       title
       important
       published
-      speaker {
+      sourceSpeaker {
         id
         firstName
         lastName
-        avatar
+        role
+        speaker {
+          id
+          avatar
+        }
       }
       assessment {
         id
@@ -418,6 +440,7 @@ export const GetSpeaker = gql`
       avatar
       osobaId
       wikidataId
+      role
       memberships {
         id
         body {
@@ -441,7 +464,9 @@ export const GetSpeakers = gql`
       websiteUrl
       osobaId
       wikidataId
+      role
       body {
+        id
         shortName
       }
       memberships {
@@ -467,11 +492,15 @@ export const GetStatement = gql`
       important
       published
       excerptedAt
-      speaker {
+      sourceSpeaker {
         id
         firstName
         lastName
-        avatar
+        role
+        speaker {
+          id
+          avatar
+        }
       }
       assessment {
         id
@@ -518,10 +547,13 @@ export const GetStatement = gql`
           firstName
           lastName
         }
-        speakers {
+        sourceSpeakers {
           id
           firstName
           lastName
+          speaker {
+            id
+          }
         }
       }
       statementTranscriptPosition {
@@ -614,10 +646,13 @@ export const GetNotifications = gql`
           id
           content
           statementType
-          speaker {
+          sourceSpeaker {
             id
             firstName
             lastName
+            speaker {
+              id
+            }
           }
           source {
             id
@@ -688,6 +723,12 @@ export const GetSpeakersForSelect = gql`
       id
       firstName
       lastName
+      body {
+        id
+        shortName
+      }
+      role
+      avatar
     }
   }
 `;
@@ -714,10 +755,13 @@ export const GetSourceWithStatementsAndVideoMarks = gql`
       statements(includeUnpublished: $includeUnpublished) {
         id
         content
-        speaker {
+        sourceSpeaker {
           id
           firstName
           lastName
+          speaker {
+            id
+          }
         }
         statementVideoMark {
           id
@@ -807,17 +851,24 @@ export const GetUserStatements = gql`
           firstName
           lastName
         }
-        speakers {
+        sourceSpeakers {
           id
           firstName
           lastName
+          speaker {
+            id
+          }
         }
       }
-      speaker {
+      sourceSpeaker {
         id
         firstName
         lastName
-        avatar
+        role
+        speaker {
+          id
+          avatar
+        }
       }
       assessment {
         id

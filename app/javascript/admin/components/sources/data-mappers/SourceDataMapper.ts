@@ -7,7 +7,7 @@ import { createMediumFromQuery } from './MediumDataMapper';
 import { createMediaPersonalityFromQuery } from './MediaPersonalityDataMapper';
 
 export function createSourceFromQuery(data: GetSourceDetail): ISource {
-  const speakers = data.source.speakers?.map(createSpeakerFromQuery) ?? [];
+  const sourceSpeakers = data.source.sourceSpeakers?.map(createSpeakerFromQuery) ?? [];
   const statements = data.statements.map(createStatementFromQuery) ?? [];
   const experts = data.source.experts?.map(createExpertFromQuery) ?? [];
   const medium = createMediumFromQuery(data.source.medium);
@@ -20,7 +20,7 @@ export function createSourceFromQuery(data: GetSourceDetail): ISource {
     sourceUrl: data.source.sourceUrl,
     releasedAt: data.source.releasedAt,
     experts,
-    speakers,
+    sourceSpeakers,
     statements,
     mediaPersonalities,
     medium,

@@ -1,4 +1,4 @@
-import { Speaker } from './Speaker';
+import { SourceSpeaker } from './SourceSpeaker';
 import { Statement } from './Statement';
 import { Expert } from './Expert';
 import { Medium } from './Medium';
@@ -10,7 +10,7 @@ export interface ISource {
   sourceUrl: string | null;
   releasedAt: string | null;
   experts: Expert[];
-  speakers: Speaker[];
+  sourceSpeakers: SourceSpeaker[];
   statements: Statement[];
   mediaPersonalities: MediaPersonality[];
   medium: Medium | null;
@@ -24,6 +24,6 @@ export const EMPTY_SOURCE: ISource = {
   medium: null,
   releasedAt: null,
   sourceUrl: null,
-  speakers: [],
+  sourceSpeakers: [],
   statements: [],
 };

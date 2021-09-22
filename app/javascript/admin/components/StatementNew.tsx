@@ -64,7 +64,7 @@ class StatementNew extends React.Component<IProps> {
           const initialValues = {
             statement_type: StatementType.factual,
             content: '',
-            speaker_id: source.speakers?.length ? source.speakers[0].id : null,
+            source_speaker_id: source.sourceSpeakers?.length ? source.sourceSpeakers[0].id : null,
             evaluator_id: null,
             note: '',
           };
@@ -84,7 +84,7 @@ class StatementNew extends React.Component<IProps> {
                   initialValues={initialValues}
                   validationSchema={yup.object().shape({
                     content: yup.string().required('Je třeba vyplnit znění výroku'),
-                    speaker_id: yup.mixed().notOneOf([null, ''], 'Je třeba vybrat řečníka'),
+                    source_speaker_id: yup.mixed().notOneOf([null, ''], 'Je třeba vybrat řečníka'),
                   })}
                   onSubmit={(values, { setSubmitting }) => {
                     const note = values.note.trim();
@@ -92,7 +92,7 @@ class StatementNew extends React.Component<IProps> {
                     const statementInput: CreateStatementInput = {
                       statementType: values.statement_type,
                       content: values.content,
-                      speakerId: values.speaker_id ?? '',
+                      sourceSpeakerId: values.source_speaker_id ?? '',
                       sourceId: source.id,
                       important: false,
                       published: false,
@@ -148,11 +148,11 @@ class StatementNew extends React.Component<IProps> {
                             </FormGroup>
                             <div style={{ display: 'flex' }}>
                               <div style={{ flex: '1 1' }}>
-                                <FormGroup label="Řečník" name="speaker_id">
+                                <FormGroup label="Řečník" name="source_speaker_id">
                                   <SelectField
-                                    name="speaker_id"
+                                    name="source_speaker_id"
                                     options={
-                                      source.speakers?.map((s) => ({
+                                      source.sourceSpeakers?.map((s) => ({
                                         label: `${s.firstName} ${s.lastName}`,
                                         value: s.id,
                                       })) ?? []

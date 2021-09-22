@@ -8,7 +8,7 @@ module Types
     argument :medium_id, ID, required: false
     argument :media_personalities, [ID], required: false
     argument :transcript, String, required: false
-    argument :speakers, [ID], required: false
+    argument :source_speakers, [Types::SourceSpeakerInputType], required: false
     argument :experts, [ID], required: false
   end
 

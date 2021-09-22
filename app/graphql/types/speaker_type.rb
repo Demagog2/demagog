@@ -13,6 +13,7 @@ module Types
     field :after_name, String, null: false
     field :bio, String, null: false
     field :website_url, String, null: false
+    field :role, String, null: true
 
     field :avatar, String, null: true
 

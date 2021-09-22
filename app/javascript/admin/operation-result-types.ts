@@ -682,6 +682,7 @@ export interface CreateSpeaker_createSpeaker_speaker {
    */
   osobaId: string | null;
   wikidataId: string | null;
+  role: string | null;
   body: CreateSpeaker_createSpeaker_speaker_body | null;
   memberships: CreateSpeaker_createSpeaker_speaker_memberships[] | null;
 }
@@ -742,6 +743,7 @@ export interface UpdateSpeaker_updateSpeaker_speaker {
    */
   osobaId: string | null;
   wikidataId: string | null;
+  role: string | null;
   body: UpdateSpeaker_updateSpeaker_speaker_body | null;
   memberships: UpdateSpeaker_updateSpeaker_speaker_memberships[] | null;
 }
@@ -978,8 +980,8 @@ export interface DeleteUserVariables {
 // GraphQL mutation operation: CreateStatement
 // ====================================================
 
-export interface CreateStatement_createStatement_statement_speaker {
-  __typename: "Speaker";
+export interface CreateStatement_createStatement_statement_sourceSpeaker {
+  __typename: "SourceSpeaker";
   id: string;
 }
 
@@ -1001,7 +1003,7 @@ export interface CreateStatement_createStatement_statement {
   content: string;
   excerptedAt: string;
   important: boolean;
-  speaker: CreateStatement_createStatement_statement_speaker;
+  sourceSpeaker: CreateStatement_createStatement_statement_sourceSpeaker;
   source: CreateStatement_createStatement_statement_source;
 }
 
@@ -1030,12 +1032,19 @@ export interface CreateStatementVariables {
 // GraphQL mutation operation: UpdateStatement
 // ====================================================
 
-export interface UpdateStatement_updateStatement_statement_speaker {
+export interface UpdateStatement_updateStatement_statement_sourceSpeaker_speaker {
   __typename: "Speaker";
+  id: string;
+  avatar: string | null;
+}
+
+export interface UpdateStatement_updateStatement_statement_sourceSpeaker {
+  __typename: "SourceSpeaker";
   id: string;
   firstName: string;
   lastName: string;
-  avatar: string | null;
+  role: string | null;
+  speaker: UpdateStatement_updateStatement_statement_sourceSpeaker_speaker;
 }
 
 export interface UpdateStatement_updateStatement_statement_assessment_evaluator {
@@ -1097,7 +1106,7 @@ export interface UpdateStatement_updateStatement_statement {
   important: boolean;
   published: boolean;
   excerptedAt: string;
-  speaker: UpdateStatement_updateStatement_statement_speaker;
+  sourceSpeaker: UpdateStatement_updateStatement_statement_sourceSpeaker;
   assessment: UpdateStatement_updateStatement_statement_assessment;
   source: UpdateStatement_updateStatement_statement_source;
   commentsCount: number;
@@ -1816,11 +1825,25 @@ export interface GetSource_source_statementsCountsByEvaluationStatus {
   statementsCount: number;
 }
 
-export interface GetSource_source_speakers {
+export interface GetSource_source_sourceSpeakers_speaker {
   __typename: "Speaker";
+  id: string;
+  avatar: string | null;
+}
+
+export interface GetSource_source_sourceSpeakers_body {
+  __typename: "Body";
+  id: string;
+}
+
+export interface GetSource_source_sourceSpeakers {
+  __typename: "SourceSpeaker";
   id: string;
   firstName: string;
   lastName: string;
+  role: string | null;
+  speaker: GetSource_source_sourceSpeakers_speaker;
+  body: GetSource_source_sourceSpeakers_body | null;
 }
 
 export interface GetSource_source_experts {
@@ -1840,7 +1863,7 @@ export interface GetSource_source {
   medium: GetSource_source_medium | null;
   mediaPersonalities: GetSource_source_mediaPersonalities[] | null;
   statementsCountsByEvaluationStatus: GetSource_source_statementsCountsByEvaluationStatus[];
-  speakers: GetSource_source_speakers[] | null;
+  sourceSpeakers: GetSource_source_sourceSpeakers[] | null;
   experts: GetSource_source_experts[] | null;
 }
 
@@ -1861,11 +1884,24 @@ export interface GetSourceVariables {
 // GraphQL query operation: GetSourceDetail
 // ====================================================
 
-export interface GetSourceDetail_source_speakers {
+export interface GetSourceDetail_source_sourceSpeakers_speaker {
   __typename: "Speaker";
+  id: string;
+}
+
+export interface GetSourceDetail_source_sourceSpeakers_body {
+  __typename: "Body";
+  id: string;
+}
+
+export interface GetSourceDetail_source_sourceSpeakers {
+  __typename: "SourceSpeaker";
   id: string;
   firstName: string;
   lastName: string;
+  role: string | null;
+  speaker: GetSourceDetail_source_sourceSpeakers_speaker;
+  body: GetSourceDetail_source_sourceSpeakers_body | null;
 }
 
 export interface GetSourceDetail_source_medium {
@@ -1893,17 +1929,23 @@ export interface GetSourceDetail_source {
   name: string;
   sourceUrl: string | null;
   releasedAt: string | null;
-  speakers: GetSourceDetail_source_speakers[] | null;
+  sourceSpeakers: GetSourceDetail_source_sourceSpeakers[] | null;
   medium: GetSourceDetail_source_medium | null;
   mediaPersonalities: GetSourceDetail_source_mediaPersonalities[] | null;
   experts: GetSourceDetail_source_experts[] | null;
 }
 
-export interface GetSourceDetail_statements_speaker {
+export interface GetSourceDetail_statements_sourceSpeaker_speaker {
   __typename: "Speaker";
+  id: string;
+}
+
+export interface GetSourceDetail_statements_sourceSpeaker {
+  __typename: "SourceSpeaker";
   id: string;
   firstName: string;
   lastName: string;
+  speaker: GetSourceDetail_statements_sourceSpeaker_speaker;
 }
 
 export interface GetSourceDetail_statements_assessment_assessmentMethodology {
@@ -1952,7 +1994,7 @@ export interface GetSourceDetail_statements {
   content: string;
   published: boolean;
   commentsCount: number;
-  speaker: GetSourceDetail_statements_speaker;
+  sourceSpeaker: GetSourceDetail_statements_sourceSpeaker;
   assessment: GetSourceDetail_statements_assessment;
 }
 
@@ -2024,12 +2066,19 @@ export interface GetSourcesForSelect {
 // GraphQL query operation: GetSourceStatements
 // ====================================================
 
-export interface GetSourceStatements_statements_speaker {
+export interface GetSourceStatements_statements_sourceSpeaker_speaker {
   __typename: "Speaker";
+  id: string;
+  avatar: string | null;
+}
+
+export interface GetSourceStatements_statements_sourceSpeaker {
+  __typename: "SourceSpeaker";
   id: string;
   firstName: string;
   lastName: string;
-  avatar: string | null;
+  role: string | null;
+  speaker: GetSourceStatements_statements_sourceSpeaker_speaker;
 }
 
 export interface GetSourceStatements_statements_assessment_assessmentMethodology {
@@ -2096,7 +2145,7 @@ export interface GetSourceStatements_statements {
   title: string | null;
   important: boolean;
   published: boolean;
-  speaker: GetSourceStatements_statements_speaker;
+  sourceSpeaker: GetSourceStatements_statements_sourceSpeaker;
   assessment: GetSourceStatements_statements_assessment;
   statementTranscriptPosition: GetSourceStatements_statements_statementTranscriptPosition | null;
   tags: GetSourceStatements_statements_tags[];
@@ -2308,6 +2357,7 @@ export interface GetSpeaker_speaker {
    */
   osobaId: string | null;
   wikidataId: string | null;
+  role: string | null;
   memberships: GetSpeaker_speaker_memberships[] | null;
 }
 
@@ -2330,6 +2380,7 @@ export interface GetSpeakerVariables {
 
 export interface GetSpeakers_speakers_body {
   __typename: "Body";
+  id: string;
   shortName: string | null;
 }
 
@@ -2359,6 +2410,7 @@ export interface GetSpeakers_speakers {
    */
   osobaId: string | null;
   wikidataId: string | null;
+  role: string | null;
   body: GetSpeakers_speakers_body | null;
   memberships: GetSpeakers_speakers_memberships[] | null;
 }
@@ -2382,12 +2434,19 @@ export interface GetSpeakersVariables {
 // GraphQL query operation: GetStatement
 // ====================================================
 
-export interface GetStatement_statement_speaker {
+export interface GetStatement_statement_sourceSpeaker_speaker {
   __typename: "Speaker";
+  id: string;
+  avatar: string | null;
+}
+
+export interface GetStatement_statement_sourceSpeaker {
+  __typename: "SourceSpeaker";
   id: string;
   firstName: string;
   lastName: string;
-  avatar: string | null;
+  role: string | null;
+  speaker: GetStatement_statement_sourceSpeaker_speaker;
 }
 
 export interface GetStatement_statement_assessment_assessmentMethodology {
@@ -2450,11 +2509,17 @@ export interface GetStatement_statement_source_experts {
   lastName: string;
 }
 
-export interface GetStatement_statement_source_speakers {
+export interface GetStatement_statement_source_sourceSpeakers_speaker {
   __typename: "Speaker";
+  id: string;
+}
+
+export interface GetStatement_statement_source_sourceSpeakers {
+  __typename: "SourceSpeaker";
   id: string;
   firstName: string;
   lastName: string;
+  speaker: GetStatement_statement_source_sourceSpeakers_speaker;
 }
 
 export interface GetStatement_statement_source {
@@ -2466,7 +2531,7 @@ export interface GetStatement_statement_source {
   medium: GetStatement_statement_source_medium | null;
   mediaPersonalities: GetStatement_statement_source_mediaPersonalities[] | null;
   experts: GetStatement_statement_source_experts[] | null;
-  speakers: GetStatement_statement_source_speakers[] | null;
+  sourceSpeakers: GetStatement_statement_source_sourceSpeakers[] | null;
 }
 
 export interface GetStatement_statement_statementTranscriptPosition {
@@ -2489,7 +2554,7 @@ export interface GetStatement_statement {
   important: boolean;
   published: boolean;
   excerptedAt: string;
-  speaker: GetStatement_statement_speaker;
+  sourceSpeaker: GetStatement_statement_sourceSpeaker;
   assessment: GetStatement_statement_assessment;
   source: GetStatement_statement_source;
   statementTranscriptPosition: GetStatement_statement_statementTranscriptPosition | null;
@@ -2645,11 +2710,17 @@ export interface GetContentImagesVariables {
 // GraphQL query operation: GetNotifications
 // ====================================================
 
-export interface GetNotifications_notifications_items_statement_speaker {
+export interface GetNotifications_notifications_items_statement_sourceSpeaker_speaker {
   __typename: "Speaker";
+  id: string;
+}
+
+export interface GetNotifications_notifications_items_statement_sourceSpeaker {
+  __typename: "SourceSpeaker";
   id: string;
   firstName: string;
   lastName: string;
+  speaker: GetNotifications_notifications_items_statement_sourceSpeaker_speaker;
 }
 
 export interface GetNotifications_notifications_items_statement_source {
@@ -2663,7 +2734,7 @@ export interface GetNotifications_notifications_items_statement {
   id: string;
   content: string;
   statementType: StatementType;
-  speaker: GetNotifications_notifications_items_statement_speaker;
+  sourceSpeaker: GetNotifications_notifications_items_statement_sourceSpeaker;
   source: GetNotifications_notifications_items_statement_source;
 }
 
@@ -2811,11 +2882,20 @@ export interface GetUsersForSelectVariables {
 // GraphQL query operation: GetSpeakersForSelect
 // ====================================================
 
+export interface GetSpeakersForSelect_speakers_body {
+  __typename: "Body";
+  id: string;
+  shortName: string | null;
+}
+
 export interface GetSpeakersForSelect_speakers {
   __typename: "Speaker";
   id: string;
   firstName: string;
   lastName: string;
+  body: GetSpeakersForSelect_speakers_body | null;
+  role: string | null;
+  avatar: string | null;
 }
 
 export interface GetSpeakersForSelect {
@@ -2850,11 +2930,17 @@ export interface GetMediaPersonalitiesForSelect {
 // GraphQL query operation: GetSourceWithStatementsAndVideoMarks
 // ====================================================
 
-export interface GetSourceWithStatementsAndVideoMarks_source_statements_speaker {
+export interface GetSourceWithStatementsAndVideoMarks_source_statements_sourceSpeaker_speaker {
   __typename: "Speaker";
+  id: string;
+}
+
+export interface GetSourceWithStatementsAndVideoMarks_source_statements_sourceSpeaker {
+  __typename: "SourceSpeaker";
   id: string;
   firstName: string;
   lastName: string;
+  speaker: GetSourceWithStatementsAndVideoMarks_source_statements_sourceSpeaker_speaker;
 }
 
 export interface GetSourceWithStatementsAndVideoMarks_source_statements_statementVideoMark {
@@ -2868,7 +2954,7 @@ export interface GetSourceWithStatementsAndVideoMarks_source_statements {
   __typename: "Statement";
   id: string;
   content: string;
-  speaker: GetSourceWithStatementsAndVideoMarks_source_statements_speaker;
+  sourceSpeaker: GetSourceWithStatementsAndVideoMarks_source_statements_sourceSpeaker;
   statementVideoMark: GetSourceWithStatementsAndVideoMarks_source_statements_statementVideoMark | null;
 }
 
@@ -2994,11 +3080,17 @@ export interface GetUserStatements_statements_source_experts {
   lastName: string;
 }
 
-export interface GetUserStatements_statements_source_speakers {
+export interface GetUserStatements_statements_source_sourceSpeakers_speaker {
   __typename: "Speaker";
+  id: string;
+}
+
+export interface GetUserStatements_statements_source_sourceSpeakers {
+  __typename: "SourceSpeaker";
   id: string;
   firstName: string;
   lastName: string;
+  speaker: GetUserStatements_statements_source_sourceSpeakers_speaker;
 }
 
 export interface GetUserStatements_statements_source {
@@ -3010,15 +3102,22 @@ export interface GetUserStatements_statements_source {
   medium: GetUserStatements_statements_source_medium | null;
   mediaPersonalities: GetUserStatements_statements_source_mediaPersonalities[] | null;
   experts: GetUserStatements_statements_source_experts[] | null;
-  speakers: GetUserStatements_statements_source_speakers[] | null;
+  sourceSpeakers: GetUserStatements_statements_source_sourceSpeakers[] | null;
 }
 
-export interface GetUserStatements_statements_speaker {
+export interface GetUserStatements_statements_sourceSpeaker_speaker {
   __typename: "Speaker";
+  id: string;
+  avatar: string | null;
+}
+
+export interface GetUserStatements_statements_sourceSpeaker {
+  __typename: "SourceSpeaker";
   id: string;
   firstName: string;
   lastName: string;
-  avatar: string | null;
+  role: string | null;
+  speaker: GetUserStatements_statements_sourceSpeaker_speaker;
 }
 
 export interface GetUserStatements_statements_assessment_evaluator {
@@ -3069,7 +3168,7 @@ export interface GetUserStatements_statements {
   important: boolean;
   published: boolean;
   source: GetUserStatements_statements_source;
-  speaker: GetUserStatements_statements_speaker;
+  sourceSpeaker: GetUserStatements_statements_sourceSpeaker;
   assessment: GetUserStatements_statements_assessment;
   tags: GetUserStatements_statements_tags[];
   commentsCount: number;
@@ -3163,7 +3262,7 @@ export interface CreateStatementInput {
   content: string;
   excerptedAt: string;
   important: boolean;
-  speakerId: string;
+  sourceSpeakerId: string;
   sourceId: string;
   published: boolean;
   assessment: CreateAssessmentInput;
@@ -3202,13 +3301,22 @@ export interface SourceInput {
   mediumId?: string | null;
   mediaPersonalities?: string[] | null;
   transcript?: string | null;
-  speakers?: string[] | null;
+  sourceSpeakers?: SourceSpeakerInput[] | null;
   experts?: string[] | null;
 }
 
 export interface SourceInputVideoFields {
   videoType: string;
   videoId: string;
+}
+
+export interface SourceSpeakerInput {
+  id?: string | null;
+  speakerId: string;
+  firstName: string;
+  lastName: string;
+  role?: string | null;
+  bodyId?: string | null;
 }
 
 export interface SpeakerInput {
@@ -3218,6 +3326,7 @@ export interface SpeakerInput {
   memberships: MembershipInput[];
   osobaId?: string | null;
   wikidataId?: string | null;
+  role?: string | null;
 }
 
 export interface StatementTranscriptPositionInput {
@@ -3268,7 +3377,7 @@ export interface UpdateStatementInput {
   published?: boolean | null;
   assessment?: UpdateAssessmentInput | null;
   tags?: string[] | null;
-  speaker?: string | null;
+  sourceSpeakerId?: string | null;
 }
 
 export interface UserInput {

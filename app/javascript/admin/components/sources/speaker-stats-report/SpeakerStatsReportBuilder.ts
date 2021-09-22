@@ -1,9 +1,9 @@
-import { Speaker } from '../model/Speaker';
+import { SourceSpeaker } from '../model/SourceSpeaker';
 import { IStatsReport } from './model/StatsReport';
 import { Statement } from '../model/Statement';
 
 export class SpeakerStatsReportBuilder {
-  constructor(protected speaker: Speaker, protected statements: Statement[]) {}
+  constructor(protected sourceSpeaker: SourceSpeaker, protected statements: Statement[]) {}
 
   private BEING_EVALUATED_STATS_KEY = 'evaluated';
 
@@ -11,7 +11,7 @@ export class SpeakerStatsReportBuilder {
     const DEFAULT_STATS_INDEX = this.getDefaultStatsIndex();
 
     const statsIndex = this.statements
-      .filter((statement) => statement.belongsTo(this.speaker))
+      .filter((statement) => statement.belongsTo(this.sourceSpeaker))
       .reduce((stats, statement) => {
         const statsKey = this.statsKey(statement);
 
@@ -22,8 +22,8 @@ export class SpeakerStatsReportBuilder {
       }, DEFAULT_STATS_INDEX);
 
     return {
-      id: this.speaker.getId(),
-      title: this.speaker.getFullName(),
+      id: this.sourceSpeaker.getId(),
+      title: this.sourceSpeaker.getFullName(),
       stats: Object.entries(statsIndex).map(([key, count]) => ({ key, count })),
     };
   }

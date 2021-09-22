@@ -253,6 +253,7 @@ export const CreateSpeaker = gql`
         websiteUrl
         osobaId
         wikidataId
+        role
         body {
           shortName
         }
@@ -281,6 +282,7 @@ export const UpdateSpeaker = gql`
         websiteUrl
         osobaId
         wikidataId
+        role
         body {
           shortName
         }
@@ -390,7 +392,7 @@ export const CreateStatement = gql`
         content
         excerptedAt
         important
-        speaker {
+        sourceSpeaker {
           id
         }
         source {
@@ -415,11 +417,15 @@ export const UpdateStatement = gql`
         important
         published
         excerptedAt
-        speaker {
+        sourceSpeaker {
           id
           firstName
           lastName
-          avatar
+          role
+          speaker {
+            id
+            avatar
+          }
         }
         assessment {
           id

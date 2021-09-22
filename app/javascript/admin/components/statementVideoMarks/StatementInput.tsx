@@ -63,7 +63,7 @@ export const StatementInput = ({
     >
       <div>
         <strong>
-          {statement.speaker.firstName} {statement.speaker.lastName}:
+          {statement.sourceSpeaker.firstName} {statement.sourceSpeaker.lastName}:
         </strong>
         <br />
         {newlinesToBr(statement.content)}

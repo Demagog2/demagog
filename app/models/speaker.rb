@@ -11,9 +11,9 @@ class Speaker < ApplicationRecord
   has_one :current_membership, -> { current }, class_name: "Membership"
   has_one :body, through: :current_membership
   has_many :bodies, through: :memberships
-  has_many :statements
+  has_many :source_speakers, dependent: :destroy
+  has_many :statements, through: :source_speakers
   has_many :assessments, through: :statements
-  has_and_belongs_to_many :sources
 
   has_one_attached :avatar
 

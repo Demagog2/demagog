@@ -41,11 +41,13 @@ const articleStatementsQuery = gql`
             shortExplanation
             explanationHtml
           }
-          speaker {
+          sourceSpeaker {
             id
             firstName
             lastName
-            avatar
+            speaker {
+              avatar
+            }
           }
         }
       }
