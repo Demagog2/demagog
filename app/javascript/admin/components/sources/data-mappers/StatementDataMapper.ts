@@ -7,7 +7,11 @@ export function createStatementFromQuery(statement: GetSourceDetail_statements) 
   return new Statement(
     statement.id,
     statement.content,
-    new SourceSpeaker(statement.sourceSpeaker.id, statement.sourceSpeaker.firstName, statement.sourceSpeaker.lastName),
+    new SourceSpeaker(
+      statement.sourceSpeaker.id,
+      statement.sourceSpeaker.firstName,
+      statement.sourceSpeaker.lastName,
+    ),
     statement.published,
     statement.assessment.evaluationStatus,
     statement.assessment.assessmentMethodology.ratingModel,
