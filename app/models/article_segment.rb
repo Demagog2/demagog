@@ -60,7 +60,11 @@ class ArticleSegment < ApplicationRecord
     filtered = source.statements.published_important_first
 
     if statements_filters[:speaker_id]
-      filtered = filtered.where(speaker_id: statements_filters[:speaker_id])
+      filtered = filtered
+        .joins(:source_speaker)
+        .where(source_speaker: {
+          speaker_id: statements_filters[:speaker_id]
+        })
     end
 
     if statements_filters[:veracity_key]
