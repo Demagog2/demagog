@@ -459,7 +459,7 @@ GEM
       rack-protection (>= 1.5.0)
       redis (>= 3.3.5, < 4.2)
     slack-notifier (2.3.2)
-    solargraph (0.43.1)
+    solargraph (0.43.2)
       backport (~> 1.2)
       benchmark
       bundler (>= 1.17.2)
