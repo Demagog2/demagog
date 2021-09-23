@@ -1,15 +1,15 @@
-import { Speaker } from './Speaker';
 import {
   ASSESSMENT_STATUS_APPROVED,
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
 } from '../../../constants';
 import { Evaluator } from './Evaluator';
+import { SourceSpeaker } from './SourceSpeaker';
 
 export class Statement {
   constructor(
     private id: string,
     private content: string,
-    private speaker: Speaker,
+    private sourceSpeaker: SourceSpeaker,
     private published: boolean,
     private evaluationStatus: string,
     private assessmentMethodology: string,
@@ -29,8 +29,8 @@ export class Statement {
     return this.content;
   }
 
-  public getSpeaker() {
-    return this.speaker;
+  public getSourceSpeaker() {
+    return this.sourceSpeaker;
   }
 
   public getVeracity() {
@@ -49,8 +49,8 @@ export class Statement {
     return this.commentsCount;
   }
 
-  public belongsTo(speaker: Speaker) {
-    return this.speaker.getId() === speaker.getId();
+  public belongsTo(sourceSpeaker: SourceSpeaker) {
+    return this.sourceSpeaker.getId() === sourceSpeaker.getId();
   }
 
   public evaluatedBy(evaluator: Evaluator) {

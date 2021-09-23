@@ -27,9 +27,11 @@ module Types
     field :debate_stats, [Types::ArticleSpeakerStatsType], null: true
 
     def debate_stats
-      object.unique_speakers.map do |speaker|
-        stats = object.speaker_stats(speaker)
-        SpeakerStats.new(speaker, stats)
+      article_presenter = ArticlePresenter.new(object)
+
+      article_presenter.factcheck_source_speakers.map do |source_speaker|
+        stats = article_presenter.factcheck_source_speaker_stats(source_speaker)
+        SpeakerStats.new(source_speaker.speaker, stats)
       end
     end
 

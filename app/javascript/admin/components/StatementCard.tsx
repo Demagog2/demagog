@@ -19,7 +19,7 @@ interface IStatement {
   id: string;
   content: string;
   published: boolean;
-  speaker: {
+  sourceSpeaker: {
     firstName: string;
     lastName: string;
   };
@@ -80,7 +80,7 @@ class StatementCard extends React.Component<IProps, IState> {
           <ConfirmDeleteModal
             message={`Opravdu chcete smazat výrok "${truncate(statement.content, {
               length: 50,
-            })}" od ${statement.speaker.firstName} ${statement.speaker.lastName}?`}
+            })}" od ${statement.sourceSpeaker.firstName} ${statement.sourceSpeaker.lastName}?`}
             onCancel={this.toggleConfirmDeleteModal}
             mutation={DeleteStatement}
             mutationProps={{
@@ -113,7 +113,7 @@ class StatementCard extends React.Component<IProps, IState> {
           </div>
 
           <h5 className={Classes.HEADING}>
-            {statement.speaker.firstName} {statement.speaker.lastName}
+            {statement.sourceSpeaker.firstName} {statement.sourceSpeaker.lastName}
           </h5>
 
           <p>{newlinesToBr(statement.content)}</p>

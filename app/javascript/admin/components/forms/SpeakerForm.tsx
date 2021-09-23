@@ -46,6 +46,7 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
         : [],
       osoba_id: speaker ? speaker.osobaId : null,
       wikidata_id: speaker ? speaker.wikidataId : null,
+      role: speaker ? speaker.role : '',
     };
 
     return (
@@ -74,6 +75,7 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
             websiteUrl: values.website_url,
             wikidataId: cleanWikidataOrOsobaId(values.wikidata_id),
             osobaId: cleanWikidataOrOsobaId(values.osoba_id),
+            role: values.role,
           };
 
           this.props
@@ -123,6 +125,17 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
 
                 <FormGroup label="Portrét" name="avatar" optional>
                   <ImageField name="avatar" renderImage={(src) => <SpeakerAvatar avatar={src} />} />
+                </FormGroup>
+
+                <FormGroup label="Funkce" name="role" optional>
+                  <>
+                    <TextField name="role" />
+                    <div className={Classes.FORM_HELPER_TEXT}>
+                      Současná funkce osoby, např. "Předseda vlády ČR" nebo "Ministryně práce a
+                      sociálních věcí". Pište s velkým písmenem na začátku. Funkce by neměla být
+                      delší než 40 znaků.
+                    </div>
+                  </>
                 </FormGroup>
 
                 <div style={{ display: 'flex' }}>

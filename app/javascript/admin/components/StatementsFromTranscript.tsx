@@ -331,7 +331,7 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
     const initialValues = {
       statement_type: StatementType.factual,
       content: selection.text,
-      speaker_id: source.speakers[0].id,
+      source_speaker_id: source.sourceSpeakers[0].id,
       note: '',
       evaluator_id: null,
     };
@@ -352,7 +352,7 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
               const statementInput: CreateStatementInput = {
                 statementType: values.statement_type,
                 content: values.content,
-                speakerId: values.speaker_id,
+                sourceSpeakerId: values.source_speaker_id,
                 sourceId: source.id,
                 important: false,
                 published: false,
@@ -409,10 +409,10 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
                     </FormGroup>
                     <div style={{ display: 'flex' }}>
                       <div style={{ flex: '1 1' }}>
-                        <FormGroup label="Řečník" name="speaker_id">
+                        <FormGroup label="Řečník" name="source_speaker_id">
                           <SelectField
-                            name="speaker_id"
-                            options={source.speakers.map((s) => ({
+                            name="source_speaker_id"
+                            options={source.sourceSpeakers.map((s) => ({
                               label: `${s.firstName} ${s.lastName}`,
                               value: s.id,
                             }))}

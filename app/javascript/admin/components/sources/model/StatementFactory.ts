@@ -1,6 +1,6 @@
 import { Factory } from 'fishery';
 import { Statement } from './Statement';
-import { Speaker } from './Speaker';
+import { SourceSpeaker } from './SourceSpeaker';
 import {
   ASSESSMENT_STATUS_APPROVAL_NEEDED,
   ASSESSMENT_STATUS_APPROVED,
@@ -8,12 +8,12 @@ import {
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
 } from '../../../constants';
 import { Evaluator } from './Evaluator';
-import { speakerFactory } from './SpeakerFactory';
+import { sourceSpeakerFactory } from './SourceSpeakerFactory';
 
 class StatementFactory extends Factory<
   Statement,
   {
-    speaker: Speaker;
+    sourceSpeaker: SourceSpeaker;
     veracity: string;
     evaluationStatus: string;
     published: boolean;
@@ -25,8 +25,8 @@ class StatementFactory extends Factory<
     commentsCount: number;
   }
 > {
-  public withSpeaker(speaker: Speaker) {
-    return this.transient({ speaker });
+  public withSourceSpeaker(sourceSpeaker: SourceSpeaker) {
+    return this.transient({ sourceSpeaker });
   }
 
   public published() {
@@ -86,7 +86,7 @@ export const statementFactory = StatementFactory.define(({ sequence, transientPa
   return new Statement(
     String(sequence),
     `Content ${sequence}`,
-    transientParams.speaker || speakerFactory.build(),
+    transientParams.sourceSpeaker || sourceSpeakerFactory.build(),
     transientParams.published ?? false,
     transientParams.evaluationStatus ?? ASSESSMENT_STATUS_APPROVED,
     transientParams.assessmentMethodology || 'veracity',

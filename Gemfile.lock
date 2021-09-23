@@ -1,15 +1,3 @@
-GIT
-  remote: https://github.com/heartcombo/devise.git
-  revision: 5d5636f03ac19e8188d99c044d4b5e90124313af
-  branch: master
-  specs:
-    devise (4.7.3)
-      bcrypt (~> 3.0)
-      orm_adapter (~> 0.1)
-      railties (>= 4.1.0)
-      responders
-      warden (~> 1.2.3)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -114,6 +102,12 @@ GEM
     connection_pool (2.2.3)
     crass (1.0.6)
     deep_merge (1.2.1)
+    devise (4.8.0)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 4.1.0)
+      responders
+      warden (~> 1.2.3)
     diff-lcs (1.4.4)
     discard (1.2.0)
       activerecord (>= 4.2, < 7)
@@ -537,7 +531,7 @@ DEPENDENCIES
   caxlsx
   caxlsx_rails
   config (~> 2.2.1)
-  devise!
+  devise (~> 4.8)
   discard (~> 1.0)
   dotenv-rails
   elasticsearch-model (~> 7.0.0)

@@ -118,16 +118,6 @@ class Article < ApplicationRecord
     single_statement_segment ? single_statement_segment.statement : nil
   end
 
-  def unique_speakers
-    return [] unless source
-
-    source.speakers.distinct.order(last_name: :asc, first_name: :asc)
-  end
-
-  def speaker_stats(speaker)
-    ArticleStat.where(article_id: id, speaker_id: speaker.id).normalize
-  end
-
   def self.create_article(article_input)
     article = article_input.deep_symbolize_keys
 

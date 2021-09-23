@@ -134,7 +134,7 @@ FactoryBot.define do
 
   factory :statement do
     statement_type { Statement::TYPE_FACTUAL }
-    speaker
+    source_speaker
     source
     content { "Lorem ipsum dolor sit amet" }
     published { true }
@@ -197,13 +197,6 @@ FactoryBot.define do
     transient do
       statement_count { 3 }
       statement_source { nil }
-    end
-
-    after(:create) do |speaker, evaluator|
-      statement_props = { speaker: speaker }
-      statement_props[:source] = evaluator.statement_source if evaluator.statement_source
-
-      create_list(:important_statement, evaluator.statement_count, statement_props)
     end
 
     factory :speaker_with_party do

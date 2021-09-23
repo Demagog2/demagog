@@ -47,7 +47,15 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should find articles by title" do
-    create(:fact_check, title: "Lorem ipsum sit dolor")
+    source_speaker = create(:source_speaker)
+    source =
+      create(
+        :source,
+        source_speakers: [source_speaker],
+        statements: [create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker)]
+      )
+    segment = create(:article_segment_source_statements, source: source)
+    create(:fact_check, title: "Lorem ipsum sit dolor", segments: [segment])
 
     elasticsearch_index MODELS
 
@@ -59,7 +67,15 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should find articles by perex" do
-    create(:fact_check, perex: "Lorem ipsum sit dolor")
+    source_speaker = create(:source_speaker)
+    source =
+      create(
+        :source,
+        source_speakers: [source_speaker],
+        statements: [create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker)]
+      )
+    segment = create(:article_segment_source_statements, source: source)
+    create(:fact_check, perex: "Lorem ipsum sit dolor", segments: [segment])
 
     elasticsearch_index MODELS
 
@@ -85,10 +101,21 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not find unpublished articles" do
-    create(:fact_check, title: "Lorem ipsum sit dolor", published: false)
+    source_speaker = create(:source_speaker)
+    source =
+      create(
+        :source,
+        source_speakers: [source_speaker],
+        statements: [create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker)]
+      )
+
+    segment_one = create(:article_segment_source_statements, source: source)
+    create(:fact_check, title: "Lorem ipsum sit dolor", published: false, segments: [segment_one])
+
+    segment_two = create(:article_segment_source_statements, source: source)
     create(
       :fact_check,
-      title: "Lorem ipsum sit dolor", published: true, published_at: 1.day.from_now
+      title: "Lorem ipsum sit dolor", published: true, published_at: 1.day.from_now, segments: [segment_two]
     )
 
     elasticsearch_index MODELS
@@ -101,8 +128,16 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should sort articles by date published if the score is equal" do
-    create(:fact_check, title: "Lorem ipsum sit dolor 1", created_at: 1.year.ago)
-    create(:fact_check, title: "Lorem ipsum sit dolor 2", created_at: 1.second.ago)
+    source_speaker = create(:source_speaker)
+    source =
+      create(
+        :source,
+        source_speakers: [source_speaker],
+        statements: [create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker)]
+      )
+
+    create(:fact_check, title: "Lorem ipsum sit dolor 1", created_at: 1.year.ago, segments: [create(:article_segment_source_statements, source: source)])
+    create(:fact_check, title: "Lorem ipsum sit dolor 2", created_at: 1.second.ago, segments: [create(:article_segment_source_statements, source: source)])
 
     elasticsearch_index MODELS
 
@@ -119,7 +154,17 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should render show more button if more than two articles matches" do
-    create_list(:fact_check, 3, title: "Lorem ipsum sit dolor")
+    source_speaker = create(:source_speaker)
+    source =
+      create(
+        :source,
+        source_speakers: [source_speaker],
+        statements: [create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker)]
+      )
+
+    create_list(:fact_check, 3, title: "Lorem ipsum sit dolor") do |article, i|
+      article.segments = [create(:article_segment_source_statements, source: source)]
+    end
 
     elasticsearch_index MODELS
 
@@ -234,7 +279,17 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should render paginated list of articles" do
-    create_list(:fact_check, 12, title: "Lorem ipsum")
+    source_speaker = create(:source_speaker)
+    source =
+      create(
+        :source,
+        source_speakers: [source_speaker],
+        statements: [create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker)]
+      )
+
+    create_list(:fact_check, 12, title: "Lorem ipsum") do |article, i|
+      article.segments = [create(:article_segment_source_statements, source: source)]
+    end
 
     elasticsearch_index MODELS
 
@@ -251,8 +306,20 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not render paginated list of unpublished articles" do
-    create_list(:fact_check, 4, title: "Lorem ipsum", published: false)
-    create_list(:fact_check, 8, title: "Lorem ipsum")
+    source_speaker = create(:source_speaker)
+    source =
+      create(
+        :source,
+        source_speakers: [source_speaker],
+        statements: [create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker)]
+      )
+
+    create_list(:fact_check, 4, title: "Lorem ipsum", published: false) do |article, i|
+      article.segments = [create(:article_segment_source_statements, source: source)]
+    end
+    create_list(:fact_check, 8, title: "Lorem ipsum") do |article, i|
+      article.segments = [create(:article_segment_source_statements, source: source)]
+    end
 
     elasticsearch_index MODELS
 

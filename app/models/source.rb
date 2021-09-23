@@ -11,7 +11,7 @@ class Source < ApplicationRecord
   has_many :statements
   has_many :statement_video_marks
   has_many :statement_transcript_positions
-  has_and_belongs_to_many :speakers
+  has_many :source_speakers
   belongs_to :medium, optional: true
   has_and_belongs_to_many :media_personalities, join_table: "sources_media_personalities"
   has_and_belongs_to_many :experts, class_name: "User", join_table: "sources_experts"

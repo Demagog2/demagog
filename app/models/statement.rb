@@ -16,10 +16,10 @@ class Statement < ApplicationRecord
   after_create :generate_preview_image, if: Proc.new { |statement| statement.statement_type == Statement::TYPE_FACTUAL && statement.published && statement.published_previously_changed? }
   after_update :generate_preview_image, if: Proc.new { |statement| statement.statement_type == Statement::TYPE_FACTUAL && statement.published && statement.published_previously_changed? }
 
-  belongs_to :speaker
   belongs_to :source, optional: true
+  belongs_to :source_speaker
+  has_one :speaker, through: :source_speaker
   has_many :comments
-  has_many :attachments, through: :speaker
   has_one :assessment
   has_one :veracity, through: :assessment
   has_one :statement_transcript_position

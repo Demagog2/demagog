@@ -16,8 +16,9 @@ interface IProps {
   className?: string;
   error?: object | false;
   id?: string;
+  isClearable?: boolean;
   value: string | null;
-  onChange(value: string): void;
+  onChange(value: string | null): void;
   onBlur(): void;
 }
 
@@ -42,13 +43,13 @@ export default class BodySelect extends React.Component<IProps> {
               isLoading={loading}
               options={options}
               onChange={(selectedOption) => {
-                if (selectedOption) {
-                  this.props.onChange((selectedOption as ISelectOption).value);
-                }
+                this.props.onChange(
+                  selectedOption ? (selectedOption as ISelectOption).value : null,
+                );
               }}
               onBlur={this.props.onBlur}
               placeholder="Vyberte…"
-              isClearable={false}
+              isClearable={this.props.isClearable === true}
               styles={{
                 control: (base) => ({
                   ...base,

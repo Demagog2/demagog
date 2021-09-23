@@ -151,7 +151,7 @@ function StatementsPreview({ sourceId }: IStatementsPreviewProps) {
                     `}
                   >
                     <img
-                      src={statement.speaker.avatar || ''}
+                      src={statement.sourceSpeaker.speaker.avatar || ''}
                       className={css`
                         width: 100%;
                       `}
@@ -165,7 +165,7 @@ function StatementsPreview({ sourceId }: IStatementsPreviewProps) {
                       font-weight: 700;
                     `}
                   >
-                    {statement.speaker.firstName} {statement.speaker.lastName}
+                    {statement.sourceSpeaker.firstName} {statement.sourceSpeaker.lastName}
                   </div>
                 </div>
 

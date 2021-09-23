@@ -6,7 +6,7 @@ module Types
     argument :content, String, required: true
     argument :excerpted_at, String, required: true
     argument :important, Boolean, required: true
-    argument :speaker_id, ID, required: true
+    argument :source_speaker_id, ID, required: true
     argument :source_id, ID, required: true
     argument :published, Boolean, required: true
     argument :assessment, CreateAssessmentInputType, required: true

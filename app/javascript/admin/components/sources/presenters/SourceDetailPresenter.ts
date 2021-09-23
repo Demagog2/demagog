@@ -11,7 +11,7 @@ interface IStatementViewModel {
   id: string;
   content: string;
   published: boolean;
-  speaker: {
+  sourceSpeaker: {
     firstName: string;
     lastName: string;
   };
@@ -104,9 +104,9 @@ export class SourceDetailPresenter {
           shortExplanationCharactersLength: s.getShortExplanationCharactersLength(),
           explanationCharactersLength: s.getExplanationCharactersLength(),
         },
-        speaker: {
-          firstName: s.getSpeaker().getFirstName(),
-          lastName: s.getSpeaker().getLastName(),
+        sourceSpeaker: {
+          firstName: s.getSourceSpeaker().getFirstName(),
+          lastName: s.getSourceSpeaker().getLastName(),
         },
       };
     });
@@ -123,8 +123,8 @@ export class SourceDetailPresenter {
   private buildSpeakerStats() {
     const statements = this.source.statements;
 
-    return this.source.speakers.map((speaker) => {
-      const report = new SpeakerStatsReportBuilder(speaker, statements).buildReport();
+    return this.source.sourceSpeakers.map((sourceSpeaker) => {
+      const report = new SpeakerStatsReportBuilder(sourceSpeaker, statements).buildReport();
 
       return {
         id: report.id,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_14_133953) do
+ActiveRecord::Schema.define(version: 2021_09_21_151113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -294,6 +294,19 @@ ActiveRecord::Schema.define(version: 2021_02_14_133953) do
     t.index ["user_id"], name: "index_searched_queries_on_user_id"
   end
 
+  create_table "source_speakers", force: :cascade do |t|
+    t.bigint "source_id"
+    t.bigint "speaker_id"
+    t.string "first_name"
+    t.string "last_name"
+    t.integer "body_id"
+    t.string "role"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["source_id"], name: "index_source_speakers_on_source_id"
+    t.index ["speaker_id"], name: "index_source_speakers_on_speaker_id"
+  end
+
   create_table "sources", force: :cascade do |t|
     t.text "transcript"
     t.string "source_url"
@@ -322,13 +335,6 @@ ActiveRecord::Schema.define(version: 2021_02_14_133953) do
     t.index ["source_id"], name: "index_sources_media_personalities_on_source_id"
   end
 
-  create_table "sources_speakers", id: false, force: :cascade do |t|
-    t.bigint "source_id"
-    t.bigint "speaker_id"
-    t.index ["source_id"], name: "index_sources_speakers_on_source_id"
-    t.index ["speaker_id"], name: "index_sources_speakers_on_speaker_id"
-  end
-
   create_table "speakers", force: :cascade do |t|
     t.string "before_name"
     t.string "first_name"
@@ -341,6 +347,7 @@ ActiveRecord::Schema.define(version: 2021_02_14_133953) do
     t.datetime "updated_at", null: false
     t.string "osoba_id"
     t.string "wikidata_id"
+    t.string "role"
     t.index ["osoba_id"], name: "index_speakers_on_osoba_id"
     t.index ["wikidata_id"], name: "index_speakers_on_wikidata_id"
   end
@@ -370,7 +377,6 @@ ActiveRecord::Schema.define(version: 2021_02_14_133953) do
     t.datetime "excerpted_at"
     t.boolean "important"
     t.boolean "published"
-    t.bigint "speaker_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "source_id"
@@ -378,8 +384,9 @@ ActiveRecord::Schema.define(version: 2021_02_14_133953) do
     t.integer "source_order"
     t.string "statement_type", null: false
     t.string "title"
+    t.integer "source_speaker_id"
     t.index ["source_id"], name: "index_statements_on_source_id"
-    t.index ["speaker_id"], name: "index_statements_on_speaker_id"
+    t.index ["source_speaker_id"], name: "index_statements_on_source_speaker_id"
   end
 
   create_table "statements_tags", id: false, force: :cascade do |t|
@@ -466,27 +473,27 @@ ActiveRecord::Schema.define(version: 2021_02_14_133953) do
   create_view "article_stats", sql_definition: <<-SQL
       SELECT count(veracities.key) AS count,
       veracities.key,
-      statements.speaker_id,
+      source_speakers.speaker_id,
       article_segments.article_id
      FROM ((((((statements
-       JOIN speakers ON ((speakers.id = statements.speaker_id)))
+       JOIN source_speakers ON ((source_speakers.id = statements.source_speaker_id)))
        JOIN assessments ON ((statements.id = assessments.statement_id)))
        JOIN veracities ON ((assessments.veracity_id = veracities.id)))
        JOIN sources ON ((sources.id = statements.source_id)))
        JOIN article_segments ON ((article_segments.source_id = sources.id)))
        JOIN articles ON ((articles.id = article_segments.article_id)))
     WHERE (((assessments.evaluation_status)::text = 'approved'::text) AND ((article_segments.segment_type)::text = 'source_statements'::text) AND (statements.published = true))
-    GROUP BY veracities.key, statements.speaker_id, article_segments.article_id;
+    GROUP BY veracities.key, source_speakers.speaker_id, article_segments.article_id;
   SQL
   create_view "speaker_stats", sql_definition: <<-SQL
       SELECT count(veracities.key) AS count,
       veracities.key,
-      statements.speaker_id
+      source_speakers.speaker_id
      FROM (((statements
-       JOIN speakers ON ((speakers.id = statements.speaker_id)))
+       JOIN source_speakers ON ((source_speakers.id = statements.source_speaker_id)))
        JOIN assessments ON ((statements.id = assessments.statement_id)))
        JOIN veracities ON ((assessments.veracity_id = veracities.id)))
     WHERE (((assessments.evaluation_status)::text = 'approved'::text) AND (statements.published = true) AND ((statements.statement_type)::text = 'factual'::text))
-    GROUP BY veracities.key, statements.speaker_id;
+    GROUP BY veracities.key, source_speakers.speaker_id;
   SQL
 end

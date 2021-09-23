@@ -2,6 +2,8 @@
 <% content_for(:description, strip_tags(@article.perex).truncate(230)) if @article.perex.present? %>
 <% content_for(:image_src, @article.illustration.attached? ? polymorphic_url(@article.illustration) : nil) %>
 
+<% article_presenter = ArticlePresenter.new(@article) %>
+
 <article class="detail">
   <section class="intro">
     <h1><%= @article.title %></h1>
@@ -16,7 +18,7 @@
         <% end %>
       </p>
 
-      <% if show_article_factcheck_video(@article) %>
+      <% if article_presenter.show_factcheck_video %>
         <div id="article-factcheck-video-app-root" class="article-factcheck-video" data-article-id="<%= @article.id %>">
           <img src="<%= url_for(@article.illustration) %>" alt="Ilustrační obrázek k výstupu <%= @article.title %>">
         </div>
@@ -51,28 +53,28 @@
               <a href="<%= article_path(@article) %>" class="clear-filters" title="Zrušit filtr" aria-label="Zrušit filtr">× zrušit filtr</a>
             <% end %>
 
-            <% @article.unique_speakers.each do |speaker| %>
+            <% article_presenter.factcheck_source_speakers.each do |source_speaker| %>
               <div class="speaker-veracities-filter">
-                <% stats = @article.speaker_stats(speaker) %>
+                <% stats = article_presenter.factcheck_source_speaker_stats(source_speaker) %>
 
                 <div class="portrait-wrapper">
-                  <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
+                  <%= render(partial: 'shared/portrait', object: source_speaker, as: :speaker) %>
                 </div>
 
                 <div class="speaker-veracities-filter-content">
-                  <h3 class="name"><%= speaker.full_name %></h3>
+                  <h3 class="name"><%= source_speaker.full_name %></h3>
                   <ul class="stats-buttons">
                     <% [:true, :untrue, :misleading, :unverifiable].each do |veracity_key| %>
                       <% veracity_label = { true: "Pravda", untrue: "Nepravda", misleading: "Zavádějící", unverifiable: "Neověřitelné" }[veracity_key] %>
                       <% veracity_url_value = { true: "pravda", untrue: "nepravda", misleading: "zavadejici", unverifiable: "neoveritelne" }[veracity_key] %>
-                      <% is_active = @statements_filters[:speaker_id] == speaker.id && @statements_filters[:veracity_key] == veracity_key %>
+                      <% is_active = @statements_filters[:speaker_id] == source_speaker.speaker_id && @statements_filters[:veracity_key] == veracity_key %>
                       <li class="<%= "active" if is_active %>">
                         <% if stats[veracity_key].zero? %>
                           <a title="<%= veracity_label %>" class="<%= veracity_key %> none">
                             <%= stats[veracity_key] %> <span class="hidden">&times; <%= veracity_label %></span>
                           </a>
                         <% else %>
-                          <% link = is_active ? article_path(@article) : article_path(@article, { recnik: speaker.id, hodnoceni: veracity_url_value }) %>
+                          <% link = is_active ? article_path(@article) : article_path(@article, { recnik: source_speaker.speaker_id, hodnoceni: veracity_url_value }) %>
                           <a
                             href="<%= link %>"
                             title="<%= veracity_label %>"
@@ -120,6 +122,6 @@
   <% end %>
 </article>
 
-<% if show_article_factcheck_video(@article) %>
+<% if article_presenter.show_factcheck_video %>
   <%= javascript_pack_tag 'article-factcheck-video'  %>
 <% end %>

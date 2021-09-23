@@ -4,7 +4,15 @@ require "graphql/graphql_testcase"
 
 class QueryTypeArticleTest < GraphQLTestCase
   test "article should return given published article by id" do
-    article = create(:fact_check, title: "Lorem ipsum", published: true)
+    source_speaker = create(:source_speaker)
+    source =
+      create(
+        :source,
+        source_speakers: [source_speaker],
+        statements: [create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker)]
+      )
+    segment = create(:article_segment_source_statements, source: source)
+    article = create(:fact_check, title: "Lorem ipsum", published: true, segments: [segment])
 
     query_string =
       "

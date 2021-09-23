@@ -1,62 +1,55 @@
 import * as React from 'react';
-import { Mutation, MutationFunction } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { addFlashMessage } from '../actions/flashMessages';
-import {
-  CreateSource as CreateSourceMutation,
-  CreateSourceVariables as CreateSourceMutationVariables,
-  SourceInput,
-} from '../operation-result-types';
+import { useMutation } from 'react-apollo';
+import { useHistory } from 'react-router-dom';
+
+import { useFlashMessage } from '../hooks/use-flash-messages';
+import * as ResultTypes from '../operation-result-types';
 import { CreateSource } from '../queries/mutations';
 import { GetSources } from '../queries/queries';
 import { SourceForm } from './forms/SourceForm';
 
-type CreateSourceMutationFn = MutationFunction<CreateSourceMutation, CreateSourceMutationVariables>;
+const SourceNew = () => {
+  const { push } = useHistory();
+  const addFlashMessage = useFlashMessage();
 
-interface ISourceNewProps extends RouteComponentProps<{}>, DispatchProp {}
+  const [createSource] = useMutation<ResultTypes.CreateSource, ResultTypes.CreateSourceVariables>(
+    CreateSource,
+    {
+      onError(error) {
+        addFlashMessage(
+          error.message ? error.message : 'Došlo k chybě při ukládání diskuze',
+          'error',
+        );
+        // tslint:disable-next-line:no-console
+        console.error(error);
+      },
+      onCompleted(source) {
+        addFlashMessage('Diskuze byla úspěšně uložena.', 'success');
 
-export class SourceNew extends React.Component<ISourceNewProps> {
-  public onSuccess = (source: CreateSourceMutation) => {
-    this.props.dispatch(addFlashMessage('Diskuze úspěšně uložena.', 'success'));
+        if (source.createSource) {
+          push(`/admin/sources/${source.createSource.source.id}`);
+        }
+      },
+      refetchQueries: [{ query: GetSources, variables: { name: '', offset: 0, limit: 50 } }],
+    },
+  );
 
-    if (source.createSource) {
-      this.props.history.push(`/admin/sources/${source.createSource.source.id}`);
-    }
-  };
+  const onSubmitHandler = React.useCallback(
+    (sourceInput: ResultTypes.SourceInput) => {
+      return createSource({ variables: { sourceInput } });
+    },
+    [createSource],
+  );
 
-  public onError = (error) => {
-    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání diskuze', 'error'));
-    // tslint:disable-next-line:no-console
-    console.error(error);
-  };
+  return (
+    <div style={{ padding: '15px 0 40px 0' }}>
+      <SourceForm
+        backPath="/admin/sources"
+        onSubmit={onSubmitHandler}
+        title="Přidat novou diskuzi"
+      />
+    </div>
+  );
+};
 
-  public onSubmit = (createSource: CreateSourceMutationFn) => (sourceInput: SourceInput) => {
-    return createSource({ variables: { sourceInput } });
-  };
-
-  public render() {
-    return (
-      <div style={{ padding: '15px 0 40px 0' }}>
-        <Mutation<CreateSourceMutation, CreateSourceMutationVariables>
-          mutation={CreateSource}
-          onCompleted={this.onSuccess}
-          onError={this.onError}
-          refetchQueries={[{ query: GetSources, variables: { name: '', offset: 0, limit: 50 } }]}
-        >
-          {(createSource) => {
-            return (
-              <SourceForm
-                backPath="/admin/sources"
-                onSubmit={this.onSubmit(createSource)}
-                title="Přidat novou diskuzi"
-              />
-            );
-          }}
-        </Mutation>
-      </div>
-    );
-  }
-}
-
-export default connect()(withRouter(SourceNew));
+export default SourceNew;

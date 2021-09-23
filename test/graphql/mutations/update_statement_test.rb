@@ -3,13 +3,13 @@
 require "graphql/graphql_testcase"
 
 class UpdateStatementMutationTest < GraphQLTestCase
-  def mutation(statement, speaker)
+  def mutation(statement, source_speaker)
     "
       mutation {
-        updateStatement(id: #{statement.id}, statementInput: { content: \"Lorem ipsum\", speaker: #{speaker.id} }) {
+        updateStatement(id: #{statement.id}, statementInput: { content: \"Lorem ipsum\", sourceSpeakerId: #{source_speaker.id} }) {
           statement {
             content
-            speaker {
+            sourceSpeaker {
               id
             }
           }
@@ -19,22 +19,22 @@ class UpdateStatementMutationTest < GraphQLTestCase
   end
 
   test "should require authentication" do
-    statement = create(:statement)
-    speaker = create(:speaker)
+    source_speaker = create(:source_speaker)
+    statement = create(:statement, source_speaker: source_speaker)
 
-    result = execute_with_errors(mutation(statement, speaker))
+    result = execute_with_errors(mutation(statement, source_speaker))
 
     assert_auth_needed_error result
   end
 
   test "should update a statement" do
-    statement = create(:statement)
-    speaker = create(:speaker)
+    source_speaker = create(:source_speaker)
+    statement = create(:statement, source_speaker: source_speaker)
 
-    result = execute(mutation(statement, speaker), context: authenticated_user_context)
+    result = execute(mutation(statement, source_speaker), context: authenticated_user_context)
 
     assert_equal "Lorem ipsum", result.data.updateStatement.statement.content
-    assert_equal speaker.id, result.data.updateStatement.statement.speaker.id.to_i
+    assert_equal source_speaker.id, result.data.updateStatement.statement.sourceSpeaker.id.to_i
   end
 
   test "should update statement tags" do

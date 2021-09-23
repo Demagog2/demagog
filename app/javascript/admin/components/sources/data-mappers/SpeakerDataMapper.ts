@@ -1,6 +1,6 @@
-import { GetSourceDetail_source_speakers } from '../../../operation-result-types';
-import { Speaker } from '../model/Speaker';
+import { GetSourceDetail_source_sourceSpeakers } from '../../../operation-result-types';
+import { SourceSpeaker } from '../model/SourceSpeaker';
 
-export function createSpeakerFromQuery(speaker: GetSourceDetail_source_speakers) {
-  return new Speaker(speaker.id, speaker.firstName, speaker.lastName);
+export function createSpeakerFromQuery(sourceSpeaker: GetSourceDetail_source_sourceSpeakers) {
+  return new SourceSpeaker(sourceSpeaker.id, sourceSpeaker.firstName, sourceSpeaker.lastName);
 }

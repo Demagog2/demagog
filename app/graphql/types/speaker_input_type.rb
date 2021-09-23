@@ -8,5 +8,6 @@ module Types
     argument :memberships, [Types::MembershipInputType], required: true
     argument :osoba_id, String, required: false
     argument :wikidata_id, String, required: false
+    argument :role, String, required: false
   end
 end

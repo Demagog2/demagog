@@ -29,11 +29,13 @@ export interface IArticleStatementsQueryResult {
           shortExplanation: string;
           explanationHtml: string;
         };
-        speaker: {
+        sourceSpeaker: {
           id: string;
           firstName: string;
           lastName: string;
-          avatar: string;
+          speaker: {
+            avatar: string;
+          };
         };
       }>;
     }>;
