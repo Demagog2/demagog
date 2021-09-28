@@ -95,8 +95,7 @@ export default class extends Controller {
   propagateFiltersToDom() {
     const filters = this.filters;
 
-    // So we match also only id in the query param, because that was the old way of
-    // filtering, eg. ?recnik=123
+    // If the name of tag or speaker changes, we want the filtering work, so match just by the ID
     const onlyId = (value) => {
       const matched = value.match(/(\d+)$/);
       return matched ? matched[1] : value;
