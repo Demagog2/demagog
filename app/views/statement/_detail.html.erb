@@ -1,56 +1,81 @@
+<% show_speaker_role = true if local_assigns[:show_speaker_role].nil? %>
+<% show_medium_and_date = true if local_assigns[:show_medium_and_date].nil? %>
+<% wide_display = true if local_assigns[:wide_display].nil? %>
+
 <article
-  class="container-statement-detail statement <% if statement.important? %>important-statement<% end %> s-statement"
+  class="container-statement-detail collapsed s-statement<% if wide_display %> wide-display<% end %>"
   data-controller="statement--detail"
   data-action="resize@window->statement--detail#handleWindowResize"
   id="<%= statement.id %>"
 >
   <a href="<%= speaker_path(statement.speaker.id) %>" class="speaker">
     <%= render(partial: 'shared/portrait', object: statement.speaker, as: :speaker) %>
-    <h3><%= statement.speaker.full_name %></h3>
+    <h3>
+      <%= statement.source_speaker.full_name %>
+      <% if statement.source_speaker.body %>(<%= statement.source_speaker.body.short_name %>)<% end %>
+    </h3>
+    <% if show_speaker_role && !statement.source_speaker.role.empty? %>
+      <div class="role">
+        <%= statement.source_speaker.role %>
+      </div>
+    <% end %>
   </a>
 
-  <div class="statement-content">
-    <blockquote data-target="statement--detail.blockquote">
-      <%= content_to_html(statement.content) %>
-      <% if show_when_and_where %>
+  <div class="statement-content-and-assessment">
+    <div class="statement-content">
+      <blockquote data-target="statement--detail.blockquote">
+        <%= content_to_html(statement.content) %>
+      </blockquote>
+
+      <% if show_medium_and_date %>
         <cite><%= statement.source.medium.name -%>, <span class="date"><%= raw(l(statement.source.released_at, format: :long)) %></span></cite>
       <% end %>
 
-      <% if statement.important? %>
-        <span class="important-statement-icon" title="Výběr Demagog.cz">!</span>
+      <% if statement.important %>
+        <div class="editor-picked-label">Vybraný výrok Demagog.cz</div>
       <% end %>
-    </blockquote>
 
-    <div class="veracity-and-links">
-      <span class="veracity <%= statement.approved_assessment.veracity.default_name %>">
-        <%= statement.approved_assessment.veracity.name %>
-      </span>
+      <% if statement.tags.size > 0 %>
+        <div class="tags-list">
+          <% statement.tags.each do |tag| %>
+            <div class="tag-item"><%= tag.name %></div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
 
-      <% if statement.approved_assessment.short_explanation.nil? %>
+    <div class="statement-assessment">
+      <div class="veracity-and-links">
+        <span class="veracity <%= statement.approved_assessment.veracity.default_name %>">
+          <%= statement.approved_assessment.veracity.name %>
+        </span>
+
+        <% if statement.approved_assessment.short_explanation.nil? %>
+          <a href="#" class="show-reasons" data-action="statement--detail#toggleExplanation">
+            <span class="collapsed">zobrazit odůvodnění</span>
+            <span class="open">skrýt odůvodnění</span>
+          </a>
+        <% end %>
+
+        <a class="permalink" href="<%= statement_path(statement.id) %>">trvalý odkaz</a>
+      </div>
+
+      <% unless statement.approved_assessment.short_explanation.nil? %>
+        <section class="reasons-short">
+          <p>
+            <%= statement.approved_assessment.short_explanation %>
+          </p>
+        </section>
+
         <a href="#" class="show-reasons" data-action="statement--detail#toggleExplanation">
-          <span class="collapsed">zobrazit odůvodnění</span>
-          <span class="open">skrýt odůvodnění</span>
+          <span class="collapsed">zobrazit&nbsp;celé&nbsp;odůvodnění</span>
+          <span class="open">skrýt&nbsp;celé&nbsp;odůvodnění</span>
         </a>
       <% end %>
 
-      <a class="permalink" href="<%= statement_path(statement.id) %>">trvalý odkaz</a>
-    </div>
-
-    <% unless statement.approved_assessment.short_explanation.nil? %>
-      <section class="reasons-short">
-        <p>
-          <%= statement.approved_assessment.short_explanation %>
-        </p>
+      <section class="reasons" data-target="statement--detail.explanationHtml">
+        <%= raw(statement.approved_assessment.explanation_html) %>
       </section>
-
-      <a href="#" class="show-reasons" data-action="statement--detail#toggleExplanation">
-        <span class="collapsed">zobrazit&nbsp;celé&nbsp;odůvodnění</span>
-        <span class="open">skrýt&nbsp;celé&nbsp;odůvodnění</span>
-      </a>
-    <% end %>
-
-    <section class="reasons" data-target="statement--detail.explanationHtml">
-      <%= raw(statement.approved_assessment.explanation_html) %>
-    </section>
+    </div>
   </div>
 </article>

@@ -10,12 +10,8 @@ export default class extends Controller {
     this.markOnelinerStatement();
 
     // Show the full explanation only when short explanation is not present
-    // and the statement is marked as important.
-    if (
-      !this.element.classList.contains('important-statement') ||
-      this.element.querySelector('.reasons-short')
-    ) {
-      this.element.classList.add('collapsed');
+    if (!this.element.querySelector('.reasons-short')) {
+      this.element.classList.remove('collapsed');
     }
 
     // Open all links from explanation in the new window

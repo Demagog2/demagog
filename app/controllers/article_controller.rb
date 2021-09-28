@@ -10,38 +10,29 @@ class ArticleController < FrontendController
 
     # Single statement article does not have any view, redirects directly to statement
     if @article.article_type.name == "single_statement"
-      return redirect_to statement_url(@article.single_statement), status: 301
+      redirect_to statement_url(@article.single_statement), status: 301
     end
 
-    @statements_filters = {}
+    # @statements_filters = {}
 
-    if @article.article_type.name == "default"
-      @statements_filters[:speaker_id] = params[:recnik].to_i if params[:recnik]
+    # if @article.article_type.name == "default"
+    #   @statements_filters[:speaker_id] = params[:recnik].to_i if params[:recnik]
+    #   @statements_filters[:tag_id] = params[:tema].to_i if params[:tema]
 
-      if params[:hodnoceni]
-        @statements_filters[:veracity_key] =
-          case params[:hodnoceni]
-          when "pravda"
-            :true
-          when "nepravda"
-            :untrue
-          when "zavadejici"
-            :misleading
-          when "neoveritelne"
-            :unverifiable
-          else
-            nil
-          end
-      end
-    end
-
-    # return unless Rails.env.production?
-
-    # TODO: revisit cache headers and do properly
-    # expires_in 1.hour, public: true
-    # if stale? @article, public: true
-    #   respond_to do |format|
-    #     format.html
+    #   if params[:hodnoceni]
+    #     @statements_filters[:veracity_key] =
+    #       case params[:hodnoceni]
+    #       when "pravda"
+    #         :true
+    #       when "nepravda"
+    #         :untrue
+    #       when "zavadejici"
+    #         :misleading
+    #       when "neoveritelne"
+    #         :unverifiable
+    #       else
+    #         nil
+    #       end
     #   end
     # end
   end

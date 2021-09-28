@@ -40,9 +40,11 @@ const WebContents = () => {
               <tr key={webContent.id}>
                 <td>{webContent.name}</td>
                 <td>
-                  <a href={`https://demagog.cz${webContent.urlPath}`} target="_blank">
-                    https://demagog.cz{webContent.urlPath}
-                  </a>
+                  {webContent.urlPath && (
+                    <a href={`https://demagog.cz${webContent.urlPath}`} target="_blank">
+                      https://demagog.cz{webContent.urlPath}
+                    </a>
+                  )}
                 </td>
                 <td>
                   <Link

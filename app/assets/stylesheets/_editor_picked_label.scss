@@ -1,0 +1,21 @@
+@mixin editor_picked_label($size: 1) {
+  text-transform: uppercase;
+  font-size: 12px * $size;
+  white-space: nowrap;
+  color: #918AA8;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    top: -1.5px * $size;
+    width: 13px * $size;
+    height: 13px * $size;
+    margin-right: 5px;
+    background-image: image-url('editor-picked-statement-star-icon.svg');
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: ($size * 13px) ($size * 13px);
+  }
+}

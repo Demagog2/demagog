@@ -79,6 +79,9 @@ class Statement < ApplicationRecord
     indexes :speaker do
       ElasticMapping.indexes_name_field self, :full_name
     end
+    indexes :tags do
+      ElasticMapping.indexes_text_field self, :name
+    end
   end
 
   def as_indexed_json(options = {})
@@ -98,7 +101,8 @@ class Statement < ApplicationRecord
             medium: { only: :name }
           }
         },
-        speaker: { only: :full_name, methods: :full_name }
+        speaker: { only: :full_name, methods: :full_name },
+        tags: { only: :name }
       }
     )
   end

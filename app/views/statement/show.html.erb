@@ -3,27 +3,43 @@
 <% content_for(:image_src, @statement.preview_image.attached? ? polymorphic_url(@statement.preview_image) : nil) %>
 
 <section
-  class="container-statement-show <% if @statement.important? %>important-statement<% end %>"
+  class="container-statement-show<% if @statement.important %> editor-picked-statement<% end %>"
   data-controller="statement--show"
   data-action="resize@window->statement--show#handleWindowResize"
 >
   <a href="<%= speaker_path(@statement.speaker.id) %>" class="speaker">
     <%= render(partial: 'shared/portrait', object: @statement.speaker, as: :speaker) %>
-    <span class="name"><%= @statement.speaker.full_name %></span>
+    <div class="name-and-role">
+      <div class="name">
+        <%= @statement.source_speaker.full_name %>
+        <% if @statement.source_speaker.body %>(<%= @statement.source_speaker.body.short_name %>)<% end %>
+      </div>
+      <% if !@statement.source_speaker.role.empty? %>
+        <div class="role">
+          <%= @statement.source_speaker.role %>
+        </div>
+      <% end %>
+    </div>
   </a>
 
   <div class="statement-content">
     <blockquote data-target="statement--show.blockquote">
       <%= content_to_html(@statement.content) %>
-      <cite><%= @statement.source.medium.name %>, <span class="date"><%= raw(l(@statement.source.released_at, format: :long)) %></span></cite>
-
-      <% if @statement.important? %>
-        <span class="important-statement-sign">
-          <span class="important-statement-icon">!</span><br>
-          Výběr Demagog.cz
-        </span>
-      <% end %>
     </blockquote>
+
+    <cite><%= @statement.source.medium.name %>, <span class="date"><%= raw(l(@statement.source.released_at, format: :long)) %></span></cite>
+
+    <% if @statement.important %>
+      <div class="editor-picked-label">Vybraný výrok Demagog.cz</div>
+    <% end %>
+
+    <% if @statement.tags.size > 0 %>
+      <div class="tags-list">
+        <% @statement.tags.each do |tag| %>
+          <div class="tag-item"><%= tag.name %></div>
+        <% end %>
+      </div>
+    <% end %>
 
     <h1>
       Tento výrok byl ověřen jako
@@ -44,6 +60,17 @@
         </div>
       </section>
     </article>
+
+    <div class="infoboxes-list">
+      <div class="infobox-item">
+        <%= render(partial: "shared/infobox", locals: { topic: :veracities, id: "statement-show-veracities" }) %>
+      </div>
+      <% if @statement.important %>
+        <div class="infobox-item">
+          <%= render(partial: "shared/infobox", locals: { topic: :editor_picked_statements, id: "statement-show-editor-picked-statement" }) %>
+        </div>
+      <% end %>
+    </div>
 
     <% if @statement.mentioning_articles.size > 0 %>
       <aside>

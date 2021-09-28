@@ -1,9 +1,20 @@
 <% speaker_presenter = SpeakerPresenter.new(speaker) %>
 
-<a class="container-speaker-stat" href="<%= speaker_path(speaker_presenter.speaker_id) %>">
+<a class="container-speaker-with-stats" href="<%= speaker_path(speaker_presenter.speaker_id) %>">
   <%= render(partial: 'shared/portrait', object: speaker_presenter.portrait_speaker, as: :speaker) %>
+  
   <div class="name-and-stats">
-    <p class="name"><%= speaker_presenter.full_name %></p>
-    <%= render(partial: 'shared/stats', object: stats, as: :stats) %>
+    <h3 class="name">
+      <span class="name-inner">
+        <%= speaker_presenter.full_name %>
+        <% if speaker_presenter.has_body? %>(<%= speaker_presenter.body_short_name %>)<% end %>
+      </span>
+
+      <span class="role"><%= speaker_presenter.role %></span>
+    </h3>
+
+    <div class="stats">
+      <%= render(partial: 'shared/stats', object: stats, as: :stats) %>
+    </div>
   </div>
 </a>

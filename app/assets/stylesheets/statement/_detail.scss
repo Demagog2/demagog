@@ -1,0 +1,267 @@
+.container-statement-detail {
+  display: flex;
+  align-items: flex-start;
+
+  margin-top: 1.5rem;
+  margin-bottom: 4rem;
+
+  .speaker {
+    display: block;
+    flex: 0 0 70px;
+    text-align: center;
+
+    .portrait {
+      margin-left: 5px;
+    }
+
+    h3 {
+      margin: 0;
+      text-align: center;
+
+      color: var(--violet);
+      line-height: 1.25;
+    }
+
+    .role {
+      margin: 0.5rem 0;
+
+      font-size: 13px;
+      color: var(--violet);
+      text-align: center;
+    }
+
+    &:hover, &:focus {
+      text-decoration: none;
+
+      .portrait {
+        box-shadow: 0 0 0 3px var(--orange);
+      }
+
+      h3 {
+        color: var(--orange);
+      }
+
+      .role {
+        color: var(--orange);
+      }
+    }
+  }
+
+  .statement-content-and-assessment {
+    flex: 1 1 auto;
+    margin: 0 0 0 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .statement-content {
+    position: relative;
+  }
+
+  .statement-assessment {
+    margin-top: 0.8rem;
+  }
+
+  blockquote {
+    position: relative;
+    border-radius: 5px;
+    background: var(--statement-background);
+    padding: 8px 15px 11px;
+    margin: 0 0 7px 0;
+    letter-spacing: 0;
+
+    // CSS-only arrow pointing to the portrait
+    &:after {
+      content: " ";
+
+      position: absolute;
+      right: 100%;
+      top: 34px;
+      height: 0;
+      width: 0;
+
+      margin-top: -10px;
+
+      border: solid transparent;
+      border-right-color: var(--statement-background);
+      border-width: 10px;
+
+      pointer-events: none;
+    }
+  }
+
+  &.oneliner-statement blockquote {
+    &:after {
+      top: 22px;
+    }
+  }
+
+  cite {
+    display: block;
+    color: #918AA8;
+    font-size: 12px;
+    line-height: 1.3;
+    text-transform: uppercase;
+    margin: 4px 0 0 3px;
+    font-style: normal;
+
+    &::before {
+      content: '— ';
+      margin: 0 2.5px 0 2px;
+    }
+
+    .date {
+      white-space: nowrap;
+    }
+  }
+
+  .editor-picked-label {
+    @include editor_picked_label(1);
+
+    margin: 5px 0 0 3px;
+  }
+
+  .tags-list {
+    margin: 5px 0 0 3px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .tag-item {
+      flex: 0 0 auto;
+      margin-right: 10px;
+      color: #918AA8;
+      font-size: 12px;
+      line-height: 1.3;
+      text-transform: uppercase;
+      white-space: nowrap;
+
+      &::before {
+        content: '';
+        display: inline-block;
+        position: relative;
+        top: 1px;
+        // left: -2px;
+        width: 11px;
+        height: 11px;
+        margin-right: 6px;
+        background-image: image-url('tag-icon.svg');
+        background-position: 0px 0px;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+
+  .veracity-and-links {
+    line-height: 1.5;
+
+    .veracity {
+      @include veracity;
+
+      position: relative;
+      top: 1px;
+
+      font-weight: bold;
+      margin-left: 0.1rem;
+      margin-right: 1rem;
+    }
+
+    .show-reasons {
+      margin-right: 1rem;
+    }
+
+    .permalink {
+      display: inline-block;
+      color: #aaa;
+
+      &::after {
+        content: '';
+        display: inline-block;
+        background-repeat: no-repeat;
+        background-image: image-url('share.svg');
+        background-position: 50% 50%;
+        background-size: contain;
+        width: 2em;
+        height: 1em;
+        margin-bottom: -2px;
+      }
+    }
+  }
+
+  .reasons {
+    margin-top: 0.4rem;
+
+    transition: all 300ms ease;
+
+    * {
+      line-height: 25px;
+    }
+  }
+
+  .reasons-short {
+    margin-top: 0.4rem;
+    margin-bottom: 0.3rem;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .show-reasons .collapsed { display: none; }
+
+  &.collapsed {
+    padding-top: 0;
+
+    .reasons {
+      display: none;
+    }
+
+    .show-reasons .collapsed { display: inline; }
+    .show-reasons .open { display: none; }
+  }
+
+  &.wide-display {
+    @media (min-width: 600px) {
+      margin-bottom: 2.5rem;
+
+      .statement-content-and-assessment {
+        flex-direction: row;
+      }
+
+      .statement-content {
+        flex: 45 0 0px;
+      }
+
+      .statement-assessment {
+        flex: 55 0 0px;
+        margin: -0.25rem 0 0 1.5rem;
+      }
+
+      .reasons-short {
+        margin-top: 0.2rem;
+      }
+
+      cite {
+        margin-left: 15px;
+      }
+  
+      .editor-picked-label {
+        margin-left: 15px;
+      }
+  
+      .tags-list {
+        margin-left: 15px;
+      }
+    }
+  }
+
+  @media (min-width: 600px) {
+    .speaker {
+      flex: 0 0 90px;
+    }
+
+    .statement-content-and-assessment {
+      margin-right: 1.5rem;
+    }
+  }
+}

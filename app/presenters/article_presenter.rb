@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
 class ArticlePresenter
+  attr_accessor :factcheck_source_speakers
+
   def initialize(article)
     @article = article
+
+    @factcheck_source_speakers = init_factcheck_source_speakers()
   end
 
   def show_factcheck_video
@@ -13,8 +17,17 @@ class ArticlePresenter
     @article.source.video_type === "audio" ? "audiozáznam" : "videozáznam"
   end
 
-  def factcheck_source_speakers
-    source_speakers = @article.source.source_speakers.order(last_name: :asc, first_name: :asc)
+  def init_factcheck_source_speakers
+    return [] if @article.article_type.name != ArticleType::DEFAULT
+
+    source_speakers = @article
+      .source
+      .source_speakers
+      .order(last_name: :asc, first_name: :asc)
+      .includes(
+        :body,
+        :speaker
+      )
 
     # Only source speakers with published statements
     source_speakers = source_speakers.select do |source_speaker|

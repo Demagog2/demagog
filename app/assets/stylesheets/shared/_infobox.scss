@@ -1,0 +1,129 @@
+.container-shared-infobox {
+  .infobox-button {
+    background-color: #E7EFF6;
+    border: none;
+    border-radius: 5px;
+    margin: 0;
+    padding: 8px 18px 8px 12px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-family: var(--font-family);
+    text-align: left;
+    color: var(--violet);
+
+    .info-icon {
+      flex: 0 0 24px;
+  
+      img {
+        display: block;
+      }
+    }
+  
+    .info-text {
+      flex: 1 0 0px;
+      margin-left: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+
+      &.info-text-veracities {
+        .veracity {
+          @include veracity(1);
+
+          display: inline-block;
+          margin: 2px 0;
+        }
+
+        .veracity, .text-inner {
+          margin-right: 5px;
+        }
+      }
+
+      &.info-text-editor-picked-statements {
+        .editor-picked-label {
+          @include editor_picked_label(1);
+          display: inline-block;
+
+          margin-right: 8px;
+        }
+
+        .text-inner {
+          margin-right: 5px;
+        }
+      }
+    }
+  
+    &:hover, &:focus {
+      background-color: #F3DBD3;
+    }
+  }
+
+  .infobox-modal {
+    display: none;
+    &.is-open { display: block; }
+
+    .infobox-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.6);
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .infobox-modal-container {
+      background-color: #fff;
+      padding: 20px 20px 10px 20px;
+      width: 650px;
+      max-height: 100vh;
+      overflow-y: auto;
+      box-sizing: border-box;
+      border-radius: 5px;
+    }
+
+    .infobox-modal-header {
+      .infobox-modal-title {
+        margin: 0;
+      }
+
+      .close-button {
+        float: right;
+        border: none;
+        background: none;
+        padding: 0;
+        margin: -7px 0 0 0;
+        font-size: 34px;
+        line-height: 1;
+        cursor: pointer;
+        color: #3c325c;
+        outline: none;
+
+        &:hover, &:active {
+          color: #f26538;
+        }
+      }
+    }
+
+    .infobox-modal-content {
+      margin: 1rem 0 0 0;
+    }
+  }
+
+  .infobox-modal-veracities {
+    .veracity {
+      @include veracity(1.1);
+
+      display: inline-block;
+      margin: 2px 0;
+    }
+
+    .veracity, .text-inner {
+      margin-right: 5px;
+    }
+  }
+}

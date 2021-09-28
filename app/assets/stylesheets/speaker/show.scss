@@ -1,7 +1,6 @@
 .container-speaker-show {
-  flex: 1 0 66.66666667%;
-  margin-left: 16.66666667%;
-  margin-right: 16.66666667%;
+  flex: 1 0 100%;
+  margin-top: 3rem;
 
   .profile {
     display: -ms-grid;
@@ -22,14 +21,20 @@
       -ms-grid-column: 3; // because col 2 is the gap
 
       h1 {
-        margin: 1rem 0 0.5rem;
+        margin: 0.5rem 0 0.5rem;
+      }
+
+      .role {
+        margin: 0 0 .8rem 0;
       }
     }
   }
 
   @media (max-width: 899.9px) {
-    flex: 1 0 100%;
-    margin-left: 0;
-    margin-right: 0;
+    .profile {
+      flex: 1 0 100%;
+      margin-left: 0;
+      margin-right: 0;
+    }
   }
 }

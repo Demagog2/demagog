@@ -14,7 +14,34 @@
   .name {
     color: var(--orange);
     font-size: var(--medium-typesize);
+    line-height: 1.3;
     font-weight: bold;
-    margin: 0.25em 0 0;
+    margin: 0.5em 0 0;
+
+    .name-inner {
+      margin-right: 10px;
+    }
+
+    .role {
+      color: var(--violet);
+      font-weight: normal;
+      font-size: var(--normal-typesize);
+    }
+  }
+
+  .statements-count {
+    margin: 5px 0 0 0;
+  }
+
+  &:hover, &:focus {
+    text-decoration: none;
+
+    p, .name, .role {
+      color: var(--orange);
+    }
+
+    .portrait {
+      box-shadow: 0 0 0 3px var(--orange)
+    }
   }
 }
