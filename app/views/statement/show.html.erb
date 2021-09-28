@@ -30,7 +30,7 @@
     <cite><%= @statement.source.medium.name %>, <span class="date"><%= raw(l(@statement.source.released_at, format: :long)) %></span></cite>
 
     <% if @statement.important %>
-      <div class="editor-picked-label">Vybraný výrok Demagog.cz</div>
+      <div class="editor-picked-label">Výrok ve výběru Demagog.cz</div>
     <% end %>
 
     <% if @statement.tags.size > 0 %>
