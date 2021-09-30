@@ -20,13 +20,22 @@ class Speaker < ApplicationRecord
   mapping do
     indexes :id, type: "long"
     ElasticMapping.indexes_name_field self, :full_name
+    ElasticMapping.indexes_text_field self, :role
+    indexes :body do
+      ElasticMapping.indexes_name_field self, :short_name
+    end
     indexes :factual_and_published_statements_count, type: "long"
   end
 
   def as_indexed_json(options = {})
     as_json(
-      only: [:id, :full_name, :factual_and_published_statements_count],
-      methods: [:full_name, :factual_and_published_statements_count]
+      only: [:id, :full_name, :role, :factual_and_published_statements_count],
+      methods: [:full_name, :factual_and_published_statements_count],
+      include: {
+        body: {
+          only: :short_name
+        }
+      }
     )
   end
 

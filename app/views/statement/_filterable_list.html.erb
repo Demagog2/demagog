@@ -1,0 +1,106 @@
+<% show_speaker_role = true if local_assigns[:show_speaker_role].nil? %>
+<% show_medium_and_date = true if local_assigns[:show_medium_and_date].nil? %>
+<% wide_display = true if local_assigns[:wide_display].nil? %>
+
+<div
+  class="container-statement-filterable-list"
+  data-controller="statement--filterable-list"
+  data-action="popstate@window->statement--filterable-list#handleWindowPopstate"
+>
+  <h2>Ověřené faktické výroky</h2>
+
+  <% if false # TODO: remove when infoboxes texts are ready %>
+  <div class="infoboxes-list">
+    <div class="infobox-item">
+      <%= render(partial: "shared/infobox", locals: { topic: :choosing_statements, id: "statement-filterable-list-choosing-statements" }) %>
+    </div>
+    <% if statements.any? { |s| s.important } %>
+      <div class="infobox-item">
+        <%= render(partial: "shared/infobox", locals: { topic: :editor_picked_statements, id: "statement-filterable-list-editor-picked-statement" }) %>
+      </div>
+    <% end %>
+  </div>
+  <% end %>
+
+  <form class="filters-list">
+    <div class="filter-item">
+      Filtry
+    </div>
+    
+    <% if source_speakers.size > 1 %>
+      <div class="filter-item">
+        <select name="recnik" data-action="change->statement--filterable-list#onFilterSelectChange" class="filter-select">
+          <option value="">Všichni řečníci</option>
+          <% source_speakers.each do |source_speaker| %>
+            <option value="<%= "#{source_speaker.speaker.full_name.parameterize}-#{source_speaker.speaker.id.to_s}" %>">
+              <%= source_speaker.full_name %>
+              <% if source_speaker.body %>(<%= source_speaker.body.short_name %>)<% end %>
+            </option>
+          <% end %>
+        </select>
+      </div>
+    <% end %>
+
+    <% if tags_with_counts.size > 0 %>
+      <div class="filter-item">
+        <select name="tema" data-action="change->statement--filterable-list#onFilterSelectChange" class="filter-select">
+          <option value="">Všechna témata</option>
+          <% tags_with_counts.each do |tag_with_count| %>
+            <option value="<%= "#{tag_with_count.tag.name.parameterize}-#{tag_with_count.tag.id}" %>">
+              <%= tag_with_count.tag.name %> (<%= tag_with_count.count %> <%= cs_pluralize(tag_with_count.count, "výrok", "výroky", "výroků") %>)
+            </option>
+          <% end %>
+        </select>
+      </div>
+    <% end %>
+
+    <% if veracities_with_counts.size > 0 %>
+      <div class="filter-item">
+        <select name="hodnoceni" data-action="change->statement--filterable-list#onFilterSelectChange" class="filter-select">
+          <option value="">Všechna hodnocení</option>
+          <% veracities_with_counts.each do |veracity_with_count| %>
+            <option
+              <% if veracity_with_count.count == 0 %>disabled<% end %>
+              value="<%= { true: "pravda", untrue: "nepravda", misleading: "zavadejici", unverifiable: "neoveritelne" }[veracity_with_count.veracity.key.to_sym] %>"
+            >
+              <%= veracity_with_count.veracity.name %> (<%= veracity_with_count.count %> <%= cs_pluralize(veracity_with_count.count, "výrok", "výroky", "výroků") %>)
+            </option>
+          <% end %>
+        </select>
+      </div>
+    <% end %>
+  </form>
+
+  <div class="filtered-count-info hidden" data-target="statement--filterable-list.filteredCountInfo">
+    <span class="filtered-count-info-label"></span>
+    <button
+      type="button"
+      class="clear-filters"
+      data-action="click->statement--filterable-list#clearFilters"
+    >
+      × zrušit filtry
+    </button>
+  </div>
+
+  <div class="statement-filterable-list-statements">
+    <% statements.each do |statement| %>
+      <div
+        class="statement-filterable-list-statement-item"
+        id="vyrok-<%= statement.id %>"
+        data-target="statement--filterable-list.statement"
+        data-speaker-id="<%= "#{statement.speaker.full_name.parameterize}-#{statement.speaker.id.to_s}" %>"
+        data-tag-ids="<%= statement.tags.map { |tag| "#{tag.name.parameterize}-#{tag.id}" }.join('||') %>"
+        data-veracity-key="<%= statement.assessment.veracity.key %>"
+      >
+        <%=
+          render(
+            partial: "statement/detail",
+            object: statement,
+            as: :statement,
+            locals: { show_speaker_role: show_speaker_role, show_medium_and_date: show_medium_and_date, wide_display: wide_display }
+          )
+        %>
+      </div>
+    <% end %>
+  </div>
+</div>

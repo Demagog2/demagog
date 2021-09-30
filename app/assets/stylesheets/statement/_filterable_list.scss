@@ -1,0 +1,82 @@
+.container-statement-filterable-list {
+  .infoboxes-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .infobox-item {
+    margin: 0 15px 8px 0;
+  }
+
+  .filters-list {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .filter-item {
+    flex: 0 0 auto;
+    margin: 0 15px 8px 0;
+  }
+
+  .filter-select {  
+    appearance: none;    
+
+    width: 230px;
+    background: white image-url('select-arrow-icon.png') 205px 15px no-repeat;
+    border: 1px solid #C5BCE0;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-family: var(--font-family);
+    font-size: var(--normal-typesize);
+    line-height: 1.2;
+    color: #3C325C;
+    cursor: pointer;
+
+    &:hover, &:focus {
+      border-color: var(--orange);
+    }
+  }
+  
+  .filtered-count-info {
+    margin-top: 12px;
+
+    .filtered-count-info-label {
+      margin-right: 10px;
+    }
+
+    .clear-filters {
+      background: none;
+      border: none;
+      padding: 0;
+      margin: 0;
+      font-family: var(--font-family);
+      font-size: var(--normal-typesize);
+      line-height: 1.2;
+      color: var(--orange);
+      cursor: pointer;
+  
+      &:hover, &:focus {
+        text-decoration: underline;
+      }
+    }
+    
+    &.hidden {
+      display: none;
+    }
+  }
+
+  .statement-filterable-list-statements {
+    margin-top: 35px;
+  }
+
+  .statement-filterable-list-statement-item {
+    &.hidden {
+      display: none;
+    }
+  }
+}

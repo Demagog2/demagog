@@ -45,78 +45,7 @@
       <% elsif segment.is_promise? %>
         <demagogcz-widget data-url="<%= promise_segment_widget_url(segment.promise_url) %>"></demagogcz-widget>
       <% elsif segment.is_source_statements? %>
-        <% if @article.segments.size === 1 %>
-          <div class="statements-filters">
-            <label>Filtrujte výroky dle hodnocení</label>
-
-            <% if not @statements_filters.empty? %>
-              <a href="<%= article_path(@article) %>" class="clear-filters" title="Zrušit filtr" aria-label="Zrušit filtr">× zrušit filtr</a>
-            <% end %>
-
-            <% article_presenter.factcheck_source_speakers.each do |source_speaker| %>
-              <div class="speaker-veracities-filter">
-                <% stats = article_presenter.factcheck_source_speaker_stats(source_speaker) %>
-
-                <div class="portrait-wrapper">
-                  <%= render(partial: 'shared/portrait', object: source_speaker, as: :speaker) %>
-                </div>
-
-                <div class="speaker-veracities-filter-content">
-                  <h3 class="name"><%= source_speaker.full_name %></h3>
-                  <ul class="stats-buttons">
-                    <% [:true, :untrue, :misleading, :unverifiable].each do |veracity_key| %>
-                      <% veracity_label = { true: "Pravda", untrue: "Nepravda", misleading: "Zavádějící", unverifiable: "Neověřitelné" }[veracity_key] %>
-                      <% veracity_url_value = { true: "pravda", untrue: "nepravda", misleading: "zavadejici", unverifiable: "neoveritelne" }[veracity_key] %>
-                      <% is_active = @statements_filters[:speaker_id] == source_speaker.speaker_id && @statements_filters[:veracity_key] == veracity_key %>
-                      <li class="<%= "active" if is_active %>">
-                        <% if stats[veracity_key].zero? %>
-                          <a title="<%= veracity_label %>" class="<%= veracity_key %> none">
-                            <%= stats[veracity_key] %> <span class="hidden">&times; <%= veracity_label %></span>
-                          </a>
-                        <% else %>
-                          <% link = is_active ? article_path(@article) : article_path(@article, { recnik: source_speaker.speaker_id, hodnoceni: veracity_url_value }) %>
-                          <a
-                            href="<%= link %>"
-                            title="<%= veracity_label %>"
-                            class="<%= veracity_key %>"
-                          >
-                            <%= stats[veracity_key] %> <span class="hidden">&times; <%= veracity_label %></span>
-                          </a>
-                        <% end %>
-                      </li>
-                    <% end %>
-                  </ul>
-                </div>
-
-              </div>
-            <% end %>
-
-            <% if @article_type == "factcheck" && @article.source && @article.source.id == 559 %>
-              <div style="margin-top: 70px;max-width: 318px;">
-                <a href="https://demagogtv.cz/kandidati-na-senatory-pavel-dungl-a-lukas-wagenknecht" style="display: block;max-width: 233px;overflow: hidden;border-radius: 10px;position: relative;">
-                  <img src="<%= url_for(@article.illustration) %>" style="width: 100%">
-                  <img src="<%= asset_path('demagogtv-play-overlay.png') %>" style="position: absolute;top: 50%;left: 50%;margin: -35px 0 0 -33px;">
-                </a>
-                <a href="https://demagogtv.cz/kandidati-na-senatory-pavel-dungl-a-lukas-wagenknecht" style="display: block;margin-top: 6px;">Zhlédnout debatu na DemagogTV →</a>
-                <p style="margin-top: 3px;">
-                  Propojili jsme videozáznamy debat s&nbsp;výroky tak, že v&nbsp;čase vyřčení naskočí hodnocení od Demagog.cz.
-                </p>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
-
-        <div class="statements-list">
-          <% filtered_statements = segment.filtered_published_statements(@statements_filters) %>
-          <h2>
-            <% if not @statements_filters.empty? %>
-              <%= filtered_statements.length %>
-              z celkově
-            <% end %>
-            <%= segment.all_published_statements.count %> ověřených výroků
-          </h2>
-          <%= render(partial: "statement/detail", collection: filtered_statements, as: :statement, locals: { show_when_and_where: false }) %>
-        </div>
+        <%= render(partial: 'article/segment_source_statements', object: segment, as: :segment, locals: { statements_filters: @statements_filters }) %>
       <% end %>
     </section>
   <% end %>

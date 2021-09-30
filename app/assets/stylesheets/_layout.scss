@@ -215,16 +215,6 @@
 
     section.segment-source_statements {
       flex: 1 0 100%;
-      display: flex;
-
-      .statements-filters {
-        flex: 5 0 0px;
-      }
-
-      .statements-list {
-        flex: 7 0 0px;
-        margin-left: var(--gap);
-      }
     }
 
     section.segment-promise {

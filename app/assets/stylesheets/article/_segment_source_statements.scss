@@ -1,0 +1,50 @@
+.container-article-segment-source-statements {
+  .speakers-overview {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .speakers-overview-group-0, .speakers-overview-group-1 {
+    flex: 1 0 0px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .speakers-overview-group-1 {
+    margin-left: 40px;
+  }
+
+  .inside-infobox-veracities-wrapper {
+    height: 73px;
+    display: flex;
+    align-items: center;
+  }
+
+  .outside-infobox-veracities-wrapper {
+    width: 50%;
+  }
+
+  .statements-list {
+    margin-top: 60px;
+  }
+  
+  @media (max-width: 899.9px) {
+    .speakers-overview {
+      flex-direction: column;
+    }
+
+    .speakers-overview-group-0, .speakers-overview-group-1 {
+      flex-basis: 100%;
+      margin-left: 0px;
+    }
+
+    .inside-infobox-veracities-wrapper {
+      height: auto;
+    }
+
+    .outside-infobox-veracities-wrapper {
+      width: auto;
+    }
+  }
+}

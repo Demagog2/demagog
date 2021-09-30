@@ -1,0 +1,51 @@
+<div class="container-shared-infobox" data-controller="shared--infobox-modal">
+  <button type="button" class="infobox-button" data-action="shared--infobox-modal#showModal">
+    <div class="info-icon">
+      <img src="<%= asset_path("infobox-info-icon.svg") %>" alt="Info" />
+    </div>
+
+    <div class="info-text info-text-<%= topic.to_s.dasherize %>">
+      <% if topic == :veracities %>
+        <span class="text-inner">Jak přiřazujeme výroku hodnocení</span>
+        <span class="veracity true">&nbsp;Pravda</span>
+        <span class="veracity untrue">&nbsp;Nepravda</span>
+        <span class="veracity misleading">&nbsp;Zavádějící</span>
+        <span class="text-inner">nebo</span>
+        <span class="veracity unverifiable">&nbsp;Neověřitelné</span>?
+      <% elsif topic == :choosing_statements %>
+        Které diskuze ověřujeme a&nbsp;jak z&nbsp;nich vybíráme výroky?
+      <% elsif topic == :editor_picked_statements %>
+        <span class="text-inner">Co znamená označení</span>
+        <span class="editor-picked-label">Výrok ve výběru Demagog.cz</span>?
+      <% end %>
+    </div>
+  </button>
+
+  <div class="infobox-modal infobox-modal-<%= topic.to_s.dasherize %>" id="infobox-modal-<%= id %>" aria-hidden="true" data-target="shared--infobox-modal.modal">
+    <div class="infobox-modal-overlay" tabindex="-1" data-micromodal-close>
+      <div class="infobox-modal-container" role="dialog" aria-modal="true" aria-labelledby="infobox-modal-title" >
+        <div class="infobox-modal-header" role="header">
+          <button class="close-button" aria-label="Close modal" data-micromodal-close>×</button>
+          <h2 class="infobox-modal-title">
+            <%= get_web_content("infobox.#{topic.to_s}", "modal_title") %>
+          </h2>
+        </div>
+        <div class="infobox-modal-content">
+          <% if topic == :veracities %>
+            <%=
+              raw(
+                get_web_content("infobox.veracities", "modal_text")
+                  .gsub('[pravda_label]', '<span class="veracity true">&nbsp;Pravda</span>')
+                  .gsub('[nepravda_label]', '<span class="veracity untrue">&nbsp;Nepravda</span>')
+                  .gsub('[zavadejici_label]', '<span class="veracity misleading">&nbsp;Zavádějící</span>')
+                  .gsub('[neoveritelne_label]', '<span class="veracity unverifiable">&nbsp;Neověřitelné</span>')
+              )
+            %>
+          <% else %>
+            <%= raw(get_web_content("infobox.#{topic.to_s}", "modal_text")) %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

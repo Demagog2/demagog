@@ -53,30 +53,4 @@ class ArticleSegment < ApplicationRecord
 
     []
   end
-
-  def filtered_published_statements(statements_filters)
-    return [] unless is_source_statements?
-
-    filtered = source.statements.published_important_first
-
-    if statements_filters[:speaker_id]
-      filtered = filtered
-        .joins(:source_speaker)
-        .where(source_speaker: {
-          speaker_id: statements_filters[:speaker_id]
-        })
-    end
-
-    if statements_filters[:veracity_key]
-      filtered = filtered
-        .joins(assessment: :veracity)
-        .where(assessments: {
-          veracities: {
-            key: statements_filters[:veracity_key]
-          }
-        })
-    end
-
-    filtered
-  end
 end

@@ -1,4 +1,4 @@
-.container-speaker-stat {
+.container-speaker-with-stats {
   display: flex;
   margin: 0 0 1rem;
 
@@ -6,24 +6,38 @@
     flex: 0 0 auto;
     width: var(--small-portrait);
     height: var(--small-portrait);
-    margin-right: var(--gap);
+    margin-right: 20px;
   }
 
   .name-and-stats {
-    flex: 1 0 auto;
+    align-self: center;
+    flex: 1 0 0px;
 
     .name {
       margin: 0 0 6px 0;
-      font-size: 20px;
       font-weight: bold;
+      color: var(--violet);
+      line-height: 1.4;
+
+      .name-inner {
+        margin-right: 12px;
+      }
+
+      .role {
+        font-weight: normal;
+      }
+    }
+
+    > .stats {
+      margin-bottom: 5px;
     }
   }
 
-  &:hover {
+  &:hover, &:focus {
     text-decoration: none;
 
     .name {
-      text-decoration: underline;
+      color: var(--orange);
     }
 
     .portrait {

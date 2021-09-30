@@ -9,41 +9,20 @@ class ArticleController < FrontendController
     @article = Article.kept.published.friendly.find(params[:slug])
 
     # Single statement article does not have any view, redirects directly to statement
-    if @article.article_type.name == "single_statement"
-      return redirect_to statement_url(@article.single_statement), status: 301
+    if @article.article_type.name == ArticleType::SINGLE_STATEMENT
+      redirect_to statement_url(@article.single_statement), status: 301
     end
 
-    @statements_filters = {}
+    # Old factcheck articles were using only speaker id in the "recnik" query param,
+    # eg. ?recnik=123, so we want to redirect to the new quary param format
+    if @article.article_type.name == ArticleType::DEFAULT && params[:recnik] && params[:recnik].match(/^\d+$/)
+      speaker_id = params[:recnik].to_i
+      speaker = Speaker.find_by(id: speaker_id)
 
-    if @article.article_type.name == "default"
-      @statements_filters[:speaker_id] = params[:recnik].to_i if params[:recnik]
-
-      if params[:hodnoceni]
-        @statements_filters[:veracity_key] =
-          case params[:hodnoceni]
-          when "pravda"
-            :true
-          when "nepravda"
-            :untrue
-          when "zavadejici"
-            :misleading
-          when "neoveritelne"
-            :unverifiable
-          else
-            nil
-          end
+      if speaker
+        redirect_to article_url(@article, params: request.query_parameters.merge({ recnik: "#{speaker.full_name.parameterize}-#{speaker.id}" })), status: 301
       end
     end
-
-    # return unless Rails.env.production?
-
-    # TODO: revisit cache headers and do properly
-    # expires_in 1.hour, public: true
-    # if stale? @article, public: true
-    #   respond_to do |format|
-    #     format.html
-    #   end
-    # end
   end
 
   def discussions

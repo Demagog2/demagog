@@ -34,4 +34,20 @@ class ArticleControllerTest < ActionDispatch::IntegrationTest
     get article_url(article)
     assert_response :success
   end
+
+  test "should redirect when recnik query param uses id only" do
+    speaker = create(:speaker)
+    source_speaker = create(:source_speaker, speaker: speaker)
+    source =
+      create(
+        :source,
+        source_speakers: [source_speaker],
+        statements: [create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker)]
+      )
+    segment = create(:article_segment_source_statements, source: source)
+    article = create(:fact_check, segments: [segment])
+
+    get article_url(article, recnik: speaker.id)
+    assert_redirected_to article_url(article, recnik: "#{speaker.full_name.parameterize}-#{speaker.id}")
+  end
 end

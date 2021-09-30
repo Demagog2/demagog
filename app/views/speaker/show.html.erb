@@ -4,16 +4,25 @@
   <section class="profile">
     <%= render(partial: 'shared/portrait', object: @speaker, as: :speaker) %>
     <div class="name-and-stats">
-      <h1 class="name s-speaker-name"><%= @speaker.full_name %> <% if @speaker.body %><span class="s-body">(<%= @speaker.body.short_name %>)</span><% end %></h1>
+      <h1 class="name s-speaker-name">
+        <%= @speaker.full_name %>
+        <% if @speaker.body %><span class="s-body">(<%= @speaker.body.short_name %>)</span><% end %>
+      </h1>
+
+      <% if @speaker.role %>
+        <div class="role">
+          <%= @speaker.role %>
+        </div>
+      <% end %>
 
       <%= render(partial: 'shared/stats', object: @speaker.stats, as: :stats) %>
     </div>
   </section>
 
-  <section>
+  <section class="statements-list">
     <h2 id="statements">Výroky</h2>
 
-    <%= render(partial: 'statement/detail', collection: @statements, as: :statement, locals: { show_when_and_where: true }) %>
+    <%= render(partial: 'statement/detail', collection: @statements, as: :statement, locals: { show_speaker_role: false }) %>
 
     <%= paginate(@statements) %>
   </section>

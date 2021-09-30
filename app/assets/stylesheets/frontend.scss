@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
 //mixins
+@import "editor_picked_label";
 @import "veracity";
 
 @import "fonts";
@@ -11,6 +12,7 @@
 @import "article/collaboration_with_facebook";
 @import "article/discussions";
 @import "article/editorials";
+@import "article/segment_source_statements";
 @import "article/social_media";
 
 @import "homepage/cover_story";
@@ -26,13 +28,17 @@
 @import "search/index";
 
 @import "shared/donate_and_subscribe";
+@import "shared/infobox";
 @import "shared/nav";
 @import "shared/partners";
-@import "shared/speaker_stat";
+@import "shared/speaker_with_stats";
+@import "shared/stats";
 
 @import "speaker/index";
 @import "speaker/listed";
 @import "speaker/show";
 
+@import "statement/detail";
+@import "statement/filterable_list";
 @import "statement/show";
 @import "statement/show_preview";

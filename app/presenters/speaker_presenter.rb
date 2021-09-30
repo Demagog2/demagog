@@ -25,4 +25,20 @@ class SpeakerPresenter
   def full_name
     @source_speaker ? @source_speaker.full_name : @speaker.full_name
   end
+
+  def role
+    @source_speaker ? @source_speaker.role : @speaker.role
+  end
+
+  def has_body?
+    body = @source_speaker ? @source_speaker.body : @speaker.body
+
+    !!body
+  end
+
+  def body_short_name
+    body = @source_speaker ? @source_speaker.body : @speaker.body
+
+    body ? body.short_name : nil
+  end
 end
