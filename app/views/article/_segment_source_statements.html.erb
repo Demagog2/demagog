@@ -21,18 +21,22 @@
         <% end %>
 
         <%# If there is odd number of speakers, put the info box to the last space %>
+        <% if false # TODO: remove when infoboxes texts are ready %>
         <% if article_presenter.factcheck_source_speakers.size % 2 == 1 && i == 1 %>
           <div class="inside-infobox-veracities-wrapper">
             <%= render(partial: "shared/infobox", locals: { topic: :veracities, id: "article-source-statements-veracities" }) %>
           </div>
         <% end %>
+        <% end %>
       </div>
     <% end %>
   </div>
+  <% if false # TODO: remove when infoboxes texts are ready %>
   <% if article_presenter.factcheck_source_speakers.size % 2 == 0 %>
     <div class="outside-infobox-veracities-wrapper">
       <%= render(partial: "shared/infobox", locals: { topic: :veracities, id: "article-source-statements-veracities" }) %>
     </div>
+  <% end %>
   <% end %>
 
   <div class="statements-list">

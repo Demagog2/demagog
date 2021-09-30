@@ -61,6 +61,7 @@
       </section>
     </article>
 
+    <% if false # TODO: remove when infoboxes texts are ready %>
     <div class="infoboxes-list">
       <div class="infobox-item">
         <%= render(partial: "shared/infobox", locals: { topic: :veracities, id: "statement-show-veracities" }) %>
@@ -71,6 +72,7 @@
         </div>
       <% end %>
     </div>
+    <% end %>
 
     <% if @statement.mentioning_articles.size > 0 %>
       <aside>
