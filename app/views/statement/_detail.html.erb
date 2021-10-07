@@ -14,7 +14,7 @@
       <%= statement.source_speaker.full_name %>
       <% if statement.source_speaker.body %>(<%= statement.source_speaker.body.short_name %>)<% end %>
     </h3>
-    <% if show_speaker_role && !statement.source_speaker.role.empty? %>
+    <% if show_speaker_role && !statement.source_speaker.role.blank? %>
       <div class="role">
         <%= statement.source_speaker.role %>
       </div>
