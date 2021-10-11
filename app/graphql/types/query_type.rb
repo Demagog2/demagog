@@ -188,7 +188,7 @@ class Types::QueryType < GraphQL::Schema::Object
     statements = statements.offset(args[:offset]).limit(args[:limit])
 
     statements = statements.where(source: args[:source]) if args[:source]
-    statements = statements.where(speaker: args[:speaker]) if args[:speaker]
+    statements = statements.joins(:source_speaker).where(source_speaker: { speaker: args[:speaker] }) if args[:speaker]
     if args[:veracity]
       statements = statements.joins(:veracity).where(veracities: { key: args[:veracity] })
     end

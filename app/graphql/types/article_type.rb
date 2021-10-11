@@ -18,10 +18,11 @@ module Types
       object.article_type.name
     end
 
-    field :speakers, [Types::SpeakerType], null: true
+    field :speakers, [Types::SourceSpeakerType], null: true
 
     def speakers
-      object.unique_speakers
+      article_presenter = ArticlePresenter.new(object)
+      article_presenter.factcheck_source_speakers
     end
 
     field :debate_stats, [Types::ArticleSpeakerStatsType], null: true
