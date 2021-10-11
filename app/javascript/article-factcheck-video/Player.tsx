@@ -337,7 +337,9 @@ class DisplayStatement extends React.Component<IDisplayStatementProps, IDisplayS
   public render() {
     const { highlighted, statement } = this.props;
     const { showExplanation } = this.state;
-    const speakerFullName = `${statement.sourceSpeaker.firstName} ${statement.sourceSpeaker.lastName}`;
+    const speakerFullName =
+      `${statement.sourceSpeaker.firstName} ${statement.sourceSpeaker.lastName}` +
+      (statement.sourceSpeaker.body ? ` (${statement.sourceSpeaker.body.shortName})` : '');
 
     return (
       <div>
@@ -348,7 +350,6 @@ class DisplayStatement extends React.Component<IDisplayStatementProps, IDisplayS
           <SpeakerFullName>{speakerFullName}</SpeakerFullName>
         </SpeakerContainer>
         <StatementContent
-          important={statement.important}
           highlighted={highlighted}
           dangerouslySetInnerHTML={{ __html: convertNewlinesToBr(statement.content) }}
         />
@@ -413,11 +414,8 @@ const StatementContent = styled.blockquote`
     pointer-events: none;
   }
 `;
-const getStatementContentColor = ({ highlighted, important }) => {
+const getStatementContentColor = ({ highlighted }) => {
   let color = '#d7e5ef';
-  if (important) {
-    color = '#f3dbd3';
-  }
   if (highlighted) {
     color = '#f4f9fd';
   }

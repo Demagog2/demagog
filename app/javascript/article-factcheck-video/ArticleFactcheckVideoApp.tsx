@@ -45,6 +45,9 @@ const articleStatementsQuery = gql`
             id
             firstName
             lastName
+            body {
+              shortName
+            }
             speaker {
               avatar
             }

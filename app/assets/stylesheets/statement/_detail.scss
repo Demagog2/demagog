@@ -193,6 +193,9 @@
 
     transition: all 300ms ease;
 
+    // Needed when there too long strings (like broken table)
+    word-break: break-word;
+
     * {
       line-height: 25px;
     }

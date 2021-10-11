@@ -33,6 +33,9 @@ export interface IArticleStatementsQueryResult {
           id: string;
           firstName: string;
           lastName: string;
+          body: {
+            shortName: string;
+          } | null;
           speaker: {
             avatar: string;
           };
