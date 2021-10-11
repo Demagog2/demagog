@@ -18,8 +18,8 @@ class SpeakerPresenter
     @source_speaker ? @source_speaker : @speaker
   end
 
-  def speaker_id
-    @source_speaker ? @source_speaker.speaker_id : @speaker.id
+  def speaker
+    @source_speaker ? @source_speaker.speaker : @speaker
   end
 
   def full_name

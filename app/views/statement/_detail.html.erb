@@ -8,7 +8,7 @@
   data-action="resize@window->statement--detail#handleWindowResize"
   id="<%= statement.id %>"
 >
-  <a href="<%= speaker_path(statement.speaker.id) %>" class="speaker">
+  <a href="<%= speaker_path(statement.speaker) %>" class="speaker">
     <%= render(partial: 'shared/portrait', object: statement.speaker, as: :speaker) %>
     <h3>
       <%= statement.source_speaker.full_name %>

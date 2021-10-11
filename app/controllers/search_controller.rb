@@ -8,7 +8,7 @@ class SearchController < FrontendController
 
     @articles = Article.query_search_published(@query)
     @speakers = Speaker.query_search(@query)
-    @statements = Statement.query_search_published_factual(@query)
+    @statements = !@query.blank? ? StatementsElasticQueryService.search_published_factual(query: @query) : []
 
     unless @query.empty?
       SearchedQuery.create(

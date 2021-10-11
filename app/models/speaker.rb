@@ -98,6 +98,15 @@ class Speaker < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def slug
+    "#{full_name.parameterize}-#{id}"
+  end
+
+  # Used by *_path and *_url helpers to build the url
+  def to_param
+    slug
+  end
+
   def factual_and_published_statements_by_veracity(veracity_id)
     statements
       .factual_and_published
