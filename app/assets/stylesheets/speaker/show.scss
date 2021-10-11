@@ -1,40 +1,92 @@
 .container-speaker-show {
   flex: 1 0 100%;
   margin-top: 3rem;
+  display: flex;
+  flex-wrap: wrap;
 
   .profile {
-    display: -ms-grid;
-    display: grid;
-    grid-template-columns: var(--large-portrait) 1fr;
-    grid-column-gap: var(--gap);
+    flex: 1 0 66.6667%;
+    margin-left: 16.6667%;
+    margin-right: 16.6667%;
 
-    // IE 11 support
-    -ms-grid-columns: var(--large-portrait) var(--gap) 1fr;
+    .profile-header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
 
-    .portrait {
-      width: var(--large-portrait);
-      height: var(--large-portrait);
+      .portrait-wrapper {
+        margin-right: 22px;
+  
+        .portrait {
+          width: var(--large-portrait);
+          height: var(--large-portrait);
+        }
+      }
+  
+      .name-and-role {
+        > h1 {
+          margin: 0 0 6px 0;
+        }
+  
+        > p {
+          min-height: 25px;
+          margin: 0 0 4px 0;
+          font-size: var(--medium-typesize);
+          line-height: 1.4;
+        }
+      }
     }
 
-    .name-and-stats {
-      // IE 11 support
-      -ms-grid-column: 3; // because col 2 is the gap
+    .profile-stats {
+      margin-top: 35px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
 
-      h1 {
-        margin: 0.5rem 0 0.5rem;
-      }
+      .profile-stats-item {
+        margin: 0 35px 20px 0;
+          
+        .veracity {
+          @include veracity(1);
 
-      .role {
-        margin: 0 0 .8rem 0;
+          font-size: 18px;
+
+          &::before {
+            margin-right: 6px;
+          }
+        }
+
+        .stat {
+          margin-top: 3px;
+          font-size: 18px;
+
+          .number {
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 2px;
+          }
+
+          &.zero {
+            color: #918AA8;
+          }
+        }
       }
     }
   }
 
   @media (max-width: 899.9px) {
+    margin-top: 0;
+
     .profile {
       flex: 1 0 100%;
       margin-left: 0;
       margin-right: 0;
+
+      .profile-stats {
+        .profile-stats-item {
+          margin-right: 25px;
+        }
+      }
     }
   }
 }

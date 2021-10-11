@@ -22,6 +22,10 @@ class Source < ApplicationRecord
     where("name ILIKE ? OR UNACCENT(name) ILIKE ?", "%#{name}%", "%#{name}%")
   end
 
+  def released_year
+    released_at.nil? ? nil : released_at.strftime("%Y")
+  end
+
   def update_statements_source_order(ordered_statement_ids)
     Source.transaction do
       statements.update_all(source_order: nil)

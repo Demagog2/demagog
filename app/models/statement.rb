@@ -63,64 +63,53 @@ class Statement < ApplicationRecord
     indexes :statement_type, type: "keyword"
     ElasticMapping.indexes_text_field self, :content
     indexes :published, type: "boolean"
+    indexes :important, type: "boolean"
     indexes :assessment do
       ElasticMapping.indexes_text_field self, :short_explanation
       ElasticMapping.indexes_text_field self, :explanation_text
       indexes :veracity do
+        indexes :key, type: "keyword"
         ElasticMapping.indexes_name_field self, :name
       end
     end
     indexes :source do
       indexes :released_at, type: "date"
+      indexes :released_year, type: "long"
       indexes :medium do
         ElasticMapping.indexes_name_field self, :name
       end
     end
     indexes :speaker do
+      indexes :id, type: "long"
       ElasticMapping.indexes_name_field self, :full_name
     end
     indexes :tags do
+      indexes :id, type: "long"
       ElasticMapping.indexes_text_field self, :name
     end
   end
 
   def as_indexed_json(options = {})
     as_json(
-      only: [:id, :statement_type, :content, :published],
+      only: [:id, :statement_type, :content, :published, :important],
       include: {
         assessment: {
           only: [:short_explanation, :explanation_text],
           methods: [:explanation_text],
           include: {
-            veracity: { only: :name }
+            veracity: { only: [:key, :name] }
           }
         },
         source: {
-          only: :released_at,
+          only: [:released_at, :released_year],
+          methods: [:released_year],
           include: {
             medium: { only: :name }
           }
         },
-        speaker: { only: :full_name, methods: :full_name },
-        tags: { only: :name }
+        speaker: { only: [:id, :full_name], methods: :full_name },
+        tags: { only: [:id, :name] }
       }
-    )
-  end
-
-  def self.query_search_published_factual(query)
-    search(
-      query: {
-        bool: {
-          must: { simple_query_string: simple_query_string_defaults.merge(query: query) },
-          filter: [
-            { term: { published: true } },
-            { term: { statement_type: TYPE_FACTUAL } }
-          ]
-        }
-      },
-      sort: [
-        { 'source.released_at': { order: "desc" } }
-      ]
     )
   end
 

@@ -81,8 +81,7 @@ Rails.application.routes.draw do
 
   get "diskuze/:slug" => "article#index", as: "article"
   get "vypis-recniku(/:id)" => "speaker#index", as: "speakers"
-  get "politici/:id" => "speaker#show", as: "speaker", concerns: :paginatable
-  # get "politici/:id(/*name)", to: redirect('/politici/%{id}', status: 302)
+  get "politici/:slug" => "speaker#show", as: "speaker", concerns: :paginatable
   get "archiv" => "archive#index", as: "archive", concerns: :paginatable
   get "stranka/:slug" => "page#show", as: "page"
 

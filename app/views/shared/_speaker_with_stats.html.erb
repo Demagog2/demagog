@@ -1,6 +1,6 @@
 <% speaker_presenter = SpeakerPresenter.new(speaker) %>
 
-<a class="container-speaker-with-stats" href="<%= speaker_path(speaker_presenter.speaker_id) %>">
+<a class="container-speaker-with-stats" href="<%= speaker_path(speaker_presenter.speaker) %>">
   <%= render(partial: 'shared/portrait', object: speaker_presenter.portrait_speaker, as: :speaker) %>
   
   <div class="name-and-stats">
