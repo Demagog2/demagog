@@ -79,9 +79,15 @@ class Statement < ApplicationRecord
         ElasticMapping.indexes_name_field self, :name
       end
     end
-    indexes :speaker do
-      indexes :id, type: "long"
+    indexes :source_speaker do
       ElasticMapping.indexes_name_field self, :full_name
+      ElasticMapping.indexes_text_field self, :role
+      indexes :speaker do
+        indexes :id, type: "long"
+      end
+      indexes :body do
+        indexes :id, type: "long"
+      end
     end
     indexes :tags do
       indexes :id, type: "long"
@@ -107,7 +113,18 @@ class Statement < ApplicationRecord
             medium: { only: :name }
           }
         },
-        speaker: { only: [:id, :full_name], methods: :full_name },
+        source_speaker: {
+          only: [:full_name, :role],
+          methods: :full_name,
+          include: {
+            speaker: {
+              only: :id,
+            },
+            body: {
+              only: :id
+            }
+          }
+        },
         tags: { only: [:id, :name] }
       }
     )

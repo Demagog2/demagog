@@ -6,7 +6,9 @@ class StatementsElasticQueryService
       query: build_published_factual_elastic_query(filters),
       sort: [
         { 'source.released_at': { order: "desc" } }
-      ]
+      ],
+      # Important as we have more than 10k statements (10k is the default size of elastic result window)
+      track_total_hits: true
     )
   end
 
@@ -20,6 +22,8 @@ class StatementsElasticQueryService
       from: 0,
       query: build_published_factual_elastic_query(filters),
       aggs: {
+        body_id: { terms: { field: "source_speaker.body.id", size: aggregation_size, missing: -1 } },
+        speaker_id: { terms: { field: "source_speaker.speaker.id", size: aggregation_size, missing: -1 } },
         tag_id: { terms: { field: "tags.id", size: aggregation_size, missing: -1 } },
         veracity_key: { terms: { field: "assessment.veracity.key", size: aggregation_size } },
         released_year: { terms: { field: "source.released_year", size: aggregation_size } },
@@ -56,9 +60,14 @@ class StatementsElasticQueryService
         elastic_query[:bool][:must] = { simple_query_string: Statement.simple_query_string_defaults.merge(query: query) }
       end
 
+      body_id = filters.fetch(:body_id, nil)
+      unless body_id.blank?
+        elastic_query[:bool][:filter].push({ term: { 'source_speaker.body.id': body_id } })
+      end
+
       speaker_id = filters.fetch(:speaker_id, nil)
       unless speaker_id.blank?
-        elastic_query[:bool][:filter].push({ term: { 'speaker.id': speaker_id } })
+        elastic_query[:bool][:filter].push({ term: { 'source_speaker.speaker.id': speaker_id } })
       end
 
       tag_id = filters.fetch(:tag_id, nil)

@@ -17,7 +17,7 @@ wide_display = true if local_assigns[:wide_display].nil?
     data-statement--elastic-filterable-list-no-filters-url="<%= no_filters_url %>"
   >
     <h2>
-      <%= statement_elastic_filterable_list_presenter.unfiltered_total %>
+      <%= number_with_delimiter(statement_elastic_filterable_list_presenter.unfiltered_total, delimiter: " ") %>
       <%= cs_pluralize(statement_elastic_filterable_list_presenter.unfiltered_total, "výrok", "výroky", "výroků") %>
     </h2>
 
@@ -37,13 +37,40 @@ wide_display = true if local_assigns[:wide_display].nil?
     <div class="filters-header">Filtry</div>
 
     <form class="filters-list" data-target="statement--elastic-filterable-list.filtersForm" data-action="submit->statement--elastic-filterable-list#onFiltersListSubmit">
+      
+      <% if enable_filters.include?(:body_id) && statement_elastic_filterable_list_presenter.filter_options[:body_id].size > 0 %>
+        <div class="filter-item">
+          <select name="strana" data-action="change->statement--elastic-filterable-list#onFilterSelectChange" class="filter-select">
+            <option value="">Všechny strany a hnutí</option>
+            <% statement_elastic_filterable_list_presenter.filter_options[:body_id].each do |filter_option| %>
+              <option value="<%= filter_option[:value] %>" <% if filter_option[:selected] %>selected<% end %>>
+                <%= filter_option[:label] %> (<%= number_with_delimiter(filter_option[:count], delimiter: " ") %> <%= cs_pluralize(filter_option[:count], "výrok", "výroky", "výroků") %>)
+              </option>
+            <% end %>
+          </select>
+        </div>
+      <% end %>
+
+      <% if enable_filters.include?(:speaker_id) && statement_elastic_filterable_list_presenter.filter_options[:speaker_id].size > 0 %>
+        <div class="filter-item">
+          <select name="politik" data-action="change->statement--elastic-filterable-list#onFilterSelectChange" class="filter-select">
+            <option value="">Všichni politici a političky</option>
+            <% statement_elastic_filterable_list_presenter.filter_options[:speaker_id].each do |filter_option| %>
+              <option value="<%= filter_option[:value] %>" <% if filter_option[:selected] %>selected<% end %>>
+                <%= filter_option[:label] %> (<%= number_with_delimiter(filter_option[:count], delimiter: " ") %> <%= cs_pluralize(filter_option[:count], "výrok", "výroky", "výroků") %>)
+              </option>
+            <% end %>
+          </select>
+        </div>
+      <% end %>
+
       <% if enable_filters.include?(:tag_id) && statement_elastic_filterable_list_presenter.filter_options[:tag_id].size > 0 %>
         <div class="filter-item">
           <select name="tema" data-action="change->statement--elastic-filterable-list#onFilterSelectChange" class="filter-select">
             <option value="">Všechna témata</option>
             <% statement_elastic_filterable_list_presenter.filter_options[:tag_id].each do |filter_option| %>
               <option value="<%= filter_option[:value] %>" <% if filter_option[:selected] %>selected<% end %>>
-                <%= filter_option[:label] %> (<%= filter_option[:count] %> <%= cs_pluralize(filter_option[:count], "výrok", "výroky", "výroků") %>)
+                <%= filter_option[:label] %> (<%= number_with_delimiter(filter_option[:count], delimiter: " ") %> <%= cs_pluralize(filter_option[:count], "výrok", "výroky", "výroků") %>)
               </option>
             <% end %>
           </select>
@@ -60,7 +87,7 @@ wide_display = true if local_assigns[:wide_display].nil?
                 <% if filter_option[:selected] %>selected<% end %>
                 value="<%= filter_option[:value] %>"
               >
-                <%= filter_option[:label] %> (<%= filter_option[:count] %> <%= cs_pluralize(filter_option[:count], "výrok", "výroky", "výroků") %>)
+                <%= filter_option[:label] %> (<%= number_with_delimiter(filter_option[:count], delimiter: " ") %> <%= cs_pluralize(filter_option[:count], "výrok", "výroky", "výroků") %>)
               </option>
             <% end %>
           </select>
@@ -77,7 +104,7 @@ wide_display = true if local_assigns[:wide_display].nil?
                 <% if filter_option[:selected] %>selected<% end %>
                 value="<%= filter_option[:value] %>"
               >
-                <%= filter_option[:label] %> (<%= filter_option[:count] %> <%= cs_pluralize(filter_option[:count], "výrok", "výroky", "výroků") %>)
+                <%= filter_option[:label] %> (<%= number_with_delimiter(filter_option[:count], delimiter: " ") %> <%= cs_pluralize(filter_option[:count], "výrok", "výroky", "výroků") %>)
               </option>
             <% end %>
           </select>
@@ -111,18 +138,19 @@ wide_display = true if local_assigns[:wide_display].nil?
             >
             <label for="statement-elastic-filterable-list-editor-picked-checkbox">
               <%= statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:label] %>
-              (<%= statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:count] %> <%= cs_pluralize(statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:count], "výrok", "výroky", "výroků") %>)
+              (<%= number_with_delimiter(statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:count], delimiter: " ") %> <%= cs_pluralize(statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:count], "výrok", "výroky", "výroků") %>)
             </label>
           </div>
         </div>
       <% end %>
+      
     </form>
 
     <div class="filtered-count-info<% if statement_elastic_filterable_list_presenter.parsed_params_filters.empty? %> hidden<% end %>">
       <span class="filtered-count-info-label">
         <% if statement_elastic_filterable_list_presenter.filtered_total > 0 %>
           Vybraným filtrům <%= cs_pluralize(statement_elastic_filterable_list_presenter.filtered_total, "vyhovuje", "vyhovují", "vyhovuje") %>
-          <%= statement_elastic_filterable_list_presenter.filtered_total %>
+          <%= number_with_delimiter(statement_elastic_filterable_list_presenter.filtered_total, delimiter: " ") %>
           <%= cs_pluralize(statement_elastic_filterable_list_presenter.filtered_total, "výrok", "výroky", "výroků") %>
         <% end %>
         <% if statement_elastic_filterable_list_presenter.filtered_total == 0 %>

@@ -16,14 +16,25 @@
     left: 250px;
     right: 250px;
     top: 120px;
-    bottom: 70px;
+    bottom: 60px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 
     .statement-content-inner {
       text-align: center;
       font-size: 34px;
+      line-height: 1.45;
+      color: white;
+    }
+
+    .statement-content-speaker {
+      margin-top: 24px;
+      text-transform: uppercase;
+      text-align: center;
+      font-size: 26px;
+      font-weight: bold;
       line-height: 1.45;
       color: white;
     }

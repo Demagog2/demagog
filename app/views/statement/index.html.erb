@@ -1,10 +1,23 @@
-<article style="flex: 1 0 66.6667%; margin-left: 16.6667%; margin-right: 16.6667%;">
-  <h1>Přehled ověřených výroků</h1>
-  <p>
-    Za svou existenci Demagog.cz už ověřil 11 397 výroků politiků.
-    V následujícím rozhraní můžete výroky volně procházet.
-  </p>
-  <p>
-    (Tady bude rozhraní na procházení výroků...)
-  </p>
+<article class="container-statement-index">
+  <section class="statements-intro">
+    <h1>Přehled ověřených výroků</h1>
+    <p>
+      Za svou existenci Demagog.cz už ověřil tisíce výroků politiků a&nbsp;političek.
+      V&nbsp;následujícím rozhraní můžete výroky volně procházet.
+    </p>
+  </section>
+
+  <section class="statements-list">
+    <%=
+      render(
+        partial: 'statement/elastic_filterable_list',
+        locals: {
+          context: {},
+          enable_filters: [:body_id, :speaker_id, :editor_picked, :tag_id, :veracity_key, :released_year, :fulltext],
+          params: @params,
+          no_filters_url: statements_path()
+        }
+      )
+    %>
+  </section>
 </article>
