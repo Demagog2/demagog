@@ -26,6 +26,24 @@ class StatementElasticFilterableListPresenter
     def parse_params_filters
       params_filters = {}
 
+      # Body
+      if @enable_filters.include?(:body_id) && !@params[:strana].blank?
+        body_id = @params[:strana][/-(\d+)$/, 1]
+
+        if !body_id.nil?
+          params_filters[:body_id] = body_id.to_i
+        end
+      end
+
+      # Speaker
+      if @enable_filters.include?(:speaker_id) && !@params[:politik].blank?
+        speaker_id = @params[:politik][/-(\d+)$/, 1]
+
+        if !speaker_id.nil?
+          params_filters[:speaker_id] = speaker_id.to_i
+        end
+      end
+
       # Editor picked
       if @enable_filters.include?(:editor_picked) && !@params[:vyber].blank?
         params_filters[:editor_picked] = @params[:vyber] == "ano"
@@ -90,6 +108,38 @@ class StatementElasticFilterableListPresenter
 
       if @enable_filters.include?(:editor_picked) || @enable_filters.include?(:tag_id) || @enable_filters.include?(:veracity_key) || @enable_filters.include?(:released_year)
         aggregations = StatementsElasticQueryService.aggregate_published_factual(@context)
+
+        # Body
+        if @enable_filters.include?(:body_id)
+          body_id_aggregation = aggregations.fetch("body_id", {})
+
+          body_id_filter_options = Body.where(id: body_id_aggregation.keys).order(Arel.sql("name COLLATE \"cs_CZ\" ASC")).map do |body|
+            {
+              value: "#{body.short_name.parameterize}-#{body.id}",
+              label: "#{body.name}" + (body.name != body.short_name ? " (#{body.short_name})" : ""),
+              count: body_id_aggregation[body.id],
+              selected: @parsed_params_filters[:body_id] == body.id
+            }
+          end
+
+          filter_options[:body_id] = body_id_filter_options
+        end
+
+        # Speaker
+        if @enable_filters.include?(:speaker_id)
+          speaker_id_aggregation = aggregations.fetch("speaker_id", {})
+
+          speaker_id_filter_options = Speaker.where(id: speaker_id_aggregation.keys).order(Arel.sql("last_name COLLATE \"cs_CZ\" ASC, first_name COLLATE \"cs_CZ\" ASC")).map do |speaker|
+            {
+              value: "#{speaker.full_name.parameterize}-#{speaker.id}",
+              label: "#{speaker.full_name}" + (speaker.body ? " (#{speaker.body.short_name})" : ""),
+              count: speaker_id_aggregation[speaker.id],
+              selected: @parsed_params_filters[:speaker_id] == speaker.id
+            }
+          end
+
+          filter_options[:speaker_id] = speaker_id_filter_options
+        end
 
         # Editor picked
         if @enable_filters.include?(:editor_picked)

@@ -62,14 +62,4 @@
       )
     %>
   </section>
-
-  <% if false %>
-  <section class="statements-list">
-    <h2 id="statements">Výroky</h2>
-
-    <%= render(partial: 'statement/detail', collection: @statements, as: :statement, locals: { show_speaker_role: false }) %>
-
-    <%= paginate(@statements) %>
-  </section>
-  <% end %>
 </article>

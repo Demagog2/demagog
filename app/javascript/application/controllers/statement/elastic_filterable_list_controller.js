@@ -28,7 +28,6 @@ export default class extends Controller {
     const queryParams = {};
 
     this.filtersFormTarget.querySelectorAll('input, select').forEach((el) => {
-      console.log('-------', { el });
       if (el.type === 'checkbox') {
         if (el.checked) {
           queryParams[el.name] = el.value;

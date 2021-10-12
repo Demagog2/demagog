@@ -10,17 +10,13 @@
     ]
   ),
   Struct::NavLink.new("Komentáře", '/komentare'),
-  # TODO: It is confusing to have only one item "Politici" in the dropdown "Prehledy",
-  # so before we have more items, lets just put "Politici" there without dropdown
-  Struct::NavLink.new("Politici", speakers_path()),
-  # Struct::NavSubmenu.new(
-  #   "Přehledy",
-  #   [
-  #     # TODO: Browsing through statements needs to be implemented first
-  #     # Struct::NavLink.new('Výroky', '/vyroky'),
-  #     Struct::NavLink.new('Politici', speakers_path())
-  #   ]
-  # ),
+  Struct::NavSubmenu.new(
+    "Přehledy",
+    [
+      Struct::NavLink.new('Politici', '/vypis-recniku'),
+      Struct::NavLink.new('Výroky', '/vyroky')
+    ]
+  ),
   Struct::NavSubmenu.new(
     'Sliby',
     [

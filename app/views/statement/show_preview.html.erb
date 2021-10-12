@@ -7,10 +7,11 @@
     <div class="statement-content-inner" style="font-size: <%= @font_size %>px; line-height: <%= @line_height %>">
       „<%= content_to_html(@statement.content) %>“
     </div>
+    <div class="statement-content-speaker">— <%= @statement.source_speaker.full_name %><% if @statement.source_speaker.body %> (<%= @statement.source_speaker.body.short_name %>)<% end %></div>
   </div>
 
   <div class="speaker-portrait-wrapper">
-    <%= render(partial: 'shared/portrait', object: @statement.speaker, as: :speaker) %>
+    <%= render(partial: 'shared/portrait', object: @statement.source_speaker.speaker, as: :speaker) %>
   </div>
 
   <div class="veracity-badge">
