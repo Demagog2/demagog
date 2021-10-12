@@ -7,5 +7,17 @@
     flex: 1 0 66.6667%;
     margin-left: 16.6667%;
     margin-right: 16.6667%;
+
+    > h1 {
+      margin-top: 0;
+    }
+  }
+
+  @media (max-width: 899.9px) {
+    .statements-intro {
+      flex: 0 0 100%;
+      margin-left: 0;
+      margin-right: 0;
+    }
   }
 }
