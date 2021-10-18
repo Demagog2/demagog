@@ -14,8 +14,8 @@
   ],
   image_src: content_for?(:image_src) ? yield(:image_src) : asset_url("apple-touch-icon.png"),
   icon: [
-    { href: asset_path('favicon.png'), sizes: '64x64', type: 'image/png' },
-    { href: asset_path('apple-touch-icon.png'), rel: 'apple-touch-icon-precomposed', sizes: '114x114', type: 'image/png' },
+    { href: asset_url('favicon.png'), sizes: '64x64', type: 'image/png' },
+    { href: asset_url('apple-touch-icon.png'), rel: 'apple-touch-icon-precomposed', sizes: '114x114', type: 'image/png' },
   ],
   og: {
     title: :title,
@@ -23,7 +23,7 @@
     description: :description,
     type: 'article',
     url: url_for(:only_path => false),
-    image: content_for?(:image_src) ? yield(:image_src) : asset_path('default-meta-image.png'),
+    image: content_for?(:image_src) ? yield(:image_src) : asset_url('default-meta-image.png'),
     author: :author
   },
   twitter: {
@@ -31,6 +31,6 @@
     site: '@DemagogCZ',
     title: content_for?(:title) ? yield(:title) : 'Demagog.cz — Factcheck politických diskuzí',
     description: content_for?(:description) ? yield(:description) : 'Nezávislý factcheckingový projekt, který se zaměřuje na ověřování faktických tvrzení českých politiků. Usilujeme o kultivaci veřejné diskuse a klademe důraz na transparentní zdroje informací, kritické myšlení a mediální gramotnost.',
-    image: content_for?(:image_src) ? yield(:image_src) : asset_path('default-meta-image.png')
+    image: content_for?(:image_src) ? yield(:image_src) : asset_url('default-meta-image.png')
   }
 %>
