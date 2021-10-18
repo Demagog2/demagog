@@ -1,4 +1,5 @@
 <% content_for(:title, @page.title) %>
+<% content_for(:description, @page.text_html.present? ? strip_tags(@page.text_html).truncate(230) : @page.title) %>
 
 <% if @page.template %>
   <%= render("page/templates/#{@page.template}", page: @page) %>

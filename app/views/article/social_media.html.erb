@@ -1,3 +1,6 @@
+<% content_for(:title, get_web_content("article.social_media", "title")) %>
+<% content_for(:description, strip_tags(get_web_content("article.social_media", "intro")).truncate(230)) %>
+
 <article class="container-article-social_media">
   <h1><%= get_web_content("article.social_media", "title") %></h1>
   <%= raw(get_web_content("article.social_media", "intro")) %>

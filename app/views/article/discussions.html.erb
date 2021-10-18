@@ -1,3 +1,6 @@
+<% content_for(:title, get_web_content("article.discussions", "title")) %>
+<% content_for(:description, strip_tags(get_web_content("article.discussions", "intro")).truncate(230)) %>
+
 <article class="container-article-discussions">
   <h1><%= get_web_content("article.discussions", "title") %></h1>
   <%= raw(get_web_content("article.discussions", "intro")) %>

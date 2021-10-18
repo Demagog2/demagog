@@ -1,3 +1,6 @@
+<% content_for(:title, get_web_content("article.collaboration_with_facebook", "title")) %>
+<% content_for(:description, strip_tags(get_web_content("article.collaboration_with_facebook", "intro")).truncate(230)) %>
+
 <article class="container-article-collaboration_with_facebook">
   <h1><%= get_web_content("article.collaboration_with_facebook", "title") %></h1>
   <%= raw(get_web_content("article.collaboration_with_facebook", "intro")) %>

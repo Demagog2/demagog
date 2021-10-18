@@ -1,5 +1,11 @@
-<% content_for(:title, @speaker.full_name + (@speaker.body ? " (#{@speaker.body.short_name})" : "")) %>
-<% stats = @speaker.stats %>
+<%
+stats = @speaker.stats
+content_for(:title, @speaker.full_name + (@speaker.body ? " (#{@speaker.body.short_name})" : ""))
+content_for(
+  :description,
+  "Demagog.cz ověřil již #{@speaker.factual_and_published_statements_count} " + cs_pluralize(@speaker.factual_and_published_statements_count, "faktický výrok", "faktické výroky", "faktických výroků") + " politika*čky"
+)
+%>
 
 <article class="container-speaker-show">
   <section class="profile">
@@ -16,7 +22,7 @@
           <p><%= @speaker.role %></p>
         <% end %>
         <% if @speaker.body %>
-          <p class="s-body">Člen/ka strany <%= @speaker.body.name %> <% if @speaker.body.short_name != @speaker.body.name %><span class="s-body">(<%= @speaker.body.short_name %>)</span><% end %></p>
+          <p class="s-body">Člen*ka strany <%= @speaker.body.name %> <% if @speaker.body.short_name != @speaker.body.name %><span class="s-body">(<%= @speaker.body.short_name %>)</span><% end %></p>
         <% end %>
         <% if !@speaker.role && !@speaker.body %>
           <p></p>

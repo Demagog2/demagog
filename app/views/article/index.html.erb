@@ -1,6 +1,7 @@
 <% content_for(:title, @article.title) %>
 <% content_for(:description, strip_tags(@article.perex).truncate(230)) if @article.perex.present? %>
 <% content_for(:image_src, @article.illustration.attached? ? polymorphic_url(@article.illustration) : nil) %>
+<% content_for(:twitter_card, 'summary_large_image') %>
 
 <% article_presenter = ArticlePresenter.new(@article) %>
 
