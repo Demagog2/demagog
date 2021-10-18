@@ -129,7 +129,12 @@ class StatementElasticFilterableListPresenter
         if @enable_filters.include?(:speaker_id)
           speaker_id_aggregation = aggregations.fetch("speaker_id", {})
 
-          speaker_id_filter_options = Speaker.where(id: speaker_id_aggregation.keys).order(Arel.sql("last_name COLLATE \"cs_CZ\" ASC, first_name COLLATE \"cs_CZ\" ASC")).map do |speaker|
+          speakers = Speaker
+            .where(id: speaker_id_aggregation.keys)
+            .order(Arel.sql("last_name COLLATE \"cs_CZ\" ASC, first_name COLLATE \"cs_CZ\" ASC"))
+            .includes(:body)
+
+          speaker_id_filter_options = speakers.map do |speaker|
             {
               value: "#{speaker.full_name.parameterize}-#{speaker.id}",
               label: "#{speaker.full_name}" + (speaker.body ? " (#{speaker.body.short_name})" : ""),
