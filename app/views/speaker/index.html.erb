@@ -1,41 +1,127 @@
-<% content_for(:title, "Přehled politiků a političek") %>
-<% content_for(:description, "Za svou existenci Demagog.cz už ověřil výroky stovek politiků a političek.") %>
+<%
+speaker_elastic_filterable_list_presenter = SpeakerElasticFilterableListPresenter.new(params: @params)
 
-<div class="container-speaker-index">
-  <article class="speakers">
-    <% if @party  %>
-      <h2><%= @party.name %></h2>
-      <section class="speakers-list">
-        <% @party.current_members.each do |speaker| %>
-          <div class="speakers-list-item">
-            <%= render(
-              partial: 'speaker/listed',
-              object: speaker,
-              as: :speaker,
-              locals: { show_latest: false }
-            ) %>
-          </div>
-        <% end %>
-      </section>
-    <% else %>
-      <h2>Aktuálně nejaktivnější politici</h2>
-      <p>Politici s nejvyšším počtem výroků za posledních šest měsíců.</p>
-      <section class="speakers-list">
-        <% @speakers.each do |speaker| %>
-          <div class="speakers-list-item">
-            <%= render(
-              partial: 'speaker/listed',
-              object: speaker,
-              as: :speaker,
-              locals: { show_latest: true }
-            ) %>
-          </div>
-        <% end %>
-      </section>
+content_for(:title, "Přehled politiků a političek")
+content_for(:description, "Za svou existenci Demagog.cz už ověřil výroky stovek politiků a političek.")
+%>
+
+<div
+  class="container-speaker-index"
+  data-controller="speaker--index"
+  data-speaker--index-no-filters-url="<%= speakers_path() %>"
+>
+  <h1>
+    Přehled politiků a političek
+  </h1>
+
+  <div class="filters-header">Filtry</div>
+
+  <form class="filters-list" data-target="speaker--index.filtersForm" data-action="submit->speaker--index#onFiltersListSubmit">
+
+    <% if speaker_elastic_filterable_list_presenter.filter_options[:body_id].size > 0 %>
+      <div class="filter-item">
+        <select name="strana" data-action="change->speaker--index#onFilterSelectChange" class="filter-select">
+          <option value="">Všechny strany a hnutí</option>
+          <% speaker_elastic_filterable_list_presenter.filter_options[:body_id].each do |group| %>
+            <optgroup label="<%= group[:group_name] %>">
+              <% group[:filter_options].each do |filter_option| %>
+                <option value="<%= filter_option[:value] %>" <% if filter_option[:selected] %>selected<% end %>>
+                  <%= filter_option[:label] %> (<%= number_with_delimiter(filter_option[:count], delimiter: " ") %> <%= cs_pluralize(filter_option[:count], "osoba", "osoby", "osob") %>)
+                </option>
+              <% end %>
+            </optgroup>
+          <% end %>
+        </select>
+      </div>
     <% end %>
-  </article>
 
-  <aside class="meta">
-    <%= render(partial: "speaker/sidebar") %>
-  </aside>
+    <div class="filter-item">
+      <div class="filter-fulltext">
+        <input type="text" name="q" value="<%= speaker_elastic_filterable_list_presenter.parsed_params_filters[:query] %>" placeholder="Zadejte hledaný výraz…">
+        <button type="submit" data-action="click->speaker--index#onFulltextConfirmButton">
+          <svg height="17" viewBox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg">
+            <path d="m1181.34341 104.52344-4.0019-4.018708c1.69829-2.5558307 1.36199-5.9523952-.8071-8.1214883-1.22747-1.2106567-2.84168-1.8832437-4.57359-1.8832437s-3.34612.672587-4.55678 1.8832437c-2.50539 2.5222013-2.50539 6.6081675 0 9.1135543 2.16909 2.169093 5.56566 2.505387 8.12149.823919l4.01871 4.018707c.18496.184962.50444.184962.6894 0l1.10977-1.109768c.20177-.201776.20177-.521255 0-.706216zm-6.28869-4.489519c-1.69828 1.698282-4.47271 1.698282-6.1878 0-1.69829-1.6982821-1.69829-4.4727036 0-6.1878005 1.69828-1.6982823 4.4727-1.6982823 6.1878 0 1.69828 1.7150969 1.69828 4.4895184 0 6.1878005z" fill="#3c325c" transform="translate(-1165 -90)"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+  </form>
+
+  <div class="filtered-count-info<% if speaker_elastic_filterable_list_presenter.parsed_params_filters.empty? %> hidden<% end %>">
+    <span class="filtered-count-info-label">
+      <% if speaker_elastic_filterable_list_presenter.filtered_total > 0 %>
+        Vybraným filtrům <%= cs_pluralize(speaker_elastic_filterable_list_presenter.filtered_total, "vyhovuje", "vyhovují", "vyhovuje") %>
+        <%= number_with_delimiter(speaker_elastic_filterable_list_presenter.filtered_total, delimiter: " ") %>
+        <%= cs_pluralize(speaker_elastic_filterable_list_presenter.filtered_total, "osoba", "osoby", "osob") %>
+      <% end %>
+      <% if speaker_elastic_filterable_list_presenter.filtered_total == 0 %>
+        Vybraným filtrům nevyhovuje ani jedna osoba
+      <% end %>
+    </span>
+    <a
+      href="<%= speakers_path() %>"
+      class="clear-filters"
+    >
+      × zrušit filtry
+    </a>
+  </div>
+
+  <div class="speakers-list">    
+    <% if speaker_elastic_filterable_list_presenter.parsed_params_filters.empty? && (@params[:page] == 1 || @params[:page].blank?) %>
+      <h2 class="speakers-list-group-header">Prezident a vláda ČR</h2>
+
+      <% speaker_elastic_filterable_list_presenter.president_and_government_speakers.each do |speaker| %>
+        <div class="speakers-list-item">
+          <a href="<%= speaker_path(speaker) %>" class="portrait-link">
+            <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
+          </a>
+          <h3 class="full-name">
+            <%= speaker.full_name %>
+            <% if speaker.body %>(<%= speaker.body.short_name %>)<% end %>
+          </h3>
+          <% if !speaker.role.blank? %>
+            <div class="role">
+              <%= speaker.role %>
+            </div>
+          <% end %>
+          <div class="statements-count">
+            <%= speaker.factual_and_published_statements_count %>
+            <%= cs_pluralize(speaker.factual_and_published_statements_count, "výrok", "výroky", "výroků") %>
+          </div>
+          <a href="<%= speaker_path(speaker) %>" class="profile-link">
+            Otevřít profil →
+          </a>
+        </div>
+      <% end %>
+
+      <h2 class="speakers-list-group-header">Další politici a političky</h2>
+    <% end %>
+
+    <% speaker_elastic_filterable_list_presenter.paginated_speakers.each do |speaker| %>
+      <div class="speakers-list-item">
+        <a href="<%= speaker_path(speaker) %>" class="portrait-link">
+          <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
+        </a>
+        <h3 class="full-name">
+          <%= speaker.full_name %>
+          <% if speaker.body %>(<%= speaker.body.short_name %>)<% end %>
+        </h3>
+        <% if !speaker.role.blank? %>
+          <div class="role">
+            <%= speaker.role %>
+          </div>
+        <% end %>
+        <div class="statements-count">
+          <%= speaker.factual_and_published_statements_count %>
+          <%= cs_pluralize(speaker.factual_and_published_statements_count, "výrok", "výroky", "výroků") %>
+        </div>
+        <a href="<%= speaker_path(speaker) %>" class="profile-link">
+          Otevřít profil →
+        </a>
+      </div>
+    <% end %>
+  </div>
+
+  <%= paginate(speaker_elastic_filterable_list_presenter.paginated_speakers) %>
 </div>

@@ -42,10 +42,14 @@ wide_display = true if local_assigns[:wide_display].nil?
         <div class="filter-item">
           <select name="strana" data-action="change->statement--elastic-filterable-list#onFilterSelectChange" class="filter-select">
             <option value="">Všechny strany a hnutí</option>
-            <% statement_elastic_filterable_list_presenter.filter_options[:body_id].each do |filter_option| %>
-              <option value="<%= filter_option[:value] %>" <% if filter_option[:selected] %>selected<% end %>>
-                <%= filter_option[:label] %> (<%= number_with_delimiter(filter_option[:count], delimiter: " ") %> <%= cs_pluralize(filter_option[:count], "výrok", "výroky", "výroků") %>)
-              </option>
+            <% statement_elastic_filterable_list_presenter.filter_options[:body_id].each do |group| %>
+              <optgroup label="<%= group[:group_name] %>">
+                <% group[:filter_options].each do |filter_option| %>
+                  <option value="<%= filter_option[:value] %>" <% if filter_option[:selected] %>selected<% end %>>
+                    <%= filter_option[:label] %> (<%= number_with_delimiter(filter_option[:count], delimiter: " ") %> <%= cs_pluralize(filter_option[:count], "výrok", "výroky", "výroků") %>)
+                  </option>
+                <% end %>
+              </optgroup>
             <% end %>
           </select>
         </div>
@@ -121,7 +125,7 @@ wide_display = true if local_assigns[:wide_display].nil?
               </svg>
             </button>
           </div>
-        </div>      
+        </div>
       <% end %>
 
       <% if enable_filters.include?(:editor_picked) %>
