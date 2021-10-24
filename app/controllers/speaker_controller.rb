@@ -2,10 +2,7 @@
 
 class SpeakerController < FrontendController
   def index
-    @speakers = Speaker.top_speakers
-    @parties = Body.min_members_and_evaluated_since(1, 18.months.ago)
-
-    @party = Body.find(params[:id]) if params[:id]
+    @params = params
   end
 
   def show

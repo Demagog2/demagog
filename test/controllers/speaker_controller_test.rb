@@ -4,17 +4,12 @@ require "test_helper"
 
 class SpeakerControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
-    create(:party)
+    elasticsearch_index [Speaker]
 
     get speakers_url()
     assert_response :success
-  end
 
-  test "should get index with party id" do
-    party = create(:party)
-
-    get speakers_url(party)
-    assert_response :success
+    elasticsearch_cleanup [Speaker]
   end
 
   test "should get show" do

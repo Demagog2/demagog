@@ -112,17 +112,26 @@ class StatementElasticFilterableListPresenter
         # Body
         if @enable_filters.include?(:body_id)
           body_id_aggregation = aggregations.fetch("body_id", {})
+          lower_parliament_body_ids = Body.get_lower_parliament_body_ids
 
           body_id_filter_options = Body.where(id: body_id_aggregation.keys).order(Arel.sql("name COLLATE \"cs_CZ\" ASC")).map do |body|
             {
               value: "#{body.short_name.parameterize}-#{body.id}",
               label: "#{body.name}" + (body.name != body.short_name ? " (#{body.short_name})" : ""),
               count: body_id_aggregation[body.id],
-              selected: @parsed_params_filters[:body_id] == body.id
+              selected: @parsed_params_filters[:body_id] == body.id,
+              group_name: lower_parliament_body_ids.include?(body.id) ? "Strany a hnutí v Poslanecké sněmovně Parlamentu ČR" : "Další strany a hnutí"
             }
           end
 
-          filter_options[:body_id] = body_id_filter_options
+          body_id_filter_options_groups = ["Strany a hnutí v Poslanecké sněmovně Parlamentu ČR", "Další strany a hnutí"].map do |group_name|
+            {
+              group_name: group_name,
+              filter_options: body_id_filter_options.select { |body| body[:group_name] == group_name }
+            }
+          end
+
+          filter_options[:body_id] = body_id_filter_options_groups
         end
 
         # Speaker

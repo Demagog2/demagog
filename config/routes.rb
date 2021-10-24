@@ -79,9 +79,10 @@ Rails.application.routes.draw do
   get "spoluprace-s-facebookem" => "article#collaboration_with_facebook"
   get "komentare" => "article#editorials"
 
-  get "diskuze/:slug" => "article#index", as: "article"
-  get "vypis-recniku(/:id)" => "speaker#index", as: "speakers"
+  get "vypis-recniku(/:id)" => "speaker#index", as: "speakers", concerns: :paginatable
   get "politici/:slug" => "speaker#show", as: "speaker", concerns: :paginatable
+
+  get "diskuze/:slug" => "article#index", as: "article"
   get "archiv" => "archive#index", as: "archive", concerns: :paginatable
   get "stranka/:slug" => "page#show", as: "page"
 

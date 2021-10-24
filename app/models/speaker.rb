@@ -20,8 +20,11 @@ class Speaker < ApplicationRecord
   mapping do
     indexes :id, type: "long"
     ElasticMapping.indexes_name_field self, :full_name
+    indexes :sort_name, type: "keyword"
     ElasticMapping.indexes_text_field self, :role
     indexes :body do
+      indexes :id, type: "long"
+      ElasticMapping.indexes_name_field self, :name
       ElasticMapping.indexes_name_field self, :short_name
     end
     indexes :factual_and_published_statements_count, type: "long"
@@ -29,11 +32,11 @@ class Speaker < ApplicationRecord
 
   def as_indexed_json(options = {})
     as_json(
-      only: [:id, :full_name, :role, :factual_and_published_statements_count],
-      methods: [:full_name, :factual_and_published_statements_count],
+      only: [:id, :full_name, :sort_name, :role, :factual_and_published_statements_count],
+      methods: [:full_name, :sort_name, :factual_and_published_statements_count],
       include: {
         body: {
-          only: :short_name
+          only: [:id, :name, :short_name]
         }
       }
     )
@@ -50,21 +53,6 @@ class Speaker < ApplicationRecord
         { factual_and_published_statements_count: { order: "desc" } }
       ]
     )
-  end
-
-  def self.top_speakers
-    speakers_evaluated_since(6.months.ago)
-      .order("statements_count DESC")
-      .limit(8)
-  end
-
-  def self.speakers_evaluated_since(time_since)
-    joins(:statements)
-      .select("speakers.*, COUNT(statements.id) as statements_count")
-      .where("statements.excerpted_at >= ?", time_since)
-      .where("statements.published = ?", true)
-      .where("statements.statement_type = ?", Statement::TYPE_FACTUAL)
-      .group("speakers.id")
   end
 
   def self.active_members_of_body(body_id)
@@ -98,6 +86,10 @@ class Speaker < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def sort_name
+    "#{last_name} #{first_name}"
+  end
+
   def slug
     "#{full_name.parameterize}-#{id}"
   end
@@ -117,5 +109,26 @@ class Speaker < ApplicationRecord
 
   def stats
     SpeakerStat.where(speaker_id: id).normalize
+  end
+
+  # TODO: Remove hardcoded values and add to database with editable admin ui
+  def self.get_president_and_government_speaker_ids
+    [
+      168, # Milos Zeman
+      183, # Andrej Babis
+      41, # Jan Hamacek
+      495, # Alena Schillerova
+      496, # Karel Havlicek
+      # Jakub Kulhanek
+      497, # Lubomir Metnar
+      215, # Marie Benesova
+      444, # Richard Brabec
+      498, # Jana Malacova
+      218, # Miroslav Toman
+      490, # Robert Plaga
+      479, # Klara Dostalova
+      500, # Adam Vojtech
+      1 # Lubomir Zaoralek
+    ]
   end
 end

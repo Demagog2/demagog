@@ -15,6 +15,10 @@ class Body < ApplicationRecord
       .order(last_name: :asc)
   end
 
+  def slug
+    "#{name.parameterize}-#{id}"
+  end
+
   def self.matching_name(name)
     where(
       "name ILIKE ? OR UNACCENT(name) ILIKE ? OR short_name ILIKE ? OR UNACCENT(short_name) ILIKE ?",
@@ -22,13 +26,16 @@ class Body < ApplicationRecord
     )
   end
 
-  def self.min_members_and_evaluated_since(min_members_count, time_since)
-    speaker_ids = Speaker.speakers_evaluated_since(time_since).map { |s| s.id }
-
-    joins(:memberships)
-      .where(memberships: { until: nil, speaker_id: speaker_ids })
-      .having("COUNT(memberships.id) >= ?", min_members_count)
-      .group(:id)
-      .order(name: :asc)
+  # TODO: move to database and build admin for it
+  def self.get_lower_parliament_body_ids
+    [
+      1, # ODS
+      2, # TOP09
+      7, # KDU-CSL
+      12, # Pirati
+      30, # ANO
+      32, # STAN
+      53 # SPD
+    ]
   end
 end
