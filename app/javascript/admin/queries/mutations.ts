@@ -255,6 +255,7 @@ export const CreateSpeaker = gql`
         wikidataId
         role
         body {
+          id
           shortName
         }
         memberships {
@@ -284,6 +285,7 @@ export const UpdateSpeaker = gql`
         wikidataId
         role
         body {
+          id
           shortName
         }
         memberships {

@@ -653,6 +653,7 @@ export interface DeleteBodyVariables {
 
 export interface CreateSpeaker_createSpeaker_speaker_body {
   __typename: "Body";
+  id: string;
   shortName: string | null;
 }
 
@@ -714,6 +715,7 @@ export interface CreateSpeakerVariables {
 
 export interface UpdateSpeaker_updateSpeaker_speaker_body {
   __typename: "Body";
+  id: string;
   shortName: string | null;
 }
 

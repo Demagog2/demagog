@@ -1579,7 +1579,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Speaker",
+                  "name": "SourceSpeaker",
                   "ofType": null
                 }
               }
