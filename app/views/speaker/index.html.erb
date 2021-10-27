@@ -69,7 +69,7 @@ content_for(:description, "Za svou existenci Demagog.cz už ověřil výroky sto
 
   <div class="speakers-list">    
     <% if speaker_elastic_filterable_list_presenter.parsed_params_filters.empty? && (@params[:page] == 1 || @params[:page].blank?) %>
-      <h2 class="speakers-list-group-header">Prezident a vláda ČR</h2>
+      <h2 class="speakers-list-group-header">Prezident, vláda a&nbsp;předsedové sněmovních stran a&nbsp;hnutí</h2>
 
       <% speaker_elastic_filterable_list_presenter.president_and_government_speakers.each do |speaker| %>
         <div class="speakers-list-item">

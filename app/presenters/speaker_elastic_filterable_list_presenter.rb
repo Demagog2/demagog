@@ -22,7 +22,7 @@ class SpeakerElasticFilterableListPresenter
 
   def president_and_government_speakers
     # Using .map to keep the order of speakers from the list of ids
-    speakers = Speaker.get_president_and_government_speaker_ids.map do |speaker_id|
+    speakers = Speaker.get_most_important_speaker_ids.map do |speaker_id|
       Speaker.find_by(id: speaker_id)
     end
 
@@ -56,7 +56,7 @@ class SpeakerElasticFilterableListPresenter
 
       # We filter the president and government out when no filters are used because those are pinned at top
       if filters.empty?
-        filters = filters.merge({ not_speaker_ids: Speaker.get_president_and_government_speaker_ids })
+        filters = filters.merge({ not_speaker_ids: Speaker.get_most_important_speaker_ids })
       end
 
       page = @params[:page] || 1

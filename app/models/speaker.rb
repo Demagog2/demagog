@@ -112,14 +112,17 @@ class Speaker < ApplicationRecord
   end
 
   # TODO: Remove hardcoded values and add to database with editable admin ui
-  def self.get_president_and_government_speaker_ids
+  def self.get_most_important_speaker_ids
     [
+      # president
       168, # Milos Zeman
+
+      # government
       183, # Andrej Babis
       41, # Jan Hamacek
       495, # Alena Schillerova
       496, # Karel Havlicek
-      # Jakub Kulhanek
+      # Jakub Kulhanek (not currently among speakers)
       497, # Lubomir Metnar
       215, # Marie Benesova
       444, # Richard Brabec
@@ -128,7 +131,16 @@ class Speaker < ApplicationRecord
       490, # Robert Plaga
       479, # Klara Dostalova
       500, # Adam Vojtech
-      1 # Lubomir Zaoralek
+      1, # Lubomir Zaoralek
+
+      # leaders of parties in lower house of parliament, sorted by number of MPs
+      # ANO, Andrej Babis (already in government)
+      67, # ODS, Petr Fiala
+      506, # STAN, Vit Rakusan
+      133, # KDU-CSL, Marian Jurecka
+      180, # SPD, Tomio Okamura
+      502, # TOP 09, Marketa Pekarova Adamova
+      76 # Pirati, Ivan Bartos
     ]
   end
 end
