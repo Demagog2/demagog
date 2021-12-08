@@ -12,3 +12,14 @@ updates:
   - vaclavbohac
   target-branch: master
   versioning-strategy: lockfile-only
+- package-ecosystem: npm
+  directory: "/"
+  labels:
+    - "dependencies"
+  schedule:
+    interval: 'daily'
+  open-pull-requests-limit: 10
+  reviewers:
+  - vaclavbohac
+  target-branch: master
+  versioning-strategy: lockfile-only
