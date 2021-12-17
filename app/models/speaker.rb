@@ -118,29 +118,27 @@ class Speaker < ApplicationRecord
       168, # Milos Zeman
 
       # government
-      183, # Andrej Babis
-      41, # Jan Hamacek
-      495, # Alena Schillerova
-      496, # Karel Havlicek
-      # Jakub Kulhanek (not currently among speakers)
-      497, # Lubomir Metnar
-      215, # Marie Benesova
-      444, # Richard Brabec
-      498, # Jana Malacova
-      218, # Miroslav Toman
-      490, # Robert Plaga
-      479, # Klara Dostalova
-      500, # Adam Vojtech
-      1, # Lubomir Zaoralek
-
-      # leaders of parties in lower house of parliament, sorted by number of MPs
-      # ANO, Andrej Babis (already in government)
       67, # ODS, Petr Fiala
       506, # STAN, Vit Rakusan
       133, # KDU-CSL, Marian Jurecka
-      180, # SPD, Tomio Okamura
-      502, # TOP 09, Marketa Pekarova Adamova
-      76 # Pirati, Ivan Bartos
+      461, # TOP-09, Vlastimil Valek
+      76, # Pirati, Ivan Bartos
+      13, # ODS, Zbynek Stanjura
+      78, # ODS, Pavel Blazek
+      615, # STAN, Jozef Sikela
+      354, # ODS, Jana Cernochova
+      480, # Pirati, Jan Lipavsky
+      443, # ODS, Martin Kupka
+      10, # STAN, Petr Gazdik
+      311, # ODS, Martin Baxa
+      421, # KDU-CSL, Anna Hubackova
+      548, # Mikulas Bek
+      156, # TOP-09, Helena Langsadlova
+      616, # Michal Salomoun
+
+      # leaders of parties in lower house of parliament, sorted by number of MPs
+      183, # ANO, Andrej Babis
+      180 # SPD, Tomio Okamura
     ]
   end
 end
