@@ -8,6 +8,22 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', '<%= google_analytics_presenter.tracking_id %>');
+    gtag('consent', 'default', {
+      'analytics_storage': 'denied'
+    });
+
+    gtag(
+      'config',
+      '<%= google_analytics_presenter.tracking_id %>',
+      {
+        // Means that IP addresses sent to Google Analytics are anonymized
+        // by zeroing the last IP address octet (192.168.12.34 will be sent
+        // as 192.168.12.0)
+        'anonymize_ip': true,
+
+        // Make sure the advertising features are turned off
+        'allow_google_signals': false
+      }
+    );
   </script>
 <% end %>

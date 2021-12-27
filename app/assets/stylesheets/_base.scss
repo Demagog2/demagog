@@ -61,14 +61,6 @@ a:hover {
   text-decoration: underline;
 }
 
-footer {
-  overflow: hidden;
-}
-
-footer p {
-  grid-column: 1 / -1;
-}
-
 h1 {
   font-size: var(--large-typesize);
   margin: 2rem 0 0.5rem;
