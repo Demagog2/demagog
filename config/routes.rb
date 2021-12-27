@@ -96,6 +96,8 @@ Rails.application.routes.draw do
 
   get "vyhledavani" => "search#index", as: "search"
 
+  post "cookies/analytics" => "cookies#analytics"
+
   root to: "homepage#index"
 
   # Shortcut redirect
