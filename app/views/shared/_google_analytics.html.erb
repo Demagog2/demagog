@@ -1,0 +1,29 @@
+<% google_analytics_presenter = GoogleAnalyticsPresenter.new %>
+
+<% if google_analytics_presenter.enabled_tracking_code %>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-28873713-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('consent', 'default', {
+      'analytics_storage': 'denied'
+    });
+
+    gtag(
+      'config',
+      '<%= google_analytics_presenter.tracking_id %>',
+      {
+        // Means that IP addresses sent to Google Analytics are anonymized
+        // by zeroing the last IP address octet (192.168.12.34 will be sent
+        // as 192.168.12.0)
+        'anonymize_ip': true,
+
+        // Make sure the advertising features are turned off
+        'allow_google_signals': false
+      }
+    );
+  </script>
+<% end %>

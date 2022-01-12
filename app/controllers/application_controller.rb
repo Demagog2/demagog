@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :set_raven_context
   before_action :set_paper_trail_whodunnit
   before_action :set_locale
+  before_action :pass_cookies_to_view
 
   protect_from_forgery with: :exception
 
@@ -35,5 +36,9 @@ class ApplicationController < ActionController::Base
 
     def set_locale
       I18n.locale = I18n.default_locale
+    end
+
+    def pass_cookies_to_view
+      @cookies = cookies
     end
 end
