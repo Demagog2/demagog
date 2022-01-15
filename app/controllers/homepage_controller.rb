@@ -7,11 +7,8 @@ class HomepageController < FrontendController
     unless params[:page].present?
       @cover_story = cover_story
       @interesting_statements = Statement.interesting_statements
-      @show_promises = true
-      @promises_stats = get_promises_stats
     else
       @page_number = params[:page]
-      @show_promises = false
     end
 
     @articles =
@@ -25,23 +22,4 @@ class HomepageController < FrontendController
     # TODO: revisit cache headers and do properly
     # expires_in 1.hour, public: true
   end
-
-  protected
-    def get_promises_stats
-      keys = [
-        PromiseRating::FULFILLED,
-        PromiseRating::PARTIALLY_FULFILLED,
-        PromiseRating::BROKEN
-      ]
-
-      statements =
-        Statement.where(source_id: [562]).where(published: true).where(
-          assessments: { evaluation_status: Assessment::STATUS_APPROVED }
-        )
-          .includes(:assessment, assessment: :promise_rating)
-
-      keys.index_with do |key|
-        statements.where(assessments: { promise_ratings: { key: key } }).count
-      end
-    end
 end
