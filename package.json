@@ -5,6 +5,9 @@
     "dev": "tsc --noEmit --watch",
     "lint": "tslint 'app/javascript/**/*.{ts,tsx}'"
   },
+  "engines": {
+    "node": "12.18.x"
+  },
   "dependencies": {
     "@babel/core": "^7.7.7",
     "@babel/polyfill": "^7.8.7",
