@@ -77,7 +77,7 @@ jobs:
           POSTGRES_USER: circleci-demo-go
           POSTGRES_DB: demagog_test
 
-      - image: elasticsearch:7.0.1
+      - image: elasticsearch:7.3.0
         environment:
           - discovery.type=single-node
           - bootstrap.memory_lock=true
