@@ -107,8 +107,8 @@ gem "sentry-rails"
 gem "sentry-sidekiq"
 
 # Add elasticsearch integration
-gem "elasticsearch-model", "~> 7.0.0"
-gem "elasticsearch-rails", "~> 7.0.0"
+gem "elasticsearch-model", "~> 7.2.0"
+gem "elasticsearch-rails", "~> 7.2.0"
 
 # Posting to Slack
 gem "slack-notifier"
