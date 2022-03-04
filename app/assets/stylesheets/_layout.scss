@@ -40,8 +40,48 @@
     width: 100%;
   }
 
-  article.preview .illustration {
-    display: none;
+  article.preview {
+    margin-top: 35px;
+
+    .illustration {
+      max-width: 200px;
+      display: block;
+      position: relative;
+
+      img {
+        display: block;
+      }
+
+      .factcheck-video-label {
+        position: absolute;
+        left: 8px;
+        bottom: 8px;
+        height: 40px;
+        margin-right: 8px;
+        background-color: rgba(40, 40, 40, 0.8);
+        display: flex;
+        align-items: center;
+
+        .factcheck-video-label-play-icon {
+          height: 16px;
+          margin-left: 12px;
+        }
+
+        .factcheck-video-label-text {
+          margin-left: 8px;
+          margin-right: 12px;
+          color: white;
+          font-size: 14px;
+          line-height: 1.25;
+        }
+      }
+    }
+
+    .rest {
+      h2 {
+        margin-top: 16px;
+      }
+    }
   }
 
   #twitter, #facebook {
@@ -229,5 +269,9 @@
   article.preview {
     margin-top: 3rem;
     flex: 1 0 100%;
+
+    &.smaller-gaps {
+      margin-top: 25px;
+    }
   }
 }

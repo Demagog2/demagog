@@ -1,6 +1,6 @@
 <% article_presenter = ArticlePresenter.new(article) %>
 
-<article class="preview s-article">
+<article class="preview s-article<% if local_assigns[:smaller_gaps] == true %> smaller-gaps<% end %>">
   <a title="<%= article.title %>" href="<%= article_path(article) %>" class="illustration">
     <% if article.illustration.attached? %>
       <img class="lazy-load" data-src="<%= url_for(article.illustration) %>" alt="Ilustrační obrázek k výstupu <%= article.title %>">
@@ -16,16 +16,18 @@
   </a>
 
   <div class="rest">
-    <div class="speakers">
-      <% if article.article_type.name == ArticleType::DEFAULT %>
-        <% for source_speaker in article_presenter.factcheck_source_speakers %>
-          <%= render(partial: 'shared/portrait', object: source_speaker, as: :speaker) %>
+    <% unless local_assigns[:show_portraits] == false %>
+      <div class="speakers">
+        <% if article.article_type.name == ArticleType::DEFAULT %>
+          <% for source_speaker in article_presenter.factcheck_source_speakers %>
+            <%= render(partial: 'shared/portrait', object: source_speaker, as: :speaker) %>
+          <% end %>
         <% end %>
-      <% end %>
-      <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
-        <%= render(partial: 'shared/portrait', object: article.single_statement.source_speaker, as: :speaker) %>
-      <% end %>
-    </div>
+        <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
+          <%= render(partial: 'shared/portrait', object: article.single_statement.source_speaker, as: :speaker) %>
+        <% end %>
+      </div>
+    <% end %>
 
     <h2 class="s-title"><%= link_to(article.title, article_path(article), class: "title") %></h2>
 
