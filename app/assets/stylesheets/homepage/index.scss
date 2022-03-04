@@ -1,0 +1,228 @@
+.container-homepage-index {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  
+  > .intro {
+    margin: 50px 0 0 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    > .intro-text {
+      flex: 1 0 0px;
+      margin-right: 25px;
+
+      > p {
+        font-size: 20px;
+      }
+    }
+
+    > .intro-video {
+      flex: 1 0 0px;
+
+      > button {
+        position: relative;
+        display: block;
+        margin: 0;
+        padding: 0;
+        border: none;
+        background: none;
+        cursor: pointer;
+
+        > img {
+          display: block;
+          width: 100%;
+        }
+
+        > .button-label {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 270px;
+          height: 62px;
+          margin: -31px 0 0 -135px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: rgba(0, 0, 0, 0.7);
+          border-radius: 100px;
+          color: white;
+          font-size: 20px;
+          line-height: 1.4;
+          font-weight: 700;
+
+          &:before {
+            content: '';
+            display: block;
+            width: 21px;
+            height: 26px;
+            margin-right: 20px;
+            background-image: image-url('homepage-intro-video-play-icon.svg');
+          }
+        }
+
+        &:hover, &:active {
+          > .button-label {
+            background: rgba(0, 0, 0, 0.8);
+          }
+        }
+      }
+    }
+
+    @media (max-width: 899.9px) {
+      margin-top: 0;
+      flex-direction: column;
+
+      > .intro-text {
+        margin-right: 0;
+        margin-bottom: 15px;
+      }
+    }
+  }
+
+  .intro-video-modal {
+    display: none;
+    &.is-open { display: block; }
+
+    .intro-video-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.7);
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .intro-video-modal-container {
+      padding: 10px 0 30px 0;
+      width: 100vw;
+      max-height: 100vh;
+      overflow-y: auto;
+      box-sizing: border-box;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .close-button {
+      align-self: flex-end;
+      display: block;
+      border: none;
+      background: none;
+      padding: 0;
+      margin: 0 0 8px 0;
+      font-family: var(--font-family);
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 1;
+      cursor: pointer;
+      color: #ffffff;
+      outline: none;
+
+      &:hover, &:active {
+        color: #f26538;
+      }
+    }
+
+    .youtube-player-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+
+      > iframe, > object, > embed {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  .articles-and-sidebar {
+    margin: 80px 0 0 0;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+    > .articles-list {
+      flex: 1 0 0px;
+      margin-right: 25px;
+
+      > h1 {
+        margin-top: 0;
+      }
+    }
+
+    > .sidebar {
+      flex: 0 0 250px;
+      padding: 25px 25px 20px 25px;
+      background: #E1EBF3;
+
+      > .donate-section {
+        > h2 {
+          margin-top: 0;
+        }
+      }
+
+      > .subscribe-to-newsletter-section {
+        margin-top: 40px;
+      }
+    }
+
+    @media (max-width: 899.9px) {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  .subscribe-to-newsletter-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+
+    .email-input {
+      border: 1px solid var(--violet);
+      margin: 0;
+      padding: 0.5rem 0.9rem;
+      font-size: var(--normal-typesize);
+      font-family: var(--font-family);
+      line-height: 1.4;
+      color: var(--violet);
+    }
+
+    .submit-button {
+      align-self: flex-start;
+      font-size: var(--normal-typesize);
+      font-family: var(--font-family);
+      line-height: 1.4;
+      color: var(--orange);
+      background: none;
+      border-radius: 0;
+      border: 2px solid var(--orange);
+      margin: 10px 0 0 0;
+      padding: 0.4rem 0.9rem;
+      cursor: pointer;
+
+      &:hover, &:active {
+        background-color: var(--orange);
+        color: #ffffff;
+      }
+    }
+
+    .accept-terms {
+      margin-top: 15px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+  }
+
+}

@@ -98,7 +98,10 @@ Rails.application.routes.draw do
 
   post "cookies/analytics" => "cookies#analytics"
 
-  root to: "homepage#index"
+  # Temporary new homepage
+  get "nova-homepage" => "homepage#index"
+
+  root to: "homepage#index_old"
 
   # Shortcut redirect
   get "workshopy", to: redirect("/diskuze/workshopy-demagogcz")

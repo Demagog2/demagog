@@ -16,7 +16,10 @@
 
       <%= yield %>
 
-      <%= render partial: "shared/donate_and_subscribe" %>
+      <% unless content_for?(:hide_layout_donate_and_subscribe) %>
+        <%= render partial: "shared/donate_and_subscribe" %>
+      <% end %>
+
       <%= render partial: "shared/partners" %>
     </div>
       
