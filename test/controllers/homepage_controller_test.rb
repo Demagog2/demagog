@@ -38,10 +38,8 @@ class HomepageControllerTest < ActionDispatch::IntegrationTest
 
     get root_url
     assert_response :success
-    assert_select ".container-homepage-cover_story a", text: article_two.title
     assert_select "h2.s-title", text: article_one.title, count: 1
-    # Not listed cause it's cover story
-    assert_select "h2.s-title", text: article_two.title, count: 0
+    assert_select "h2.s-title", text: article_two.title, count: 1
     # Not listed cause it's deleted
     assert_select "h2.s-title", text: article_three.title, count: 0
   end
