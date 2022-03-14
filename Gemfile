@@ -90,7 +90,7 @@ gem "sprockets", "~> 3.7.2"
 gem "rubyzip", "~> 1.3.0"
 
 # Enable image processing for active storage
-gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 1.12"
 
 # For migration progress display
 gem "ruby-progressbar"

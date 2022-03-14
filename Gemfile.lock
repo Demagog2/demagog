@@ -201,8 +201,8 @@ GEM
       cliver (~> 0.3)
       concurrent-ruby (~> 1.1)
       websocket-driver (>= 0.6, < 0.8)
-    ffi (1.15.4)
-    ffi (1.15.4-x86-mingw32)
+    ffi (1.15.5)
+    ffi (1.15.5-x86-mingw32)
     formatador (0.3.0)
     friendly_id (5.1.0)
       activerecord (>= 4.0.0)
@@ -243,7 +243,7 @@ GEM
     http_parser.rb (0.6.0)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
-    image_processing (1.12.1)
+    image_processing (1.12.2)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
     jaro_winkler (1.5.4)
@@ -421,7 +421,7 @@ GEM
       rubocop-performance (~> 1.11)
       rubocop-rails (~> 2.0)
     ruby-progressbar (1.11.0)
-    ruby-vips (2.1.0)
+    ruby-vips (2.1.4)
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
     ruby_dep (1.5.0)
@@ -547,7 +547,7 @@ DEPENDENCIES
   guard-livereload (~> 2.5)
   guard-minitest
   htmlbeautifier
-  image_processing (~> 1.2)
+  image_processing (~> 1.12)
   kaminari
   listen (>= 3.0.5, < 3.2)
   lograge
