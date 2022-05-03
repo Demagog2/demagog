@@ -189,7 +189,7 @@ class PromisesController < FrontendController
     raise ActionController::RoutingError.new("Not Found") if definition.nil? || params[:slug] != "druha-vlada-andreje-babise"
 
     statements = definition[:get_statements].call
-    pages_by_id = statements.map { |s| [s.id, druha_vlada_andreje_babise_get_promise_source_page(s)] }.to_h
+    pages_by_id = statements.to_h { |s| [s.id, druha_vlada_andreje_babise_get_promise_source_page(s)] }
 
     statements_data = statements.map do |statement|
       {
