@@ -129,7 +129,7 @@ class Speaker < ApplicationRecord
       354, # ODS, Jana Cernochova
       480, # Pirati, Jan Lipavsky
       443, # ODS, Martin Kupka
-      10, # STAN, Petr Gazdik
+      691, # STAN, Vladimir Balas
       311, # ODS, Martin Baxa
       421, # KDU-CSL, Anna Hubackova
       548, # Mikulas Bek
