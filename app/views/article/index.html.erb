@@ -34,7 +34,7 @@
 
     <% if @article.article_type.name == ArticleType::FACEBOOK_FACTCHECK %>
       <p>
-        <span class="label facebook-factcheck">Facebook factcheck</span> <i><%= raw(l(@article.published_at, format: :long)) %></i>
+        <span class="label facebook-factcheck">Meta factcheck</span> <i><%= raw(l(@article.published_at, format: :long)) %></i>
       </p>
     <% end %>
   </section>
