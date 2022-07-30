@@ -1,5 +1,10 @@
 development: &default
   host: <%= ENV.fetch("ES_URL") { "http://localhost:9200/" } %>
+  transport_options:
+    ssl:
+      # In production the elasticsearch is using self-signed certificates,
+      # so do not verify those
+      verify: false
 
 test:
   <<: *default
