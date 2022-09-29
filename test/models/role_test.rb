@@ -3,7 +3,15 @@
 require "test_helper"
 
 class RoleTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "returns true if specific role has given permission" do
+    role = create(:role, :social_media_manager)
+
+    assert role.authorized?("users:edit")
+  end
+
+  test "returns false if specific role has not given permission" do
+    role = create(:role, :intern)
+
+    assert_not role.authorized?("users:edit")
+  end
 end

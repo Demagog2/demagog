@@ -2,6 +2,14 @@
 
 FactoryBot.define do
   factory :role do
-    key { "admin" }
+    key { Role::ADMIN }
+
+    trait :social_media_manager do
+      key { Role::SOCIAL_MEDIA_MANAGER }
+    end
+
+    trait :intern do
+      key { Role::INTERN }
+    end
   end
 end
