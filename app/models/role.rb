@@ -65,6 +65,10 @@ class Role < ApplicationRecord
 
   has_and_belongs_to_many :users, join_table: :users_roles
 
+  def authorized?(permission)
+    permissions.include?(permission)
+  end
+
   def permissions
     # Hardcoded now, can be turned into dynamic permissions assigning if needed
     case key
@@ -81,6 +85,7 @@ class Role < ApplicationRecord
           pages:view
           statements:view-unapproved-evaluation
           users:view
+          users:edit
           web_contents:view
         ]
     when PROOFREADER

@@ -88,7 +88,7 @@ FactoryBot.define do
       role_id { Role.find_by(key: Role::EXPERT).id }
     end
     trait :social_media_manager do
-      role_id { Role.find_by(key: Role::SOCIAL_MEDIA_MANAGER).id }
+      roles { build_list(:role, 1, :social_media_manager) }
     end
     trait :proofreader do
       role_id { Role.find_by(key: Role::PROOFREADER).id }
