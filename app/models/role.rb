@@ -85,7 +85,7 @@ class Role < ApplicationRecord
           pages:view
           statements:view-unapproved-evaluation
           users:view
-          users:edit
+          speakers:edit
           web_contents:view
         ]
     when PROOFREADER
