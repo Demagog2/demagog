@@ -7,7 +7,7 @@ module Utils
     test "#is_authorized" do
       ctx =  { current_user: build(:user, :social_media_manager) }
 
-      assert Auth.is_authorized(ctx, %w[users:view users:edit])
+      assert Auth.is_authorized(ctx, %w[speakers:view speakers:edit])
     end
   end
 end
