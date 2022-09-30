@@ -1,4 +1,4 @@
-FROM ruby:2.7.4-alpine3.12
+FROM ruby:2.7.6-alpine
 
 ENV RAILS_ENV production
 
@@ -31,7 +31,7 @@ RUN PRODUCTION_DATABASE_URL=postgresql:doesnt_exist SECRET_KEY_BASE=does-not-mat
 RUN yarn cache clean
 RUN rm -rf node_modules
 
-FROM ruby:2.7.4-alpine3.12
+FROM ruby:2.7.6-alpine
 LABEL maintainer="bohac.v@gmail.com"
 
 RUN apk --no-cache add ca-certificates postgresql-dev nodejs tzdata

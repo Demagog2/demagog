@@ -7,7 +7,7 @@ jobs:
   build-job:
     docker:
       # specify the version you desire here
-      - image: circleci/ruby:2.7.4-node
+      - image: circleci/ruby:2.7.6-node
         environment:
           BUNDLE_PATH: vendor/bundle
           RAILS_ENV: test
@@ -65,7 +65,7 @@ jobs:
 
   test-job:
     docker:
-      - image: circleci/ruby:2.7.4-node
+      - image: circleci/ruby:2.7.6-node
         environment:
           DB_HOST: localhost
           DB_USERNAME: circleci-demo-go
