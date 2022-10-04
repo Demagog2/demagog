@@ -3,7 +3,7 @@
 <% if speaker_presenter.has_portrait? %>
   <figure class="portrait">
     <% if local_assigns[:lazy_load_images] == false %>
-      <img class="lazy-load" data-src="<%= speaker_presenter.portrait_url %>" alt="<%= speaker_presenter.full_name %>">
+      <img loading="lazy" src="<%= speaker_presenter.portrait_url %>" alt="<%= speaker_presenter.full_name %>">
     <% else %>
       <img src="<%= speaker_presenter.portrait_url %>" alt="<%= speaker_presenter.full_name %>" />
     <% end %>

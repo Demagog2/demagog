@@ -29,22 +29,6 @@ import 'intersection-observer/intersection-observer';
 import '../application';
 
 document.addEventListener('DOMContentLoaded', () => {
-  /**
-   * Render images if they are in the view port
-   * @param {IntersectionObserverEntry[]} entries
-   */
-  function renderIntersectingImages(entries) {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.setAttribute('src', entry.target.getAttribute('data-src'));
-      }
-    });
-  }
-
-  const io = new IntersectionObserver(renderIntersectingImages);
-
-  [].slice.call(document.querySelectorAll('img.lazy-load')).forEach(io.observe.bind(io));
-
   function lazySocials(el, code) {
     if (window.innerWidth >= 900 && el) {
       var fbIo = new IntersectionObserver(renderFb);
