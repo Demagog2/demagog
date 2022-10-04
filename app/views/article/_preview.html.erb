@@ -3,7 +3,7 @@
 <article class="preview s-article<% if local_assigns[:smaller_gaps] == true %> smaller-gaps<% end %>">
   <a title="<%= article.title %>" href="<%= article_path(article) %>" class="illustration">
     <% if article.illustration.attached? %>
-      <img class="lazy-load" data-src="<%= url_for(article.illustration) %>" alt="Ilustrační obrázek k výstupu <%= article.title %>">
+      <img loading="lazy" src="<%= url_for(article.illustration) %>" alt="Ilustrační obrázek k výstupu <%= article.title %>">
     <% else %>
       <img src="<%= asset_path("article-illustration-default-preview.svg") %>" alt="Ilustrační obrázek k výstupu <%= article.title %>">
     <% end %>
