@@ -27,4 +27,11 @@ namespace :elasticsearch do
       model_class.__elasticsearch__.delete_index! if model_class.__elasticsearch__.index_exists?
     end
   end
+
+  desc "Create all indexes"
+  task :create_indexes, [] => [:environment] do |task, args|
+    [Article, Speaker, Statement].each do |model_class|
+      model_class.__elasticsearch__.create_index! unless model_class.__elasticsearch__.index_exists?
+    end
+  end
 end

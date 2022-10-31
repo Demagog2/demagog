@@ -107,10 +107,8 @@ gem "sentry-rails"
 gem "sentry-sidekiq"
 
 # Add elasticsearch integration
-# NOTE: opting for version 7.1 as on 7.2.1 creation of indexes fails with undefined
-#       transport error, see https://github.com/elastic/elasticsearch-rails/issues/1004
-gem "elasticsearch-model", "~> 7.1.0"
-gem "elasticsearch-rails", "~> 7.1.0"
+gem "elasticsearch-model", "~> 7.2.0"
+gem "elasticsearch-rails", "~> 7.2.0"
 gem "elasticsearch", "~> 7"
 
 # Posting to Slack
