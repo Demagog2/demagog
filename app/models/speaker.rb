@@ -130,6 +130,7 @@ class Speaker < ApplicationRecord
       480, # Pirati, Jan Lipavsky
       443, # ODS, Martin Kupka
       691, # STAN, Vladimir Balas
+      710, # KDU-CSL, Zdenek Nekula
       311, # ODS, Martin Baxa
       421, # KDU-CSL, Anna Hubackova
       548, # Mikulas Bek
