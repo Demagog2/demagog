@@ -111,6 +111,7 @@ gem "sentry-sidekiq"
 #       transport error, see https://github.com/elastic/elasticsearch-rails/issues/1004
 gem "elasticsearch-model", "~> 7.1.0"
 gem "elasticsearch-rails", "~> 7.1.0"
+gem "elasticsearch", "~> 7"
 
 # Posting to Slack
 gem "slack-notifier"
