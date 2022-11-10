@@ -4,9 +4,6 @@ require "test_helper"
 
 class SpeakerListItemComponentTest < ViewComponent::TestCase
   def test_component_renders_something_useful
-    # assert_equal(
-    #   %(<span>Hello, components!</span>),
-    #   render_inline(SpeakerListItemComponent.new(message: "Hello, components!")).css("span").to_html
-    # )
+    render_inline(SpeakerListItemComponent.new(speaker: build(:speaker)))
   end
 end
