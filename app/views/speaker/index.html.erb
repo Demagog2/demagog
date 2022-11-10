@@ -74,7 +74,7 @@ content_for(:description, "Za svou existenci Demagog.cz už ověřil výroky sto
       <% speaker_elastic_filterable_list_presenter.president_and_government_speakers.each do |speaker| %>
         <div class="speakers-list-item">
           <a href="<%= speaker_path(speaker) %>" class="portrait-link">
-            <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
+            <%= render(PortraitComponent.new(speaker: speaker)) %>
           </a>
           <h3 class="full-name">
             <%= speaker.full_name %>
@@ -101,7 +101,7 @@ content_for(:description, "Za svou existenci Demagog.cz už ověřil výroky sto
     <% speaker_elastic_filterable_list_presenter.paginated_speakers.each do |speaker| %>
       <div class="speakers-list-item">
         <a href="<%= speaker_path(speaker) %>" class="portrait-link">
-          <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
+          <%= render(PortraitComponent.new(speaker: speaker)) %>
         </a>
         <h3 class="full-name">
           <%= speaker.full_name %>

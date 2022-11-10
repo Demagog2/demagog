@@ -1,0 +1,5 @@
+<% if speaker_presenter.has_portrait? %>
+  <figure class="portrait">
+    <%= render(ImageComponent.new(src: speaker_presenter.portrait_url, alt: speaker_presenter.full_name, lazy: @lazy_loaded)) %>
+  </figure>
+<% end %>

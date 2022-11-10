@@ -1,6 +1,6 @@
  <a class="container-speaker-listed speaker s-speaker" href="<%= speaker_path(speaker) %>">
-  <%= render(partial: 'shared/portrait', object: speaker, as: :speaker) %>
-  <div>
+   <%= render(PortraitComponent.new(speaker: speaker)) %>
+   <div>
     <p class="name">
       <span class="name-inner">
         <%= speaker.full_name %>

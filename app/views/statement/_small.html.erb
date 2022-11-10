@@ -1,5 +1,5 @@
 <div class="statement-preview">
-  <%= render(partial: 'shared/portrait', object: statement.speaker, as: :speaker) %>
+  <%= render(PortraitComponent.new(speaker: statement.speaker)) %>
 
   <div>
     <p class="name">
