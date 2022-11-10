@@ -72,54 +72,14 @@ content_for(:description, "Za svou existenci Demagog.cz už ověřil výroky sto
       <h2 class="speakers-list-group-header">Prezident, vláda a&nbsp;předsedové sněmovních stran a&nbsp;hnutí</h2>
 
       <% speaker_elastic_filterable_list_presenter.president_and_government_speakers.each do |speaker| %>
-        <div class="speakers-list-item">
-          <a href="<%= speaker_path(speaker) %>" class="portrait-link">
-            <%= render(PortraitComponent.new(speaker: speaker)) %>
-          </a>
-          <h3 class="full-name">
-            <%= speaker.full_name %>
-            <% if speaker.body %>(<%= speaker.body.short_name %>)<% end %>
-          </h3>
-          <% if !speaker.role.blank? %>
-            <div class="role">
-              <%= speaker.role %>
-            </div>
-          <% end %>
-          <div class="statements-count">
-            <%= speaker.factual_and_published_statements_count %>
-            <%= cs_pluralize(speaker.factual_and_published_statements_count, "výrok", "výroky", "výroků") %>
-          </div>
-          <a href="<%= speaker_path(speaker) %>" class="profile-link">
-            Otevřít profil →
-          </a>
-        </div>
+        <%= render(SpeakerListItemComponent.new(speaker: speaker)) %>
       <% end %>
 
       <h2 class="speakers-list-group-header">Další politici a političky</h2>
     <% end %>
 
     <% speaker_elastic_filterable_list_presenter.paginated_speakers.each do |speaker| %>
-      <div class="speakers-list-item">
-        <a href="<%= speaker_path(speaker) %>" class="portrait-link">
-          <%= render(PortraitComponent.new(speaker: speaker)) %>
-        </a>
-        <h3 class="full-name">
-          <%= speaker.full_name %>
-          <% if speaker.body %>(<%= speaker.body.short_name %>)<% end %>
-        </h3>
-        <% if !speaker.role.blank? %>
-          <div class="role">
-            <%= speaker.role %>
-          </div>
-        <% end %>
-        <div class="statements-count">
-          <%= speaker.factual_and_published_statements_count %>
-          <%= cs_pluralize(speaker.factual_and_published_statements_count, "výrok", "výroky", "výroků") %>
-        </div>
-        <a href="<%= speaker_path(speaker) %>" class="profile-link">
-          Otevřít profil →
-        </a>
-      </div>
+      <%= render(SpeakerListItemComponent.new(speaker: speaker)) %>
     <% end %>
   </div>
 

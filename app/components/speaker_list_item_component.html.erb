@@ -1,0 +1,23 @@
+<div class="speakers-list-item">
+  <%= link_to speaker_path(@speaker), class: 'portrait-list' do %>
+    <%= render(PortraitComponent.new(speaker: @speaker)) %>
+  <% end %>
+
+  <h3 class="full-name">
+    <%= @speaker.full_name %>
+    <% if @speaker.body %>(<%= @speaker.body.short_name %>)<% end %>
+  </h3>
+
+  <% unless @speaker.role.blank? %>
+    <div class="role">
+      <%= @speaker.role %>
+    </div>
+  <% end %>
+
+  <div class="statements-count">
+    <%= @speaker.factual_and_published_statements_count %>
+    <%= cs_pluralize(@speaker.factual_and_published_statements_count, "výrok", "výroky", "výroků") %>
+  </div>
+
+  <%= link_to 'Otevřít profil →', speaker_path(@speaker), class: 'profile-link' %>
+</div>
