@@ -9,7 +9,7 @@
   data-action="resize@window->statement--show#handleWindowResize"
 >
   <a href="<%= speaker_path(@statement.speaker) %>" class="speaker">
-    <%= render(partial: 'shared/portrait', object: @statement.speaker, as: :speaker) %>
+    <%= render(PortraitComponent.new(speaker: @statement.speaker)) %>
     <div class="name-and-role">
       <div class="name">
         <%= @statement.source_speaker.full_name %>

@@ -11,7 +11,7 @@ content_for(
   <section class="profile">
     <div class="profile-header">
       <div class="portrait-wrapper">
-        <%= render(partial: 'shared/portrait', object: @speaker, as: :speaker) %>
+        <%= render(PortraitComponent.new(speaker: @speaker)) %>
       </div>
 
       <div class="name-and-role">

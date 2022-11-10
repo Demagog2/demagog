@@ -20,11 +20,11 @@
       <div class="speakers">
         <% if article.article_type.name == ArticleType::DEFAULT %>
           <% for source_speaker in article_presenter.factcheck_source_speakers %>
-            <%= render(partial: 'shared/portrait', object: source_speaker, as: :speaker) %>
+            <%= render(PortraitComponent.new(speaker: source_speaker)) %>
           <% end %>
         <% end %>
         <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
-          <%= render(partial: 'shared/portrait', object: article.single_statement.source_speaker, as: :speaker) %>
+          <%= render(PortraitComponent.new(speaker: article.single_statement.source_speaker)) %>
         <% end %>
       </div>
     <% end %>

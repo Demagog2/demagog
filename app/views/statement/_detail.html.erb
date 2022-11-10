@@ -9,7 +9,7 @@
   id="<%= statement.id %>"
 >
   <a href="<%= speaker_path(statement.speaker) %>" class="speaker">
-    <%= render(partial: 'shared/portrait', object: statement.speaker, as: :speaker) %>
+    <%= render(PortraitComponent.new(speaker: statement.speaker)) %>
     <h3>
       <%= statement.source_speaker.full_name %>
       <% if statement.source_speaker.body %>(<%= statement.source_speaker.body.short_name %>)<% end %>

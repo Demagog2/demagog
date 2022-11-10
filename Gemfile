@@ -164,3 +164,5 @@ end
 # graphiql-rails 1.5 and up fails in production, see issue:
 # https://github.com/rmosolgo/graphiql-rails/issues/58
 gem "graphiql-rails", "~> 1.4.11"
+
+gem "view_component", "~> 2.75"

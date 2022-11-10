@@ -11,7 +11,7 @@
   </div>
 
   <div class="speaker-portrait-wrapper">
-    <%= render(partial: 'shared/portrait', object: @statement.source_speaker.speaker, as: :speaker) %>
+    <%= render(PortraitComponent.new(speaker: @statement.source_speaker.speaker)) %>
   </div>
 
   <div class="veracity-badge">
@@ -29,4 +29,3 @@
     <% end %>
   </div>
 </div>
-
