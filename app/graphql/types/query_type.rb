@@ -8,53 +8,15 @@ class Types::QueryType < GraphQL::Schema::Object
   # Add root-level fields here.
   # They will be entry points for queries on your schema.
 
+  include Schema::Sources::SourceField
+  include Schema::Sources::SourcesField
+
   field :bootstrap, Types::BootstrapType, null: false
 
   def bootstrap
     raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
     Bootstrap.new(ENV["DEMAGOG_IMAGE_SERVICE_URL"] || "")
-  end
-
-  field :source, Types::SourceType, null: false do
-    argument :id, Int, required: true
-  end
-
-  def source(id:)
-    Source.find(id)
-  rescue ActiveRecord::RecordNotFound
-    raise GraphQL::ExecutionError.new("Could not find Source with id=#{id}")
-  end
-
-  field :sources, [Types::SourceType], null: false do
-    argument :limit, Int, required: false, default_value: 10
-    argument :offset, Int, required: false, default_value: 0
-    argument :name, String, required: false
-    argument :include_ones_without_published_statements,
-             Boolean,
-             default_value: false, required: false
-  end
-
-  def sources(args)
-    sources =
-      Source.includes(:medium, :media_personalities).order(released_at: :desc).offset(args[:offset])
-        .limit(args[:limit])
-
-    if args[:name].present?
-      # Source name is internal
-      raise Errors::AuthenticationNeededError.new unless context[:current_user]
-
-      sources = sources.matching_name(args[:name])
-    end
-
-    if args[:include_ones_without_published_statements]
-      # Public cannot access sources without published statements
-      raise Errors::AuthenticationNeededError.new unless context[:current_user]
-
-      return sources
-    end
-
-    sources.select { |source| source.statements.published.count > 0 }
   end
 
   field :media, [Types::MediumType], null: false do
