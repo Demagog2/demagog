@@ -222,14 +222,14 @@ GEM
     graphiql-rails (1.4.11)
       railties
       sprockets-rails
-    graphlient (0.5.0)
+    graphlient (0.6.0)
       faraday (>= 1.0)
       faraday_middleware
       graphql-client
-    graphql (1.12.20)
-    graphql-client (0.16.0)
+    graphql (2.0.15)
+    graphql-client (0.18.0)
       activesupport (>= 3.0)
-      graphql (~> 1.8)
+      graphql
     guard (2.18.0)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
