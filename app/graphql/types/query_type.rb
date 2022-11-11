@@ -11,52 +11,17 @@ class Types::QueryType < GraphQL::Schema::Object
   include Schema::Sources::SourceField
   include Schema::Sources::SourcesField
 
+  include Schema::Media::MediumField
+  include Schema::Media::MediaField
+  include Schema::Media::MediaPersonalityField
+  include Schema::Media::MediaPersonalitiesField
+
   field :bootstrap, Types::BootstrapType, null: false
 
   def bootstrap
     raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
     Bootstrap.new(ENV["DEMAGOG_IMAGE_SERVICE_URL"] || "")
-  end
-
-  field :media, [Types::MediumType], null: false do
-    argument :name, String, required: false
-  end
-
-  def media(name:)
-    media = Medium.order(name: :asc)
-
-    name ? media.matching_name(name) : media
-  end
-
-  field :medium, Types::MediumType, null: false do
-    argument :id, ID, required: true
-  end
-
-  def medium(id:)
-    Medium.find(id)
-  rescue ActiveRecord::RecordNotFound
-    raise GraphQL::ExecutionError.new("Could not find Medium with id=#{args[:id]}")
-  end
-
-  field :media_personalities, [Types::MediaPersonalityType], null: false do
-    argument :name, String, required: false
-  end
-
-  def media_personalities(**args)
-    media_personalities = MediaPersonality.order(name: :asc)
-
-    args[:name] ? media_personalities.matching_name(args[:name]) : media_personalities
-  end
-
-  field :media_personality, Types::MediaPersonalityType, null: false do
-    argument :id, ID, required: true
-  end
-
-  def media_personality(id:)
-    MediaPersonality.find(id)
-  rescue ActiveRecord::RecordNotFound
-    raise GraphQL::ExecutionError.new("Could not find MediaPersonality with id=#{id}")
   end
 
   field :speaker, Types::SpeakerType, null: false do
