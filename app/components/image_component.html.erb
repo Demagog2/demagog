@@ -1,5 +1,5 @@
 <% if @lazy %>
-  <%= image_tag  @src, alt: @alt %>
+  <%= image_tag  @src, alt: @alt, loading: "lazy" %>
 <% else %>
-  <%= image_tag  @src, alt: @alt, lazy: 'loading' %>
+  <%= image_tag  @src, alt: @alt %>
 <% end %>
