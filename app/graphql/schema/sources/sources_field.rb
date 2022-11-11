@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Schema::Sources::SourcesField
   extend ActiveSupport::Concern
 
@@ -32,6 +34,5 @@ module Schema::Sources::SourcesField
 
       sources.select { |source| source.statements.published.count > 0 }
     end
-
   end
 end
