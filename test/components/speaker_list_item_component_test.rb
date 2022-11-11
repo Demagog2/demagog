@@ -4,6 +4,10 @@ require "test_helper"
 
 class SpeakerListItemComponentTest < ViewComponent::TestCase
   def test_component_renders_something_useful
-    render_inline(SpeakerListItemComponent.new(speaker: build(:speaker)))
+    speaker = build(:speaker)
+
+    render_inline(SpeakerListItemComponent.new(speaker: speaker))
+
+    assert_text(speaker.full_name)
   end
 end
