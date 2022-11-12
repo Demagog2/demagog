@@ -16,53 +16,15 @@ class Types::QueryType < GraphQL::Schema::Object
   include Schema::Media::MediaPersonalityField
   include Schema::Media::MediaPersonalitiesField
 
+  include Schema::Speakers::SpeakerField
+  include Schema::Speakers::SpeakersField
+
   field :bootstrap, Types::BootstrapType, null: false
 
   def bootstrap
     raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
     Bootstrap.new(ENV["DEMAGOG_IMAGE_SERVICE_URL"] || "")
-  end
-
-  field :speaker, Types::SpeakerType, null: false do
-    argument :id, Int, required: true
-  end
-
-  def speaker(id:)
-    Speaker.find(id)
-  rescue ActiveRecord::RecordNotFound
-    raise GraphQL::ExecutionError.new("Could not find Speaker with id=#{id}")
-  end
-
-  field :speakers, [Types::SpeakerType], null: false do
-    argument :limit, Int, required: false, default_value: 10
-    argument :offset, Int, required: false, default_value: 0
-    argument :party, Int, required: false
-    argument :body, Int, required: false
-    argument :name, String, required: false
-    argument :osoba_id,
-             String,
-             required: false,
-             description: "Temporary IDs from Hlidac statu, please use Wikidata ID instead"
-    argument :wikidata_id, String, required: false
-  end
-
-  def speakers(args)
-    speakers = Speaker.offset(args[:offset]).limit(args[:limit]).order(last_name: :asc)
-
-    body = args[:party] || args[:body]
-    speakers = speakers.active_body_members(body) if body.present?
-
-    name = args[:name]
-    speakers = speakers.matching_name(name) if name.present?
-
-    osoba_id = args[:osoba_id]
-    speakers = speakers.where(osoba_id: osoba_id) if osoba_id.present?
-
-    wikidata_id = args[:wikidata_id]
-    speakers = speakers.where(wikidata_id: wikidata_id) if wikidata_id.present?
-
-    speakers
   end
 
   field :government, Types::GovernmentType, null: true do
