@@ -13,19 +13,19 @@ module Schema::Sources::SourcesField
                default_value: false, required: false
     end
 
-    def sources(args)
+    def sources(offset:, limit:, name: nil, include_ones_without_published_statements: false)
       sources =
-        Source.includes(:medium, :media_personalities).order(released_at: :desc).offset(args[:offset])
-              .limit(args[:limit])
+        Source.includes(:medium, :media_personalities).order(released_at: :desc).offset(offset)
+              .limit(limit)
 
-      if args[:name].present?
+      if name.present?
         # Source name is internal
         raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
-        sources = sources.matching_name(args[:name])
+        sources = sources.matching_name(name)
       end
 
-      if args[:include_ones_without_published_statements]
+      if include_ones_without_published_statements
         # Public cannot access sources without published statements
         raise Errors::AuthenticationNeededError.new unless context[:current_user]
 

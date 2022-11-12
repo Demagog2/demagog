@@ -11,6 +11,17 @@ class Types::QueryType < GraphQL::Schema::Object
   include Schema::Sources::SourceField
   include Schema::Sources::SourcesField
 
+<<<<<<< Updated upstream
+=======
+  include Schema::Media::MediumField
+  include Schema::Media::MediaField
+  include Schema::Media::MediaPersonalityField
+  include Schema::Media::MediaPersonalitiesField
+
+  include Schema::Speakers::SpeakerField
+  include Schema::Speakers::SpeakersField
+
+>>>>>>> Stashed changes
   field :bootstrap, Types::BootstrapType, null: false
 
   def bootstrap
@@ -19,6 +30,7 @@ class Types::QueryType < GraphQL::Schema::Object
     Bootstrap.new(ENV["DEMAGOG_IMAGE_SERVICE_URL"] || "")
   end
 
+<<<<<<< Updated upstream
   field :media, [Types::MediumType], null: false do
     argument :name, String, required: false
   end
@@ -99,6 +111,8 @@ class Types::QueryType < GraphQL::Schema::Object
 
     speakers
   end
+=======
+>>>>>>> Stashed changes
 
   field :government, Types::GovernmentType, null: true do
     argument :id, Int, required: true
