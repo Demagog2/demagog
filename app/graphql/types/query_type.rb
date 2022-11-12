@@ -18,6 +18,8 @@ class Types::QueryType < GraphQL::Schema::Object
 
   include Schema::Speakers::SpeakerField
   include Schema::Speakers::SpeakersField
+  include Schema::Statements::StatementField
+  include Schema::Statements::StatementsField
 
   include Schema::Government::GovernmentField
 
@@ -27,75 +29,6 @@ class Types::QueryType < GraphQL::Schema::Object
     raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
     Bootstrap.new(ENV["DEMAGOG_IMAGE_SERVICE_URL"] || "")
-  end
-
-  field :statement, Types::StatementType, null: false do
-    argument :id, Int, required: true
-    argument :include_unpublished, Boolean, required: false, default_value: false
-  end
-
-  def statement(args)
-    if args[:include_unpublished]
-      # Public cannot access unpublished statements
-      raise Errors::AuthenticationNeededError.new unless context[:current_user]
-
-      return Statement.find(args[:id])
-    end
-
-    Statement.published.find(args[:id])
-  rescue ActiveRecord::RecordNotFound
-    raise GraphQL::ExecutionError.new("Could not find Statement with id=#{args[:id]}")
-  end
-
-  field :statements, [Types::StatementType], null: false do
-    argument :limit, Int, required: false, default_value: 10
-    argument :offset, Int, required: false, default_value: 0
-    argument :source, Int, required: false
-    argument :speaker, Int, required: false
-    argument :veracity, Types::VeracityKeyType, required: false
-    argument :include_unpublished, Boolean, required: false, default_value: false
-    argument :evaluated_by_user_id, ID, required: false
-    argument :sort_sources_in_reverse_chronological_order, Boolean, required: false, default_value: false
-  end
-
-  def statements(args)
-    if args[:include_unpublished]
-      # Public cannot access unpublished statements
-      Utils::Auth.authenticate(context)
-
-      statements = Statement.ordered
-    else
-      statements = Statement.published
-    end
-
-    statements = statements.offset(args[:offset]).limit(args[:limit])
-
-    statements = statements.where(source: args[:source]) if args[:source]
-    statements = statements.joins(:source_speaker).where(source_speaker: { speaker: args[:speaker] }) if args[:speaker]
-    if args[:veracity]
-      statements = statements.joins(:veracity).where(veracities: { key: args[:veracity] })
-    end
-
-    if args[:evaluated_by_user_id]
-      # Public cannot filter by evaluator
-      Utils::Auth.authenticate(context)
-
-      statements = statements.joins(:assessment).where(assessments: { user_id: args[:evaluated_by_user_id] })
-    end
-
-    # Include these basics as they are part of most of queries for statements
-    # and seriously speed those queries
-    #
-    # TODO: When we have graphql-ruby 1.9+, lets use lookaheads for smart includes.
-    # See https://graphql-ruby.org/queries/lookahead.html
-    statements =
-      statements.includes({ assessment: :veracity }, { speaker: :body }, { source: :medium })
-
-    if args[:sort_sources_in_reverse_chronological_order]
-      statements = Statement.sort_statements_query(statements.reorder(""), false)
-    end
-
-    statements
   end
 
   field :party,
