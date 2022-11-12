@@ -3,9 +3,13 @@
 include ActionDispatch::TestProcess
 
 FactoryBot.define do
-  factory :media_personality
+  factory :media_personality do
+    sequence(:name) { |n| "John #{n} Doe" }
+  end
 
-  factory :medium
+  factory :medium do
+    sequence(:name) { |n| "Medium #{n}" }
+  end
 
   factory :source do
     name { "Source name" }
