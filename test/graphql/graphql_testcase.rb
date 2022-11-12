@@ -13,7 +13,7 @@ class GraphQLTestCase < ActiveSupport::TestCase
     end
 
     def execute_with_errors(query_string, **kwargs)
-      response = DemagogSchema.execute(query_string, **kwargs)
+      response = DemagogSchema.execute(query_string, kwargs)
       # Convert nested hash to an object
       JSON.parse(response.to_json, object_class: OpenStruct)
     end
