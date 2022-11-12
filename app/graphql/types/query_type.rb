@@ -19,20 +19,14 @@ class Types::QueryType < GraphQL::Schema::Object
   include Schema::Speakers::SpeakerField
   include Schema::Speakers::SpeakersField
 
+  include Schema::Government::GovernmentField
+
   field :bootstrap, Types::BootstrapType, null: false
 
   def bootstrap
     raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
     Bootstrap.new(ENV["DEMAGOG_IMAGE_SERVICE_URL"] || "")
-  end
-
-  field :government, Types::GovernmentType, null: true do
-    argument :id, Int, required: true
-  end
-
-  def government(args)
-    Government.find(args[:id])
   end
 
   field :statement, Types::StatementType, null: false do
