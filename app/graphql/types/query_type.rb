@@ -8,6 +8,8 @@ class Types::QueryType < GraphQL::Schema::Object
   # Add root-level fields here.
   # They will be entry points for queries on your schema.
 
+  include Schema::Bootstrap::BootstrapField
+
   include Schema::Sources::SourceField
   include Schema::Sources::SourcesField
 
@@ -23,13 +25,10 @@ class Types::QueryType < GraphQL::Schema::Object
 
   include Schema::Government::GovernmentField
 
-  field :bootstrap, Types::BootstrapType, null: false
-
-  def bootstrap
-    raise Errors::AuthenticationNeededError.new unless context[:current_user]
-
-    Bootstrap.new(ENV["DEMAGOG_IMAGE_SERVICE_URL"] || "")
-  end
+  include Schema::Articles::ArticleField
+  include Schema::Articles::ArticlesField
+  include Schema::Pages::PageField
+  include Schema::Pages::PagesField
 
   field :party,
         Types::PartyType,
@@ -109,99 +108,6 @@ class Types::QueryType < GraphQL::Schema::Object
     end
 
     tags
-  end
-
-  field :article, Types::ArticleType, null: false do
-    argument :id, ID, required: false
-    argument :slug, String, required: false
-    argument :include_unpublished, Boolean, default_value: false, required: false
-  end
-
-  def article(args)
-    if args[:include_unpublished]
-      # Public cannot access unpublished articles
-      raise Errors::AuthenticationNeededError.new unless context[:current_user]
-
-      return Article.kept.friendly.find(args[:slug] || args[:id])
-    end
-
-    Article.kept.published.friendly.find(args[:slug] || args[:id])
-  rescue ActiveRecord::RecordNotFound
-    raise GraphQL::ExecutionError.new(
-      "Could not find Article with id=#{args[:id]} or slug=#{args[:slug]}"
-    )
-  end
-
-  field :articles, [Types::ArticleType], null: false do
-    argument :offset, Int, default_value: 0, required: false
-    argument :limit, Int, default_value: 10, required: false
-    argument :title, String, required: false
-    argument :include_unpublished, Boolean, default_value: false, required: false
-  end
-
-  def articles(args)
-    if args[:include_unpublished]
-      # Public cannot access unpublished articles
-      raise Errors::AuthenticationNeededError.new unless context[:current_user]
-
-      articles = Article.kept
-    else
-      articles = Article.kept.published
-    end
-
-    articles =
-      articles.includes(:article_type).offset(args[:offset]).limit(args[:limit]).order(
-        Arel.sql("COALESCE(published_at, created_at) DESC")
-      )
-
-    articles = articles.matching_title(args[:title]) if args[:title].present?
-
-    articles
-  end
-
-  field :pages, [Types::PageType], null: false do
-    argument :offset, Int, default_value: 0, required: false
-    argument :limit, Int, default_value: 10, required: false
-    argument :title, String, required: false
-    argument :include_unpublished, Boolean, default_value: false, required: false
-  end
-
-  def pages(args)
-    if args[:include_unpublished]
-      # Public cannot access unpublished pages
-      raise Errors::AuthenticationNeededError.new unless context[:current_user]
-
-      pages = Page.kept
-    else
-      pages = Page.kept.published
-    end
-
-    pages = pages.offset(args[:offset]).limit(args[:limit]).order(title: :asc)
-
-    pages = pages.matching_title(args[:title]) if args[:title].present?
-
-    pages
-  end
-
-  field :page, Types::PageType, null: false do
-    argument :id, ID, required: false
-    argument :slug, String, required: false
-    argument :include_unpublished, Boolean, default_value: false, required: false
-  end
-
-  def page(args)
-    if args[:include_unpublished]
-      # Public cannot access unpublished pages
-      raise Errors::AuthenticationNeededError.new unless context[:current_user]
-
-      return Page.friendly.find(args[:slug] || args[:id])
-    end
-
-    Page.published.friendly.find(args[:slug] || args[:id])
-  rescue ActiveRecord::RecordNotFound
-    raise GraphQL::ExecutionError.new(
-      "Could not find Page with id=#{args[:id]} or slug=#{args[:slug]}"
-    )
   end
 
   field :user, Types::UserType, null: false do
