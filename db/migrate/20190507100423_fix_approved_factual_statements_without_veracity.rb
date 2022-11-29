@@ -4,7 +4,10 @@ class FixApprovedFactualStatementsWithoutVeracity < ActiveRecord::Migration[5.2]
   def up
     # These sources with their single statement should be just text articles
     [24, 25, 30, 36, 44].each do |source_id|
-      source = Source.find(source_id)
+      source = Source.find_by(id: source_id)
+
+      next unless source
+
       statement = source.statements[0]
 
       article_segment = source.article_segments[0]
@@ -25,7 +28,9 @@ class FixApprovedFactualStatementsWithoutVeracity < ActiveRecord::Migration[5.2]
 
     # These sources with multiple statements should be just text articles
     [222, 233].each do |source_id|
-      source = Source.find(source_id)
+      source = Source.find_by(id: source_id)
+
+      next unless source
 
       article_segment = source.article_segments[0]
       article = article_segment.article
@@ -54,7 +59,9 @@ class FixApprovedFactualStatementsWithoutVeracity < ActiveRecord::Migration[5.2]
     # so lets just switch the evaluation status to being evaluated and make sure they
     # are not published
     [313, 315, 316, 330, 347, 235, 256].each do |source_id|
-      source = Source.find(source_id)
+      source = Source.find_by(id: source_id)
+
+      next unless source
 
       source.statements.each do |statement|
         statement.published = false
@@ -67,7 +74,9 @@ class FixApprovedFactualStatementsWithoutVeracity < ActiveRecord::Migration[5.2]
 
     # Some statements are just missing the veracity, so move them to being evaluated status and make sure they are not published
     [5943, 5978, 11296, 11299, 11300, 11522, 11527, 12101, 13950, 13970, 15246, 16976].each do |statement_id|
-      statement = Statement.find(statement_id)
+      statement = Statement.find(id: statement_id)
+
+      next unless statement
 
       statement.published = false
       statement.save!
