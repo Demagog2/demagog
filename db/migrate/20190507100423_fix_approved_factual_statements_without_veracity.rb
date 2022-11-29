@@ -74,7 +74,7 @@ class FixApprovedFactualStatementsWithoutVeracity < ActiveRecord::Migration[5.2]
 
     # Some statements are just missing the veracity, so move them to being evaluated status and make sure they are not published
     [5943, 5978, 11296, 11299, 11300, 11522, 11527, 12101, 13950, 13970, 15246, 16976].each do |statement_id|
-      statement = Statement.find(id: statement_id)
+      statement = Statement.find_by(id: statement_id)
 
       next unless statement
 
