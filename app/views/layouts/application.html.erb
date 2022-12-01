@@ -9,28 +9,29 @@
 
   <body>
     <%= render partial: "shared/facebook" %>
+    <%= render "components/header" %>
+    <main class="main" >
+      <div class="container">
 
-    <div class="container">
-      <%= render partial: "shared/header" %>
-      <%= render partial: "shared/nav" %>
+        <%= yield %>
+        <% if false %>
+          <% unless content_for?(:hide_layout_donate_and_subscribe) %>
+            <%= render partial: "shared/donate_and_subscribe" %>
+          <% end %>
 
-      <%= yield %>
+        <% end %>
 
-      <% unless content_for?(:hide_layout_donate_and_subscribe) %>
-        <%= render partial: "shared/donate_and_subscribe" %>
-      <% end %>
-
-      <%= render partial: "shared/partners" %>
-    </div>
-      
-    <%= render partial: "shared/footer" %>
+      </div>
+    </main>
+    <%= render "components/footer" %>
+    <%= render "components/cookies" %>
 
     <% unless Rails.env.test? %>
       <%= javascript_pack_tag 'application'  %>
       <%= javascript_pack_tag 'widget'  %>
       <%= render partial: "shared/google_analytics" %>
       <%= render partial: "shared/plausibleio_analytics" %>
-      <%= render partial: "shared/cookies_banner" %>
+
     <% end %>
   </body>
 </html>

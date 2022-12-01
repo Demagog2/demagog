@@ -1,0 +1,80 @@
+<% article_presenter = ArticlePresenter.new(article) %>
+<article>
+  <div class="row">
+    <div class="col col-12 col-md-5">
+      <div class="w-100">
+        <a title="<%= article.title %>" href="<%= article_path(article) %>" class="illustration">
+          <% if article.illustration.attached? %>
+            <img loading="lazy" class="w-100 rounded-m" src="<%= url_for(article.illustration) %>" alt="Ilustrační obrázek k výstupu <%= article.title %>">
+          <% else %>
+            <img class="w-100 rounded-m" src="<%= asset_path("article-illustration-default-preview.svg") %>" alt="Ilustrační obrázek k výstupu <%= article.title %>">
+          <% end %>
+        </a>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="symbol-group">
+          <span class="symbol symbol-40px rounded-circle bg-gray-500 overflow-hidden">
+            <img class="w-100 h-100 image-cover" src="<%= asset_path("default-speaker.png") %>" alt="">
+          </span>
+          <span class="symbol symbol-40px rounded-circle bg-gray-500 overflow-hidden">
+            <img class="w-100 h-100 image-cover" src="<%= asset_path("default-speaker.png") %>" alt="">
+          </span>
+          <span class="symbol symbol-40px rounded-circle bg-gray-500 overflow-hidden">
+            <img class="w-100 h-100 image-cover" src="<%= asset_path("default-speaker.png") %>" alt="">
+          </span>
+        </div>
+        <div class="">
+          <% if article.article_type.name == ArticleType::DEFAULT %>
+            <span class="smaller fw-bold text-uppercase">Ověřeno</span>
+          <% end %>
+          <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
+            <span class="smaller fw-bold text-uppercase <%= article.single_statement.approved_assessment.veracity.default_name %>">
+              <%= article.single_statement.approved_assessment.veracity.name %>
+            </span>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+    <div class="col col-12 col-md-7">
+      <h2 class="fs-2 fw-bold lh-1 mb-2"><%= link_to(article.title, article_path(article), class: "text-dark") %></h2>
+      <div class="mb-2">
+        <% if article.article_type.name == ArticleType::DEFAULT %>
+          <% if article.source %>
+            <i><%= article.source.medium.name %>, <%= raw(l(article.source.released_at, format: :long)) %></i>
+          <% end %>
+        <% end %>
+
+        <% if article.article_type.name == ArticleType::STATIC %>
+          <i><%= raw(l(article.published_at, format: :long)) %></i>
+        <% end %>
+
+        <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
+          <i><%= article.single_statement.source.medium.name %>, <%= raw(l(article.single_statement.source.released_at, format: :long)) %></i>
+        <% end %>
+      </div>
+
+
+      <% if article.perex %>
+        <p class="fs-6 lh-sm">
+          <%= strip_tags(article.perex).truncate(230) %>
+        </p>
+      <% end %>
+
+      <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
+        <p class="fs-6 lh-sm">
+          „<%= article.single_statement.content.strip %>“
+        </p>
+      <% end %>
+
+      <div class="mt-4">
+        <a class="btn outline min-h-40px" href="<%= article_path(article) %>">
+          <span>Číst dál</span>
+        </a>
+      </div>
+
+
+    </div>
+  </div>
+
+</article>

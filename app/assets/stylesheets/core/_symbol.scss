@@ -1,0 +1,45 @@
+.symbol {
+  @each $breakpoint in map-keys($grid-breakpoints) {
+      @include media-breakpoint-up($breakpoint) {
+          $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+          @each $name, $value in $symbol-sizes {
+              @if ($name != 'default') {
+                  &.symbol#{$infix}-#{$name} {
+                      width: $value;
+                      height: $value;
+                  }
+              }
+          }
+      }
+  }
+
+
+}
+
+// Group
+.symbol-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-left: 10px;
+
+    .symbol {
+        position: relative;
+        z-index: 0;
+        margin-left: -10px;
+        border: 2px solid $body-bg;
+        transition: all 0.3s ease;
+
+        &:hover {
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+    }
+
+    &.symbol-hover {
+        .symbol {
+            cursor: pointer;
+        }
+    }
+}

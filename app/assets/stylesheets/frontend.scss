@@ -1,12 +1,30 @@
 @charset "UTF-8";
 
+
+@import "varibles";
+@import "mixins";
+@import "core/fonts";
+@import "core/utilities";
+
+@import "./core/base";
+@import "./core/container";
+@import "./core/grid";
+@import "./core/header";
+@import "./core/btn";
+@import "./core/state";
+@import "./core/type";
+@import "./core/form";
+@import "./core/symbol";
+@import "./core/modal";
+
+
 //mixins
 @import "editor_picked_label";
 @import "veracity";
 
-@import "fonts";
 
-@import "base";
+
+//@import "base";
 @import "layout";
 
 @import "article/collaboration_with_facebook";
@@ -32,7 +50,7 @@
 @import "shared/donate_and_subscribe";
 @import "shared/footer";
 @import "shared/infobox";
-@import "shared/nav";
+// @import "shared/nav";
 @import "shared/partners";
 @import "shared/speaker_with_stats";
 @import "shared/stats";

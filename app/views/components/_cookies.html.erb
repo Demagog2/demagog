@@ -1,0 +1,17 @@
+<% cookies_banner_presenter = CookiesBannerPresenter.new(@cookies) %>
+
+<% if cookies_banner_presenter.show_cookies_banner %>
+  <div class="cookies p-5" data-controller="components--footer">
+    <div class="cookies-wrap bg-white shadow-l p-5 mw-400px rounded-l">
+      <p class="fs-6">
+        Abychom mohli měřit návštěvnost webu, potřebujeme Váš souhlas
+        se&nbsp;zpracováním osobních údajů prostřednictvím cookies.
+        <a class="text-dark text-underline link" href="/stranka/zasady-zpracovani-osobnich-udaju">Více o&nbsp;zpracování osobních údajů</a>
+      </p>
+      <div class="mt-4">
+        <button type="button me-4" class="btn" data-action="click->components--footer#accept">Souhlasím s&nbsp;cookies</button>
+        <button type="button"  class="btn outline" data-action="click->components--footer#reject">Nesouhlasím</button>
+      </div>
+    </div>
+  </div>
+<% end %>

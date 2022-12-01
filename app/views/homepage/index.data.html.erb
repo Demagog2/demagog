@@ -1,0 +1,88 @@
+<% content_for(:hide_layout_donate_and_subscribe, true) %>
+
+<div class="container-homepage-index" data-controller="homepage--index">
+
+  <% if @page_number.blank? %>
+    <div class="intro">
+      <div class="intro-text">
+        <%= raw(get_web_content("homepage", "intro")) %>
+      </div>
+      <div class="intro-video">
+        <button type="button" data-action="homepage--index#showIntroVideoModal">
+          <img src="<%= asset_path("homepage-intro-video-thumbnail.png") %>" alt="">
+          <span class="button-label">Co je Demagog.cz?</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="intro-video-modal" id="intro-video-modal" aria-hidden="true" data-target="homepage--index.introVideoModal">
+      <div class="intro-video-modal-overlay" tabindex="-1" data-micromodal-close>
+        <div class="intro-video-modal-container" role="dialog" aria-modal="true">
+          <button class="close-button" data-micromodal-close>× zavřít</button>
+
+          <div class="youtube-player-wrapper">
+            <iframe data-src="https://www.youtube.com/embed/GvOT6RNDVg8?enablejsapi=1&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="articles-and-sidebar">
+    <div class="articles-list">
+      <% if @page_number.blank? %>
+        <h1>Poslední výstupy</h1>
+      <% end %>
+
+      <% if !@page_number.blank? %>
+        <p class="full-width"><b>Strana <%= @page_number %></b> z archivu výstupů:</p>
+      <% end %>
+
+      <% @articles.each do |article| %>
+        <%= render partial: "article/preview", object: article, as: :article, locals: { show_portraits: false, smaller_gaps: true } %>
+      <% end %>
+
+      <%= paginate(@articles) %>
+    </div>
+
+    <% if @page_number.blank? %>
+      <aside class="sidebar">
+        <section class="donate-section">
+          <h2>Podpořte Demagog.cz</h2>
+          <p>
+            Fungujeme díky podpoře od&nbsp;čtenářů, jako jste vy.
+          </p>
+          <div style="margin: 20px 0">
+            <div data-darujme-widget-token="vhm7bzesjyb2jbdy">&nbsp;</div>
+            <script type="text/javascript">
+              +function(w, d, s, u, a, b) {
+                w['DarujmeObject'] = u;
+                w[u] = w[u] || function () { (w[u].q = w[u].q || []).push(arguments) };
+                a = d.createElement(s); b = d.getElementsByTagName(s)[0];
+                a.async = 1; a.src = "https:\/\/www.darujme.cz\/assets\/scripts\/widget.js";
+                b.parentNode.insertBefore(a, b);
+              }(window, document, 'script', 'Darujme');
+              Darujme(1, "vhm7bzesjyb2jbdy", 'render', "https:\/\/www.darujme.cz\/widget?token=vhm7bzesjyb2jbdy", "250px");
+            </script>
+          </div>
+        </section>
+
+        <section class="subscribe-to-newsletter-section">
+          <h2>Zůstaňte v kontaktu</h2>
+          <p>
+            Každých pár týdnů posíláme newsletter se&nbsp;shrnutím naší práce a&nbsp;zajímavostmi ze&nbsp;zákulisí.
+          </p>
+          <form class="subscribe-to-newsletter-form" action="https://demagog.us4.list-manage.com/subscribe/post" method="POST">
+            <input type="hidden" name="u" value="55104956ab8c4db41d4cd7e55">
+            <input type="hidden" name="id" value="f2c56d2e38">
+            <input type="email" class="email-input" placeholder="Váš e-mail" name="MERGE0" id="MERGE0" autocapitalize="off" autocorrect="off">
+            <button type="submit" class="submit-button">Začít odebírat</button>
+            <div class="accept-terms">
+              Stisknutím „Začít odebírat‟ souhlasíte se zpracováním e-mailu dle <a href="/stranka/zasady-zpracovani-osobnich-udaju">Zásad zpracování osobních údajů</a>.
+            </div>
+          </form>
+        </section>
+      </aside>
+    <% end %>
+  </div>
+</div>

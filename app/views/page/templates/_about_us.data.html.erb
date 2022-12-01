@@ -1,0 +1,38 @@
+<article class="container about sticky" id="sticker">
+  <div class="about-nav">
+    <ul>
+      <li>
+        <a href="#">O Demagog.cz</a>
+      </li>
+      <li>
+        <a href="#">Jak hodnotime?</a>
+      </li>
+    </ul>
+  </div>
+  <div class="about-content">
+    <h1><%= @page.title %></h1>
+    <section class="segment">
+      <%= raw(@page.text_html) %>
+    </section>
+    <% if false %>
+    <section class="authors">
+      <h2>Kdo připravuje Demagog.cz?</h2>
+
+      <% @users.each do |user| %>
+        <div class="author">
+          <figure class="portrait">
+            <% if user.avatar.attached? %>
+              <img src="<%= user.avatar.url %>" alt="<%= user.full_name %>" />
+            <% end %>
+          </figure>
+
+          <div class="info">
+            <h2><%= user.full_name %></h2>
+            <p><b><%= user.position_description %></b> — <%= user.bio %></p>
+          </div>
+        </div>
+      <% end %>
+    </section>
+    <% end %>
+  </div>
+</article>

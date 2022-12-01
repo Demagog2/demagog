@@ -1,26 +1,44 @@
-<article class="container-page-show">
-  <h1><%= @page.title %></h1>
+<%
 
-  <section class="segment">
-    <%= raw(@page.text_html) %>
-  </section>
+@nav = Struct::NavSubmenu.new(
+  "O nás",
+  controller.menu_items.map do |menu_item|
+    case menu_item.kind
+    when MenuItem::KIND_PAGE then Struct::NavLink.new(menu_item.title, page_url(slug: menu_item.page.slug))
+    when MenuItem::KIND_DIVIDER then '<hr>'
+    else
+      raise Error("Unknown menu item kind #{menu_item.kind}")
+    end
+  end
+)
 
-  <section class="authors">
-    <h2>Kdo připravuje Demagog.cz?</h2>
 
-    <% @users.each do |user| %>
-      <div class="author">
-        <figure class="portrait">
-          <% if user.avatar.attached? %>
-            <img src="<%= user.avatar.url %>" alt="<%= user.full_name %>" />
+%>
+
+<div class="row" data-controller="components--sticky" data-action="scroll@window->components--sticky#onScroll">
+  <div class="col col-12 col-lg-4 position-relative">
+    <nav class="side-nav" data-target="components--sticky.sticky">
+      <h1><%= @nav.name %></h1>
+      <ul class="list">
+        <% @nav.items.each do |item| %>
+          <% if (item.is_a? String) %>
+            <%= raw item %>
+          <% else %>
+            <li class="">
+              <a
+                href="<%= item.href %>"
+                class="min-h-30px d-inline-flex fs-5 text-dark align-items-center text-none state-line mb-2">
+                <%= item.text %>
+              </a>
+            </li>
           <% end %>
-        </figure>
-
-        <div class="info">
-          <h2><%= user.full_name %></h2>
-          <p><b><%= user.position_description %></b> — <%= user.bio %></p>
-        </div>
-      </div>
-    <% end %>
-  </section>
-</article>
+        <% end %>
+      </ul>
+    </nav>
+  </div>
+  <div class="col col-12 col-lg-8">
+    <section class="section" data-target="components--sticky.content">
+      <%= raw(@page.text_html) %>
+    </section>
+  </div>
+</div>
