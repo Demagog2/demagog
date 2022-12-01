@@ -84,7 +84,6 @@ GEM
     benchmark (0.2.0)
     bindex (0.8.1)
     builder (3.2.4)
-    byebug (11.1.3)
     capybara (2.18.0)
       addressable
       mini_mime (>= 0.1.3)
@@ -172,9 +171,13 @@ GEM
       http_parser.rb (~> 0)
     erubi (1.11.0)
     eventmachine (1.2.7)
+<<<<<<< HEAD
     eventmachine (1.2.7-x64-mingw32)
     eventmachine (1.2.7-x86-mingw32)
     execjs (2.8.1)
+=======
+    execjs (2.7.0)
+>>>>>>> 050260287c234c672602f3e4529e575cd1c7ea28
     factory_bot (5.1.2)
       activesupport (>= 4.2.0)
     factory_bot_rails (5.1.1)
@@ -211,9 +214,13 @@ GEM
       webrick (~> 1.7)
       websocket-driver (>= 0.6, < 0.8)
     ffi (1.15.5)
+<<<<<<< HEAD
     ffi (1.15.5-x64-mingw32)
     ffi (1.15.5-x86-mingw32)
     formatador (1.1.0)
+=======
+    formatador (0.3.0)
+>>>>>>> 050260287c234c672602f3e4529e575cd1c7ea28
     friendly_id (5.1.0)
       activerecord (>= 4.0.0)
     globalid (1.0.0)
@@ -307,10 +314,13 @@ GEM
     nokogiri (1.13.9)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
+<<<<<<< HEAD
     nokogiri (1.13.9-x64-mingw32)
       racc (~> 1.4)
     nokogiri (1.13.9-x86-mingw32)
       racc (~> 1.4)
+=======
+>>>>>>> 050260287c234c672602f3e4529e575cd1c7ea28
     notiffany (0.1.3)
       nenv (~> 0.1)
       shellany (~> 0.0)
@@ -345,9 +355,13 @@ GEM
       ast (~> 2.4.1)
     pastel (0.8.0)
       tty-color (~> 0.5)
+<<<<<<< HEAD
     pg (1.4.4)
     pg (1.4.4-x64-mingw32)
     pg (1.4.4-x86-mingw32)
+=======
+    pg (1.3.5)
+>>>>>>> 050260287c234c672602f3e4529e575cd1c7ea28
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -548,13 +562,15 @@ GEM
 
 PLATFORMS
   ruby
+<<<<<<< HEAD
   x64-mingw32
   x86-mingw32
+=======
+>>>>>>> 050260287c234c672602f3e4529e575cd1c7ea28
 
 DEPENDENCIES
   addressable
   aws-sdk-s3
-  byebug
   capybara (~> 2.13)
   caxlsx
   caxlsx_rails
