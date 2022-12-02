@@ -43,5 +43,8 @@ config/settings.local.yml
 config/settings/*.local.yml
 config/environments/*.local.yml
 
+Gemfile
+Gemfile.lock
+
 # Ignore OS generated files
 .DS_Store
