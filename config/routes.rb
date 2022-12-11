@@ -52,7 +52,7 @@ Rails.application.routes.draw do
 
     # For development and testing we need a way to login as somebody even when
     # we don't have access to their Google account
-    unless Rails.env.production?
+    unless Rails.env.production? || Rails.env.staging?
       get "/test-login/:id" => "admin#test_login", as: :test_login
     end
 
