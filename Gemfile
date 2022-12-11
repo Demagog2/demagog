@@ -9,6 +9,18 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+# WHY ARE WE ADDING VERSIONS OF GEMS?
+#
+# We are specifying gem versions as exactly as possible in the Gemfile here
+# so the project can be also developed on Windows and deployed to Heroku.
+#
+# When developing on Windows, Gemfile.lock needs x86-mingw32 among platforms
+# which then fails to be used on Heroku with error "Removing `Gemfile.lock`
+# because it was generated on Windows.". Heroku's recommended solution is to
+# add the versions to Gemfile [1].
+#
+# [1] https://devcenter.heroku.com/articles/bundler-windows-gemfile
+
 # Load variables from .env file
 gem "dotenv-rails", "~> 2.7.6"
 
