@@ -11,7 +11,7 @@ Rails.application.configure do
   config.assets.compile = false
   config.action_controller.default_url_options = { protocol: "https" }
   config.active_storage.service = :amazon
-  config.log_level = :verbose
+  config.log_level = :info
   config.lograge.enabled = true
   config.lograge.formatter = Lograge::Formatters::Json.new
   config.log_tags = [ :request_id ]
