@@ -17,8 +17,8 @@ export default class extends Controller {
     var st = window.pageYOffset || document.documentElement.scrollTop;
 
     if (st > this.lastScrollTop){
-      if (! this.element.classList.contains("hide")) {
-        this.element.classList.add("hide")
+      if (! this.element.classList.contains("hide-header")) {
+        this.element.classList.add("hide-header")
         const navItems = document.querySelectorAll("[aria-expanded='true']");
         const navDrops = document.querySelectorAll("[aria-open='true']");
         if (navItems.length) {
@@ -40,8 +40,8 @@ export default class extends Controller {
         }
       }
     } else {
-      if (this.element.classList.contains("hide")) {
-        this.element.classList.remove("hide")
+      if (this.element.classList.contains("hide-header")) {
+        this.element.classList.remove("hide-header")
 
       }
     }
