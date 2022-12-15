@@ -27,5 +27,9 @@ class HomepageController < FrontendController
 
     @articles =
       Article.kept.published.for_homepage.order(published_at: :desc).page(@page_number).per(10)
+
+    @most_searched_speakers = Speaker.get_most_searched_speaker_ids.map do |speaker_id|
+      Speaker.find_by(id: speaker_id)
+    end
   end
 end

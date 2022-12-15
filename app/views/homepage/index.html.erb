@@ -2,6 +2,10 @@
 
 <div class="container-homepage-index" data-controller="homepage--index">
 
+  <% for speaker in @most_searched_speakers %>
+    <%= render(PortraitComponent.new(speaker: speaker)) %>
+  <% end %>
+
   <% if @page_number.blank? %>
     <div class="intro">
       <div class="intro-text">
