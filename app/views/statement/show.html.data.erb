@@ -1,0 +1,87 @@
+<% content_for(:title, @statement.source_speaker.full_name + (@statement.source_speaker.body ? " (#{@statement.source_speaker.body.short_name})" : "") + ': ' + "„#{@statement.content}“".truncate(45)) %>
+<% content_for(:description, 'Tento výrok byl ověřen jako ' + @statement.approved_assessment.veracity.name) %>
+<% content_for(:image_src, @statement.preview_image.attached? ? polymorphic_url(@statement.preview_image) : nil) %>
+<% content_for(:twitter_card, 'summary_large_image') %>
+
+<section
+  class="container-statement-show<% if @statement.important %> editor-picked-statement<% end %>"
+  data-controller="statement--show"
+  data-action="resize@window->statement--show#handleWindowResize"
+>
+  <a href="<%= speaker_path(@statement.speaker) %>" class="speaker">
+    <%= render(PortraitComponent.new(speaker: @statement.speaker)) %>
+    <div class="name-and-role">
+      <div class="name">
+        <%= @statement.source_speaker.full_name %>
+        <% if @statement.source_speaker.body %>(<%= @statement.source_speaker.body.short_name %>)<% end %>
+      </div>
+      <% if !@statement.source_speaker.role.blank? %>
+        <div class="role">
+          <%= @statement.source_speaker.role %>
+        </div>
+      <% end %>
+    </div>
+  </a>
+
+  <div class="statement-content">
+    <blockquote data-target="statement--show.blockquote">
+      <%= content_to_html(@statement.content) %>
+    </blockquote>
+
+    <cite><%= @statement.source.medium.name %>, <span class="date"><%= raw(l(@statement.source.released_at, format: :long)) %></span></cite>
+
+    <% if @statement.important %>
+      <div class="editor-picked-label">Výrok ve výběru Demagog.cz</div>
+    <% end %>
+
+    <% if @statement.tags.size > 0 %>
+      <div class="tags-list">
+        <% @statement.tags.each do |tag| %>
+          <div class="tag-item"><%= tag.name %></div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <h1>
+      Tento výrok byl ověřen jako
+      <span class="veracity glyphicons <%= @statement.approved_assessment.veracity.default_name %>">
+        <i></i> <%= @statement.approved_assessment.veracity.name.downcase %>
+      </span>
+    </h1>
+
+    <article>
+      <h2>Odůvodnění</h2>
+      <section class="reasons">
+        <% unless @statement.approved_assessment.short_explanation.nil? %>
+          <p><%= @statement.approved_assessment.short_explanation %></p>
+        <% end %>
+
+        <div data-target="statement--show.explanationHtml">
+          <%= raw(@statement.approved_assessment.explanation_html) %>
+        </div>
+      </section>
+    </article>
+
+    <% if false # TODO: remove when infoboxes texts are ready %>
+    <div class="infoboxes-list">
+      <div class="infobox-item">
+        <%= render(partial: "shared/infobox", locals: { topic: :veracities, id: "statement-show-veracities" }) %>
+      </div>
+      <% if @statement.important %>
+        <div class="infobox-item">
+          <%= render(partial: "shared/infobox", locals: { topic: :editor_picked_statements, id: "statement-show-editor-picked-statement" }) %>
+        </div>
+      <% end %>
+    </div>
+    <% end %>
+
+    <% if @statement.mentioning_articles.size > 0 %>
+      <aside>
+        <h1>Výrok jsme zmínili</h1>
+        <% @statement.mentioning_articles.each do |article| %>
+          <%= render(partial: 'article/preview', object: article, as: :article) %>
+        <% end %>
+      </aside>
+    <% end %>
+  </div>
+</section>
