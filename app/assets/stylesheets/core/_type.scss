@@ -11,3 +11,6 @@
 .smaller {
   @include font-size($font-size-smaller)
 }
+.smallest {
+  @include font-size($font-size-smallest)
+}

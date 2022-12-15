@@ -100,3 +100,62 @@ main {
     pointer-events: auto;
   }
 }
+
+.separator {
+  display: block;
+  height: 1px;
+  width: 100%;
+}
+
+.hide {
+  display: none;
+}
+
+.popover-arrow {
+  position: absolute;
+}
+
+.popover-arrow {
+  &.arrow-north {
+    right: calc(50% - -10px);
+    top: -9px;
+  }
+  &.arrow-south {
+    right: calc(50% - -10px);
+    transform: rotate(-90deg);
+    bottom: -9px;
+  }
+  &.arrow-east {
+    left: -9px;
+    top: 35px;
+    transform: rotate(-90deg);
+  }
+  &.arrow-west {
+    right: 11px;
+    top: calc(50% - -10px);
+    transform: rotate(-90deg);
+  }
+}
+.popover-arrow:before {
+    display: block;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    transform: rotate(45deg);
+    border-radius: 2px;
+    content: "";
+    background: $dark;
+    border-radius: 2px;
+}
+.popover-arrow:after {
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: 1;
+    left: auto;
+    background: $dark;
+    width: 20px;
+    height: 20px;
+    transform: rotate(45deg);
+    border-radius: 2px;
+}

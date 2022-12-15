@@ -2,80 +2,143 @@
 <% show_medium_and_date = true if local_assigns[:show_medium_and_date].nil? %>
 <% wide_display = true if local_assigns[:wide_display].nil? %>
 
-<article
-  class="container-statement-detail collapsed s-statement<% if wide_display %> wide-display<% end %>"
-  data-controller="statement--detail"
-  data-action="resize@window->statement--detail#handleWindowResize"
-  id="<%= statement.id %>"
->
-  <a href="<%= speaker_path(statement.speaker) %>" class="speaker">
-    <%= render(PortraitComponent.new(speaker: statement.speaker)) %>
-    <h3>
-      <%= statement.source_speaker.full_name %>
-      <% if statement.source_speaker.body %>(<%= statement.source_speaker.body.short_name %>)<% end %>
-    </h3>
-    <% if show_speaker_role && !statement.source_speaker.role.blank? %>
-      <div class="role">
-        <%= statement.source_speaker.role %>
-      </div>
-    <% end %>
-  </a>
+<article class="mb-10">
+  <div class="row g-6">
+    <div class="col col-12 col-md-6 col-lg-7">
+      <div class="d-flex">
+        <div class="w-100px min-w-100px">
+          <div class="px-2">
+            <a href="<%= speaker_path(statement.speaker) %>" class="position-relative">
+              <span class="symbol symbol-square symbol-circle">
+                <%= render(PortraitComponent.new(speaker: statement.speaker)) %>
+              </span>
+              <% if statement.source_speaker.body %>
+                <div class="symbol-label d-flex align-items-center justify-content-center w-40px h-40px rounded-circle bg-dark">
+                  <span class="smallest text-white lh-1 text-center p-2"><%= statement.source_speaker.body.short_name %></span>
+                </div>
+              <% end %>
+            </a>
+          </div>
+          <div class="mt-2 text-center w-100">
+            <h3 class="fs-6 fs-bold">
+              <%= statement.source_speaker.full_name %>
+            </h3>
+          </div>
+        </div>
+        <div class=" ps-5">
+          <blockquote class="p-3 fs-6 bg-dark text-white rounded-m mb-2 position-relative min-h-50px" data-target="statement--detail.blockquote">
+            <span class="popover-arrow arrow-east"></span>
+            <span class="fs-6 position-relative"><%= content_to_html(statement.content) %></span>
+          </blockquote>
 
-  <div class="statement-content-and-assessment">
-    <div class="statement-content">
-      <blockquote data-target="statement--detail.blockquote">
-        <%= content_to_html(statement.content) %>
-      </blockquote>
+          <% if show_medium_and_date %>
+            <cite><%= statement.source.medium.name -%>, <span class="date"><%= raw(l(statement.source.released_at, format: :long)) %></span></cite>
+          <% end %>
 
-      <% if show_medium_and_date %>
-        <cite><%= statement.source.medium.name -%>, <span class="date"><%= raw(l(statement.source.released_at, format: :long)) %></span></cite>
-      <% end %>
-
-      <% if statement.important %>
-        <div class="editor-picked-label">Výrok ve výběru Demagog.cz</div>
-      <% end %>
-
-      <% if statement.tags.size > 0 %>
-        <div class="tags-list">
-          <% statement.tags.each do |tag| %>
-            <div class="tag-item"><%= tag.name %></div>
+          <% if statement.tags.size > 0 %>
+            <div class="d-block">
+              <% statement.tags.each do |tag| %>
+                <div class="d-flex align-items-center">
+                  <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.54664 1.77285L13.9073 7.12848C13.9542 7.17501 13.9914 7.23037 14.0168 7.29136C14.0422 7.35236 14.0553 7.41778 14.0553 7.48386C14.0553 7.54993 14.0422 7.61535 14.0168 7.67635C13.9914 7.73734 13.9542 7.7927 13.9073 7.83923L12.9062 8.84028L12.1955 8.12953L12.8462 7.48386L7.8409 2.47859H4.0419V3.47964H3.04085V2.47859C3.04085 2.2131 3.14632 1.95847 3.33405 1.77074C3.52178 1.58301 3.7764 1.47754 4.0419 1.47754H7.8409C8.10596 1.47866 8.35977 1.58486 8.54664 1.77285ZM8.04611 15.4923C7.98024 15.4927 7.91494 15.48 7.85396 15.4551C7.79297 15.4302 7.73751 15.3935 7.69074 15.3471L2.33511 9.98649C2.14711 9.79962 2.04091 9.54581 2.03979 9.28075V5.48175C2.03979 5.21625 2.14526 4.96163 2.333 4.7739C2.52073 4.58617 2.77535 4.4807 3.04085 4.4807H6.83984C7.10491 4.48181 7.35871 4.58802 7.54559 4.77601L12.9062 10.1316C12.9531 10.1782 12.9904 10.2335 13.0158 10.2945C13.0412 10.3555 13.0543 10.4209 13.0543 10.487C13.0543 10.5531 13.0412 10.6185 13.0158 10.6795C12.9904 10.7405 12.9531 10.7959 12.9062 10.8424L8.40148 15.3471C8.35472 15.3935 8.29925 15.4302 8.23827 15.4551C8.17728 15.48 8.11198 15.4927 8.04611 15.4923ZM3.04085 5.48175V9.28075L8.04611 14.286L11.8451 10.487L6.83984 5.48175H3.04085ZM5.04295 8.48491C5.59582 8.48491 6.04401 8.03672 6.04401 7.48386C6.04401 6.93099 5.59582 6.4828 5.04295 6.4828C4.49009 6.4828 4.0419 6.93099 4.0419 7.48386C4.0419 8.03672 4.49009 8.48491 5.04295 8.48491Z" fill="#111827"/>
+                  </svg>
+                  <span><%= tag.name %></span>
+                </div>
+              <% end %>
+            </div>
           <% end %>
         </div>
-      <% end %>
-    </div>
-
-    <div class="statement-assessment">
-      <div class="veracity-and-links">
-        <span class="veracity <%= statement.approved_assessment.veracity.default_name %>">
-          <%= statement.approved_assessment.veracity.name %>
-        </span>
-
-        <% if statement.approved_assessment.short_explanation.nil? %>
-          <a href="#" class="show-reasons" data-action="statement--detail#toggleExplanation">
-            <span class="collapsed">zobrazit odůvodnění</span>
-            <span class="open">skrýt odůvodnění</span>
-          </a>
-        <% end %>
-
-        <a class="permalink" href="<%= statement_path(statement.id) %>">trvalý odkaz</a>
       </div>
+    </div>
+    <div class="col col-12 col-md-6 col-lg-5">
+      <div class="">
 
-      <% unless statement.approved_assessment.short_explanation.nil? %>
-        <section class="reasons-short">
-          <p>
+        <div class="d-flex align-items-center mb-2">
+          <% if statement.approved_assessment.veracity.default_name == "true" %>
+            <span class="w-30px h-30px d-flex align-items-center justify-content-center bg-primary rounded-circle me-2">
+              <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0.0507812 6.4745L1.38245 5.10858L6.00525 9.6629L15.5667 0.135742L16.9326 1.50166L6.00525 12.3947L0.0507812 6.4745Z" fill="white"/>
+              </svg>
+            </span>
+            <span class="fs-5 text-uppercase text-primary">
+              <%= statement.approved_assessment.veracity.name %>
+            </span>
+          <% end %>
+          <% if statement.approved_assessment.veracity.default_name == "untrue" %>
+            <span class="w-30px h-30px d-flex align-items-center justify-content-center bg-red rounded-circle me-2">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.8642 1.58955L11.4983 0.223633L6.80319 4.90351L2.1081 0.223633L0.742188 1.58955L5.43348 6.26562L0.742188 10.9417L2.1081 12.3076L6.80319 7.62773L11.4983 12.3076L12.8642 10.9417L8.17291 6.26562L12.8642 1.58955Z" fill="white"/>
+              </svg>
+            </span>
+            <span class="fs-5 text-uppercase text-red">
+              <%= statement.approved_assessment.veracity.name %>
+            </span>
+          <% end %>
+          <% if statement.approved_assessment.veracity.default_name == "unverifiable" %>
+            <span class="w-30px h-30px d-flex align-items-center justify-content-center bg-gray rounded-circle me-2">
+              <svg width="12" height="22" viewBox="0 0 15 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.21838 18.8279V18.6782C5.23443 17.111 5.40024 15.8647 5.71047 14.934C6.0207 14.0086 6.46466 13.2544 7.04233 12.6821C7.62001 12.1098 8.30466 11.5803 9.11233 11.0935C9.59373 10.7993 10.0323 10.4463 10.4174 10.0398C10.8026 9.63328 11.1074 9.16258 11.3321 8.6277C11.5567 8.09281 11.6691 7.50444 11.6691 6.85723C11.6691 6.05491 11.4819 5.35421 11.1021 4.76584C10.7223 4.17747 10.2195 3.71747 9.58838 3.40189C8.95721 3.08096 8.25652 2.92049 7.48094 2.92049C6.80698 2.92049 6.15977 3.05956 5.53396 3.3377C4.90815 3.61584 4.38931 4.05444 3.9721 4.65351C3.55489 5.25258 3.30884 6.03886 3.24466 7.007H0.142334C0.20652 5.61095 0.570241 4.41816 1.2335 3.42328C1.8914 2.4284 2.76861 1.66886 3.85443 1.14468C4.94024 0.620491 6.14908 0.358398 7.48094 0.358398C8.92512 0.358398 10.1821 0.647236 11.2519 1.21956C12.3216 1.79189 13.1507 2.58351 13.7391 3.58375C14.3274 4.58398 14.6216 5.72328 14.6216 7.007C14.6216 7.91095 14.4826 8.72398 14.2098 9.45677C13.937 10.1896 13.5412 10.8421 13.0277 11.4144C12.5142 11.9868 11.8991 12.4949 11.177 12.9389C10.4549 13.3882 9.87721 13.8642 9.43861 14.3616C9.00535 14.8591 8.68977 15.4475 8.49187 16.1268C8.29396 16.8061 8.18698 17.6565 8.17094 18.6728V18.8226H5.21838V18.8279ZM6.79628 26.113C6.18652 26.113 5.66768 25.8937 5.23443 25.4605C4.80117 25.0272 4.58187 24.503 4.58187 23.8986C4.58187 23.2942 4.80117 22.77 5.23443 22.3368C5.66768 21.9035 6.19187 21.6842 6.79628 21.6842C7.4007 21.6842 7.92489 21.9035 8.35814 22.3368C8.7914 22.77 9.0107 23.2942 9.0107 23.8986C9.0107 24.2998 8.90907 24.6689 8.71117 25.0058C8.50791 25.3428 8.24582 25.6102 7.90884 25.8135C7.57721 26.0168 7.2028 26.113 6.79628 26.113Z" fill="white"/>
+              </svg>
+            </span>
+            <span  class="fs-5 text-uppercase text-gray">
+              <%= statement.approved_assessment.veracity.name %>
+            </span>
+          <% end %>
+          <% if statement.approved_assessment.veracity.default_name == "misleading" %>
+            <span class="w-30px h-30px d-flex align-items-center justify-content-center bg-secondary rounded-circle me-2">
+              <svg width="4" height="22" viewBox="0 0 5 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.38458 25.9392C1.77482 25.9392 1.25598 25.7199 0.822722 25.2866C0.389467 24.8534 0.170166 24.3292 0.170166 23.7248C0.170166 23.1204 0.389467 22.5962 0.822722 22.1629C1.25598 21.7297 1.78016 21.5104 2.38458 21.5104C2.989 21.5104 3.51319 21.7297 3.94644 22.1629C4.3797 22.5962 4.599 23.1204 4.599 23.7248C4.599 24.1259 4.49737 24.495 4.29946 24.832C4.09621 25.169 3.82877 25.4364 3.49714 25.6397C3.16551 25.8429 2.79109 25.9392 2.38458 25.9392ZM4.05877 0.532227L3.81272 18.6541H0.956443L0.710397 0.532227H4.05877Z" fill="white"/>
+              </svg>
+            </span>
+            <span class="fs-5 text-uppercase text-secondary">
+              <%= statement.approved_assessment.veracity.name %>
+            </span>
+          <% end %>
+
+        </div>
+
+      </div>
+      <div
+        class="accordion"
+        data-controller="components--accordion"
+        data-components--accordion-open-label="skrýt celé odůvodnění"
+        data-components--accordion-close-label="zobrazit celé odůvodnění"
+      >
+        <div class="">
+          <p class="fs-6">
             <%= statement.approved_assessment.short_explanation %>
           </p>
-        </section>
+        </div>
+        <div class="accordion-content close" data-target="components--accordion.content">
+          <p class="fs-6">
+            <%= raw(statement.approved_assessment.explanation_html) %>
+          </p>
+        </div>
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <a
+            class="accordion-link"
+            data-target="components--accordion.link"
+            data-action="click->components--accordion#toggle"
+            aria-show="false"
+          >
+            <span data-target="components--accordion.label">zobrazit celé odůvodnění</span>
+          </a>
+          <a class="d-flex text-gray align-items-center text-none" href="<%= statement_path(statement.id) %>">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_922_5912)">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M13.688 3.22936C14.0527 3.38078 14.3839 3.60269 14.6626 3.88237C15.2257 4.44354 15.5431 5.20529 15.5449 6.0003C15.5468 6.7953 15.2331 7.55854 14.6726 8.12236L10.6726 12.1224C10.3925 12.4028 10.0596 12.625 9.69314 12.776C9.32669 12.9271 8.93394 13.004 8.53758 13.0024C7.74261 13.007 6.97832 12.6959 6.41258 12.1374C6.1329 11.8587 5.91099 11.5275 5.75957 11.1628C5.60816 10.7982 5.53021 10.4072 5.53021 10.0124C5.53021 9.61752 5.60816 9.22656 5.75957 8.86191C5.91099 8.49725 6.1329 8.16608 6.41258 7.88737L7.12258 7.17737L7.82758 7.88737L7.12258 8.59737C6.7473 8.97331 6.53673 9.48294 6.5372 10.0141C6.53767 10.5453 6.74913 11.0546 7.12508 11.4299C7.50102 11.8051 8.01065 12.0157 8.54185 12.0152C9.07304 12.0148 9.5823 11.8033 9.95758 11.4274L13.9576 7.42737C14.1437 7.24122 14.2914 7.02023 14.3921 6.77701C14.4929 6.5338 14.5447 6.27312 14.5447 6.00987C14.5447 5.74661 14.4929 5.48593 14.3921 5.24272C14.2914 4.9995 14.1437 4.77851 13.9576 4.59237C13.7714 4.40622 13.5504 4.25856 13.3072 4.15781C13.064 4.05707 12.8033 4.00522 12.5401 4.00522C12.2768 4.00522 12.0161 4.05707 11.7729 4.15781C11.5297 4.25856 11.3087 4.40622 11.1226 4.59237L10.4126 3.88237C10.6913 3.60269 11.0225 3.38078 11.3871 3.22936C11.7518 3.07794 12.1427 3 12.5376 3C12.9324 3 13.3234 3.07794 13.688 3.22936ZM1.69663 12.2624C1.79773 12.5056 1.94588 12.7265 2.13258 12.9124C2.31842 13.0991 2.53931 13.2472 2.78257 13.3483C3.02582 13.4494 3.28666 13.5014 3.55008 13.5014C3.81351 13.5014 4.07434 13.4494 4.3176 13.3483C4.56086 13.2472 4.78175 13.0991 4.96758 12.9124L5.67758 13.6224C5.10844 14.1868 4.33913 14.5031 3.53758 14.5024C2.74303 14.5123 1.97699 14.2066 1.40758 13.6524C1.12715 13.3736 0.904605 13.0421 0.752744 12.6769C0.600884 12.3118 0.522705 11.9203 0.522705 11.5249C0.522705 11.1294 0.600884 10.7379 0.752744 10.3728C0.904605 10.0076 1.12715 9.67615 1.40758 9.39735L5.40758 5.39735C5.97183 4.8331 6.73711 4.51611 7.53508 4.51611C8.33305 4.51611 9.09833 4.8331 9.66258 5.39735C10.2268 5.9616 10.5438 6.72689 10.5438 7.52485C10.5438 8.32282 10.2268 9.0881 9.66258 9.65235L8.60258 10.7124L7.89258 10.0024L8.95258 8.92735C9.13945 8.74029 9.28736 8.51803 9.38778 8.27343C9.48819 8.02884 9.53911 7.76676 9.53758 7.50235C9.54276 7.23877 9.49497 6.97684 9.39706 6.73206C9.29915 6.48729 9.15311 6.26465 8.96758 6.07735C8.78175 5.89065 8.56086 5.7425 8.3176 5.6414C8.07434 5.54031 7.81351 5.48827 7.55008 5.48827C7.28666 5.48827 7.02582 5.54031 6.78257 5.6414C6.53931 5.7425 6.31842 5.89065 6.13258 6.07735L2.13258 10.0774C1.94588 10.2632 1.79773 10.4841 1.69663 10.7273C1.59554 10.9706 1.5435 11.2314 1.5435 11.4949C1.5435 11.7583 1.59554 12.0191 1.69663 12.2624Z" fill="#9B9B9B"/>
+              </g>
+              <defs>
+              <clipPath id="clip0_922_5912">
+              <rect width="16" height="16" fill="white" transform="translate(0.0375977 0.501953)"/>
+              </clipPath>
+              </defs>
+            </svg>
+            <span class="ms-1">trvalý odkaz</span>
+          </a>
+        </div>
+      </div>
 
-        <a href="#" class="show-reasons" data-action="statement--detail#toggleExplanation">
-          <span class="collapsed">zobrazit&nbsp;celé&nbsp;odůvodnění</span>
-          <span class="open">skrýt&nbsp;celé&nbsp;odůvodnění</span>
-        </a>
-      <% end %>
-
-      <section class="reasons" data-target="statement--detail.explanationHtml">
-        <%= raw(statement.approved_assessment.explanation_html) %>
-      </section>
     </div>
   </div>
 </article>

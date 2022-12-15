@@ -1,5 +1,6 @@
 <% article_presenter = ArticlePresenter.new(article) %>
-<article>
+
+<article class="mb-10">
   <div class="row">
     <div class="col col-12 col-md-5">
       <div class="w-100">
@@ -11,26 +12,53 @@
           <% end %>
         </a>
       </div>
-      <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex justify-content-between align-items-center mt-2">
         <div class="symbol-group">
-          <span class="symbol symbol-40px rounded-circle bg-gray-500 overflow-hidden">
-            <img class="w-100 h-100 image-cover" src="<%= asset_path("default-speaker.png") %>" alt="">
-          </span>
-          <span class="symbol symbol-40px rounded-circle bg-gray-500 overflow-hidden">
-            <img class="w-100 h-100 image-cover" src="<%= asset_path("default-speaker.png") %>" alt="">
-          </span>
-          <span class="symbol symbol-40px rounded-circle bg-gray-500 overflow-hidden">
-            <img class="w-100 h-100 image-cover" src="<%= asset_path("default-speaker.png") %>" alt="">
-          </span>
+          <% if article.article_type.name == ArticleType::DEFAULT %>
+            <% for source_speaker in article_presenter.factcheck_source_speakers %>
+              <span class="symbol symbol-40px rounded-circle bg-gray-500 overflow-hidden">
+                <%= render(PortraitComponent.new(speaker: source_speaker)) %>
+              </span>
+            <% end %>
+          <% end %>
+          <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
+            <span class="symbol symbol-40px rounded-circle bg-gray-500 overflow-hidden">
+                <%= render(PortraitComponent.new(speaker: article.single_statement.source_speaker)) %>
+            </span>
+          <% end %>
         </div>
         <div class="">
           <% if article.article_type.name == ArticleType::DEFAULT %>
             <span class="smaller fw-bold text-uppercase">Ověřeno</span>
           <% end %>
           <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
-            <span class="smaller fw-bold text-uppercase <%= article.single_statement.approved_assessment.veracity.default_name %>">
-              <%= article.single_statement.approved_assessment.veracity.name %>
-            </span>
+
+            <% if article.single_statement.approved_assessment.veracity.default_name == "untrue" %>
+              <div class="d-flex align-items-center">
+                <span class="smaller fw-bold text-uppercase text-danger">
+                  <%= article.single_statement.approved_assessment.veracity.name %>
+                </span>
+                <svg class="ms-2" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15 29.834C23.0091 29.834 29.5 23.343 29.5 15.334C29.5 7.32493 23.0091 0.833984 15 0.833984C6.99095 0.833984 0.5 7.32493 0.5 15.334C0.5 23.343 6.99095 29.834 15 29.834Z" fill="#E32219"/>
+                  <path d="M21.061 10.6579L19.6951 9.29199L15 13.9719L10.3049 9.29199L8.93896 10.6579L13.6303 15.334L8.93896 20.01L10.3049 21.376L15 16.6961L19.6951 21.376L21.061 20.01L16.3697 15.334L21.061 10.6579Z" fill="white"/>
+                </svg>
+
+
+              </div>
+            <% end %>
+
+            <% if article.single_statement.approved_assessment.veracity.default_name == "true" %>
+              <div class="d-flex align-items-center">
+                <span class="smaller fw-bold text-uppercase text-primary">
+                  <%= article.single_statement.approved_assessment.veracity.name %>
+                </span>
+                <svg class="ms-2" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15 29.834C23.0091 29.834 29.5 23.343 29.5 15.334C29.5 7.32493 23.0091 0.833984 15 0.833984C6.99095 0.833984 0.5 7.32493 0.5 15.334C0.5 23.343 6.99095 29.834 15 29.834Z" fill="#25AD23"/>
+                  <path d="M6.55713 15.5429L7.8888 14.1769L12.5116 18.7313L22.073 9.2041L23.4389 10.57L12.5116 21.4631L6.55713 15.5429Z" fill="white"/>
+                </svg>
+
+              </div>
+            <% end %>
           <% end %>
         </div>
       </div>

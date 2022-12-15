@@ -26,6 +26,10 @@
 
 @each $name, $value in $theme-colors {
   .state-active-color-#{$name} {
+    transition: color $base-transition;
+    svg {
+      transition: fill $base-transition;
+    }
     &.active {
       color: $value !important;
       svg {
@@ -35,6 +39,10 @@
   }
 
   .state-hover-color-#{$name} {
+    transition: color $base-transition;
+    svg {
+      transition: fill $base-transition;
+    }
     &:hover {
       color: $value !important;
       svg {

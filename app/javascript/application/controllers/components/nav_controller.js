@@ -4,6 +4,7 @@ export default class extends Controller {
 
   static targets = [ 'link', 'submenu' ]
 
+
   toggle(event) {
     event.preventDefault();
     //const = link = this.element.getElementById('myElement');

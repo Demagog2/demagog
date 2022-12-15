@@ -1,23 +1,32 @@
-<div class="speakers-list-item">
-  <%= link_to speaker_path(@speaker), class: 'portrait-list' do %>
-    <%= render(PortraitComponent.new(speaker: @speaker)) %>
-  <% end %>
+<div class="col">
+  <div class="h-100 d-flex flex-column justify-content-between align-items-center">
+    <div class="w-100 p-5">
+      <%= link_to speaker_path(@speaker), class: 'd-block position-relative' do %>
+        <span class="symbol symbol-square symbol-circle">
+          <%= render(PortraitComponent.new(speaker: @speaker)) %>
 
-  <h3 class="full-name">
-    <%= @speaker.full_name %>
-    <% if @speaker.body %>(<%= @speaker.body.short_name %>)<% end %>
-  </h3>
-
-  <% unless @speaker.role.blank? %>
-    <div class="role">
-      <%= @speaker.role %>
+        </span>
+        <% if @speaker.body %>
+          <div class="symbol-label d-flex align-items-center justify-content-center w-45px h-45px rounded-circle bg-dark">
+            <span class="smallest text-white lh-1 text-center p-2"><%= @speaker.body.short_name %></span>
+          </div>
+        <% end %>
+      <% end %>
     </div>
-  <% end %>
-
-  <div class="statements-count">
-    <%= @speaker.factual_and_published_statements_count %>
-    <%= cs_pluralize(@speaker.factual_and_published_statements_count, "výrok", "výroky", "výroků") %>
+    <div class=" text-center lh-1">
+      <h3 class="fs-4 fw-bold mb-4">
+        <%= @speaker.full_name %>
+      </h3>
+      <p class="fs-6 fw-bold mb-4">
+        <%= @speaker.role %>
+      </p>
+      <p class="fs-6">
+        <%= @speaker.factual_and_published_statements_count %>
+        <%= cs_pluralize(@speaker.factual_and_published_statements_count, "výrok", "výroky", "výroků") %>
+      </p>
+    </div>
+    <div class="text-center mt-4">
+      <%= link_to 'Otevřít profil', speaker_path(@speaker), class: 'btn outline' %>
+    </div>
   </div>
-
-  <%= link_to 'Otevřít profil →', speaker_path(@speaker), class: 'profile-link' %>
 </div>

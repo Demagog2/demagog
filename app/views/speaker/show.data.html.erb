@@ -1,0 +1,71 @@
+<%
+stats = @speaker.stats
+content_for(:title, @speaker.full_name + (@speaker.body ? " (#{@speaker.body.short_name})" : ""))
+content_for(
+  :description,
+  "Demagog.cz ověřil již #{@speaker.factual_and_published_statements_count} " + cs_pluralize(@speaker.factual_and_published_statements_count, "faktický výrok", "faktické výroky", "faktických výroků") + " politika*čky"
+)
+%>
+
+<article class="container-speaker-show">
+  <section class="profile">
+    <div class="profile-header">
+      <div class="portrait-wrapper">
+        <%= render(PortraitComponent.new(speaker: @speaker)) %>
+      </div>
+
+      <div class="name-and-role">
+        <h1 class="name s-speaker-name">
+          <%= @speaker.full_name %>
+        </h1>
+        <% if @speaker.role %>
+          <p><%= @speaker.role %></p>
+        <% end %>
+        <% if @speaker.body %>
+          <p class="s-body">Člen*ka strany <%= @speaker.body.name %> <% if @speaker.body.short_name != @speaker.body.name %><span class="s-body">(<%= @speaker.body.short_name %>)</span><% end %></p>
+        <% end %>
+        <% if !@speaker.role && !@speaker.body %>
+          <p></p>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="profile-stats">
+      <div class="profile-stats-item">
+        <div class="veracity true">Pravda</div>
+        <div class="stat <%= "zero" if stats[:true].zero? %>"><span class="number"><%= stats[:true] %></span> <%= cs_pluralize(stats[:true], "výrok", "výroky", "výroků") %></div>
+      </div>
+      <div class="profile-stats-item">
+        <div class="veracity untrue">Nepravda</div>
+        <div class="stat <%= "zero" if stats[:untrue].zero? %>"><span class="number"><%= stats[:untrue] %></span> <%= cs_pluralize(stats[:untrue], "výrok", "výroky", "výroků") %></div>
+      </div>
+      <div class="profile-stats-item">
+        <div class="veracity misleading">Zavádějící</div>
+        <div class="stat <%= "zero" if stats[:misleading].zero? %>"><span class="number"><%= stats[:misleading] %></span> <%= cs_pluralize(stats[:misleading], "výrok", "výroky", "výroků") %></div>
+      </div>
+      <div class="profile-stats-item">
+        <div class="veracity unverifiable">Neověřitelné</div>
+        <div class="stat <%= "zero" if stats[:unverifiable].zero? %>"><span class="number"><%= stats[:unverifiable] %></span> <%= cs_pluralize(stats[:unverifiable], "výrok", "výroky", "výroků") %></div>
+      </div>
+    </div>
+  </section>
+
+  <%# TODO: add infoboxes when they are ready %>
+
+  <section class="statements-list">
+    <%=
+      render(
+        partial: 'statement/elastic_filterable_list',
+        locals: {
+          context: {
+            speaker_id: @speaker.id
+          },
+          enable_filters: [:editor_picked, :tag_id, :veracity_key, :released_year, :fulltext],
+          params: @params,
+          no_filters_url: speaker_path(@speaker),
+          show_speaker_role: false
+        }
+      )
+    %>
+  </section>
+</article>

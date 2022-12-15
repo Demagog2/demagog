@@ -16,7 +16,8 @@ $primary: #25AD23 !default;
 $light: $gray-200 !default;
 $primary-dark: #078738 !default;
 $secondary: #FFBF00 !default;
-$danger: #e91e63;
+$danger: #e91e63 !default;
+$red: #E32219 !default;
 
 $body-bg: $white !default;
 $font-family: 'Lato', sans-serif;
@@ -44,6 +45,8 @@ $theme-colors: (
   "muted":      $text-muted,
   "danger":     $danger,
   "light":      $light,
+  "gray":       $gray-500,
+  "red":        $red,
 ) !default;
 
 
@@ -143,6 +146,7 @@ $display-font-weight: 300 !default;
 $display-line-height: $headings-line-height !default;
 $font-size-small: $font-size-base *.95 !default;
 $font-size-smaller: $font-size-base *.8 !default;
+$font-size-smallest: $font-size-base *.7 !default;
 
 $line-height-base: 1.5 !default;
 $line-height-sm: 1.25 !default;

@@ -1,0 +1,244 @@
+<article
+  class="container-promises-overview"
+  data-controller="promises--overview promises--embed-modal"
+  data-action="resize@window->promises--overview#handleWindowResize popstate@window->promises--overview#handleWindowPopstate"
+  data-promises--overview-query-params-filter-keys="<%= @params_filter_keys.to_json %>"
+  data-promises--overview-query-params-filter-values="<%= @params_filter_values.to_json %>"
+>
+  <section class="intro">
+    <%= render(partial: @intro_partial) %>
+  </section>
+
+  <section class="overall-stats">
+    <h2><%= @all.size %> sledovaných slibů</h2>
+    <div class="stats-lines-container">
+      <% @promise_rating_keys.each do |promise_rating_key| %>
+        <div class="stats-line">
+          <div class="stats-line-amount">
+            <span class="promise-evaluation <%= promise_rating_key.dasherize %> size-24">
+              <span class="stats-line-amount-number"><%= @promise_rating_counts[promise_rating_key] %></span>
+              <%= @promise_rating_counts[promise_rating_key] %> 
+              <%= (
+                {
+                  PromiseRating::FULFILLED => cs_pluralize(@promise_rating_counts[promise_rating_key], "splněný", "splněné", "splněných"),
+                  PromiseRating::IN_PROGRESS => cs_pluralize(@promise_rating_counts[promise_rating_key], "průběžně plněný", "průběžně plněné", "průběžně plněných"),
+                  PromiseRating::PARTIALLY_FULFILLED => cs_pluralize(@promise_rating_counts[promise_rating_key], "částečně splněný", "částečně splněné", "částečně splněných"),
+                  PromiseRating::BROKEN => cs_pluralize(@promise_rating_counts[promise_rating_key], "porušený", "porušené", "porušených"),
+                  PromiseRating::STALLED => cs_pluralize(@promise_rating_counts[promise_rating_key], "nerealizovaný", "nerealizované", "nerealizovaných")
+
+                }[promise_rating_key]
+              ) %>
+            </span>
+          </div>
+          <div class="stats-line-bar <%= promise_rating_key.dasherize %>">
+            <div class="stats-line-bar-inner" style="width: <%= @promise_rating_percents[promise_rating_key] %>%"></div>
+            <span class="stats-line-bar-label"><%= @promise_rating_percents[promise_rating_key] %> %</span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="filters">
+    <div class="area-filter">
+      <span>Filtrujte dle oblasti</span>
+      <a
+        href="<%= url_for(filter_params_clear(:area_tag)) %>"
+        class="clear-filters <% if filter_params_empty?(:area_tag) %>hidden<% end %>"
+        data-target="promises--overview.areaTagFilterClear"
+        data-action="promises--overview#clearFilter"
+        data-filter-type="area_tag"
+      >
+        × zrušit filtr
+      </a>
+      <div class="filter-options-list">
+        <% @area_tags.each do |area_tag| %>
+          <a
+            href="<%= url_for(filter_params_toggle_value(:area_tag, area_tag.id)) %>"
+            class="filter-option-button <% if filter_params_have_value?(:area_tag, area_tag.id) %>active<% end %>"
+            data-target="promises--overview.areaTagFilterOption"
+            data-action="promises--overview#toggleFilter"
+            data-filter-type="area_tag"
+            data-filter-value="<%= area_tag.id %>"
+          >
+            <%= area_tag.name %>
+          </a>
+        <% end %>
+      </div>
+    </div>
+    <div class="evaluation-filter">
+      <span>Filtrujte dle hodnocení</span>
+      <a
+        href="<%= url_for(filter_params_clear(:promise_rating)) %>"
+        class="clear-filters <% if filter_params_empty?(:promise_rating) %>hidden<% end %>"
+        data-target="promises--overview.promiseRatingFilterClear"
+        data-action="promises--overview#clearFilter"
+        data-filter-type="promise_rating"
+      >
+        × zrušit filtr
+      </a>
+      <div class="filter-options-list">
+        <% @promise_rating_keys.each do |promise_rating_key| %>
+          <a
+            href="<%= url_for(filter_params_toggle_value(:promise_rating, promise_rating_key)) %>"
+            class="filter-option-button <% if filter_params_have_value?(:promise_rating, promise_rating_key) %>active<% end %>"
+            data-target="promises--overview.promiseRatingFilterOption"
+            data-action="promises--overview#toggleFilter"
+            data-filter-type="promise_rating"
+            data-filter-value="<%= promise_rating_key %>"
+          >
+            <span class="promise-evaluation <%= promise_rating_key.dasherize %>">
+              <%= (
+                {
+                  PromiseRating::FULFILLED => "splněné",
+                  PromiseRating::IN_PROGRESS => "průběžně plněné",
+                  PromiseRating::PARTIALLY_FULFILLED =>  "částečně splněné",
+                  PromiseRating::BROKEN => "porušené",
+                  PromiseRating::STALLED => "nerealizované"
+                }[promise_rating_key]
+              ) %></span>
+          </a>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <section class="promises-list">
+    <table class="promises-list-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th style="width: 19%">Oblast</th>
+          <th style="width: 26%">Hodnocení</th>
+          <th style="width: 15%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @all.each do |statement| %>
+          <tr
+            id="slib-<%= statement.id %>"
+            class="summary <% unless @filtered_statement_ids.include?(statement.id) %>hidden<% end %>"
+            data-target="promises--overview.summaryRow"
+            data-action="click->promises--overview#toggleDetail"
+            data-area-tag-filter-value="<%= statement.tags[0].id %>"
+            data-promise-rating-filter-value="<%= statement.assessment.promise_rating.key %>"
+          >
+            <td class="name-cell"><%= statement.title %></td>
+            <td>
+              <label>Oblast</label>
+              <%= statement.tags[0].name %>
+            </td>
+            <td>
+              <label>Hodnocení</label>
+              <span class="promise-evaluation <%= statement.assessment.promise_rating.key.dasherize %>"> <%= @promises_list_rating_labels[statement.assessment.promise_rating.key] %></span>
+            </td>
+            <td class="action-cell">
+              <a
+                href="#slib-<%= statement.id %>"
+                class="expand-link"
+                data-action="promises--overview#toggleDetail"
+              >
+                + zobrazit detail
+              </a>
+              <a
+                href="#"
+                class="collapse-link"
+                data-action="promises--overview#toggleDetail"
+              >
+                – skrýt detail
+              </a>
+            </td>
+          </tr>
+          <tr
+            class="detail <% unless @filtered_statement_ids.include?(statement.id) %>hidden<% end %>"
+            data-id="slib-<%= statement.id %>"
+            data-target="promises--overview.detailRow"
+          >
+            <td colspan="4">
+              <div class="slide-animation-container">
+                <div class="space-taking-container">
+                  <div class="hiding-container">
+                    <div class="promise-detail">
+                      <blockquote class="content">
+                        <p>„<%= content_to_html(statement.content) %>“</p>
+                        <cite><a href="<%= @get_statement_source_url.call(statement) %>" target="_blank"><%= @get_statement_source_label.call(statement) %></a></cite>
+                      </blockquote>
+                      <div class="assessment">
+                        <div class="evaluation-and-permalink">
+                          <span class="promise-evaluation <%= statement.assessment.promise_rating.key.dasherize %>"> <%= @promises_list_rating_labels[statement.assessment.promise_rating.key] %></span>
+                          <a class="permalink" href="<%= promise_permalink(statement) %>">trvalý odkaz</a>
+                          <% if @allow_embed %>
+                            <button class="embed-button" type="button" data-action="promises--embed-modal#showModal" data-statement-id="<%= statement.id %>">embed</button>
+                          <% end %>
+                        </div>
+                        <div class="explanation-container <% if statement.assessment.short_explanation.nil? %>full-explanation-only<% end %>">
+                          <% unless statement.assessment.short_explanation.nil? %>
+                            <section class="short-explanation">
+                              <p><%= statement.assessment.short_explanation %></p>
+                            </section>
+
+                            <a href="#" class="toggle-full-explanation" data-action="promises--overview#toggleFullExplanation">
+                              <span class="show">zobrazit&nbsp;celé&nbsp;odůvodnění</span>
+                              <span class="hide">skrýt&nbsp;celé&nbsp;odůvodnění</span>
+                            </a>
+                          <% end %>
+
+                          <section class="full-explanation" data-target="promises--overview.explanationHtml">
+                            <%= raw(to_lazy_loading_iframes_and_images(statement.assessment.explanation_html)) %>
+                          </section>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="credits">
+    <p>Sliby vlády Andreje Babiše ověřujeme díky grantové podpoře Nadačního fondu nezávislé žurnalistiky.</p>
+    <a class="logo" title="Nadační fond nezávislé žurnalistiky" href="https://www.nfnz.cz/">
+      <img src="<%= asset_path("partners/nfnz.svg") %>" alt="Nadační fond nezávislé žurnalistiky" />
+    </a>
+  </section>
+
+  <div class="embed-modal" id="embed-modal" aria-hidden="true" data-target="promises--embed-modal.modal">
+    <div class="embed-modal-overlay" tabindex="-1" data-micromodal-close>
+      <div class="embed-modal-container" role="dialog" aria-modal="true" aria-labelledby="embed-modal-title" >
+        <div class="embed-modal-header" role="header">
+          <button class="close-button" aria-label="Close modal" data-micromodal-close>×</button>
+          <h2 class="embed-modal-title" id="embed-modal-title">
+            Vložte slib do vlastních stránek (embed)
+          </h2>
+        </div>
+        <div class="embed-modal-content" id="embed-modal-content">
+          <div class="embed-display-picker">
+            <button
+              type="button"
+              data-target="promises--embed-modal.displayFullButton"
+              data-action="promises--embed-modal#setDisplayFull"
+            >
+              Plné zobrazení
+            </button>
+            <button
+              type="button"
+              data-target="promises--embed-modal.displayShortButton"
+              data-action="promises--embed-modal#setDisplayShort"
+            >
+              Zkrácené zobrazení
+            </button>
+          </div>
+          <h3>Kód</h3>
+          <textarea class="embed-code" readonly rows="4" data-target="promises--embed-modal.code"></textarea>
+          <h3>Náhled vloženého slibu</h3>
+          <div class="embed-preview-container" data-target="promises--embed-modal.previewContainer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</article>

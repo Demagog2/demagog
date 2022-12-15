@@ -1,39 +1,64 @@
 <% content_for(:title, "Sliby Sobotkovy vlády (2014—2017)") %>
 <% content_for(:description, "Speciální výstup Demagog.cz sledující plnění slibů vlády Bohuslava Sobotky") %>
 
-<h1>Sliby Sobotkovy vlády (2014—2017)</h1>
-<p><strong>Speciální výstup Demagog.cz sledující plnění slibů vlády Bohuslava Sobotky</strong></p>
-<p>
-  S končícím volebním obdobím zpracoval Demagog.cz unikátní analýzu,
-  nakolik koalice ČSSD, hnutí ANO a KDU-ČSL splnila závazky, které
-  si na začátku volebního období sama vytyčila. Pečlivě jsme
-  prostudovali programové prohlášení vlády a koaliční smlouvu a identifikovali
-  jsme přesně <%= @all_count %> měřitelných slibů, a to napříč rezorty. Můžete si tak přečíst,
-  jak si vláda vedla v plnění slibů na poli bezpečnosti, zahraniční politiky,
-  zdravotnictví, školství, práva a státní správy, hospodářství a ekonomiky,
-  zemědělství i životního prostředí.
-</p>
-<p>
-  U každého jsme na základě dohledávání primárních zdrojů informací zkoumali,
-  zda se jej koalici podařilo naplnit (<a href="/sliby/<%= @slug %>/metodika">kompletní metodika</a>).
-  Pro potřeby tohoto
-  výstupu pracujeme s třemi hodnotícími kategoriemi — jde o sliby splněné,
-  částečně splněné a nesplněné (více v metodice). Cílem hodnocení není říct,
-  zda vláda byla dobrá, nebo špatná. To si rozhodne každý volič 20. a 21. října
-  u volební urny. Naším cílem bylo nabídnout veřejnosti tvrdá data a poctivou
-  analýzu namísto impulsivních a zkratkovitých hodnocení, která s sebou nese
-  rozbíhající se předvolební kampaň. Z výsledků vyplývá, že vláda splnila <%= @promise_rating_percents[PromiseRating::FULFILLED] %> %
-  verifikovatelných slibů a naopak nesplnila <%= @promise_rating_percents[PromiseRating::BROKEN] %> % z toho, co si vytyčila v koaliční smlouvě.
-</p>
-<p>
-  Analýzu jsme zpracovali k 20. srpnu 2017, po proběhnuvší poslední schůzi
-  Poslanecké sněmovny ji budeme s ohledem na legislativní posuny u jednotlivých
-  předloh ještě aktualizovat.
-</p>
-<p>
-  Budeme rádi za vaši zpětnou vazbu. Pište nám na
-  <a href="mailto:info@demagog.cz">info@demagog.cz</a>.
-</p>
-<p>
-  Poslední aktualizace výstupu: 20. srpna 2017
-</p>
+<div class="row mb-5">
+  <div class="col col-12">
+    <div class="d-flex">
+      <span class="py-1 me-2">
+        <svg width="69" height="33" viewBox="0 0 69 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M31.8608 7.85225C28.9194 3.14603 23.6746 0 17.6725 0C8.4592 0 0.994141 7.38523 0.994141 16.5C0.994141 25.6148 8.4592 33 17.6725 33C23.6591 33 28.8934 29.8694 31.84 25.1837L16.1214 16.5718L31.8608 7.85225Z" fill="#111827"/>
+          <path d="M52.3312 0.0253906C44.9699 0.0253906 38.7395 4.75214 36.5347 11.3008L27.0205 16.5716L36.5658 21.8013C38.7965 28.3038 45.0062 32.9946 52.3312 32.9946C61.5341 32.9946 68.9888 25.6145 68.9888 16.5151C68.9888 7.41575 61.5341 0.0253906 52.3312 0.0253906ZM61.2955 20.082H43.4602V11.9269L48.6427 15.6734L52.2637 11.9269L55.9781 15.8018L61.2903 11.9269V20.082H61.2955Z" fill="#111827"/>
+        </svg>
+      </span>
+      <h1 class="display-4 fw-bold mb-4">Sliby Sobotkovy vlády (2014—2017)</h1>
+    </div>
+  </div>
+  <div class="col col-12 col-lg-6">
+    <p class="fs-2 fw-bold">Speciální výstup Demagog.cz sledující plnění slibů vlády Bohuslava Sobotky</p>
+  </div>
+</div>
+<div class="row g-10">
+  <div class="col col-12 col-lg-6">
+    <p class="fs-6 mb-5">
+      S končícím volebním obdobím zpracoval Demagog.cz unikátní analýzu,
+      nakolik koalice ČSSD, hnutí ANO a KDU-ČSL splnila závazky, které
+      si na začátku volebního období sama vytyčila. Pečlivě jsme
+      prostudovali programové prohlášení vlády a koaliční smlouvu a identifikovali
+      jsme přesně <%= @all_count %> měřitelných slibů, a to napříč rezorty. Můžete si tak přečíst,
+      jak si vláda vedla v plnění slibů na poli bezpečnosti, zahraniční politiky,
+      zdravotnictví, školství, práva a státní správy, hospodářství a ekonomiky,
+      zemědělství i životního prostředí.
+    </p>
+    <p class="fs-6">
+      U každého jsme na základě dohledávání primárních zdrojů informací zkoumali,
+      zda se jej koalici podařilo naplnit (<a href="/sliby/<%= @slug %>/metodika">kompletní metodika</a>).
+      Pro potřeby tohoto
+      výstupu pracujeme s třemi hodnotícími kategoriemi — jde o sliby splněné,
+      částečně splněné a nesplněné (více v metodice). Cílem hodnocení není říct,
+      zda vláda byla dobrá, nebo špatná. To si rozhodne každý volič 20. a 21. října
+      u volební urny.
+    </p>
+  </div>
+  <div class="col col-12 col-lg-6">
+    <p class="fs-6 mb-5">
+      Naším cílem bylo nabídnout veřejnosti tvrdá data a poctivou
+      analýzu namísto impulsivních a zkratkovitých hodnocení, která s sebou nese
+      rozbíhající se předvolební kampaň. Z výsledků vyplývá, že vláda splnila <%= @promise_rating_percents[PromiseRating::FULFILLED] %> %
+      verifikovatelných slibů a naopak nesplnila <%= @promise_rating_percents[PromiseRating::BROKEN] %> % z toho, co si vytyčila v koaliční smlouvě.
+    </p>
+    <p class="fs-6 mb-5">
+      Analýzu jsme zpracovali k 20. srpnu 2017, po proběhnuvší poslední schůzi
+      Poslanecké sněmovny ji budeme s ohledem na legislativní posuny u jednotlivých
+      předloh ještě aktualizovat.
+    </p>
+
+    <p class="fs-6 mb-5">
+      Budeme rádi za vaši zpětnou vazbu. Pište nám na
+      <a href="mailto:info@demagog.cz">info@demagog.cz</a>.
+    </p>
+
+    <p class="fs-6 mb-5">
+      Poslední aktualizace výstupu: 20. srpna 2017
+    </p>
+  </div>
+</div>

@@ -1,243 +1,310 @@
-<article
-  class="container-promises-overview"
-  data-controller="promises--overview promises--embed-modal"
-  data-action="resize@window->promises--overview#handleWindowResize popstate@window->promises--overview#handleWindowPopstate"
-  data-promises--overview-query-params-filter-keys="<%= @params_filter_keys.to_json %>"
-  data-promises--overview-query-params-filter-values="<%= @params_filter_values.to_json %>"
->
-  <section class="intro">
-    <%= render(partial: @intro_partial) %>
-  </section>
-
-  <section class="overall-stats">
-    <h2><%= @all.size %> sledovaných slibů</h2>
-    <div class="stats-lines-container">
+<section class="section">
+  <%= render(partial: @intro_partial) %>
+</section>
+<section class="section mt-10">
+  <h2 class="fs-1 fw-bold"><%= @all.size %> sledovaných slibů</h2>
+  <div class="">
+    <div class="d-flex my-10">
       <% @promise_rating_keys.each do |promise_rating_key| %>
-        <div class="stats-line">
-          <div class="stats-line-amount">
-            <span class="promise-evaluation <%= promise_rating_key.dasherize %> size-24">
-              <span class="stats-line-amount-number"><%= @promise_rating_counts[promise_rating_key] %></span>
-              <%= (
-                {
-                  PromiseRating::FULFILLED => cs_pluralize(@promise_rating_counts[promise_rating_key], "splněný", "splněné", "splněných"),
-                  PromiseRating::IN_PROGRESS => cs_pluralize(@promise_rating_counts[promise_rating_key], "průběžně plněný", "průběžně plněné", "průběžně plněných"),
-                  PromiseRating::PARTIALLY_FULFILLED => cs_pluralize(@promise_rating_counts[promise_rating_key], "částečně splněný", "částečně splněné", "částečně splněných"),
-                  PromiseRating::BROKEN => cs_pluralize(@promise_rating_counts[promise_rating_key], "porušený", "porušené", "porušených"),
-                  PromiseRating::STALLED => cs_pluralize(@promise_rating_counts[promise_rating_key], "nerealizovaný", "nerealizované", "nerealizovaných")
-
-                }[promise_rating_key]
-              ) %>
+        <div class="d-flex align-items-center me-10">
+          <% if promise_rating_key == "fulfilled" %>
+            <span class="w-30px h-30px d-flex align-items-center justify-content-center bg-primary rounded-circle me-2">
+              <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0.0507812 6.4745L1.38245 5.10858L6.00525 9.6629L15.5667 0.135742L16.9326 1.50166L6.00525 12.3947L0.0507812 6.4745Z" fill="white"/>
+              </svg>
             </span>
-          </div>
-          <div class="stats-line-bar <%= promise_rating_key.dasherize %>">
-            <div class="stats-line-bar-inner" style="width: <%= @promise_rating_percents[promise_rating_key] %>%"></div>
-            <span class="stats-line-bar-label"><%= @promise_rating_percents[promise_rating_key] %> %</span>
-          </div>
+            <span class="fs-4 fw-bold text-uppercase text-primary">
+              <%= @promise_rating_counts[promise_rating_key] %>
+              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "splněný", "splněné", "splněných") %>
+            </span>
+          <% end %>
+          <% if promise_rating_key == "in_progress" %>
+            <span class="fs-4 fw-bold text-uppercase text-secondary">
+              <%= @promise_rating_counts[promise_rating_key] %>
+              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "průběžně plněný", "průběžně plněné", "průběžně plněných") %>
+            </span>
+          <% end %>
+          <% if promise_rating_key == "partially_fulfilled" %>
+            <span class="w-30px h-30px d-flex align-items-center justify-content-center bg-gray rounded-circle me-2">
+              <svg width="17" height="4" viewBox="0 0 17 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.67756 3.8639C1.25892 3.8639 0.878343 3.71167 0.573881 3.40721C0.269419 3.10274 0.117188 2.72217 0.117188 2.30353C0.117188 1.8849 0.269419 1.50432 0.573881 1.19986C0.878343 0.895395 1.25892 0.743164 1.67756 0.743164C2.09619 0.743164 2.47677 0.895395 2.78123 1.19986C3.08569 1.50432 3.23792 1.8849 3.23792 2.30353C3.23792 2.60799 3.16181 2.83634 3.00958 3.10274C2.85735 3.33109 2.66706 3.52138 2.43871 3.67361C2.21036 3.82584 1.98202 3.8639 1.67756 3.8639ZM8.37572 3.8639C7.95708 3.8639 7.57651 3.71167 7.27204 3.40721C6.96758 3.10274 6.81535 2.72217 6.81535 2.30353C6.81535 1.8849 6.96758 1.50432 7.27204 1.19986C7.57651 0.895395 7.95708 0.743164 8.37572 0.743164C8.79435 0.743164 9.17493 0.895395 9.47939 1.19986C9.78385 1.50432 9.93609 1.8849 9.93609 2.30353C9.93609 2.60799 9.85997 2.83634 9.70774 3.10274C9.55551 3.33109 9.36522 3.52138 9.13687 3.67361C8.90853 3.82584 8.68018 3.8639 8.37572 3.8639ZM15.1119 3.8639C14.6933 3.8639 14.3127 3.71167 14.0083 3.40721C13.7038 3.10274 13.5516 2.72217 13.5516 2.30353C13.5516 1.8849 13.7038 1.50432 14.0083 1.19986C14.3127 0.895395 14.6933 0.743164 15.1119 0.743164C15.5306 0.743164 15.9112 0.895395 16.2156 1.19986C16.5201 1.50432 16.6723 1.8849 16.6723 2.30353C16.6723 2.60799 16.5962 2.83634 16.444 3.10274C16.2917 3.33109 16.1014 3.52138 15.8731 3.67361C15.6447 3.82584 15.3783 3.8639 15.1119 3.8639Z" fill="white"/>
+              </svg>
+            </span>
+            <span class="fs-4 fw-bold text-uppercase text-gray">
+              <%= @promise_rating_counts[promise_rating_key] %>
+              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "částečně splněný", "částečně splněné", "částečně splněných") %>
+            </span>
+          <% end %>
+          <% if promise_rating_key == "broken" %>
+            <span class="w-30px h-30px d-flex align-items-center justify-content-center bg-red rounded-circle me-2">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.8642 1.58955L11.4983 0.223633L6.80319 4.90351L2.1081 0.223633L0.742188 1.58955L5.43348 6.26562L0.742188 10.9417L2.1081 12.3076L6.80319 7.62773L11.4983 12.3076L12.8642 10.9417L8.17291 6.26562L12.8642 1.58955Z" fill="white"/>
+              </svg>
+            </span>
+            <span class="fs-4 fw-bold text-uppercase text-red">
+              <%= @promise_rating_counts[promise_rating_key] %>
+              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "porušený", "porušené", "porušených") %>
+            </span>
+          <% end %>
+          <% if promise_rating_key == "stalled" %>
+            <span class="fs-4 fw-bold text-uppercase text-dark">
+              <%= @promise_rating_counts[promise_rating_key] %>
+              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "nerealizovaný", "nerealizované", "nerealizovaných") %>
+            </span>
+          <% end %>
         </div>
       <% end %>
     </div>
-  </section>
+    <div class="d-flex">
+      <% @promise_rating_keys.each do |promise_rating_key| %>
+        <div class="" style="width: <%= @promise_rating_percents[promise_rating_key] %>%">
+          <span class="d-block h-25px mb-4 <%= (
+            {
+              PromiseRating::FULFILLED => "bg-primary",
+              PromiseRating::IN_PROGRESS => "bg-secondary",
+              PromiseRating::PARTIALLY_FULFILLED => "bg-gray",
+              PromiseRating::BROKEN => "bg-red",
+              PromiseRating::STALLED => "bg-dark"
 
-  <section class="filters">
-    <div class="area-filter">
-      <span>Filtrujte dle oblasti</span>
-      <a
-        href="<%= url_for(filter_params_clear(:area_tag)) %>"
-        class="clear-filters <% if filter_params_empty?(:area_tag) %>hidden<% end %>"
-        data-target="promises--overview.areaTagFilterClear"
-        data-action="promises--overview#clearFilter"
-        data-filter-type="area_tag"
-      >
-        × zrušit filtr
-      </a>
-      <div class="filter-options-list">
-        <% @area_tags.each do |area_tag| %>
-          <a
-            href="<%= url_for(filter_params_toggle_value(:area_tag, area_tag.id)) %>"
-            class="filter-option-button <% if filter_params_have_value?(:area_tag, area_tag.id) %>active<% end %>"
-            data-target="promises--overview.areaTagFilterOption"
-            data-action="promises--overview#toggleFilter"
-            data-filter-type="area_tag"
-            data-filter-value="<%= area_tag.id %>"
-          >
-            <%= area_tag.name %>
-          </a>
-        <% end %>
+            }[promise_rating_key]
+          ) %>"></span>
+          <span class="fs-4 fw-bold  <%= @promise_rating_percents[promise_rating_key] %>%">
+            <span class="d-block h-25px mb-4 <%= (
+              {
+                PromiseRating::FULFILLED => "text-primary",
+                PromiseRating::IN_PROGRESS => "text-secondary",
+                PromiseRating::PARTIALLY_FULFILLED => "text-gray",
+                PromiseRating::BROKEN => "text-red",
+                PromiseRating::STALLED => "text-dark"
+
+              }[promise_rating_key]
+            ) %>"><%= @promise_rating_percents[promise_rating_key] %> %</span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div
+    data-controller="components--filter"
+    data-components--filter-content-cols="col col-12 col-lg-8"
+    data-components--filter-open-label="Skrýt filtry"
+    data-components--filter-close-label="Zobrazit filtry"
+  >
+    <div class="row g-10 my-10">
+      <div class="col col-12 col-lg-4">
+        <a class="btn w-100" data-action="click->components--filter#toggle" aria-show="true">
+          <span class="text-white" data-target="components--filter.label">Skrýt filtry</span>
+        </a>
       </div>
     </div>
-    <div class="evaluation-filter">
-      <span>Filtrujte dle hodnocení</span>
-      <a
-        href="<%= url_for(filter_params_clear(:promise_rating)) %>"
-        class="clear-filters <% if filter_params_empty?(:promise_rating) %>hidden<% end %>"
-        data-target="promises--overview.promiseRatingFilterClear"
-        data-action="promises--overview#clearFilter"
-        data-filter-type="promise_rating"
-      >
-        × zrušit filtr
-      </a>
-      <div class="filter-options-list">
-        <% @promise_rating_keys.each do |promise_rating_key| %>
-          <a
-            href="<%= url_for(filter_params_toggle_value(:promise_rating, promise_rating_key)) %>"
-            class="filter-option-button <% if filter_params_have_value?(:promise_rating, promise_rating_key) %>active<% end %>"
-            data-target="promises--overview.promiseRatingFilterOption"
-            data-action="promises--overview#toggleFilter"
-            data-filter-type="promise_rating"
-            data-filter-value="<%= promise_rating_key %>"
-          >
-            <span class="promise-evaluation <%= promise_rating_key.dasherize %>">
-              <%= (
-                {
-                  PromiseRating::FULFILLED => "splněné",
-                  PromiseRating::IN_PROGRESS => "průběžně plněné",
-                  PromiseRating::PARTIALLY_FULFILLED =>  "částečně splněné",
-                  PromiseRating::BROKEN => "porušené",
-                  PromiseRating::STALLED => "nerealizované"
-                }[promise_rating_key]
-              ) %></span>
-          </a>
-        <% end %>
-      </div>
-    </div>
-  </section>
 
-  <section class="promises-list">
-    <table class="promises-list-table">
-      <thead>
-        <tr>
-          <th></th>
-          <th style="width: 19%">Oblast</th>
-          <th style="width: 26%">Hodnocení</th>
-          <th style="width: 15%"></th>
-        </tr>
-      </thead>
-      <tbody>
+    <div class="row g-10">
+      <div class="col col-12 col-lg-4" data-target="components--filter.filter">
+        <div class="bg-light rounded-l p-5">
+          <div class="accordion w-100 mb-5" data-controller="components--accordion">
+            <div
+              class="accordion-link d-flex align-items-center justify-content-between w-100 min-h-40px"
+              data-target="components--accordion.link"
+              data-action="click->components--accordion#toggle"
+              aria-show="true"
+            >
+              <span class="fs-6 fw-bold">Oblast</span>
+              <span class="accordion-icon">
+                <svg width="23" height="12" viewBox="0 0 23 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 0.597656L11.646 11.2437L22.2435 0.646237" stroke="#111827"/>
+                </svg>
+              </span>
+            </div>
+            <div class="accordion-content" data-target="components--accordion.content">
+              <% @area_tags.each do |area_tag| %>
+              <div class="check-btn py-2">
+                <input type="checkbox" name="strana">
+                <span class="checkmark"></span>
+                <span class="small fw-bold me-2"><%= area_tag.name %></span>
+              </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="separator bg-dark mb-5"></div>
+          <div class="accordion w-100 mb-5" data-controller="components--accordion">
+            <div
+              class="accordion-link d-flex align-items-center justify-content-between w-100 min-h-40px"
+              data-target="components--accordion.link"
+              data-action="click->components--accordion#toggle"
+              aria-show="true"
+            >
+              <span class="fs-6 fw-bold">Hodnocení</span>
+              <span class="accordion-icon">
+                <svg width="23" height="12" viewBox="0 0 23 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 0.597656L11.646 11.2437L22.2435 0.646237" stroke="#111827"/>
+                </svg>
+              </span>
+            </div>
+            <div class="accordion-content" data-target="components--accordion.content">
+              <% @promise_rating_keys.each do |promise_rating_key| %>
+              <div class="check-btn py-2">
+                <input type="checkbox" name="strana">
+                <span class="checkmark"></span>
+                <span class="small fw-bold me-2">
+                  <%= (
+                    {
+                      PromiseRating::FULFILLED => "splněné",
+                      PromiseRating::IN_PROGRESS => "průběžně plněné",
+                      PromiseRating::PARTIALLY_FULFILLED =>  "částečně splněné",
+                      PromiseRating::BROKEN => "porušené",
+                      PromiseRating::STALLED => "nerealizované"
+                    }[promise_rating_key]
+                  ) %>
+                </span>
+              </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="separator bg-dark mb-5"></div>
+          <div class="w-100 mt-5">
+            <a class="btn w-100">
+              <span class="text-white">Zrušit filtry</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-lg-8 " data-target="components--filter.content">
+        <div class="row g-6 py-2">
+          <div class="col col-12 col-lg-5">
+
+          </div>
+          <div class="col col-12 col-lg-2">
+            <h6 class="fs-5 text-uppercase">Oblast</h6>
+          </div>
+          <div class="col col-12 col-lg-2">
+            <h6 class="fs-5 text-uppercase">Hodnocení</h6>
+          </div>
+          <div class="col col-12 col-lg-3">
+
+          </div>
+        </div>
         <% @all.each do |statement| %>
-          <tr
-            id="slib-<%= statement.id %>"
-            class="summary <% unless @filtered_statement_ids.include?(statement.id) %>hidden<% end %>"
-            data-target="promises--overview.summaryRow"
-            data-action="click->promises--overview#toggleDetail"
-            data-area-tag-filter-value="<%= statement.tags[0].id %>"
-            data-promise-rating-filter-value="<%= statement.assessment.promise_rating.key %>"
-          >
-            <td class="name-cell"><%= statement.title %></td>
-            <td>
-              <label>Oblast</label>
-              <%= statement.tags[0].name %>
-            </td>
-            <td>
-              <label>Hodnocení</label>
-              <span class="promise-evaluation <%= statement.assessment.promise_rating.key.dasherize %>"> <%= @promises_list_rating_labels[statement.assessment.promise_rating.key] %></span>
-            </td>
-            <td class="action-cell">
-              <a
-                href="#slib-<%= statement.id %>"
-                class="expand-link"
-                data-action="promises--overview#toggleDetail"
-              >
-                + zobrazit detail
-              </a>
-              <a
-                href="#"
-                class="collapse-link"
-                data-action="promises--overview#toggleDetail"
-              >
-                – skrýt detail
-              </a>
-            </td>
-          </tr>
-          <tr
-            class="detail <% unless @filtered_statement_ids.include?(statement.id) %>hidden<% end %>"
-            data-id="slib-<%= statement.id %>"
-            data-target="promises--overview.detailRow"
-          >
-            <td colspan="4">
-              <div class="slide-animation-container">
-                <div class="space-taking-container">
-                  <div class="hiding-container">
-                    <div class="promise-detail">
-                      <blockquote class="content">
-                        <p>„<%= content_to_html(statement.content) %>“</p>
-                        <cite><a href="<%= @get_statement_source_url.call(statement) %>" target="_blank"><%= @get_statement_source_label.call(statement) %></a></cite>
-                      </blockquote>
-                      <div class="assessment">
-                        <div class="evaluation-and-permalink">
-                          <span class="promise-evaluation <%= statement.assessment.promise_rating.key.dasherize %>"> <%= @promises_list_rating_labels[statement.assessment.promise_rating.key] %></span>
-                          <a class="permalink" href="<%= promise_permalink(statement) %>">trvalý odkaz</a>
-                          <% if @allow_embed %>
-                            <button class="embed-button" type="button" data-action="promises--embed-modal#showModal" data-statement-id="<%= statement.id %>">embed</button>
-                          <% end %>
-                        </div>
-                        <div class="explanation-container <% if statement.assessment.short_explanation.nil? %>full-explanation-only<% end %>">
-                          <% unless statement.assessment.short_explanation.nil? %>
-                            <section class="short-explanation">
-                              <p><%= statement.assessment.short_explanation %></p>
-                            </section>
+        <div class="separator bg-gray"></div>
+        <div
+          class="accordion w-100"
+          data-controller="components--accordion"
+          data-components--accordion-open-label="skrýt detail"
+          data-components--accordion-close-label="zobrazit detail"
 
-                            <a href="#" class="toggle-full-explanation" data-action="promises--overview#toggleFullExplanation">
-                              <span class="show">zobrazit&nbsp;celé&nbsp;odůvodnění</span>
-                              <span class="hide">skrýt&nbsp;celé&nbsp;odůvodnění</span>
-                            </a>
-                          <% end %>
+        >
+          <div class="row g-6 py-2 align-items-center">
+            <div class="col col-12 col-lg-5">
+              <span class="fs-6 fw-bold"><%= statement.title %></span>
+            </div>
+            <div class="col col-12 col-lg-2">
+              <span class="fs-6"><%= statement.tags[0].name %></span>
+            </div>
+            <div class="col col-12 col-lg-2">
+              <div class="d-flex align-items-center">
 
-                          <section class="full-explanation" data-target="promises--overview.explanationHtml">
-                            <%= raw(to_lazy_loading_iframes_and_images(statement.assessment.explanation_html)) %>
-                          </section>
-                        </div>
-                      </div>
+                <span class="w-30px h-30px min-w-30px d-flex align-items-center justify-content-center rounded-circle me-1 bg-<%= @promises_list_rating_classes[statement.assessment.promise_rating.key] %>">
+                  <% if statement.assessment.promise_rating.key.dasherize == "fulfilled" %>
+                    <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0.0507812 6.4745L1.38245 5.10858L6.00525 9.6629L15.5667 0.135742L16.9326 1.50166L6.00525 12.3947L0.0507812 6.4745Z" fill="white"/>
+                    </svg>
+                  <% end %>
+                  <% if statement.assessment.promise_rating.key.dasherize == "partially-fulfilled" %>
+                    <svg width="17" height="4" viewBox="0 0 17 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M1.67756 3.8639C1.25892 3.8639 0.878343 3.71167 0.573881 3.40721C0.269419 3.10274 0.117188 2.72217 0.117188 2.30353C0.117188 1.8849 0.269419 1.50432 0.573881 1.19986C0.878343 0.895395 1.25892 0.743164 1.67756 0.743164C2.09619 0.743164 2.47677 0.895395 2.78123 1.19986C3.08569 1.50432 3.23792 1.8849 3.23792 2.30353C3.23792 2.60799 3.16181 2.83634 3.00958 3.10274C2.85735 3.33109 2.66706 3.52138 2.43871 3.67361C2.21036 3.82584 1.98202 3.8639 1.67756 3.8639ZM8.37572 3.8639C7.95708 3.8639 7.57651 3.71167 7.27204 3.40721C6.96758 3.10274 6.81535 2.72217 6.81535 2.30353C6.81535 1.8849 6.96758 1.50432 7.27204 1.19986C7.57651 0.895395 7.95708 0.743164 8.37572 0.743164C8.79435 0.743164 9.17493 0.895395 9.47939 1.19986C9.78385 1.50432 9.93609 1.8849 9.93609 2.30353C9.93609 2.60799 9.85997 2.83634 9.70774 3.10274C9.55551 3.33109 9.36522 3.52138 9.13687 3.67361C8.90853 3.82584 8.68018 3.8639 8.37572 3.8639ZM15.1119 3.8639C14.6933 3.8639 14.3127 3.71167 14.0083 3.40721C13.7038 3.10274 13.5516 2.72217 13.5516 2.30353C13.5516 1.8849 13.7038 1.50432 14.0083 1.19986C14.3127 0.895395 14.6933 0.743164 15.1119 0.743164C15.5306 0.743164 15.9112 0.895395 16.2156 1.19986C16.5201 1.50432 16.6723 1.8849 16.6723 2.30353C16.6723 2.60799 16.5962 2.83634 16.444 3.10274C16.2917 3.33109 16.1014 3.52138 15.8731 3.67361C15.6447 3.82584 15.3783 3.8639 15.1119 3.8639Z" fill="white"/>
+                    </svg>
+                  <% end %>
+                  <% if statement.assessment.promise_rating.key.dasherize == "broken" %>
+                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12.8642 1.58955L11.4983 0.223633L6.80319 4.90351L2.1081 0.223633L0.742188 1.58955L5.43348 6.26562L0.742188 10.9417L2.1081 12.3076L6.80319 7.62773L11.4983 12.3076L12.8642 10.9417L8.17291 6.26562L12.8642 1.58955Z" fill="white"/>
+                    </svg>
+                  <% end %>
+                </span>
+                <span class="fs-7 text-uppercase text-<%= @promises_list_rating_classes[statement.assessment.promise_rating.key] %>">
+                  <%= @promises_list_rating_labels[statement.assessment.promise_rating.key] %>
+                </span>
+              </div>
+            </div>
+            <div class="col col-12 col-lg-3 d-flex justify-content-end">
+              <div class="">
+                <a
+                  class="btn outline min-h-40px min-w-150px"
+                  data-target="components--accordion.link"
+                  data-action="click->components--accordion#toggle"
+                  aria-show="false"
+                >
+                  <span class="fs-7" data-target="components--accordion.label">zobrazit detail</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-content close" data-target="components--accordion.content" data-action="click->components--accordion#checkHeight">
+            <div class="row g-6">
+              <div class="col col-12 col-lg-5">
+                <blockquote class="p-3 fs-6 bg-dark text-white rounded-m mb-2 position-relative min-h-50px" data-target="statement--detail.blockquote">
+                  <span class="popover-arrow arrow-east"></span>
+                  <span class="fs-6 position-relative"><%= content_to_html(statement.content) %></span>
+                  <div>
+                    <a class="text-white fs-7" href="<%= @get_statement_source_url.call(statement) %>" target="_blank"><%= @get_statement_source_label.call(statement) %></a>
+                  </div>
+                </blockquote>
+              </div>
+              <div class="col col-12 col-lg-7">
+                <% unless statement.assessment.short_explanation.nil? %>
+                  <div
+                   class="accordion py-3"
+                   data-controller="components--accordion"
+                   data-components--accordion-open-label="skrýt celé odůvodnění"
+                   data-components--accordion-close-label="zobrazit celé odůvodnění"
+                  >
+                    <div class="">
+                      <p class="fs-6"><%= statement.assessment.short_explanation %></p>
+                    </div>
+                    <div class="accordion-content close fs-6" data-target="components--accordion.content">
+                      <%= raw(to_lazy_loading_iframes_and_images(statement.assessment.explanation_html)) %>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <a
+                        data-target="components--accordion.link"
+                        data-action="click->components--accordion#toggle"
+                        aria-show="false"
+                      >
+                        <span class="fs-7" data-target="components--accordion.label">zobrazit celé odůvodnění</span>
+                      </a>
+                      <% if @allow_embed %>
+                        <a class="d-flex text-gray align-items-center text-none" data-statement-id="<%= statement.id %>">
+                          <svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0.723633 5.875V5L5.91113 2.48438V3.67578L2.08301 5.42188L2.11816 5.35156V5.51953L2.08301 5.45313L5.91113 7.19531V8.39062L0.723633 5.875Z" fill="#9B9B9B"/>
+                            <path d="M10.8115 0.210938L8.2334 9.78906H7.19043L9.76855 0.210938H10.8115Z" fill="#9B9B9B"/>
+                            <path d="M17.2764 5.875L12.0889 8.39062V7.19531L15.917 5.45313L15.8779 5.51953V5.35156L15.917 5.42188L12.0889 3.67578V2.48438L17.2764 5V5.875Z" fill="#9B9B9B"/>
+                          </svg>
+                          <span class="ms-1">embed</span>
+                        </a>
+
+                      <% end %>
+                      <a class="d-flex text-gray align-items-center text-none" href="<%= promise_permalink(statement) %>">
+                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <g clip-path="url(#clip0_922_5912)">
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M13.688 3.22936C14.0527 3.38078 14.3839 3.60269 14.6626 3.88237C15.2257 4.44354 15.5431 5.20529 15.5449 6.0003C15.5468 6.7953 15.2331 7.55854 14.6726 8.12236L10.6726 12.1224C10.3925 12.4028 10.0596 12.625 9.69314 12.776C9.32669 12.9271 8.93394 13.004 8.53758 13.0024C7.74261 13.007 6.97832 12.6959 6.41258 12.1374C6.1329 11.8587 5.91099 11.5275 5.75957 11.1628C5.60816 10.7982 5.53021 10.4072 5.53021 10.0124C5.53021 9.61752 5.60816 9.22656 5.75957 8.86191C5.91099 8.49725 6.1329 8.16608 6.41258 7.88737L7.12258 7.17737L7.82758 7.88737L7.12258 8.59737C6.7473 8.97331 6.53673 9.48294 6.5372 10.0141C6.53767 10.5453 6.74913 11.0546 7.12508 11.4299C7.50102 11.8051 8.01065 12.0157 8.54185 12.0152C9.07304 12.0148 9.5823 11.8033 9.95758 11.4274L13.9576 7.42737C14.1437 7.24122 14.2914 7.02023 14.3921 6.77701C14.4929 6.5338 14.5447 6.27312 14.5447 6.00987C14.5447 5.74661 14.4929 5.48593 14.3921 5.24272C14.2914 4.9995 14.1437 4.77851 13.9576 4.59237C13.7714 4.40622 13.5504 4.25856 13.3072 4.15781C13.064 4.05707 12.8033 4.00522 12.5401 4.00522C12.2768 4.00522 12.0161 4.05707 11.7729 4.15781C11.5297 4.25856 11.3087 4.40622 11.1226 4.59237L10.4126 3.88237C10.6913 3.60269 11.0225 3.38078 11.3871 3.22936C11.7518 3.07794 12.1427 3 12.5376 3C12.9324 3 13.3234 3.07794 13.688 3.22936ZM1.69663 12.2624C1.79773 12.5056 1.94588 12.7265 2.13258 12.9124C2.31842 13.0991 2.53931 13.2472 2.78257 13.3483C3.02582 13.4494 3.28666 13.5014 3.55008 13.5014C3.81351 13.5014 4.07434 13.4494 4.3176 13.3483C4.56086 13.2472 4.78175 13.0991 4.96758 12.9124L5.67758 13.6224C5.10844 14.1868 4.33913 14.5031 3.53758 14.5024C2.74303 14.5123 1.97699 14.2066 1.40758 13.6524C1.12715 13.3736 0.904605 13.0421 0.752744 12.6769C0.600884 12.3118 0.522705 11.9203 0.522705 11.5249C0.522705 11.1294 0.600884 10.7379 0.752744 10.3728C0.904605 10.0076 1.12715 9.67615 1.40758 9.39735L5.40758 5.39735C5.97183 4.8331 6.73711 4.51611 7.53508 4.51611C8.33305 4.51611 9.09833 4.8331 9.66258 5.39735C10.2268 5.9616 10.5438 6.72689 10.5438 7.52485C10.5438 8.32282 10.2268 9.0881 9.66258 9.65235L8.60258 10.7124L7.89258 10.0024L8.95258 8.92735C9.13945 8.74029 9.28736 8.51803 9.38778 8.27343C9.48819 8.02884 9.53911 7.76676 9.53758 7.50235C9.54276 7.23877 9.49497 6.97684 9.39706 6.73206C9.29915 6.48729 9.15311 6.26465 8.96758 6.07735C8.78175 5.89065 8.56086 5.7425 8.3176 5.6414C8.07434 5.54031 7.81351 5.48827 7.55008 5.48827C7.28666 5.48827 7.02582 5.54031 6.78257 5.6414C6.53931 5.7425 6.31842 5.89065 6.13258 6.07735L2.13258 10.0774C1.94588 10.2632 1.79773 10.4841 1.69663 10.7273C1.59554 10.9706 1.5435 11.2314 1.5435 11.4949C1.5435 11.7583 1.59554 12.0191 1.69663 12.2624Z" fill="#9B9B9B"/>
+                          </g>
+                          <defs>
+                          <clipPath id="clip0_922_5912">
+                          <rect width="16" height="16" fill="white" transform="translate(0.0375977 0.501953)"/>
+                          </clipPath>
+                          </defs>
+                        </svg>
+                        <span class="ms-1">trvalý odkaz</span>
+                      </a>
                     </div>
                   </div>
-                </div>
+                <% end %>
               </div>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </section>
-
-  <section class="credits">
-    <p>Sliby vlády Andreje Babiše ověřujeme díky grantové podpoře Nadačního fondu nezávislé žurnalistiky.</p>
-    <a class="logo" title="Nadační fond nezávislé žurnalistiky" href="https://www.nfnz.cz/">
-      <img src="<%= asset_path("partners/nfnz.svg") %>" alt="Nadační fond nezávislé žurnalistiky" />
-    </a>
-  </section>
-
-  <div class="embed-modal" id="embed-modal" aria-hidden="true" data-target="promises--embed-modal.modal">
-    <div class="embed-modal-overlay" tabindex="-1" data-micromodal-close>
-      <div class="embed-modal-container" role="dialog" aria-modal="true" aria-labelledby="embed-modal-title" >
-        <div class="embed-modal-header" role="header">
-          <button class="close-button" aria-label="Close modal" data-micromodal-close>×</button>
-          <h2 class="embed-modal-title" id="embed-modal-title">
-            Vložte slib do vlastních stránek (embed)
-          </h2>
-        </div>
-        <div class="embed-modal-content" id="embed-modal-content">
-          <div class="embed-display-picker">
-            <button
-              type="button"
-              data-target="promises--embed-modal.displayFullButton"
-              data-action="promises--embed-modal#setDisplayFull"
-            >
-              Plné zobrazení
-            </button>
-            <button
-              type="button"
-              data-target="promises--embed-modal.displayShortButton"
-              data-action="promises--embed-modal#setDisplayShort"
-            >
-              Zkrácené zobrazení
-            </button>
+            </div>
           </div>
-          <h3>Kód</h3>
-          <textarea class="embed-code" readonly rows="4" data-target="promises--embed-modal.code"></textarea>
-          <h3>Náhled vloženého slibu</h3>
-          <div class="embed-preview-container" data-target="promises--embed-modal.previewContainer"></div>
         </div>
+
+
+        <% end %>
       </div>
     </div>
   </div>
-
-</article>
+</section>

@@ -13,7 +13,41 @@
           }
       }
   }
+  > img {
+      width: 100%;
+      flex-shrink: 0;
+      display: inline-block;
+  }
 
+  &.symbol-circle {
+    border-radius: 50%;
+  }
+
+  &.symbol-square {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+    overflow: hidden;
+    > img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+  }
+
+}
+
+.symbol-label {
+  position: absolute;
+  bottom: -0.5rem;
+  right:  -0.5rem;
+
+  span {
+    text-decoration: none;
+  }
 
 }
 

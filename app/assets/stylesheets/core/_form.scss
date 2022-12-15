@@ -11,4 +11,89 @@
   align-items: center;
   min-height: 44px;
 
+  &::placeholder {
+    color: inherit;
+  }
+
+  &.outline {
+    border: 1px solid $dark;
+    background-color: transparent;
+
+    &.white {
+      color: $white;
+      border-color: $white;
+    }
+    @each $name, $value in $theme-colors {
+      transition: border-color $base-transition;
+      &.focus-#{$name} {
+        &:focus {
+          border-color: $value;
+        }
+      }
+    }
+
+  }
+}
+
+.check-btn {
+  position: relative;
+  width: 100%;
+  display: flex;
+
+
+
+
+  & > input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  & > span {
+    pointer-events: none;
+  }
+
+  & > .checkmark {
+    position: relative;
+    height: 20px;
+    width: 30px;
+    min-width: 30px;
+
+
+    &::before {
+      position: absolute;
+      content: "";
+      top: 0;
+      left: 0;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      border: 1px solid $dark;
+    }
+    &::after {
+        content: "";
+        position: absolute;
+        display: none;
+        left: 7px;
+        top: 2px;
+        width: 6px;
+        height: 12px;
+        border: solid $white;
+        border-width: 0 2px 2px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+  }
+
+  input:checked ~ .checkmark::after {
+    display: block;
+  }
+  input:checked ~ .checkmark::before {
+    background-color: $dark;
+  }
 }

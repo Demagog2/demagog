@@ -2,7 +2,6 @@ import { Controller } from 'stimulus';
 
 export default class extends Controller {
   accept() {
-    console.log("accept");
     this.callApi('accept');
     this.element.remove();
 
