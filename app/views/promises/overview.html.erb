@@ -205,19 +205,21 @@
         </div>
       </div>
 
-      <div class="col col-12 col-lg-8 d-none d-lg-flex" data-target="components--filter.content" >
-        <div class="row g-6 py-2">
-          <div class="col col-12 col-lg-5">
+      <div class="col col-12 col-lg-8" data-target="components--filter.content" >
+        <div class="d-none d-lg-block">
+          <div class="row g-3 g-lf-6 py-2">
+            <div class="col col-12 col-lg-5">
 
-          </div>
-          <div class="col col-12 col-lg-2">
-            <h6 class="fs-5 text-uppercase">Oblast</h6>
-          </div>
-          <div class="col col-12 col-lg-2">
-            <h6 class="fs-5 text-uppercase">Hodnocení</h6>
-          </div>
-          <div class="col col-12 col-lg-3">
+            </div>
+            <div class="col col-12 col-lg-2">
+              <h6 class="fs-5 text-uppercase">Oblast</h6>
+            </div>
+            <div class="col col-12 col-lg-2">
+              <h6 class="fs-5 text-uppercase">Hodnocení</h6>
+            </div>
+            <div class="col col-12 col-lg-3">
 
+            </div>
           </div>
         </div>
         <% @all.each do |statement| %>
@@ -278,10 +280,11 @@
                 </blockquote>
               </div>
               <div class="col col-12 col-lg-7">
-                <% unless statement.assessment.short_explanation.nil? %>
+
                   <div
                    class="promise-detail py-3"
                   >
+                    <% unless statement.assessment.short_explanation.nil? %>
                     <div class="">
                       <p class="fs-6"><%= statement.assessment.short_explanation %></p>
                     </div>
@@ -292,7 +295,18 @@
                         </div>
                       </div>
                     </div>
+                    <% else %>
+                    <div class="fs-6">
+                      <div class="py-2 py-lg-5">
+                        <div class="scroll-vertical mh-400px">
+                          <%= raw(to_lazy_loading_iframes_and_images(statement.assessment.explanation_html)) %>
+                        </div>
+                      </div>
+                    </div>
+                    <% end %>
+
                     <div class="d-block d-lg-flex justify-content-between align-items-center">
+                      <% unless statement.assessment.short_explanation.nil? %>
                       <a
                         class="link"
                         data-action="click->components--overview#toggleDetail"
@@ -300,6 +314,7 @@
                       >
                         <span class="accordion-label-detail fs-7" >zobrazit celé odůvodnění</span>
                       </a>
+                      <% end %>
                       <% if @allow_embed %>
                         <a class="d-flex text-gray align-items-center text-none" data-statement-id="<%= statement.id %>">
                           <svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -325,7 +340,7 @@
                       </a>
                     </div>
                   </div>
-                <% end %>
+
               </div>
             </div>
           </div>

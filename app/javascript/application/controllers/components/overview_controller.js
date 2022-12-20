@@ -15,24 +15,31 @@ export default class extends Controller {
       const content = el.querySelector(".accordion-content");
       const detail = el.querySelector(".accordion-detail");
       const label = el.querySelector(".accordion-label");
-      if (content.getAttribute('aria-show') == "false") {
-        content.style.maxHeight = 0 + "px";
-        if (this.data.get('closePreviewLabel')) {
-          label.innerHTML = this.data.get('closePreviewLabel');
-        }
+      if (content) {
+        if (content.getAttribute('aria-show') == "false") {
+          content.style.maxHeight = 0 + "px";
+          if (this.data.get('closePreviewLabel')) {
+            label.innerHTML = this.data.get('closePreviewLabel');
+          }
 
-      } else {
-        content.style.maxHeight = content.scrollHeight + "px";
-        if (this.data.get('openPreviewLabel')) {
-          label.innerHTML = this.data.get('openPreviewLabel');
+        } else {
+          content.style.maxHeight = content.scrollHeight + "px";
+          if (this.data.get('openPreviewLabel')) {
+            label.innerHTML = this.data.get('openPreviewLabel');
+          }
         }
       }
 
-      if (detail.getAttribute('aria-show') == "false") {
-        detail.style.maxHeight = 0 + "px";
-      } else {
-        detail.style.maxHeight = content.scrollHeight + "px";
+      if (detail) {
+        if (detail.getAttribute('aria-show') == "false") {
+          detail.style.maxHeight = 0 + "px";
+        } else {
+          detail.style.maxHeight = content.scrollHeight + "px";
+        }
       }
+
+
+
     });
 
     const id = this.expandedId;
