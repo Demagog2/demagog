@@ -2,29 +2,23 @@ import { Controller } from 'stimulus';
 
 export default class extends Controller {
   accept() {
-    this.callApi('accept');
-    this.element.remove();
-
-    // Notify Google Tag Manager that we have the consent
-    const dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('consent', 'update', {
-      analytics_storage: 'granted',
+    this.callApi('accept').then(() => {
+      console.log("accept");
+      window.location.reload();
     });
   }
 
   reject() {
-    this.callApi('reject');
-    this.element.remove();
+    this.callApi('reject').then(() => {
+      window.location.reload();
+    });
   }
 
   callApi(decision) {
     const formData = new FormData();
     formData.append('decision', decision);
 
-    fetch('/cookies/analytics', {
+    return fetch('/cookies/analytics', {
       method: 'POST',
       body: formData,
       credentials: 'same-origin',
