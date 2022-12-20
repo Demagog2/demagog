@@ -3,104 +3,154 @@
 <% wide_display = true if local_assigns[:wide_display].nil? %>
 
 <div
-  class="container-statement-filterable-list"
-  data-controller="statement--filterable-list"
-  data-action="popstate@window->statement--filterable-list#handleWindowPopstate"
+  class="row g-5 g-lg-10"
+  data-controller="components--filter"
+  data-components--filter-open-cols="col col-12 col-lg-8"
+  data-components--filter-close-cols="col col-12"
+  data-components--filter-open-rows="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-10"
+  data-components--filter-close-rows="row row-cols-1 row-cols-md-2 row-cols-lg-6 g-10"
+  data-components--filter-open-label="Skrýt filtry"
+  data-components--filter-close-label="Zobrazit filtry"
+  data-components--filter-close-empty="true"
 >
-  <h2>Výroky</h2>
-
-  <% if false # TODO: remove when infoboxes texts are ready %>
-  <div class="infoboxes-list">
-    <div class="infobox-item">
-      <%= render(partial: "shared/infobox", locals: { topic: :choosing_statements, id: "statement-filterable-list-choosing-statements" }) %>
-    </div>
-    <% if statements.any? { |s| s.important } %>
-      <div class="infobox-item">
-        <%= render(partial: "shared/infobox", locals: { topic: :editor_picked_statements, id: "statement-filterable-list-editor-picked-statement" }) %>
-      </div>
-    <% end %>
+  <div class="col col-12">
+    <h2 class="fs-2 text-bold">Výroky</h2>
   </div>
-  <% end %>
-
-  <form class="filters-list">
-    <div class="filter-item">
-      Filtry
-    </div>
-    
-    <% if source_speakers.size > 1 %>
-      <div class="filter-item">
-        <select name="recnik" data-action="change->statement--filterable-list#onFilterSelectChange" class="filter-select">
-          <option value="">Všichni řečníci</option>
+  <div class="col col-12 col-lg-4">
+    <a class="btn w-100" data-action="click->components--filter#toggle" aria-show="true">
+      <span class="text-white" data-target="components--filter.label">Skrýt filtry</span>
+    </a>
+  </div>
+  <div class="col col-12 col-lg-8"></div>
+  <div class="col col-12 col-lg-4" data-target="components--filter.filter">
+    <div class="bg-light rounded-l p-5">
+      <% if source_speakers.size > 1 %>
+      <div class="filter w-100 mb-5">
+        <div
+          class="filter-link d-flex align-items-center justify-content-between w-100 min-h-40px"
+          data-action="click->components--filter#toggleLink"
+          data-target="components--filter.filterLink"
+          aria-show="true"
+        >
+          <span class="fs-6 fw-bold">Řečníci</span>
+          <span class="filter-icon">
+            <svg width="23" height="12" viewBox="0 0 23 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 0.597656L11.646 11.2437L22.2435 0.646237" stroke="#111827"/>
+            </svg>
+          </span>
+        </div>
+        <div class="filter-content">
           <% source_speakers.each do |source_speaker| %>
-            <option value="<%= "#{source_speaker.speaker.full_name.parameterize}-#{source_speaker.speaker.id.to_s}" %>">
-              <%= source_speaker.full_name %>
-              <% if source_speaker.body %>(<%= source_speaker.body.short_name %>)<% end %>
-            </option>
-          <% end %>
-        </select>
-      </div>
-    <% end %>
-
-    <% if tags_with_counts.size > 0 %>
-      <div class="filter-item">
-        <select name="tema" data-action="change->statement--filterable-list#onFilterSelectChange" class="filter-select">
-          <option value="">Všechna témata</option>
-          <% tags_with_counts.each do |tag_with_count| %>
-            <option value="<%= "#{tag_with_count.tag.name.parameterize}-#{tag_with_count.tag.id}" %>">
-              <%= tag_with_count.tag.name %> (<%= tag_with_count.count %> <%= cs_pluralize(tag_with_count.count, "výrok", "výroky", "výroků") %>)
-            </option>
-          <% end %>
-        </select>
-      </div>
-    <% end %>
-
-    <% if veracities_with_counts.size > 0 %>
-      <div class="filter-item">
-        <select name="hodnoceni" data-action="change->statement--filterable-list#onFilterSelectChange" class="filter-select">
-          <option value="">Všechna hodnocení</option>
-          <% veracities_with_counts.each do |veracity_with_count| %>
-            <option
-              <% if veracity_with_count.count == 0 %>disabled<% end %>
-              value="<%= { true: "pravda", untrue: "nepravda", misleading: "zavadejici", unverifiable: "neoveritelne" }[veracity_with_count.veracity.key.to_sym] %>"
+          <div class="check-btn py-2">
+            <input
+              type="checkbox"
+              data-target="components--filter.filterCheckbox"
+              data-action="change->components--filter#toggleFilter"
+              data-filter-value="<%= "#{source_speaker.speaker.full_name.parameterize}-#{source_speaker.speaker.id.to_s}" %>"
+              data-filter-type="strana"
             >
-              <%= veracity_with_count.veracity.name %> (<%= veracity_with_count.count %> <%= cs_pluralize(veracity_with_count.count, "výrok", "výroky", "výroků") %>)
-            </option>
+            <span class="checkmark"></span>
+            <span class="small fw-bold me-2"><%= source_speaker.full_name %></span>
+            <% if source_speaker.body %>
+              <span class="smallest min-w-40px"><%= source_speaker.body.short_name %></span>
+            <% end %>
+          </div>
           <% end %>
-        </select>
+        </div>
       </div>
-    <% end %>
-  </form>
+      <div class="separator bg-dark mb-5"></div>
+      <% end %>
 
-  <div class="filtered-count-info hidden" data-target="statement--filterable-list.filteredCountInfo">
-    <span class="filtered-count-info-label"></span>
-    <button
-      type="button"
-      class="clear-filters"
-      data-action="click->statement--filterable-list#clearFilters"
-    >
-      × zrušit filtry
-    </button>
+      <% if tags_with_counts.size > 0 %>
+        <div class="filter w-100 mb-5">
+          <div
+            class="filter-link d-flex align-items-center justify-content-between w-100 min-h-40px"
+            data-action="click->components--filter#toggleLink"
+            data-target="components--filter.filterLink"
+            aria-show="true"
+          >
+            <span class="fs-6 fw-bold">Témata</span>
+            <span class="filter-icon">
+              <svg width="23" height="12" viewBox="0 0 23 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 0.597656L11.646 11.2437L22.2435 0.646237" stroke="#111827"/>
+              </svg>
+            </span>
+          </div>
+          <div class="filter-content">
+            <% tags_with_counts.each do |tag_with_count| %>
+            <div class="check-btn py-2">
+              <input
+                type="checkbox"
+                data-target="components--filter.filterCheckbox"
+                data-action="change->components--filter#toggleFilter"
+                data-filter-value="<%= "#{tag_with_count.tag.name.parameterize}-#{tag_with_count.tag.id}" %>"
+                data-filter-type="strana"
+              >
+              <span class="checkmark"></span>
+              <span class="small fw-bold me-2"><%= "#{tag_with_count.tag.name.parameterize}-#{tag_with_count.tag.id}" %></span>
+              <span class="smallest min-w-40px"><%= tag_with_count.count %> <%= cs_pluralize(tag_with_count.count, "výrok", "výroky", "výroků") %></span>
+            </div>
+            <% end %>
+          </div>
+        </div>
+        <div class="separator bg-dark mb-5"></div>
+      <% end %>
+
+      <% if veracities_with_counts.size > 0 %>
+        <div class="filter w-100 mb-5">
+          <div
+            class="filter-link d-flex align-items-center justify-content-between w-100 min-h-40px"
+            data-action="click->components--filter#toggleLink"
+            data-target="components--filter.filterLink"
+            aria-show="true"
+          >
+            <span class="fs-6 fw-bold">Hodnocení</span>
+            <span class="filter-icon">
+              <svg width="23" height="12" viewBox="0 0 23 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 0.597656L11.646 11.2437L22.2435 0.646237" stroke="#111827"/>
+              </svg>
+            </span>
+          </div>
+          <div class="filter-content">
+            <% veracities_with_counts.each do |veracity_with_count| %>
+            <div class="check-btn py-2">
+              <input
+                type="checkbox"
+                data-target="components--filter.filterCheckbox"
+                data-action="change->components--filter#toggleFilter"
+                data-filter-value="<%= { true: "pravda", untrue: "nepravda", misleading: "zavadejici", unverifiable: "neoveritelne" }[veracity_with_count.veracity.key.to_sym] %>"
+                data-filter-type="strana"
+              >
+              <span class="checkmark"></span>
+              <span class="small fw-bold me-2"><%= veracity_with_count.veracity.name %></span>
+              <span class="smallest min-w-40px"><%= veracity_with_count.count %> <%= cs_pluralize(veracity_with_count.count, "výrok", "výroky", "výroků") %></span>
+            </div>
+            <% end %>
+          </div>
+        </div>
+        <div class="separator bg-dark mb-5"></div>
+
+      <% end %>
+
+      <div class="w-100 py-2">
+        <a class="btn w-100" href="">
+          <span class="text-white">Zrušit filtry</span>
+        </a>
+      </div>
+    </div>
   </div>
-
-  <div class="statement-filterable-list-statements">
+  <div class="col col-12 col-lg-8" data-target="components--filter.content">
     <% statements.each do |statement| %>
-      <div
-        class="statement-filterable-list-statement-item"
-        id="vyrok-<%= statement.id %>"
-        data-target="statement--filterable-list.statement"
-        data-speaker-id="<%= "#{statement.speaker.full_name.parameterize}-#{statement.speaker.id.to_s}" %>"
-        data-tag-ids="<%= statement.tags.map { |tag| "#{tag.name.parameterize}-#{tag.id}" }.join('||') %>"
-        data-veracity-key="<%= statement.assessment.veracity.key %>"
-      >
-        <%=
-          render(
-            partial: "statement/detail",
-            object: statement,
-            as: :statement,
-            locals: { show_speaker_role: show_speaker_role, show_medium_and_date: show_medium_and_date, wide_display: wide_display }
-          )
-        %>
-      </div>
+    <div class="d-block">
+      <%=
+        render(
+          partial: "statement/detail",
+          object: statement,
+          as: :statement,
+          locals: { show_speaker_role: show_speaker_role, show_medium_and_date: show_medium_and_date, wide_display: wide_display }
+        )
+      %>
+    </div>
     <% end %>
   </div>
 </div>

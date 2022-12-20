@@ -1,0 +1,14 @@
+<ul class="container-shared-stats">
+  <li title="Pravda" class="true <%= "none" if stats[:true].zero? %>">
+    <%= stats[:true] %> <span class="hidden">&times; Pravda</span>
+  </li>
+  <li title="Nepravda" class="untrue <%= "none" if stats[:untrue].zero? %>">
+    <%= stats[:untrue] %> <span class="hidden">&times; Nepravda</span>
+  </li>
+  <li title="Zavádějící" class="misleading <%= "none" if stats[:misleading].zero? %>">
+    <%= stats[:misleading] %> <span class="hidden">&times; Zavádějící</span>
+  </li>
+  <li title="Neověřitelné" class="unverifiable <%= "none" if stats[:unverifiable].zero? %>">
+    <%= stats[:unverifiable] %> <span class="hidden">&times; Neověřitelné</span>
+  </li>
+</ul>

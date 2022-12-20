@@ -15,7 +15,9 @@
   text-decoration: none !important;
 
   span {
-    line-height: 1;
+    line-height: normal;
+    margin: 0;
+    padding: 0;
   }
 
   &.white {

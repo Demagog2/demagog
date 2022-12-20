@@ -1,7 +1,7 @@
 import { Controller } from 'stimulus';
 
 export default class extends Controller {
-  static targets = ['link', 'nav']
+  static targets = ['link', 'nav', 'menu', 'donateModal']
 
   connect() {
     //window.addEventListener("scroll", this.onScroll);
@@ -16,9 +16,24 @@ export default class extends Controller {
   onScroll(event) {
     var st = window.pageYOffset || document.documentElement.scrollTop;
 
+    if (st > 100) {
+      if (! this.element.classList.contains("on-scroll")) {
+        this.element.classList.add("on-scroll");
+      }
+    } else {
+      if (this.element.classList.contains("on-scroll")) {
+        this.element.classList.remove("on-scroll");
+      }
+    }
+
     if (st > this.lastScrollTop){
       if (! this.element.classList.contains("hide-header")) {
         this.element.classList.add("hide-header")
+        if (this.menuTarget.getAttribute('aria-expanded') == "true") {
+          this.menuTarget.classList.remove('open');
+          this.navTarget.classList.remove('open');
+          this.menuTarget.setAttribute('aria-expanded', 'false');
+        }
         const navItems = document.querySelectorAll("[aria-expanded='true']");
         const navDrops = document.querySelectorAll("[aria-open='true']");
         if (navItems.length) {
@@ -33,11 +48,8 @@ export default class extends Controller {
             item.classList.remove('open');
           });
         }
-        if (this.linkTarget.getAttribute('aria-expanded') == "true") {
-          this.linkTarget.classList.remove('open');
-          this.navTarget.classList.remove('open');
-          this.linkTarget.setAttribute('aria-expanded', 'false');
-        }
+
+
       }
     } else {
       if (this.element.classList.contains("hide-header")) {
@@ -51,14 +63,24 @@ export default class extends Controller {
   }
 
   toggleMenu(){
-    if (this.linkTarget.getAttribute('aria-expanded') == "false") {
-      this.linkTarget.classList.add('open');
+    if (this.menuTarget.getAttribute('aria-expanded') == "false") {
+      this.menuTarget.classList.add('open');
       this.navTarget.classList.add('open');
-      this.linkTarget.setAttribute('aria-expanded', 'true');
+      this.menuTarget.setAttribute('aria-expanded', 'true');
     } else {
-      this.linkTarget.classList.remove('open');
+      this.menuTarget.classList.remove('open');
       this.navTarget.classList.remove('open');
-      this.linkTarget.setAttribute('aria-expanded', 'false');
+      this.menuTarget.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  toggleDonate() {
+    if (this.donateModalTarget.getAttribute('aria-modal-open') == "false") {
+      this.donateModalTarget.classList.add('is-open');
+      this.donateModalTarget.setAttribute('aria-expanded', 'true');
+    } else {
+      this.donateModalTarget.classList.remove('is-open');
+      this.donateModalTarget.setAttribute('aria-expanded', 'false');
     }
   }
 }

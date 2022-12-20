@@ -1,0 +1,58 @@
+<% article_presenter = ArticlePresenter.new(segment.article) %>
+<% article_segment_source_statements_presenter = ArticleSegmentSourceStatementsPresenter.new(segment) %>
+
+<div class="container-article-segment-source-statements">
+  <h2>Řečníci s&nbsp;počty výroků dle hodnocení</h2>
+
+  <div class="speakers-overview">
+    <% article_presenter.factcheck_source_speakers.in_groups(2, false).each_with_index do |source_speakers_grouped, i| %>
+      <div class="speakers-overview-group-<%= i %>">
+        <% source_speakers_grouped.each do |source_speaker| %>
+          <div class="speakers-overview-speaker">
+            <%= render(
+              partial: "shared/speaker_with_stats",
+              locals: {
+                speaker: source_speaker,
+                stats: article_presenter.factcheck_source_speaker_stats(source_speaker),
+                lazy_load_images: false
+              })
+            %>
+          </div>
+        <% end %>
+
+        <%# If there is odd number of speakers, put the info box to the last space %>
+        <% if false # TODO: remove when infoboxes texts are ready %>
+        <% if article_presenter.factcheck_source_speakers.size % 2 == 1 && i == 1 %>
+          <div class="inside-infobox-veracities-wrapper">
+            <%= render(partial: "shared/infobox", locals: { topic: :veracities, id: "article-source-statements-veracities" }) %>
+          </div>
+        <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <% if false # TODO: remove when infoboxes texts are ready %>
+  <% if article_presenter.factcheck_source_speakers.size % 2 == 0 %>
+    <div class="outside-infobox-veracities-wrapper">
+      <%= render(partial: "shared/infobox", locals: { topic: :veracities, id: "article-source-statements-veracities" }) %>
+    </div>
+  <% end %>
+  <% end %>
+
+  <div class="statements-list">
+    <%=
+      render(
+        partial: "statement/filterable_list",
+        object: article_segment_source_statements_presenter.statements,
+        as: :statements,
+        locals: {
+          source_speakers: article_presenter.factcheck_source_speakers,
+          tags_with_counts: article_segment_source_statements_presenter.tags_with_counts,
+          veracities_with_counts: article_segment_source_statements_presenter.veracities_with_counts,
+          show_speaker_role: false,
+          show_medium_and_date: false,
+        }
+      )
+    %>
+  </div>
+</div>

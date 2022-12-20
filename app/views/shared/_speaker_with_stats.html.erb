@@ -1,20 +1,29 @@
 <% speaker_presenter = SpeakerPresenter.new(speaker) %>
 
-<a class="container-speaker-with-stats" href="<%= speaker_path(speaker_presenter.speaker) %>">
-  <%= render(PortraitComponent.new(speaker: speaker_presenter.portrait_speaker, lazy_loaded: false)) %>
-
-  <div class="name-and-stats">
-    <h3 class="name">
-      <span class="name-inner">
+<div class="row">
+  <div class="col col-5">
+    <div class="w-100 px-5">
+      <a class="d-block position-relative" href="<%= speaker_path(speaker_presenter.speaker) %>">
+        <span class="symbol symbol-square symbol-circle">
+          <%= render(PortraitComponent.new(speaker: speaker_presenter.portrait_speaker, lazy_loaded: false)) %>
+        </span>
+        <div class="symbol-label d-flex align-items-center justify-content-center w-45px h-45px rounded-circle bg-dark">
+          <span class="smallest text-white lh-1 text-center p-2"><%= speaker_presenter.body_short_name %></span>
+        </div>
+      </a>
+    </div>
+    <div class="text-center lh-1 mt-5">
+      <h3 class="fs-4 fw-bold mb-4">
         <%= speaker_presenter.full_name %>
-        <% if speaker_presenter.has_body? %>(<%= speaker_presenter.body_short_name %>)<% end %>
-      </span>
-
-      <span class="role"><%= speaker_presenter.role %></span>
-    </h3>
-
+      </h3>
+      <p class="fs-6 fw-bold mb-4">
+        <%= speaker_presenter.role %>
+      </p>
+    </div>
+  </div>
+  <div class="col col-7">
     <div class="stats">
       <%= render(partial: 'shared/stats', object: stats, as: :stats) %>
     </div>
   </div>
-</a>
+</div>

@@ -3,12 +3,25 @@
   top: 0;
   left: 0;
   width: 100%;
-  transition: transform $base-transition;
+  transition: transform $base-transition, padding $base-transition;
   z-index: 55;
   //box-shadow: $header-shadow;
 
   &.hide-header {
     transform: translateY(-100%);
+  }
+
+  .header-content {
+    position: relative;
+    border-radius: 35px;
+  }
+
+  &.on-scroll {
+    padding-top: 0 !important;
+    .header-content {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
   }
 
 
@@ -29,6 +42,8 @@
       top: 35px;
       left: 0;
       width: 100%;
+      padding-top: 35px;
+      box-shadow: 0 0 15px 0 rgba(0,0,0,0.5);
 
       ::before {
         position: absolute;
@@ -44,7 +59,7 @@
       }
 
       .menu-list {
-        margin-top: 35px;
+
       }
       &.open {
         display: block !important;

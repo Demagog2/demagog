@@ -1,22 +1,23 @@
-.accordion {
-  .accordion-link {
+.filter {
+  .filter-link {
     padding: 0.5rem 0;
     cursor: pointer;
-    .accordion-icon {
+    .filter-icon {
       transition: 0.3s ease-in-out;
     }
     &.open {
-      .accordion-icon {
+      .filter-icon {
         transform: rotate(180deg);
       }
     }
+    span {
+      pointer-events: none;
+    }
   }
-  .accordion-content,
-  .accordion-detail {
+  .filter-content {
     overflow: hidden;
   	transition: 0.5s ease-in-out;
-    &.close {
-      max-height: 0;
-    }
+
+
   }
 }

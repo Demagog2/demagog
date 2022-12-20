@@ -5,52 +5,56 @@
 
 <% article_presenter = ArticlePresenter.new(@article) %>
 
-<article class="detail">
-  <section class="intro">
-    <h1><%= @article.title %></h1>
-    <p class="lead"><%= raw(@article.perex) %></p>
-
-    <% if @article.article_type.name == "default" && @article.source %>
-      <p class="lead">
-        <span class="label factcheck">Ověřili jsme</span><br>
-        <%= @article.source.medium.name %> ze dne <%= raw(l(@article.source.released_at, format: :long)) %>
-        <% if @article.source.media_personalities.size > 0 %>
-          (<%= @article.source.media_personalities.size > 1 ? "moderátoři" : "moderátor" %> <%= @article.source.media_personalities.pluck(:name).to_sentence %><% unless @article.source.source_url.empty? %>, <a class="ext" href="<%= @article.source.source_url %>" target="_blank">záznam</a><% end %>)
+<section class="section">
+  <div class="row g-10">
+    <div class="col col-12 col-lg-8">
+      <div class="mb-10">
+        <h1 class="display-4 fw-bold mb-5"><%= @article.title %></h1>
+        <p class="fs-5"><%= raw(@article.perex) %></p>
+      </div>
+      <% if @article.article_type.name == "default" && @article.source %>
+      <div class="mb-10">
+        <h2 class="fs-2 text-uppercase text-primary">Ověřili jsme</h2>
+        <p class="fs-5">
+          <%= @article.source.medium.name %> ze dne <%= raw(l(@article.source.released_at, format: :long)) %>
+          <% if @article.source.media_personalities.size > 0 %>
+            (<%= @article.source.media_personalities.size > 1 ? "moderátoři" : "moderátor" %> <%= @article.source.media_personalities.pluck(:name).to_sentence %><% unless @article.source.source_url.empty? %>, <a class="ext" href="<%= @article.source.source_url %>" target="_blank">záznam</a><% end %>)
+          <% end %>
+        </p>
+        <% if article_presenter.show_factcheck_video %>
+          <div id="article-factcheck-video-app-root" class="article-factcheck-video" data-article-id="<%= @article.id %>">
+            <img class="w-100" src="<%= url_for(@article.illustration) %>" alt="Ilustrační obrázek k výstupu <%= @article.title %>">
+          </div>
         <% end %>
-      </p>
-
-      <% if article_presenter.show_factcheck_video %>
-        <div id="article-factcheck-video-app-root" class="article-factcheck-video" data-article-id="<%= @article.id %>">
-          <img src="<%= url_for(@article.illustration) %>" alt="Ilustrační obrázek k výstupu <%= @article.title %>">
-        </div>
+      </div>
       <% end %>
-    <% end %>
 
-    <% if @article.article_type.name == "static" %>
-      <p>
-        <span class="label editorial">Komentář</span> <i><%= raw(l(@article.published_at, format: :long)) %></i>
-      </p>
-    <% end %>
+      <% if @article.article_type.name == "static" %>
+        <p class="fs-6">
+          <span class="text-primary">Komentář</span> <i><%= raw(l(@article.published_at, format: :long)) %></i>
+        </p>
+      <% end %>
 
-    <% if @article.article_type.name == ArticleType::FACEBOOK_FACTCHECK %>
-      <p>
-        <span class="label facebook-factcheck">Meta factcheck</span> <i><%= raw(l(@article.published_at, format: :long)) %></i>
-      </p>
+      <% if @article.article_type.name == ArticleType::FACEBOOK_FACTCHECK %>
+        <p class="fs-6">
+          <span class="text-primary">Meta factcheck</span> <i><%= raw(l(@article.published_at, format: :long)) %></i>
+        </p>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<% @article.segments.ordered.each do |segment| %>
+  <section class="section segment-<%= segment.segment_type %>">
+    <% if segment.is_text? %>
+      <%= raw(replace_segment_text_html_special_strings(segment.text_html)) %>
+    <% elsif segment.is_promise? %>
+      <demagogcz-widget data-url="<%= promise_segment_widget_url(segment.promise_url) %>"></demagogcz-widget>
+    <% elsif segment.is_source_statements? %>
+      <%= render(partial: 'article/segment_source_statements', object: segment, as: :segment, locals: { statements_filters: @statements_filters }) %>
     <% end %>
   </section>
-
-  <% @article.segments.ordered.each do |segment| %>
-    <section class="segment-<%= segment.segment_type %>">
-      <% if segment.is_text? %>
-        <%= raw(replace_segment_text_html_special_strings(segment.text_html)) %>
-      <% elsif segment.is_promise? %>
-        <demagogcz-widget data-url="<%= promise_segment_widget_url(segment.promise_url) %>"></demagogcz-widget>
-      <% elsif segment.is_source_statements? %>
-        <%= render(partial: 'article/segment_source_statements', object: segment, as: :segment, locals: { statements_filters: @statements_filters }) %>
-      <% end %>
-    </section>
-  <% end %>
-</article>
+<% end %>
 
 <% if article_presenter.show_factcheck_video %>
   <%= javascript_pack_tag 'article-factcheck-video'  %>

@@ -17,16 +17,23 @@
 
 %>
 
-<header class="header pt-10" data-controller="components--header" data-action="scroll@window->components--header#onScroll">
+<header class="header pt-5 pt-lg-10" data-controller="components--header components--modal" data-action="scroll@window->components--header#onScroll">
   <div class="container ">
     <div class="header-wrap d-block position-relative w-100">
-      <div class="d-flex align-items-center justify-content-between bg-dark rounded-pill p-3">
+      <div class="header-content d-flex align-items-center justify-content-between bg-dark p-3">
         <a class="logo h-40px p-1" href="<%= root_path %>">
           <img class="h-100" src="<%= asset_path("logo_white.svg") %>" alt="Demagog.cz">
         </a>
         <div class="d-flex align-items-center">
           <nav class="nav d-none d-xl-flex" data-target="components--header.nav">
-            <ul class="list menu-list d-flex flex-column flex-xl-row align-items-start align-items-xl-center p-5 p-xl-0 ">
+            <div class="text-white w-100 px-5 my-5 d-flex d-xl-none">
+              <%= form_tag search_path, method: :get, class: "w-100" do %>
+              <div class="d-flex align-items-center w-100">
+                <input name="q" type="text" class="input outline white focus-secondary" placeholder="Zadejte hledaný výraz…">
+              </div>
+              <% end %>
+            </div>
+            <ul class="list menu-list d-flex flex-column flex-xl-row align-items-start align-items-xl-center px-5 p-xl-0 ">
                 <% @nav.each do |nav_item| %>
                   <% if nav_item.class.name == 'Struct::NavLink' %>
                     <li class="menu-item me-10">
@@ -71,9 +78,18 @@
                   <% end %>
                 <% end %>
               </ul>
+              <div class="w-100 px-5 d-flex my-5 d-xl-none">
+                <a
+                  class="btn bg-primary w-100"
+                  data-action="click->components--modal#openModal"
+                  data-modal-id="modalDanate"
+                >
+                  <span class="mx-2">Darujte</span>
+                </a>
+              </div>
           </nav>
           <div
-            class="menu-item"
+            class="menu-item d-none d-xl-flex"
             data-controller="components--nav"
           >
             <a
@@ -108,36 +124,26 @@
             <a
               class="nav-link d-flex w-40px h-40px"
               data-action="click->components--header#toggleMenu"
-              data-target="components--header.link"
+              data-target="components--header.menu"
               aria-expanded="false"
             >
               <span class="nav-icon"></span>
             </a>
           </div>
           <div
-            class="menu-item ms-2 ms-xl-10"
+            class="menu-item ms-2 ms-xl-10 d-none d-xl-flex"
             data-controller="components--nav"
           >
             <a
               class="btn bg-primary"
-              data-action="click->components--nav#toggle click@window->components--nav#hide touchend@components--nav->dropdown#hide"
-              data-target="components--nav.link"
-              aria-haspopup="true"
-              aria-expanded="false"
+              data-action="click->components--modal#openModal"
+              data-modal-id="modalDanate"
             >
               <span class="mx-2">Darujte</span>
             </a>
-            <div class="dropmenu" data-target="components--nav.submenu">
-              <ul class="dropmenu-wrap d-flex justify-content-center flex-wrap list">
-                <div class="text-white">
-                  Darujte
-                </div>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </header>

@@ -42,7 +42,7 @@ main {
     text-decoration: underline;
   }
 
-  ul {
+  ul, ol {
     padding: 0 0 0 1rem;
   }
 
@@ -56,6 +56,7 @@ main {
       @include font-size($font-size-base);
       margin-bottom: $font-margin-base;
     }
+
     h2 {
       @include font-size($h2-font-size);
       margin-bottom: $font-margin-base;
@@ -71,6 +72,87 @@ main {
     }
   }
 }
+
+section.segment-text {
+  flex: 1 0 66.66666667%;
+  margin-left: 16.66666667%;
+  margin-right: 16.66666667%;
+
+  img {
+    width: 100%;
+    margin-bottom: $font-margin-base;
+  }
+
+  ul, ol {
+    margin-bottom: $font-margin-base;
+  }
+
+}
+
+section.segment-source_statements {
+  flex: 1 0 100%;
+}
+
+section.segment-promise {
+  flex: 1 0 66.66666667%;
+  margin-left: 16.66666667%;
+  margin-right: 16.66666667%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.content {
+  p {
+    margin-bottom: $font-margin-base;
+  }
+
+  h2 {
+    margin-bottom: $font-margin-base;
+  }
+
+  a {
+    text-decoration: underline;
+    color: $dark;
+
+    &:hover {
+      color: $primary;
+    }
+  }
+}
+.donate {
+  iframe {
+    width: 100% !important;
+  }
+}
+@include media-breakpoint-down(xl) {
+  main {
+    padding-top: 110px;
+  }
+
+  section.segment-text {
+    flex: 1 0 100%;
+    margin-left: 0;
+    margin-right: 0;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  section.segment-source_statements {
+    flex: 1 0 100%;
+  }
+
+  section.segment-promise {
+    flex: 1 0 100%;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+
 
 .link {
   cursor: pointer;
@@ -117,7 +199,7 @@ main {
 
 .popover-arrow {
   &.arrow-north {
-    right: calc(50% - -10px);
+    left: 35px;
     top: -9px;
   }
   &.arrow-south {
@@ -158,4 +240,33 @@ main {
     height: 20px;
     transform: rotate(45deg);
     border-radius: 2px;
+}
+
+.pagination {
+  span {
+    text-transform: uppercase;
+    color: $dark;
+    @include font-size(1.2rem);
+
+    &.current {
+      padding: 0.5rem;
+      font-weight: bold;
+    }
+  }
+
+  a {
+    padding: 0.5rem;
+    color: $dark;
+    text-decoration: none !important;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .next {
+    margin-left: 1rem;
+  }
+  .prev {
+    margin-right: 1rem;
+  }
 }

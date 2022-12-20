@@ -1,20 +1,28 @@
 <% content_for(:title, get_web_content("article.social_media", "title")) %>
 <% content_for(:description, strip_tags(get_web_content("article.social_media", "intro")).truncate(230)) %>
 
-<article class="container-article-social_media">
-  <h1><%= get_web_content("article.social_media", "title") %></h1>
-  <%= raw(get_web_content("article.social_media", "intro")) %>
-  <a class="logo" title="Nadační fond nezávislé žurnalistiky" href="https://www.nfnz.cz/">
-    <img src="<%= asset_path("partners/nfnz.svg") %>" alt="Nadační fond nezávislé žurnalistiky" style="width: 220px;" />
-  </a>
-</article>
-
-<% if @page_number %>
-  <p class="full-width"><b>Strana <%= @page_number %></b> z archivu ověřených příspěvků na sociálních sítích:</p>
-<% end %>
-
-<% @articles.each do |article| %>
-  <%= render partial: "article/preview", object: article, as: :article %>
-<% end %>
-
-<%= paginate(@articles) %>
+<div class="row g-5 g-lg-10">
+  <div class="col col-12 col-lg-8">
+    <h1 class="display-4 fw-bold mb-5"><%= get_web_content("article.social_media", "title") %></h1>
+    <div class="fs-5 mb-5">
+      <%= raw(get_web_content("article.social_media", "intro")) %>
+    </div>
+    <a class="logo mt-5" title="Nadační fond nezávislé žurnalistiky" href="https://www.nfnz.cz/">
+      <img src="<%= asset_path("partners/nfnz.svg") %>" alt="Nadační fond nezávislé žurnalistiky" style="width: 220px;" />
+    </a>
+  </div>
+  <div class="col col-12">
+    <div class="row g-5 g-lg-10">
+      <% @articles.each do |article| %>
+      <div class="col col-12 col-lg-6">
+        <%= render partial: "components/article_main", object: article, as: :article %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="col col-12">
+    <div class="d-flex justify-content-center mt-5">
+      <%= paginate(@articles) %>
+    </div>
+  </div>
+</div>

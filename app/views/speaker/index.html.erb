@@ -9,11 +9,13 @@ content_for(:description, "Za svou existenci Demagog.cz už ověřil výroky sto
   <div
     class="row g-10"
     data-controller="components--filter"
-    data-components--filter-content-cols="col col-12 col-lg-8"
+    data-components--filter-open-cols="col col-12 col-lg-8"
+    data-components--filter-close-cols="col col-12"
     data-components--filter-open-rows="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-10"
     data-components--filter-close-rows="row row-cols-1 row-cols-md-2 row-cols-lg-6 g-10"
     data-components--filter-open-label="Skrýt filtry"
     data-components--filter-close-label="Zobrazit filtry"
+    data-components--filter-close-empty="true"
     data-components--filter-no-filters-url="<%= speakers_path() %>"
   >
     <div class="col col-12">
@@ -40,26 +42,31 @@ content_for(:description, "Za svou existenci Demagog.cz už ověřil výroky sto
     </div>
     <div class="col col-12 col-lg-4" data-target="components--filter.filter">
       <div class="bg-light rounded-l p-5">
-        <form class="filters-list" data-target="components--filter.filtersForm">
         <% speaker_elastic_filterable_list_presenter.filter_options[:body_id].each do |group| %>
-          <div class="accordion w-100 mb-5" data-controller="components--accordion">
+          <div class="filter w-100 mb-5">
             <div
-              class="accordion-link d-flex align-items-center justify-content-between w-100 min-h-40px"
-              data-target="components--accordion.link"
-              data-action="click->components--accordion#toggle"
+              class="filter-link d-flex align-items-center justify-content-between w-100 min-h-40px"
+              data-action="click->components--filter#toggleLink"
+              data-target="components--filter.filterLink"
               aria-show="true"
             >
               <span class="fs-6 fw-bold"><%= group[:group_name] %></span>
-              <span class="accordion-icon">
+              <span class="filter-icon">
                 <svg width="23" height="12" viewBox="0 0 23 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M1 0.597656L11.646 11.2437L22.2435 0.646237" stroke="#111827"/>
                 </svg>
               </span>
             </div>
-            <div class="accordion-content" data-target="components--accordion.content">
+            <div class="filter-content">
               <% group[:filter_options].each do |filter_option| %>
               <div class="check-btn py-2">
-                <input type="checkbox" name="strana" value="<%= filter_option[:value] %>" <% if filter_option[:selected] %>checked<% end %> data-action="change->components--filter#setFilter">
+                <input
+                  type="checkbox"
+                  data-target="components--filter.filterCheckbox"
+                  data-action="change->components--filter#toggleFilter"
+                  data-filter-value="<%= filter_option[:value] %>"
+                  data-filter-type="strana"
+                >
                 <span class="checkmark"></span>
                 <span class="small fw-bold me-2"><%= filter_option[:label] %></span>
 
@@ -71,7 +78,6 @@ content_for(:description, "Za svou existenci Demagog.cz už ověřil výroky sto
           </div>
           <div class="separator bg-dark mb-5"></div>
         <% end %>
-        </form>
         <div class="w-100 py-2">
           <a class="btn w-100" href="<%= speakers_path() %>">
             <span class="text-white">Zrušit filtry</span>
@@ -91,8 +97,11 @@ content_for(:description, "Za svou existenci Demagog.cz už ověřil výroky sto
         <% end %>
       </div>
     </div>
+    <div class="col col-12">
+      <div class="d-flex justify-content-center mt-5">
+        <%= paginate(speaker_elastic_filterable_list_presenter.paginated_speakers) %>
+      </div>
+    </div>
   </div>
-  <div class="">
-    <%= paginate(speaker_elastic_filterable_list_presenter.paginated_speakers) %>
-  </div>
+
 </section>
