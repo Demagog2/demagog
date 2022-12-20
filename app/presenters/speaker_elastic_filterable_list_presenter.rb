@@ -36,10 +36,13 @@ class SpeakerElasticFilterableListPresenter
 
       # Body
       if !@params[:strana].blank?
-        body_id = @params[:strana][/-(\d+)$/, 1]
+        params_strana = @params[:strana].kind_of?(Array) ? @params[:strana] : [@params[:strana]]
 
-        if !body_id.nil?
-          params_filters[:body_id] = body_id.to_i
+        body_ids = params_strana.map { |item| item[/-(\d+)$/, 1] }
+        body_ids = body_ids.filter { |item| !item.nil? }
+
+        if !body_ids.empty?
+          params_filters[:body_id] = body_ids.map { |body_id| body_id.to_i }
         end
       end
 
@@ -82,7 +85,7 @@ class SpeakerElasticFilterableListPresenter
           value: "#{body.short_name.parameterize}-#{body.id}",
           label: "#{body.name}" + (body.name != body.short_name ? " (#{body.short_name})" : ""),
           count: body_id_aggregation[body.id],
-          selected: @parsed_params_filters[:body_id] == body.id,
+          selected: @parsed_params_filters[:body_id] && @parsed_params_filters[:body_id].include?(body.id),
           group_name: lower_parliament_body_ids.include?(body.id) ? "Strany a hnutí v Poslanecké sněmovně Parlamentu ČR" : "Další strany a hnutí"
         }
       end

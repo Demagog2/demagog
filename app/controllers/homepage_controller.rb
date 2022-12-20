@@ -24,7 +24,7 @@ class HomepageController < FrontendController
 
   def index
     @page_number = params[:page]
-    
+
     @articles =
       Article.kept.published.for_homepage.order(published_at: :desc).page(@page_number).per(10)
     @top_articles = @articles[0..3]

@@ -15,7 +15,7 @@ class SpeakerPresenter
   end
 
   def portrait_speaker
-    @source_speaker ? @source_speaker : @speaker
+    @source_speaker || @speaker
   end
 
   def speaker

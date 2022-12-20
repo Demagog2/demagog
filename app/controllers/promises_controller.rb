@@ -156,7 +156,6 @@ class PromisesController < FrontendController
       PromiseRating::BROKEN => "red",
       PromiseRating::STALLED => "dark"
     }
-    
   end
 
   def methodology

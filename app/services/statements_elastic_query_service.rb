@@ -62,12 +62,20 @@ class StatementsElasticQueryService
 
       body_id = filters.fetch(:body_id, nil)
       unless body_id.blank?
-        elastic_query[:bool][:filter].push({ term: { 'source_speaker.body.id': body_id } })
+        if body_id.kind_of?(Array)
+          elastic_query[:bool][:filter].push({ terms: { 'source_speaker.body.id': body_id } })
+        else
+          elastic_query[:bool][:filter].push({ term: { 'source_speaker.body.id': body_id } })
+        end
       end
 
       speaker_id = filters.fetch(:speaker_id, nil)
       unless speaker_id.blank?
-        elastic_query[:bool][:filter].push({ term: { 'source_speaker.speaker.id': speaker_id } })
+        if speaker_id.kind_of?(Array)
+          elastic_query[:bool][:filter].push({ terms: { 'source_speaker.speaker.id': speaker_id } })
+        else
+          elastic_query[:bool][:filter].push({ term: { 'source_speaker.speaker.id': speaker_id } })
+        end
       end
 
       tag_id = filters.fetch(:tag_id, nil)
@@ -86,7 +94,11 @@ class StatementsElasticQueryService
 
       veracity_key = filters.fetch(:veracity_key, nil)
       unless veracity_key.blank?
-        elastic_query[:bool][:filter].push({ term: { 'assessment.veracity.key': veracity_key } })
+        if veracity_key.kind_of?(Array)
+          elastic_query[:bool][:filter].push({ terms: { 'assessment.veracity.key': veracity_key } })
+        else
+          elastic_query[:bool][:filter].push({ term: { 'assessment.veracity.key': veracity_key } })
+        end
       end
 
       editor_picked = filters.fetch(:editor_picked, nil)
@@ -96,7 +108,11 @@ class StatementsElasticQueryService
 
       released_year = filters.fetch(:released_year, nil)
       unless released_year.blank?
-        elastic_query[:bool][:filter].push({ term: { 'source.released_year': released_year } })
+        if released_year.kind_of?(Array)
+          elastic_query[:bool][:filter].push({ terms: { 'source.released_year': released_year } })
+        else
+          elastic_query[:bool][:filter].push({ term: { 'source.released_year': released_year } })
+        end
       end
 
       elastic_query
