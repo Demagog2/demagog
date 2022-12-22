@@ -16,9 +16,9 @@
         <div class="symbol-group">
           <% if article.article_type.name == ArticleType::DEFAULT %>
             <% for source_speaker in article_presenter.factcheck_source_speakers %>
-              <span class="symbol symbol-40px rounded-circle bg-gray-500 overflow-hidden">
+              <%= link_to speaker_path(source_speaker), class: 'symbol symbol-40px rounded-circle bg-gray-500 overflow-hidden' do %>
                 <%= render(PortraitComponent.new(speaker: source_speaker)) %>
-              </span>
+              <% end %>
             <% end %>
           <% end %>
           <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>

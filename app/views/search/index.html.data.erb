@@ -1,0 +1,71 @@
+<% content_for(:title, "Vyhledávání" + (@query.empty? ? '' : ": #{@query}")) %>
+<% content_for(:description, "Hledejte mezi výstupy Demagog.cz, konkrétními faktickými výroky či v databázi politiků a političek") %>
+
+<div class="container-search-index">
+  <%= form_tag search_path, method: :get, class: "search-box" do %>
+    <%= text_field_tag :q, @query, class: "search-field s-search-field", autofocus: @query.empty?, placeholder: "Zadejte hledaný výraz…" %>
+    <button type="submit" class="submit-button">
+      <svg height="17" viewBox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg">
+        <path d="m1181.34341 104.52344-4.0019-4.018708c1.69829-2.5558307 1.36199-5.9523952-.8071-8.1214883-1.22747-1.2106567-2.84168-1.8832437-4.57359-1.8832437s-3.34612.672587-4.55678 1.8832437c-2.50539 2.5222013-2.50539 6.6081675 0 9.1135543 2.16909 2.169093 5.56566 2.505387 8.12149.823919l4.01871 4.018707c.18496.184962.50444.184962.6894 0l1.10977-1.109768c.20177-.201776.20177-.521255 0-.706216zm-6.28869-4.489519c-1.69828 1.698282-4.47271 1.698282-6.1878 0-1.69829-1.6982821-1.69829-4.4727036 0-6.1878005 1.69828-1.6982823 4.4727-1.6982823 6.1878 0 1.69828 1.7150969 1.69828 4.4895184 0 6.1878005z" fill="#3c325c" transform="translate(-1165 -90)"/>
+      </svg>
+    </button>
+  <% end %>
+
+  <% if @type.nil? %>
+
+    <% unless @speakers.empty? %>
+      <section class="s-section-speakers">
+        <h3 class="section-title">Nalezení politici</h3>
+
+        <%= render_records(:speakers, @speakers.records.first(2).to_a) %>
+
+        <% if @speakers.total_count > 2 %>
+          <%= show_more_link(:speakers, @speakers.total_count) %>
+        <% end %>
+      </section>
+    <% end %>
+
+    <% unless @articles.empty? %>
+      <section class="s-section-articles">
+        <h3 class="section-title">Nalezené výstupy</h3>
+
+        <%= render_records(:articles, @articles.records.first(2).to_a) %>
+
+        <% if @articles.total_count > 2 %>
+          <%= show_more_link(:articles, @articles.total_count) %>
+        <% end %>
+      </section>
+    <% end %>
+
+    <% unless @statements.empty? %>
+      <section class="s-section-statements">
+        <h3 class="section-title">Nalezené výroky</h3>
+
+        <%= render_records(:statements, @statements.records.first(2).to_a) %>
+
+        <% if @statements.total_count > 2 %>
+          <%= show_more_link(:statements, @statements.total_count) %>
+        <% end %>
+      </section>
+    <% end %>
+
+    <% if @speakers.empty? && @articles.empty? && @statements.empty? && !@query.empty? %>
+      <div class="no-results">
+        Nenašli jsme nic, co by odpovídalo Vašemu hledanému výrazu.
+      </div>
+    <% end %>
+
+  <% else %>
+
+    <section class="section-single-type">
+      <%= link_to("\u2190 Zpět na souhrn výsledků hledání", search_path(q: params[:q]), class: "back-link s-back-link") %>
+
+      <h2 class="title">Nalezené výsledky</h2>
+
+      <%= render_records(@type, @type_results.page(params[:page]).records.to_a) %>
+
+      <%= paginate(@type_results) %>
+    </section>
+
+  <% end %>
+</div>

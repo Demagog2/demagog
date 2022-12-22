@@ -35,6 +35,9 @@
       top: 0;
       left: 0;
       width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
     }
   }
 
@@ -63,11 +66,9 @@
         z-index: 0;
         margin-left: -10px;
         border: 2px solid $body-bg;
-        transition: all 0.3s ease;
 
         &:hover {
-            transition: all 0.3s ease;
-            z-index: 1;
+          z-index: 1;
         }
     }
 

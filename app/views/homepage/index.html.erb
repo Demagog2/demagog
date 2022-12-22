@@ -7,37 +7,55 @@
       <span class="fs-7 fw-bold text-uppercase me-5 my-2">Nejvyhledávanější</span>
       <div class="symbol-group">
         <% for speaker in @most_searched_speakers %>
-          <span class="symbol symbol-45px rounded-circle bg-gray-500 overflow-hidden">
+          <%= link_to speaker_path(speaker), class: 'symbol symbol-45px rounded-circle bg-gray-500 overflow-hidden', title: speaker.full_name do %>
             <%= render(PortraitComponent.new(speaker: speaker)) %>
-          </span>
-
+          <% end %>
         <% end %>
       </div>
     </div>
-    <div class="bg-dark text-white p-5 p-lg-8 rounded-l mb-10">
-      <div class="">
-        <h2 class="mb-4">Co je Demagog.cz?</h2>
-        <div class="fs-6 mb-10">
-          <%= raw(get_web_content("homepage", "intro")) %>
+    <div
+      class="bg-dark-light text-white p-5 p-lg-8 rounded-l mb-10"
+      data-controller="components--mobile-expander"
+      data-action="resize@window->components--mobile-expander#layout"
+      data-components--mobile-expander-breakpoint="992"
+      data-components--mobile-expander-min-height="100px"
+      data-components--mobile-expander-open-label="Skrýt obsah"
+      data-components--mobile-expander-close-label="Zobrazit více"
+
+    >
+      <div class="expander expander-dark-light" data-target="components--mobile-expander.expander">
+        <div class="w-100 position-relative">
+          <h2 class="mb-4">Co je Demagog.cz?</h2>
+          <div class="fs-6 mb-10">
+            <%= raw(get_web_content("homepage", "intro")) %>
+          </div>
+        </div>
+        <div class="w-100 position-relative">
+          <img class="w-100" src="<%= asset_path("homepage-intro-video-thumbnail.png") %>" alt="">
+          <div class="overlay d-flex align-items-center justify-content-center link" data-action="click->components--modal#showIntroVideoModal">
+            <span>
+              <svg width="54" height="55" viewBox="0 0 54 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="27.0161" cy="27.4998" r="26.8884" fill="#111827"/>
+                <path d="M19.3549 13.3048L40.1195 27.4952L19.3549 41.6856L19.3549 13.3048Z" fill="white" stroke="#111827" stroke-width="2"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+        <div class="mt-5">
+          <p class="fs-5 mb-4">Upozorněte nás, když narazíte na nepravdivý obsah na sociálních sítích!</p>
+          <a href="#" class="btn bg-secondary w-100">
+            <span class="text-dark">Upozornit</span>
+          </a>
         </div>
       </div>
-      <div class="w-100 position-relative">
-        <img class="w-100" src="<%= asset_path("homepage-intro-video-thumbnail.png") %>" alt="">
-        <div class="overlay d-flex align-items-center justify-content-center link" data-action="click->components--modal#showIntroVideoModal">
-          <span>
-            <svg width="54" height="55" viewBox="0 0 54 55" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="27.0161" cy="27.4998" r="26.8884" fill="#111827"/>
-              <path d="M19.3549 13.3048L40.1195 27.4952L19.3549 41.6856L19.3549 13.3048Z" fill="white" stroke="#111827" stroke-width="2"/>
-            </svg>
-          </span>
-        </div>
-      </div>
-      <div class="mt-5">
-        <p class="fs-5 mb-4">Upozorněte nás, když narazíte na nepravdivý obsah na sociálních sítích!</p>
-        <a href="#" class="btn bg-secondary w-100">
-          <span class="text-dark">Upozornit</span>
-        </a>
-      </div>
+      <a
+        href="#"
+        class="d-inline-flex text-white text-underline mt-3"
+        data-target="components--mobile-expander.link"
+        data-action="click->components--mobile-expander#toggle"
+      >
+        <span class="py-2 fs-5" data-target="components--mobile-expander.label">Zobrazit více</span>
+      </a>
     </div>
     <div class="bg-light text-dark p-5 p-lg-8 rounded-l d-none d-lg-flex">
       <div class="w-100">

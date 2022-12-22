@@ -12,6 +12,7 @@ $gray-900: #181C32 !default;
 $text-muted: $gray-500 !default;
 
 $dark: #111827 !default;
+$dark-light: #172032 !default;
 $primary: #25AD23 !default;
 $light: $gray-200 !default;
 $primary-dark: #078738 !default;
@@ -42,6 +43,7 @@ $theme-colors: (
 	"primary":    $primary,
   "secondary":  $secondary,
   "dark":       $dark,
+  "dark-light": $dark-light,
   "muted":      $text-muted,
   "danger":     $danger,
   "light":      $light,
@@ -88,11 +90,11 @@ $grid-breakpoints: (
 ) !default;
 
 $container-max-widths: (
-  sm: 550px,
-  md: 748px,
-  lg: 982px,
-  xl: 1180px,
-  xxl: 1320px
+  sm: 100%,
+  md: 100%,
+  lg: 100%,
+  xl: 100%,
+  xxl: 1400px
 ) !default;
 
 $grid-columns:                12 !default;
