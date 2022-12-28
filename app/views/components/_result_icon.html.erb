@@ -1,0 +1,49 @@
+<span
+  class="rounded-circle icon <%= labelClass %> <%= 'bg-primary' if labelValue == "true" %><%= 'bg-secondary' if labelValue == "misleading" %><%= 'bg-red' if labelValue == "untrue" %><%= 'bg-gray' if labelValue == "unverifiable" %>">
+  <% if labelValue == "true" %>
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:serif="http://www.serif.com/" width="100%" height="100%" viewBox="0 0 24 24" version="1.1" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <rect id="Artboard1" x="0" y="0" width="24" height="24" style="fill:none;"/>
+    <g id="Artboard11" serif:id="Artboard1">
+        <g transform="matrix(1,0,0,1,3.04833,5.75885)">
+            <path d="M0.494,6.451L1.828,5.082L6.46,9.646L16.041,0.1L17.409,1.468L6.46,12.383L0.494,6.451Z" style="fill:white;fill-rule:nonzero;"/>
+        </g>
+    </g>
+  </svg>
+  <% end %>
+  <% if labelValue == "untrue" %>
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:serif="http://www.serif.com/" width="100%" height="100%" viewBox="0 0 24 24" version="1.1" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+      <g transform="matrix(1,0,0,1,-61.6192,0)">
+          <g id="Artboard2" transform="matrix(1,0,0,1,-12.3808,0)">
+              <rect x="74" y="0" width="24" height="24" style="fill:none;"/>
+              <g transform="matrix(1,0,0,1,79.3099,5.74689)">
+                  <path d="M12.763,1.568L11.395,0.199L6.69,4.888L1.986,0.199L0.617,1.568L5.318,6.253L0.617,10.938L1.986,12.307L6.69,7.618L11.395,12.307L12.763,10.938L8.063,6.253L12.763,1.568Z" style="fill:white;fill-rule:nonzero;"/>
+              </g>
+          </g>
+      </g>
+  </svg>
+  <% end %>
+  <% if labelValue == "misleading" %>
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:serif="http://www.serif.com/" width="100%" height="100%" viewBox="0 0 24 24" version="1.1" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+      <g transform="matrix(1,0,0,1,-92.897,0)">
+          <g id="Artboard2" transform="matrix(1,0,0,1,18.897,0)">
+              <rect x="74" y="0" width="24" height="24" style="fill:none;"/>
+              <g transform="matrix(1,0,0,1,84.3084,2.79254)">
+                  <path d="M1.692,18.262C1.257,18.262 0.887,18.105 0.578,17.797C0.27,17.488 0.113,17.114 0.113,16.683C0.113,16.253 0.27,15.879 0.578,15.57C0.887,15.261 1.261,15.105 1.692,15.105C2.122,15.105 2.496,15.261 2.805,15.57C3.114,15.879 3.27,16.253 3.27,16.683C3.27,16.969 3.197,17.232 3.056,17.473C2.911,17.713 2.721,17.903 2.485,18.048C2.248,18.193 1.981,18.262 1.692,18.262ZM2.885,0.153L2.709,13.069L0.674,13.069L0.498,0.153L2.885,0.153Z" style="fill:white;fill-rule:nonzero;"/>
+              </g>
+          </g>
+      </g>
+  </svg>
+  <% end %>
+  <% if labelValue == "unverifiable" %>
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:serif="http://www.serif.com/" width="100%" height="100%" viewBox="0 0 24 24" version="1.1" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+      <g transform="matrix(1,0,0,1,-30.993,0)">
+          <g id="Artboard2" transform="matrix(1,0,0,1,-43.007,0)">
+              <rect x="74" y="0" width="24" height="24" style="fill:none;"/>
+              <g transform="matrix(1,0,0,1,80.0491,2.79265)">
+                  <path d="M4.409,13.193L4.409,13.086C4.42,11.969 4.538,11.081 4.76,10.418C4.981,9.758 5.297,9.221 5.709,8.813C6.121,8.405 6.609,8.027 7.184,7.681C7.527,7.471 7.84,7.219 8.114,6.93C8.389,6.64 8.606,6.304 8.766,5.923C8.926,5.542 9.006,5.122 9.006,4.661C9.006,4.089 8.873,3.59 8.602,3.171C8.332,2.751 7.973,2.423 7.523,2.198C7.074,1.97 6.574,1.855 6.021,1.855C5.541,1.855 5.08,1.954 4.634,2.153C4.188,2.351 3.818,2.664 3.521,3.091C3.223,3.518 3.048,4.078 3.002,4.768L0.791,4.768C0.837,3.773 1.096,2.923 1.569,2.214C2.038,1.505 2.663,0.963 3.437,0.59C4.211,0.216 5.072,0.029 6.021,0.029C7.051,0.029 7.947,0.235 8.709,0.643C9.472,1.051 10.063,1.615 10.482,2.328C10.901,3.041 11.111,3.853 11.111,4.768C11.111,5.412 11.012,5.992 10.817,6.514C10.623,7.036 10.341,7.501 9.975,7.909C9.609,8.317 9.17,8.679 8.656,8.996C8.141,9.316 7.729,9.655 7.417,10.01C7.108,10.364 6.883,10.784 6.742,11.268C6.601,11.752 6.525,12.358 6.513,13.083L6.513,13.189L4.409,13.189L4.409,13.193ZM5.533,18.385C5.099,18.385 4.729,18.229 4.42,17.92C4.112,17.612 3.955,17.238 3.955,16.807C3.955,16.376 4.112,16.003 4.42,15.694C4.729,15.385 5.103,15.229 5.533,15.229C5.964,15.229 6.338,15.385 6.647,15.694C6.955,16.003 7.112,16.376 7.112,16.807C7.112,17.093 7.039,17.356 6.898,17.596C6.753,17.836 6.567,18.027 6.326,18.172C6.09,18.317 5.823,18.385 5.533,18.385Z" style="fill:white;fill-rule:nonzero;"/>
+              </g>
+          </g>
+      </g>
+  </svg>
+  <% end %>
+</span>

@@ -1,6 +1,6 @@
 <% content_for(:hide_layout_donate_and_subscribe, true) %>
 
-<div class="row gx-5 gx-lg-5 flex-lg-row-reverse" data-controller="components--modal">
+<div class="row g-5 g-lg-10 flex-lg-row-reverse" data-controller="components--modal">
   <% if @page_number.blank? %>
   <div class="col col-12 col-lg-4">
     <div class="d-flex flex-wrap align-items-center mb-10">
@@ -25,7 +25,7 @@
     >
       <div class="expander expander-dark-light" data-target="components--mobile-expander.expander">
         <div class="w-100 position-relative">
-          <h2 class="mb-4">Co je Demagog.cz?</h2>
+          <h2 class="display-5 mb-4">Co je Demagog.cz?</h2>
           <div class="fs-6 mb-10">
             <%= raw(get_web_content("homepage", "intro")) %>
           </div>
@@ -48,14 +48,16 @@
           </a>
         </div>
       </div>
-      <a
-        href="#"
-        class="d-inline-flex text-white text-underline mt-3"
-        data-target="components--mobile-expander.link"
-        data-action="click->components--mobile-expander#toggle"
-      >
-        <span class="py-2 fs-5" data-target="components--mobile-expander.label">Zobrazit více</span>
-      </a>
+      <div class="d-flex">
+        <a
+          href="#"
+          class="text-white text-underline mt-3"
+          data-target="components--mobile-expander.link"
+          data-action="click->components--mobile-expander#toggle"
+        >
+          <span class="py-2 fs-5" data-target="components--mobile-expander.label">Zobrazit více</span>
+        </a>
+      </div>
     </div>
     <div class="bg-light text-dark p-5 p-lg-8 rounded-l d-none d-lg-flex">
       <div class="w-100">
@@ -79,36 +81,21 @@
       </div>
     </div>
   </div>
-  <div class="col col-12 col-lg-8">
-    <div class="d-flex flex-wrap align-items-center mb-10">
-      <a href="#" class="btn outline my-2 me-2">
-        <span>Volby 2022</span>
-      </a>
-      <a href="#" class="btn outline my-2 me-2">
-        <span>Ukrajinský konflikt</span>
-      </a>
-      <a href="/spoluprace-s-facebookem" class="btn outline my-2">
-        <span>Factchech pro facebook</span>
-      </a>
+  <div class="col col-12 col-lg-8 mb-0 mb-lg-10">
+    <div class="mb-5 mb-lg-10">
+      <%= render partial: "components/tags", locals: { active: false } %>
     </div>
-    <% @top_articles.each do |article| %>
-      <%= render partial: "components/article_main", object: article, as: :article, locals: { show_portraits: false, smaller_gaps: true } %>
-    <% end %>
-  </div>
-  <div class="col col-12">
-    <div class="row gx-5 gx-lg-10 mt-lg-10">
-      <% @bottom_articles.each do |article| %>
-        <div class="col col-12 col-lg-6">
-          <%= render partial: "components/article_main", object: article, as: :article, locals: { show_portraits: false, smaller_gaps: true } %>
-      </div>
+    <div class="row row-cols-1 g-5 g-lg-10">
+      <% @top_articles.each do |article| %>
+        <%= render partial: "components/article_main", object: article, as: :article, locals: { show_portraits: false, smaller_gaps: true } %>
       <% end %>
     </div>
   </div>
-  <div class="col col-12 mb-10">
-    <div class="">
-      <a href="/?page=2" class="btn">
-        <span class="mx-2">Zobrazit další</span>
-      </a>
+  <div class="col col-12">
+    <div class="row row-cols-1 row-cols-lg-2 g-5 g-lg-10">
+      <% @bottom_articles.each do |article| %>
+        <%= render partial: "components/article_main", object: article, as: :article, locals: { show_portraits: false, smaller_gaps: true } %>
+      <% end %>
     </div>
   </div>
   <div class="modal" id="intro-video-modal" aria-hidden="true" data-target="components--modal.introVideoModal">
@@ -130,36 +117,30 @@
   <% end %>
   <% if @page_number %>
   <div class="col col-12">
-    <div class="d-flex flex-wrap align-items-center mb-10">
-      <a href="#" class="btn outline my-2 me-2">
-        <span>Volby 2022</span>
-      </a>
-      <a href="#" class="btn outline my-2 me-2">
-        <span>Ukrajinský konflikt</span>
-      </a>
-      <a href="/spoluprace-s-facebookem" class="btn outline my-2">
-        <span>Factchech pro facebook</span>
-      </a>
-    </div>
+    <%= render partial: "components/tags", locals: { active: false } %>
   </div>
   <div class="col col-12">
-    <div class="row g-10">
+    <div class="row row-cols-1 row-cols-lg-2 g-10">
       <% @articles.each do |article| %>
-        <div class="col col-12 col-lg-6">
-          <%= render partial: "components/article_main", object: article, as: :article, locals: { show_portraits: false, smaller_gaps: true } %>
-      </div>
+      <%= render partial: "components/article_main", object: article, as: :article, locals: { show_portraits: false, smaller_gaps: true } %>
       <% end %>
     </div>
   </div>
-  <div class="col col-12 mb-10">
-    <div class="">
-      <a href="/?page=" class="btn">
-        <span class="mx-2">Zobrazit další</span>
-      </a>
+  <% end %>
+  <div class="col col-12">
+    <div class="mb-10">
+      <% if path_to_prev_page @articles %>
+        <a href="<%= path_to_prev_page  @articles %>" class="btn h-50px fs-6 me-2 mb-2 px-8">
+          <span>Zobrazit předchozí</span>
+        </a>
+      <% end %>
+      <% if path_to_next_page @articles %>
+        <a href="<%= path_to_next_page  @articles %>" class="btn h-50px fs-6 me-2 mb-2 px-8">
+          <span>Zobrazit další</span>
+        </a>
+      <% end %>
     </div>
   </div>
-  <% end %>
-
 </div>
 
 <div class="bg-light text-dark p-5 p-lg-10 rounded-l mt-10">

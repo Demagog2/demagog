@@ -39,12 +39,11 @@
         </div>
       <% end %>
     </div>
-    <div class="d-flex align-items-center mb-10">
+    <div class="d-flex flex-wrap align-items-center mb-10">
       <h1 class="display-5 fw-bold me-3">Tento výrok byl ověřen jako</h1>
-      <div class="d-flex align-items-center" >
-        <span class="display-5 text-uppercase fw-bold <%= @statement.approved_assessment.veracity.default_name %>">
-          <%= @statement.approved_assessment.veracity.name.downcase %>
-        </span>
+      <div class="d-flex align-items-center">
+        <%= render partial: "components/result_icon", locals: { labelClass: 'icon-36 me-2', labelValue:  @statement.approved_assessment.veracity.default_name } %>
+        <%= render partial: "components/result_label", locals: { labelClass: 'fs-2 text-uppercase fw-bold', labelContent: @statement.approved_assessment.veracity.name.downcase, labelValue:  @statement.approved_assessment.veracity.default_name} %>
       </div>
     </div>
     <% unless @statement.approved_assessment.short_explanation.nil? %>

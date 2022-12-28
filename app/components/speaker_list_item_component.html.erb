@@ -26,7 +26,9 @@
       </p>
     </div>
     <div class="text-center mt-4">
-      <%= link_to 'Otevřít profil', speaker_path(@speaker), class: 'btn outline' %>
+      <a href="<%= speaker_path(@speaker)%>" class="btn outline h-40x">
+        <span class="fs-7">Otevřít profil</span>
+      </a>
     </div>
   </div>
 </div>

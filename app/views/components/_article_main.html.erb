@@ -1,6 +1,6 @@
 <% article_presenter = ArticlePresenter.new(article) %>
 
-<article class="mb-5 mb-lg-10">
+<article class="col">
   <div class="row g-2 g-lg-5">
     <div class="col col-12 col-md-5">
       <div class="w-100">
@@ -16,7 +16,7 @@
         <div class="symbol-group">
           <% if article.article_type.name == ArticleType::DEFAULT %>
             <% for source_speaker in article_presenter.factcheck_source_speakers %>
-              <%= link_to speaker_path(source_speaker), class: 'symbol symbol-40px rounded-circle bg-gray-500 overflow-hidden' do %>
+              <%= link_to speaker_path(source_speaker.speaker), class: 'symbol symbol-40px rounded-circle bg-gray-500 overflow-hidden', title: source_speaker.full_name  do %>
                 <%= render(PortraitComponent.new(speaker: source_speaker)) %>
               <% end %>
             <% end %>
@@ -65,7 +65,7 @@
 
     </div>
     <div class="col col-12 col-md-7">
-      <h2 class="fs-2 fw-bold lh-1 mb-2"><%= link_to(article.title, article_path(article), class: "text-dark") %></h2>
+      <h2 class="fs-2 fw-bold mb-2"><%= link_to(article.title, article_path(article), class: "text-dark") %></h2>
       <div class="mb-2">
         <% if article.article_type.name == ArticleType::DEFAULT %>
           <% if article.source %>
@@ -96,8 +96,8 @@
       <% end %>
 
       <div class="mt-4">
-        <a class="btn outline min-h-40px" href="<%= article_path(article) %>">
-          <span>Číst dál</span>
+        <a class="btn outline h-40px px-6 fw-bold" href="<%= article_path(article) %>">
+          <span class="fs-7">Číst dál</span>
         </a>
       </div>
 

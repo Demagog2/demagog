@@ -93,8 +93,16 @@ $container-max-widths: (
   sm: 100%,
   md: 100%,
   lg: 100%,
-  xl: 100%,
-  xxl: 1400px
+  xl: 1180px,
+  xxl: 1380px
+) !default;
+
+$icon-sizes: (
+  28: 28px,
+  36: 36px,
+  40: 40px,
+  44: 44px,
+  50: 50px,
 ) !default;
 
 $grid-columns:                12 !default;
@@ -230,6 +238,7 @@ $custom-sizes: (
   	30px: 30px,
   	35px: 35px,
   	40px: 40px,
+    44px: 44px,
   	45px: 45px,
   	50px: 50px,
   	55px: 55px,

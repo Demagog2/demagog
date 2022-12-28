@@ -1,0 +1,24 @@
+ <a class="container-speaker-listed speaker s-speaker" href="<%= speaker_path(speaker) %>">
+   <%= render(PortraitComponent.new(speaker: speaker)) %>
+   <div>
+    <p class="name">
+      <span class="name-inner">
+        <%= speaker.full_name %>
+        <% if speaker.body %>(<%= speaker.body.short_name %>)<% end %>
+      </span>
+      <% if speaker.role %>
+        <span class="role">
+          <%= speaker.role %>
+        </span>
+      <% end %>
+    </p>
+    <p class="statements-count">
+      <% if show_latest %>
+        <b><%= speaker.factual_and_published_statements.where("excerpted_at >= ?", 6.months.ago).count %>&nbsp;výroků</b>
+        (<%= speaker.factual_and_published_statements.count %>&nbsp;celkem)
+      <% else %>
+        <%= speaker.factual_and_published_statements.count %>&nbsp;<%= cs_pluralize(speaker.factual_and_published_statements.count, "výrok", "výroky", "výroků") %>
+      <% end %>
+    </p>
+  </div>
+</a>

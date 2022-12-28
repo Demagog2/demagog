@@ -1,24 +1,33 @@
- <a class="container-speaker-listed speaker s-speaker" href="<%= speaker_path(speaker) %>">
-   <%= render(PortraitComponent.new(speaker: speaker)) %>
-   <div>
-    <p class="name">
-      <span class="name-inner">
-        <%= speaker.full_name %>
-        <% if speaker.body %>(<%= speaker.body.short_name %>)<% end %>
-      </span>
-      <% if speaker.role %>
-        <span class="role">
-          <%= speaker.role %>
+<div class="col">
+  <div class="h-100 d-flex flex-column justify-content-between align-items-center">
+    <div class="w-100 p-5">
+      <%= link_to speaker_path(speaker), class: 'd-block position-relative' do %>
+        <span class="symbol symbol-square symbol-circle">
+          <%= render(PortraitComponent.new(speaker: speaker)) %>
         </span>
+        <% if speaker.body %>
+          <div class="symbol-label d-flex align-items-center justify-content-center w-45px h-45px rounded-circle bg-dark">
+            <span class="smallest text-white lh-1 text-center p-2"><%= speaker.body.short_name %></span>
+          </div>
+        <% end %>
       <% end %>
-    </p>
-    <p class="statements-count">
-      <% if show_latest %>
-        <b><%= speaker.factual_and_published_statements.where("excerpted_at >= ?", 6.months.ago).count %>&nbsp;výroků</b>
-        (<%= speaker.factual_and_published_statements.count %>&nbsp;celkem)
-      <% else %>
-        <%= speaker.factual_and_published_statements.count %>&nbsp;<%= cs_pluralize(speaker.factual_and_published_statements.count, "výrok", "výroky", "výroků") %>
-      <% end %>
-    </p>
+    </div>
+    <div class=" text-center lh-1">
+      <h3 class="fs-4 fw-bold mb-4">
+        <%= speaker.full_name %>
+      </h3>
+      <p class="fs-6 fw-bold mb-4">
+        <%= speaker.role %>
+      </p>
+      <p class="fs-6">
+        <%= speaker.factual_and_published_statements_count %>
+        <%= cs_pluralize(speaker.factual_and_published_statements_count, "výrok", "výroky", "výroků") %>
+      </p>
+    </div>
+    <div class="text-center mt-4">
+      <a href="<%= speaker_path(speaker)%>" class="btn outline h-40x">
+        <span class="fs-7">Otevřít profil</span>
+      </a>
+    </div>
   </div>
-</a>
+</div>
