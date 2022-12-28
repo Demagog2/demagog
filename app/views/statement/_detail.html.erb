@@ -8,7 +8,7 @@
       <div class="d-flex">
         <div class="w-100px min-w-100px">
           <div class="px-2">
-            <a href="<%= speaker_path(statement.speaker) %>" class="position-relative">
+            <a href="<%= speaker_path(statement.speaker) %>" class="d-block position-relative">
               <span class="symbol symbol-square symbol-circle">
                 <%= render(PortraitComponent.new(speaker: statement.speaker)) %>
               </span>
