@@ -15,6 +15,10 @@
     color: inherit;
   }
 
+  &.search {
+    padding-right: 50px !important;
+  }
+
   &.outline {
     border: 1px solid $dark;
     background-color: transparent;
@@ -40,7 +44,10 @@
   width: 100%;
   display: flex;
 
-
+  &.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 
 
   & > input {
@@ -96,4 +103,6 @@
   input:checked ~ .checkmark::before {
     background-color: $dark;
   }
+
+
 }

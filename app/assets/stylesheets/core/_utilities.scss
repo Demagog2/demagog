@@ -192,6 +192,11 @@ $utilities: map-merge(
         )
       )
     ),
+    "fill": (
+      property: fill,
+      class: fill,
+      values: $theme-colors
+    ),
     "background-color": (
       property: background-color,
       class: bg,

@@ -3,7 +3,7 @@ import * as queryString from 'query-string';
 import debounce from 'lodash/debounce';
 
 export default class extends Controller {
-  static targets = [ 'filter', 'content', 'rows', 'label', 'filtersForm', 'filterCheckbox', 'filterLink']
+  static targets = [ 'filter', 'content', 'rows', 'label', 'filtersForm', 'filterCheckbox', 'filterLink', 'searchInput', 'filterItem']
 
   connect() {
     if (this.filterTarget.getAttribute('aria-show') == "false") {
@@ -14,6 +14,7 @@ export default class extends Controller {
   initialize() {
     this.setFilterValues();
     this.setUpLinks();
+    this.setUpContent();
   }
 
   toggle(event) {
@@ -93,6 +94,7 @@ export default class extends Controller {
   toggleFilter(e){
     const { filterType, filterValue } = e.currentTarget.dataset;
     const queryParams = queryString.parse(window.location.search, { arrayFormat: 'bracket' });
+    const baseUrl = location.protocol + '//' + location.host + location.pathname;
 
     if (!queryParams[filterType]) {
       queryParams[filterType] = [];
@@ -109,9 +111,12 @@ export default class extends Controller {
       queryParamsAsString = '?' + queryParamsAsString;
     }
 
-
-
-    history.pushState(undefined, undefined, window.location.pathname + queryParamsAsString);
+    if (this.data.get('type') == "reload") {
+      window.location = baseUrl + queryParamsAsString;
+    } else {
+      history.pushState(undefined, undefined, window.location.pathname + queryParamsAsString);
+      this.setUpContent();
+    }
 
     e.stopPropagation();
     e.preventDefault();
@@ -144,6 +149,61 @@ export default class extends Controller {
   clearFilter(e) {
     const baseUrl = location.protocol + '//' + location.host + location.pathname;
     window.location.href = baseUrl;
+
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
+  setUpContent() {
+    if (this.filterItemTargets) {
+      const queryParams = queryString.parse(window.location.search, { arrayFormat: 'bracket' });
+      const filterValues = Object.values(queryParams);
+      if (filterValues.length) {
+        const mergeFilterValues = [].concat(...filterValues)
+        this.filterItemTargets.forEach((el) => {
+          const itemValues = el.dataset.filterValue.split(",");
+          const intersection = itemValues.filter(element => mergeFilterValues.includes(element));
+          if (intersection.length == filterValues.length) {
+            if (el.classList.contains("hide")) {
+              el.classList.remove("hide");
+            }
+          } else {
+            if (!el.classList.contains("hide")) {
+              el.classList.add("hide");
+            }
+          }
+        });
+      } else {
+        this.filterItemTargets.forEach((el) => {
+          if (el.classList.contains("hide")) {
+            el.classList.remove("hide");
+          }
+        });
+      }
+    }
+  }
+
+  onSearchSubmit(e) {
+    const input = this.searchInputTarget;
+    const baseUrl = location.protocol + '//' + location.host + location.pathname;
+    const queryParams = {};
+
+    this.filterCheckboxTargets.forEach((el) => {
+      if (el.checked) {
+        queryParams[el.name] = el.value;
+      }
+    });
+
+    if (input.value != '') {
+      queryParams[input.name] = input.value;
+    }
+
+    let queryParamsAsString = queryString.stringify(queryParams, { arrayFormat: 'bracket' });
+    if (queryParamsAsString !== '') {
+      queryParamsAsString = '?' + queryParamsAsString;
+    }
+
+    window.location = baseUrl + queryParamsAsString;
 
     e.stopPropagation();
     e.preventDefault();

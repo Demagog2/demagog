@@ -7,9 +7,11 @@
         <span class="symbol symbol-square symbol-circle">
           <%= render(PortraitComponent.new(speaker: speaker_presenter.portrait_speaker, lazy_loaded: false)) %>
         </span>
+        <% if speaker_presenter.body_short_name %>
         <div class="symbol-label d-flex align-items-center justify-content-center w-45px h-45px rounded-circle bg-dark">
           <span class="smallest text-white lh-1 text-center p-2"><%= speaker_presenter.body_short_name %></span>
         </div>
+        <% end %>
       </a>
     </div>
     <div class="text-center lh-1 mt-5">

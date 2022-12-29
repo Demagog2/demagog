@@ -46,8 +46,8 @@
               type="checkbox"
               data-target="components--filter.filterCheckbox"
               data-action="change->components--filter#toggleFilter"
-              data-filter-value="<%= "#{source_speaker.speaker.full_name.parameterize}-#{source_speaker.speaker.id.to_s}" %>"
-              data-filter-type="strana"
+              data-filter-value="<%= "#{source_speaker.speaker.id.to_s}" %>"
+              data-filter-type="recnici"
             >
             <span class="checkmark"></span>
             <span class="small fw-bold me-2"><%= source_speaker.full_name %></span>
@@ -83,11 +83,12 @@
                 type="checkbox"
                 data-target="components--filter.filterCheckbox"
                 data-action="change->components--filter#toggleFilter"
-                data-filter-value="<%= "#{tag_with_count.tag.name.parameterize}-#{tag_with_count.tag.id}" %>"
-                data-filter-type="strana"
+                data-filter-value="<%= "#{tag_with_count.tag.id}" %>"
+                data-filter-type="temata"
+
               >
               <span class="checkmark"></span>
-              <span class="small fw-bold me-2"><%= "#{tag_with_count.tag.name.parameterize}-#{tag_with_count.tag.id}" %></span>
+              <span class="small fw-bold me-2"><%= tag_with_count.tag.name %></span>
               <span class="smallest min-w-40px"><%= tag_with_count.count %> <%= cs_pluralize(tag_with_count.count, "výrok", "výroky", "výroků") %></span>
             </div>
             <% end %>
@@ -113,13 +114,14 @@
           </div>
           <div class="filter-content">
             <% veracities_with_counts.each do |veracity_with_count| %>
-            <div class="check-btn py-2">
+            <div class="check-btn py-2 <% if veracity_with_count.count == 0 %>disabled<% end %>">
               <input
                 type="checkbox"
                 data-target="components--filter.filterCheckbox"
                 data-action="change->components--filter#toggleFilter"
-                data-filter-value="<%= { true: "pravda", untrue: "nepravda", misleading: "zavadejici", unverifiable: "neoveritelne" }[veracity_with_count.veracity.key.to_sym] %>"
-                data-filter-type="strana"
+                data-filter-value="<%= veracity_with_count.veracity.key.to_sym %>"
+                data-filter-type="hodnoceni"
+
               >
               <span class="checkmark"></span>
               <span class="small fw-bold me-2"><%= veracity_with_count.veracity.name %></span>
@@ -141,7 +143,11 @@
   </div>
   <div class="col col-12 col-lg-8" data-target="components--filter.content">
     <% statements.each do |statement| %>
-    <div class="d-block">
+    <div
+      class="d-block"
+      data-target="components--overview.item components--filter.filterItem"
+      data-filter-value="<%= statement.approved_assessment.veracity.default_name %>,<%= statement.speaker.id.to_s %>,<% statement.tags.each do |tag|%><%= tag.id %>,<% end %>"
+    >
       <%=
         render(
           partial: "statement/detail",
