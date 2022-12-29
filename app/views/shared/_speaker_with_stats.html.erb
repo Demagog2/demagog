@@ -25,7 +25,7 @@
   </div>
   <div class="col col-7">
     <div class="stats">
-      <%= render(partial: 'shared/stats', object: stats, as: :stats) %>
+      <%= render(partial: 'shared/stats', object: stats, as: :stats, locals: { speaker: speaker_presenter.speaker }, ) %>
     </div>
   </div>
 </div>
