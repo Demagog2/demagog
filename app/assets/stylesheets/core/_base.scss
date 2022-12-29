@@ -49,8 +49,9 @@ main {
   img {
     position: relative;
     vertical-align: bottom;
+    max-width: 100%;
   }
-
+  /*
   .section {
     p {
       @include font-size($font-size-base);
@@ -71,35 +72,11 @@ main {
       }
     }
   }
+  */
 }
 
-section.segment-text {
-  flex: 1 0 66.66666667%;
-  margin-left: 16.66666667%;
-  margin-right: 16.66666667%;
 
-  img {
-    width: 100%;
-    margin-bottom: $font-margin-base;
-  }
 
-  ul, ol {
-    margin-bottom: $font-margin-base;
-  }
-
-}
-
-section.segment-source_statements {
-  flex: 1 0 100%;
-}
-
-section.segment-promise {
-  flex: 1 0 66.66666667%;
-  margin-left: 16.66666667%;
-  margin-right: 16.66666667%;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
 
 .content {
   p {
@@ -121,6 +98,7 @@ section.segment-promise {
 
   img {
     width: 100%;
+    margin-bottom: $font-margin-base;
   }
 }
 .donate {
@@ -133,27 +111,7 @@ section.segment-promise {
     padding-top: 110px;
   }
 
-  section.segment-text {
-    flex: 1 0 100%;
-    margin-left: 0;
-    margin-right: 0;
 
-    img {
-      width: 100%;
-    }
-  }
-
-  section.segment-source_statements {
-    flex: 1 0 100%;
-  }
-
-  section.segment-promise {
-    flex: 1 0 100%;
-    margin-left: 0;
-    margin-right: 0;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
 }
 
 

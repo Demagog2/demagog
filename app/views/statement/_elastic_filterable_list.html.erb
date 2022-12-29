@@ -17,6 +17,7 @@ wide_display = true if local_assigns[:wide_display].nil?
   data-components--filter-open-label="Skrýt filtry"
   data-components--filter-close-label="Zobrazit filtry"
   data-components--filter-close-empty="true"
+  data-components--filter-type="reload"
 >
   <div class="col col-12 col-lg-4">
     <a class="btn w-100 h-44px" data-action="click->components--filter#toggle" aria-show="true">
@@ -62,7 +63,7 @@ wide_display = true if local_assigns[:wide_display].nil?
                 data-target="components--filter.filterCheckbox"
                 data-action="change->components--filter#toggleFilter"
                 data-filter-value="<%= filter_option[:value] %>"
-                data-filter-type="politik"
+                data-filter-type="tema"
               >
               <span class="checkmark"></span>
               <span class="small fw-bold me-2"><%= filter_option[:label] %></span>

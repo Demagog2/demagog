@@ -63,13 +63,13 @@ export default class extends Controller {
   hide() {
     this.filterTarget.setAttribute('aria-show', 'false');
     this.filterTarget.classList.add('hide');
-    if (this.data.get('closeCols')) {
+    if (this.data.get('closeCols') && this.hasContentTarget) {
       this.contentTarget.classList = this.data.get('closeCols')
     }
-    if (this.data.get('openRows') && this.data.get('closeRows')) {
+    if (this.data.get('openRows') && this.data.get('closeRows') && this.hasRowsTarget) {
       this.rowsTarget.classList = this.data.get('closeRows');
     }
-    if (this.data.get('openLabel') && this.data.get('closeLabel')) {
+    if (this.data.get('openLabel') && this.data.get('closeLabel') && this.hasLabelTarget) {
       this.labelTarget.innerHTML = this.data.get('closeLabel');
     }
 
@@ -79,14 +79,14 @@ export default class extends Controller {
   show() {
     this.filterTarget.setAttribute('aria-show', 'true');
     this.filterTarget.classList.remove('hide');
-    if (this.data.get('openCols')) {
-        this.contentTarget.classList = this.data.get('openCols')
+    if (this.data.get('openCols') && this.hasContentTarget) {
+      this.contentTarget.classList = this.data.get('openCols')
     }
-    if (this.data.get('openRows') && this.data.get('closeRows')) {
+    if (this.data.get('openRows') && this.data.get('closeRows') && this.hasRowsTarget) {
       this.rowsTarget.classList = this.data.get('openRows');
     }
 
-    if (this.data.get('openLabel') && this.data.get('closeLabel')) {
+    if (this.data.get('openLabel') && this.data.get('closeLabel') && this.hasLabelTarget) {
       this.labelTarget.innerHTML = this.data.get('openLabel');
     }
   }
