@@ -11,8 +11,8 @@ content_for(:description, "Za svou existenci Demagog.cz už ověřil výroky sto
     data-controller="components--filter"
     data-components--filter-open-cols="col col-12 col-lg-8"
     data-components--filter-close-cols="col col-12"
-    data-components--filter-open-rows="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-10"
-    data-components--filter-close-rows="row row-cols-1 row-cols-md-2 row-cols-lg-6 g-10"
+    data-components--filter-open-rows="row row-cols-2 row-cols-md-4 row-cols-lg-4 g-10"
+    data-components--filter-close-rows="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-10"
     data-components--filter-open-label="Skrýt filtry"
     data-components--filter-close-label="Zobrazit filtry"
     data-components--filter-close-empty="true"
@@ -94,7 +94,7 @@ content_for(:description, "Za svou existenci Demagog.cz už ověřil výroky sto
       </div>
     </div>
     <div class="col col-12 col-lg-8" data-target="components--filter.content">
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-10" data-target="components--filter.rows">
+      <div class="row row-cols-2 row-cols-md-4 row-cols-lg-4 g-10" data-target="components--filter.rows">
         <% if speaker_elastic_filterable_list_presenter.parsed_params_filters.empty? && (@params[:page] == 1 || @params[:page].blank?) %>
           <% speaker_elastic_filterable_list_presenter.president_and_government_speakers.each do |speaker| %>
             <%= render(SpeakerListItemComponent.new(speaker: speaker)) %>

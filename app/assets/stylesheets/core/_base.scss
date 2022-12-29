@@ -232,3 +232,20 @@ main {
     margin-right: 1rem;
   }
 }
+
+@include media-breakpoint-down(md) {
+  .pagination {
+    span {
+      @include font-size(1rem);
+    }
+
+    .next {
+      margin-left: 0.5rem;
+    }
+    .prev {
+      margin-right: 0.5rem;
+    }
+  }
+
+
+}
