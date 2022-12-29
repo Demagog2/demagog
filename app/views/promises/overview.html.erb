@@ -113,7 +113,7 @@
   >
     <div class="row g-10 my-10">
       <div class="col col-12 col-lg-4">
-        <a class="btn w-100" data-action="click->components--filter#toggle" aria-show="true">
+        <a class="btn w-100 h-44px" data-action="click->components--filter#toggle" aria-show="true">
           <span class="text-white" data-target="components--filter.label">Skrýt filtry</span>
         </a>
       </div>
@@ -206,18 +206,18 @@
       </div>
 
       <div class="col col-12 col-lg-8" data-target="components--filter.content" >
-        <div class="d-none d-lg-block">
+        <div class="d-none d-md-block">
           <div class="row g-3 g-lf-6 py-2">
-            <div class="col col-12 col-lg-5">
+            <div class="col col-12 col-md-5">
 
             </div>
-            <div class="col col-12 col-lg-2">
+            <div class="col col-12 col-md-2">
               <h6 class="fs-5 text-uppercase">Oblast</h6>
             </div>
-            <div class="col col-12 col-lg-2">
+            <div class="col col-12 col-md-2">
               <h6 class="fs-5 text-uppercase">Hodnocení</h6>
             </div>
-            <div class="col col-12 col-lg-3">
+            <div class="col col-12 col-md-3">
 
             </div>
           </div>
@@ -231,14 +231,14 @@
 
         >
           <div class="separator bg-gray"></div>
-          <div class="row g-3 g-lf-6 py-2 align-items-center">
-            <div class="col col-12 col-lg-5">
+          <div class="row g-3 g-lg-6 py-2 align-items-center">
+            <div class="col col-12 col-md-5">
               <span class="fs-6 fw-bold"><%= statement.title %></span>
             </div>
-            <div class="col col-12 col-lg-2">
+            <div class="col col-12 col-md-2">
               <span class="fs-6"><%= statement.tags[0].name %></span>
             </div>
-            <div class="col col-12 col-lg-2">
+            <div class="col col-12 col-md-2">
               <div class="d-flex align-items-center">
                 <span class="w-30px h-30px min-w-30px d-flex align-items-center justify-content-center rounded-circle me-1 bg-<%= @promises_list_rating_classes[statement.assessment.promise_rating.key] %>">
                   <% if statement.assessment.promise_rating.key.dasherize == "fulfilled" %>
@@ -262,7 +262,7 @@
                 </span>
               </div>
             </div>
-            <div class="col col-12 col-lg-3 d-flex justify-content-start justify-content-lg-end">
+            <div class="col col-12 col-md-3 d-flex justify-content-start justify-content-lg-end">
               <div class="">
                 <a
                   class="btn outline min-h-40px min-w-150px"
