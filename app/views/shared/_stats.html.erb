@@ -5,6 +5,7 @@
       title="Pravda"
       data-action="click->components--stats#toggleLink"
       data-url="?hodnoceni[]=true&recnici[]=<%= speaker.id %>"
+      data-count="<%= stats[:true] %>"
     >
       <span class="w-35px h-35px d-flex align-items-center justify-content-center bg-primary rounded-circle me-2">
         <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -18,6 +19,7 @@
       title="Neověřitelné"
       data-action="click->components--stats#toggleLink"
       data-url="?hodnoceni[]=unverifiable&recnici[]=<%= speaker.id %>"
+      data-count="<%= stats[:unverifiable] %>"
     >
       <span class="w-35px h-35px d-flex align-items-center justify-content-center bg-gray rounded-circle me-2">
         <svg width="12" height="22" viewBox="0 0 15 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -34,6 +36,7 @@
       title="Nepravda"
       data-action="click->components--stats#toggleLink"
       data-url="?hodnoceni[]=untrue&recnici[]=<%= speaker.id %>"
+      data-count="<%= stats[:untrue] %>"
     >
       <span class="w-35px h-35px d-flex align-items-center justify-content-center bg-red rounded-circle me-2">
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -47,6 +50,7 @@
       title="Zavádějící"
       data-action="click->components--stats#toggleLink"
       data-url="?hodnoceni[]=misleading&recnici[]=<%= speaker.id %>"
+      data-count="<%= stats[:misleading] %>"
     >
       <span class="w-35px h-35px d-flex align-items-center justify-content-center bg-secondary rounded-circle me-2">
         <svg width="4" height="22" viewBox="0 0 5 26" fill="none" xmlns="http://www.w3.org/2000/svg">

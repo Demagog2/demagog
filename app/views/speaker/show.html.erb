@@ -43,6 +43,7 @@ content_for(
             class="d-flex align-items-center mb-2"
             data-action="click->components--stats#toggleLink"
             data-url="?hodnoceni[]=pravda"
+            data-count="<%= stats[:true] %>"
             title="Pravda"
           >
             <span class="w-40px h-40px d-flex align-items-center justify-content-center bg-primary rounded-circle me-2">
@@ -56,6 +57,7 @@ content_for(
             class="d-flex align-items-center"
             data-url="?hodnoceni[]=neoveritelne"
             data-action="click->components--stats#toggleLink"
+            data-count="<%= stats[:unverifiable] %>"
             title="Neověřitelné"
           >
             <span class="w-40px h-40px d-flex align-items-center justify-content-center bg-gray rounded-circle me-2">
@@ -71,6 +73,7 @@ content_for(
             class="d-flex align-items-center mb-2"
             data-action="click->components--stats#toggleLink"
             data-url="?hodnoceni[]=nepravda"
+            data-count="<%= stats[:untrue] %>"
             title="Nepravda"
           >
             <span class="w-40px h-40px d-flex align-items-center justify-content-center bg-red rounded-circle me-2">
@@ -84,6 +87,7 @@ content_for(
             class="d-flex align-items-center"
             data-action="click->components--stats#toggleLink"
             data-url="?hodnoceni[]=zavadejici"
+            data-count="<%= stats[:misleading] %>"
             title="Zavádějící"
           >
             <span class="w-40px h-40px d-flex align-items-center justify-content-center bg-secondary rounded-circle me-2">

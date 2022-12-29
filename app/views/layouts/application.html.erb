@@ -5,6 +5,7 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <% if content_for?(:stylesheets) %><%= yield :stylesheets %><% end %>
     <%= render partial: "shared/meta" %>
+    <meta name="color-scheme" content="light only">
   </head>
 
   <body>

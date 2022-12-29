@@ -15,6 +15,7 @@ export default class extends Controller {
 
   onScroll(event) {
     var st = window.pageYOffset || document.documentElement.scrollTop;
+    const header = document.getElementById("header")
 
     if (st > 100) {
       if (! this.element.classList.contains("on-scroll")) {
@@ -34,8 +35,8 @@ export default class extends Controller {
           this.navTarget.classList.remove('open');
           this.menuTarget.setAttribute('aria-expanded', 'false');
         }
-        const navItems = document.querySelectorAll("[aria-expanded='true']");
-        const navDrops = document.querySelectorAll("[aria-open='true']");
+        const navItems = header.querySelectorAll("[aria-expanded='true']");
+        const navDrops = header.querySelectorAll("[aria-open='true']");
         if (navItems.length) {
           navItems.forEach((item) => {
             item.setAttribute('aria-expanded', 'false');
