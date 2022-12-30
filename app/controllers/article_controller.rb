@@ -84,22 +84,8 @@ class ArticleController < FrontendController
         .page(@page_number)
         .per(10)
 
-<<<<<<< HEAD
-        if (@articles.length)
-          @top_articles = @articles[0..3]
-        else
-          @top_articles = []
-        end
-        if (@articles.length > 3)
-          @bottom_articles = @articles[4..9]
-        else
-          @bottom_articles = []
-        end
-
-=======
       @top_articles = @articles[0..3]
       @bottom_articles = @articles[4..9]
->>>>>>> 6b7071903c3d22172fa937c0af02b6b61cb9566b
     end
 
   private
