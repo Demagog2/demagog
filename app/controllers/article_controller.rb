@@ -69,6 +69,8 @@ class ArticleController < FrontendController
       end
 
       @articles = Article
+        .kept
+        .published
         .where(id: [
           1307,
           1308,
@@ -78,12 +80,20 @@ class ArticleController < FrontendController
           1320,
           1322,
         ])
+        .or(Article.where(article_type: ArticleType::DEFAULT).where("id >= 1328"))
         .page(@page_number)
         .per(10)
 
-        @top_articles = @articles[0..3]
-        @bottom_articles = @articles[4..9]
-
+        if (@articles.length)
+          @top_articles = @articles[0..3]
+        else
+          @top_articles = []
+        end
+        if (@articles.length > 3)
+          @bottom_articles = @articles[4..9]
+        else
+          @bottom_articles = []
+        end
 
     end
 
