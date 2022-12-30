@@ -72,6 +72,4 @@ document.addEventListener('DOMContentLoaded', () => {
       fjs.parentNode.insertBefore(js, fjs);
     }
   });
-
-  
 });
