@@ -37,6 +37,10 @@ class ArticleController < FrontendController
     articles_of_type(ArticleType::FACEBOOK_FACTCHECK)
   end
 
+  def presidential_election
+    presidential_articles
+  end
+
   def editorials
     articles_of_type(ArticleType::STATIC)
   end
@@ -59,6 +63,31 @@ class ArticleController < FrontendController
   end
 
   private
+    def presidential_articles
+      if params[:page].present?
+        @page_number = params[:page]
+      end
+
+      @articles = Article
+        .where(id: [
+          1307,
+          1308,
+          1312,
+          1313,
+          1315,
+          1320,
+          1322,
+        ])
+        .page(@page_number)
+        .per(10)
+
+        @top_articles = @articles[0..3]
+        @bottom_articles = @articles[4..9]
+
+
+    end
+
+  private
     def articles_of_type(article_type_name)
       if params[:page].present?
         @page_number = params[:page]
@@ -72,7 +101,7 @@ class ArticleController < FrontendController
         .order(published_at: :desc)
         .page(@page_number)
         .per(10)
-        
+
         @top_articles = @articles[0..3]
         @bottom_articles = @articles[4..9]
     end

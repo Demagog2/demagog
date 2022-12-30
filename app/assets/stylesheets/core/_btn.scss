@@ -33,6 +33,11 @@
     overflow: hidden;
     transition: color .3s;
 
+    svg {
+      fill: $dark;
+      transition: fill .3s;
+    }
+
     &:before {
       position: absolute;
       content: "";
@@ -56,6 +61,10 @@
     &:hover,
     &.active {
       color: $white;
+
+      svg {
+        fill: $white;
+      }
     }
   }
 }
