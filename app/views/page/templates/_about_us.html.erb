@@ -25,7 +25,7 @@ end
           <li class="">
             <a
               href="<%= nav_item.href %>"
-              class="min-h-30px d-inline-flex fs-5 fw-bold text-dark align-items-center text-none state-line mb-2"
+              class="min-h-30px d-inline-flex fs-5 fw-bold text-dark align-items-center text-none state-line mb-2 <%= 'active' if nav_item.href == "#{request.protocol}#{request.host_with_port}#{request.fullpath}" %>"
             >
               <span><%= nav_item.text %></span>
             </a>

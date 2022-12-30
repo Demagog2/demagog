@@ -1,7 +1,7 @@
 <% speaker_presenter = SpeakerPresenter.new(speaker) %>
 
 <div class="row">
-  <div class="col col-5">
+  <div class="col col-6 col-md-5">
     <div class="w-100 px-5">
       <a class="d-block position-relative" href="<%= speaker_path(speaker_presenter.speaker) %>">
         <span class="symbol symbol-square symbol-circle">
@@ -23,7 +23,7 @@
       </p>
     </div>
   </div>
-  <div class="col col-7">
+  <div class="col col-6 col-md-7">
     <div class="stats">
       <%= render(partial: 'shared/stats', object: stats, as: :stats, locals: { speaker: speaker_presenter.speaker }, ) %>
     </div>

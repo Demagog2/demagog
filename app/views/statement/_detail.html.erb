@@ -104,16 +104,12 @@
         data-components--accordion-open-label="skrýt celé odůvodnění"
         data-components--accordion-close-label="zobrazit celé odůvodnění"
       >
-        <div class="">
-          <p class="fs-6">
-            <%= statement.approved_assessment.short_explanation %>
-          </p>
+        <div class="content fs-6">
+          <%= statement.approved_assessment.short_explanation %>
         </div>
         <div class="accordion-content close" data-target="components--accordion.content">
-          <div class="scroll-vertical mh-400px">
-            <p class="fs-6">
-              <%= raw(statement.approved_assessment.explanation_html) %>
-            </p>
+          <div class="scroll-vertical mh-400px content fs-6">
+            <%= raw(statement.approved_assessment.explanation_html) %>
           </div>
         </div>
         <div class="d-flex justify-content-between align-items-center w-100">

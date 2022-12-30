@@ -6,7 +6,8 @@
   transition: background-size .3s;
   display: inline;
 
-  &:hover {
+  &:hover,
+  &.active {
     background-size: 100% 2px;
   }
 }

@@ -160,7 +160,7 @@ wide_display = true if local_assigns[:wide_display].nil?
       <% end %>
 
       <div class="w-100 mt-5">
-        <a class="btn w-100" href="<%= no_filters_url %>">
+        <a class="btn w-100" data-action="click->components--filter#clearFilter">
           <span class="text-white">Zrušit filtry</span>
         </a>
       </div>
