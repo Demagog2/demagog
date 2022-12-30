@@ -38,9 +38,9 @@ class HomepageControllerTest < ActionDispatch::IntegrationTest
 
     get root_url
     assert_response :success
-    assert_select "h2.s-title", text: article_one.title, count: 1
-    assert_select "h2.s-title", text: article_two.title, count: 1
+    assert_select ".s-article .s-title", text: article_one.title, count: 1
+    assert_select ".s-article .s-title", text: article_two.title, count: 1
     # Not listed cause it's deleted
-    assert_select "h2.s-title", text: article_three.title, count: 0
+    assert_select ".s-article .s-title", text: article_three.title, count: 0
   end
 end

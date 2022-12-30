@@ -9,9 +9,11 @@
       <span class="symbol symbol-square symbol-circle">
         <%= render(PortraitComponent.new(speaker: @statement.speaker)) %>
       </span>
-      <div class="symbol-label d-flex align-items-center justify-content-center w-50px h-50px rounded-circle bg-dark">
-        <span class="smallest text-white lh-1 text-center p-2"><%= @statement.source_speaker.body.short_name %></span>
-      </div>
+      <% if @statement.source_speaker.body %>
+        <div class="symbol-label d-flex align-items-center justify-content-center w-50px h-50px rounded-circle bg-dark">
+          <span class="smallest text-white lh-1 text-center p-2"><%= @statement.source_speaker.body.short_name %></span>
+        </div>
+      <% end %>
     </a>
     <div class="mt-2 text-center w-100">
       <h3 class="fs-6 fs-bold">

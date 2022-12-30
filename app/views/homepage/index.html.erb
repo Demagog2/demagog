@@ -3,6 +3,7 @@
 <div class="row g-5 g-lg-10 flex-lg-row-reverse" data-controller="components--modal">
   <% if @page_number.blank? %>
   <div class="col col-12 col-lg-4">
+    <% if !@most_searched_speakers.blank? %>
     <div class="d-flex flex-wrap align-items-center mb-10">
       <span class="fs-7 fw-bold text-uppercase me-5 my-2">Nejvyhledávanější</span>
       <div class="symbol-group">
@@ -13,6 +14,7 @@
         <% end %>
       </div>
     </div>
+    <% end %>
     <div
       class="bg-dark-light text-white p-5 p-lg-8 rounded-l mb-10"
       data-controller="components--mobile-expander"
