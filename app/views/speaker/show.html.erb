@@ -40,7 +40,7 @@ content_for(
       >
         <div class="me-5">
           <div
-            class="d-flex align-items-center mb-2"
+            class="d-flex align-items-center mb-2 <%= 'cursor-pointer' if stats[:true] > 0 %>"
             data-action="click->components--stats#toggleLink"
             data-url="?hodnoceni[]=pravda"
             data-count="<%= stats[:true] %>"
@@ -54,7 +54,7 @@ content_for(
             <span class="display-4 fs-bold"><%= stats[:true] %></span>
           </div>
           <div
-            class="d-flex align-items-center"
+            class="d-flex align-items-center <%= 'cursor-pointer' if stats[:unverifiable] > 0 %>"
             data-url="?hodnoceni[]=neoveritelne"
             data-action="click->components--stats#toggleLink"
             data-count="<%= stats[:unverifiable] %>"
@@ -70,7 +70,7 @@ content_for(
         </div>
         <div class="">
           <div
-            class="d-flex align-items-center mb-2"
+            class="d-flex align-items-center mb-2 <%= 'cursor-pointer' if stats[:untrue] > 0 %>"
             data-action="click->components--stats#toggleLink"
             data-url="?hodnoceni[]=nepravda"
             data-count="<%= stats[:untrue] %>"
@@ -84,7 +84,7 @@ content_for(
             <span class="display-4 fs-bold"><%= stats[:untrue] %></span>
           </div>
           <div
-            class="d-flex align-items-center"
+            class="d-flex align-items-center <%= 'cursor-pointer' if stats[:misleading] > 0 %>"
             data-action="click->components--stats#toggleLink"
             data-url="?hodnoceni[]=zavadejici"
             data-count="<%= stats[:misleading] %>"
