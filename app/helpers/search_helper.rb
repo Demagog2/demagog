@@ -10,7 +10,7 @@ module SearchHelper
   def show_more_link(type, records_count)
     link_to("Zobrazit všech #{records_count} #{RECORD_NAMES_HASH[type]} #{"\u2192".encode("utf-8")}",
             search_path(q: params[:q], type: type),
-            class: "btn h-50px px-8 fs-6")
+            class: "btn h-50px px-8 fs-6 s-more")
   end
 
   def render_records(type, records)
