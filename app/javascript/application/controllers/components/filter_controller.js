@@ -15,6 +15,8 @@ export default class extends Controller {
     this.setFilterValues();
     this.setUpLinks();
     this.setUpContent();
+
+
   }
 
   toggle(event) {
@@ -155,6 +157,18 @@ export default class extends Controller {
   }
 
   setUpContent() {
+    this.filterLinkTargets.forEach((el, index) => {
+      if (index > 0) {
+        const content = el.nextElementSibling;
+        const inputs = content.getElementsByTagName('input');
+        const inputList = Array.prototype.slice.call(inputs);
+        const checkInputs = inputList.filter((v) => v.checked == true);
+
+        if (!checkInputs.length) {
+          this.hideContent(el, content);
+        }  
+      }
+    });
     if (this.filterItemTargets) {
       const queryParams = queryString.parse(window.location.search, { arrayFormat: 'bracket' });
       const filterValues = Object.values(queryParams);
