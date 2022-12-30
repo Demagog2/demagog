@@ -81,10 +81,8 @@ class ArticleController < FrontendController
         .page(@page_number)
         .per(10)
 
-        @top_articles = @articles[0..3]
-        @bottom_articles = @articles[4..9]
-
-
+      @top_articles = @articles[0..3]
+      @bottom_articles = @articles[4..9]
     end
 
   private
@@ -102,7 +100,7 @@ class ArticleController < FrontendController
         .page(@page_number)
         .per(10)
 
-        @top_articles = @articles[0..3]
-        @bottom_articles = @articles[4..9]
+      @top_articles = @articles[0..3]
+      @bottom_articles = @articles[4..9]
     end
 end
