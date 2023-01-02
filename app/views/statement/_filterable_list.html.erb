@@ -32,7 +32,7 @@
           data-target="components--filter.filterLink"
           aria-show="true"
         >
-          <span class="fs-6 fw-bold">Řečníci</span>
+          <span class="fs-6 fw-600">Řečníci</span>
           <span class="filter-icon">
             <svg width="23" height="12" viewBox="0 0 23 12" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1 0.597656L11.646 11.2437L22.2435 0.646237" stroke="#111827"/>
@@ -50,7 +50,7 @@
               data-filter-type="recnici"
             >
             <span class="checkmark"></span>
-            <span class="small fw-bold me-2"><%= source_speaker.full_name %></span>
+            <span class="small fw-600 me-2"><%= source_speaker.full_name %></span>
             <% if source_speaker.body %>
               <span class="smallest min-w-40px"><%= source_speaker.body.short_name %></span>
             <% end %>
@@ -69,7 +69,7 @@
             data-target="components--filter.filterLink"
             aria-show="true"
           >
-            <span class="fs-6 fw-bold">Témata</span>
+            <span class="fs-6 fw-600">Témata</span>
             <span class="filter-icon">
               <svg width="23" height="12" viewBox="0 0 23 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 0.597656L11.646 11.2437L22.2435 0.646237" stroke="#111827"/>
@@ -88,7 +88,7 @@
 
               >
               <span class="checkmark"></span>
-              <span class="small fw-bold me-2"><%= tag_with_count.tag.name %></span>
+              <span class="small fw-600 me-2"><%= tag_with_count.tag.name %></span>
               <span class="smallest min-w-40px"><%= tag_with_count.count %> <%= cs_pluralize(tag_with_count.count, "výrok", "výroky", "výroků") %></span>
             </div>
             <% end %>
@@ -105,7 +105,7 @@
             data-target="components--filter.filterLink"
             aria-show="true"
           >
-            <span class="fs-6 fw-bold">Hodnocení</span>
+            <span class="fs-6 fw-600">Hodnocení</span>
             <span class="filter-icon">
               <svg width="23" height="12" viewBox="0 0 23 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 0.597656L11.646 11.2437L22.2435 0.646237" stroke="#111827"/>
@@ -124,7 +124,7 @@
 
               >
               <span class="checkmark"></span>
-              <span class="small fw-bold me-2"><%= veracity_with_count.veracity.name %></span>
+              <span class="small fw-600 me-2"><%= veracity_with_count.veracity.name %></span>
               <span class="smallest min-w-40px"><%= veracity_with_count.count %> <%= cs_pluralize(veracity_with_count.count, "výrok", "výroky", "výroků") %></span>
             </div>
             <% end %>
@@ -135,7 +135,7 @@
       <% end %>
 
       <div class="w-100 py-2">
-        <a class="btn w-100" data-action="click->components--filter#clearFilter"> 
+        <a class="btn w-100" data-action="click->components--filter#clearFilter">
           <span class="text-white">Zrušit filtry</span>
         </a>
       </div>

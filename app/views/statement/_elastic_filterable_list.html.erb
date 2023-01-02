@@ -48,7 +48,7 @@ wide_display = true if local_assigns[:wide_display].nil?
             data-target="components--filter.filterLink"
             aria-show="true"
           >
-            <span class="fs-6 fw-bold">Témata</span>
+            <span class="fs-6 fw-600">Témata</span>
             <span class="filter-icon">
               <svg width="23" height="12" viewBox="0 0 23 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 0.597656L11.646 11.2437L22.2435 0.646237" stroke="#111827"/>
@@ -66,7 +66,7 @@ wide_display = true if local_assigns[:wide_display].nil?
                 data-filter-type="tema"
               >
               <span class="checkmark"></span>
-              <span class="small fw-bold me-2"><%= filter_option[:label] %></span>
+              <span class="small fw-600 me-2"><%= filter_option[:label] %></span>
               <span class="smallest min-w-40px"><%= number_with_delimiter(filter_option[:count], delimiter: " ") %> <%= cs_pluralize(filter_option[:count], "výrok", "výroky", "výroků") %></span>
             </div>
             <% end %>
@@ -81,7 +81,7 @@ wide_display = true if local_assigns[:wide_display].nil?
             data-target="components--filter.filterLink"
             aria-show="true"
           >
-            <span class="fs-6 fw-bold">Hodnocení</span>
+            <span class="fs-6 fw-600">Hodnocení</span>
             <span class="filter-icon">
               <svg width="23" height="12" viewBox="0 0 23 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 0.597656L11.646 11.2437L22.2435 0.646237" stroke="#111827"/>
@@ -100,7 +100,7 @@ wide_display = true if local_assigns[:wide_display].nil?
                 data-filter-type="hodnoceni"
               >
               <span class="checkmark"></span>
-              <span class="small fw-bold me-2"><%= filter_option[:label] %></span>
+              <span class="small fw-600 me-2"><%= filter_option[:label] %></span>
               <span class="smallest min-w-40px"><%= number_with_delimiter(filter_option[:count], delimiter: " ") %> <%= cs_pluralize(filter_option[:count], "výrok", "výroky", "výroků") %></span>
             </div>
             <% end %>
@@ -117,7 +117,7 @@ wide_display = true if local_assigns[:wide_display].nil?
             data-target="components--filter.filterLink"
             aria-show="true"
           >
-            <span class="fs-6 fw-bold">Roky</span>
+            <span class="fs-6 fw-600">Roky</span>
             <span class="accordion-icon">
               <svg width="23" height="12" viewBox="0 0 23 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 0.597656L11.646 11.2437L22.2435 0.646237" stroke="#111827"/>
@@ -136,7 +136,7 @@ wide_display = true if local_assigns[:wide_display].nil?
                 data-filter-type="rok"
               >
               <span class="checkmark"></span>
-              <span class="small fw-bold me-2"><%= filter_option[:label] %></span>
+              <span class="small fw-600 me-2"><%= filter_option[:label] %></span>
               <span class="smallest min-w-40px"><%= number_with_delimiter(filter_option[:count], delimiter: " ") %> <%= cs_pluralize(filter_option[:count], "výrok", "výroky", "výroků") %></span>
             </div>
             <% end %>
@@ -157,7 +157,7 @@ wide_display = true if local_assigns[:wide_display].nil?
               <% if statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:count] == 0 %>disabled<% end %>
             >
             <span class="checkmark"></span>
-            <span class="small fw-bold me-2"><%= statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:label] %></span>
+            <span class="small fw-600 me-2"><%= statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:label] %></span>
             <span class="smallest min-w-40px"><%= number_with_delimiter(statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:count], delimiter: " ") %> <%= cs_pluralize(statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:count], "výrok", "výroky", "výroků") %></span>
           </div>
         </div>

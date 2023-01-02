@@ -24,7 +24,7 @@ content_for(:description, "Za svou existenci Demagog.cz už ověřil výroky sto
         <svg class="me-2 mt-1" width="32" height="34" viewBox="0 0 32 34" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M31.9658 8.10096C28.9424 3.38763 23.5425 0.234375 17.3638 0.234375C7.8754 0.234375 0.190735 7.63239 0.190735 16.7614C0.190735 25.8904 7.8754 33.2939 17.3638 33.2939C23.531 33.2939 28.9195 30.1572 31.9487 25.4604L15.7662 16.833L31.9658 8.10096Z" fill="#111827"/>
         </svg>
-        <h1 class="display-4 fw-bold m-0 p-0">Přehled politiků a političek</h1>
+        <h1 class="display-4 fw-600 m-0 p-0">Přehled politiků a političek</h1>
       </div>
 
     </div>
@@ -58,7 +58,7 @@ content_for(:description, "Za svou existenci Demagog.cz už ověřil výroky sto
               data-target="components--filter.filterLink"
               aria-show="true"
             >
-              <span class="fs-6 fw-bold"><%= group[:group_name] %></span>
+              <span class="fs-6 fw-600"><%= group[:group_name] %></span>
               <span class="filter-icon">
                 <svg width="23" height="12" viewBox="0 0 23 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M1 0.597656L11.646 11.2437L22.2435 0.646237" stroke="#111827"/>
@@ -76,7 +76,7 @@ content_for(:description, "Za svou existenci Demagog.cz už ověřil výroky sto
                   data-filter-type="strana"
                 >
                 <span class="checkmark"></span>
-                <span class="small fw-bold me-2"><%= filter_option[:label] %></span>
+                <span class="small fw-600 me-2"><%= filter_option[:label] %></span>
 
                 <span class="smallest min-w-40px"><%= number_with_delimiter(filter_option[:count], delimiter: " ") %> <%= cs_pluralize(filter_option[:count], "osoba", "osoby", "osob") %></span>
               </div>
