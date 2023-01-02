@@ -6,6 +6,6 @@
       <%= render(partial: 'article/preview', object: article, as: :article) %>
     <% end %>
 
-    {{ knp_pagination_render(articles, "@DemagogWeb/Web/_pagination.html.twig") }}
+    <%= paginate(@articles) %>
   </div>
 </div>
