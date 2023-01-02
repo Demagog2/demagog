@@ -62,14 +62,13 @@ class StatementElasticFilterableListPresenter
 
       # Tag
       if @enable_filters.include?(:tag_id) && !@params[:tema].blank?
-        tag_id = @params[:tema][/-(\d+)$/, 1]
+        params_tema = @params[:tema].kind_of?(Array) ? @params[:tema] : [@params[:tema]]
 
-        if !tag_id.nil?
-          params_filters[:tag_id] = tag_id.to_i
-        end
+        tag_ids = params_tema.map { |item| item == "neurcene" ? -1 : item[/-(\d+)$/, 1] }
+        tag_ids = tag_ids.filter { |item| !item.nil? }
 
-        if @params[:tema] == "neurcene"
-          params_filters[:tag_id] = -1
+        if !tag_ids.empty?
+          params_filters[:tag_id] = tag_ids.map { |tag_id| tag_id.to_i }
         end
       end
 
@@ -188,7 +187,7 @@ class StatementElasticFilterableListPresenter
               value: "#{tag.name.parameterize}-#{tag.id}",
               label: tag.name,
               count: tag_id_aggregation[tag.id],
-              selected: @parsed_params_filters[:tag_id] == tag.id
+              selected: @parsed_params_filters[:tag_id] && @parsed_params_filters[:tag_id].include?(tag.id)
             }
           end
 
@@ -197,7 +196,7 @@ class StatementElasticFilterableListPresenter
               value: "neurcene",
               label: "Bez tématu",
               count: tag_id_aggregation[-1],
-              selected: @parsed_params_filters[:tag_id] == -1
+              selected: @parsed_params_filters[:tag_id] && @parsed_params_filters[:tag_id].include?(-1)
             })
           end
 
