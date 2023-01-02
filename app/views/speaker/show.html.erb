@@ -22,14 +22,14 @@ content_for(
           <% end %>
         </div>
         <div class="">
-          <h1 class="display-5 fw-bold mb-1">
+          <h1 class="display-5 fw-600 mb-1">
             <%= @speaker.full_name %>
           </h1>
           <% if @speaker.role %>
-            <p class="fs-4 fw-bold mb-1"><%= @speaker.role %></p>
+            <p class="fs-4 fw-500 mb-1"><%= @speaker.role %></p>
           <% end %>
           <% if @speaker.body %>
-            <p class="fs-4 fw-bold"><%= @speaker.body.name %> <% if @speaker.body.short_name != @speaker.body.name %><span class="s-body">(<%= @speaker.body.short_name %>)</span><% end %></p>
+            <p class="fs-4 fw-500"><%= @speaker.body.name %> <% if @speaker.body.short_name != @speaker.body.name %><span class="s-body">(<%= @speaker.body.short_name %>)</span><% end %></p>
           <% end %>
         </div>
       </div>

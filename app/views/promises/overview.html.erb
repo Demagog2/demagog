@@ -233,7 +233,7 @@
           <div class="separator bg-gray"></div>
           <div class="row g-3 g-lg-6 py-2 align-items-center">
             <div class="col col-12 col-md-5">
-              <span class="fs-6 fw-800"><%= statement.title %></span>
+              <span class="fs-6 fw-700"><%= statement.title %></span>
             </div>
             <div class="col col-12 col-md-2">
               <span class="fs-6"><%= statement.tags[0].name %></span>
@@ -321,7 +321,8 @@
                         <span class="accordion-label-detail fs-7" >zobrazit celé odůvodnění</span>
                       </a>
                       <% end %>
-                      <% if @allow_embed %>
+                      <% if false  %>
+                      <% if @allow_embed  %>
                         <a class="d-flex text-gray align-items-center text-none" data-statement-id="<%= statement.id %>">
                           <svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0.723633 5.875V5L5.91113 2.48438V3.67578L2.08301 5.42188L2.11816 5.35156V5.51953L2.08301 5.45313L5.91113 7.19531V8.39062L0.723633 5.875Z" fill="#9B9B9B"/>
@@ -330,6 +331,7 @@
                           </svg>
                           <span class="ms-1">embed</span>
                         </a>
+                      <% end %>
                       <% end %>
                       <a class="d-flex text-gray align-items-center text-none" href="<%= promise_permalink(statement) %>">
                         <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
