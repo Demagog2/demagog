@@ -5,6 +5,7 @@ export default class extends Controller {
   static targets = ['link', 'expander', 'label']
 
   initialize() {
+    this.wW = null;
     this.breakpoint = this.data.get('breakpoint');
     this.minHeight = this.data.get('minHeight');
     this.isBreak = false;
@@ -16,8 +17,8 @@ export default class extends Controller {
 
   hide() {
     console.log("hide");
-    if (this.expanderTarget.getAttribute('aria-show') == "true") {
-      this.expanderTarget.setAttribute('aria-show', 'false');
+    if (this.expanderTarget.getAttribute('aria-small') == "true") {
+      this.expanderTarget.setAttribute('aria-small', 'false');
     }
     if (this.linkTarget.classList.contains("hide")) {
       this.linkTarget.classList.remove("hide");
@@ -34,8 +35,8 @@ export default class extends Controller {
   }
 
   show() {
-    if (this.expanderTarget.getAttribute('aria-show') == "false") {
-      this.expanderTarget.setAttribute('aria-show', 'true');
+    if (this.expanderTarget.getAttribute('aria-small') == "false") {
+      this.expanderTarget.setAttribute('aria-small', 'true');
     }
     if (!this.linkTarget.classList.contains("hide")) {
       this.linkTarget.classList.add("hide");
@@ -54,8 +55,9 @@ export default class extends Controller {
   }
 
   toggle(e) {
-    if (this.expanderTarget.getAttribute('aria-show') == "true") {
-      this.expanderTarget.setAttribute('aria-show', 'false');
+
+    if (this.expanderTarget.getAttribute('aria-small') == "true") {
+      this.expanderTarget.setAttribute('aria-small', 'false');
       this.expanderTarget.style.maxHeight = this.minHeight;
 
       if (!this.expanderTarget.classList.contains("is-hide")) {
@@ -66,7 +68,7 @@ export default class extends Controller {
         this.labelTarget.innerHTML = this.data.get('closeLabel');
       }
     }else{
-      this.expanderTarget.setAttribute('aria-show', 'true');
+      this.expanderTarget.setAttribute('aria-small', 'true');
       this.expanderTarget.style.maxHeight = this.expanderTarget.scrollHeight + 'px';
 
       if (this.expanderTarget.classList.contains("is-hide")) {
@@ -83,13 +85,16 @@ export default class extends Controller {
 
   layout() {
     if (window.innerWidth > this.breakpoint) {
+      this.wW = window.innerWidth;
       this.isBreak = false;
       this.show();
 
     } else {
-      this.isBreak = true;
-      this.hide();
-
+      if (this.wW != window.innerWidth) {
+        this.wW = window.innerWidth;
+        this.isBreak = true;
+        this.hide();
+      }
     }
 
   }
