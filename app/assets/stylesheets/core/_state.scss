@@ -52,3 +52,18 @@
     }
   }
 }
+
+.stat-link {
+  text-decoration: none !important;
+
+  span {
+    transition: transform 0.3s;
+  }
+
+  &:hover {
+    span:first-child {
+      transform: scale(1.15);
+    }
+
+  }
+}

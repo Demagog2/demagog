@@ -1,7 +1,7 @@
 <div class="row g-5" data-controller="components--stats">
   <div class="col col-6">
     <div
-      class="d-flex align-items-center mb-5 <%= 'cursor-pointer' if stats[:true] > 0 %>"
+      class="d-flex align-items-center mb-5 <%= 'cursor-pointer stat-link' if stats[:true] > 0 %>"
       title="Pravda"
       data-action="click->components--stats#toggleLink"
       data-url="?hodnoceni[]=true&recnici[]=<%= speaker.id %>"
@@ -15,7 +15,7 @@
       <span class="fs-2 fw-bold"><%= stats[:true] %></span>
     </div>
     <div
-      class="d-flex align-items-center <%= 'cursor-pointer' if stats[:unverifiable] > 0 %>"
+      class="d-flex align-items-center <%= 'cursor-pointer stat-link' if stats[:unverifiable] > 0 %>"
       title="Neověřitelné"
       data-action="click->components--stats#toggleLink"
       data-url="?hodnoceni[]=unverifiable&recnici[]=<%= speaker.id %>"
@@ -32,7 +32,7 @@
   </div>
   <div class="col col-6">
     <div
-      class="d-flex align-items-center mb-5 <%= 'cursor-pointer' if stats[:untrue] > 0 %>"
+      class="d-flex align-items-center mb-5 <%= 'cursor-pointer stat-link' if stats[:untrue] > 0 %>"
       title="Nepravda"
       data-action="click->components--stats#toggleLink"
       data-url="?hodnoceni[]=untrue&recnici[]=<%= speaker.id %>"
@@ -46,7 +46,7 @@
       <span class="fs-2 fw-bold"><%= stats[:untrue] %></span>
     </div>
     <div
-      class="d-flex align-items-center <%= 'cursor-pointer' if stats[:misleading] > 0 %>"
+      class="d-flex align-items-center <%= 'cursor-pointer stat-link' if stats[:misleading] > 0 %>"
       title="Zavádějící"
       data-action="click->components--stats#toggleLink"
       data-url="?hodnoceni[]=misleading&recnici[]=<%= speaker.id %>"

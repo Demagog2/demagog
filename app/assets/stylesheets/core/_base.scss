@@ -37,10 +37,12 @@ main {
     color: $primary;
     text-decoration: none;
   }
-
+  /*
   a:hover {
     text-decoration: underline;
+    color: inherit !important;
   }
+  */
 
   ul, ol {
     padding: 0 0 0 1rem;
@@ -93,6 +95,7 @@ main {
 
     &:hover {
       color: $primary;
+      text-decoration: underline;
     }
   }
 
