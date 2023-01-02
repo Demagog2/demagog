@@ -41,7 +41,7 @@ export default class extends Controller {
     if (eT > 0) {
       const max = cH - sH;
       if (eT <= max) {
-        this.stickyTarget.setAttribute("style", "top: " + dis + "px; widht:" + width +"px;")
+        this.stickyTarget.setAttribute("style", "top: " + dis + "px; width:" + width +"px !important;")
         if (this.stickyTarget.classList.contains("position-absolute")) {
           this.stickyTarget.classList.remove("position-absolute");
         }
@@ -55,7 +55,7 @@ export default class extends Controller {
         if (! this.stickyTarget.classList.contains("position-absolute")) {
           this.stickyTarget.classList.add("position-absolute");
         }
-        this.stickyTarget.setAttribute("style", "top: " + max + "px; widht:" + width +"px;")
+        this.stickyTarget.setAttribute("style", "top: " + max + "px; width:" + width +"px !important;")
       }
 
     } else {
