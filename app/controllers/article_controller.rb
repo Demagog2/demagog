@@ -72,13 +72,14 @@ class ArticleController < FrontendController
         .kept
         .published
         .where(id: [
-          1307,
-          1308,
-          1312,
-          1313,
-          1315,
-          1320,
           1322,
+          1320,
+          1316,
+          1315,
+          1313,
+          1312,
+          1307,
+          1308,  
         ])
         .page(@page_number)
         .per(10)

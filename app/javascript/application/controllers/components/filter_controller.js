@@ -127,20 +127,24 @@ export default class extends Controller {
   setFilterValues() {
     const queryParams = queryString.parse(window.location.search, { arrayFormat: 'bracket' });
     const types = Object.values(queryParams);
+    let isShowFilter = false;
     if (types.length) {
       const values = [].concat(...types);
+
+
 
       if (values.length) {
         this.filterCheckboxTargets.forEach((el) => {
           if (values.includes(el.dataset.filterValue)) {
             el.checked = true;
+            isShowFilter = true;
           } else {
             el.checked = false;
           }
         });
       }
     }
-    if (!types.length) {
+    if (!isShowFilter) {
       if (this.data.get('closeEmpty') === "true") {
         this.hide();
       }
@@ -166,7 +170,7 @@ export default class extends Controller {
 
         if (!checkInputs.length) {
           this.hideContent(el, content);
-        }  
+        }
       }
     });
     if (this.filterItemTargets) {

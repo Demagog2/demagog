@@ -36,11 +36,12 @@ export default class extends Controller {
     const offset = this.contentTarget.offsetTop;
     const sT = window.scrollY;
     const eT = (this.contentTarget.getBoundingClientRect().top * -1) + dis;
+    const width = this.stickyTarget.parentNode.offsetWidth;
 
     if (eT > 0) {
       const max = cH - sH;
       if (eT <= max) {
-        this.stickyTarget.setAttribute("style", "top: " + dis +"px;")
+        this.stickyTarget.setAttribute("style", "top: " + dis + "px; widht:" + width +" + px;")
         if (this.stickyTarget.classList.contains("position-absolute")) {
           this.stickyTarget.classList.remove("position-absolute");
         }
@@ -54,7 +55,7 @@ export default class extends Controller {
         if (! this.stickyTarget.classList.contains("position-absolute")) {
           this.stickyTarget.classList.add("position-absolute");
         }
-        this.stickyTarget.setAttribute("style", "top: " + max +"px;")
+        this.stickyTarget.setAttribute("style", "top: " + max + "px; widht:" + width +" + px;")
       }
 
     } else {
