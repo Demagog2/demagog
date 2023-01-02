@@ -16,7 +16,6 @@ export default class extends Controller {
   }
 
   hide() {
-    console.log("hide");
     if (this.expanderTarget.getAttribute('aria-small') == "true") {
       this.expanderTarget.setAttribute('aria-small', 'false');
     }

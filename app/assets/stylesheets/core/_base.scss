@@ -104,6 +104,18 @@ main {
     margin-bottom: $font-margin-base;
   }
 }
+
+.dark-content {
+  a {
+    text-decoration: underline;
+    color: $white;
+
+    &:hover {
+      color: $primary;
+      text-decoration: underline;
+    }
+  }
+}
 .donate {
   iframe {
     width: 100% !important;
