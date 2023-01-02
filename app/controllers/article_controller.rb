@@ -86,7 +86,6 @@ class ArticleController < FrontendController
 
       @top_articles = @articles[0..3] || []
       @bottom_articles = @articles[4..9] || []
-
     end
 
   private
