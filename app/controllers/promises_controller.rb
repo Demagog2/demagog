@@ -142,11 +142,19 @@ class PromisesController < FrontendController
     @filtered_statement_ids = filtered_statements.map { |statement| statement.id }
 
     @promises_list_rating_labels = {
-      PromiseRating::FULFILLED => "Splněný slib",
-      PromiseRating::IN_PROGRESS => "Průběžně plněný slib",
-      PromiseRating::PARTIALLY_FULFILLED => "Část. splněný slib",
-      PromiseRating::BROKEN => "Porušený slib",
-      PromiseRating::STALLED => "Nerealizovaný slib"
+      PromiseRating::FULFILLED => "Splněný",
+      PromiseRating::IN_PROGRESS => "Průběžně plněný",
+      PromiseRating::PARTIALLY_FULFILLED => "Část. splněný",
+      PromiseRating::BROKEN => "Porušený",
+      PromiseRating::STALLED => "Nerealizovaný"
+    }
+
+    @promises_list_rating_classes = {
+      PromiseRating::FULFILLED => "primary",
+      PromiseRating::IN_PROGRESS => "secondary",
+      PromiseRating::PARTIALLY_FULFILLED => "gray",
+      PromiseRating::BROKEN => "red",
+      PromiseRating::STALLED => "dark"
     }
   end
 

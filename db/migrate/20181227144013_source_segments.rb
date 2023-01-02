@@ -25,10 +25,10 @@ class SourceSegments < ActiveRecord::Migration[5.2]
 
     # Some statements_set segments were not connected to articles with
     # source_id, lets just remove those segments
-    Segment.where(segment_type: "statements_set").each do |segment|
-      segment.article_has_segments.delete_all
-      segment.delete
-    end
+    # Segment.where(segment_type: "statements_set").each do |segment|
+    #   segment.article_has_segments.delete_all
+    #   segment.delete
+    # end
 
     # We won't need the source_id on article anymore
     remove_column :articles, :source_id, :bigint

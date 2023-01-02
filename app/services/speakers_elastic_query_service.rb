@@ -54,7 +54,11 @@ class SpeakersElasticQueryService
 
       body_id = filters.fetch(:body_id, nil)
       unless body_id.blank?
-        elastic_query[:bool][:filter].push({ term: { 'body.id': body_id } })
+        if body_id.kind_of?(Array)
+          elastic_query[:bool][:filter].push({ terms: { 'body.id': body_id } })
+        else
+          elastic_query[:bool][:filter].push({ term: { 'body.id': body_id } })
+        end
       end
 
       not_speaker_ids = filters.fetch(:not_speaker_ids, [])

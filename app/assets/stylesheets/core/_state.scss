@@ -1,0 +1,69 @@
+.state-line {
+  background: linear-gradient(currentColor,currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 2px;
+  transition: background-size .3s;
+  display: inline;
+
+  &:hover,
+  &.active {
+    background-size: 100% 2px;
+  }
+}
+
+.state-bg {
+  background: linear-gradient(currentColor,currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 100%;
+  transition: background-size .3s;
+  display: inline;
+
+  &:hover {
+    background-size: 100% 100%;
+  }
+}
+
+@each $name, $value in $theme-colors {
+  .state-active-color-#{$name} {
+    transition: color $base-transition;
+    svg {
+      transition: fill $base-transition;
+    }
+    &.active {
+      color: $value !important;
+      svg {
+        fill: $value !important;
+      }
+    }
+  }
+
+  .state-hover-color-#{$name} {
+    transition: color $base-transition;
+    svg {
+      transition: fill $base-transition;
+    }
+    &:hover {
+      color: $value !important;
+      svg {
+        fill: $value !important;
+      }
+    }
+  }
+}
+
+.stat-link {
+  text-decoration: none !important;
+
+  span {
+    transition: transform 0.3s;
+  }
+
+  &:hover {
+    span:first-child {
+      transform: scale(1.15);
+    }
+
+  }
+}

@@ -1,17 +1,97 @@
 <% content_for(:title, get_web_content("article.discussions", "title")) %>
 <% content_for(:description, strip_tags(get_web_content("article.discussions", "intro")).truncate(230)) %>
 
-<article class="container-article-discussions">
-  <h1><%= get_web_content("article.discussions", "title") %></h1>
-  <%= raw(get_web_content("article.discussions", "intro")) %>
-</article>
+<div class="row g-5 g-lg-10 flex-lg-row-reverse">
+  <div class="col col-12">
+    <%= render partial: "components/tags", locals: { active: 'Diskuze' } %>
+  </div>
+  <% if @page_number.blank? %>
+    <div class="col col-12 col-lg-4">
+      <div
+        class="bg-dark-light text-white p-5 p-lg-8 rounded-l mb-10"
+        data-controller="components--mobile-expander"
+        data-action="resize@window->components--mobile-expander#layout"
+        data-components--mobile-expander-breakpoint="992"
+        data-components--mobile-expander-min-height="100px"
+        data-components--mobile-expander-open-label="Skrýt obsah"
+        data-components--mobile-expander-close-label="Zobrazit více"
+      >
+        <div class="expander expander-dark-light" data-target="components--mobile-expander.expander">
+          <h1 class="display-5 fw-bold m-0 p-0"><%= get_web_content("article.discussions", "title") %></h1>
+          <div class="fs-5 mt-5">
+            <%= raw(get_web_content("article.discussions", "intro")) %>
+          </div>
+        </div>
+        <div class="d-flex">
+          <a
+            href="#"
+            class="text-white text-underline mt-3 hide"
+            data-target="components--mobile-expander.link"
+            data-action="click->components--mobile-expander#toggle"
+          >
+            <span class="py-2 fs-5" data-target="components--mobile-expander.label">Zobrazit více</span>
+          </a>
+        </div>
+      </div>
+      <div class="bg-light text-dark p-5 p-lg-8 rounded-l d-none d-lg-flex">
+        <div class="w-100">
+          <div class="mb-4">
+            <h2 class="fs-2">Podpořte Demagog.cz</h2>
+            <p class="fs-6">Fungujeme díky podpoře od&nbsp;čtenářů, jako jste vy.</p>
+          </div>
+          <div class="d-flex justify-content-center">
+            <div data-darujme-widget-token="rfq62o07d045bw95">&nbsp;</div>
+            <script type="text/javascript">
+              +function(w, d, s, u, a, b) {
+                w['DarujmeObject'] = u;
+                w[u] = w[u] || function () { (w[u].q = w[u].q || []).push(arguments) };
+                a = d.createElement(s); b = d.getElementsByTagName(s)[0];
+                a.async = 1; a.src = "https:\/\/www.darujme.cz\/assets\/scripts\/widget.js";
+                b.parentNode.insertBefore(a, b);
+              }(window, document, 'script', 'Darujme');
+              Darujme(1, "rfq62o07d045bw95", 'render', "https:\/\/www.darujme.cz\/widget?token=rfq62o07d045bw95", "270px");
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col col-12 col-lg-8 mb-0 mb-lg-10">
+      <div class="row row-cols-1 g-5 g-lg-10">
+        <% @top_articles.each do |article| %>
+          <%= render partial: "components/article_main", object: article, as: :article %>
+        <% end %>
+      </div>
+    </div>
+    <div class="col col-12">
+      <div class="row row-cols-1 row-cols-lg-2 g-5">
+        <% @bottom_articles.each do |article| %>
+          <%= render partial: "components/article_main", object: article, as: :article %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <% if @page_number %>
+    <div class="col col-12">
+      <div class="row row-cols-1 row-cols-lg-2 g-5 g-lg-10">
+        <% @articles.each do |article| %>
+          <%= render partial: "components/article_main", object: article, as: :article %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 
-<% if @page_number %>
-  <p class="full-width"><b>Strana <%= @page_number %></b> z archivu ověřených diskuzí:</p>
-<% end %>
-
-<% @articles.each do |article| %>
-  <%= render partial: "article/preview", object: article, as: :article %>
-<% end %>
-
-<%= paginate(@articles) %>
+  <div class="col col-12">
+    <div class="mb-10">
+      <% if path_to_prev_page @articles %>
+        <a href="<%= path_to_prev_page  @articles %>" class="btn h-50px fs-6 me-2 mb-2 px-8">
+          <span>Zobrazit předchozí</span>
+        </a>
+      <% end %>
+      <% if path_to_next_page @articles %>
+        <a href="<%= path_to_next_page  @articles %>" class="btn h-50px fs-6 me-2 mb-2 px-8">
+          <span>Zobrazit další</span>
+        </a>
+      <% end %>
+    </div>
+  </div>
+</div>

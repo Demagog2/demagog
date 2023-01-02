@@ -133,14 +133,15 @@ ul.bare-list {
     margin-bottom: 0.25rem;
   }
 }
-
+/*
 nav {
   ul { padding: 0; }
-  li { 
-    list-style-type: none; 
+  li {
+    list-style-type: none;
     margin-bottom: 0.25rem;
   }
 }
+*/
 
 p.lead {
   font-size: 1.125rem;
@@ -358,5 +359,19 @@ article.detail .intro .article-factcheck-video {
     &.size-24::before {
       background-size: 7px;
     }
+  }
+}
+
+.about {
+  display: flex;
+  .about-nav {
+    width: 30%;
+    padding: 1rem 0;
+    ul {
+      list-style: none;
+    }
+  }
+  .about-content {
+    width: 70%;
   }
 }

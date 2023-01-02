@@ -114,7 +114,7 @@ class Statement < ApplicationRecord
           }
         },
         source_speaker: {
-          only: [:full_name, :role],
+          only: [:full_name, :role, :slug],
           methods: :full_name,
           include: {
             speaker: {

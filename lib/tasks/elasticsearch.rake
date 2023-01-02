@@ -8,17 +8,17 @@ namespace :elasticsearch do
 
   desc "Reindex articles"
   task :reindex_articles, [] => [:environment] do |task, args|
-    Article.import force: true, batch_size: 100
+    Article.import force: true, batch_size: 10
   end
 
   desc "Reindex speakers"
   task :reindex_speakers, [] => [:environment] do |task, args|
-    Speaker.import force: true, batch_size: 100
+    Speaker.import force: true, batch_size: 10
   end
 
   desc "Reindex statements"
   task :reindex_statements, [] => [:environment] do |task, args|
-    Statement.import force: true, batch_size: 100
+    Statement.import force: true, batch_size: 10
   end
 
   desc "Delete all indexes"

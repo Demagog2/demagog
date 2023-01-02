@@ -1,0 +1,23 @@
+.filter {
+  .filter-link {
+    padding: 0.5rem 0;
+    cursor: pointer;
+    .filter-icon {
+      transition: 0.3s ease-in-out;
+    }
+    &.open {
+      .filter-icon {
+        transform: rotate(180deg);
+      }
+    }
+    span {
+      pointer-events: none;
+    }
+  }
+  .filter-content {
+    overflow: hidden;
+  	transition: 0.5s ease-in-out;
+
+
+  }
+}

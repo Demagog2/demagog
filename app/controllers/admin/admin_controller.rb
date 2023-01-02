@@ -19,7 +19,7 @@ class Admin::AdminController < ApplicationController
 
   def test_login
     # Make sure it is not runnable in production
-    return head :not_found if Rails.env.production?
+    return head :not_found if Rails.env.production? || Rails.env.staging?
 
     sign_in(:user, User.find(params[:id]))
 

@@ -1,0 +1,108 @@
+<% article_presenter = ArticlePresenter.new(article) %>
+
+<article class="col s-article">
+  <div class="row g-2 g-lg-5">
+    <div class="col col-12 col-md-5">
+      <div class="w-100">
+        <a title="<%= article.title %>" href="<%= article_path(article) %>" class="illustration">
+          <% if article.illustration.attached? %>
+            <img loading="lazy" class="w-100 rounded-m" src="<%= url_for(article.illustration) %>" alt="Ilustrační obrázek k výstupu <%= article.title %>">
+          <% else %>
+            <img class="w-100 rounded-m" src="<%= asset_path("article-illustration-default-preview.svg") %>" alt="Ilustrační obrázek k výstupu <%= article.title %>">
+          <% end %>
+        </a>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mt-2">
+        <div class="symbol-group">
+          <% if article.article_type.name == ArticleType::DEFAULT %>
+            <% for source_speaker in article_presenter.factcheck_source_speakers %>
+              <%= link_to speaker_path(source_speaker.speaker), class: 'symbol symbol-40px rounded-circle bg-gray-500 overflow-hidden', title: source_speaker.full_name  do %>
+                <%= render(PortraitComponent.new(speaker: source_speaker)) %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
+            <span class="symbol symbol-40px rounded-circle bg-gray-500 overflow-hidden">
+                <%= render(PortraitComponent.new(speaker: article.single_statement.source_speaker)) %>
+            </span>
+          <% end %>
+        </div>
+        <div class="">
+          <% if article.article_type.name == ArticleType::DEFAULT %>
+            <span class="smaller fw-bold text-uppercase">Ověřeno</span>
+          <% end %>
+          <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
+
+            <% if article.single_statement.approved_assessment.veracity.default_name == "untrue" %>
+              <div class="d-flex align-items-center">
+                <span class="smaller fw-bold text-uppercase text-danger">
+                  <%= article.single_statement.approved_assessment.veracity.name %>
+                </span>
+                <svg class="ms-2" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15 29.834C23.0091 29.834 29.5 23.343 29.5 15.334C29.5 7.32493 23.0091 0.833984 15 0.833984C6.99095 0.833984 0.5 7.32493 0.5 15.334C0.5 23.343 6.99095 29.834 15 29.834Z" fill="#E32219"/>
+                  <path d="M21.061 10.6579L19.6951 9.29199L15 13.9719L10.3049 9.29199L8.93896 10.6579L13.6303 15.334L8.93896 20.01L10.3049 21.376L15 16.6961L19.6951 21.376L21.061 20.01L16.3697 15.334L21.061 10.6579Z" fill="white"/>
+                </svg>
+
+
+              </div>
+            <% end %>
+
+            <% if article.single_statement.approved_assessment.veracity.default_name == "true" %>
+              <div class="d-flex align-items-center">
+                <span class="smaller fw-bold text-uppercase text-primary">
+                  <%= article.single_statement.approved_assessment.veracity.name %>
+                </span>
+                <svg class="ms-2" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15 29.834C23.0091 29.834 29.5 23.343 29.5 15.334C29.5 7.32493 23.0091 0.833984 15 0.833984C6.99095 0.833984 0.5 7.32493 0.5 15.334C0.5 23.343 6.99095 29.834 15 29.834Z" fill="#25AD23"/>
+                  <path d="M6.55713 15.5429L7.8888 14.1769L12.5116 18.7313L22.073 9.2041L23.4389 10.57L12.5116 21.4631L6.55713 15.5429Z" fill="white"/>
+                </svg>
+
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+    <div class="col col-12 col-md-7">
+      <h2 class="fs-2 fw-bold mb-2"><%= link_to(article.title, article_path(article), class: "text-dark s-title") %></h2>
+      <div class="mb-2">
+        <% if article.article_type.name == ArticleType::DEFAULT %>
+          <% if article.source %>
+            <i><%= article.source.medium.name %>, <%= raw(l(article.source.released_at, format: :long)) %></i>
+          <% end %>
+        <% end %>
+
+        <% if article.article_type.name == ArticleType::STATIC %>
+          <i><%= raw(l(article.published_at, format: :long)) %></i>
+        <% end %>
+
+        <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
+          <i><%= article.single_statement.source.medium.name %>, <%= raw(l(article.single_statement.source.released_at, format: :long)) %></i>
+        <% end %>
+      </div>
+
+
+      <% if article.perex %>
+        <p class="fs-6 lh-sm">
+          <%= strip_tags(article.perex).truncate(230) %>
+        </p>
+      <% end %>
+
+      <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
+        <p class="fs-6 lh-sm">
+          „<%= article.single_statement.content.strip %>“
+        </p>
+      <% end %>
+
+      <div class="mt-4">
+        <a class="btn outline h-40px px-6 fw-bold" href="<%= article_path(article) %>">
+          <span class="fs-7">Číst dál</span>
+        </a>
+      </div>
+
+
+    </div>
+  </div>
+
+</article>

@@ -1,0 +1,154 @@
+<%
+
+@nav = [
+  Struct::NavLink.new('Politici', '/vypis-recniku'),
+  Struct::NavLink.new('Výroky', '/vyroky'),
+  Struct::NavSubmenu.new(
+    'Sliby',
+    [
+      Struct::NavLink.new('Sliby vlády Andreje Babiše (2018—2021)', '/sliby/druha-vlada-andreje-babise'),
+      Struct::NavLink.new('Sliby vlády Bohuslava Sobotky (2014—2017)', '/sliby/sobotkova-vlada'),
+      Struct::NavLink.new('Sliby prezidenta Miloše Zemana (2013—2018)', 'https://zpravy.aktualne.cz/domaci/zverejnujeme-velkou-inventuru-zemanovych-slibu-ktere-slovo-d/r~9ebe8728ff6911e7adc2ac1f6b220ee8/')
+    ]
+  ),
+  Struct::NavLink.new('O nás', '/stranka/o-nas'),
+]
+
+
+%>
+
+<header id="header" class="header pt-5 pt-lg-10" data-controller="components--header components--modal" data-action="scroll@window->components--header#onScroll">
+  <div class="container ">
+    <div class="header-wrap d-block position-relative w-100">
+      <div class="header-content d-flex align-items-center justify-content-between bg-dark p-3">
+        <a class="logo h-40px p-1" href="<%= root_path %>">
+          <img class="h-100" src="<%= asset_path("logo_white.svg") %>" alt="Demagog.cz">
+        </a>
+        <div class="d-flex align-items-center">
+          <nav class="nav d-none d-xl-flex" data-target="components--header.nav">
+            <div class="text-white w-100 px-5 my-5 d-flex d-xl-none">
+              <%= form_tag search_path, method: :get, class: "w-100" do %>
+              <div class="d-flex align-items-center w-100 position-relative">
+                <input name="q" type="text" class="input outline white focus-secondary search" placeholder="Zadejte hledaný výraz…">
+                <button type="submit" class="search-btn d-flex align-items-center justify-content-center right top w-50px fill-white">
+                  <svg height="17" viewBox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg">
+                    <path d="m1181.34341 104.52344-4.0019-4.018708c1.69829-2.5558307 1.36199-5.9523952-.8071-8.1214883-1.22747-1.2106567-2.84168-1.8832437-4.57359-1.8832437s-3.34612.672587-4.55678 1.8832437c-2.50539 2.5222013-2.50539 6.6081675 0 9.1135543 2.16909 2.169093 5.56566 2.505387 8.12149.823919l4.01871 4.018707c.18496.184962.50444.184962.6894 0l1.10977-1.109768c.20177-.201776.20177-.521255 0-.706216zm-6.28869-4.489519c-1.69828 1.698282-4.47271 1.698282-6.1878 0-1.69829-1.6982821-1.69829-4.4727036 0-6.1878005 1.69828-1.6982823 4.4727-1.6982823 6.1878 0 1.69828 1.7150969 1.69828 4.4895184 0 6.1878005z" fill="#FFFFFF" transform="translate(-1165 -90)"/>
+                  </svg>
+                </button>
+              </div>
+              <% end %>
+            </div>
+            <ul class="list menu-list d-flex flex-column flex-xl-row align-items-start align-items-xl-center px-5 p-xl-0 ">
+                <% @nav.each do |nav_item| %>
+                  <% if nav_item.class.name == 'Struct::NavLink' %>
+                    <li class="menu-item me-10">
+                      <a
+                        class="menu-link d-flex align-items-center text-white text-white text-none state-hover-color-secondary min-h-40px"
+                        href="<%= nav_item.href %>"
+                      >
+                        <span><%= nav_item.text %></span>
+                      </a>
+                    </li>
+                  <% elsif nav_item.class.name == 'Struct::NavSubmenu' %>
+                    <li class="menu-item me-10" data-controller="components--nav">
+                      <a
+                        class="menu-link min-h-40px d-flex align-items-center text-white text-white state-active-color-secondary state-hover-color-secondary"
+                        data-action="click->components--nav#toggle click@window->components--nav#hide touchend@components--nav->dropdown#hide"
+                        data-target="components--nav.link"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        <span><%= nav_item.name %></span>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF">
+                          <path d="M24 24H0V0h24v24z" fill="none" opacity=".87"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z"/></svg>
+                      </a>
+                      <div class="dropmenu" data-target="components--nav.submenu" aria-open="false">
+                        <ul class="dropmenu-wrap d-flex flex-column flex-xl-row flex-xl-flex justify-content-start justify-content-xl-center flex-wrap list py-2 py-xl-8">
+                          <% nav_item.items.each do |item| %>
+                            <% if (item.is_a? String) %>
+                              <%= raw item %>
+                            <% else %>
+                              <li class="submenu-item">
+                                <a
+                                  href="<%= item.href %>"
+                                  class="submenu-link min-h-40px d-flex align-items-center text-white text-none state-hover-color-secondary mx-0 mx-xl-4">
+                                  <%= item.text %>
+                                </a>
+                              </li>
+                            <% end %>
+                          <% end %>
+                        </ul>
+                      </div>
+                    </li>
+                  <% end %>
+                <% end %>
+              </ul>
+              <div class="w-100 px-5 d-flex my-5 d-xl-none">
+                <a
+                  class="btn bg-primary w-100"
+                  data-action="click->components--modal#openModal"
+                  data-modal-id="modalDanate"
+                >
+                  <span class="mx-2">Darujte</span>
+                </a>
+              </div>
+          </nav>
+          <div
+            class="menu-item d-none d-xl-flex"
+            data-controller="components--nav"
+          >
+            <a
+              class="menu-link d-flex align-items-center text-white state-active-color-secondary state-hover-color-secondary"
+              data-action="click->components--nav#toggle click@window->components--nav#hide touchend@components--nav->dropdown#hide"
+              data-target="components--nav.link"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <span class="me-2 d-none d-xl-flex ">Vyhledávání</span>
+              <svg height="17" viewBox="0 0 17 17" width="17" fill="#FFFFFF" xmlns="http://www.w3.org/2000/svg">
+                <path d="m1181.34341 104.52344-4.0019-4.018708c1.69829-2.5558307 1.36199-5.9523952-.8071-8.1214883-1.22747-1.2106567-2.84168-1.8832437-4.57359-1.8832437s-3.34612.672587-4.55678 1.8832437c-2.50539 2.5222013-2.50539 6.6081675 0 9.1135543 2.16909 2.169093 5.56566 2.505387 8.12149.823919l4.01871 4.018707c.18496.184962.50444.184962.6894 0l1.10977-1.109768c.20177-.201776.20177-.521255 0-.706216zm-6.28869-4.489519c-1.69828 1.698282-4.47271 1.698282-6.1878 0-1.69829-1.6982821-1.69829-4.4727036 0-6.1878005 1.69828-1.6982823 4.4727-1.6982823 6.1878 0 1.69828 1.7150969 1.69828 4.4895184 0 6.1878005z" transform="translate(-1165 -90)"/>
+              </svg>
+            </a>
+            <div class="dropmenu" data-target="components--nav.submenu">
+              <ul class="dropmenu-wrap list">
+                <div class="text-white">
+                  <%= form_tag search_path, method: :get do %>
+                  <div class="d-flex align-items-center mt-5">
+                    <input name="q" type="text" class="input outline white focus-secondary" placeholder="Zadejte hledaný výraz…">
+                    <button type="submit" class="btn bg-white ms-4">
+                      <span class="text-dark mx-4">Hledej</span>
+                    </button>
+                  </div>
+
+                  <% end %>
+                </div>
+              </ul>
+            </div>
+          </div>
+          <div class="menu-item d-flex d-xl-none ms-2">
+            <a
+              class="nav-link d-flex w-40px h-40px"
+              data-action="click->components--header#toggleMenu"
+              data-target="components--header.menu"
+              aria-expanded="false"
+            >
+              <span class="nav-icon"></span>
+            </a>
+          </div>
+          <div
+            class="menu-item ms-2 ms-xl-10 d-none d-xl-flex"
+            data-controller="components--nav"
+          >
+            <a
+              class="btn bg-primary"
+              data-action="click->components--modal#openModal"
+              data-modal-id="modalDanate"
+            >
+              <span class="mx-2">Darujte</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

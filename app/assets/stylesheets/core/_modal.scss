@@ -1,0 +1,71 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  visibility: hidden;
+  opacity: 0;
+  margin: 0;
+  transition: opacity $base-transition;
+  z-index: 100;
+
+  &.is-open {
+    visibility: visible;
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+  }
+
+  .modal-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+    outline: none;
+    z-index: 5;
+    background-color: transparent;
+    span {
+      pointer-events: none;
+    }
+
+
+    &:hover, &:active {
+      color: #f26538;
+    }
+  }
+
+  .youtube-player-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+
+    > iframe, > object, > embed {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

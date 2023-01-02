@@ -23,8 +23,8 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "should render show more button if more than two politicians matches" do
-    create_list(:speaker, 3, first_name: "John", last_name: "Doe")
+  test "should render show more button if more than four politicians matches" do
+    create_list(:speaker, 5, first_name: "John", last_name: "Doe")
 
     elasticsearch_index MODELS
 
@@ -32,7 +32,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select ".s-section-speakers", 1 do
-      assert_select ".s-speaker", 2
+      assert_select ".s-speaker", 4
       assert_select "a.s-more[href=?]", search_path(q: "John", type: "speakers")
     end
   end
@@ -153,7 +153,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "should render show more button if more than two articles matches" do
+  test "should render show more button if more than six articles matches" do
     source_speaker = create(:source_speaker)
     source =
       create(
@@ -162,7 +162,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
         statements: [create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker)]
       )
 
-    create_list(:fact_check, 3, title: "Lorem ipsum sit dolor") do |article, i|
+    create_list(:fact_check, 7, title: "Lorem ipsum sit dolor") do |article, i|
       article.segments = [create(:article_segment_source_statements, source: source)]
     end
 
@@ -172,7 +172,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select ".s-section-articles", 1 do
-      assert_select ".s-article", 2
+      assert_select ".s-article", 6
       assert_select "a.s-more[href=?]", search_path(q: "ipsum", type: "articles")
     end
   end
@@ -225,8 +225,8 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_select ".s-statement", 0
   end
 
-  test "should render show more button if more than two statements matches" do
-    create_list(:statement, 3, content: "Integer vulputate sem a nibh rutrum consequat.")
+  test "should render show more button if more than four statements matches" do
+    create_list(:statement, 5, content: "Integer vulputate sem a nibh rutrum consequat.")
 
     elasticsearch_index MODELS
 
@@ -235,7 +235,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".s-section-statements", 1 do
       assert_select "h3"
-      assert_select ".s-statement", 2
+      assert_select ".s-statement", 4
       assert_select "a.s-more[href=?]", search_path(q: "rutrum", type: "statements")
     end
   end
@@ -262,7 +262,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should render paginated list of speakers" do
-    create_list(:speaker, 12, first_name: "John", last_name: "Doe")
+    create_list(:speaker, 14, first_name: "John", last_name: "Doe")
 
     elasticsearch_index MODELS
 
@@ -275,7 +275,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
     assert_select "a.s-back-link[href=?]", search_path(q: "Doe")
     assert_select "h2"
-    assert_select ".s-speaker", 10
+    assert_select ".s-speaker", 12
   end
 
   test "should render paginated list of articles" do

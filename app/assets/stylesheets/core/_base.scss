@@ -1,0 +1,268 @@
+*, :after, :before {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: 0;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased!important;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility !important;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+html {
+  font-family: sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -ms-overflow-style: scrollnav-bar;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  touch-action: pan-y !important;
+  scrollbar-width:thin
+}
+body {
+  margin: 0;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: $font-family;
+  color: $dark;
+  background-color: $body-bg;
+}
+
+main {
+  padding-top: 160px;
+
+  a {
+    color: $primary;
+    text-decoration: none;
+  }
+  /*
+  a:hover {
+    text-decoration: underline;
+    color: inherit !important;
+  }
+  */
+
+  ul, ol {
+    padding: 0 0 0 1rem;
+  }
+
+  img {
+    position: relative;
+    vertical-align: bottom;
+    max-width: 100%;
+  }
+  /*
+  .section {
+    p {
+      @include font-size($font-size-base);
+      margin-bottom: $font-margin-base;
+    }
+
+    h2 {
+      @include font-size($h2-font-size);
+      margin-bottom: $font-margin-base;
+    }
+
+    a {
+      text-decoration: underline;
+      color: $dark;
+
+      &:hover {
+        color: $primary;
+      }
+    }
+  }
+  */
+}
+
+
+
+
+.content {
+  p {
+    margin-bottom: $font-margin-base;
+  }
+
+  h2 {
+    margin-bottom: $font-margin-base;
+  }
+
+  a {
+    text-decoration: underline;
+    color: $dark;
+
+    &:hover {
+      color: $primary;
+      text-decoration: underline;
+    }
+  }
+
+  img {
+    width: 100%;
+    margin-bottom: $font-margin-base;
+  }
+}
+
+.dark-content {
+  a {
+    text-decoration: underline;
+    color: $white;
+
+    &:hover {
+      color: $primary;
+      text-decoration: underline;
+    }
+  }
+}
+.donate {
+  iframe {
+    width: 100% !important;
+  }
+}
+@include media-breakpoint-down(xl) {
+  main {
+    padding-top: 110px;
+  }
+
+
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.link {
+  cursor: pointer;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.cookies {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  pointer-events: none;
+
+  .cookies-wrap {
+    pointer-events: auto;
+  }
+}
+
+.separator {
+  display: block;
+  height: 1px;
+  width: 100%;
+}
+
+.hide {
+  display: none !important;
+}
+
+.popover-arrow {
+  position: absolute;
+}
+
+.popover-arrow {
+  &.arrow-north {
+    left: 35px;
+    top: -9px;
+  }
+  &.arrow-south {
+    right: calc(50% - -10px);
+    transform: rotate(-90deg);
+    bottom: -9px;
+  }
+  &.arrow-east {
+    left: -9px;
+    top: 35px;
+    transform: rotate(-90deg);
+  }
+  &.arrow-west {
+    right: 11px;
+    top: calc(50% - -10px);
+    transform: rotate(-90deg);
+  }
+}
+.popover-arrow:before {
+    display: block;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    transform: rotate(45deg);
+    border-radius: 2px;
+    content: "";
+    background: $dark;
+    border-radius: 2px;
+}
+.popover-arrow:after {
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: 1;
+    left: auto;
+    background: $dark;
+    width: 20px;
+    height: 20px;
+    transform: rotate(45deg);
+    border-radius: 2px;
+}
+
+.pagination {
+  span {
+    text-transform: uppercase;
+    color: $dark;
+    @include font-size(1.2rem);
+
+    &.current {
+      padding: 0.5rem;
+      font-weight: bold;
+    }
+  }
+
+  a {
+    padding: 0.5rem;
+    color: $dark;
+    text-decoration: none !important;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .next {
+    margin-left: 1rem;
+  }
+  .prev {
+    margin-right: 1rem;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .pagination {
+    span {
+      @include font-size(1rem);
+    }
+
+    .next {
+      margin-left: 0.5rem;
+    }
+    .prev {
+      margin-right: 0.5rem;
+    }
+  }
+
+
+}

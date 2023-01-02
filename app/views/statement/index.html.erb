@@ -1,26 +1,30 @@
 <% content_for(:title, "Přehled ověřených výroků") %>
 <% content_for(:description, "Za svou existenci Demagog.cz už ověřil tisíce výroků politiků a političek. V následujícím rozhraní můžete výroky volně procházet.") %>
 
-<article class="container-statement-index">
-  <section class="statements-intro">
-    <h1>Přehled ověřených výroků</h1>
-    <p>
-      Za svou existenci Demagog.cz už ověřil tisíce výroků politiků a&nbsp;političek.
-      V&nbsp;následujícím rozhraní můžete výroky volně procházet.
-    </p>
-  </section>
+<section>
+  <div class="row">
+    <div class="col col-12">
+      <div class="d-flex">
+        <svg class="me-2 mt-1" width="68" height="33" viewBox="0 0 68 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M30.8666 7.85225C27.9252 3.14603 22.6805 0 16.6784 0C7.46506 0 0 7.38523 0 16.5C0 25.6148 7.46506 33 16.6784 33C22.6649 33 27.8993 29.8694 30.8459 25.1837L15.1273 16.5718L30.8666 7.85225Z" fill="#111827"/>
+          <path d="M51.337 0.0253906C43.9757 0.0253906 37.7453 4.75214 35.5406 11.3008L26.0264 16.5716L35.5717 21.8013C37.8024 28.3038 44.012 32.9946 51.337 32.9946C60.5399 32.9946 67.9946 25.6145 67.9946 16.5151C67.9946 7.41575 60.5399 0.0253906 51.337 0.0253906Z" fill="#111827"/>
+        </svg>
+        <h1 class="display-4 fw-bold m-0 p-0">Přehled ověřených výroků</h1>
+      </div>
 
-  <section class="statements-list">
-    <%=
-      render(
-        partial: 'statement/elastic_filterable_list',
-        locals: {
-          context: {},
-          enable_filters: [:body_id, :speaker_id, :editor_picked, :tag_id, :veracity_key, :released_year, :fulltext],
-          params: @params,
-          no_filters_url: statements_path()
-        }
-      )
-    %>
-  </section>
-</article>
+    </div>
+  </div>
+</section>
+<section class="section mt-10">
+  <%=
+    render(
+      partial: 'statement/elastic_filterable_list',
+      locals: {
+        context: {},
+        enable_filters: [:body_id, :speaker_id, :editor_picked, :tag_id, :veracity_key, :released_year, :fulltext],
+        params: @params,
+        no_filters_url: statements_path()
+      }
+    )
+  %>
+</section>

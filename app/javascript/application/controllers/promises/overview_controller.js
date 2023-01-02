@@ -178,6 +178,8 @@ export default class extends Controller {
     const queryParams = queryString.parse(window.location.search, { arrayFormat: 'bracket' });
     const filters = {};
 
+    console.log(window.location);
+
     Object.keys(this.queryParamsFilterKeys).forEach((filterType) => {
       const queryParamKey = this.queryParamsFilterKeys[filterType];
 

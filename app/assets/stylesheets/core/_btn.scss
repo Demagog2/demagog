@@ -1,0 +1,91 @@
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.25rem;
+  min-height: 40px;
+  background-color: $dark;
+  color: $white;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border-radius: 40px;
+  text-decoration: none !important;
+  letter-spacing: 0.2px;
+
+  span {
+    line-height: normal;
+    margin: 0;
+    padding: 0;
+  }
+
+  &.white {
+    color: $dark;
+    background-color: $white;
+  }
+
+  &.outline {
+    color: $dark;
+    box-shadow: inset 0 0 0 1px $dark;
+    background-color: transparent;
+    overflow: hidden;
+    transition: color .3s;
+
+    svg {
+      fill: $dark;
+      transition: fill .3s;
+    }
+
+    &:before {
+      position: absolute;
+      content: "";
+      background-color: $dark;
+      display: block;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+      transform: translate3d(-160%,0,0) scale(1.1,2);
+      transition: transform .3s,border-radius .2s;
+      z-index: -1;
+    }
+    &:hover:before,
+    &.active:before {
+      transform: translateZ(0) scale(1.1,2);
+      border-radius: 50%;
+    }
+
+    &:hover,
+    &.active {
+      color: $white;
+
+      svg {
+        fill: $white;
+      }
+    }
+  }
+}
+
+
+.left {
+  left: 0;
+}
+.right {
+  right: 0;
+}
+.top {
+  top: 0;
+}
+.bottom {
+  bottom: 0;
+}
+.search-btn {
+  position: absolute;
+  height: 100%;
+  background: transparent;
+  outline: 0;
+  cursor: pointer;
+}

@@ -143,4 +143,14 @@ class Speaker < ApplicationRecord
       502 # TOP-09, Marketa Pekarova Adamova
     ]
   end
+
+  def self.get_most_searched_speaker_ids
+    [
+      67, # Petr Fiala
+      183, # Andrej Babis
+      180, # Tomio Okamura
+      502, # Marketa Pekarova Adamova
+      168, # Milos Zeman
+    ]
+  end
 end

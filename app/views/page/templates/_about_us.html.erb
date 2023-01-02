@@ -1,26 +1,235 @@
-<article class="container-page-show">
-  <h1><%= @page.title %></h1>
+<%
 
-  <section class="segment">
-    <%= raw(@page.text_html) %>
-  </section>
-
-  <section class="authors">
-    <h2>Kdo připravuje Demagog.cz?</h2>
-
-    <% @users.each do |user| %>
-      <div class="author">
-        <figure class="portrait">
-          <% if user.avatar.attached? %>
-            <img src="<%= user.avatar.url %>" alt="<%= user.full_name %>" />
+@nav = controller.menu_items.map do |menu_item|
+  case menu_item.kind
+  when MenuItem::KIND_PAGE then Struct::NavLink.new(menu_item.title, page_url(slug: menu_item.page.slug))
+  when MenuItem::KIND_DIVIDER then '<hr>'
+  else
+    raise Error("Unknown menu item kind #{menu_item.kind}")
+  end
+end
+%>
+<div class="row g-5 g-lg-10"
+  data-controller="components--sticky"
+  data-action="scroll@window->components--sticky#onScroll"
+  data-components--sticky-breakpoint="992"
+>
+  <div class="col col-12 col-lg-4 position-relative">
+    <nav class="side-nav w-100" data-target="components--sticky.sticky">
+      <h1 class="display-4 fw-bold mb-5 p-0">O nás</h1>
+      <ul class="list">
+        <% @nav.each do |nav_item, index| %>
+          <% if nav_item.class.name == 'Struct::NavLink' %>
+          <li class="">
+            <a
+              href="<%= nav_item.href %>"
+              class="min-h-30px d-inline-flex fs-5 fw-bold text-dark align-items-center text-none state-line mb-2 <%= 'active' if nav_item.href == "#{request.protocol}#{request.host_with_port}#{request.fullpath}" %>"
+            >
+              <span><%= nav_item.text %></span>
+            </a>
+          </li>
           <% end %>
-        </figure>
+        <% end %>
+      </ul>
+    </nav>
+  </div>
+  <div class="col col-12 col-lg-8" data-target="components--sticky.content">
+    <div class="">
+      <h2 class="display-5 fw-bold mb-5"><%= @page.title %></h2>
+      <% if  @page.slug == 'api-pro-vyvojare' %>
+        <div class="content fs-6">
+          <p>
+            Veškerá zveřejněná data projektu Demagog.cz jsou dostupná
+            i&nbsp;přes API pro zobrazení na jiných serverech či pro zpracování
+            v&nbsp;analýzách. Jde o&nbsp;API rozumějící dotazovacímu jazyku GraphQL
+            a&nbsp;v&nbsp;současné době nevyžaduje autentizaci pro přístup k&nbsp;veřejné
+            části dat a&nbsp;ani neomezuje množství dotazů.
+          </p>
 
-        <div class="info">
-          <h2><%= user.full_name %></h2>
-          <p><b><%= user.position_description %></b> — <%= user.bio %></p>
+          <p>
+            Máme jen jeden požadavek. Plánujete-li data (či analýzu z&nbsp;nich)
+            zobrazovat veřejně, napište nám prosím na
+            <a href="mailto:info@demagog.cz">info@demagog.cz</a>. Nechceme Vám házet
+            klacky pod nohy, jen nám na formě zveřejnění záleží. Předem děkujeme.
+          </p>
+
+          <p>
+            Na stejný email, <a href="mailto:info@demagog.cz">info@demagog.cz</a>,
+            se nám neváhejte ozvat, pokud budete při použití API potřebovat asistenci.
+          </p>
+
+          <h2>GraphQL API</h2>
+
+          <p>
+            GraphQL API je dostupné na adrese <code>https://demagog.cz/graphql</code>
+            a&nbsp;GraphQL dotazy přijímá zabalené v&nbsp;JSON formátu
+            a&nbsp;v&nbsp;HTTP dotazech metody POST. Funguje tedy jako standardní
+            GraphQL API.
+          </p>
+
+          <p>Jednoduchý GraphQL dotaz, například na seznam řečníků se jménem Miloš...</p>
+
+          <pre class="mb-5"><code class="language-graphql" style="font-size: 14px">{
+          speakers(name: "Miloš") {
+            id
+            firstName
+            lastName
+          }
+        }</code></pre>
+
+          <p>... by tak pomocí nástroje cURL vypadal následovně:</p>
+
+
+          <pre class="mb-5"><code class="language-bash" style="font-size: 14px; white-space: pre-wrap">curl -X POST -H "Content-Type: application/json" --data '{ "query": "{ speakers(name: \"Miloš\") { id firstName lastName } }" }' https://demagog.cz/graphql</code></pre>
+
+          <p>API by pak na takový dotaz mělo odpovědět:</p>
+
+          <pre class="mb-5"><code class="language-json" style="font-size: 14px">{
+          "data": {
+            "speakers": [
+              {
+                "id": "244",
+                "firstName": "Miloš",
+                "lastName": "Vystrčil"
+              },
+              {
+                "id": "168",
+                "firstName": "Miloš",
+                "lastName": "Zeman"
+              }
+            ]
+          }
+        }</code></pre>
+
+          <h2>GraphQL schéma a rozhraní klienta GraphiQL</h2>
+
+          <p>
+            V&nbsp;příkladu výše si můžete všimnout, že v&nbsp;dotazu jsme
+            se ptali u&nbsp;řečníků pouze na jejich ID (pozn. pouze interní
+            ID pro identifikaci v rámci projektu Demagog.cz), křestní jméno a&nbsp;příjmení.
+            Dat o&nbsp;řečnících máme ale mnohem víc &mdash; kromě jiného jejich příslušnost
+            k&nbsp;politickým stranám, adresu profilového obrázku, nebo samozřejmě
+            seznam jejich výroků, které jsme ověřili.
+          </p>
+
+          <p>
+            Dotazovací jazyk GraphQL umožňuje zvolit si přesně, o&nbsp;která data máte zájem.
+            A&nbsp;abyste věděli, co je vůbec dostupné, API umí zprostředkovat GraphQL
+            schéma se všemi dostupnými dotazy a&nbsp;parametry. Schéma se vám tedy zobrazí,
+            pokud API otevřete v&nbsp;některém z&nbsp;GraphQL klientů. My vedle API
+            nainstalovali klienta GraphiQL a&nbsp;je to tedy nejjednodušší cesta,
+            jak se ke schématu dostat.
+          </p>
+
+          <p>
+            Rozhraní klienta GraphiQL je dostupné na adrese
+            <a href="https://demagog.cz/graphiql">https://demagog.cz/graphiql</a>
+            a&nbsp;schéma zobrazuje v pravém sloupci, který se zobrazí po kliknutí
+            na <em>Docs</em> v pravém horním rohu. Kliknete-li dále na <em>Query</em>,
+            zobrazí se seznam všech dostupných dotazů, jejich možné parametry
+            a&nbsp;typy výsledků. Najdete mezi nimi i&nbsp;dotaz <code>speakers</code>,
+            který jsme použili výše.
+          </p>
+
+          <p>
+            Kromě zobrazení schématu lze přes GraphiQL i&nbsp;rovnou posílat dotazy
+            na API a&nbsp;rychle se tak dostat k&nbsp;datům. Neumožňuje ale
+            například export do souboru. Pokud jsou pro vás funkce jako export
+            důležité, můžeme doporučit desktopového GraphQL klienta
+            <a href="https://altair.sirmuel.design/">Altair</a>.
+          </p>
+
+          <h2>Příklady GraphQL dotazů</h2>
+
+          <p>
+            Prokousat se schématem dat nemusí být jednoduché, připravili jsme
+            tedy několik příkladů GraphQL dotazů, které se mohou během
+            začátku hodit.
+          </p>
+
+          <p>
+            Seznam všech řečníků s&nbsp;příslušností ke straně či
+            hnutí a&nbsp;se statistikami ověřených výroků:
+          </p>
+
+          <pre class="mb-5"><code class="language-graphql" style="font-size: 14px">{
+          speakers(limit: 1000, offset: 0) {
+            id
+            firstName
+            lastName
+            body {
+              shortName
+              name
+            }
+            stats {
+              true
+              untrue
+              misleading
+              unverifiable
+            }
+          }
+        }</code></pre>
+
+          <p>
+            Prvních dvacet ověřených výroků prezidenta Miloše Zemana s hodnocením a odůvodněním (168 je naše interní ID, ID jiných řečníků lze najít přes seznam všech řečníků):
+          </p>
+
+          <pre><code class="language-graphql mb-5" style="font-size: 14px">{
+          statements(speaker: 168, limit: 20, offset: 0) {
+            id
+            excerptedAt
+            content
+            assessment {
+              veracity {
+                name
+              }
+              shortExplanation
+              explanationHtml
+            }
+          }
+        }</code></pre>
         </div>
+
+        <% content_for :stylesheets do %>
+          <%= stylesheet_link_tag 'prism.css', media: 'all', 'data-turbolinks-track': 'reload' %>
+        <% end %>
+        <%= javascript_include_tag 'prism.js', 'data-turbolinks-track': 'reload' %>
+
+      <% elsif @page.slug == 'workshopy-demagogcz' %>
+        <div class="content fs-6">
+          <%= raw(@page.text_html.gsub('<p>[mapa_workshopu]</p>', render('page/parts/workshops_map'))) %>
+        </div>
+      <% else %>
+        <div class="content fs-6">
+          <%= raw(@page.text_html) %>
+        </div>
+      <% end %>
+
+
+
+
+      <% if @users %>
+      <div class="row g-5">
+        <div class="col col-12">
+          <h3 class="display-5 fw-bold mb-5">Kdo připravuje Demagog.cz?</h3>
+        </div>
+        <% @users.each do |user| %>
+          <div class="col col-12">
+            <div class="row g-5 g-lg-10">
+              <div class="col col-2">
+                <span class="symbol symbol-square symbol-circle">
+                  <img src="<%= user.avatar.url %>" alt="<%= user.full_name %>" class="w-100"/>
+                </span>
+              </div>
+              <div class="col col-10">
+                <h4 class="fs-2"><%= user.full_name %></h4>
+                <p class="fs-6"><b><%= user.position_description %></b> — <%= user.bio %></p>
+              </div>
+            </div>
+          </div>
+        <% end %>
       </div>
-    <% end %>
-  </section>
-</article>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -175,6 +175,7 @@ GEM
       http_parser.rb (~> 0.6.0)
     erubi (1.10.0)
     eventmachine (1.2.7)
+    eventmachine (1.2.7-x64-mingw32)
     eventmachine (1.2.7-x86-mingw32)
     execjs (2.7.0)
     factory_bot (5.1.2)
@@ -213,6 +214,7 @@ GEM
       concurrent-ruby (~> 1.1)
       websocket-driver (>= 0.6, < 0.8)
     ffi (1.15.5)
+    ffi (1.15.5-x64-mingw32)
     ffi (1.15.5-x86-mingw32)
     formatador (0.3.0)
     friendly_id (5.1.0)
@@ -307,6 +309,8 @@ GEM
     nokogiri (1.13.6)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
+    nokogiri (1.13.6-x64-mingw32)
+      racc (~> 1.4)
     nokogiri (1.13.6-x86-mingw32)
       racc (~> 1.4)
     notiffany (0.1.3)
@@ -343,6 +347,7 @@ GEM
     pastel (0.8.0)
       tty-color (~> 0.5)
     pg (1.3.5)
+    pg (1.3.5-x64-mingw32)
     pg (1.3.5-x86-mingw32)
     pry (0.14.1)
       coderay (~> 1.1)
@@ -511,6 +516,8 @@ GEM
     tty-screen (0.8.1)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2022.6)
+      tzinfo (>= 1.0.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
     unicode-display_width (2.1.0)
@@ -542,66 +549,68 @@ GEM
 
 PLATFORMS
   ruby
+  x64-mingw32
   x86-mingw32
 
 DEPENDENCIES
-  addressable
-  aws-sdk-s3
-  byebug
-  capybara (~> 2.13)
-  caxlsx
-  caxlsx_rails
+  addressable (~> 2.8.0)
+  aws-sdk-s3 (~> 1.106.0)
+  byebug (~> 11.1.3)
+  capybara (~> 2.18.0)
+  caxlsx (~> 3.1.1)
+  caxlsx_rails (~> 0.6.2)
   config (~> 2.2.1)
-  devise (~> 4.8)
-  discard (~> 1.0)
-  dotenv-rails
-  elasticsearch (~> 7)
-  elasticsearch-model (~> 7.2.0)
-  elasticsearch-rails (~> 7.2.0)
+  devise (~> 4.8.1)
+  discard (~> 1.2.1)
+  dotenv-rails (~> 2.7.6)
+  elasticsearch (~> 7.17.7)
+  elasticsearch-model (~> 7.2.1)
+  elasticsearch-rails (~> 7.2.1)
   factory_bot_rails (~> 5.1.0)
-  ferrum
+  ferrum (~> 0.11)
   friendly_id (~> 5.1.0)
   graphiql-rails (~> 1.4.11)
-  graphlient
-  graphql
-  guard
-  guard-livereload (~> 2.5)
-  guard-minitest
-  htmlbeautifier
-  image_processing (~> 1.2)
-  kaminari
-  listen (>= 3.0.5, < 3.2)
-  lograge
+  graphlient (~> 0.5.0)
+  graphql (~> 1.12.20)
+  guard (~> 2.18.0)
+  guard-livereload (~> 2.5.2)
+  guard-minitest (~> 2.4.6)
+  htmlbeautifier (~> 1.4.2)
+  image_processing (~> 1.12.2)
+  kaminari (~> 1.2.2)
+  listen (~> 3.1.5)
+  lograge (~> 0.11.2)
   loofah (~> 2.3.1)
-  meta-tags
-  mini_magick
-  nokogiri
-  omniauth-google-oauth2
-  omniauth-rails_csrf_protection
-  paper_trail
-  pg
-  puma (~> 5.6)
-  rack-cors
-  rails (~> 6.1)
-  redis (~> 4.0, >= 4.0.1)
-  rubocop-rails_config
-  ruby-progressbar
+  meta-tags (~> 2.16.0)
+  mini_magick (~> 4.11.0)
+  nokogiri (~> 1.13.6)
+  omniauth-google-oauth2 (~> 1.0.0)
+  omniauth-rails_csrf_protection (~> 1.0.1)
+  paper_trail (~> 12.2.0)
+  pg (~> 1.3.5)
+  puma (~> 5.6.4)
+  rack-cors (~> 1.1.1)
+  rails (~> 6.1.6)
+  redis (~> 4.1.4)
+  rubocop-rails_config (~> 1.10.1)
+  ruby-progressbar (~> 1.11.0)
   rubyzip (~> 1.3.0)
-  sass-rails (~> 5.0)
-  scenic
-  sentry-rails
-  sentry-ruby
-  sentry-sidekiq
-  sidekiq (~> 5.0)
-  slack-notifier
-  solargraph
-  spring
-  spring-watcher-listen (~> 2.0.0)
+  sass-rails (~> 5.1.0)
+  scenic (~> 1.5.4)
+  sentry-rails (~> 4.7.3)
+  sentry-ruby (~> 4.7.3)
+  sentry-sidekiq (~> 4.7.3)
+  sidekiq (~> 5.2.9)
+  slack-notifier (~> 2.3.2)
+  solargraph (~> 0.45.0)
+  spring (~> 2.1.1)
+  spring-watcher-listen (~> 2.0.1)
   sprockets (~> 3.7.2)
-  tty-prompt
-  uglifier (>= 1.3.0)
-  view_component (~> 2.75)
-  web-console (>= 3.3.0)
+  tty-prompt (~> 0.23.1)
+  tzinfo-data (~> 1.2022.6)
+  uglifier (~> 4.2.0)
+  view_component (~> 2.75.0)
+  web-console (~> 4.2.0)
   webpacker (~> 4.2.0)
 
 RUBY VERSION

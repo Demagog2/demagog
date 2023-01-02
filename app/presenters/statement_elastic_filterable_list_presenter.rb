@@ -28,19 +28,25 @@ class StatementElasticFilterableListPresenter
 
       # Body
       if @enable_filters.include?(:body_id) && !@params[:strana].blank?
-        body_id = @params[:strana][/-(\d+)$/, 1]
+        params_strana = @params[:strana].kind_of?(Array) ? @params[:strana] : [@params[:strana]]
 
-        if !body_id.nil?
-          params_filters[:body_id] = body_id.to_i
+        body_ids = params_strana.map { |item| item[/-(\d+)$/, 1] }
+        body_ids = body_ids.filter { |item| !item.nil? }
+
+        if !body_ids.empty?
+          params_filters[:body_id] = body_ids.map { |body_id| body_id.to_i }
         end
       end
 
       # Speaker
       if @enable_filters.include?(:speaker_id) && !@params[:politik].blank?
-        speaker_id = @params[:politik][/-(\d+)$/, 1]
+        params_politik = @params[:politik].kind_of?(Array) ? @params[:politik] : [@params[:politik]]
 
-        if !speaker_id.nil?
-          params_filters[:speaker_id] = speaker_id.to_i
+        speaker_ids = params_politik.map { |item| item[/-(\d+)$/, 1] }
+        speaker_ids = speaker_ids.filter { |item| !item.nil? }
+
+        if !speaker_ids.empty?
+          params_filters[:speaker_id] = speaker_ids.map { |speaker_id| speaker_id.to_i }
         end
       end
 
@@ -56,36 +62,40 @@ class StatementElasticFilterableListPresenter
 
       # Tag
       if @enable_filters.include?(:tag_id) && !@params[:tema].blank?
-        tag_id = @params[:tema][/-(\d+)$/, 1]
+        params_tema = @params[:tema].kind_of?(Array) ? @params[:tema] : [@params[:tema]]
 
-        if !tag_id.nil?
-          params_filters[:tag_id] = tag_id.to_i
-        end
+        tag_ids = params_tema.map { |item| item == "neurcene" ? -1 : item[/-(\d+)$/, 1] }
+        tag_ids = tag_ids.filter { |item| !item.nil? }
 
-        if @params[:tema] == "neurcene"
-          params_filters[:tag_id] = -1
+        if !tag_ids.empty?
+          params_filters[:tag_id] = tag_ids.map { |tag_id| tag_id.to_i }
         end
       end
 
       # Veracity
       if @enable_filters.include?(:veracity_key) && !@params[:hodnoceni].blank?
-        veracity_key = get_available_veracities_keys().find do |veracity_key|
+        params_veracity_keys = @params[:hodnoceni].kind_of?(Array) ? @params[:hodnoceni] : [@params[:hodnoceni]]
+
+        veracity_keys = get_available_veracities_keys().filter do |veracity_key|
           veracity = Veracity.find_by(key: veracity_key)
 
-          veracity.name.parameterize == @params[:hodnoceni]
+          params_veracity_keys.include?(veracity.name.parameterize)
         end
 
-        if !veracity_key.nil?
-          params_filters[:veracity_key] = veracity_key
+        unless veracity_keys.empty?
+          params_filters[:veracity_key] = veracity_keys
         end
       end
 
       # year
       if @enable_filters.include?(:released_year) && !@params[:rok].blank?
-        year = @params[:rok][/^(\d+)$/, 1]
+        params_rok = @params[:rok].kind_of?(Array) ? @params[:rok] : [@params[:rok]]
 
-        if !year.nil?
-          params_filters[:released_year] = year.to_i
+        years = params_rok.map { |item| item[/^(\d+)$/, 1] }
+        years = years.filter { |item| !item.nil? }
+
+        if !years.empty?
+          params_filters[:released_year] = years.map { |year| year.to_i }
         end
       end
 
@@ -119,7 +129,7 @@ class StatementElasticFilterableListPresenter
               value: "#{body.short_name.parameterize}-#{body.id}",
               label: "#{body.name}" + (body.name != body.short_name ? " (#{body.short_name})" : ""),
               count: body_id_aggregation[body.id],
-              selected: @parsed_params_filters[:body_id] == body.id,
+              selected: @parsed_params_filters[:body_id] && @parsed_params_filters[:body_id].include?(body.id),
               group_name: lower_parliament_body_ids.include?(body.id) ? "Strany a hnutí v Poslanecké sněmovně Parlamentu ČR" : "Další strany a hnutí"
             }
           end
@@ -148,7 +158,7 @@ class StatementElasticFilterableListPresenter
               value: "#{speaker.full_name.parameterize}-#{speaker.id}",
               label: "#{speaker.full_name}" + (speaker.body ? " (#{speaker.body.short_name})" : ""),
               count: speaker_id_aggregation[speaker.id],
-              selected: @parsed_params_filters[:speaker_id] == speaker.id
+              selected: @parsed_params_filters[:speaker_id] && @parsed_params_filters[:speaker_id].include?(speaker.id)
             }
           end
 
@@ -177,7 +187,7 @@ class StatementElasticFilterableListPresenter
               value: "#{tag.name.parameterize}-#{tag.id}",
               label: tag.name,
               count: tag_id_aggregation[tag.id],
-              selected: @parsed_params_filters[:tag_id] == tag.id
+              selected: @parsed_params_filters[:tag_id] && @parsed_params_filters[:tag_id].include?(tag.id)
             }
           end
 
@@ -186,7 +196,7 @@ class StatementElasticFilterableListPresenter
               value: "neurcene",
               label: "Bez tématu",
               count: tag_id_aggregation[-1],
-              selected: @parsed_params_filters[:tag_id] == -1
+              selected: @parsed_params_filters[:tag_id] && @parsed_params_filters[:tag_id].include?(-1)
             })
           end
 
@@ -203,7 +213,7 @@ class StatementElasticFilterableListPresenter
               value: veracity.name.parameterize,
               label: veracity.name,
               count: veracity_key_aggregation.fetch(veracity_key, 0),
-              selected: @parsed_params_filters[:veracity_key] == veracity_key.to_s
+              selected: @parsed_params_filters[:veracity_key] && @parsed_params_filters[:veracity_key].include?(veracity_key.to_s)
             }
           end
 
@@ -220,7 +230,7 @@ class StatementElasticFilterableListPresenter
               value: year,
               label: "Rok #{year}",
               count: released_year_aggregation[year],
-              selected: @parsed_params_filters[:released_year] == year.to_i
+              selected: @parsed_params_filters[:released_year] && @parsed_params_filters[:released_year].include?(year.to_i)
             }
           end
 

@@ -1,0 +1,317 @@
+$white: #ffffff !default;
+$black: #000000 !default;
+$gray-100: #F5F8FA !default;
+$gray-200: #EFF2F5 !default;
+$gray-300: #E4E6EF !default;
+$gray-400: #B5B5C3 !default;
+$gray-500: #A1A5B7 !default;
+$gray-600: #7E8299 !default;
+$gray-700: #5E6278 !default;
+$gray-800: #3F4254 !default;
+$gray-900: #181C32 !default;
+$text-muted: $gray-500 !default;
+
+$dark: #111827 !default;
+$dark-light: #172032 !default;
+$primary: #25AD23 !default;
+$light: $gray-200 !default;
+$primary-dark: #078738 !default;
+$secondary: #FFBF00 !default;
+$danger: #e91e63 !default;
+$red: #E32219 !default;
+
+$body-bg: $white !default;
+$font-family: 'Inter', sans-serif;
+
+$header-shadow: 0 2px 5px 0px rgba($dark, 0.1 )!default;
+$base-transition: 900ms cubic-bezier(0.22, 1, 0.19, 1);
+
+$grays: (
+    "100": $gray-100,
+    "200": $gray-200,
+    "300": $gray-300,
+    "400": $gray-400,
+    "500": $gray-500,
+    "600": $gray-600,
+	  "700": $gray-700,
+    "800": $gray-800,
+    "900": $gray-900
+) !default; // Custom variable
+
+$theme-colors: (
+  "white":      $white,
+	"primary":    $primary,
+  "secondary":  $secondary,
+  "dark":       $dark,
+  "dark-light": $dark-light,
+  "muted":      $text-muted,
+  "danger":     $danger,
+  "light":      $light,
+  "gray":       $gray-500,
+  "red":        $red,
+) !default;
+
+
+$spacer: 1rem !default;
+
+$spacers: (
+  0: 0,
+  1: ($spacer * .25),
+  2: ($spacer * .5),
+	3: ($spacer * .75),
+	4: ($spacer * 1),
+	5: ($spacer * 1.25),
+	6: ($spacer * 1.5),
+	7: ($spacer * 1.75),
+	8: ($spacer * 2),
+	9: ($spacer * 2.25),
+	10: ($spacer * 2.5),
+	11: ($spacer * 2.75),
+	12: ($spacer * 3),
+	13: ($spacer * 3.25),
+	14: ($spacer * 3.5),
+	15: ($spacer * 3.75),
+	16: ($spacer * 4),
+	17: ($spacer * 4.25),
+	18: ($spacer * 4.5),
+	19: ($spacer * 4.75),
+	20: ($spacer * 5),
+);
+
+$gutters: $spacers !default;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+) !default;
+
+$container-max-widths: (
+  sm: 100%,
+  md: 100%,
+  lg: 100%,
+  xl: 1180px,
+  xxl: 1380px
+) !default;
+
+$icon-sizes: (
+  28: 28px,
+  36: 36px,
+  40: 40px,
+  44: 44px,
+  50: 50px,
+) !default;
+
+$grid-columns:                12 !default;
+$grid-gutter-width:           1rem !default;
+$grid-row-columns:            6 !default;
+
+$container-padding-x: 1rem !default;
+$variable-prefix:             bs- !default;
+
+$enable-caret:                true !default;
+$enable-rounded:              true !default;
+$enable-shadows:              false !default;
+$enable-gradients:            false !default;
+$enable-transitions:          true !default;
+$enable-reduced-motion:       true !default;
+$enable-smooth-scroll:        true !default;
+$enable-grid-classes:         true !default;
+$enable-button-pointers:      true !default;
+$enable-rfs:                  true !default;
+$enable-validation-icons:     true !default;
+$enable-negative-margins:     false !default;
+$enable-deprecation-messages: true !default;
+$enable-important-utilities:  true !default;
+
+$input-padding: 0.25rem;
+
+$font-size-base: 1rem !default;
+$font-margin-base: 0.5rem;
+$h1-font-size: $font-size-base * 1.75 !default;
+$h2-font-size: $font-size-base * 1.5 !default;
+$h3-font-size: $font-size-base * 1.35 !default;
+$h4-font-size: $font-size-base * 1.25 !default;
+$h5-font-size: $font-size-base * 1.15 !default;
+$h6-font-size: $font-size-base * 1.075 !default;
+
+$headings-margin-bottom:      $spacer * .5 !default;
+$headings-font-family:        null !default;
+$headings-font-style:         null !default;
+$headings-font-weight:        500 !default;
+$headings-line-height:        1.2 !default;
+$headings-color:              null !default;
+
+$font-weight-lighter:                               lighter !default;
+$font-weight-light:                                 300 !default;
+$font-weight-normal:                                normal !default;
+$font-weight-bold:                                  bold !default;
+$font-weight-bolder:                                600 !default;
+$font-weight-boldest:                               700 !default;
+
+$display-font-weight: 300 !default;
+$display-line-height: $headings-line-height !default;
+$font-size-small: $font-size-base *.95 !default;
+$font-size-smaller: $font-size-base *.8 !default;
+$font-size-smallest: $font-size-base *.6 !default;
+
+$line-height-base: 1.5 !default;
+$line-height-sm: 1.25 !default;
+$line-height-lg: 1.75 !default;
+$line-height-xl: 2 !default;
+$line-height-xxl: 2.25 !default;
+
+$font-sizes: (
+  1: $h1-font-size,
+  2: $h2-font-size,
+  3: $h3-font-size,
+  4: $h4-font-size,
+  5: $h5-font-size,
+  6: $h6-font-size,
+  7: ($h6-font-size * 0.8),
+);
+
+$display-font-sizes: (
+  1: 5rem,
+  2: 4rem,
+  3: 3rem,
+  4: 2.5rem,
+  5: 1.8rem,
+  6: 1rem
+) !default;
+
+$border-radius:               .25rem !default;
+$border-radius-sm:            .2rem !default;
+$border-radius-lg:            .3rem !default;
+$border-radius-pill:          50rem !default;
+
+$border-radius-s: .3rem !default;
+$border-radius-m: 0.5rem !default;
+$border-radius-l: 1rem !default;
+$border-radius-xl: 2rem !default;
+
+$symbol-sizes: (
+    20px: 20px,
+    25px: 25px,
+    30px: 30px,
+    35px: 35px,
+    40px: 40px,
+    45px: 45px,
+    default: 50px,
+    50px: 50px,
+    55px: 55px,
+    60px: 60px,
+    65px: 65px,
+    70px: 70px,
+    75px: 75px,
+    100px:100px,
+	  125px:125px,
+    150px:150px,
+    160px:160px,
+    175px:175px,
+    200px:200px
+) !default;
+
+$custom-sizes: (
+    unset: unset,
+    25: 25%,
+    50: 50%,
+    75: 75%,
+    100: 100%,
+    auto: auto,
+  	1px: 1px,
+  	2px: 2px,
+  	3px: 3px,
+  	4px: 4px,
+  	5px: 5px,
+    6px: 6px,
+    7px: 7px,
+    8px: 8px,
+    9px: 9px,
+  	10px: 10px,
+  	15px: 15px,
+  	20px: 20px,
+  	25px: 25px,
+  	30px: 30px,
+  	35px: 35px,
+  	40px: 40px,
+    44px: 44px,
+  	45px: 45px,
+  	50px: 50px,
+  	55px: 55px,
+  	60px: 60px,
+  	65px: 65px,
+  	70px: 70px,
+  	75px: 75px,
+  	80px: 80px,
+  	85px: 85px,
+  	90px: 90px,
+  	95px: 95px,
+  	100px: 100px,
+  	125px: 125px,
+  	150px: 150px,
+	175px: 175px,
+  	200px: 200px,
+    225px: 225px,
+  	250px: 250px,
+    275px: 275px,
+  	300px: 300px,
+    325px: 325px,
+  	350px: 350px,
+    375px: 375px,
+  	400px: 400px,
+    425px: 425px,
+  	450px: 450px,
+    475px: 475px,
+  	500px: 500px,
+  	550px: 550px,
+  	600px: 600px,
+  	650px: 650px,
+  	700px: 700px,
+  	750px: 750px,
+  	800px: 800px,
+  	850px: 850px,
+  	900px: 900px,
+  	950px: 950px,
+  	1000px: 1000px
+) !default;
+
+$custom-heights: (
+    25vh: 25vh,
+    50vh: 50vh,
+    75vh: 75vh,
+    100vh: 100vh,
+) !default;
+
+$custom-widths: (
+    25vw: 25vw,
+    50vw: 50vw,
+    75vw: 75vw,
+    100vw: 100vw,
+) !default;
+
+$zindex-values: (
+  n1: -1,
+  n2: -2,
+  0: 0,
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 4,
+  5: 5,
+) !default;
+
+$shadow-s: 0 0 0 1px rgba($dark, 0.1 )!default;
+$shadow-m: 0 2px 5px 0px rgba($dark, 0.1 )!default;
+$shadow-l: 0 5px 15px 0px rgba($dark, 0.2 )!default;
+$shadow-xl: 0 15px 33px 0px rgba($dark, 0.2 )!default;
+
+$shadows: (
+  s: $shadow-s,
+  m: $shadow-m,
+  l: $shadow-l,
+  xl: $shadow-xl,
+) !default;

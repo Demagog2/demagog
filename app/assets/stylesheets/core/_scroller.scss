@@ -1,0 +1,13 @@
+@mixin scroller() {
+  scrollbar-width:thin;
+  &::-webkit-scrollbar{width:.375rem}
+  &::-webkit-scrollbar-track{background: $gray-200}
+  &::-webkit-scrollbar-thumb{border-radius:.625rem; background: $dark}
+}
+
+
+.scroll-vertical {
+  overflow-x: hidden;
+  overflow-y: auto;
+  @include scroller();
+}

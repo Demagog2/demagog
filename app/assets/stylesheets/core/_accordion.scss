@@ -1,0 +1,45 @@
+.accordion {
+  .accordion-link {
+    padding: 0.5rem 0;
+    cursor: pointer;
+    .accordion-icon {
+      transition: 0.3s ease-in-out;
+    }
+    &.open {
+      .accordion-icon {
+        transform: rotate(180deg);
+      }
+    }
+  }
+  .accordion-content,
+  .accordion-detail {
+    overflow: hidden;
+  	transition: 0.5s ease-in-out;
+    &.close {
+      max-height: 0;
+    }
+  }
+}
+.expander {
+  position: relative;
+  overflow: hidden;
+  transition: 0.5s ease-in-out;
+
+  &::after {
+    position: absolute;
+    pointer-events: none;
+    content: "";
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(0,0,0);
+    background: linear-gradient(0deg, rgba($dark-light,1) 0%, rgba($dark-light,0.5) 20%, rgba($dark-light,0) 100%);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  &.is-hide::after {
+    opacity: 1;
+  }
+}

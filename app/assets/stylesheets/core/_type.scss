@@ -1,0 +1,16 @@
+@each $display, $font-size in $display-font-sizes {
+  .display-#{$display} {
+    @include font-size($font-size);
+    font-weight: $display-font-weight;
+    line-height: $display-line-height;
+  }
+}
+.small {
+  @include font-size($font-size-small)
+}
+.smaller {
+  @include font-size($font-size-smaller)
+}
+.smallest {
+  @include font-size($font-size-smallest)
+}
