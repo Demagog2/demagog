@@ -9,9 +9,6 @@
   end
 end
 %>
-<div class="mb-10">
-  <h1 class="display-4 fw-bold m-0 p-0">O nás</h1>
-</div>
 <div class="row g-5 g-lg-10"
   data-controller="components--sticky"
   data-action="scroll@window->components--sticky#onScroll"
@@ -19,6 +16,7 @@ end
 >
   <div class="col col-12 col-lg-4 position-relative">
     <nav class="side-nav w-100" data-target="components--sticky.sticky">
+      <h1 class="display-4 fw-bold mb-5 p-0">O nás</h1>
       <ul class="list">
         <% @nav.each do |nav_item, index| %>
           <% if nav_item.class.name == 'Struct::NavLink' %>

@@ -48,7 +48,7 @@ wide_display = true if local_assigns[:wide_display].nil?
             data-target="components--filter.filterLink"
             aria-show="true"
           >
-            <span class="fs-6 fw-bold">Všechna témata</span>
+            <span class="fs-6 fw-bold">Témata</span>
             <span class="filter-icon">
               <svg width="23" height="12" viewBox="0 0 23 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 0.597656L11.646 11.2437L22.2435 0.646237" stroke="#111827"/>
@@ -81,7 +81,7 @@ wide_display = true if local_assigns[:wide_display].nil?
             data-target="components--filter.filterLink"
             aria-show="true"
           >
-            <span class="fs-6 fw-bold">Všechna hodnocení</span>
+            <span class="fs-6 fw-bold">Hodnocení</span>
             <span class="filter-icon">
               <svg width="23" height="12" viewBox="0 0 23 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 0.597656L11.646 11.2437L22.2435 0.646237" stroke="#111827"/>
@@ -117,7 +117,7 @@ wide_display = true if local_assigns[:wide_display].nil?
             data-target="components--filter.filterLink"
             aria-show="true"
           >
-            <span class="fs-6 fw-bold">Všechny roky</span>
+            <span class="fs-6 fw-bold">Roky</span>
             <span class="accordion-icon">
               <svg width="23" height="12" viewBox="0 0 23 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 0.597656L11.646 11.2437L22.2435 0.646237" stroke="#111827"/>
@@ -149,6 +149,10 @@ wide_display = true if local_assigns[:wide_display].nil?
           <div class="check-btn py-2 <% if statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:count] == 0 %>disabled<% end %>">
             <input
               type="checkbox"
+              data-target="components--filter.filterCheckbox"
+              data-action="change->components--filter#toggleFilter"
+              data-filter-value="ano"
+              data-filter-type="vyber"
               <% if statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:selected] %>checked<% end %>
               <% if statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:count] == 0 %>disabled<% end %>
             >
