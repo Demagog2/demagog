@@ -29,7 +29,11 @@ content_for(
             <p class="fs-4 fw-bold mb-1"><%= @speaker.role %></p>
           <% end %>
           <% if @speaker.body %>
+<<<<<<< HEAD
             <p class="fs-4 fw-bold"><%= @speaker.body.name %> <% if @speaker.body.short_name != @speaker.body.name %><span class="s-body">(<%= @speaker.body.short_name %>)</span><% end %></p>
+=======
+            <p class="fs-4 fw-bold s-body">Člen*ka strany <%= @speaker.body.name %> <% if @speaker.body.short_name != @speaker.body.name %><span class="s-body">(<%= @speaker.body.short_name %>)</span><% end %></p>
+>>>>>>> 9686d46663f7e9a9b338c804e90fa2e362e9c08a
           <% end %>
         </div>
       </div>

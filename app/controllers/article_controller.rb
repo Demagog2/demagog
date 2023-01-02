@@ -83,6 +83,7 @@ class ArticleController < FrontendController
         .page(@page_number)
         .per(10)
 
+<<<<<<< HEAD
 
         if (@articles.length)
           @top_articles = @articles[0..3]
@@ -96,6 +97,10 @@ class ArticleController < FrontendController
         end
 
 
+=======
+      @top_articles = @articles[0..3] || []
+      @bottom_articles = @articles[4..9] || []
+>>>>>>> 9686d46663f7e9a9b338c804e90fa2e362e9c08a
     end
 
   private
@@ -113,7 +118,7 @@ class ArticleController < FrontendController
         .page(@page_number)
         .per(10)
 
-      @top_articles = @articles[0..3]
-      @bottom_articles = @articles[4..9]
+      @top_articles = @articles[0..3] || []
+      @bottom_articles = @articles[4..9] || []
     end
 end
