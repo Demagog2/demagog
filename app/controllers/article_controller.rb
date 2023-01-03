@@ -79,7 +79,7 @@ class ArticleController < FrontendController
           1313,
           1312,
           1307,
-          1308,  
+          1308,
         ])
         .page(@page_number)
         .per(10)
