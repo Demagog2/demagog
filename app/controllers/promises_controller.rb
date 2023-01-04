@@ -123,7 +123,7 @@ class PromisesController < FrontendController
     @promise_rating_keys = @all.first.assessment.assessment_methodology.rating_keys
     @all_count = @all.count
 
-    @promise_rating_counts = @promise_rating_keys.index_with { |key| @all.where(assessments: { promise_ratings: { key: key } }).count }
+    @promise_rating_counts = @promise_rating_keys.index_with { |key| @all.where(assessments: { promise_ratings: { key: } }).count }
     @promise_rating_percents = @promise_rating_keys.index_with { |key| ((@promise_rating_counts[key].to_f / @all_count.to_f) * 100).round }
 
     filters = filters_from_params

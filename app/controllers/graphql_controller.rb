@@ -8,9 +8,9 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
     context = {
-      current_user: current_user,
+      current_user:,
     }
-    result = DemagogSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    result = DemagogSchema.execute(query, variables:, context:, operation_name:)
     log_public_api_access(query, variables) unless current_user
     render json: result
   rescue => e

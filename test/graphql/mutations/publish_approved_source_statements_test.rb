@@ -28,7 +28,7 @@ class PublishApprovedSourceStatementsMutationTest < GraphQLTestCase
 
   test "should published approved source statements" do
     source = create(:source)
-    create_list(:unpublished_statement, 3, source: source)
+    create_list(:unpublished_statement, 3, source:)
 
     result = execute(mutation(source), context: authenticated_user_context)
 

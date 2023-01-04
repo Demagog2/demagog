@@ -53,11 +53,11 @@ module Mutations
             raise Errors::NotAuthorizedError.new
           end
 
-          UserNotificationService.new(statement: statement, current_user: context[:current_user]).run
+          UserNotificationService.new(statement:, current_user: context[:current_user]).run
 
           statement.save!
 
-          { statement: statement }
+          { statement: }
         end
       rescue ActiveRecord::RecordInvalid => e
         raise GraphQL::ExecutionError.new(e.to_s)

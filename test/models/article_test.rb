@@ -87,7 +87,7 @@ class ArticleTest < ActiveSupport::TestCase
 
   test "removed segment in update_article should be removed and not left without article_id in db" do
     article = create(:article, article_type: @article_type)
-    article_segment = create(:article_segment_text, text_html: "<p>Yo</p>", article: article)
+    article_segment = create(:article_segment_text, text_html: "<p>Yo</p>", article:)
 
     article_input = {
       title: "My article",

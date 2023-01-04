@@ -9,6 +9,6 @@ class PublicApiAccess < ApplicationRecord
       ip = ip.gsub(/.\d+$/, ".0")
     end
 
-    self.create(ip: ip, user_agent: user_agent, query: query, variables: variables)
+    self.create(ip:, user_agent:, query:, variables:)
   end
 end

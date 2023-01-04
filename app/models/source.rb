@@ -66,7 +66,7 @@ class Source < ApplicationRecord
 
       links.each do |link|
         all_links.push({
-          statement: statement,
+          statement:,
           host: Addressable::URI.parse(link["href"].strip).host,
           link: link["href"].strip
         })
@@ -79,7 +79,7 @@ class Source < ApplicationRecord
       grouped_by_link[link[:link]] += 1
     end
     grouped_by_link = grouped_by_link.map do |link, count|
-      { link: link, count: count }
+      { link:, count: }
     end
     grouped_by_link = grouped_by_link.sort_by { |item| -item[:count] }
 
@@ -89,14 +89,14 @@ class Source < ApplicationRecord
       grouped_by_host[link[:host]] += 1
     end
     grouped_by_host = grouped_by_host.map do |host, count|
-      { host: host, count: count }
+      { host:, count: }
     end
     grouped_by_host = grouped_by_host.sort_by { |item| -item[:count] }
 
     {
       all_links_count: all_links.size,
-      grouped_by_link: grouped_by_link,
-      grouped_by_host: grouped_by_host
+      grouped_by_link:,
+      grouped_by_host:
     }
   end
 end

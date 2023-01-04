@@ -15,7 +15,7 @@ module Mutations
       source = Source.find(id)
       source.publish_approved_statements
 
-      { source: source }
+      { source: }
     end
   end
 end

@@ -14,7 +14,7 @@ module Mutations
 
       comment = Comment.create_comment(comment_input.to_h, context[:current_user])
 
-      { comment: comment }
+      { comment: }
     end
   end
 end

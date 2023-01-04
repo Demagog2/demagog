@@ -81,6 +81,7 @@ class ArticleController < FrontendController
           1307,
           1308,
         ])
+        .order(published_at: :desc)
         .page(@page_number)
         .per(10)
 

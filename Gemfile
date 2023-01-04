@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ruby "2.7.4"
+ruby "3.1.3"
 
 source "https://rubygems.org"
 
@@ -25,7 +25,7 @@ end
 gem "dotenv-rails", "~> 2.7.6"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~> 6.1.6"
+gem "rails", "~> 6.1.7"
 # Add possibility for bulk insert to Active Record models
 # gem "bulk_insert"
 # Use Postgresql as the database for Active Record
@@ -34,7 +34,7 @@ gem "pg", "~> 1.3.5"
 gem "scenic", "~> 1.5.4"
 
 # Use puma as a web server
-gem "puma", "~> 5.6.4"
+gem "puma", "~> 5.6.5"
 
 # Use SCSS for stylesheets
 gem "sass-rails", "~> 5.1.0"
@@ -45,9 +45,9 @@ gem "uglifier", "~> 4.2.0"
 # Add gem for paging
 gem "kaminari", "~> 1.2.2"
 # Add webpack support
-gem "webpacker", "~> 4.2.0"
+gem "webpacker", "~> 5.4.3"
 # Add graphql support
-gem "graphql", "~> 1.12.20"
+gem "graphql", "~> 1.12.24"
 # Allow CORS setup
 gem "rack-cors", "~> 1.1.1", require: "rack/cors"
 # Unified model soft delete API
@@ -132,12 +132,12 @@ gem "tty-prompt", "~> 0.23.1"
 # Production logging
 gem "lograge", "~> 0.11.2"
 
-gem "addressable", "~> 2.8.0"
+gem "addressable", "~> 2.8.1"
 
 gem "caxlsx", "~> 3.1.1"
 gem "caxlsx_rails", "~> 0.6.2"
 
-gem "ferrum", "~> 0.11"
+gem "ferrum", "~> 0.13"
 gem "mini_magick", "~> 4.11.0"
 
 group :development, :test do
@@ -162,7 +162,7 @@ end
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem "web-console", "~> 4.2.0"
-  gem "listen", "~> 3.1.5"
+  gem "listen", "~> 3.7.1"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem "spring", "~> 2.1.1"
   gem "spring-watcher-listen", "~> 2.0.1"

@@ -46,7 +46,7 @@ class FixApprovedFactualStatementsWithoutVeracity < ActiveRecord::Migration[5.2]
         article_type: "static",
         segments: [{
           segment_type: ArticleSegment::TYPE_TEXT,
-          text_html: text_html,
+          text_html:,
           text_slatejson: nil
         }]
       })

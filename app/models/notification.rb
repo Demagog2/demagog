@@ -32,7 +32,7 @@ class Notification < ApplicationRecord
     unread_notifications.each do |notification|
       puts "Sending notification #{notification.id} to #{notification.recipient.email}"
 
-      NotificationMailer.with(notification: notification).notification_email.deliver_now
+      NotificationMailer.with(notification:).notification_email.deliver_now
 
       notification.update!(emailed_at: Time.now)
     end
@@ -47,7 +47,7 @@ class Notification < ApplicationRecord
   end
 
   def self.mark_statement_unread_as_read(statement_id, current_user)
-    unread_notifications_ids = current_user.notifications.where(read_at: nil, statement_id: statement_id).pluck(:id)
+    unread_notifications_ids = current_user.notifications.where(read_at: nil, statement_id:).pluck(:id)
 
     notifications = current_user.notifications.where(id: unread_notifications_ids)
     notifications.update_all(read_at: Time.now)

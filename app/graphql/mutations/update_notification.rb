@@ -20,7 +20,7 @@ module Mutations
 
       notification.update!(input.to_h)
 
-      { notification: notification }
+      { notification: }
     end
   end
 end

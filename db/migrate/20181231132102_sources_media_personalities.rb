@@ -25,7 +25,7 @@ class SourcesMediaPersonalities < ActiveRecord::Migration[5.2]
 
         # Ensure we have all the personalities of those names
         personalities = names.map do |name|
-          MediaPersonality.find_or_create_by!(name: name)
+          MediaPersonality.find_or_create_by!(name:)
         end
 
         # For all group personality sources, replace the group with separate personalities

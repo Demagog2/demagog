@@ -16,7 +16,7 @@ module Mutations
       source = Source.find(id)
       source.update_statements_source_order(input[:ordered_statement_ids])
 
-      { source: source }
+      { source: }
     end
   end
 end

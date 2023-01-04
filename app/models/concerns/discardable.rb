@@ -13,7 +13,7 @@ module Discardable
 
   class_methods do
     def discard(id)
-      obj = find_by(id: id)
+      obj = find_by(id:)
       obj.discard
     end
   end

@@ -48,13 +48,13 @@ module Mutations
 
         if first_comment_content
           Comment.create!(
-            statement: statement,
+            statement:,
             content: first_comment_content,
             user: context[:current_user]
           )
         end
 
-        { statement: statement }
+        { statement: }
       end
     end
   end

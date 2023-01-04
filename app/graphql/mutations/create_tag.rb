@@ -13,7 +13,7 @@ module Mutations
 
       tag = Tag.create(tag_input.to_h)
 
-      { tag: tag }
+      { tag: }
     end
   end
 end

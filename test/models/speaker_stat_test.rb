@@ -5,14 +5,14 @@ require "test_helper"
 class SpeakerStatTest < ActiveSupport::TestCase
   test "it returns correct stats" do
     speaker = create(:speaker)
-    source_speaker = create(:source_speaker, speaker: speaker)
+    source_speaker = create(:source_speaker, speaker:)
     source =
       create(
         :source,
         source_speakers: [source_speaker],
-        statements: [create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker)]
+        statements: [create(:statement, source_speaker:), create(:statement, source_speaker:), create(:statement, source_speaker:)]
       )
-    segment = create(:article_segment_source_statements, source: source)
+    segment = create(:article_segment_source_statements, source:)
     create(:fact_check, segments: [segment])
 
     expected_stats = {

@@ -9,9 +9,9 @@ class HomepageControllerTest < ActionDispatch::IntegrationTest
       create(
         :source,
         source_speakers: [source_speaker],
-        statements: [create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker)]
+        statements: [create(:statement, source_speaker:), create(:statement, source_speaker:)]
       )
-    segment = create(:article_segment_source_statements, source: source)
+    segment = create(:article_segment_source_statements, source:)
     create(:fact_check, segments: [segment])
 
     get root_url
@@ -24,11 +24,11 @@ class HomepageControllerTest < ActionDispatch::IntegrationTest
       create(
         :source,
         source_speakers: [source_speaker],
-        statements: [create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker)]
+        statements: [create(:statement, source_speaker:), create(:statement, source_speaker:)]
       )
-    segment_one = create(:article_segment_source_statements, source: source)
-    segment_two = create(:article_segment_source_statements, source: source)
-    segment_three = create(:article_segment_source_statements, source: source)
+    segment_one = create(:article_segment_source_statements, source:)
+    segment_two = create(:article_segment_source_statements, source:)
+    segment_three = create(:article_segment_source_statements, source:)
 
     article_one = create(:fact_check, title: "Article one", segments: [segment_one], published: true)
     article_two = create(:fact_check, title: "Article two", segments: [segment_two], published: true)

@@ -18,7 +18,7 @@ class MarkUnreadNotificationsAsReadMutationTest < GraphQLTestCase
   test "should require authentication" do
     user = create(:user)
     statement = create(:statement)
-    create_list(:notification, 3, :unread, recipient: user, statement: statement)
+    create_list(:notification, 3, :unread, recipient: user, statement:)
 
     result = execute_with_errors(mutation)
 
@@ -28,9 +28,9 @@ class MarkUnreadNotificationsAsReadMutationTest < GraphQLTestCase
   test "should update mark all unread notifications as read" do
     user = create(:user)
     statement = create(:statement)
-    create_list(:notification, 3, :unread, recipient: user, statement: statement)
+    create_list(:notification, 3, :unread, recipient: user, statement:)
 
-    result = execute(mutation, context: authenticated_user_context(user: user))
+    result = execute(mutation, context: authenticated_user_context(user:))
 
     assert_equal true, result.data.markUnreadNotificationsAsRead.notifications.all?(&:readAt)
   end

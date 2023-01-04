@@ -19,7 +19,7 @@ class UpdateUserActivenessMutationTest < GraphQLTestCase
   test "should required authentication" do
     user = create(:user)
 
-    result = execute_with_errors(mutation(user: user, user_active: true))
+    result = execute_with_errors(mutation(user:, user_active: true))
 
     assert_auth_needed_error result
   end
@@ -27,7 +27,7 @@ class UpdateUserActivenessMutationTest < GraphQLTestCase
   test "should update activeness" do
     user = create(:user, active: false)
 
-    result = execute(mutation(user: user, user_active: true), context: authenticated_user_context)
+    result = execute(mutation(user:, user_active: true), context: authenticated_user_context)
 
     assert_equal true, result.data.updateUserActiveness.user.active
   end

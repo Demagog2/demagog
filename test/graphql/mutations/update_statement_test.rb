@@ -20,7 +20,7 @@ class UpdateStatementMutationTest < GraphQLTestCase
 
   test "should require authentication" do
     source_speaker = create(:source_speaker)
-    statement = create(:statement, source_speaker: source_speaker)
+    statement = create(:statement, source_speaker:)
 
     result = execute_with_errors(mutation(statement, source_speaker))
 
@@ -29,7 +29,7 @@ class UpdateStatementMutationTest < GraphQLTestCase
 
   test "should update a statement" do
     source_speaker = create(:source_speaker)
-    statement = create(:statement, source_speaker: source_speaker)
+    statement = create(:statement, source_speaker:)
 
     result = execute(mutation(statement, source_speaker), context: authenticated_user_context)
 
@@ -60,7 +60,7 @@ class UpdateStatementMutationTest < GraphQLTestCase
       }
     }
 
-    result = execute(mutation, variables: variables, context: authenticated_user_context)
+    result = execute(mutation, variables:, context: authenticated_user_context)
 
     assert_equal 1, result.data.updateStatement.statement.tags.length
     assert_equal economy_tag.id.to_s, result.data.updateStatement.statement.tags[0].id

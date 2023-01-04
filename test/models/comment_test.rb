@@ -14,7 +14,7 @@ class CommentTest < ActiveSupport::TestCase
     assert_equal user, comment.user
     assert_equal statement, comment.statement
 
-    notification = Notification.find_by(statement: statement, recipient: statement.assessment.evaluator)
+    notification = Notification.find_by(statement:, recipient: statement.assessment.evaluator)
     assert_not_nil notification
   end
 
@@ -30,10 +30,10 @@ class CommentTest < ActiveSupport::TestCase
     assert_equal user, comment.user
     assert_equal statement, comment.statement
 
-    notification = Notification.find_by(statement: statement, recipient: statement.assessment.evaluator)
+    notification = Notification.find_by(statement:, recipient: statement.assessment.evaluator)
     assert_not_nil notification
 
-    notification = Notification.find_by(statement: statement, recipient: mentioned_user)
+    notification = Notification.find_by(statement:, recipient: mentioned_user)
     assert_not_nil notification
   end
 
@@ -50,10 +50,10 @@ class CommentTest < ActiveSupport::TestCase
     assert_equal user, comment.user
     assert_equal statement, comment.statement
 
-    notification = Notification.find_by(statement: statement, recipient: statement.assessment.evaluator)
+    notification = Notification.find_by(statement:, recipient: statement.assessment.evaluator)
     assert_not_nil notification
 
-    notification = Notification.find_by(statement: statement, recipient: expert)
+    notification = Notification.find_by(statement:, recipient: expert)
     assert_not_nil notification
   end
 
@@ -69,10 +69,10 @@ class CommentTest < ActiveSupport::TestCase
     assert_equal user, comment.user
     assert_equal statement, comment.statement
 
-    notification = Notification.find_by(statement: statement, recipient: statement.assessment.evaluator)
+    notification = Notification.find_by(statement:, recipient: statement.assessment.evaluator)
     assert_not_nil notification
 
-    notification = Notification.find_by(statement: statement, recipient: social_media_manager)
+    notification = Notification.find_by(statement:, recipient: social_media_manager)
     assert_not_nil notification
   end
 
@@ -88,16 +88,16 @@ class CommentTest < ActiveSupport::TestCase
     assert_equal user, comment.user
     assert_equal statement, comment.statement
 
-    notification = Notification.find_by(statement: statement, recipient: statement.assessment.evaluator)
+    notification = Notification.find_by(statement:, recipient: statement.assessment.evaluator)
     assert_not_nil notification
 
-    notification = Notification.find_by(statement: statement, recipient: proofreader)
+    notification = Notification.find_by(statement:, recipient: proofreader)
     assert_not_nil notification
   end
 
   private
     def create_comment(message, statement, user)
-      comment = { statement: statement, content: message }
+      comment = { statement:, content: message }
       Comment.create_comment(comment, user)
     end
 end

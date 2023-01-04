@@ -7,7 +7,7 @@ class StatementElasticsearchIndexingTest < ElasticsearchIndexingTestCase
     speaker = create(:speaker)
 
     assert_indexing_job_queued(name: "statement", operation: "index") do
-      subject = build(:statement, speaker: speaker)
+      subject = build(:statement, speaker:)
 
       subject.save!
     end

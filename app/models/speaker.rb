@@ -46,7 +46,7 @@ class Speaker < ApplicationRecord
     search(
       query: {
         bool: {
-          must: { simple_query_string: simple_query_string_defaults.merge(query: query) }
+          must: { simple_query_string: simple_query_string_defaults.merge(query:) }
         }
       },
       sort: [
@@ -57,7 +57,7 @@ class Speaker < ApplicationRecord
 
   def self.active_members_of_body(body_id)
     joins(:memberships)
-      .where(memberships: { body_id: body_id, until: nil })
+      .where(memberships: { body_id:, until: nil })
   end
 
   def self.matching_name(name)
@@ -103,7 +103,7 @@ class Speaker < ApplicationRecord
     statements
       .factual_and_published
       .where(assessments: {
-        veracity_id: veracity_id
+        veracity_id:
       })
   end
 

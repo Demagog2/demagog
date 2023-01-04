@@ -11,7 +11,7 @@ class UserNotificationsServiceTest < ActiveSupport::TestCase
     interested_user = create(:user, notify_on_statement_publish: true)
     not_interested_user = create(:user, notify_on_statement_publish: false)
 
-    UserNotificationService.new(statement: statement, current_user: active_user).run
+    UserNotificationService.new(statement:, current_user: active_user).run
 
     assert_no_notifications active_user
     assert_no_notifications not_interested_user
@@ -27,6 +27,6 @@ class UserNotificationsServiceTest < ActiveSupport::TestCase
 
   private
     def assert_no_notifications(recipient)
-      assert_equal 0, Notification.where(recipient: recipient).count, "User #{recipient} should not receive notifications"
+      assert_equal 0, Notification.where(recipient:).count, "User #{recipient} should not receive notifications"
     end
 end

@@ -60,7 +60,7 @@ module Mutations
         source = Source.update(id, source_data)
       end
 
-      { source: source }
+      { source: }
     end
   end
 end

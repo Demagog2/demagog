@@ -17,7 +17,7 @@ module Mutations
       begin
         User.delete_user(id)
 
-        { id: id }
+        { id: }
       rescue ActiveRecord::RecordNotFound, ActiveModel::ValidationError => e
         raise GraphQL::ExecutionError.new(e.to_s)
       end

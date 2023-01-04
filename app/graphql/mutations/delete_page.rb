@@ -17,7 +17,7 @@ module Mutations
       begin
         Page.discard(id)
 
-        { id: id }
+        { id: }
       rescue ActiveRecord::RecordNotFound => e
         raise GraphQL::ExecutionError.new(e.to_s)
       end

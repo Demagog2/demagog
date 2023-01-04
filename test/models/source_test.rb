@@ -19,7 +19,7 @@ class SourceTest < ActiveSupport::TestCase
 
   test "update_statements_source_order should set source_order to index of ordered ids" do
     source = create(:source)
-    create_list(:statement, 10, source: source)
+    create_list(:statement, 10, source:)
 
     assert_equal 10, source.statements.count
     assert source.statements.all? { |s| s.source_order.nil? }
@@ -34,8 +34,8 @@ class SourceTest < ActiveSupport::TestCase
 
   test "update_statements_source_order should reset source_order when called with empty ordered ids list" do
     source = create(:source)
-    create(:statement, source: source, source_order: 0)
-    create(:statement, source: source, source_order: 1)
+    create(:statement, source:, source_order: 0)
+    create(:statement, source:, source_order: 1)
 
     assert_equal 2, source.statements.count
     assert source.statements.none? { |s| s.source_order.nil? }

@@ -12,7 +12,7 @@ class Admin::ArticleController < ApplicationController
     tweet_url = params[:tweet_url]
     with_attachment = params[:with_attachment] == "true"
 
-    screenshot = Screenshots.screenshot_tweet(tweet_url, { with_attachment: with_attachment })
+    screenshot = Screenshots.screenshot_tweet(tweet_url, { with_attachment: })
 
     background_image = MiniMagick::Image.open("#{Rails.root}/app/assets/images/illustration-tweet-background.png")
     badge_image = MiniMagick::Image.open("#{Rails.root}/app/assets/images/illustration-tweet-badge.png")
