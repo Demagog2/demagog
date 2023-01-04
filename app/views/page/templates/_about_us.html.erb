@@ -191,9 +191,9 @@ end
         </div>
 
         <% content_for :stylesheets do %>
-          <%= stylesheet_link_tag 'prism.css', media: 'all', 'data-turbolinks-track': 'reload' %>
+          <%= stylesheet_link_tag 'prism.css', media: 'all' %>
         <% end %>
-        <%= javascript_include_tag 'prism.js', 'data-turbolinks-track': 'reload' %>
+        <%= javascript_include_tag 'prism.js' %>
 
       <% elsif @page.slug == 'workshopy-demagogcz' %>
         <div class="content fs-6">

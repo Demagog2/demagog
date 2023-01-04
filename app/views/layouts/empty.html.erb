@@ -2,7 +2,7 @@
 <html lang="cs">
   <head>
     <%= csrf_meta_tags %>
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
     <% if content_for?(:stylesheets) %><%= yield :stylesheets %><% end %>
     <%= render partial: "shared/meta" %>
   </head>
