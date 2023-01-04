@@ -107,7 +107,7 @@ gem "image_processing", "~> 1.12.2"
 # For migration progress display
 gem "ruby-progressbar", "~> 1.11.0"
 
-gem "nokogiri", "~> 1.13.6"
+gem "nokogiri", "~> 1.13.10"
 
 gem "htmlbeautifier", "~> 1.4.2"
 
