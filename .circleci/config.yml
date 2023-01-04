@@ -72,7 +72,7 @@ jobs:
           BUNDLE_PATH: vendor/bundle
           RAILS_ENV: test
 
-      - image: circleci/postgres:9.6-alpine
+      - image: cimg/postgres:9.6
         environment:
           POSTGRES_USER: circleci-demo-go
           POSTGRES_DB: demagog_test
