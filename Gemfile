@@ -93,7 +93,7 @@ gem "sidekiq", "~> 5.2.9"
 gem "aws-sdk-s3", "~> 1.106.0", require: false
 
 # Patches security vulnerability CVE-2018-8048
-gem "loofah", "~> 2.3.1"
+gem "loofah", "~> 2.19.1"
 
 # Patches security vulnerability CVE-2018-3760
 gem "sprockets", "~> 3.7.2"
