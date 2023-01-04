@@ -83,7 +83,7 @@ class AssessmentTest < ActiveSupport::TestCase
 
   test "intern should be authorized to change explanations and promise rating of promise statement in being_evaluated state when evaluator" do
     statement = create(:statement, :promise_statement)
-    assessment = create(:assessment, :promise_assessment, :being_evaluated, statement: statement)
+    assessment = create(:assessment, :promise_assessment, :being_evaluated, statement:)
     user = create(:user, :intern)
     assessment.update(evaluator: user)
 
@@ -205,7 +205,7 @@ class AssessmentTest < ActiveSupport::TestCase
 
   test "should not allow setting veracity on promise statement" do
     statement = create(:statement, :promise_statement)
-    assessment = create(:assessment, :promise_assessment, :being_evaluated, statement: statement)
+    assessment = create(:assessment, :promise_assessment, :being_evaluated, statement:)
 
     assessment.veracity = Veracity.find_by(key: Veracity::TRUE)
 
@@ -215,7 +215,7 @@ class AssessmentTest < ActiveSupport::TestCase
 
   test "should not allow setting promise rating on factual statement" do
     statement = create(:statement)
-    assessment = create(:assessment, :being_evaluated, statement: statement)
+    assessment = create(:assessment, :being_evaluated, statement:)
 
     assessment.promise_rating = PromiseRating.find_by(key: PromiseRating::FULFILLED)
 

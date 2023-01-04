@@ -15,7 +15,7 @@ module Mutations
         Notification.mark_all_unread_as_read(context[:current_user])
         : Notification.mark_statement_unread_as_read(statement_id, context[:current_user])
 
-      { notifications: notifications }
+      { notifications: }
     end
   end
 end

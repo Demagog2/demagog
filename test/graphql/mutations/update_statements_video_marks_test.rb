@@ -41,7 +41,7 @@ class UpdateStatementsVideoMarksMutationTest < GraphQLTestCase
 
   test "should update given source" do
     source = create(:source)
-    statement = create(:statement, source: source)
+    statement = create(:statement, source:)
 
     result =
       execute(mutation(source, [[statement.id, 10, 50]]), context: authenticated_user_context)

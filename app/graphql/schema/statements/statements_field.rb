@@ -27,8 +27,8 @@ module Schema::Statements::StatementsField
 
       statements = statements.offset(offset).limit(limit)
 
-      statements = statements.where(source: source) if source
-      statements = statements.joins(:source_speaker).where(source_speaker: { speaker: speaker }) if speaker
+      statements = statements.where(source:) if source
+      statements = statements.joins(:source_speaker).where(source_speaker: { speaker: }) if speaker
       statements = statements.joins(:veracity).where(veracities: { key: veracity }) if veracity
 
       if evaluated_by_user_id

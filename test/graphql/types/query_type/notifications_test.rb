@@ -19,7 +19,7 @@ class QueryTypeNotificationsTest < GraphQLTestCase
   test "notifications should return total count and notifications for auth user" do
     user = create(:user)
     statement = create(:statement)
-    create_list(:notification, 2, recipient: user, statement: statement)
+    create_list(:notification, 2, recipient: user, statement:)
 
     query_string = "
       query {
@@ -28,7 +28,7 @@ class QueryTypeNotificationsTest < GraphQLTestCase
         }
       }"
 
-    result = execute(query_string, context: authenticated_user_context(user: user))
+    result = execute(query_string, context: authenticated_user_context(user:))
 
     assert_equal 2, result.data.notifications.totalCount
   end
@@ -36,8 +36,8 @@ class QueryTypeNotificationsTest < GraphQLTestCase
   test "notifications should return also read ones if include_read flag is sent" do
     user = create(:user)
     statement = create(:statement)
-    create_list(:notification, 2, recipient: user, statement: statement)
-    create(:notification, recipient: user, statement: statement, read_at: Time.now)
+    create_list(:notification, 2, recipient: user, statement:)
+    create(:notification, recipient: user, statement:, read_at: Time.now)
 
     query_string = "
        query {
@@ -46,7 +46,7 @@ class QueryTypeNotificationsTest < GraphQLTestCase
          }
        }"
 
-    result = execute(query_string, context: authenticated_user_context(user: user))
+    result = execute(query_string, context: authenticated_user_context(user:))
 
     assert_equal 3, result.data.notifications.totalCount
   end

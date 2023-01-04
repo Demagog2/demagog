@@ -147,10 +147,10 @@ FactoryBot.define do
 
     after(:create) do |statement|
       if statement.statement_type == Statement::TYPE_FACTUAL
-        create(:assessment, statement: statement)
+        create(:assessment, statement:)
       end
       if statement.statement_type == Statement::TYPE_PROMISE
-        create(:assessment, :promise_assessment, statement: statement)
+        create(:assessment, :promise_assessment, statement:)
       end
     end
 
@@ -168,7 +168,7 @@ FactoryBot.define do
       after(:create) do |statement, evaluator|
         create(
           :statement_transcript_position,
-          statement: statement,
+          statement:,
           source: statement.source,
           start_line: evaluator.transcript_position[0],
           start_offset: evaluator.transcript_position[1],
@@ -207,7 +207,7 @@ FactoryBot.define do
       transient { memberships_count { 1 } }
 
       after(:create) do |speaker, evaluator|
-        create_list(:membership, evaluator.memberships_count, speaker: speaker)
+        create_list(:membership, evaluator.memberships_count, speaker:)
       end
     end
   end

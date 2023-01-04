@@ -5,7 +5,7 @@ require "graphql/graphql_testcase"
 class SourceTypeStatementsTest < GraphQLTestCase
   test "source statements should return some statements" do
     source = create(:source)
-    create_list(:statement, 10, source: source)
+    create_list(:statement, 10, source:)
 
     query_string = "
       query {
@@ -23,7 +23,7 @@ class SourceTypeStatementsTest < GraphQLTestCase
 
   test "source statements should return only published without any args" do
     source = create(:source)
-    create_list(:unpublished_statement, 1, source: source)
+    create_list(:unpublished_statement, 1, source:)
 
     query_string = "
       query {
@@ -42,7 +42,7 @@ class SourceTypeStatementsTest < GraphQLTestCase
 
   test "source statements return error when trying to get unpublished without auth" do
     source = create(:source)
-    create_list(:unpublished_statement, 1, source: source)
+    create_list(:unpublished_statement, 1, source:)
 
     query_string = "
       query {
@@ -61,7 +61,7 @@ class SourceTypeStatementsTest < GraphQLTestCase
 
   test "source statements should return also unpublished with auth" do
     source = create(:source)
-    create_list(:unpublished_statement, 1, source: source)
+    create_list(:unpublished_statement, 1, source:)
 
     query_string = "
       query {

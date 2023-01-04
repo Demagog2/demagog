@@ -57,7 +57,7 @@ class StatementsElasticQueryService
 
       query = filters.fetch(:query, nil)
       unless query.blank?
-        elastic_query[:bool][:must] = { simple_query_string: Statement.simple_query_string_defaults.merge(query: query) }
+        elastic_query[:bool][:must] = { simple_query_string: Statement.simple_query_string_defaults.merge(query:) }
       end
 
       body_id = filters.fetch(:body_id, nil)

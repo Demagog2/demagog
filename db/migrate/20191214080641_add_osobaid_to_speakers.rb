@@ -26,7 +26,7 @@ class AddOsobaidToSpeakers < ActiveRecord::Migration[6.0]
         osoba_id = "vaclav-klaus"
       end
 
-      existing_count = Speaker.unscoped.where(osoba_id: osoba_id).count
+      existing_count = Speaker.unscoped.where(osoba_id:).count
       if existing_count > 0
         osoba_id += "-" + (existing_count + 1).to_s
       end

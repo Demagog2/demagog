@@ -65,7 +65,7 @@ class Article < ApplicationRecord
     search(
       query: {
         bool: {
-          must: { simple_query_string: simple_query_string_defaults.merge(query: query) },
+          must: { simple_query_string: simple_query_string_defaults.merge(query:) },
           filter: [{ term: { published: true } }, { range: { published_at: { lte: "now" } } }]
         }
       },
@@ -88,7 +88,7 @@ class Article < ApplicationRecord
     media_personalities =
       source.media_personalities.map { |media_personality| media_personality.slice("name") }
 
-    { medium: medium, media_personalities: media_personalities }
+    { medium:, media_personalities: }
   end
 
   def set_defaults
@@ -131,18 +131,18 @@ class Article < ApplicationRecord
               segment_type: seg[:segment_type],
               text_html: seg[:text_html],
               text_slatejson: seg[:text_slatejson],
-              order: order
+              order:
             )
           elsif seg[:segment_type] == ArticleSegment::TYPE_SOURCE_STATEMENTS
             source = Source.find(seg[:source_id])
-            ArticleSegment.new(segment_type: seg[:segment_type], source: source, order: order)
+            ArticleSegment.new(segment_type: seg[:segment_type], source:, order:)
           elsif seg[:segment_type] == ArticleSegment::TYPE_PROMISE
             ArticleSegment.new(
-              segment_type: seg[:segment_type], promise_url: seg[:promise_url], order: order
+              segment_type: seg[:segment_type], promise_url: seg[:promise_url], order:
             )
           elsif seg[:segment_type] == ArticleSegment::TYPE_SINGLE_STATEMENT
             ArticleSegment.new(
-              segment_type: seg[:segment_type], statement_id: seg[:statement_id], order: order
+              segment_type: seg[:segment_type], statement_id: seg[:statement_id], order:
             )
           else
             raise "Creating segment of type #{seg[:segment_type]} is not implemented"
@@ -167,19 +167,19 @@ class Article < ApplicationRecord
             segment_type: seg[:segment_type],
             text_html: seg[:text_html],
             text_slatejson: seg[:text_slatejson],
-            order: order
+            order:
           )
         elsif seg[:segment_type] == ArticleSegment::TYPE_SOURCE_STATEMENTS
           segment.assign_attributes(
-            segment_type: seg[:segment_type], source: Source.find(seg[:source_id]), order: order
+            segment_type: seg[:segment_type], source: Source.find(seg[:source_id]), order:
           )
         elsif seg[:segment_type] == ArticleSegment::TYPE_PROMISE
           segment.assign_attributes(
-            segment_type: seg[:segment_type], promise_url: seg[:promise_url], order: order
+            segment_type: seg[:segment_type], promise_url: seg[:promise_url], order:
           )
         elsif seg[:segment_type] == ArticleSegment::TYPE_SINGLE_STATEMENT
           segment.assign_attributes(
-            segment_type: seg[:segment_type], statement_id: seg[:statement_id], order: order
+            segment_type: seg[:segment_type], statement_id: seg[:statement_id], order:
           )
         else
           raise "Updating segment of type #{seg[:segment_type]} is not implemented"

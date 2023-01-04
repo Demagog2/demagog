@@ -9,9 +9,9 @@ class ArticlePresenterTest < ActiveSupport::TestCase
       create(
         :source,
         source_speakers: [source_speaker],
-        statements: [create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker)]
+        statements: [create(:statement, source_speaker:), create(:statement, source_speaker:), create(:statement, source_speaker:)]
       )
-    segment = create(:article_segment_source_statements, source: source)
+    segment = create(:article_segment_source_statements, source:)
     article = create(:fact_check, segments: [segment])
 
     expected_stats = {

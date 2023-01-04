@@ -37,7 +37,7 @@ module Mutations
         source = Source.create!(source_data)
       end
 
-      { source: source }
+      { source: }
     end
   end
 end

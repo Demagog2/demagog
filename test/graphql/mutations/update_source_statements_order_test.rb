@@ -28,7 +28,7 @@ class UpdateSourceStatementsOrderMutationTest < GraphQLTestCase
 
   test "should update a source statements order" do
     source = create(:source)
-    statements = create_list(:statement, 3, source: source)
+    statements = create_list(:statement, 3, source:)
 
     ordered_statements = statements.reverse
 

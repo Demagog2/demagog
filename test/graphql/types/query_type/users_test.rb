@@ -30,7 +30,7 @@ class QueryTypeUsersTest < GraphQLTestCase
         }
       }"
 
-    result = execute(query_string, context: authenticated_user_context(user: user))
+    result = execute(query_string, context: authenticated_user_context(user:))
 
     expected = [user.full_name]
     actual = result.data.users.map { |r| "#{r.firstName} #{r.lastName}" }
@@ -95,7 +95,7 @@ class QueryTypeUsersTest < GraphQLTestCase
         }
       }'
 
-    result = execute(query_string, context: authenticated_user_context(user: user))
+    result = execute(query_string, context: authenticated_user_context(user:))
 
     expected = [user.full_name]
     actual = result.data.users.map { |r| "#{r.firstName} #{r.lastName}" }
@@ -117,7 +117,7 @@ class QueryTypeUsersTest < GraphQLTestCase
         }
       }'
 
-    result = execute(query_string, context: authenticated_user_context(user: user))
+    result = execute(query_string, context: authenticated_user_context(user:))
 
     expected = [user.full_name]
     actual = result.data.users.map { |r| "#{r.firstName} #{r.lastName}" }

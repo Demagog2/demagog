@@ -92,7 +92,7 @@ class SpeakerElasticFilterableListPresenter
 
       body_id_filter_options_groups = ["Strany a hnutí v Poslanecké sněmovně Parlamentu ČR", "Další strany a hnutí"].map do |group_name|
         {
-          group_name: group_name,
+          group_name:,
           filter_options: body_id_filter_options.select { |body| body[:group_name] == group_name }
         }
       end

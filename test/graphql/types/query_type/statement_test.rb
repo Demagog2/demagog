@@ -20,7 +20,7 @@ class QueryTypeStatementTest < GraphQLTestCase
 
   test "statement should include statement video marks" do
     statement = create(:statement)
-    statement.statement_video_mark = build(:statement_video_mark, statement: statement)
+    statement.statement_video_mark = build(:statement_video_mark, statement:)
     statement.save!
 
     query_string = "

@@ -9,9 +9,9 @@ class QueryTypeArticleTest < GraphQLTestCase
       create(
         :source,
         source_speakers: [source_speaker],
-        statements: [create(:statement, source_speaker: source_speaker), create(:statement, source_speaker: source_speaker)]
+        statements: [create(:statement, source_speaker:), create(:statement, source_speaker:)]
       )
-    segment = create(:article_segment_source_statements, source: source)
+    segment = create(:article_segment_source_statements, source:)
     article = create(:fact_check, title: "Lorem ipsum", published: true, segments: [segment])
 
     query_string =

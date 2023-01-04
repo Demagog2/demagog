@@ -14,7 +14,7 @@ module Mutations
       begin
         MediaPersonality.delete_media_personality(id.to_i)
 
-        { id: id }
+        { id: }
       rescue ActiveRecord::RecordNotFound, ActiveModel::ValidationError => e
         raise GraphQL::ExecutionError.new(e.to_s)
       end

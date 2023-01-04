@@ -164,7 +164,7 @@ class ArticleMigration
         content_image = ContentImage.create!(created_at: segment.created_at)
 
         ImageUrlHelper.open_image(path) do |file|
-          content_image.image.attach io: file, filename: filename
+          content_image.image.attach io: file, filename:
         end
 
         # Using polymorphic_url as it is the same as url_for, but allows

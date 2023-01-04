@@ -25,9 +25,9 @@ module Schema::Speakers::SpeakersField
 
       speakers = speakers.matching_name(name) if name.present?
 
-      speakers = speakers.where(osoba_id: osoba_id) if osoba_id.present?
+      speakers = speakers.where(osoba_id:) if osoba_id.present?
 
-      speakers = speakers.where(wikidata_id: wikidata_id) if wikidata_id.present?
+      speakers = speakers.where(wikidata_id:) if wikidata_id.present?
 
       speakers
     end

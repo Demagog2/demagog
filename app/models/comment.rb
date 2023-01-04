@@ -36,7 +36,7 @@ class Comment < ApplicationRecord
             statement_text: "#{comment.user.display_in_notification} tě zmínil/a v komentáři #{comment.display_in_notification("long")}",
             full_text: "#{comment.user.display_in_notification} tě zmínil/a v komentáři #{comment.display_in_notification} u výroku #{comment.statement.display_in_notification}",
             statement_id: comment.statement.id,
-            recipient: recipient
+            recipient:
           )
         end
       end

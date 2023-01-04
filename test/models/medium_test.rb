@@ -8,7 +8,7 @@ class MediumTest < ActiveSupport::TestCase
   end
 
   test "matching name" do
-    %w{Foo Bar}.each { |name| create(:medium, name: name) }
+    %w{Foo Bar}.each { |name| create(:medium, name:) }
 
     assert_same Medium.matching_name("Ba").count, 1
   end

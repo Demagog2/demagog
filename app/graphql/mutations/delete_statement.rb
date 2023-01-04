@@ -14,7 +14,7 @@ module Mutations
 
       begin
         Statement.discard(id.to_i)
-        { id: id }
+        { id: }
       rescue ActiveRecord::RecordNotFound => e
         raise GraphQL::ExecutionError.new(e.to_s)
       end

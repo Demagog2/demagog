@@ -29,7 +29,7 @@ module Mutations
         end
       end
 
-      { statements: statements }
+      { statements: }
     end
   end
 end

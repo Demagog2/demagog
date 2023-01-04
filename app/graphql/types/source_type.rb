@@ -65,7 +65,7 @@ module Types
 
       grouped.keys.map do |evaluation_status|
         {
-          evaluation_status: evaluation_status,
+          evaluation_status:,
           statements_count: grouped[evaluation_status].size
         }
       end

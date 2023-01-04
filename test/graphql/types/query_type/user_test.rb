@@ -30,7 +30,7 @@ class QueryTypeUserTest < GraphQLTestCase
         }
       }"
 
-    result = execute(query_string, context: authenticated_user_context(user: user))
+    result = execute(query_string, context: authenticated_user_context(user:))
 
     expected = user.full_name
     actual = "#{result.data.user.firstName} #{result.data.user.lastName}"
@@ -53,7 +53,7 @@ class QueryTypeUserTest < GraphQLTestCase
         }
       }"
 
-    result = execute_with_errors(query_string, context: authenticated_user_context(user: user))
+    result = execute_with_errors(query_string, context: authenticated_user_context(user:))
 
     assert_graphql_error("Could not find User with id=#{user.id}", result)
   end
