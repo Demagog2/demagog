@@ -480,7 +480,7 @@ GEM
       rack (~> 2.0)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.5, < 4.2)
-    slack-notifier (2.3.2)
+    slack-notifier (2.4.0)
     solargraph (0.45.0)
       backport (~> 1.2)
       benchmark
@@ -609,7 +609,7 @@ DEPENDENCIES
   sentry-ruby (~> 4.7.3)
   sentry-sidekiq (~> 4.7.3)
   sidekiq (~> 5.2.9)
-  slack-notifier (~> 2.3.2)
+  slack-notifier (~> 2.4.0)
   solargraph (~> 0.45.0)
   spring (~> 2.1.1)
   spring-watcher-listen (~> 2.0.1)

@@ -124,7 +124,7 @@ gem "elasticsearch-rails", "~> 7.2.1"
 gem "elasticsearch", "~> 7.17.7"
 
 # Posting to Slack
-gem "slack-notifier", "~> 2.3.2"
+gem "slack-notifier", "~> 2.4.0"
 
 gem "graphlient", "~> 0.5.0"
 gem "tty-prompt", "~> 0.23.1"
