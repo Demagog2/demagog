@@ -23,7 +23,9 @@
     description: content_for?(:description) ? yield(:description) : 'Nezávislý fact-checkingový projekt, který se zaměřuje na ověřování faktických tvrzení českých politiků. Usilujeme o kultivaci veřejné diskuse a klademe důraz na transparentní zdroje informací, kritické myšlení a mediální gramotnost.',
     type: 'article',
     url: url_for(:only_path => false),
-    image: content_for?(:image_src) ? yield(:image_src) : asset_url('default-meta-image.png'),
+    # TODO: needs to be replaced by image in new graphic
+    # image: content_for?(:image_src) ? yield(:image_src) : asset_url('default-meta-image.png'),
+    image: content_for?(:image_src) ? yield(:image_src) : nil,
     author: :author
   },
   twitter: {
@@ -31,6 +33,8 @@
     site: '@DemagogCZ',
     title: content_for?(:title) ? yield(:title) + " — Demagog.cz" : 'Demagog.cz',
     description: content_for?(:description) ? yield(:description) : 'Nezávislý fact-checkingový projekt, který se zaměřuje na ověřování faktických tvrzení českých politiků. Usilujeme o kultivaci veřejné diskuse a klademe důraz na transparentní zdroje informací, kritické myšlení a mediální gramotnost.',
-    image: content_for?(:image_src) ? yield(:image_src) : asset_url('default-meta-image.png')
+    # TODO: needs to be replaced by image in new graphic
+    # image: content_for?(:image_src) ? yield(:image_src) : asset_url('default-meta-image.png')
+    image: content_for?(:image_src) ? yield(:image_src) : nil
   }
 %>

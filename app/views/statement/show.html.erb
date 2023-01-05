@@ -1,6 +1,7 @@
 <% content_for(:title, @statement.source_speaker.full_name + (@statement.source_speaker.body ? " (#{@statement.source_speaker.body.short_name})" : "") + ': ' + "„#{@statement.content}“".truncate(45)) %>
 <% content_for(:description, 'Tento výrok byl ověřen jako ' + @statement.approved_assessment.veracity.name) %>
-<% content_for(:image_src, @statement.preview_image.attached? ? polymorphic_url(@statement.preview_image) : nil) %>
+<%# TODO: statement preview images need to be updated with new graphic %>
+<%# content_for(:image_src, @statement.preview_image.attached? ? polymorphic_url(@statement.preview_image) : nil) %>
 <% content_for(:twitter_card, 'summary_large_image') %>
 
 <div class="row g-10">
