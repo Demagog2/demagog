@@ -72,6 +72,7 @@ class ArticleController < FrontendController
         .kept
         .published
         .where(id: [
+          1328,
           1322,
           1320,
           1316,
