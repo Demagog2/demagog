@@ -101,9 +101,10 @@
       <% if statement.approved_assessment.short_explanation.nil? %>
       <div
         class="d-block"
+
       >
 
-        <div class="d-block" data-target="components--accordion.content">
+        <div class="d-block">
           <div class="scroll-vertical mh-400px my-5 content fs-6">
             <%= raw(statement.approved_assessment.explanation_html) %>
           </div>
@@ -127,6 +128,7 @@
       <% else %>
       <div
         class="accordion"
+        data-controller="components--accordion"
       >
         <div class="content fs-6">
           <%= statement.approved_assessment.short_explanation %>
