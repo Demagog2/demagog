@@ -167,15 +167,19 @@ export default class extends Controller {
         const inputs = content.getElementsByTagName('input');
         const inputList = Array.prototype.slice.call(inputs);
         const checkInputs = inputList.filter((v) => v.checked == true);
-
         if (!checkInputs.length) {
           this.hideContent(el, content);
         }
+
       }
     });
+
     if (this.filterItemTargets) {
       const queryParams = queryString.parse(window.location.search, { arrayFormat: 'bracket' });
-      const filterValues = Object.values(queryParams);
+      const filterValues = Object.values(queryParams).filter(item => {
+        return Array.isArray(item);
+      });
+
       if (filterValues.length) {
         const mergeFilterValues = [].concat(...filterValues)
         this.filterItemTargets.forEach((el) => {
