@@ -112,7 +112,7 @@ export class Player extends React.Component<IPlayerProps, IPlayerState> {
         `}
       >
         <HeaderBar>
-          <a href="/" className={"ms-2 d-flex aling-items-center"}>
+          <a href="/" className={'ms-2 d-flex aling-items-center'} >
             <svg
               width="40"
               height="40"
@@ -126,7 +126,7 @@ export class Player extends React.Component<IPlayerProps, IPlayerState> {
               />
             </svg>
           </a>
-          <h1 className={"mx-2 fs-4"}>
+          <h1 className={'mx-2 fs-4'} >
             {article.title}
           </h1>
 
@@ -149,7 +149,10 @@ export class Player extends React.Component<IPlayerProps, IPlayerState> {
             <FacebookVideo onReady={this.onVideoReady} videoId={article.source.videoId} />
           )}
         </VideoColumn>
-        <StatementsColumn className={"scroll-vertical"} ref={(statementsColumn) => (this.statementsColumn = statementsColumn)}>
+        <StatementsColumn
+          className={'scroll-vertical"}
+          ref={(statementsColumn) => (this.statementsColumn = statementsColumn)}
+        >
           {statementsSortedByTimingsStart.map((statement, index) => {
             const timing = statement.statementVideoMark;
             const highlighted = highlightStatementId === statement.id;
@@ -232,7 +235,7 @@ const HeaderBarCloseButton = styled.button`
 
   &:hover,
   &:active {
-    color: #25AD23;
+    color: #25ad23;
   }
 `;
 
@@ -294,7 +297,7 @@ const TimeButton = styled.button`
   &:hover,
   &:active {
     text-decoration: underline;
-    color: #25AD23
+    color: #25ad23
   }
 `;
 
@@ -357,11 +360,11 @@ class DisplayStatement extends React.Component<IDisplayStatementProps, IDisplayS
         <VeracityContainer>
           {
               (() => {
-                if (statement.assessment.veracity.key == "true") {
+                if (statement.assessment.veracity.key == 'true') {
                   return  (
-                    <div className={"d-flex align-items-center mb-2"}>
+                    <div className={'d-flex align-items-center mb-2'} >
                       <span
-                        className={"w-25px h-25px d-flex align-items-center justify-content-center bg-primary rounded-circle me-2"}
+                        className={'w-25px h-25px d-flex align-items-center justify-content-center bg-primary rounded-circle me-2'}
                       >
                         <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path
@@ -370,17 +373,17 @@ class DisplayStatement extends React.Component<IDisplayStatementProps, IDisplayS
                           ></path>
                         </svg>
                       </span>
-                      <span className={"fs-6 text-uppercase fs-600 text-primary"}>
+                      <span className={'fs-6 text-uppercase fs-600 text-primary'}>
                         Pravda
                       </span>
                   </div>
-                  )
-                };
-                if (statement.assessment.veracity.key == "untrue") {
-                  return  (
-                    <div className={"d-flex align-items-center mb-2"}>
+                  );
+                }
+                if (statement.assessment.veracity.key == 'untrue') {
+                  return (
+                    <div className={'d-flex align-items-center mb-2'} >
                         <span
-                          className={"w-25px h-25px d-flex align-items-center justify-content-center bg-red rounded-circle me-2"}
+                          className={'w-25px h-25px d-flex align-items-center justify-content-center bg-red rounded-circle me-2'}
                         >
                           <svg
                             width="13"
@@ -395,17 +398,17 @@ class DisplayStatement extends React.Component<IDisplayStatementProps, IDisplayS
                             ></path>
                           </svg>
                         </span>
-                        <span className={"fs-6 text-uppercase fs-600 text-red"}>
+                        <span className={'fs-6 text-uppercase fs-600 text-red'}>
                           Nepravda
                         </span>
                     </div>
-                  )
-                };
-                if (statement.assessment.veracity.key == "misleading") {
-                  return  (
-                    <div className={"d-flex align-items-center mb-2"}>
+                  );
+                }
+                if (statement.assessment.veracity.key == 'misleading') {
+                  return (
+                    <div className={'d-flex align-items-center mb-2'} >
                         <span
-                          className={"w-25px h-25px d-flex align-items-center justify-content-center bg-secondary rounded-circle me-2"}
+                          className={'w-25px h-25px d-flex align-items-center justify-content-center bg-secondary rounded-circle me-2'}
                         >
                           <svg
                             width="4"
@@ -420,17 +423,17 @@ class DisplayStatement extends React.Component<IDisplayStatementProps, IDisplayS
                             ></path>
                           </svg>
                         </span>
-                        <span className={"fs-6 text-uppercase fs-600 text-secondary"}>
+                        <span className={'fs-6 text-uppercase fs-600 text-secondary'}>
                           Zavádějící
                         </span>
                     </div>
-                  )
-                };
-                if (statement.assessment.veracity.key == "unverifiable") {
-                  return  (
-                    <div className={"d-flex align-items-center mb-2"}>
+                  );
+                }
+                if (statement.assessment.veracity.key == 'unverifiable') {
+                  return (
+                    <div className={'d-flex align-items-center mb-2'}>
                         <span
-                          className={"w-25px h-25px d-flex align-items-center justify-content-center bg-gray rounded-circle me-2"}
+                          className={'w-25px h-25px d-flex align-items-center justify-content-center bg-gray rounded-circle me-2'}
                         >
                           <svg
                             width="12"
@@ -445,14 +448,13 @@ class DisplayStatement extends React.Component<IDisplayStatementProps, IDisplayS
                             ></path>
                           </svg>
                         </span>
-                        <span className={"fs-6 text-uppercase fs-600 text-gray"}>
+                        <span className={'fs-6 text-uppercase fs-600 text-gray'} >
                           Neověřitelné
                         </span>
                     </div>
-                  )
-                };
-              })()
-          }
+                  );
+                }
+              })()}
 
         </VeracityContainer>
         <ShortExplanationContainer>
