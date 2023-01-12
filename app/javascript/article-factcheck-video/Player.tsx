@@ -112,7 +112,7 @@ export class Player extends React.Component<IPlayerProps, IPlayerState> {
         `}
       >
         <HeaderBar>
-          <a href="/" className={'ms-2 d-flex aling-items-center'} >
+          <a href="/" className={'ms-2 d-flex aling-items-center'}>
             <svg
               width="40"
               height="40"
@@ -126,9 +126,7 @@ export class Player extends React.Component<IPlayerProps, IPlayerState> {
               />
             </svg>
           </a>
-          <h1 className={'mx-2 fs-4'} >
-            {article.title}
-          </h1>
+          <h1 className={'mx-2 fs-4'}>{article.title}</h1>
 
           <HeaderBarCloseButton type="button" onClick={onRequestClose}>
             <HeaderBarCloseButtonIcon>×</HeaderBarCloseButtonIcon> Zavřít přehrávač
@@ -270,7 +268,6 @@ const StatementsColumn = styled.div`
   padding-right: 15px;
   padding-bottom: 400px;
 
-
   @media (min-width: 1200px) {
     left: 50%;
   }
@@ -297,7 +294,7 @@ const TimeButton = styled.button`
   &:hover,
   &:active {
     text-decoration: underline;
-    color: #25ad23
+    color: #25ad23;
   }
 `;
 
@@ -359,9 +356,9 @@ class DisplayStatement extends React.Component<IDisplayStatementProps, IDisplayS
         />
         <VeracityContainer>
           {(() => {
-            if (statement.assessment.veracity.key == 'true') {
+            if (statement.assessment.veracity.key === 'true') {
               return (
-                <div className={'d-flex align-items-center mb-2'} >
+                <div className={'d-flex align-items-center mb-2'}>
                   <span
                     className={
                       'w-25px h-25px d-flex align-items-center justify-content-center bg-primary rounded-circle me-2'
@@ -384,9 +381,9 @@ class DisplayStatement extends React.Component<IDisplayStatementProps, IDisplayS
                 </div>
               );
             }
-            if (statement.assessment.veracity.key == 'untrue') {
+            if (statement.assessment.veracity.key === 'untrue') {
               return (
-                <div className={'d-flex align-items-center mb-2'} >
+                <div className={'d-flex align-items-center mb-2'}>
                   <span
                     className={
                       'w-25px h-25px d-flex align-items-center justify-content-center bg-red rounded-circle me-2'
@@ -409,9 +406,9 @@ class DisplayStatement extends React.Component<IDisplayStatementProps, IDisplayS
                 </div>
               );
             }
-            if (statement.assessment.veracity.key == 'misleading') {
+            if (statement.assessment.veracity.key === 'misleading') {
               return (
-                <div className={'d-flex align-items-center mb-2'} >
+                <div className={'d-flex align-items-center mb-2'}>
                   <span
                     className={
                       'w-25px h-25px d-flex align-items-center justify-content-center bg-secondary rounded-circle me-2'
@@ -434,7 +431,7 @@ class DisplayStatement extends React.Component<IDisplayStatementProps, IDisplayS
                 </div>
               );
             }
-            if (statement.assessment.veracity.key == 'unverifiable') {
+            if (statement.assessment.veracity.key === 'unverifiable') {
               return (
                 <div className={'d-flex align-items-center mb-2'}>
                   <span
@@ -460,7 +457,6 @@ class DisplayStatement extends React.Component<IDisplayStatementProps, IDisplayS
               );
             }
           })()}
-
         </VeracityContainer>
         <ShortExplanationContainer>
           <p>{statement.assessment.shortExplanation}</p>
