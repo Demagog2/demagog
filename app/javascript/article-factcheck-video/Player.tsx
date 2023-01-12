@@ -150,7 +150,7 @@ export class Player extends React.Component<IPlayerProps, IPlayerState> {
           )}
         </VideoColumn>
         <StatementsColumn
-          className={'scroll-vertical"}
+          className={'scroll-vertical'}
           ref={(statementsColumn) => (this.statementsColumn = statementsColumn)}
         >
           {statementsSortedByTimingsStart.map((statement, index) => {
