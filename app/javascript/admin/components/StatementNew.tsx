@@ -1,10 +1,10 @@
 import * as React from 'react';
 
+import { Mutation, Query } from '@apollo/client/react/components';
 import { Classes } from '@blueprintjs/core';
 import * as classNames from 'classnames';
 import { Form, Formik } from 'formik';
 import { DateTime } from 'luxon';
-import { Mutation, Query } from 'react-apollo';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Link, withRouter } from 'react-router-dom';

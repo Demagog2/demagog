@@ -1,5 +1,5 @@
 import { useFlashMessage } from '../../hooks/use-flash-messages';
-import { useMutation } from 'react-apollo';
+import { useMutation } from '@apollo/client';
 import {
   PublishApprovedSourceStatements as MutationReturnType,
   PublishApprovedSourceStatementsVariables,

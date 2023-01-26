@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Mutation, MutationFunction } from 'react-apollo';
+import { MutationFunction } from '@apollo/client';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
@@ -14,6 +14,7 @@ import {
 import { CreateArticle } from '../../queries/mutations';
 import { GetArticles } from '../../queries/queries';
 import { ArticleSingleStatementForm } from './ArticleSingleStatementForm';
+import { Mutation } from '@apollo/client/react/components';
 
 type CreateArticleMutationFn = MutationFunction<
   CreateArticleMutation,

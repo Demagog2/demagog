@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/browser';
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client';
 import { ActionsObservable, ofType } from 'redux-observable';
 import { switchMap } from 'rxjs/operators';
 

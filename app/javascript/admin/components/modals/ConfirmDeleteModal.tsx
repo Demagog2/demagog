@@ -1,8 +1,8 @@
 import * as React from 'react';
 
+import { Mutation } from '@apollo/client/react/components';
 import { Button, Classes, Dialog, Intent } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { Mutation } from 'react-apollo';
 
 interface IDeleteModalProps {
   title?: string;

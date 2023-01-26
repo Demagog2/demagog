@@ -7,7 +7,7 @@ import * as dateFnsCsLocale from 'date-fns/locale/cs';
 import { css, cx } from 'emotion';
 import { groupBy } from 'lodash';
 import { DateTime } from 'luxon';
-import { Mutation, Query } from 'react-apollo';
+import { Mutation, Query } from '@apollo/client/react/components';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 

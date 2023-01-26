@@ -2,11 +2,11 @@
 
 import * as React from 'react';
 
+import { Query } from '@apollo/client/react/components';
 import { Button, Classes, Icon, Intent, Tag } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { ApolloError } from 'apollo-client';
+import { ApolloError } from '@apollo/client';
 import { css, cx } from 'emotion';
-import { Query } from 'react-apollo';
 import { connect, DispatchProp } from 'react-redux';
 import { Link } from 'react-router-dom';
 

@@ -1,8 +1,8 @@
 import * as React from 'react';
 
+import { Query } from '@apollo/client/react/components';
 import { Colors } from '@blueprintjs/core';
 import { isEmpty } from 'lodash';
-import { Query } from 'react-apollo';
 import Select from 'react-select';
 
 import { GetMedia as GetMediaQuery } from '../../../operation-result-types';

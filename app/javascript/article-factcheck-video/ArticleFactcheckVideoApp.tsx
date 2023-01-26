@@ -1,10 +1,10 @@
+import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import { css } from 'emotion';
 import gql from 'graphql-tag';
 import isHotkey from 'is-hotkey';
 import { useEffect, useState } from 'react';
 import * as React from 'react';
-import { useQuery } from 'react-apollo';
 import 'whatwg-fetch';
 import playIcon from './play-icon.svg';
 import { IArticleStatementsQueryResult } from './types';

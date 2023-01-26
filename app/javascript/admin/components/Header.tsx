@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { Query } from '@apollo/client/react/components';
 import {
   Alignment,
   AnchorButton,
@@ -12,7 +13,6 @@ import {
 } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import * as classNames from 'classnames';
-import { Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 

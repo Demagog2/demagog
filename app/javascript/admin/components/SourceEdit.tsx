@@ -1,5 +1,5 @@
+import { useMutation, useQuery } from '@apollo/client';
 import * as React from 'react';
-import { useMutation, useQuery } from 'react-apollo';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { useFlashMessage } from '../hooks/use-flash-messages';

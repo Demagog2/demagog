@@ -1,7 +1,7 @@
+import { useQuery } from '@apollo/client';
 import { Classes } from '@blueprintjs/core';
 import { css, cx } from 'emotion';
 import * as React from 'react';
-import { useQuery } from 'react-apollo';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { addFlashMessage } from '../actions/flashMessages';

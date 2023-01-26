@@ -4,9 +4,9 @@ import * as React from 'react';
 
 import { Button, Card, Classes, Intent, Tag } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { ApolloError } from 'apollo-client';
+import { ApolloError } from '@apollo/client';
 import * as classNames from 'classnames';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/client/react/components';
 import { connect, DispatchProp } from 'react-redux';
 import { Link } from 'react-router-dom';
 

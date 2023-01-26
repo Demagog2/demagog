@@ -2,10 +2,9 @@ import * as React from 'react';
 
 import { AnchorButton, Button, Classes, Dialog, Intent } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { ApolloError } from 'apollo-client';
+import { ApolloError } from '@apollo/client';
 import * as classNames from 'classnames';
 import * as copy from 'copy-to-clipboard';
-import { Query } from 'react-apollo';
 import Dropzone, { ImageFile } from 'react-dropzone';
 import { connect, DispatchProp } from 'react-redux';
 
@@ -23,6 +22,7 @@ import Authorize from './Authorize';
 import { SearchInput } from './forms/controls/SearchInput';
 import Loading from './Loading';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
+import { Query } from '@apollo/client/react/components';
 
 const IMAGES_PER_PAGE = 20;
 

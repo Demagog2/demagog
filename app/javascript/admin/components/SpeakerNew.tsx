@@ -1,6 +1,7 @@
 import * as React from 'react';
 
-import { Mutation, MutationFunction } from 'react-apollo';
+import { Mutation } from '@apollo/client/react/components';
+import { MutationFunction } from '@apollo/client';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';

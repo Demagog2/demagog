@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { DeleteSource } from '../../queries/mutations';
 import { GetSource, GetSources } from '../../queries/queries';
-import { useMutation } from 'react-apollo';
+import { useMutation } from '@apollo/client';
 import { useFlashMessage } from '../../hooks/use-flash-messages';
 import { useHistory } from 'react-router-dom';
 import { DeleteSourceVariables } from '../../operation-result-types';

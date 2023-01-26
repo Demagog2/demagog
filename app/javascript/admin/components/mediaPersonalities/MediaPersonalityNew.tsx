@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Mutation, MutationFunction } from 'react-apollo';
+import { MutationFunction } from '@apollo/client';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
@@ -13,6 +13,7 @@ import {
 import { CreateMediaPersonality } from '../../queries/mutations';
 import { GetMediaPersonalitiesForSelect } from '../../queries/queries';
 import { MediaPersonalityForm } from '../forms/MediaPersonalityForm';
+import { Mutation } from '@apollo/client/react/components';
 
 type CreateMediaPersonalityMutationFn = MutationFunction<
   CreateMediaPersonalityMutation,

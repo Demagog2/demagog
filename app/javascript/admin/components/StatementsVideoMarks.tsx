@@ -1,8 +1,8 @@
+import { useQuery } from '@apollo/client';
 import { Button, Classes, Intent, NonIdealState } from '@blueprintjs/core';
 import { css } from 'emotion';
 import { Field, Formik } from 'formik';
 import * as React from 'react';
-import { useQuery, useMutation } from 'react-apollo';
 import { RouteComponentProps } from 'react-router';
 
 import AudioOnlyVideo from '../../article-factcheck-video/video/AudioOnlyVideo';

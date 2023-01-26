@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/client/react/components';
 import Select from 'react-select';
 
 import { GetPromiseRatingsForSelect as GetPromiseRatingsForSelectQuery } from '../../../operation-result-types';

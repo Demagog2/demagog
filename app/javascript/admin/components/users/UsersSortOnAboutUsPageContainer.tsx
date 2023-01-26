@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { useMutation, useQuery } from '@apollo/client';
 
 import { sortBy } from 'lodash';
-import { useQuery, useMutation } from 'react-apollo';
 import { captureException } from '@sentry/browser';
 import {
   GetUsers as GetUsersQuery,

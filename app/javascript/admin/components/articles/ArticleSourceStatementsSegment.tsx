@@ -1,9 +1,9 @@
 import * as React from 'react';
 
+import { Query } from '@apollo/client/react/components';
 import { Button, Classes, Dialog, Intent } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { css, cx } from 'emotion';
-import { Query } from 'react-apollo';
 
 import {
   GetSources as GetSourcesQuery,

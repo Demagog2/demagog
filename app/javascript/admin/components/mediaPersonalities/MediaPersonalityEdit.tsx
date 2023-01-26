@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Mutation, MutationFunction, Query } from 'react-apollo';
+import { Mutation, Query } from '@apollo/client/react/components';
+import { MutationFunction } from '@apollo/client';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { addFlashMessage } from '../../actions/flashMessages';

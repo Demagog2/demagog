@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
 import { RouteComponentProps } from 'react-router-dom';
 import { UserForm, IUserFormData } from '../forms/UserForm';
-import { useMutation, useQuery } from 'react-apollo';
 import {
   UpdateUser,
   UpdateUserVariables,

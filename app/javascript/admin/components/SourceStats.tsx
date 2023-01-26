@@ -1,7 +1,7 @@
+import { useQuery } from '@apollo/client';
 import { Classes } from '@blueprintjs/core';
 import { css, cx } from 'emotion';
 import * as React from 'react';
-import { useQuery } from 'react-apollo';
 import { RouteComponentProps } from 'react-router';
 
 import * as ResultTypes from '../operation-result-types';

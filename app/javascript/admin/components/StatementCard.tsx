@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Card, Classes } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { ApolloError } from 'apollo-client';
+import { ApolloError } from '@apollo/client';
 import { cx } from 'emotion';
 import { truncate } from 'lodash';
 import { connect, DispatchProp } from 'react-redux';

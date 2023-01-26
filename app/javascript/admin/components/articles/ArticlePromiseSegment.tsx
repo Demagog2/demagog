@@ -3,7 +3,6 @@ import * as React from 'react';
 import { Button, Classes, Dialog, Intent } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { css } from 'emotion';
-import { Query } from 'react-apollo';
 
 import {
   GetSourceStatements as GetSourceStatementsQuery,
@@ -13,6 +12,7 @@ import { GetSourceStatements } from '../../queries/queries';
 import DemagogczWidget from '../DemagogczWidget';
 import Error from '../Error';
 import Loading from '../Loading';
+import { Query } from '@apollo/client/react/components';
 
 interface IPromiseSegment {
   id: string | undefined | null;

@@ -2,7 +2,6 @@ import { Button, Classes } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import * as classNames from 'classnames';
 import * as React from 'react';
-import { Query } from 'react-apollo';
 import { connect, DispatchProp } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -13,13 +12,14 @@ import {
 import { GetPages } from '../../queries/queries';
 import { SearchInput } from '../forms/controls/SearchInput';
 
-import { ApolloError } from 'apollo-client';
+import { ApolloError } from '@apollo/client';
 import { addFlashMessage } from '../../actions/flashMessages';
 import { DeletePage } from '../../queries/mutations';
 import Authorize from '../Authorize';
 import Error from '../Error';
 import Loading from '../Loading';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
+import { Query } from '@apollo/client/react/components';
 
 // Lets just load all of them, there shouldn't be hundreds of them
 const PAGES_PER_PAGE = 100;

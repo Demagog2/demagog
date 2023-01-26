@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
+import { useQuery } from '@apollo/client';
 import {
   GetSourceDetail as GetSourceDetailQuery,
   GetSourceDetailVariables,
 } from '../../operation-result-types';
 import { GetSourceDetail } from '../../queries/queries';
-import { useQuery } from 'react-apollo';
 import { useRouteMatch } from 'react-router';
 import { MassStatementsPublishModalContainer } from './MassStatementsPublishModalContainer';
 import { useModal } from 'react-modal-hook';

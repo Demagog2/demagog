@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useQuery } from 'react-apollo';
+import { useQuery } from '@apollo/client';
 
 import { GetUsers } from '../../queries/queries';
 import { GetUsers as GetUsersQuery, GetUsersVariables } from '../../operation-result-types';

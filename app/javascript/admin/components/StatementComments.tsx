@@ -6,7 +6,8 @@ import { format, isToday, isYesterday } from 'date-fns';
 import * as dateFnsCsLocale from 'date-fns/locale/cs';
 import { css, cx } from 'emotion';
 import { Formik } from 'formik';
-import { Mutation, Query, useQuery } from 'react-apollo';
+import { useQuery } from '@apollo/client';
+import { Mutation, Query } from '@apollo/client/react/components';
 import { Mention, MentionsInput } from 'react-mentions';
 
 import {

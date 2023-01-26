@@ -1,8 +1,8 @@
+import { useQuery } from '@apollo/client';
 import { Classes } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { cx } from 'emotion';
 import * as React from 'react';
-import { useQuery } from 'react-apollo';
 import { Link } from 'react-router-dom';
 
 import Breadcrumbs from '../Breadcrumbs';

@@ -1,10 +1,10 @@
 import * as React from 'react';
 
+import { Query } from '@apollo/client/react/components';
 import { Button, Classes, Dialog, Intent } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { css } from 'emotion';
 import { Formik } from 'formik';
-import { Query } from 'react-apollo';
 
 import {
   GetStatement as GetStatementQuery,

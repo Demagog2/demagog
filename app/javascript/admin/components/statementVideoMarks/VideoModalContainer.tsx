@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useMutation } from 'react-apollo';
+import { useMutation } from '@apollo/client';
 import {
   UpdateSourceVideoFields,
   UpdateSourceVideoFieldsVariables,

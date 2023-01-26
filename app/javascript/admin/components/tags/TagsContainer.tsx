@@ -1,5 +1,5 @@
+import { useQuery } from '@apollo/client';
 import React, { useMemo } from 'react';
-import { useQuery } from 'react-apollo';
 import * as ResultTypes from '../../operation-result-types';
 import { GetTags } from '../../queries/queries';
 import { Tags } from './Tags';

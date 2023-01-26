@@ -2,11 +2,11 @@
 
 import * as React from 'react';
 
+import { Query } from '@apollo/client/react/components';
 import { Button, Classes, NonIdealState } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import * as classNames from 'classnames';
 import { compact } from 'lodash';
-import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 
 import {

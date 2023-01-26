@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Colors } from '@blueprintjs/core';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/client/react/components';
 import Select from 'react-select';
 
 import * as ResultTypes from '../../../operation-result-types';

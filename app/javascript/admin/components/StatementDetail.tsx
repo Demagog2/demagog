@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { Mutation, Query } from '@apollo/client/react/components';
 import {
   Button,
   Callout,
@@ -12,11 +13,10 @@ import {
   Tooltip,
 } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { ApolloError } from 'apollo-client';
+import { ApolloError } from '@apollo/client';
 import * as classNames from 'classnames';
 import { css } from 'emotion';
 import { Formik } from 'formik';
-import { Mutation, Query } from 'react-apollo';
 import { connect, DispatchProp } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 

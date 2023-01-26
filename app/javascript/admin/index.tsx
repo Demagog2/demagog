@@ -17,11 +17,12 @@ import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 // Hot loader needs to be loaded before react
 import 'react-hot-loader';
 
+import { ApolloProvider } from '@apollo/client';
+
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { ModalProvider } from 'react-modal-hook';
-import { ApolloProvider } from 'react-apollo';
 import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';

@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 import { Button, Classes, Intent } from '@blueprintjs/core';
-import { ApolloError } from 'apollo-client';
-import { Mutation, Query } from 'react-apollo';
+import { ApolloError } from '@apollo/client';
+import { Mutation, Query } from '@apollo/client/react/components';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router';

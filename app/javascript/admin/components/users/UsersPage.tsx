@@ -1,5 +1,5 @@
 import React from 'react';
-import { ApolloError } from 'apollo-client';
+import { ApolloError } from '@apollo/client';
 import { GetUsers } from '../../operation-result-types';
 import { Classes, Switch, NonIdealState } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';

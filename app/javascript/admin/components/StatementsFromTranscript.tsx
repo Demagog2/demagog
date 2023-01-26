@@ -2,13 +2,13 @@
 
 import * as React from 'react';
 
+import { Mutation, Query } from '@apollo/client/react/components';
 import { Button, Card, Classes, Intent } from '@blueprintjs/core';
 import { Form, Formik } from 'formik';
 import * as Immutable from 'immutable';
 import { isEqual } from 'lodash';
 import { DateTime } from 'luxon';
 import * as queryString from 'query-string';
-import { Mutation, Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import * as yup from 'yup';

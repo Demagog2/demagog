@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router';
 import { UserForm, IUserFormData } from '../forms/UserForm';
-import { useMutation } from 'react-apollo';
+import { useMutation } from '@apollo/client';
 import { CreateUser, CreateUserVariables } from '../../operation-result-types';
 import { CreateUser as CreateUserMutation } from '../../queries/mutations';
 import { uploadUserAvatar } from '../../api';
