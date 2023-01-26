@@ -1,29 +1,21 @@
 import * as React from 'react';
 
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { isAuthorized } from '../authorization';
 import { IState } from '../reducers';
 
 interface IProps {
-  isAuthorized: (permissions: string[]) => boolean;
-  children: React.ReactNode;
   permissions: string[];
   bypass?: boolean;
 }
 
-class Authorize extends React.Component<IProps> {
-  public render() {
-    if (!this.props.bypass && !this.props.isAuthorized(this.props.permissions)) {
-      return null;
-    }
+export default function Authorize(props: React.PropsWithChildren<IProps>) {
+  const authorized = useSelector((state: IState) => isAuthorized(state.currentUser.user))
 
-    return this.props.children;
+  if (!props.bypass && !authorized(props.permissions)) {
+    return null;
   }
+
+  return <>{props.children}</>;
 }
-
-const mapStateToProps = (state: IState) => ({
-  isAuthorized: isAuthorized(state.currentUser.user),
-});
-
-export default connect(mapStateToProps)(Authorize);

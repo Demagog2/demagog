@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 
 import { Query } from '@apollo/client/react/components';
 import {
@@ -29,100 +29,88 @@ interface IProps {
   currentUser: ReduxState['currentUser']['user'];
 }
 
-interface IState {
-  showBecomeAnotherUserDialog: boolean;
-}
+function Header(props: IProps) {
+  const [showBecomeAnotherUserDialog, setShowBecomeAnotherUserDialog] = useState(false);
 
-class Header extends React.Component<IProps, IState> {
-  public state = {
-    showBecomeAnotherUserDialog: false,
-  };
+  return (
+    <>
+      {showBecomeAnotherUserDialog && (
+        <BecomeAnotherUserDialog onCancel={() => setShowBecomeAnotherUserDialog(false)} />
+      )}
 
-  public toggleBecomeAnotherUserDialog = () => {
-    this.setState({ showBecomeAnotherUserDialog: !this.state.showBecomeAnotherUserDialog });
-  };
+      <Navbar fixedToTop>
+        <Navbar.Group align={Alignment.LEFT}>
+          <Navbar.Heading>
+            <NavLink to="/admin" style={{ color: Colors.DARK_GRAY1 }}>
+              Demagog
+            </NavLink>
+          </Navbar.Heading>
+        </Navbar.Group>
 
-  public render() {
-    return (
-      <>
-        {this.state.showBecomeAnotherUserDialog && (
-          <BecomeAnotherUserDialog onCancel={this.toggleBecomeAnotherUserDialog} />
-        )}
+        <Navbar.Group align={Alignment.RIGHT}>
+          <Authorize permissions={['admin:become-another-user']}>
+            <>
+              <Button
+                icon={IconNames.PEOPLE}
+                minimal
+                onClick={() => setShowBecomeAnotherUserDialog(true)}
+              />
+              <Navbar.Divider />
+            </>
+          </Authorize>
 
-        <Navbar fixedToTop>
-          <Navbar.Group align={Alignment.LEFT}>
-            <Navbar.Heading>
-              <NavLink to="/admin" style={{ color: Colors.DARK_GRAY1 }}>
-                Demagog
-              </NavLink>
-            </Navbar.Heading>
-          </Navbar.Group>
+          <Query<GetNotificationsQuery, GetNotificationsQueryVariables>
+            query={GetNotifications}
+            // offset & limit 0, because we only need the total_count
+            variables={{ includeRead: false, offset: 0, limit: 0 }}
+            pollInterval={20100} // Little more than 20s so it does not sync with other polls
+          >
+            {({ data, error }) => {
+              if (!data || !data.notifications) {
+                return null;
+              }
 
-          <Navbar.Group align={Alignment.RIGHT}>
-            <Authorize permissions={['admin:become-another-user']}>
-              <>
-                <Button
-                  icon={IconNames.PEOPLE}
-                  minimal
-                  onClick={this.toggleBecomeAnotherUserDialog}
-                />
-                <Navbar.Divider />
-              </>
-            </Authorize>
+              if (error) {
+                console.error(error); // tslint:disable-line:no-console
+                return null;
+              }
 
-            <Query<GetNotificationsQuery, GetNotificationsQueryVariables>
-              query={GetNotifications}
-              // offset & limit 0, because we only need the total_count
-              variables={{ includeRead: false, offset: 0, limit: 0 }}
-              pollInterval={20100} // Little more than 20s so it does not sync with other polls
-            >
-              {({ data, error }) => {
-                if (!data || !data.notifications) {
-                  return null;
-                }
+              return (
+                <>
+                  <NavLink
+                    to="/admin/notifications"
+                    className={classNames(
+                      Classes.BUTTON,
+                      Classes.iconClass(IconNames.NOTIFICATIONS),
+                      {
+                        [Classes.MINIMAL]: data.notifications.totalCount === 0,
+                        [Classes.INTENT_PRIMARY]: data.notifications.totalCount > 0,
+                      },
+                    )}
+                  >
+                    {`${data.notifications.totalCount}`}
+                  </NavLink>
+                  <Navbar.Divider />
+                </>
+              );
+            }}
+          </Query>
 
-                if (error) {
-                  console.error(error); // tslint:disable-line:no-console
-                  return null;
-                }
-
-                return (
-                  <>
-                    <NavLink
-                      to="/admin/notifications"
-                      className={classNames(
-                        Classes.BUTTON,
-                        Classes.iconClass(IconNames.NOTIFICATIONS),
-                        {
-                          [Classes.MINIMAL]: data.notifications.totalCount === 0,
-                          [Classes.INTENT_PRIMARY]: data.notifications.totalCount > 0,
-                        },
-                      )}
-                    >
-                      {`${data.notifications.totalCount}`}
-                    </NavLink>
-                    <Navbar.Divider />
-                  </>
-                );
-              }}
-            </Query>
-
-            {this.props.currentUser !== null && (
-              <>
-                <Button
-                  icon={IconNames.USER}
-                  minimal
-                  text={`${this.props.currentUser.firstName} ${this.props.currentUser.lastName}`}
-                />
-                <Navbar.Divider />
-              </>
-            )}
-            <AnchorButton icon={IconNames.LOG_OUT} minimal text="Odhlásit se" href="/sign_out" />
-          </Navbar.Group>
-        </Navbar>
-      </>
-    );
-  }
+          {props.currentUser !== null && (
+            <>
+              <Button
+                icon={IconNames.USER}
+                minimal
+                text={`${props.currentUser.firstName} ${props.currentUser.lastName}`}
+              />
+              <Navbar.Divider />
+            </>
+          )}
+          <AnchorButton icon={IconNames.LOG_OUT} minimal text="Odhlásit se" href="/sign_out" />
+        </Navbar.Group>
+      </Navbar>
+    </>
+  );
 }
 
 interface IBecomeAnotherUserDialogProps {

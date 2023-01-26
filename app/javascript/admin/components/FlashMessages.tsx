@@ -1,9 +1,10 @@
 import * as React from 'react';
 
 import { Classes, Intent, Overlay, Toast } from '@blueprintjs/core';
-import { connect, DispatchProp } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { removeFlashMessage } from '../actions/flashMessages';
+import { IState } from '../reducers';
 
 export type FlashMessageType = 'success' | 'error' | 'info' | 'warning';
 
@@ -14,43 +15,32 @@ const TYPE_TO_INTENT = {
   warning: Intent.WARNING,
 };
 
-interface IFlashMessagesProps extends DispatchProp {
-  messages: Array<{
-    id: string;
-    message: string;
-    type: FlashMessageType;
-  }>;
-}
+export default function FlashMessages() {
+  const messages = useSelector((state: IState) => state.flashMessages);
+  const dispatch = useDispatch();
 
-class FlashMessages extends React.Component<IFlashMessagesProps> {
-  public onCloseClick = (id: string) => () => {
-    this.props.dispatch(removeFlashMessage(id));
+  const onCloseClick = (id: string) => () => {
+    dispatch(removeFlashMessage(id));
   };
 
-  public render() {
-    return (
-      <Overlay
-        autoFocus={false}
-        canOutsideClickClose={false}
-        enforceFocus={false}
-        hasBackdrop={false}
-        isOpen={this.props.messages.length > 0}
-        className={Classes.TOAST_CONTAINER}
-      >
-        {this.props.messages.map((message) => (
-          <Toast
-            key={message.id}
-            message={message.message}
-            intent={TYPE_TO_INTENT[message.type]}
-            timeout={0}
-            onDismiss={this.onCloseClick(message.id)}
-          />
-        ))}
-      </Overlay>
-    );
-  }
+  return (
+    <Overlay
+      autoFocus={false}
+      canOutsideClickClose={false}
+      enforceFocus={false}
+      hasBackdrop={false}
+      isOpen={messages.length > 0}
+      className={Classes.TOAST_CONTAINER}
+    >
+      {messages.map((message) => (
+        <Toast
+          key={message.id}
+          message={message.message}
+          intent={TYPE_TO_INTENT[message.type]}
+          timeout={0}
+          onDismiss={onCloseClick(message.id)}
+        />
+      ))}
+    </Overlay>
+  );
 }
-
-const mapStateToProps = (state) => ({ messages: state.flashMessages });
-
-export default connect(mapStateToProps)(FlashMessages);
