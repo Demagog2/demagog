@@ -141,19 +141,24 @@ class Images extends React.Component<IProps, IState> {
         <Authorize permissions={['images:add']}>
           <div style={{ float: 'right' }}>
             <Dropzone
-              accept="image/jpeg, image/png, image/gif"
+              accept={{
+                'image/jpeg': [],
+                'image/png': [],
+                'image/gif': [],
+              }}
               multiple={false}
               onDrop={this.onAddDrop}
-              className="dropzone"
               style={{}}
             >
-              <Button
-                type="button"
-                icon={IconNames.UPLOAD}
-                intent={Intent.PRIMARY}
-                disabled={this.state.isAdding}
-                text={this.state.isAdding ? 'Nahrávám…' : 'Nahrát obrázek'}
-              />
+              {() => (
+                <Button
+                  type="button"
+                  icon={IconNames.UPLOAD}
+                  intent={Intent.PRIMARY}
+                  disabled={this.state.isAdding}
+                  text={this.state.isAdding ? 'Nahrávám…' : 'Nahrát obrázek'}
+                />
+              )}
             </Dropzone>
           </div>
         </Authorize>
