@@ -151,7 +151,6 @@ class Speaker < ApplicationRecord
       67, # Petr Fiala
       180, # Tomio Okamura
       502, # Marketa Pekarova Adamova
-      168, # Milos Zeman
     ]
   end
 end
