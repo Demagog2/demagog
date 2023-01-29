@@ -6,6 +6,10 @@ Political fact checking website. For more information see http://demagog.cz/o-na
 
 3.1.3
 
+### Node version
+
+16.16.0
+
 ## Setup
 
 Demagog can be run, tested and fully developed in the [docker](https://www.docker.com/) environment
