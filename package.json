@@ -6,11 +6,13 @@
     "lint": "tslint 'app/javascript/**/*.{ts,tsx}'"
   },
   "engines": {
-    "node": ">=12.0.0 <16.0.0"
+    "node": ">=16.0.0 <17.0.0"
   },
   "dependencies": {
-    "@babel/core": "^7.7.7",
-    "@babel/polyfill": "^7.8.7",
+    "@babel/core": "^7.20.12",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.18.6",
     "@blueprintjs/core": "^3.22.3",
     "@blueprintjs/datetime": "^3.15.1",
     "@ckeditor/ckeditor5-autoformat": "^21.0.0",
@@ -34,7 +36,7 @@
     "@ckeditor/ckeditor5-widget": "^21.0.0",
     "@emotion/core": "^10.0.27",
     "@emotion/styled": "^10.0.27",
-    "@rails/webpacker": "4.2.0",
+    "@rails/webpacker": "5.4.3",
     "@sentry/browser": "^4.6.6",
     "@types/classnames": "^2.2.9",
     "@types/enzyme": "^3.10.3",
@@ -123,7 +125,7 @@
     "ts-loader": "5.3.3",
     "typescript": "^4.3.2",
     "uuid": "^3.3.3",
-    "webpack": "4.41.2",
+    "webpack": "^4.46.0",
     "whatwg-fetch": "^3.0.0",
     "yup": "^0.26.10"
   },
@@ -140,8 +142,8 @@
     "stylelint-scss": "^3.13.0",
     "tslint": "^5.20.1",
     "tslint-plugin-prettier": "^2.1.0",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3"
   },
   "resolutions": {
     "fstream": "1.0.12",
