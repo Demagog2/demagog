@@ -6,7 +6,7 @@
     "lint": "tslint 'app/javascript/**/*.{ts,tsx}'"
   },
   "engines": {
-    "node": ">=16.0.0 <18.0.0"
+    "node": ">=16.0.0 <17.0.0"
   },
   "dependencies": {
     "@babel/core": "^7.20.12",
