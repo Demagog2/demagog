@@ -36,7 +36,7 @@
     "@ckeditor/ckeditor5-widget": "^21.0.0",
     "@emotion/core": "^10.0.27",
     "@emotion/styled": "^10.0.27",
-    "@rails/webpacker": "^5.4.3",
+    "@rails/webpacker": "5.4.3",
     "@sentry/browser": "^4.6.6",
     "@types/classnames": "^2.2.9",
     "@types/enzyme": "^3.10.3",
@@ -125,7 +125,7 @@
     "ts-loader": "5.3.3",
     "typescript": "^4.3.2",
     "uuid": "^3.3.3",
-    "webpack": "4.41.2",
+    "webpack": "^4.46.0",
     "whatwg-fetch": "^3.0.0",
     "yup": "^0.26.10"
   },
@@ -142,8 +142,8 @@
     "stylelint-scss": "^3.13.0",
     "tslint": "^5.20.1",
     "tslint-plugin-prettier": "^2.1.0",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3"
   },
   "resolutions": {
     "fstream": "1.0.12",
