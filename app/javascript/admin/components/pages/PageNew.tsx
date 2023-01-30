@@ -1,8 +1,7 @@
-import * as React from 'react';
+import React, { useCallback } from 'react';
 
 import { Mutation } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { addFlashMessage } from '../../actions/flashMessages';
 import {
@@ -12,45 +11,49 @@ import {
 import { CreatePage } from '../../queries/mutations';
 import { GetPages } from '../../queries/queries';
 import { PageForm } from '../forms/PageForm';
+import { useNavigate } from 'react-router';
 
-interface IPageNewProps extends RouteComponentProps<{}>, DispatchProp {}
+export function PageNew() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-export class PageNew extends React.Component<IPageNewProps> {
-  public onSuccess = (pageId: string) => {
-    this.props.dispatch(addFlashMessage('stránka byl úspěšně uložena.', 'success'));
+  const onSuccess = useCallback(
+    (pageId: string) => {
+      dispatch(addFlashMessage('stránka byl úspěšně uložena.', 'success'));
 
-    this.props.history.push(`/admin/pages/edit/${pageId}`);
-  };
+      navigate(`/admin/pages/edit/${pageId}`);
+    },
+    [dispatch, navigate],
+  );
 
-  public onError = (error) => {
-    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání stránky.', 'error'));
-    // tslint:disable-next-line:no-console
-    console.error(error);
-  };
+  const onError = useCallback(
+    (error) => {
+      dispatch(addFlashMessage('Došlo k chybě při ukládání stránky.', 'error'));
+      // tslint:disable-next-line:no-console
+      console.error(error);
+    },
+    [dispatch],
+  );
 
-  public render() {
-    return (
-      <div style={{ padding: '15px 0 40px 0' }}>
-        <Mutation<CreatePageMutation, CreatePageMutationVariables>
-          mutation={CreatePage}
-          // TODO: is there a nicer way of updating apollo cache after creating?
-          refetchQueries={[{ query: GetPages, variables: { title: '', offset: 0, limit: 50 } }]}
-          onCompleted={(data) => data.createPage && this.onSuccess(data.createPage.page.id)}
-          onError={this.onError}
-        >
-          {(createPage) => {
-            return (
-              <PageForm
-                onSubmit={(pageInput) => createPage({ variables: { pageInput } })}
-                title="Přidat novou stránku"
-                backPath="/admin/pages"
-              />
-            );
-          }}
-        </Mutation>
-      </div>
-    );
-  }
+  return (
+    <div style={{ padding: '15px 0 40px 0' }}>
+      <Mutation<CreatePageMutation, CreatePageMutationVariables>
+        mutation={CreatePage}
+        // TODO: is there a nicer way of updating apollo cache after creating?
+        refetchQueries={[{ query: GetPages, variables: { title: '', offset: 0, limit: 50 } }]}
+        onCompleted={(data) => data.createPage && onSuccess(data.createPage.page.id)}
+        onError={onError}
+      >
+        {(createPage) => {
+          return (
+            <PageForm
+              onSubmit={(pageInput) => createPage({ variables: { pageInput } })}
+              title="Přidat novou stránku"
+              backPath="/admin/pages"
+            />
+          );
+        }}
+      </Mutation>
+    </div>
+  );
 }
-
-export default connect()(withRouter(PageNew));

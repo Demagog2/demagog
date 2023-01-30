@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 import { Mutation, MutationFunction } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 import { addFlashMessage } from '../../actions/flashMessages';
 import { uploadArticleIllustration } from '../../api';
@@ -20,22 +20,23 @@ type CreateArticleMutationFn = MutationFunction<
   CreateArticleMutationVariables
 >;
 
-interface ISourceNewProps extends RouteComponentProps<{}>, DispatchProp {}
+export function ArticleNew() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-export class ArticleNew extends React.Component<ISourceNewProps> {
-  public onSuccess = (articleId: string) => {
-    this.props.dispatch(addFlashMessage('Článek byl úspěšně uložen.', 'success'));
+  const onSuccess = (articleId: string) => {
+    dispatch(addFlashMessage('Článek byl úspěšně uložen.', 'success'));
 
-    this.props.history.push(`/admin/articles/edit/${articleId}`);
+    navigate(`/admin/articles/edit/${articleId}`);
   };
 
-  public onError = (error) => {
-    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání článku', 'error'));
+  const onError = (error) => {
+    dispatch(addFlashMessage('Došlo k chybě při ukládání článku', 'error'));
     // tslint:disable-next-line:no-console
     console.error(error);
   };
 
-  public onSubmit = (createArticle: CreateArticleMutationFn) => (
+  const onSubmit = (createArticle: CreateArticleMutationFn) => (
     articleFormData: ArticleInput & { illustration?: File },
   ) => {
     const { illustration, ...articleInput } = articleFormData;
@@ -54,32 +55,28 @@ export class ArticleNew extends React.Component<ISourceNewProps> {
           uploadPromise = uploadArticleIllustration(articleId, illustration);
         }
 
-        return uploadPromise.then(() => this.onSuccess(articleId));
+        return uploadPromise.then(() => onSuccess(articleId));
       })
-      .catch((error) => this.onError(error));
+      .catch((error) => onError(error));
   };
 
-  public render() {
-    return (
-      <div style={{ padding: '15px 0 40px 0' }}>
-        <Mutation<CreateArticleMutation, CreateArticleMutationVariables>
-          mutation={CreateArticle}
-          // TODO: is there a nicer way of updating apollo cache after creating?
-          refetchQueries={[{ query: GetArticles, variables: { title: '', offset: 0, limit: 50 } }]}
-        >
-          {(createArticle) => {
-            return (
-              <ArticleForm
-                onSubmit={this.onSubmit(createArticle)}
-                title="Přidat nový článek"
-                backPath="/admin/articles"
-              />
-            );
-          }}
-        </Mutation>
-      </div>
-    );
-  }
+  return (
+    <div style={{ padding: '15px 0 40px 0' }}>
+      <Mutation<CreateArticleMutation, CreateArticleMutationVariables>
+        mutation={CreateArticle}
+        // TODO: is there a nicer way of updating apollo cache after creating?
+        refetchQueries={[{ query: GetArticles, variables: { title: '', offset: 0, limit: 50 } }]}
+      >
+        {(createArticle) => {
+          return (
+            <ArticleForm
+              onSubmit={onSubmit(createArticle)}
+              title="Přidat nový článek"
+              backPath="/admin/articles"
+            />
+          );
+        }}
+      </Mutation>
+    </div>
+  );
 }
-
-export default connect()(withRouter(ArticleNew));

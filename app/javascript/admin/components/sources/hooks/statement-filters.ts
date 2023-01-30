@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import * as queryString from 'query-string';
 import { useLocation } from 'react-router';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export function useStatementFilters() {
   const [state, setState] = useState<any | null>(null);
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!location.search) {
@@ -25,14 +25,14 @@ export function useStatementFilters() {
     // Make sure we update the url after the state is changed
     // so the location change listener can detect that the state
     // is already set
-    history.push(`${history.location.pathname}?filter=${filter}`);
+    navigate(`${location.pathname}?filter=${filter}`);
   }, []);
 
   const onRemoveStatementsFilters = useCallback(() => {
     setState(null);
 
     // Reset the search part of location
-    history.push(history.location.pathname);
+    navigate(location.pathname);
   }, []);
 
   return {

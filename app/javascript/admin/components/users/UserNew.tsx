@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import { UserForm, IUserFormData } from '../forms/UserForm';
 import { useMutation } from 'react-apollo';
 import { CreateUser, CreateUserVariables } from '../../operation-result-types';
@@ -9,13 +9,13 @@ import { useFlashMessage } from '../../hooks/use-flash-messages';
 import { captureException } from '@sentry/browser';
 
 export function UserNew() {
-  const { push } = useHistory();
+  const navigate = useNavigate();
   const addFlashMessage = useFlashMessage();
 
   const onCompleted = useCallback(
     (userId: number) => {
       addFlashMessage('Osoba byla úspěšně uložena.', 'success');
-      push(`/admin/users/edit/${userId}`);
+      navigate(`/admin/users/edit/${userId}`);
     },
     [addFlashMessage],
   );

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Mutation, Query, MutationFunction } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
 import { addFlashMessage } from '../../actions/flashMessages';
 import {
   GetMedium as GetMediumQuery,
@@ -17,69 +17,63 @@ import Loading from '../Loading';
 
 type UpdateMediumMutationFn = MutationFunction<UpdateMediumMutation, UpdateMediumMutationVariables>;
 
-interface IMediumEditProps extends RouteComponentProps<{ id: string }>, DispatchProp {}
+export function MediumEdit() {
+  const params = useParams();
+  const dispatch = useDispatch();
 
-class MediumEdit extends React.Component<IMediumEditProps> {
-  public onSuccess = () => {
-    this.props.dispatch(addFlashMessage('Pořad byl úspěšně uložen.', 'success'));
+  const onSuccess = () => {
+    dispatch(addFlashMessage('Pořad byl úspěšně uložen.', 'success'));
   };
 
-  public onError = (error) => {
-    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání pořadu.', 'error'));
+  const onError = (error) => {
+    dispatch(addFlashMessage('Došlo k chybě při ukládání pořadu.', 'error'));
     // tslint:disable-next-line:no-console
     console.error(error);
   };
 
-  public onSubmit = (updateMedium: UpdateMediumMutationFn) => (mediumInput: MediumInput) => {
-    const id = this.getParamId();
-
-    return updateMedium({ variables: { id, mediumInput } })
-      .then(() => this.onSuccess())
-      .catch((error) => this.onError(error));
+  const onSubmit = (updateMedium: UpdateMediumMutationFn) => (mediumInput: MediumInput) => {
+    return updateMedium({ variables: { id: params.id ?? '', mediumInput } })
+      .then(() => onSuccess())
+      .catch((error) => onError(error));
   };
 
-  public getParamId = () => this.props.match.params.id;
+  return (
+    <div style={{ padding: '15px 0 40px 0' }}>
+      <Query<GetMediumQuery, GetMediumQueryVariables>
+        query={GetMedium}
+        variables={{ id: params.id ?? '' }}
+      >
+        {({ data, loading }) => {
+          if (loading) {
+            return <Loading />;
+          }
 
-  public render() {
-    const id = this.getParamId();
+          if (!data) {
+            return null;
+          }
 
-    return (
-      <div style={{ padding: '15px 0 40px 0' }}>
-        <Query<GetMediumQuery, GetMediumQueryVariables> query={GetMedium} variables={{ id }}>
-          {({ data, loading }) => {
-            if (loading) {
-              return <Loading />;
-            }
-
-            if (!data) {
-              return null;
-            }
-
-            return (
-              <Mutation<UpdateMediumMutation, UpdateMediumMutationVariables>
-                mutation={UpdateMedium}
-                refetchQueries={[
-                  { query: GetMedia, variables: { name: '' } },
-                  { query: GetMedium, variables: { id } },
-                  { query: GetMediaPersonalitiesForSelect },
-                ]}
-              >
-                {(updateMedium) => {
-                  return (
-                    <MediumForm
-                      medium={data.medium}
-                      onSubmit={this.onSubmit(updateMedium)}
-                      title="Upravit pořad"
-                    />
-                  );
-                }}
-              </Mutation>
-            );
-          }}
-        </Query>
-      </div>
-    );
-  }
+          return (
+            <Mutation<UpdateMediumMutation, UpdateMediumMutationVariables>
+              mutation={UpdateMedium}
+              refetchQueries={[
+                { query: GetMedia, variables: { name: '' } },
+                { query: GetMedium, variables: { id: params.id ?? '' } },
+                { query: GetMediaPersonalitiesForSelect },
+              ]}
+            >
+              {(updateMedium) => {
+                return (
+                  <MediumForm
+                    medium={data.medium}
+                    onSubmit={onSubmit(updateMedium)}
+                    title="Upravit pořad"
+                  />
+                );
+              }}
+            </Mutation>
+          );
+        }}
+      </Query>
+    </div>
+  );
 }
-
-export default connect()(MediumEdit);

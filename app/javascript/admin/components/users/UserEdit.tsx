@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { UserForm, IUserFormData } from '../forms/UserForm';
 import { useMutation, useQuery } from 'react-apollo';
 import {
@@ -18,14 +18,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { IState } from '../../reducers';
 import { fetchCurrentUser } from '../../actions/currentUser';
 
-interface IUserEditProps extends RouteComponentProps<{ id: string }> {}
-
-export function UserEdit(props: IUserEditProps) {
+export function UserEdit() {
   const dispatch = useDispatch();
+  const params = useParams();
   const addFlashMessage = useFlashMessage();
   const currentUser = useSelector((state: IState) => state.currentUser.user);
 
-  const userId = parseInt(props.match.params.id, 10);
+  const userId = parseInt(params.id ?? '', 10);
 
   const [mutate] = useMutation<UpdateUser, UpdateUserVariables>(UpdateUserMutation);
   const { data, loading } = useQuery<GetUser, GetUserVariables>(GetUserQuery, {

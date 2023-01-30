@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Mutation, MutationFunction, Query } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
 import { addFlashMessage } from '../../actions/flashMessages';
 import {
   GetMediaPersonality as GetMediaPersonalityQuery,
@@ -24,74 +24,67 @@ type UpdateMediaPersonalityMutationFn = MutationFunction<
   UpdateMediaPersonalityMutationVariables
 >;
 
-interface IMediaPersonalityEditProps extends RouteComponentProps<{ id: string }>, DispatchProp {}
+export function MediaPersonalityEdit() {
+  const params = useParams();
+  const dispatch = useDispatch();
 
-class MediaPersonalityEdit extends React.Component<IMediaPersonalityEditProps> {
-  public onSuccess = () => {
-    this.props.dispatch(addFlashMessage('Moderátor byl úspěšně uložen.', 'success'));
+  const onSuccess = () => {
+    dispatch(addFlashMessage('Moderátor byl úspěšně uložen.', 'success'));
   };
 
-  public onError = (error) => {
-    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání moderátora.', 'error'));
+  const onError = (error) => {
+    dispatch(addFlashMessage('Došlo k chybě při ukládání moderátora.', 'error'));
     // tslint:disable-next-line:no-console
     console.error(error);
   };
 
-  public onSubmit = (updateMediaPersonality: UpdateMediaPersonalityMutationFn) => (
+  const onSubmit = (updateMediaPersonality: UpdateMediaPersonalityMutationFn) => (
     mediaPersonalityInput: MediaPersonalityInput,
   ) => {
-    const id = this.getParamId();
+    const id = params.id ?? '';
 
     return updateMediaPersonality({ variables: { id, mediaPersonalityInput } })
-      .then(() => this.onSuccess())
-      .catch((error) => this.onError(error));
+      .then(() => onSuccess())
+      .catch((error) => onError(error));
   };
 
-  public getParamId = () => this.props.match.params.id;
+  return (
+    <div style={{ padding: '15px 0 40px 0' }}>
+      <Query<GetMediaPersonalityQuery, GetMediaPersonalityQueryVariables>
+        query={GetMediaPersonality}
+        variables={{ id: params.id ?? '' }}
+      >
+        {({ data, loading }) => {
+          if (loading) {
+            return <Loading />;
+          }
 
-  public render() {
-    const id = this.getParamId();
+          if (!data) {
+            return null;
+          }
 
-    return (
-      <div style={{ padding: '15px 0 40px 0' }}>
-        <Query<GetMediaPersonalityQuery, GetMediaPersonalityQueryVariables>
-          query={GetMediaPersonality}
-          variables={{ id }}
-        >
-          {({ data, loading }) => {
-            if (loading) {
-              return <Loading />;
-            }
-
-            if (!data) {
-              return null;
-            }
-
-            return (
-              <Mutation<UpdateMediaPersonalityMutation, UpdateMediaPersonalityMutationVariables>
-                mutation={UpdateMediaPersonality}
-                refetchQueries={[
-                  { query: GetMediaPersonalities, variables: { name: '' } },
-                  { query: GetMediaPersonality, variables: { id } },
-                  { query: GetMediaPersonalitiesForSelect },
-                ]}
-              >
-                {(updateMediaPersonality) => {
-                  return (
-                    <MediaPersonalityForm
-                      mediaPersonality={data.mediaPersonality}
-                      onSubmit={this.onSubmit(updateMediaPersonality)}
-                      title="Upravit moderátory"
-                    />
-                  );
-                }}
-              </Mutation>
-            );
-          }}
-        </Query>
-      </div>
-    );
-  }
+          return (
+            <Mutation<UpdateMediaPersonalityMutation, UpdateMediaPersonalityMutationVariables>
+              mutation={UpdateMediaPersonality}
+              refetchQueries={[
+                { query: GetMediaPersonalities, variables: { name: '' } },
+                { query: GetMediaPersonality, variables: { id: params.id ?? '' } },
+                { query: GetMediaPersonalitiesForSelect },
+              ]}
+            >
+              {(updateMediaPersonality) => {
+                return (
+                  <MediaPersonalityForm
+                    mediaPersonality={data.mediaPersonality}
+                    onSubmit={onSubmit(updateMediaPersonality)}
+                    title="Upravit moderátory"
+                  />
+                );
+              }}
+            </Mutation>
+          );
+        }}
+      </Query>
+    </div>
+  );
 }
-
-export default connect()(MediaPersonalityEdit);

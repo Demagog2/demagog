@@ -1,8 +1,6 @@
 import * as React from 'react';
 
 import { Mutation, MutationFunction } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { addFlashMessage } from '../../actions/flashMessages';
 import {
@@ -13,25 +11,28 @@ import {
 import { CreateMedium } from '../../queries/mutations';
 import { GetMedia, GetMediaPersonalitiesForSelect } from '../../queries/queries';
 import { MediumForm } from '../forms/MediumForm';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 type CreateMediumMutationFn = MutationFunction<CreateMediumMutation, CreateMediumMutationVariables>;
 
-interface ISourceNewProps extends RouteComponentProps<{}>, DispatchProp {}
+export function MediumNew() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-export class MediumNew extends React.Component<ISourceNewProps> {
-  public onSuccess = (mediumId: string) => {
-    this.props.dispatch(addFlashMessage('Pořad byl úspěšně uložen.', 'success'));
+  const onSuccess = (mediumId: string) => {
+    dispatch(addFlashMessage('Pořad byl úspěšně uložen.', 'success'));
 
-    this.props.history.push(`/admin/media/edit/${mediumId}`);
+    navigate(`/admin/media/edit/${mediumId}`);
   };
 
-  public onError = (error) => {
-    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání pořadu.', 'error'));
+  const onError = (error) => {
+    dispatch(addFlashMessage('Došlo k chybě při ukládání pořadu.', 'error'));
     // tslint:disable-next-line:no-console
     console.error(error);
   };
 
-  public onSubmit = (createMedium: CreateMediumMutationFn) => (mediumInput: MediumInput) => {
+  const onSubmit = (createMedium: CreateMediumMutationFn) => (mediumInput: MediumInput) => {
     return createMedium({ variables: { mediumInput } })
       .then((mutationResult) => {
         if (!mutationResult || !mutationResult.data || !mutationResult.data.createMedium) {
@@ -40,29 +41,25 @@ export class MediumNew extends React.Component<ISourceNewProps> {
 
         const mediumId = mutationResult.data.createMedium.medium.id;
 
-        this.onSuccess(mediumId);
+        onSuccess(mediumId);
       })
-      .catch((error) => this.onError(error));
+      .catch((error) => onError(error));
   };
 
-  public render() {
-    return (
-      <div style={{ padding: '15px 0 40px 0' }}>
-        <Mutation<CreateMediumMutation, CreateMediumMutationVariables>
-          mutation={CreateMedium}
-          // TODO: is there a nicer way of updating apollo cache after creating?
-          refetchQueries={[
-            { query: GetMedia, variables: { name: '' } },
-            { query: GetMediaPersonalitiesForSelect },
-          ]}
-        >
-          {(createMedium) => {
-            return <MediumForm onSubmit={this.onSubmit(createMedium)} title="Přidat nový pořad" />;
-          }}
-        </Mutation>
-      </div>
-    );
-  }
+  return (
+    <div style={{ padding: '15px 0 40px 0' }}>
+      <Mutation<CreateMediumMutation, CreateMediumMutationVariables>
+        mutation={CreateMedium}
+        // TODO: is there a nicer way of updating apollo cache after creating?
+        refetchQueries={[
+          { query: GetMedia, variables: { name: '' } },
+          { query: GetMediaPersonalitiesForSelect },
+        ]}
+      >
+        {(createMedium) => {
+          return <MediumForm onSubmit={onSubmit(createMedium)} title="Přidat nový pořad" />;
+        }}
+      </Mutation>
+    </div>
+  );
 }
-
-export default connect()(withRouter(MediumNew));

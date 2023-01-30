@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { Button, Classes, Tab, Tabs } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
@@ -8,8 +8,8 @@ import { css, cx } from 'emotion';
 import { groupBy } from 'lodash';
 import { DateTime } from 'luxon';
 import { Mutation, Query } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useNavigate, useParams } from 'react-router';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import apolloClient from '../apolloClient';
@@ -25,18 +25,12 @@ import { GetNotifications } from '../queries/queries';
 import { displayDateTime } from '../utils';
 import Loading from './Loading';
 
-interface IProps extends RouteComponentProps<{ tab: string | undefined }>, DispatchProp {}
+function Notifications() {
+  const dispatch = useDispatch();
+  const params = useParams();
+  const navigate = useNavigate();
 
-interface IState {
-  isLoadingMore: boolean;
-}
-
-class Notifications extends React.Component<IProps, IState> {
-  public state = {
-    isLoadingMore: false,
-  };
-
-  public handleNotificationClick = (
+  const handleNotificationClick = (
     notification: GetNotificationsQuery['notifications']['items'][0],
   ) => (event: React.MouseEvent<Element>) => {
     const targetElement = event.target as Element;
@@ -48,15 +42,15 @@ class Notifications extends React.Component<IProps, IState> {
     const statementUrl = `/admin/statements/${notification.statement.id}`;
 
     if (notification.readAt) {
-      this.props.history.push(statementUrl);
+      navigate(statementUrl);
     } else {
-      this.markAsRead(notification).then(() => {
-        this.props.history.push(statementUrl);
+      markAsRead(notification).then(() => {
+        navigate(statementUrl);
       });
     }
   };
 
-  public handleUnreadStatementClick = (
+  const handleUnreadStatementClick = (
     notifications: GetNotificationsQuery['notifications']['items'],
   ) => {
     const statementId = notifications[0].statement.id;
@@ -76,14 +70,10 @@ class Notifications extends React.Component<IProps, IState> {
           },
         ],
       })
-      .then(() => {
-        const statementUrl = `/admin/statements/${statementId}`;
-
-        this.props.history.push(statementUrl);
-      });
+      .then(() => navigate(`/admin/statements/${statementId}`));
   };
 
-  public markAsRead = (notification) => {
+  const markAsRead = (notification) => {
     const variables: UpdateNotificationMutationVariables = {
       id: notification.id,
       input: { readAt: DateTime.local().toISOTime() },
@@ -101,7 +91,7 @@ class Notifications extends React.Component<IProps, IState> {
     });
   };
 
-  public markAsUnread = (notification) => {
+  const markAsUnread = (notification) => {
     const variables: UpdateNotificationMutationVariables = {
       id: notification.id,
       input: { readAt: null },
@@ -119,101 +109,95 @@ class Notifications extends React.Component<IProps, IState> {
     });
   };
 
-  public handleTabChange = (tabId: string) => {
+  const handleTabChange = (tabId: string) => {
     let url = '/admin/notifications';
     if (tabId === 'all') {
       url += '/all';
     }
 
-    this.props.history.push(url);
+    navigate(url);
   };
 
-  public render() {
-    return (
-      <div style={{ padding: '15px 0 40px 0' }}>
-        <div style={{ float: 'right' }}>
-          <Mutation<
-            MarkUnreadNotificationsAsReadMutation,
-            MarkUnreadNotificationsAsReadMutationVariables
-          >
-            mutation={MarkUnreadNotificationsAsRead}
-            variables={{ statementId: null }}
-            refetchQueries={[
-              // Reset unread notifications count in the header to zero
-              {
-                query: GetNotifications,
-                variables: { includeRead: false, limit: 0, offset: 0 },
-              },
-              // Reset unread tab
-              {
-                query: GetNotifications,
-                variables: { includeRead: false, limit: 100, offset: 0 },
-              },
-              // Reset all tab
-              {
-                query: GetNotifications,
-                variables: { includeRead: true, limit: 20, offset: 0 },
-              },
-            ]}
-            onCompleted={() => {
-              this.props.dispatch(
-                addFlashMessage('Všechny upozornění úspěšně označeny za přečtené', 'success'),
-              );
-            }}
-            onError={() =>
-              this.props.dispatch(
-                addFlashMessage('Došlo k chybě při označování upozornění jako přečtené', 'error'),
-              )
-            }
-          >
-            {(markUnreadNotificationsAsRead, { loading }) => (
-              <button
-                className={cx(Classes.BUTTON, Classes.iconClass(IconNames.TICK))}
-                onClick={() => markUnreadNotificationsAsRead()}
-                disabled={loading}
-              >
-                {loading ? 'Označuji všechny jako přečtené…' : 'Označit všechny jako přečtené'}
-              </button>
-            )}
-          </Mutation>
-        </div>
-
-        <h2 className={Classes.HEADING}>Upozornění</h2>
-
-        <Tabs
-          animate={false}
-          large
-          onChange={this.handleTabChange}
-          renderActiveTabPanelOnly
-          selectedTabId={this.props.match.params.tab === 'all' ? 'all' : 'unread'}
+  return (
+    <div style={{ padding: '15px 0 40px 0' }}>
+      <div style={{ float: 'right' }}>
+        <Mutation<
+          MarkUnreadNotificationsAsReadMutation,
+          MarkUnreadNotificationsAsReadMutationVariables
         >
-          <Tab
-            id="unread"
-            title="Nepřečtené"
-            panel={
-              <UnreadNotificationsPanel
-                handleUnreadStatementClick={this.handleUnreadStatementClick}
-              />
-            }
-          />
-          <Tab
-            id="all"
-            title="Všechny"
-            panel={
-              <AllNotificationsPanel
-                handleNotificationClick={this.handleNotificationClick}
-                markAsRead={this.markAsRead}
-                markAsUnread={this.markAsUnread}
-              />
-            }
-          />
-        </Tabs>
+          mutation={MarkUnreadNotificationsAsRead}
+          variables={{ statementId: null }}
+          refetchQueries={[
+            // Reset unread notifications count in the header to zero
+            {
+              query: GetNotifications,
+              variables: { includeRead: false, limit: 0, offset: 0 },
+            },
+            // Reset unread tab
+            {
+              query: GetNotifications,
+              variables: { includeRead: false, limit: 100, offset: 0 },
+            },
+            // Reset all tab
+            {
+              query: GetNotifications,
+              variables: { includeRead: true, limit: 20, offset: 0 },
+            },
+          ]}
+          onCompleted={() => {
+            dispatch(addFlashMessage('Všechny upozornění úspěšně označeny za přečtené', 'success'));
+          }}
+          onError={() =>
+            dispatch(
+              addFlashMessage('Došlo k chybě při označování upozornění jako přečtené', 'error'),
+            )
+          }
+        >
+          {(markUnreadNotificationsAsRead, { loading }) => (
+            <button
+              className={cx(Classes.BUTTON, Classes.iconClass(IconNames.TICK))}
+              onClick={() => markUnreadNotificationsAsRead()}
+              disabled={loading}
+            >
+              {loading ? 'Označuji všechny jako přečtené…' : 'Označit všechny jako přečtené'}
+            </button>
+          )}
+        </Mutation>
       </div>
-    );
-  }
+
+      <h2 className={Classes.HEADING}>Upozornění</h2>
+
+      <Tabs
+        animate={false}
+        large
+        onChange={handleTabChange}
+        renderActiveTabPanelOnly
+        selectedTabId={params.tab === 'all' ? 'all' : 'unread'}
+      >
+        <Tab
+          id="unread"
+          title="Nepřečtené"
+          panel={
+            <UnreadNotificationsPanel handleUnreadStatementClick={handleUnreadStatementClick} />
+          }
+        />
+        <Tab
+          id="all"
+          title="Všechny"
+          panel={
+            <AllNotificationsPanel
+              handleNotificationClick={handleNotificationClick}
+              markAsRead={markAsRead}
+              markAsUnread={markAsUnread}
+            />
+          }
+        />
+      </Tabs>
+    </div>
+  );
 }
 
-export default connect()(withRouter(Notifications));
+export default Notifications;
 
 const UnreadNotificationsPanel = ({ handleUnreadStatementClick }) => {
   return (

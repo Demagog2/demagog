@@ -1,8 +1,7 @@
 import * as React from 'react';
 
 import { Mutation, Query, MutationFunction } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { addFlashMessage } from '../../actions/flashMessages';
 import {
@@ -16,72 +15,76 @@ import { UpdatePage } from '../../queries/mutations';
 import { GetPage, GetPages } from '../../queries/queries';
 import { PageForm } from '../forms/PageForm';
 import Loading from '../Loading';
+import { useCallback } from 'react';
+import { useParams } from 'react-router';
 
 type UpdatePageMutationFn = MutationFunction<UpdatePageMutation, UpdatePageMutationVariables>;
 
-interface IPageEditProps extends RouteComponentProps<{ id: string }>, DispatchProp {}
+export function PageEdit() {
+  const dispatch = useDispatch();
+  const params = useParams();
 
-class PageEdit extends React.Component<IPageEditProps> {
-  public onSuccess = () => {
-    this.props.dispatch(addFlashMessage('Stránka byla úspěšně uložena.', 'success'));
-  };
+  const onSuccess = useCallback(() => {
+    dispatch(addFlashMessage('Stránka byla úspěšně uložena.', 'success'));
+  }, [dispatch]);
 
-  public onError = (error) => {
-    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání stránky.', 'error'));
-    // tslint:disable-next-line:no-console
-    console.error(error);
-  };
+  const onError = useCallback(
+    (error) => {
+      dispatch(addFlashMessage('Došlo k chybě při ukládání stránky.', 'error'));
+      // tslint:disable-next-line:no-console
+      console.error(error);
+    },
+    [dispatch],
+  );
 
-  public onSubmit = (updatePage: UpdatePageMutationFn) => (pageInput: PageInput) => {
-    const id = this.getParamId();
+  const onSubmit = useCallback(
+    (updatePage: UpdatePageMutationFn) => (pageInput: PageInput) => {
+      const id = params.id ?? '';
 
-    return updatePage({ variables: { id, pageInput } })
-      .then(() => this.onSuccess())
-      .catch((error) => this.onError(error));
-  };
+      return updatePage({ variables: { id, pageInput } })
+        .then(() => onSuccess())
+        .catch((error) => onError(error));
+    },
+    [],
+  );
 
-  public getParamId = () => this.props.match.params.id;
+  return (
+    <div style={{ padding: '15px 0 40px 0' }}>
+      <Query<GetPageQuery, GetPageQueryVariables>
+        query={GetPage}
+        variables={{ id: params.id ?? '' }}
+      >
+        {({ data, loading }) => {
+          if (loading) {
+            return <Loading />;
+          }
 
-  public render() {
-    const id = this.getParamId();
+          if (!data) {
+            return null;
+          }
 
-    return (
-      <div style={{ padding: '15px 0 40px 0' }}>
-        <Query<GetPageQuery, GetPageQueryVariables> query={GetPage} variables={{ id }}>
-          {({ data, loading }) => {
-            if (loading) {
-              return <Loading />;
-            }
-
-            if (!data) {
-              return null;
-            }
-
-            return (
-              <Mutation<UpdatePageMutation, UpdatePageMutationVariables>
-                mutation={UpdatePage}
-                refetchQueries={[
-                  { query: GetPages, variables: { name: null } },
-                  { query: GetPage, variables: { id } },
-                ]}
-              >
-                {(updatePage) => {
-                  return (
-                    <PageForm
-                      page={data.page}
-                      onSubmit={this.onSubmit(updatePage)}
-                      title="Upravit stránku"
-                      backPath="/admin/pages"
-                    />
-                  );
-                }}
-              </Mutation>
-            );
-          }}
-        </Query>
-      </div>
-    );
-  }
+          return (
+            <Mutation<UpdatePageMutation, UpdatePageMutationVariables>
+              mutation={UpdatePage}
+              refetchQueries={[
+                { query: GetPages, variables: { name: null } },
+                { query: GetPage, variables: { id: params.id ?? '' } },
+              ]}
+            >
+              {(updatePage) => {
+                return (
+                  <PageForm
+                    page={data.page}
+                    onSubmit={onSubmit(updatePage)}
+                    title="Upravit stránku"
+                    backPath="/admin/pages"
+                  />
+                );
+              }}
+            </Mutation>
+          );
+        }}
+      </Query>
+    </div>
+  );
 }
-
-export default connect()(PageEdit);

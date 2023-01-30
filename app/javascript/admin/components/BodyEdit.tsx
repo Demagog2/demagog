@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Mutation, Query, MutationFunction } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
+import { connect, useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import { deleteBodyLogo, uploadBodyLogo } from '../api';
@@ -20,14 +20,15 @@ import Loading from './Loading';
 interface IUpdateBodyMutationFn
   extends MutationFunction<UpdateBodyMutation, UpdateBodyMutationVariables> {}
 
-interface IBodyDetailProps extends RouteComponentProps<{ id: string }>, DispatchProp {}
+function BodyEdit() {
+  const params = useParams();
+  const dispatch = useDispatch();
 
-class BodyEdit extends React.Component<IBodyDetailProps> {
-  public onFormSubmit = (
-    id: number,
-    updateBody: IUpdateBodyMutationFn,
-    previousData: GetBodyQuery,
-  ) => (speakerFormData: IBodyFormData) => {
+  const id = parseInt(params.id ?? '', 10);
+
+  const onFormSubmit = (updateBody: IUpdateBodyMutationFn, previousData: GetBodyQuery) => (
+    speakerFormData: IBodyFormData,
+  ) => {
     const { logo, ...bodyInput } = speakerFormData;
 
     // We want to first update the logo and then run mutation so the logo
@@ -41,61 +42,53 @@ class BodyEdit extends React.Component<IBodyDetailProps> {
 
     return logoPromise
       .then(() => updateBody({ variables: { id, bodyInput } }))
-      .then(() => {
-        this.onCompleted();
-      })
-      .catch((error) => {
-        this.onError(error);
-      });
+      .then(() => onCompleted())
+      .catch((error) => onError(error));
   };
 
-  public onCompleted = () => {
-    this.props.dispatch(addFlashMessage('Uložení proběhlo v pořádku', 'success'));
+  const onCompleted = () => {
+    dispatch(addFlashMessage('Uložení proběhlo v pořádku', 'success'));
   };
 
-  public onError = (error: any) => {
-    this.props.dispatch(addFlashMessage('Doško k chybě při uložení dat', 'error'));
+  const onError = (error: any) => {
+    dispatch(addFlashMessage('Doško k chybě při uložení dat', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
 
-  public render() {
-    const id = parseInt(this.props.match.params.id, 10);
+  return (
+    <div style={{ padding: '15px 0 40px 0' }}>
+      <Query<GetBodyQuery, GetBodyQueryVariables> query={GetBody} variables={{ id }}>
+        {({ data, loading, error }) => {
+          if (loading || !data) {
+            return <Loading />;
+          }
 
-    return (
-      <div style={{ padding: '15px 0 40px 0' }}>
-        <Query<GetBodyQuery, GetBodyQueryVariables> query={GetBody} variables={{ id }}>
-          {({ data, loading, error }) => {
-            if (loading || !data) {
-              return <Loading />;
-            }
+          if (error) {
+            return <Error error={error} />;
+          }
 
-            if (error) {
-              return <Error error={error} />;
-            }
-
-            return (
-              <Mutation<UpdateBodyMutation, UpdateBodyMutationVariables>
-                mutation={UpdateBody}
-                refetchQueries={[
-                  { query: GetSpeakerBodies },
-                  { query: GetBodies, variables: { name: '' } },
-                ]}
-              >
-                {(updateBody) => (
-                  <BodyForm
-                    body={data.body}
-                    onSubmit={this.onFormSubmit(id, updateBody, data)}
-                    title="Upravit stranu / skupinu"
-                  />
-                )}
-              </Mutation>
-            );
-          }}
-        </Query>
-      </div>
-    );
-  }
+          return (
+            <Mutation<UpdateBodyMutation, UpdateBodyMutationVariables>
+              mutation={UpdateBody}
+              refetchQueries={[
+                { query: GetSpeakerBodies },
+                { query: GetBodies, variables: { name: '' } },
+              ]}
+            >
+              {(updateBody) => (
+                <BodyForm
+                  body={data.body}
+                  onSubmit={onFormSubmit(updateBody, data)}
+                  title="Upravit stranu / skupinu"
+                />
+              )}
+            </Mutation>
+          );
+        }}
+      </Query>
+    </div>
+  );
 }
 
 export default connect()(BodyEdit);

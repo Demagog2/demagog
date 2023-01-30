@@ -1,9 +1,8 @@
 import * as React from 'react';
 
 import { Mutation, MutationFunction } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import { uploadBodyLogo } from '../api';
@@ -18,11 +17,11 @@ import { BodyForm, IBodyFormData } from './forms/BodyForm';
 interface ICreateBodyMutationFn
   extends MutationFunction<CreateBodyMutation, CreateBodyMutationVariables> {}
 
-interface IBodyNewProps extends RouteComponentProps<{}>, DispatchProp {}
+export function BodyNew() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-// tslint:disable-next-line:max-classes-per-file
-class BodyNew extends React.Component<IBodyNewProps> {
-  public onFormSubmit = (createBody: ICreateBodyMutationFn) => (bodyFormData: IBodyFormData) => {
+  const onFormSubmit = (createBody: ICreateBodyMutationFn) => (bodyFormData: IBodyFormData) => {
     const { logo, ...bodyInput } = bodyFormData;
 
     return createBody({ variables: { bodyInput } })
@@ -39,45 +38,38 @@ class BodyNew extends React.Component<IBodyNewProps> {
         }
 
         uploadPromise.then(() => {
-          this.onCompleted(bodyId);
+          onCompleted(bodyId);
         });
       })
       .catch((error) => {
-        this.onError(error);
+        onError(error);
       });
   };
 
-  public onCompleted = (bodyId: number) => {
-    this.props.dispatch(addFlashMessage('Strana / skupina byla úspěšně uložena.', 'success'));
-    this.props.history.push(`/admin/bodies/edit/${bodyId}`);
+  const onCompleted = (bodyId: number) => {
+    dispatch(addFlashMessage('Strana / skupina byla úspěšně uložena.', 'success'));
+    navigate(`/admin/bodies/edit/${bodyId}`);
   };
 
-  public onError = (error: any) => {
-    this.props.dispatch(addFlashMessage('Při ukládání došlo k chybě.', 'error'));
+  const onError = (error: any) => {
+    dispatch(addFlashMessage('Při ukládání došlo k chybě.', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
 
-  public render() {
-    return (
-      <div style={{ padding: '15px 0 40px 0' }}>
-        <Mutation<CreateBodyMutation, CreateBodyMutationVariables>
-          mutation={CreateBody}
-          refetchQueries={[
-            { query: GetSpeakerBodies },
-            { query: GetBodies, variables: { name: '' } },
-          ]}
-        >
-          {(createBody) => (
-            <BodyForm
-              onSubmit={this.onFormSubmit(createBody)}
-              title="Přidat novou stranu / skupinu"
-            />
-          )}
-        </Mutation>
-      </div>
-    );
-  }
+  return (
+    <div style={{ padding: '15px 0 40px 0' }}>
+      <Mutation<CreateBodyMutation, CreateBodyMutationVariables>
+        mutation={CreateBody}
+        refetchQueries={[
+          { query: GetSpeakerBodies },
+          { query: GetBodies, variables: { name: '' } },
+        ]}
+      >
+        {(createBody) => (
+          <BodyForm onSubmit={onFormSubmit(createBody)} title="Přidat novou stranu / skupinu" />
+        )}
+      </Mutation>
+    </div>
+  );
 }
-
-export default connect()(withRouter(BodyNew));

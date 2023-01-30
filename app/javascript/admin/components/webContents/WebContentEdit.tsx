@@ -4,8 +4,8 @@ import { css } from 'emotion';
 import { Form, Formik } from 'formik';
 import * as React from 'react';
 import { useQuery, useMutation } from 'react-apollo';
-import { RouteComponentProps } from 'react-router';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
 
 import { addFlashMessage } from '../../actions/flashMessages';
 import TextField from '../forms/controls/TextField';
@@ -16,17 +16,18 @@ import * as ResultTypes from '../../operation-result-types';
 import { GetWebContent } from '../../queries/queries';
 import { UpdateWebContent } from '../../queries/mutations';
 
-const WebContentEdit = (props: RouteComponentProps<{ id: string }>) => {
+const WebContentEdit = () => {
   const dispatch = useDispatch();
+  const params = useParams();
 
-  const webContentId = props.match.params.id;
+  const webContentId = params.id;
 
   const { data: dataGetWebContent } = useQuery<
     ResultTypes.GetWebContent,
     ResultTypes.GetWebContentVariables
   >(GetWebContent, {
     fetchPolicy: 'cache-and-network',
-    variables: { id: webContentId },
+    variables: { id: webContentId || '' },
   });
 
   const [mutateUpdateWebContent] = useMutation<

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useMutation } from 'react-apollo';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { captureException } from '@sentry/browser';
 import * as ResultTypes from '../../operation-result-types';
 import { CreateTag } from '../../queries/mutations';
@@ -8,12 +8,12 @@ import { TagForm, ITagFormValues } from '../forms/TagForm';
 import { useFlashMessage } from '../../hooks/use-flash-messages';
 
 export function TagsNewContainer() {
-  const { push } = useHistory();
+  const navigate = useNavigate();
   const addFlashMessage = useFlashMessage();
   const [mutate] = useMutation<ResultTypes.CreateTag, ResultTypes.CreateTagVariables>(CreateTag, {
     onCompleted() {
       addFlashMessage('Štítek byl úspešně vytvořen.', 'success');
-      push('/admin/tags');
+      navigate('/admin/tags');
     },
     onError(error) {
       addFlashMessage('Při ukládání došlo k chybě.', 'error');

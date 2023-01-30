@@ -3,7 +3,7 @@ import { css } from 'emotion';
 import { Field, Formik } from 'formik';
 import * as React from 'react';
 import { useQuery, useMutation } from 'react-apollo';
-import { RouteComponentProps } from 'react-router';
+import { useParams } from 'react-router';
 
 import AudioOnlyVideo from '../../article-factcheck-video/video/AudioOnlyVideo';
 import FacebookVideo from '../../article-factcheck-video/video/FacebookVideo';
@@ -17,13 +17,14 @@ import Loading from './Loading';
 import { StatementInput } from './statementVideoMarks/StatementInput';
 import { VideoModalContainer } from './statementVideoMarks/VideoModalContainer';
 
-export default function StatementsVideoMarks(props: RouteComponentProps<{ sourceId: string }>) {
+export default function StatementsVideoMarks() {
+  const params = useParams();
   const { data, loading } = useQuery<
     ResultTypes.GetSourceWithStatementsAndVideoMarks,
     ResultTypes.GetSourceWithStatementsAndVideoMarksVariables
   >(GetSourceWithStatementsAndVideoMarks, {
     fetchPolicy: 'cache-and-network',
-    variables: { id: parseInt(props.match.params.sourceId, 10), includeUnpublished: true },
+    variables: { id: parseInt(params.sourceId ?? '', 10), includeUnpublished: true },
   });
 
   const [mutate, { loading: saving }] = useMutation<

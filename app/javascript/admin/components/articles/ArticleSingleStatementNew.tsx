@@ -1,8 +1,7 @@
-import * as React from 'react';
+import React, { useCallback } from 'react';
 
-import { Mutation, MutationFunction } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useMutation } from 'react-apollo';
+import { useDispatch } from 'react-redux';
 
 import { addFlashMessage } from '../../actions/flashMessages';
 import { uploadArticleIllustration } from '../../api';
@@ -14,33 +13,42 @@ import {
 import { CreateArticle } from '../../queries/mutations';
 import { GetArticles } from '../../queries/queries';
 import { ArticleSingleStatementForm } from './ArticleSingleStatementForm';
+import { useNavigate } from 'react-router';
 
-type CreateArticleMutationFn = MutationFunction<
-  CreateArticleMutation,
-  CreateArticleMutationVariables
->;
+export default function ArticleSingleStatementNew() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-interface ISourceNewProps extends RouteComponentProps<{}>, DispatchProp {}
+  const onSuccess = useCallback(
+    (articleId: string) => {
+      dispatch(addFlashMessage('Článek byl úspěšně uložen.', 'success'));
 
-export class ArticleSingleStatementNew extends React.Component<ISourceNewProps> {
-  public onSuccess = (articleId: string) => {
-    this.props.dispatch(addFlashMessage('Článek byl úspěšně uložen.', 'success'));
+      navigate(`/admin/articles/edit-single-statement/${articleId}`);
+    },
+    [dispatch, navigate],
+  );
 
-    this.props.history.push(`/admin/articles/edit-single-statement/${articleId}`);
-  };
+  const onError = useCallback(
+    (error) => {
+      dispatch(addFlashMessage('Došlo k chybě při ukládání článku', 'error'));
 
-  public onError = (error) => {
-    this.props.dispatch(addFlashMessage('Došlo k chybě při ukládání článku', 'error'));
-    // tslint:disable-next-line:no-console
-    console.error(error);
-  };
+      // tslint:disable-next-line:no-console
+      console.error(error);
+    },
+    [dispatch],
+  );
 
-  public onSubmit = (createArticle: CreateArticleMutationFn) => (
-    articleFormData: ArticleInput & { illustration?: File },
-  ) => {
+  const [mutation] = useMutation<CreateArticleMutation, CreateArticleMutationVariables>(
+    CreateArticle,
+    {
+      refetchQueries: [{ query: GetArticles, variables: { title: '', offset: 0, limit: 50 } }],
+    },
+  );
+
+  const onSubmit = useCallback((articleFormData: ArticleInput & { illustration?: File }) => {
     const { illustration, ...articleInput } = articleFormData;
 
-    return createArticle({ variables: { articleInput } })
+    return mutation({ variables: { articleInput } })
       .then((mutationResult) => {
         if (!mutationResult || !mutationResult.data || !mutationResult.data.createArticle) {
           return;
@@ -54,32 +62,18 @@ export class ArticleSingleStatementNew extends React.Component<ISourceNewProps> 
           uploadPromise = uploadArticleIllustration(articleId, illustration);
         }
 
-        return uploadPromise.then(() => this.onSuccess(articleId));
+        return uploadPromise.then(() => onSuccess(articleId));
       })
-      .catch((error) => this.onError(error));
-  };
+      .catch((error) => onError(error));
+  }, []);
 
-  public render() {
-    return (
-      <div style={{ padding: '15px 0 40px 0' }}>
-        <Mutation<CreateArticleMutation, CreateArticleMutationVariables>
-          mutation={CreateArticle}
-          // TODO: is there a nicer way of updating apollo cache after creating?
-          refetchQueries={[{ query: GetArticles, variables: { title: '', offset: 0, limit: 50 } }]}
-        >
-          {(createArticle) => {
-            return (
-              <ArticleSingleStatementForm
-                onSubmit={this.onSubmit(createArticle)}
-                title="Přidat jednotlivý výrok jako článek"
-                backPath="/admin/articles"
-              />
-            );
-          }}
-        </Mutation>
-      </div>
-    );
-  }
+  return (
+    <div style={{ padding: '15px 0 40px 0' }}>
+      <ArticleSingleStatementForm
+        onSubmit={onSubmit}
+        title="Přidat jednotlivý výrok jako článek"
+        backPath="/admin/articles"
+      />
+    </div>
+  );
 }
-
-export default connect()(withRouter(ArticleSingleStatementNew));
