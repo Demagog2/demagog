@@ -136,8 +136,9 @@ export default function Sidebar() {
                     {link.enabled ? (
                       <NavLink
                         to={link.to}
-                        className={Classes.MENU_ITEM}
-                        activeClassName={Classes.ACTIVE}
+                        className={({ isActive }) =>
+                          isActive ? `${Classes.MENU_ITEM} ${Classes.ACTIVE}` : Classes.MENU_ITEM
+                        }
                       >
                         <span>{link.title}</span>
                       </NavLink>

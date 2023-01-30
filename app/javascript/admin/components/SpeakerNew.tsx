@@ -1,9 +1,8 @@
 import * as React from 'react';
 
 import { Mutation, MutationFunction } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import { uploadSpeakerAvatar } from '../api';
@@ -20,61 +19,54 @@ import { GetSpeakers } from '../queries/queries';
 interface ICreateSpeakerMutationFn
   extends MutationFunction<CreateSpeakerMutation, CreateSpeakerMutationVariables> {}
 
-interface ISpeakerNewProps extends RouteComponentProps<{}>, DispatchProp {}
+export function SpeakerNew() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-class SpeakerNew extends React.Component<ISpeakerNewProps> {
-  public onFormSubmit = (createSpeaker: ICreateSpeakerMutationFn) => (
-    speakerFormData: ISpeakerFormData,
-  ) => {
-    const { avatar, ...speakerInput } = speakerFormData;
-
-    return createSpeaker({ variables: { speakerInput } })
-      .then((mutationResult) => {
-        if (!mutationResult || !mutationResult.data || !mutationResult.data.createSpeaker) {
-          return;
-        }
-
-        const speakerId: number = parseInt(mutationResult.data.createSpeaker.speaker.id, 10);
-
-        let uploadPromise: Promise<any> = Promise.resolve();
-        if (avatar instanceof File) {
-          uploadPromise = uploadSpeakerAvatar(speakerId, avatar);
-        }
-
-        uploadPromise.then(() => {
-          this.onCompleted(speakerId);
-        });
-      })
-      .catch((error) => {
-        this.onError(error);
-      });
+  const onCompleted = (speakerId: number) => {
+    dispatch(addFlashMessage('Osoba byla úspěšně uložena.', 'success'));
+    navigate(`/admin/speakers/edit/${speakerId}`);
   };
 
-  public onCompleted = (speakerId: number) => {
-    this.props.dispatch(addFlashMessage('Osoba byla úspěšně uložena.', 'success'));
-    this.props.history.push(`/admin/speakers/edit/${speakerId}`);
-  };
-
-  public onError = (error: any) => {
-    this.props.dispatch(addFlashMessage('Při ukládání došlo k chybě.', 'error'));
+  const onError = (error: any) => {
+    dispatch(addFlashMessage('Při ukládání došlo k chybě.', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
 
-  public render() {
-    return (
-      <div style={{ padding: '15px 0 40px 0' }}>
-        <Mutation<CreateSpeakerMutation, CreateSpeakerMutationVariables>
-          mutation={CreateSpeaker}
-          refetchQueries={[{ query: GetSpeakers, variables: { name: '' } }]}
-        >
-          {(createSpeaker) => (
-            <SpeakerForm onSubmit={this.onFormSubmit(createSpeaker)} title="Přidat novou osobu" />
-          )}
-        </Mutation>
-      </div>
-    );
-  }
-}
+  const onFormSubmit = (createSpeaker: ICreateSpeakerMutationFn) => {
+    return (speakerFormData: ISpeakerFormData) => {
+      const { avatar, ...speakerInput } = speakerFormData;
 
-export default connect()(withRouter(SpeakerNew));
+      return createSpeaker({ variables: { speakerInput } })
+        .then((mutationResult) => {
+          if (!mutationResult || !mutationResult.data || !mutationResult.data.createSpeaker) {
+            return;
+          }
+
+          const speakerId: number = parseInt(mutationResult.data.createSpeaker.speaker.id, 10);
+
+          let uploadPromise: Promise<any> = Promise.resolve();
+          if (avatar instanceof File) {
+            uploadPromise = uploadSpeakerAvatar(speakerId, avatar);
+          }
+
+          uploadPromise.then(() => onCompleted(speakerId));
+        })
+        .catch((error) => onError(error));
+    };
+  };
+
+  return (
+    <div style={{ padding: '15px 0 40px 0' }}>
+      <Mutation<CreateSpeakerMutation, CreateSpeakerMutationVariables>
+        mutation={CreateSpeaker}
+        refetchQueries={[{ query: GetSpeakers, variables: { name: '' } }]}
+      >
+        {(createSpeaker) => (
+          <SpeakerForm onSubmit={onFormSubmit(createSpeaker)} title="Přidat novou osobu" />
+        )}
+      </Mutation>
+    </div>
+  );
+}

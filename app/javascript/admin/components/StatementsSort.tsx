@@ -5,8 +5,8 @@ import { ApolloError } from 'apollo-client';
 import { Mutation, Query } from 'react-apollo';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
-import { Link, withRouter } from 'react-router-dom';
+import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import {
@@ -177,47 +177,45 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 
 const EnhancedStatementsSort = connect()(StatementsSort);
 
-interface IStatementsSortContainerProps extends RouteComponentProps<{ sourceId: string }> {}
+function StatementsSortContainer() {
+  const params = useParams();
 
-class StatementsSortContainer extends React.Component<IStatementsSortContainerProps> {
-  public render() {
-    return (
-      <Query<GetSourceQuery, GetSourceQueryVariables>
-        query={GetSource}
-        variables={{ id: parseInt(this.props.match.params.sourceId, 10) }}
-      >
-        {({ data: sourceData, loading: sourceLoading }) => (
-          <Query<GetSourceStatementsQuery, GetSourceStatementsQueryVariables>
-            query={GetSourceStatements}
-            variables={{
-              sourceId: parseInt(this.props.match.params.sourceId, 10),
-              includeUnpublished: true,
-            }}
-          >
-            {({ data: statementsData, loading: statementsLoading, refetch: statementsRefetch }) => {
-              if (sourceLoading || statementsLoading) {
-                return <Loading />;
-              }
+  return (
+    <Query<GetSourceQuery, GetSourceQueryVariables>
+      query={GetSource}
+      variables={{ id: parseInt(params.sourceId ?? '', 10) }}
+    >
+      {({ data: sourceData, loading: sourceLoading }) => (
+        <Query<GetSourceStatementsQuery, GetSourceStatementsQueryVariables>
+          query={GetSourceStatements}
+          variables={{
+            sourceId: parseInt(params.sourceId ?? '', 10),
+            includeUnpublished: true,
+          }}
+        >
+          {({ data: statementsData, loading: statementsLoading, refetch: statementsRefetch }) => {
+            if (sourceLoading || statementsLoading) {
+              return <Loading />;
+            }
 
-              if (!sourceData || !statementsData) {
-                return null;
-              }
+            if (!sourceData || !statementsData) {
+              return null;
+            }
 
-              return (
-                <EnhancedStatementsSort
-                  source={sourceData.source}
-                  statements={statementsData.statements}
-                  onCompleted={() => {
-                    statementsRefetch({ sourceId: parseInt(this.props.match.params.sourceId, 10) });
-                  }}
-                />
-              );
-            }}
-          </Query>
-        )}
-      </Query>
-    );
-  }
+            return (
+              <EnhancedStatementsSort
+                source={sourceData.source}
+                statements={statementsData.statements}
+                onCompleted={() => {
+                  statementsRefetch({ sourceId: parseInt(params.sourceId ?? '', 10) });
+                }}
+              />
+            );
+          }}
+        </Query>
+      )}
+    </Query>
+  );
 }
 
-export default withRouter(StatementsSortContainer);
+export default StatementsSortContainer;

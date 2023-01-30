@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useMutation, useQuery } from 'react-apollo';
-import { RouteComponentProps } from 'react-router-dom';
 
 import { useFlashMessage } from '../hooks/use-flash-messages';
 import * as ResultTypes from '../operation-result-types';
@@ -8,13 +7,13 @@ import { UpdateSource } from '../queries/mutations';
 import { GetSource, GetSources } from '../queries/queries';
 import { SourceForm } from './forms/SourceForm';
 import Loading from './Loading';
+import { useParams } from 'react-router';
 
-interface ISourceEditProps extends RouteComponentProps<{ id: string }> {}
-
-const SourceEdit = (props: ISourceEditProps) => {
+const SourceEdit = () => {
+  const params = useParams();
   const addFlashMessage = useFlashMessage();
 
-  const sourceId = parseInt(props.match.params.id, 10);
+  const sourceId = parseInt(params.id ?? '', 10);
 
   const { data: dataGetSource } = useQuery<ResultTypes.GetSource, ResultTypes.GetSourceVariables>(
     GetSource,

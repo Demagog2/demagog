@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 import { Mutation, MutationFunction, Query } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import { deleteSpeakerAvatar, uploadSpeakerAvatar } from '../api';
@@ -23,19 +23,16 @@ import { GetSpeaker } from '../queries/queries';
 interface IUpdateSpeakerMutationFn
   extends MutationFunction<UpdateSpeakerMutation, UpdateSpeakerMutationVariables> {}
 
-interface ISpeakerEditProps extends RouteComponentProps<{ id: string }>, DispatchProp {
-  id: number;
-}
+export function SpeakerEdit() {
+  const params = useParams();
+  const dispatch = useDispatch();
 
-class SpeakerEdit extends React.Component<ISpeakerEditProps> {
-  public onFormSubmit = (
-    id: number,
-    updateSpeaker: IUpdateSpeakerMutationFn,
-    previousData: GetSpeakerQuery,
-  ) => (speakerFormData: ISpeakerFormData) => {
+  const id = parseInt(params.id ?? '', 10);
+
+  const onFormSubmit = (updateSpeaker: IUpdateSpeakerMutationFn, previousData: GetSpeakerQuery) => (
+    speakerFormData: ISpeakerFormData,
+  ) => {
     const { avatar, ...speakerInput } = speakerFormData;
-
-    this.setState({ submitting: true });
 
     // We want to first update the avatar and then run mutation so the avatar
     // gets automatically refresh in Apollo's cache from the mutation result data
@@ -48,59 +45,47 @@ class SpeakerEdit extends React.Component<ISpeakerEditProps> {
 
     return avatarPromise
       .then(() => updateSpeaker({ variables: { id: id.toString(), speakerInput } }))
-      .then(() => {
-        this.setState({ submitting: false });
-        this.onCompleted();
-      })
-      .catch((error) => {
-        this.setState({ submitting: false });
-        this.onError(error);
-      });
+      .then(() => onCompleted())
+      .catch((error) => onError(error));
   };
 
-  public onCompleted = () => {
-    this.props.dispatch(addFlashMessage('Uložení proběhlo v pořádku', 'success'));
+  const onCompleted = () => {
+    dispatch(addFlashMessage('Uložení proběhlo v pořádku', 'success'));
   };
 
-  public onError = (error: any) => {
-    this.props.dispatch(addFlashMessage('Doško k chybě při uložení dat', 'error'));
+  const onError = (error: any) => {
+    dispatch(addFlashMessage('Doško k chybě při uložení dat', 'error'));
 
     console.error(error); // tslint:disable-line:no-console
   };
 
-  public render() {
-    const id = parseInt(this.props.match.params.id, 10);
+  return (
+    <div style={{ padding: '15px 0 40px 0' }}>
+      <Query<GetSpeakerQuery, GetSpeakerQueryVariables> query={GetSpeaker} variables={{ id }}>
+        {({ data, loading, error }) => {
+          if (loading || !data) {
+            return <Loading />;
+          }
 
-    return (
-      <div style={{ padding: '15px 0 40px 0' }}>
-        <Query<GetSpeakerQuery, GetSpeakerQueryVariables> query={GetSpeaker} variables={{ id }}>
-          {({ data, loading, error }) => {
-            if (loading || !data) {
-              return <Loading />;
-            }
+          if (error) {
+            return <Error error={error} />;
+          }
 
-            if (error) {
-              return <Error error={error} />;
-            }
-
-            return (
-              <Mutation<UpdateSpeakerMutation, UpdateSpeakerMutationVariables>
-                mutation={UpdateSpeaker}
-              >
-                {(updateSpeaker) => (
-                  <SpeakerForm
-                    speaker={data.speaker}
-                    onSubmit={this.onFormSubmit(id, updateSpeaker, data)}
-                    title="Upravit osobu"
-                  />
-                )}
-              </Mutation>
-            );
-          }}
-        </Query>
-      </div>
-    );
-  }
+          return (
+            <Mutation<UpdateSpeakerMutation, UpdateSpeakerMutationVariables>
+              mutation={UpdateSpeaker}
+            >
+              {(updateSpeaker) => (
+                <SpeakerForm
+                  speaker={data.speaker}
+                  onSubmit={onFormSubmit(updateSpeaker, data)}
+                  title="Upravit osobu"
+                />
+              )}
+            </Mutation>
+          );
+        }}
+      </Query>
+    </div>
+  );
 }
-
-export default connect()(SpeakerEdit);

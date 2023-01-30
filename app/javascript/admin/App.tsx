@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { css, cx } from 'emotion';
-import { hot } from 'react-hot-loader/root';
 import { connect, DispatchProp } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { Route, Routes, Navigate } from 'react-router';
@@ -20,7 +19,7 @@ import Availability from './components/Availability';
 
 import Bodies from './components/Bodies';
 import BodyEdit from './components/BodyEdit';
-import BodyNew from './components/BodyNew';
+import { BodyNew } from './components/BodyNew';
 
 import FlashMessages from './components/FlashMessages';
 import Header from './components/Header';
@@ -30,8 +29,8 @@ import NotFound from './components/NotFound';
 import Notifications from './components/Notifications';
 import Sidebar from './components/Sidebar';
 
-import SpeakerEdit from './components/SpeakerEdit';
-import SpeakerNew from './components/SpeakerNew';
+import { SpeakerEdit } from './components/SpeakerEdit';
+import { SpeakerNew } from './components/SpeakerNew';
 import Speakers from './components/Speakers';
 
 import { PageEdit } from './components/pages/PageEdit';
@@ -53,7 +52,7 @@ import Sources from './components/Sources';
 import SourceStats from './components/SourceStats';
 
 import StatementDetail from './components/StatementDetail';
-import StatementNew from './components/StatementNew';
+import { StatementNew } from './components/StatementNew';
 import StatementsFromTranscript from './components/StatementsFromTranscript';
 import StatementsSort from './components/StatementsSort';
 import StatementsVideoMarks from './components/StatementsVideoMarks';
@@ -106,105 +105,88 @@ class App extends React.Component<IProps> {
             <main style={{ flexGrow: 1, flexShrink: 1, paddingLeft: 30, paddingRight: 30 }}>
               <FlashMessages />
               <Routes>
-                <Route path="/admin">
-                  <Navigate to="/admin/sources" />
-                </Route>
+                <Route path="/admin" element={<Navigate to="/admin/sources" />} />
 
-                <Route path="/admin/articles" exact component={Articles} />
-                <Route path="/admin/articles/new" exact component={ArticleNew} />
-                <Route path="/admin/articles/edit/:id" exact component={ArticleEdit} />
+                <Route path="/admin/articles" element={<Articles />} />
+                <Route path="/admin/articles/new" element={<ArticleNew />} />
+                <Route path="/admin/articles/edit/:id" element={<ArticleEdit />} />
                 <Route
                   path="/admin/articles/new-single-statement"
-                  exact
-                  component={ArticleSingleStatementNew}
+                  element={<ArticleSingleStatementNew />}
                 />
                 <Route
                   path="/admin/articles/edit-single-statement/:id"
-                  exact
-                  component={ArticleSingleStatementEdit}
+                  element={<ArticleSingleStatementEdit />}
                 />
 
-                <Route path="/admin/images" exact component={Images} />
+                <Route path="/admin/images" element={<Images />} />
 
-                <Route path="/admin/sources" exact component={Sources} />
-                <Route path="/admin/sources/new" exact component={SourceNew} />
-                <Route path="/admin/sources/edit/:id" exact component={SourceEdit} />
+                <Route path="/admin/sources" element={<Sources />} />
+                <Route path="/admin/sources/new" element={<SourceNew />} />
+                <Route path="/admin/sources/edit/:id" element={<SourceEdit />} />
 
-                <Route path="/admin/sources/:sourceId" exact component={SourceDetailContainer} />
+                <Route path="/admin/sources/:sourceId" element={<SourceDetailContainer />} />
                 <Route
                   path="/admin/sources/:sourceId/statements-from-transcript"
-                  exact
-                  component={StatementsFromTranscript}
+                  element={<StatementsFromTranscript />}
                 />
-                <Route
-                  path="/admin/sources/:sourceId/statements/new"
-                  exact
-                  component={StatementNew}
-                />
+                <Route path="/admin/sources/:sourceId/statements/new" element={<StatementNew />} />
                 <Route
                   path="/admin/sources/:sourceId/statements-sort"
-                  exact
-                  component={StatementsSort}
+                  element={<StatementsSort />}
                 />
-                <Route path="/admin/sources/:sourceId/stats" exact component={SourceStats} />
+                <Route path="/admin/sources/:sourceId/stats" element={<SourceStats />} />
                 <Route
                   path="/admin/sources/:sourceId/statements-video-marks"
-                  exact
-                  component={StatementsVideoMarks}
+                  element={<StatementsVideoMarks />}
                 />
 
-                <Route path="/admin/statements/:id" exact component={StatementDetail} />
+                <Route path="/admin/statements/:id" element={<StatementDetail />} />
 
-                <Route path="/admin/bodies" exact component={Bodies} />
-                <Route path="/admin/bodies/new" exact component={BodyNew} />
-                <Route path="/admin/bodies/edit/:id" exact component={BodyEdit} />
+                <Route path="/admin/bodies" element={<Bodies />} />
+                <Route path="/admin/bodies/new" element={<BodyNew />} />
+                <Route path="/admin/bodies/edit/:id" element={<BodyEdit />} />
 
-                <Route path="/admin/speakers" exact component={Speakers} />
-                <Route path="/admin/speakers/new" exact component={SpeakerNew} />
-                <Route path="/admin/speakers/edit/:id" exact component={SpeakerEdit} />
+                <Route path="/admin/speakers" element={<Speakers />} />
+                <Route path="/admin/speakers/new" element={<SpeakerNew />} />
+                <Route path="/admin/speakers/edit/:id" element={<SpeakerEdit />} />
 
-                <Route path="/admin/media" exact component={Media} />
-                <Route path="/admin/media/new" exact component={MediumNew} />
-                <Route path="/admin/media/edit/:id" exact component={MediumEdit} />
+                <Route path="/admin/media" element={<Media />} />
+                <Route path="/admin/media/new" element={<MediumNew />} />
+                <Route path="/admin/media/edit/:id" element={<MediumEdit />} />
 
-                <Route path="/admin/media-personalities" exact component={MediaPersonalities} />
-                <Route
-                  path="/admin/media-personalities/new"
-                  exact
-                  component={MediaPersonalityNew}
-                />
+                <Route path="/admin/media-personalities" element={<MediaPersonalities />} />
+                <Route path="/admin/media-personalities/new" element={<MediaPersonalityNew />} />
                 <Route
                   path="/admin/media-personalities/edit/:id"
-                  exact
-                  component={MediaPersonalityEdit}
+                  element={<MediaPersonalityEdit />}
                 />
 
-                <Route path="/admin/pages" exact component={Pages} />
-                <Route path="/admin/pages/new" exact component={PageNew} />
-                <Route path="/admin/pages/edit/:id" exact component={PageEdit} />
+                <Route path="/admin/pages" element={<Pages />} />
+                <Route path="/admin/pages/new" element={<PageNew />} />
+                <Route path="/admin/pages/edit/:id" element={<PageEdit />} />
 
-                <Route path="/admin/web-contents" exact component={WebContents} />
-                <Route path="/admin/web-contents/edit/:id" exact component={WebContentEdit} />
+                <Route path="/admin/web-contents" element={<WebContents />} />
+                <Route path="/admin/web-contents/edit/:id" element={<WebContentEdit />} />
 
-                <Route path="/admin/users" exact component={UsersPageContainer} />
-                <Route path="/admin/users/new" exact component={UserNew} />
-                <Route path="/admin/users/edit/:id" exact component={UserEdit} />
+                <Route path="/admin/users" element={<UsersPageContainer />} />
+                <Route path="/admin/users/new" element={<UserNew />} />
+                <Route path="/admin/users/edit/:id" element={<UserEdit />} />
                 <Route
                   path="/admin/users/sort-on-about-us-page"
-                  exact
-                  component={UsersSortOnAboutUsPageContainer}
+                  element={<UsersSortOnAboutUsPageContainer />}
                 />
 
-                <Route path="/admin/tags" exact component={TagsContainer} />
-                <Route path="/admin/tags/new" exact component={TagsNewContainer} />
+                <Route path="/admin/tags" element={<TagsContainer />} />
+                <Route path="/admin/tags/new" element={<TagsNewContainer />} />
 
-                <Route path="/admin/notifications/:tab?" exact component={Notifications} />
+                <Route path="/admin/notifications/:tab?" element={<Notifications />} />
 
-                <Route path="/admin/availability" exact component={Availability} />
+                <Route path="/admin/availability" element={<Availability />} />
 
-                <Route path="/admin/overall-stats" exact component={OverallStats} />
+                <Route path="/admin/overall-stats" element={<OverallStats />} />
 
-                <Route component={NotFound} />
+                <Route element={<NotFound />} />
               </Routes>
             </main>
           </div>
@@ -218,4 +200,4 @@ const mapStateToProps = (state: IState) => ({
   currentUser: state.currentUser.user,
 });
 
-export default hot(connect(mapStateToProps)(App));
+export default connect(mapStateToProps)(App);

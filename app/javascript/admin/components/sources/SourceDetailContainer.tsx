@@ -5,7 +5,7 @@ import {
 } from '../../operation-result-types';
 import { GetSourceDetail } from '../../queries/queries';
 import { useQuery } from 'react-apollo';
-import { useRouteMatch } from 'react-router';
+import { useParams } from 'react-router';
 import { MassStatementsPublishModalContainer } from './MassStatementsPublishModalContainer';
 import { useModal } from 'react-modal-hook';
 import { RemoveSourceModalContainer } from './RemoveSourceModalContainer';
@@ -17,14 +17,14 @@ import { SourceDetailPresenter } from './presenters/SourceDetailPresenter';
 import { ASSESSMENT_STATUS_APPROVED } from '../../constants';
 
 export function SourceDetailContainer() {
-  const { params } = useRouteMatch<{ sourceId: string }>();
+  const params = useParams();
   const { state, onStatementsFilterUpdate, onRemoveStatementsFilters } = useStatementFilters();
 
   const { data, loading } = useQuery<GetSourceDetailQuery, GetSourceDetailVariables>(
     GetSourceDetail,
     {
       variables: {
-        id: parseInt(params.sourceId, 10),
+        id: parseInt(params.sourceId ?? '', 10),
       },
     },
   );

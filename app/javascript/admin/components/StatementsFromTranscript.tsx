@@ -1,6 +1,6 @@
 /* eslint jsx-a11y/anchor-has-content: 0, jsx-a11y/anchor-is-valid: 0 */
 
-import * as React from 'react';
+import React, { useState } from 'react';
 
 import { Button, Card, Classes, Intent } from '@blueprintjs/core';
 import { Form, Formik } from 'formik';
@@ -10,8 +10,9 @@ import { DateTime } from 'luxon';
 import * as queryString from 'query-string';
 import { Mutation, Query } from 'react-apollo';
 import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import * as yup from 'yup';
+import { useLocation, useParams } from 'react-router';
 
 import * as Slate from 'slate';
 import SlatePlainSerializer from 'slate-plain-serializer';
@@ -49,121 +50,35 @@ interface ITranscriptSelection {
   endOffset: number;
 }
 
-interface IProps extends RouteComponentProps<{ sourceId: string }> {
+interface IProps {
   isAuthorized: (permissions: string[]) => boolean;
 }
 
-interface IState {
-  transcriptSelection: ITranscriptSelection | null;
-  newStatementSelection: ITranscriptSelection | null;
-  selectedStatements: string[];
-}
+function StatementsFromTranscript(props: IProps) {
+  const params = useParams();
+  const location = useLocation();
 
-class StatementsFromTranscript extends React.Component<IProps, IState> {
-  public transcriptContainer: Node | null = null;
+  const [transcriptSelection, setTranscriptionSelection] = useState<ITranscriptSelection | null>(
+    null,
+  );
+  const [
+    newStatementSelection,
+    setNewTranscriptionSelection,
+  ] = useState<ITranscriptSelection | null>(null);
+  const [selectedStatements, setSelectedStatements] = useState<string[]>([]);
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      transcriptSelection: null,
-      newStatementSelection: null,
-      selectedStatements: [],
-    };
-  }
-
-  public onCreateStatementMouseDown = () => {
-    const { transcriptSelection } = this.state;
-
+  const onCreateStatementMouseDown = () => {
     if (transcriptSelection === null) {
       return;
     }
 
-    this.setState({ newStatementSelection: transcriptSelection });
+    setNewTranscriptionSelection(transcriptSelection);
   };
 
-  public closeNewStatementForm = () => {
-    this.setState({ newStatementSelection: null });
-  };
+  const closeNewStatementForm = () => setNewTranscriptionSelection(null);
 
-  public onSelectionChange = (transcriptSelection: ITranscriptSelection | null) => {
-    this.setState({ transcriptSelection });
-  };
-
-  public onSelectedStatementsChange = (selectedStatements: string[]) => {
-    this.setState({ selectedStatements });
-  };
-
-  public render() {
-    return (
-      <Query<GetSourceQuery>
-        query={GetSource}
-        variables={{ id: parseInt(this.props.match.params.sourceId, 10) }}
-      >
-        {({ data, loading }) => {
-          if (loading) {
-            return <Loading />;
-          }
-
-          if (!data) {
-            return null;
-          }
-
-          const source = data.source;
-
-          return (
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                height: 'calc(100vh - 65px)',
-                paddingTop: 15,
-              }}
-            >
-              <div>
-                <div style={{ float: 'right' }}>
-                  <Link to={`/admin/sources/${source.id}`} className={Classes.BUTTON}>
-                    Zpět na diskuzi
-                  </Link>
-                </div>
-
-                <h2 className={Classes.HEADING}>{source.name}</h2>
-
-                <span>
-                  {source.medium?.name} ze dne{' '}
-                  {source.releasedAt ? displayDate(source.releasedAt) : 'neuvedeno'}
-                  {source.mediaPersonalities && source.mediaPersonalities.length > 0 && (
-                    <>, {source.mediaPersonalities.map((p) => p.name).join(' & ')}</>
-                  )}
-                  {source.sourceUrl && (
-                    <>
-                      , <a href={source.sourceUrl}>odkaz</a>
-                    </>
-                  )}
-                  {source.experts?.length && (
-                    <>
-                      <br />
-                      Editoři:{' '}
-                      {source.experts
-                        .map((expert) => `${expert.firstName} ${expert.lastName}`)
-                        .join(', ')}
-                    </>
-                  )}
-                </span>
-              </div>
-
-              {this.renderTranscriptWithStatements(source)}
-            </div>
-          );
-        }}
-      </Query>
-    );
-  }
-
-  public renderTranscriptWithStatements(source) {
-    const { newStatementSelection, selectedStatements, transcriptSelection } = this.state;
-
-    const canAddStatements = this.props.isAuthorized(['statements:add']);
+  const renderTranscriptWithStatements = (source) => {
+    const canAddStatements = props.isAuthorized(['statements:add']);
 
     return (
       <Query<GetSourceStatementsQuery, GetSourceStatementsQueryVariables>
@@ -193,7 +108,7 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
           }
 
           let startCursor: { line: number; offset: number } | null = null;
-          const queryParams = queryString.parse(this.props.location.search);
+          const queryParams = queryString.parse(location.search);
           if (queryParams.highlightStatementId) {
             const highlightStatement = statementsWithPositions.find(
               (s) => s.id === queryParams.highlightStatementId,
@@ -221,8 +136,8 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                 <h5 className={Classes.HEADING}>Přepis:</h5>
                 {source.transcript && (
                   <TranscriptText
-                    onSelectedStatementsChange={this.onSelectedStatementsChange}
-                    onSelectionChange={this.onSelectionChange}
+                    onSelectedStatementsChange={setSelectedStatements}
+                    onSelectionChange={setTranscriptionSelection}
                     selectedStatements={selectedStatements}
                     statements={statementsWithPositions}
                     transcript={source.transcript}
@@ -292,7 +207,7 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                     <Button
                       intent={Intent.PRIMARY}
                       large
-                      onMouseDown={this.onCreateStatementMouseDown}
+                      onMouseDown={onCreateStatementMouseDown}
                       text="Vytvořit výrok z označené části přepisu"
                     />
                   )}
@@ -301,9 +216,9 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
                   <NewStatementForm
                     onStatementCreated={() => {
                       refetch({ sourceId: parseInt(source.id, 10) });
-                      this.closeNewStatementForm();
+                      closeNewStatementForm();
                     }}
-                    onRequestClose={this.closeNewStatementForm}
+                    onRequestClose={closeNewStatementForm}
                     selection={newStatementSelection}
                     source={source}
                   />
@@ -314,7 +229,71 @@ class StatementsFromTranscript extends React.Component<IProps, IState> {
         }}
       </Query>
     );
-  }
+  };
+
+  return (
+    <Query<GetSourceQuery>
+      query={GetSource}
+      variables={{ id: parseInt(params.sourceId ?? '', 10) }}
+    >
+      {({ data, loading }) => {
+        if (loading) {
+          return <Loading />;
+        }
+
+        if (!data) {
+          return null;
+        }
+
+        const source = data.source;
+
+        return (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              height: 'calc(100vh - 65px)',
+              paddingTop: 15,
+            }}
+          >
+            <div>
+              <div style={{ float: 'right' }}>
+                <Link to={`/admin/sources/${source.id}`} className={Classes.BUTTON}>
+                  Zpět na diskuzi
+                </Link>
+              </div>
+
+              <h2 className={Classes.HEADING}>{source.name}</h2>
+
+              <span>
+                {source.medium?.name} ze dne{' '}
+                {source.releasedAt ? displayDate(source.releasedAt) : 'neuvedeno'}
+                {source.mediaPersonalities && source.mediaPersonalities.length > 0 && (
+                  <>, {source.mediaPersonalities.map((p) => p.name).join(' & ')}</>
+                )}
+                {source.sourceUrl && (
+                  <>
+                    , <a href={source.sourceUrl}>odkaz</a>
+                  </>
+                )}
+                {source.experts?.length && (
+                  <>
+                    <br />
+                    Editoři:{' '}
+                    {source.experts
+                      .map((expert) => `${expert.firstName} ${expert.lastName}`)
+                      .join(', ')}
+                  </>
+                )}
+              </span>
+            </div>
+
+            {renderTranscriptWithStatements(source)}
+          </div>
+        );
+      }}
+    </Query>
+  );
 }
 
 interface INewStatementFormProps {

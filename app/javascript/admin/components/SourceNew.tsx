@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useMutation } from 'react-apollo';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { useFlashMessage } from '../hooks/use-flash-messages';
 import * as ResultTypes from '../operation-result-types';
@@ -9,7 +9,7 @@ import { GetSources } from '../queries/queries';
 import { SourceForm } from './forms/SourceForm';
 
 const SourceNew = () => {
-  const { push } = useHistory();
+  const navigate = useNavigate();
   const addFlashMessage = useFlashMessage();
 
   const [createSource] = useMutation<ResultTypes.CreateSource, ResultTypes.CreateSourceVariables>(
@@ -27,7 +27,7 @@ const SourceNew = () => {
         addFlashMessage('Diskuze byla úspěšně uložena.', 'success');
 
         if (source.createSource) {
-          push(`/admin/sources/${source.createSource.source.id}`);
+          navigate(`/admin/sources/${source.createSource.source.id}`);
         }
       },
       refetchQueries: [{ query: GetSources, variables: { name: '', offset: 0, limit: 50 } }],
