@@ -1,18 +1,18 @@
 import * as React from 'react';
 
 import { css, cx } from 'emotion';
-import { createBrowserHistory } from 'history';
 import { hot } from 'react-hot-loader/root';
 import { connect, DispatchProp } from 'react-redux';
-import { Redirect, Route, Router, Switch } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router';
 
 import { fetchCurrentUser } from './actions/currentUser';
 import hoffImg from './images/hoff.png';
 import { IState } from './reducers';
 
-import ArticleEdit from './components/articles/ArticleEdit';
-import ArticleNew from './components/articles/ArticleNew';
-import ArticleSingleStatementEdit from './components/articles/ArticleSingleStatementEdit';
+import { ArticleEdit } from './components/articles/ArticleEdit';
+import { ArticleNew } from './components/articles/ArticleNew';
+import { ArticleSingleStatementEdit } from './components/articles/ArticleSingleStatementEdit';
 import ArticleSingleStatementNew from './components/articles/ArticleSingleStatementNew';
 import Articles from './components/articles/Articles';
 
@@ -34,17 +34,17 @@ import SpeakerEdit from './components/SpeakerEdit';
 import SpeakerNew from './components/SpeakerNew';
 import Speakers from './components/Speakers';
 
-import PageEdit from './components/pages/PageEdit';
-import PageNew from './components/pages/PageNew';
+import { PageEdit } from './components/pages/PageEdit';
+import { PageNew } from './components/pages/PageNew';
 import Pages from './components/pages/Pages';
 
 import Media from './components/media/Media';
-import MediumEdit from './components/media/MediumEdit';
-import MediumNew from './components/media/MediumNew';
+import { MediumEdit } from './components/media/MediumEdit';
+import { MediumNew } from './components/media/MediumNew';
 
 import MediaPersonalities from './components/mediaPersonalities/MediaPersonalities';
-import MediaPersonalityEdit from './components/mediaPersonalities/MediaPersonalityEdit';
-import MediaPersonalityNew from './components/mediaPersonalities/MediaPersonalityNew';
+import { MediaPersonalityEdit } from './components/mediaPersonalities/MediaPersonalityEdit';
+import { MediaPersonalityNew } from './components/mediaPersonalities/MediaPersonalityNew';
 
 import { SourceDetailContainer } from './components/sources/SourceDetailContainer';
 import SourceEdit from './components/SourceEdit';
@@ -71,8 +71,6 @@ import { TagsNewContainer } from './components/tags/TagsNewContainer';
 import WebContents from './components/webContents/WebContents';
 import WebContentEdit from './components/webContents/WebContentEdit';
 
-const history = createBrowserHistory();
-
 const hoff = css`
   background-image: url(${hoffImg});
   background-repeat: no-repeat;
@@ -96,7 +94,7 @@ class App extends React.Component<IProps> {
     }
 
     return (
-      <Router history={history}>
+      <BrowserRouter>
         {/* top padding because of the fixed position header */}
         <div
           style={{ paddingTop: 50 }}
@@ -107,9 +105,9 @@ class App extends React.Component<IProps> {
             <Sidebar />
             <main style={{ flexGrow: 1, flexShrink: 1, paddingLeft: 30, paddingRight: 30 }}>
               <FlashMessages />
-              <Switch>
-                <Route path="/admin" exact>
-                  <Redirect to="/admin/sources" />
+              <Routes>
+                <Route path="/admin">
+                  <Navigate to="/admin/sources" />
                 </Route>
 
                 <Route path="/admin/articles" exact component={Articles} />
@@ -207,11 +205,11 @@ class App extends React.Component<IProps> {
                 <Route path="/admin/overall-stats" exact component={OverallStats} />
 
                 <Route component={NotFound} />
-              </Switch>
+              </Routes>
             </main>
           </div>
         </div>
-      </Router>
+      </BrowserRouter>
     );
   }
 }

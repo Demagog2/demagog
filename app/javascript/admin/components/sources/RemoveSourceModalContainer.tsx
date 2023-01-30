@@ -3,7 +3,7 @@ import { DeleteSource } from '../../queries/mutations';
 import { GetSource, GetSources } from '../../queries/queries';
 import { useMutation } from 'react-apollo';
 import { useFlashMessage } from '../../hooks/use-flash-messages';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { DeleteSourceVariables } from '../../operation-result-types';
 import { RemoveSourceModal } from './RemoveSourceModal';
 
@@ -15,7 +15,7 @@ interface ISourceModalContainerProps {
 
 export function RemoveSourceModalContainer(props: ISourceModalContainerProps) {
   const addFlashMessage = useFlashMessage();
-  const { push } = useHistory();
+  const navigate = useNavigate();
 
   const [mutate, { loading }] = useMutation<any, DeleteSourceVariables>(DeleteSource, {
     variables: {
@@ -26,7 +26,7 @@ export function RemoveSourceModalContainer(props: ISourceModalContainerProps) {
     },
     onCompleted() {
       addFlashMessage('Diskuze včetně jejích výroků byla úspěšně smazána.', 'success');
-      push('/admin/sources');
+      navigate('/admin/sources');
     },
     refetchQueries: [
       {
