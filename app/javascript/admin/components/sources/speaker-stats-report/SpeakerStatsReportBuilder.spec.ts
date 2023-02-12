@@ -1,18 +1,18 @@
 import { SpeakerStatsReportBuilder } from './SpeakerStatsReportBuilder';
-import { speakerFactory } from '../model/SpeakerFactory';
-import { Speaker } from '../model/Speaker';
+import { SourceSpeaker } from '../model/SourceSpeaker';
 import { Statement } from '../model/Statement';
 import { statementFactory } from '../model/StatementFactory';
 import { veracityStatsFactory } from './model/VeracityStatsFactory';
 import { promiseRatingStatsFactory } from './model/PromiseRatingStatsFactory';
+import { sourceSpeakerFactory } from '../model/SourceSpeakerFactory';
 
-function createReport(speaker: Speaker, statements: Statement[] = []) {
+function createReport(speaker: SourceSpeaker, statements: Statement[] = []) {
   return new SpeakerStatsReportBuilder(speaker, statements).buildReport();
 }
 
 describe('SpeakerStatsReportBuilder', () => {
   describe('stats for statements', () => {
-    const speaker = speakerFactory.build();
+    const speaker = sourceSpeakerFactory.build();
 
     it('has id derived from speaker', () => {
       expect(createReport(speaker).id).toEqual(speaker.getId());
@@ -32,12 +32,12 @@ describe('SpeakerStatsReportBuilder', () => {
       it('counts as true record', () => {
         const statements = [
           statementFactory
-            .withSpeaker(speaker)
+            .withSourceSpeaker(speaker)
             .approved()
             .true()
             .build(),
           statementFactory
-            .withSpeaker(speakerFactory.build())
+            .withSourceSpeaker(sourceSpeakerFactory.build())
             .approved()
             .true()
             .build(),
@@ -51,7 +51,7 @@ describe('SpeakerStatsReportBuilder', () => {
 
     describe('with statement without veracity', () => {
       it('counts as being evaluated', () => {
-        const statements = [statementFactory.withSpeaker(speaker).build()];
+        const statements = [statementFactory.withSourceSpeaker(speaker).build()];
 
         expect(createReport(speaker, statements).stats).toEqual(
           veracityStatsFactory.beingEvaluated(1).build(),
@@ -63,12 +63,12 @@ describe('SpeakerStatsReportBuilder', () => {
       it('counts as two evaluated records', () => {
         const statements = [
           statementFactory
-            .withSpeaker(speaker)
+            .withSourceSpeaker(speaker)
             .beingEvaluated()
             .true()
             .build(),
           statementFactory
-            .withSpeaker(speaker)
+            .withSourceSpeaker(speaker)
             .beingEvaluated()
             .untrue()
             .build(),
@@ -84,12 +84,12 @@ describe('SpeakerStatsReportBuilder', () => {
       it('counts as one true and one untrue record', () => {
         const statements = [
           statementFactory
-            .withSpeaker(speaker)
+            .withSourceSpeaker(speaker)
             .approved()
             .true()
             .build(),
           statementFactory
-            .withSpeaker(speaker)
+            .withSourceSpeaker(speaker)
             .approved()
             .untrue()
             .build(),
@@ -108,7 +108,7 @@ describe('SpeakerStatsReportBuilder', () => {
       it('counts as true record', () => {
         const statements = [
           statementFactory
-            .withSpeaker(speaker)
+            .withSourceSpeaker(speaker)
             .true()
             .proofread()
             .build(),
@@ -122,11 +122,11 @@ describe('SpeakerStatsReportBuilder', () => {
   });
 
   describe('stats for promises', () => {
-    const speaker = speakerFactory.build();
+    const speaker = sourceSpeakerFactory.build();
 
     it('builds stats for broken promises', () => {
       const statements = statementFactory
-        .withSpeaker(speaker)
+        .withSourceSpeaker(speaker)
         .withPromiseAssessment()
         .brokenPromise()
         .buildList(2);
@@ -138,7 +138,7 @@ describe('SpeakerStatsReportBuilder', () => {
 
     it('builds stats for fulfilled promises', () => {
       const statements = statementFactory
-        .withSpeaker(speaker)
+        .withSourceSpeaker(speaker)
         .withPromiseAssessment()
         .fulfilledPromise()
         .buildList(2);
@@ -150,7 +150,7 @@ describe('SpeakerStatsReportBuilder', () => {
 
     it('builds stats for in progress promises', () => {
       const statements = statementFactory
-        .withSpeaker(speaker)
+        .withSourceSpeaker(speaker)
         .withPromiseAssessment()
         .inProgressPromise()
         .buildList(2);
