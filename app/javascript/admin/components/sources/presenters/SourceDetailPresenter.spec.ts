@@ -9,10 +9,10 @@ import {
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
 } from '../../../constants';
 import { Evaluator } from '../model/Evaluator';
-import { speakerFactory } from '../model/SpeakerFactory';
 import { Expert } from '../model/Expert';
 import { Medium } from '../model/Medium';
 import { MediaPersonality } from '../model/MediaPersonality';
+import { sourceSpeakerFactory } from '../model/SourceSpeakerFactory';
 
 const filterViewModelFactory = Factory.define<{ key: string; label: string; active: boolean }>(
   () => ({
@@ -32,7 +32,7 @@ describe('SourceDetailPresenter', () => {
     sourceUrl: 'http://example.com',
     releasedAt: '2020-01-13 17:00',
     experts: [new Expert('1', 'John', 'Expert')],
-    speakers: speakerFactory.buildList(2),
+    sourceSpeakers: sourceSpeakerFactory.buildList(2),
     statements: [
       ...statementFactory
         .withEvaluator(evaluator)
@@ -94,7 +94,7 @@ describe('SourceDetailPresenter', () => {
         id: '1',
         content: 'Content 1',
         published: true,
-        speaker: {
+        sourceSpeaker: {
           firstName: 'First name 3',
           lastName: 'Doe',
         },
