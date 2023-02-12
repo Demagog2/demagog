@@ -3,9 +3,9 @@ import { IStatsReport } from './model/StatsReport';
 import { Statement } from '../model/Statement';
 
 export class SpeakerStatsReportBuilder {
-  constructor(protected sourceSpeaker: SourceSpeaker, protected statements: Statement[]) {}
+  public static readonly BEING_EVALUATED_STATS_KEY = 'evaluated';
 
-  private BEING_EVALUATED_STATS_KEY = 'evaluated';
+  constructor(protected sourceSpeaker: SourceSpeaker, protected statements: Statement[]) {}
 
   public buildReport(): IStatsReport {
     const DEFAULT_STATS_INDEX = this.getDefaultStatsIndex();
@@ -36,7 +36,7 @@ export class SpeakerStatsReportBuilder {
         in_progress: 0,
         partially_fulfilled: 0,
         stalled: 0,
-        [this.BEING_EVALUATED_STATS_KEY]: 0,
+        [SpeakerStatsReportBuilder.BEING_EVALUATED_STATS_KEY]: 0,
       };
     }
 
@@ -45,7 +45,7 @@ export class SpeakerStatsReportBuilder {
       untrue: 0,
       misleading: 0,
       unverifiable: 0,
-      [this.BEING_EVALUATED_STATS_KEY]: 0,
+      [SpeakerStatsReportBuilder.BEING_EVALUATED_STATS_KEY]: 0,
     };
   }
 
@@ -58,7 +58,7 @@ export class SpeakerStatsReportBuilder {
           return veracity;
         }
 
-        return this.BEING_EVALUATED_STATS_KEY;
+        return SpeakerStatsReportBuilder.BEING_EVALUATED_STATS_KEY;
 
       case 'promise_rating':
         const promiseRating = statement.getPromiseRating();
@@ -67,9 +67,9 @@ export class SpeakerStatsReportBuilder {
           return promiseRating;
         }
 
-        return this.BEING_EVALUATED_STATS_KEY;
+        return SpeakerStatsReportBuilder.BEING_EVALUATED_STATS_KEY;
       default:
-        return this.BEING_EVALUATED_STATS_KEY;
+        return SpeakerStatsReportBuilder.BEING_EVALUATED_STATS_KEY;
     }
   }
 }
