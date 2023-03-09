@@ -115,7 +115,7 @@ class Speaker < ApplicationRecord
   def self.get_most_important_speaker_ids
     [
       # president
-      168, # Milos Zeman
+      711, # Petr Pavel
 
       # government
       67, # ODS, Petr Fiala
