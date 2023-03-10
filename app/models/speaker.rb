@@ -132,7 +132,7 @@ class Speaker < ApplicationRecord
       691, # STAN, Vladimir Balas
       710, # KDU-CSL, Zdenek Nekula
       311, # ODS, Martin Baxa
-      421, # KDU-CSL, Anna Hubackova
+      454, # KDU-CSL, Petr Hladik
       548, # Mikulas Bek
       156, # TOP-09, Helena Langsadlova
       616, # Michal Salomoun
