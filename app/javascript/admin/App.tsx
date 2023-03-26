@@ -4,6 +4,7 @@ import { css, cx } from 'emotion';
 import { connect, DispatchProp } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { Route, Routes, Navigate } from 'react-router';
+import { ModalProvider } from 'react-modal-hook';
 
 import { fetchCurrentUser } from './actions/currentUser';
 import hoffImg from './images/hoff.png';
@@ -94,103 +95,111 @@ class App extends React.Component<IProps> {
 
     return (
       <BrowserRouter>
-        {/* top padding because of the fixed position header */}
-        <div
-          style={{ paddingTop: 50 }}
-          className={cx({ [hoff]: this.props.currentUser.email === 'tvrdon.honza@gmail.com' })}
-        >
-          <Header />
-          <div style={{ display: 'flex' }}>
-            <Sidebar />
-            <main style={{ flexGrow: 1, flexShrink: 1, paddingLeft: 30, paddingRight: 30 }}>
-              <FlashMessages />
-              <Routes>
-                <Route path="/admin" element={<Navigate to="/admin/sources" />} />
+        {/* We have the ModalProvider here and not in admin/index.tsx because the modals
+            often use redirect which needs router context and provider therefore needs to be
+            inside Router */}
+        <ModalProvider>
+          {/* top padding because of the fixed position header */}
+          <div
+            style={{ paddingTop: 50 }}
+            className={cx({ [hoff]: this.props.currentUser.email === 'tvrdon.honza@gmail.com' })}
+          >
+            <Header />
+            <div style={{ display: 'flex' }}>
+              <Sidebar />
+              <main style={{ flexGrow: 1, flexShrink: 1, paddingLeft: 30, paddingRight: 30 }}>
+                <FlashMessages />
+                <Routes>
+                  <Route path="/admin" element={<Navigate to="/admin/sources" />} />
 
-                <Route path="/admin/articles" element={<Articles />} />
-                <Route path="/admin/articles/new" element={<ArticleNew />} />
-                <Route path="/admin/articles/edit/:id" element={<ArticleEdit />} />
-                <Route
-                  path="/admin/articles/new-single-statement"
-                  element={<ArticleSingleStatementNew />}
-                />
-                <Route
-                  path="/admin/articles/edit-single-statement/:id"
-                  element={<ArticleSingleStatementEdit />}
-                />
+                  <Route path="/admin/articles" element={<Articles />} />
+                  <Route path="/admin/articles/new" element={<ArticleNew />} />
+                  <Route path="/admin/articles/edit/:id" element={<ArticleEdit />} />
+                  <Route
+                    path="/admin/articles/new-single-statement"
+                    element={<ArticleSingleStatementNew />}
+                  />
+                  <Route
+                    path="/admin/articles/edit-single-statement/:id"
+                    element={<ArticleSingleStatementEdit />}
+                  />
 
-                <Route path="/admin/images" element={<Images />} />
+                  <Route path="/admin/images" element={<Images />} />
 
-                <Route path="/admin/sources" element={<Sources />} />
-                <Route path="/admin/sources/new" element={<SourceNew />} />
-                <Route path="/admin/sources/edit/:id" element={<SourceEdit />} />
+                  <Route path="/admin/sources" element={<Sources />} />
+                  <Route path="/admin/sources/new" element={<SourceNew />} />
+                  <Route path="/admin/sources/edit/:id" element={<SourceEdit />} />
 
-                <Route path="/admin/sources/:sourceId" element={<SourceDetailContainer />} />
-                <Route
-                  path="/admin/sources/:sourceId/statements-from-transcript"
-                  element={<StatementsFromTranscript />}
-                />
-                <Route path="/admin/sources/:sourceId/statements/new" element={<StatementNew />} />
-                <Route
-                  path="/admin/sources/:sourceId/statements-sort"
-                  element={<StatementsSort />}
-                />
-                <Route path="/admin/sources/:sourceId/stats" element={<SourceStats />} />
-                <Route
-                  path="/admin/sources/:sourceId/statements-video-marks"
-                  element={<StatementsVideoMarks />}
-                />
+                  <Route path="/admin/sources/:sourceId" element={<SourceDetailContainer />} />
+                  <Route
+                    path="/admin/sources/:sourceId/statements-from-transcript"
+                    element={<StatementsFromTranscript />}
+                  />
+                  <Route
+                    path="/admin/sources/:sourceId/statements/new"
+                    element={<StatementNew />}
+                  />
+                  <Route
+                    path="/admin/sources/:sourceId/statements-sort"
+                    element={<StatementsSort />}
+                  />
+                  <Route path="/admin/sources/:sourceId/stats" element={<SourceStats />} />
+                  <Route
+                    path="/admin/sources/:sourceId/statements-video-marks"
+                    element={<StatementsVideoMarks />}
+                  />
 
-                <Route path="/admin/statements/:id" element={<StatementDetail />} />
+                  <Route path="/admin/statements/:id" element={<StatementDetail />} />
 
-                <Route path="/admin/bodies" element={<Bodies />} />
-                <Route path="/admin/bodies/new" element={<BodyNew />} />
-                <Route path="/admin/bodies/edit/:id" element={<BodyEdit />} />
+                  <Route path="/admin/bodies" element={<Bodies />} />
+                  <Route path="/admin/bodies/new" element={<BodyNew />} />
+                  <Route path="/admin/bodies/edit/:id" element={<BodyEdit />} />
 
-                <Route path="/admin/speakers" element={<Speakers />} />
-                <Route path="/admin/speakers/new" element={<SpeakerNew />} />
-                <Route path="/admin/speakers/edit/:id" element={<SpeakerEdit />} />
+                  <Route path="/admin/speakers" element={<Speakers />} />
+                  <Route path="/admin/speakers/new" element={<SpeakerNew />} />
+                  <Route path="/admin/speakers/edit/:id" element={<SpeakerEdit />} />
 
-                <Route path="/admin/media" element={<Media />} />
-                <Route path="/admin/media/new" element={<MediumNew />} />
-                <Route path="/admin/media/edit/:id" element={<MediumEdit />} />
+                  <Route path="/admin/media" element={<Media />} />
+                  <Route path="/admin/media/new" element={<MediumNew />} />
+                  <Route path="/admin/media/edit/:id" element={<MediumEdit />} />
 
-                <Route path="/admin/media-personalities" element={<MediaPersonalities />} />
-                <Route path="/admin/media-personalities/new" element={<MediaPersonalityNew />} />
-                <Route
-                  path="/admin/media-personalities/edit/:id"
-                  element={<MediaPersonalityEdit />}
-                />
+                  <Route path="/admin/media-personalities" element={<MediaPersonalities />} />
+                  <Route path="/admin/media-personalities/new" element={<MediaPersonalityNew />} />
+                  <Route
+                    path="/admin/media-personalities/edit/:id"
+                    element={<MediaPersonalityEdit />}
+                  />
 
-                <Route path="/admin/pages" element={<Pages />} />
-                <Route path="/admin/pages/new" element={<PageNew />} />
-                <Route path="/admin/pages/edit/:id" element={<PageEdit />} />
+                  <Route path="/admin/pages" element={<Pages />} />
+                  <Route path="/admin/pages/new" element={<PageNew />} />
+                  <Route path="/admin/pages/edit/:id" element={<PageEdit />} />
 
-                <Route path="/admin/web-contents" element={<WebContents />} />
-                <Route path="/admin/web-contents/edit/:id" element={<WebContentEdit />} />
+                  <Route path="/admin/web-contents" element={<WebContents />} />
+                  <Route path="/admin/web-contents/edit/:id" element={<WebContentEdit />} />
 
-                <Route path="/admin/users" element={<UsersPageContainer />} />
-                <Route path="/admin/users/new" element={<UserNew />} />
-                <Route path="/admin/users/edit/:id" element={<UserEdit />} />
-                <Route
-                  path="/admin/users/sort-on-about-us-page"
-                  element={<UsersSortOnAboutUsPageContainer />}
-                />
+                  <Route path="/admin/users" element={<UsersPageContainer />} />
+                  <Route path="/admin/users/new" element={<UserNew />} />
+                  <Route path="/admin/users/edit/:id" element={<UserEdit />} />
+                  <Route
+                    path="/admin/users/sort-on-about-us-page"
+                    element={<UsersSortOnAboutUsPageContainer />}
+                  />
 
-                <Route path="/admin/tags" element={<TagsContainer />} />
-                <Route path="/admin/tags/new" element={<TagsNewContainer />} />
+                  <Route path="/admin/tags" element={<TagsContainer />} />
+                  <Route path="/admin/tags/new" element={<TagsNewContainer />} />
 
-                <Route path="/admin/notifications/:tab?" element={<Notifications />} />
+                  <Route path="/admin/notifications/:tab?" element={<Notifications />} />
 
-                <Route path="/admin/availability" element={<Availability />} />
+                  <Route path="/admin/availability" element={<Availability />} />
 
-                <Route path="/admin/overall-stats" element={<OverallStats />} />
+                  <Route path="/admin/overall-stats" element={<OverallStats />} />
 
-                <Route element={<NotFound />} />
-              </Routes>
-            </main>
+                  <Route element={<NotFound />} />
+                </Routes>
+              </main>
+            </div>
           </div>
-        </div>
+        </ModalProvider>
       </BrowserRouter>
     );
   }
