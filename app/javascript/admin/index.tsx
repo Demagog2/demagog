@@ -20,9 +20,8 @@ import 'react-hot-loader';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { ModalProvider } from 'react-modal-hook';
 import { ApolloProvider } from 'react-apollo';
-import { Provider } from 'react-redux';
+import { Provider as ReduxProvider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';
 
@@ -48,11 +47,9 @@ epicMiddleware.run(rootEpic);
 const render = (RootContainer) =>
   ReactDOM.render(
     <ApolloProvider client={apolloClient}>
-      <ModalProvider>
-        <Provider store={store}>
-          <RootContainer />
-        </Provider>
-      </ModalProvider>
+      <ReduxProvider store={store}>
+        <RootContainer />
+      </ReduxProvider>
     </ApolloProvider>,
     document.getElementById('app-root'),
   );
