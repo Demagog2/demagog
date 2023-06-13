@@ -28,6 +28,7 @@ PromiseRating.find_or_create_by!(key: PromiseRating::IN_PROGRESS, name: "Průbě
 PromiseRating.find_or_create_by!(key: PromiseRating::PARTIALLY_FULFILLED, name: "Částečně splněno")
 PromiseRating.find_or_create_by!(key: PromiseRating::BROKEN, name: "Porušeno")
 PromiseRating.find_or_create_by!(key: PromiseRating::STALLED, name: "Nerealizováno")
+PromiseRating.find_or_create_by!(key: PromiseRating::NOT_YET_EVALUATED, name: "Zatím nehodnoceno")
 
 AssessmentMethodology.create!(
   name: "Demagog.cz fact-checking metodika",

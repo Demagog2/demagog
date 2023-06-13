@@ -74,6 +74,7 @@ const PROMISE_RATING_COLORS = {
   in_progress: Colors.BLUE5,
   partially_fulfilled: Colors.BLUE5,
   stalled: Colors.GOLD5,
+  not_yet_evaluated: Colors.GOLD5,
 };
 
 interface IProps {

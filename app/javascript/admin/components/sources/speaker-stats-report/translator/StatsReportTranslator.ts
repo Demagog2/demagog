@@ -10,7 +10,8 @@ export class StatsReportTranslator {
     in_progress: 'průběžně plněno {count}',
     partially_fulfilled: 'částečně splněno {count}',
     broken: 'porušeno {count}',
-    stalled: 'nerealizovano {count}',
+    stalled: 'nerealizováno {count}',
+    not_yet_evaluated: 'zatím nehodnoceno {count}',
   };
 
   public translate(key: string, count: number): string {
