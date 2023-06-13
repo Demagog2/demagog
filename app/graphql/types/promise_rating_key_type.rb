@@ -7,5 +7,6 @@ module Types
     value PromiseRating::PARTIALLY_FULFILLED
     value PromiseRating::BROKEN
     value PromiseRating::STALLED
+    value PromiseRating::NOT_YET_EVALUATED
   end
 end

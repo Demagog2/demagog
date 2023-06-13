@@ -36,6 +36,7 @@ export class SpeakerStatsReportBuilder {
         in_progress: 0,
         partially_fulfilled: 0,
         stalled: 0,
+        not_yet_evaluated: 0,
         [SpeakerStatsReportBuilder.BEING_EVALUATED_STATS_KEY]: 0,
       };
     }

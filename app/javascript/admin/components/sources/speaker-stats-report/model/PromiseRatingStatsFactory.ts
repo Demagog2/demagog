@@ -23,5 +23,6 @@ export const promiseRatingStatsFactory = PromiseRatingStatsFactory.define(({ tra
   { key: 'in_progress', count: transientParams.inProgress ?? 0 },
   { key: 'partially_fulfilled', count: 0 },
   { key: 'stalled', count: 0 },
+  { key: 'not_yet_evaluated', count: 0 },
   { key: 'evaluated', count: 0 },
 ]);
