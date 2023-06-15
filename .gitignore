@@ -52,5 +52,3 @@ config/environments/*.local.yml
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
-/.yarn.lock
-/.package-lock.json
