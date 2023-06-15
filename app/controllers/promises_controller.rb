@@ -104,11 +104,11 @@ class PromisesController < FrontendController
           # Temporary solution for proper Czech sorting where e.g characters [a, á, b] you
           # want sorted that way, but in default sorting it is [a, b, á]. I am not using
           # database-level collation, because default "cs_CZ" is not working on macOS
-          # (see https://github.com/PostgresApp/PostgresApp/issues/216)
+          # (see https://github.com/PostgresApp/PostgresApp/issues/216) 1052
           collation = ENV["DB_PER_COLUMN_COLLATION"] || "cs_CZ"
 
           Statement
-            .where(source_id: [1052])
+            .where(source_id: [562])
             .where(published: true)
             .where(assessments: {
               evaluation_status: Assessment::STATUS_APPROVED,
@@ -118,12 +118,8 @@ class PromisesController < FrontendController
               Arel.sql("title COLLATE \"#{collation}\" ASC")
             )
         },
-        get_statement_source_url: lambda { |statement|
-          sprintf("https://www.vlada.cz/assets/jednani-vlady/programove-prohlaseni/Programove-prohlaseni-vlady-cerven-2018.pdf#page=%d", druha_vlada_andreje_babise_get_promise_source_page(statement) + 4)
-        },
-        get_statement_source_label: lambda { |statement|
-          sprintf("Programové prohlášení vlády, str. %d", druha_vlada_andreje_babise_get_promise_source_page(statement))
-        },
+        get_statement_source_url: false,
+        get_statement_source_label: false,
         intro_partial: "promises/100_dni_prezidenta_petra_pavla_intro",
         methodology_partial: "promises/druha_vlada_andreje_babise_methodology"
       }

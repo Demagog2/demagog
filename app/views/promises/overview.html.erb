@@ -90,6 +90,7 @@
     </div>
     <div class="d-none d-md-flex mt-5">
       <% @promise_rating_keys.each do |promise_rating_key| %>
+        <% if promise_rating_key != "not_yet_evaluated" %>
         <div class="" style="width: <%= @promise_rating_percents[promise_rating_key] %>%">
           <span class="fs-4 fw-600  <%= @promise_rating_percents[promise_rating_key] %>%">
             <span class="d-block h-25px mb-4 <%= (
@@ -102,9 +103,7 @@
               }[promise_rating_key]
             ) %>"><%= @promise_rating_percents[promise_rating_key] %> %</span>
         </div>
-        <div class="">
-
-        </div>
+        <% end %>
       <% end %>
     </div>
   </div>
@@ -295,9 +294,11 @@
               <div class="col col-12 col-lg-5">
                 <blockquote class="p-3 fs-6 bg-dark text-white rounded-m mb-2 position-relative min-h-50px" data-target="statement--detail.blockquote">
                   <span class="fs-6 position-relative"><%= content_to_html(statement.content) %></span>
+                  <% if @get_statement_source_label %>
                   <div>
                     <a class="text-white fs-7" href="<%= @get_statement_source_url.call(statement) %>" target="_blank"><%= @get_statement_source_label.call(statement) %></a>
                   </div>
+                  <% end %>
                 </blockquote>
               </div>
               <div class="col col-12 col-lg-7">
