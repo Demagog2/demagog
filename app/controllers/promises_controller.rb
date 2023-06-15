@@ -98,6 +98,34 @@ class PromisesController < FrontendController
         },
         intro_partial: "promises/druha_vlada_andreje_babise_intro",
         methodology_partial: "promises/druha_vlada_andreje_babise_methodology"
+      },
+      "100-dni-prezidenta-petra-pavla" => {
+        get_statements: lambda {
+          # Temporary solution for proper Czech sorting where e.g characters [a, á, b] you
+          # want sorted that way, but in default sorting it is [a, b, á]. I am not using
+          # database-level collation, because default "cs_CZ" is not working on macOS
+          # (see https://github.com/PostgresApp/PostgresApp/issues/216)
+          collation = ENV["DB_PER_COLUMN_COLLATION"] || "cs_CZ"
+
+          Statement
+            .where(source_id: [1052])
+            .where(published: true)
+            .where(assessments: {
+              evaluation_status: Assessment::STATUS_APPROVED,
+            })
+            .includes(:assessment, assessment: :promise_rating)
+            .order(
+              Arel.sql("title COLLATE \"#{collation}\" ASC")
+            )
+        },
+        get_statement_source_url: lambda { |statement|
+          sprintf("https://www.vlada.cz/assets/jednani-vlady/programove-prohlaseni/Programove-prohlaseni-vlady-cerven-2018.pdf#page=%d", druha_vlada_andreje_babise_get_promise_source_page(statement) + 4)
+        },
+        get_statement_source_label: lambda { |statement|
+          sprintf("Programové prohlášení vlády, str. %d", druha_vlada_andreje_babise_get_promise_source_page(statement))
+        },
+        intro_partial: "promises/100_dni_prezidenta_petra_pavla_intro",
+        methodology_partial: "promises/druha_vlada_andreje_babise_methodology"
       }
     }
   end
@@ -146,15 +174,17 @@ class PromisesController < FrontendController
       PromiseRating::IN_PROGRESS => "Průběžně plněný",
       PromiseRating::PARTIALLY_FULFILLED => "Část. splněný",
       PromiseRating::BROKEN => "Porušený",
-      PromiseRating::STALLED => "Nerealizovaný"
+      PromiseRating::STALLED => "Nerealizovaný",
+      PromiseRating::NOT_YET_EVALUATED => "Zatím nehodnoceno"
     }
 
     @promises_list_rating_classes = {
       PromiseRating::FULFILLED => "primary",
       PromiseRating::IN_PROGRESS => "secondary",
-      PromiseRating::PARTIALLY_FULFILLED => "gray",
+      PromiseRating::PARTIALLY_FULFILLED => "secondary",
       PromiseRating::BROKEN => "red",
-      PromiseRating::STALLED => "dark"
+      PromiseRating::STALLED => "dark",
+      PromiseRating::NOT_YET_EVALUATED => "gray"
     }
   end
 
@@ -181,7 +211,8 @@ class PromisesController < FrontendController
       PromiseRating::IN_PROGRESS => "Průběžně plněný slib",
       PromiseRating::PARTIALLY_FULFILLED => "Část. splněný slib",
       PromiseRating::BROKEN => "Porušený slib",
-      PromiseRating::STALLED => "Nerealizovaný slib"
+      PromiseRating::STALLED => "Nerealizovaný slib",
+      PromiseRating::NOT_YET_EVALUATED => "Zatím nehodnocený slib"
     }
 
     statements = definition[:get_statements].call
