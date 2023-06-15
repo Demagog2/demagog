@@ -108,7 +108,7 @@ class PromisesController < FrontendController
           collation = ENV["DB_PER_COLUMN_COLLATION"] || "cs_CZ"
 
           Statement
-            .where(source_id: [562])
+            .where(source_id: [1052])
             .where(published: true)
             .where(assessments: {
               evaluation_status: Assessment::STATUS_APPROVED,
