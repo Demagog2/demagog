@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_13_083458) do
+ActiveRecord::Schema.define(version: 2023_06_29_173313) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
   enable_extension "unaccent"
 
@@ -56,6 +57,30 @@ ActiveRecord::Schema.define(version: 2023_06_13_083458) do
     t.string "promise_url"
     t.string "statement_id"
     t.index ["article_id"], name: "index_article_segments_on_article_id"
+  end
+
+  create_table "article_tag_speakers", force: :cascade do |t|
+    t.bigint "article_tag_id"
+    t.bigint "speaker_id"
+    t.integer "order", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["article_tag_id"], name: "index_article_tag_speakers_on_article_tag_id"
+    t.index ["speaker_id"], name: "index_article_tag_speakers_on_speaker_id"
+  end
+
+  create_table "article_tags", force: :cascade do |t|
+    t.string "title"
+    t.string "slug"
+    t.text "description"
+    t.bigint "medium_id"
+    t.string "video_url"
+    t.integer "stats", default: 0
+    t.boolean "public"
+    t.boolean "speakers"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["medium_id"], name: "index_article_tags_on_medium_id"
   end
 
   create_table "article_types", force: :cascade do |t|
@@ -385,6 +410,8 @@ ActiveRecord::Schema.define(version: 2023_06_13_083458) do
     t.string "statement_type", null: false
     t.string "title"
     t.integer "source_speaker_id"
+    t.bigint "article_tag_id"
+    t.index ["article_tag_id"], name: "index_statements_on_article_tag_id"
     t.index ["source_id"], name: "index_statements_on_source_id"
     t.index ["source_speaker_id"], name: "index_statements_on_source_speaker_id"
   end
