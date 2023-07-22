@@ -2,7 +2,12 @@
 #
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
-version: 2
+version: 2.1
+
+orbs:
+  ruby: circleci/ruby@1.1.0
+  node: circleci/node@2
+
 jobs:
   build-job:
     docker:
@@ -69,7 +74,7 @@ jobs:
       # Webpack setup
       - run: RAILS_ENV=test bin/webpack
 
-      - ruby/rspec-test
+      - run: bundle exec rails test
       - ruby/rubocop-check
 
       # run eslint
