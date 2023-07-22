@@ -1,5 +1,3 @@
-<% footer_presenter = FooterPresenter.new(@cookies) %>
-
 <footer class="footer py-10">
   <div class="container">
     <div class="mb-10">
@@ -161,17 +159,17 @@
       <div class="small">
         <a class="text-dark" href="/stranka/zasady-zpracovani-osobnich-udaju">Zásady zpracování osobních údajů</a>
       </div>
-      <% if footer_presenter.show_cookies_config %>
-      <div class="small">
-        <% if footer_presenter.analytics_cookies == 'accept' %>
-          <span>Souhlas použitím cookies pro měření návštěvnosti udělen.</span>
-          <a class="text-dark text-underline link" data-action="click->components--footer#reject">Změnit na nesouhlas</a>
-        <% end %>
-        <% if footer_presenter.analytics_cookies == 'reject' %>
-          <span>Souhlas s použitím cookies pro měření návštěvnosti neudělen.</span>
-          <a class="text-dark text-underline link" data-action="click->components--footer#accept">Udělit souhlas</a>
-        <% end %>
-      </div>
+      <% if show_cookies_config? %>
+        <div class="small">
+          <% if cookies_accepted? %>
+            <span>Souhlas s použitím cookies pro měření návštěvnosti udělen.</span>
+            <a class="text-dark text-underline link" data-action="click->components--footer#reject">Změnit na nesouhlas</a>
+          <% end %>
+          <% if cookies_rejected? %>
+            <span>Souhlas s použitím cookies pro měření návštěvnosti neudělen.</span>
+            <a class="text-dark text-underline link" data-action="click->components--footer#accept">Udělit souhlas</a>
+          <% end %>
+        </div>
       <% end %>
     </div>
   </div>
