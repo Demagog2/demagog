@@ -5,13 +5,26 @@ class Article < ApplicationRecord
   include Discardable
   include Searchable
 
+  ARTICLE_TYPES = [
+    ARTICLE_TYPE_DEFAULT = 'default',
+    ARTICLE_TYPE_STATIC = 'static',
+    ARTICLE_TYPE_SINGLE_STATEMENT = 'single_statement',
+    ARTICLE_TYPE_FACEBOOK_FACTCHECK = 'facebook_factcheck',
+  ].freeze
+
+  enum article_type: {
+    default: ARTICLE_TYPE_DEFAULT,
+    static: ARTICLE_TYPE_STATIC,
+    single_statement: ARTICLE_TYPE_SINGLE_STATEMENT,
+    facebook_factcheck: ARTICLE_TYPE_FACEBOOK_FACTCHECK
+  }, _prefix: true
+
   after_create { ElasticsearchWorker.perform_async(:article, :index, self.id) }
   after_update { ElasticsearchWorker.perform_async(:article, :update, self.id) }
   after_discard { ElasticsearchWorker.perform_async(:article, :destroy, self.id) }
 
   after_initialize :set_defaults
 
-  belongs_to :article_type
   belongs_to :user, optional: true
   belongs_to :document, class_name: "Attachment", optional: true
   has_many :segments, class_name: "ArticleSegment", dependent: :destroy
@@ -23,8 +36,7 @@ class Article < ApplicationRecord
   scope :published, -> { where(published: true).where("published_at <= NOW()") }
 
   scope :for_homepage, -> {
-    joins(:article_type)
-      .where("article_types.name IN (?)", [ArticleType::DEFAULT, ArticleType::STATIC, ArticleType::SINGLE_STATEMENT])
+    where("article_type IN (?)", [ARTICLE_TYPE_DEFAULT, ARTICLE_TYPE_STATIC, ARTICLE_TYPE_SINGLE_STATEMENT])
   }
 
   mapping do
@@ -80,7 +92,7 @@ class Article < ApplicationRecord
   end
 
   def article_type_default_indexed_context
-    return {} if article_type.name != ArticleType::DEFAULT || !source
+    return {} if !article_type_default? || !source
 
     medium = nil
     medium = source.medium.slice("name") if source.medium
@@ -121,8 +133,6 @@ class Article < ApplicationRecord
   def self.create_article(article_input)
     article = article_input.deep_symbolize_keys
 
-    article[:article_type] = ArticleType.find_by!(name: article[:article_type])
-
     if article[:segments]
       article[:segments] =
         article[:segments].map.with_index(0) do |seg, order|
@@ -155,8 +165,6 @@ class Article < ApplicationRecord
 
   def self.update_article(article_id, article_input)
     article = article_input.deep_symbolize_keys
-
-    article[:article_type] = ArticleType.find_by!(name: article[:article_type])
 
     article[:segments] =
       article[:segments].map.with_index(0) do |seg, order|

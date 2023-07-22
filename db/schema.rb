@@ -15,6 +15,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_22_075825) do
   enable_extension "plpgsql"
   enable_extension "unaccent"
 
+  # Custom types defined in this database.
+  # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "article_type", ["default", "static", "single_statement", "facebook_factcheck"]
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -77,6 +81,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_22_075825) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.datetime "deleted_at", precision: nil
+    t.enum "article_type", default: "default", enum_type: "article_type"
     t.index ["article_type_id"], name: "index_articles_on_article_type_id"
     t.index ["document_id"], name: "index_articles_on_document_id"
     t.index ["illustration_id"], name: "index_articles_on_illustration_id"
