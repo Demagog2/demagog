@@ -97,6 +97,11 @@ jobs:
           name: Check current version of node
           command: node -v
 
+      - run:
+          name: install dependencies
+          command: |
+            bundle install
+
       # Database setup
       - run: bin/rails db:create
       - run: bin/rails db:schema:load
