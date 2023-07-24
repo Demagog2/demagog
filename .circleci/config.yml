@@ -16,8 +16,6 @@ jobs:
         environment:
           RAILS_ENV: test
 
-    working_directory: /tmp/build
-
     steps:
       - checkout
       - run:
@@ -47,8 +45,6 @@ jobs:
         environment:
           - discovery.type=single-node
           - bootstrap.memory_lock=true
-
-    working_directory: /tmp/build
 
     steps:
       - checkout
