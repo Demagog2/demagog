@@ -23,7 +23,6 @@ jobs:
             command: |
               curl -sSL "https://nodejs.org/dist/v16.16.0/node-v16.16.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v16.16.0-linux-x64/bin/node
       - ruby/install-deps
-      # Store bundle cache
       - node/install-packages:
           pkg-manager: yarn
           cache-key: "yarn.lock"
@@ -48,15 +47,14 @@ jobs:
 
     steps:
       - checkout
-      - ruby/install-deps
-      - node/install-packages:
-          pkg-manager: yarn
-          cache-key: "yarn.lock"
-
       - run:
           name: "Update Node.js"
           command: |
             curl -sSL "https://nodejs.org/dist/v16.16.0/node-v16.16.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v16.16.0-linux-x64/bin/node
+      - ruby/install-deps
+      - node/install-packages:
+          pkg-manager: yarn
+          cache-key: "yarn.lock"
 
       - run:
           name: Wait for DB
