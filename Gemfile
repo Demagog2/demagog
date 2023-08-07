@@ -25,7 +25,7 @@ end
 gem "dotenv-rails", "~> 2.7.6"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~> 6.1.7"
+gem "rails", "~> 7.0.6"
 # Add possibility for bulk insert to Active Record models
 # gem "bulk_insert"
 # Use Postgresql as the database for Active Record
@@ -164,8 +164,8 @@ group :development do
   gem "web-console", "~> 4.2.0"
   gem "listen", "~> 3.7.1"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem "spring", "~> 2.1.1"
-  gem "spring-watcher-listen", "~> 2.0.1"
+  gem "spring", "~> 4.0.0"
+  gem "spring-watcher-listen", "~> 2.1.0"
 
   gem "guard-livereload", "~> 2.5.2", require: false
 end

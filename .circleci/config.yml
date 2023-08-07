@@ -2,66 +2,30 @@
 #
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
-version: 2
+version: 2.1
+
+orbs:
+  ruby: circleci/ruby@1.1.0
+  node: circleci/node@2
+
 jobs:
   build-job:
     docker:
       # specify the version you desire here
       - image: cimg/ruby:3.1.3-node
         environment:
-          BUNDLE_PATH: vendor/bundle
           RAILS_ENV: test
-
-    working_directory: /tmp/build
 
     steps:
       - checkout
-
       - run:
-          name: "Update Node.js"
-          command: |
-            curl -sSL "https://nodejs.org/dist/v16.16.0/node-v16.16.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v16.16.0-linux-x64/bin/node
-
-      - run:
-          name: Check current version of node
-          command: node -v
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run:
-          name: install dependencies
-          command: |
-            bundle install
-
-      - save_cache:
-          paths:
-            - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-
-      - restore_cache:
-          keys:
-            - v2-yarn-dependencies-{{ checksum "yarn.lock" }}
-            # fallback to using the latest cache if no exact match is found
-            - v2-yarn-dependencies-
-
-      - run:
-          name: Yarn Install
-          command: yarn install
-
-      - save_cache:
-          paths:
-            - ~/.cache/yarn
-          key: v2-yarn-dependencies-{{ checksum "yarn.lock" }}
-
-      - persist_to_workspace:
-          root: /tmp
-          paths:
-             - build
+            name: "Update Node.js"
+            command: |
+              curl -sSL "https://nodejs.org/dist/v16.16.0/node-v16.16.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v16.16.0-linux-x64/bin/node
+      - ruby/install-deps
+      - node/install-packages:
+          pkg-manager: yarn
+          cache-key: "yarn.lock"
 
   test-job:
     docker:
@@ -69,7 +33,6 @@ jobs:
         environment:
           DB_HOST: localhost
           DB_USERNAME: circleci-demo-go
-          BUNDLE_PATH: vendor/bundle
           RAILS_ENV: test
 
       - image: cimg/postgres:9.6
@@ -82,33 +45,31 @@ jobs:
           - discovery.type=single-node
           - bootstrap.memory_lock=true
 
-    working_directory: /tmp/build
-
     steps:
-      - attach_workspace:
-          at: /tmp
-
+      - checkout
       - run:
           name: "Update Node.js"
           command: |
             curl -sSL "https://nodejs.org/dist/v16.16.0/node-v16.16.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v16.16.0-linux-x64/bin/node
+      - ruby/install-deps
+      - node/install-packages:
+          pkg-manager: yarn
+          cache-key: "yarn.lock"
 
       - run:
-          name: Check current version of node
-          command: node -v
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       # Database setup
-      - run: bin/rails db:create
-      - run: bin/rails db:schema:load
-      - run: bin/rails db:seed
+      - run: bundle exec rails db:create
+      - run: bundle exec rails db:schema:load
+      - run: bundle exec rails db:seed
 
       # Webpack setup
       - run: RAILS_ENV=test bin/webpack
 
-      # run rubocop
-      - run:
-          name: Run rubocop
-          command: bundle exec rubocop
+      - run: bundle exec rails test
+      - ruby/rubocop-check
 
       # run eslint
       - run:
@@ -119,19 +80,9 @@ jobs:
           name: Run TypeScript compiler
           command: yarn run tsc --noEmit
 
-      # run tests!
-      - run:
-          name: run tests
-          command: |
-            bundle exec rake test
-
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
-
 workflows:
   version: 2
-  build-test-hold-deploy:
+  build-and-test:
     jobs:
       - build-job
 
