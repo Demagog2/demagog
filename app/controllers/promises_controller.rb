@@ -129,6 +129,7 @@ class PromisesController < FrontendController
           # want sorted that way, but in default sorting it is [a, b, á]. I am not using
           # database-level collation, because default "cs_CZ" is not working on macOS
           # (see https://github.com/PostgresApp/PostgresApp/issues/216) 1052
+          # .where(source_id: [1048])
           collation = ENV["DB_PER_COLUMN_COLLATION"] || "cs_CZ"
 
           Statement
@@ -144,7 +145,7 @@ class PromisesController < FrontendController
         },
         get_statement_source_url: false,
         get_statement_source_label: false,
-        intro_partial: "promises/_sliby_vlady_petra_fialy_intro",
+        intro_partial: "promises/sliby_vlady_petra_fialy_intro",
         methodology_partial: "promises/druha_vlada_andreje_babise_methodology"
       }
     }
