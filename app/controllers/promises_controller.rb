@@ -201,7 +201,7 @@ class PromisesController < FrontendController
 
     @promises_list_rating_classes = {
       PromiseRating::FULFILLED => "primary",
-      PromiseRating::IN_PROGRESS => "secondary",
+      PromiseRating::IN_PROGRESS => "primary-light",
       PromiseRating::PARTIALLY_FULFILLED => "secondary",
       PromiseRating::BROKEN => "red",
       PromiseRating::STALLED => "dark",
