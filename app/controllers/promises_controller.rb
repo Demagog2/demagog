@@ -204,8 +204,8 @@ class PromisesController < FrontendController
       PromiseRating::IN_PROGRESS => "primary-light",
       PromiseRating::PARTIALLY_FULFILLED => "secondary",
       PromiseRating::BROKEN => "red",
-      PromiseRating::STALLED => "dark",
-      PromiseRating::NOT_YET_EVALUATED => "gray"
+      PromiseRating::STALLED => "gray",
+      PromiseRating::NOT_YET_EVALUATED => "dark"
     }
   end
 
