@@ -49,6 +49,22 @@ export default class extends Controller {
       const content = accordion.querySelector(".accordion-content");
       content.setAttribute('aria-show', 'true');
       content.style.maxHeight = content.scrollHeight + "px";
+
+      content.querySelectorAll('iframe').forEach((iframeEl) => {
+        if (
+          iframeEl.getAttribute('src') === 'about:blank' &&
+          iframeEl.dataset.src !== undefined
+        ) {
+          iframeEl.setAttribute('src', iframeEl.dataset.src);
+        }
+      });
+
+      // Lazy load images
+      content.querySelectorAll('img').forEach((imgEl) => {
+        if (imgEl.getAttribute('src') === '' && imgEl.dataset.src !== undefined) {
+          imgEl.setAttribute('src', imgEl.dataset.src);
+        }
+      });
     }
   }
 
@@ -94,6 +110,7 @@ export default class extends Controller {
     e.preventDefault();
   }
 
+
   toggleDetail(e) {
     const link = e.currentTarget;
     const {accordionUrl} = link.dataset;
@@ -106,6 +123,22 @@ export default class extends Controller {
       detail.setAttribute('aria-show', 'true');
       detail.style.maxHeight = detail.scrollHeight + "px";
       content.style.maxHeight = content.scrollHeight + detail.scrollHeight + "px";
+
+      detail.querySelectorAll('iframe').forEach((iframeEl) => {
+        if (
+          iframeEl.getAttribute('src') === 'about:blank' &&
+          iframeEl.dataset.src !== undefined
+        ) {
+          iframeEl.setAttribute('src', iframeEl.dataset.src);
+        }
+      });
+
+      // Lazy load images
+      detail.querySelectorAll('img').forEach((imgEl) => {
+        if (imgEl.getAttribute('src') === '' && imgEl.dataset.src !== undefined) {
+          imgEl.setAttribute('src', imgEl.dataset.src);
+        }
+      });
 
       if (this.data.get('openDetailLabel')) {
         label.innerHTML = this.data.get('openDetailLabel');
