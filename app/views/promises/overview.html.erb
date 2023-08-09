@@ -19,7 +19,7 @@
             </span>
             <span class="fs-4 fw-600 text-uppercase text-primary">
               <%= @promise_rating_counts[promise_rating_key] %>
-              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "splněný", "splněné", "splněných") %>
+              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "splněný", "splněné", "splněno") %>
             </span>
           <% end %>
           <% if promise_rating_key == "in_progress" %>
@@ -30,7 +30,7 @@
             </span>
             <span class="fs-4 fw-600 text-uppercase text-primary-light">
               <%= @promise_rating_counts[promise_rating_key] %>
-              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "průběžně plněný", "průběžně plněné", "průběžně plněných") %>
+              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "průběžně plněný", "průběžně plněné", "průběžně plněno") %>
             </span>
           <% end %>
           <% if promise_rating_key == "partially_fulfilled" %>
@@ -41,7 +41,7 @@
             </span>
             <span class="fs-4 fw-600 text-uppercase text-secondary">
               <%= @promise_rating_counts[promise_rating_key] %>
-              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "částečně splněný", "částečně splněné", "částečně splněných") %>
+              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "část. splněný", "část. splněné", "část. splněno") %>
             </span>
           <% end %>
           <% if promise_rating_key == "not_yet_evaluated" && @promise_rating_counts[promise_rating_key] > 0 %>
@@ -52,7 +52,7 @@
             </span>
             <span class="fs-4 fw-600 text-uppercase text-dark">
               <%= @promise_rating_counts[promise_rating_key] %>
-              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "zatím nehodnocý", "zatím nehodnocé", "zatím nehodnocených") %>
+              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "zatím nehodnocý", "zatím nehodnocé", "zatím nehodnoceno") %>
             </span>
           <% end %>
           <% if promise_rating_key == "broken" %>
@@ -63,7 +63,7 @@
             </span>
             <span class="fs-4 fw-600 text-uppercase text-red">
               <%= @promise_rating_counts[promise_rating_key] %>
-              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "porušený", "porušené", "porušených") %>
+              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "porušený", "porušené", "porušeno") %>
             </span>
           <% end %>
           <% if promise_rating_key == "stalled" %>
@@ -74,7 +74,7 @@
             </span>
             <span class="fs-4 fw-600 text-uppercase text-gray">
               <%= @promise_rating_counts[promise_rating_key] %>
-              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "nerealizovaný", "nerealizované", "nerealizovaných") %>
+              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "nerealizovaný", "nerealizované", "nerealizovano") %>
             </span>
           <% end %>
         </div>

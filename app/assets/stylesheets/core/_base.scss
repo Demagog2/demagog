@@ -268,3 +268,14 @@ main {
 
 
 }
+
+.column-2 {
+  column-count: 2;
+  column-gap: 40px;
+}
+
+@include media-breakpoint-down(lg) {
+  .column-2 {
+    column-count: 1;
+  }
+}

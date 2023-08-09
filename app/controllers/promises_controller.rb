@@ -196,7 +196,7 @@ class PromisesController < FrontendController
       PromiseRating::PARTIALLY_FULFILLED => "Část. splněný",
       PromiseRating::BROKEN => "Porušený",
       PromiseRating::STALLED => "Nerealizovaný",
-      PromiseRating::NOT_YET_EVALUATED => "Zatím nehodnoceno"
+      PromiseRating::NOT_YET_EVALUATED => "Zatím nehodnocený"
     }
 
     @promises_list_rating_classes = {
