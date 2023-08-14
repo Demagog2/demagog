@@ -26,15 +26,15 @@ class ArticleController < FrontendController
   end
 
   def discussions
-    articles_of_type(ArticleType::DEFAULT)
+    articles_of_type(Article::ARTICLE_TYPE_DEFAULT)
   end
 
   def social_media
-    articles_of_type(ArticleType::SINGLE_STATEMENT)
+    articles_of_type(Article::ARTICLE_TYPE_SINGLE_STATEMENT)
   end
 
   def collaboration_with_facebook
-    articles_of_type(ArticleType::FACEBOOK_FACTCHECK)
+    articles_of_type(Article::ARTICLE_TYPE_FACEBOOK_FACTCHECK)
   end
 
   def presidential_election
@@ -42,7 +42,7 @@ class ArticleController < FrontendController
   end
 
   def editorials
-    articles_of_type(ArticleType::STATIC)
+    articles_of_type(Article::ARTICLE_TYPE_STATIC)
   end
 
   helper_method :replace_segment_text_html_special_strings
@@ -97,7 +97,7 @@ class ArticleController < FrontendController
     end
 
   private
-    def articles_of_type(article_type_name)
+    def articles_of_type(article_type)
       if params[:page].present?
         @page_number = params[:page]
       end
@@ -105,8 +105,7 @@ class ArticleController < FrontendController
       @articles = Article
         .kept
         .published
-        .joins(:article_type)
-        .where(article_types: { name: article_type_name })
+        .where(article_type:)
         .order(published_at: :desc)
         .page(@page_number)
         .per(10)

@@ -21,6 +21,12 @@ class ArticleControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should render discussions" do
+    article = create_article
+    get diskuze_url(article)
+    assert_response :success
+  end
+
   test "should fail on deleted article" do
     article = create_article
     article.discard!
