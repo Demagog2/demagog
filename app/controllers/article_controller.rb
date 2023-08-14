@@ -9,13 +9,13 @@ class ArticleController < FrontendController
     @article = Article.kept.published.friendly.find(params[:slug])
 
     # Single statement article does not have any view, redirects directly to statement
-    if @article.article_type.name == ArticleType::SINGLE_STATEMENT
+    if @article.article_type_single_statement?
       redirect_to statement_url(@article.single_statement), status: 301
     end
 
     # Old factcheck articles were using only speaker id in the "recnik" query param,
     # eg. ?recnik=123, so we want to redirect to the new quary param format
-    if @article.article_type.name == ArticleType::DEFAULT && params[:recnik] && params[:recnik].match(/^\d+$/)
+    if @article.article_type_default? && params[:recnik] && params[:recnik].match(/^\d+$/)
       speaker_id = params[:recnik].to_i
       speaker = Speaker.find_by(id: speaker_id)
 
@@ -26,15 +26,15 @@ class ArticleController < FrontendController
   end
 
   def discussions
-    articles_of_type(ArticleType::DEFAULT)
+    articles_of_type(Article::ARTICLE_TYPE_DEFAULT)
   end
 
   def social_media
-    articles_of_type(ArticleType::SINGLE_STATEMENT)
+    articles_of_type(Article::ARTICLE_TYPE_SINGLE_STATEMENT)
   end
 
   def collaboration_with_facebook
-    articles_of_type(ArticleType::FACEBOOK_FACTCHECK)
+    articles_of_type(Article::ARTICLE_TYPE_FACEBOOK_FACTCHECK)
   end
 
   def presidential_election
@@ -42,7 +42,7 @@ class ArticleController < FrontendController
   end
 
   def editorials
-    articles_of_type(ArticleType::STATIC)
+    articles_of_type(Article::ARTICLE_TYPE_STATIC)
   end
 
   helper_method :replace_segment_text_html_special_strings
@@ -97,7 +97,7 @@ class ArticleController < FrontendController
     end
 
   private
-    def articles_of_type(article_type_name)
+    def articles_of_type(article_type)
       if params[:page].present?
         @page_number = params[:page]
       end
@@ -105,8 +105,7 @@ class ArticleController < FrontendController
       @articles = Article
         .kept
         .published
-        .joins(:article_type)
-        .where(article_types: { name: article_type_name })
+        .where(article_type:)
         .order(published_at: :desc)
         .page(@page_number)
         .per(10)

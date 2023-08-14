@@ -14,25 +14,24 @@
       </div>
       <div class="d-flex justify-content-between align-items-center mt-2">
         <div class="symbol-group">
-          <% if article.article_type.name == ArticleType::DEFAULT %>
+          <% if article.article_type_default? %>
             <% for source_speaker in article_presenter.factcheck_source_speakers %>
               <%= link_to speaker_path(source_speaker.speaker), class: 'symbol symbol-40px rounded-circle bg-gray-500 overflow-hidden', title: source_speaker.full_name  do %>
                 <%= render(PortraitComponent.new(speaker: source_speaker)) %>
               <% end %>
             <% end %>
           <% end %>
-          <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
+          <% if article.article_type_single_statement? %>
             <span class="symbol symbol-40px rounded-circle bg-gray-500 overflow-hidden">
                 <%= render(PortraitComponent.new(speaker: article.single_statement.source_speaker)) %>
             </span>
           <% end %>
         </div>
         <div class="">
-          <% if article.article_type.name == ArticleType::DEFAULT %>
+          <% if article.article_type_default? %>
             <span class="smaller fw-bold text-uppercase">Ověřeno</span>
           <% end %>
-          <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
-
+          <% if article.article_type_single_statement? %>
             <% if article.single_statement.approved_assessment.veracity.default_name == "untrue" %>
               <div class="d-flex align-items-center">
                 <span class="smaller fw-bold text-uppercase text-danger">
@@ -67,17 +66,17 @@
     <div class="col col-12 col-md-7">
       <h2 class="fs-2 fw-bold mb-2"><%= link_to(article.title, article_path(article), class: "text-dark s-title") %></h2>
       <div class="mb-2">
-        <% if article.article_type.name == ArticleType::DEFAULT %>
+        <% if article.article_type_default? %>
           <% if article.source %>
             <i><%= article.source.medium.name %>, <%= raw(l(article.source.released_at, format: :long)) %></i>
           <% end %>
         <% end %>
 
-        <% if article.article_type.name == ArticleType::STATIC %>
+        <% if article.article_type_static? %>
           <i><%= raw(l(article.published_at, format: :long)) %></i>
         <% end %>
 
-        <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
+        <% if article.article_type_single_statement? %>
           <i><%= article.single_statement.source.medium.name %>, <%= raw(l(article.single_statement.source.released_at, format: :long)) %></i>
         <% end %>
       </div>
@@ -89,7 +88,7 @@
         </p>
       <% end %>
 
-      <% if article.article_type.name == ArticleType::SINGLE_STATEMENT %>
+      <% if article.article_type_single_statement? %>
         <p class="fs-6 lh-sm">
           „<%= article.single_statement.content.strip %>“
         </p>

@@ -14,7 +14,7 @@ atom_feed(
 
       if article.perex.present?
         entry.content(article.perex, type: "html")
-      elsif article.article_type.name == "single_statement"
+      elsif article.article_type_single_statement?
         entry.content("„" + article.single_statement.content.strip + "“ hodnotíme jako " + article.single_statement.approved_assessment.veracity.name.downcase + ".", type: "html")
       end
 

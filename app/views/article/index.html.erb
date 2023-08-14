@@ -10,7 +10,7 @@
       <h1 class="display-4 fw-bold mb-5"><%= @article.title %></h1>
       <p class="fs-5"><%= raw(@article.perex) %></p>
     </div>
-    <% if @article.article_type.name == "default" && @article.source %>
+    <% if @article.article_type_default? && @article.source %>
     <div class="mb-10">
       <h2 class="fs-2 text-uppercase text-primary">Ověřili jsme</h2>
       <p class="fs-5">
@@ -27,13 +27,13 @@
     </div>
     <% end %>
 
-    <% if @article.article_type.name == "static" %>
+    <% if @article.article_type_static? %>
       <p class="fs-5">
         <span class="text-primary">Komentář</span> <i><%= raw(l(@article.published_at, format: :long)) %></i>
       </p>
     <% end %>
 
-    <% if @article.article_type.name == ArticleType::FACEBOOK_FACTCHECK %>
+    <% if @article.article_type_facebook_factcheck? %>
       <p class="fs-5">
         <span class="text-primary">Meta fact-check</span> <i><%= raw(l(@article.published_at, format: :long)) %></i>
       </p>

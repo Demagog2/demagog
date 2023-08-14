@@ -22,7 +22,7 @@ module Schema::Articles::ArticlesField
       end
 
       articles =
-        articles.includes(:article_type).offset(args[:offset]).limit(args[:limit]).order(
+        articles.offset(args[:offset]).limit(args[:limit]).order(
           Arel.sql("COALESCE(published_at, created_at) DESC")
         )
 
