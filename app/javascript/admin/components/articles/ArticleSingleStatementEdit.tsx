@@ -42,7 +42,7 @@ export function ArticleSingleStatementEdit() {
   ) => {
     const { illustration, ...articleInput } = articleFormData;
 
-    const id = this.getParamId();
+    const id = params.id ?? '';
 
     let imageUpload: Promise<any> = Promise.resolve();
     if (illustration instanceof File) {
