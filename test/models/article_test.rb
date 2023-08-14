@@ -4,7 +4,6 @@ require "test_helper"
 
 class ArticleTest < ActiveSupport::TestCase
   setup do
-    @article_type = create(:article_type, name: "default")
     @source = create(:source)
     @statements = create_list(:statement, 3, source: @source)
   end
@@ -17,7 +16,7 @@ class ArticleTest < ActiveSupport::TestCase
     article_input = {
       title: "My article",
       perex: "Lorem ipsum sit dolor del amet...",
-      article_type: "default",
+      article_type: Article::ARTICLE_TYPE_DEFAULT,
       segments: [
         {
           segment_type: "text",
@@ -45,6 +44,7 @@ class ArticleTest < ActiveSupport::TestCase
       assert_equal @source.id, segment.source.id
       assert_equal @statements.size, segment.all_published_statements.size
       assert_equal 1, segment.order
+      assert_equal Article::ARTICLE_TYPE_DEFAULT, article.article_type
     end
   end
 

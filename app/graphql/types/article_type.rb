@@ -14,10 +14,6 @@ module Types
 
     field :article_type, String, null: false
 
-    def article_type
-      object.article_type.name
-    end
-
     field :speakers, [Types::SourceSpeakerType], null: true
 
     def speakers

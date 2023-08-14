@@ -9,13 +9,13 @@ class ArticleController < FrontendController
     @article = Article.kept.published.friendly.find(params[:slug])
 
     # Single statement article does not have any view, redirects directly to statement
-    if @article.article_type.name == ArticleType::SINGLE_STATEMENT
+    if @article.article_type_single_statement?
       redirect_to statement_url(@article.single_statement), status: 301
     end
 
     # Old factcheck articles were using only speaker id in the "recnik" query param,
     # eg. ?recnik=123, so we want to redirect to the new quary param format
-    if @article.article_type.name == ArticleType::DEFAULT && params[:recnik] && params[:recnik].match(/^\d+$/)
+    if @article.article_type_default? && params[:recnik] && params[:recnik].match(/^\d+$/)
       speaker_id = params[:recnik].to_i
       speaker = Speaker.find_by(id: speaker_id)
 
