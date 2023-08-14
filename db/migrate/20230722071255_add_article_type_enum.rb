@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class AddArticleTypeEnum < ActiveRecord::Migration[6.1]
   def up
     execute <<-SQL
       CREATE TYPE article_type AS ENUM ('default', 'static', 'single_statement', 'facebook_factcheck');
     SQL
 
-    add_column :articles, :article_type, :article_type, default: 'default'
+    add_column :articles, :article_type, :article_type, default: "default"
 
     execute <<-SQL
       UPDATE articles SET article_type = 'default' WHERE id IN (

@@ -18,9 +18,14 @@ FactoryBot.define do
     source_url { "http://example.com" }
 
     after(:create) { |source| create(:media_personality, sources: [source]) }
+
+    trait :with_video do
+      video_type { "youtube" }
+      sequence(:video_id)
+    end
   end
 
-  factory :article_type
+  # factory :article_type
 
   factory :article do
     sequence :title do |n|
@@ -32,11 +37,11 @@ FactoryBot.define do
     published_at { 1.day.ago }
 
     factory :fact_check do
-      association :article_type, factory: :article_type, name: "default"
+      article_type { Article::ARTICLE_TYPE_DEFAULT }
     end
 
     factory :static do
-      association :article_type, factory: :article_type, name: "static"
+      article_type { Article::ARTICLE_TYPE_STATIC }
     end
 
     trait :with_illustration do

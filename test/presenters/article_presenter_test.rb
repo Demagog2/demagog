@@ -23,4 +23,17 @@ class ArticlePresenterTest < ActiveSupport::TestCase
 
     assert_equal(expected_stats, ArticlePresenter.new(article).factcheck_source_speaker_stats(source_speaker))
   end
+
+  test "does not show factcheck video for static article" do
+    article = build(:static)
+
+    assert_not ArticlePresenter.new(article).show_factcheck_video
+  end
+
+  test "it shows factcheck video for factcheck with source with video attached" do
+    segment = create(:article_segment_source_statements, source: create(:source, :with_video))
+    article = create(:article, segments: [segment])
+
+    assert ArticlePresenter.new(article).show_factcheck_video
+  end
 end

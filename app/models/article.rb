@@ -6,10 +6,10 @@ class Article < ApplicationRecord
   include Searchable
 
   ARTICLE_TYPES = [
-    ARTICLE_TYPE_DEFAULT = 'default',
-    ARTICLE_TYPE_STATIC = 'static',
-    ARTICLE_TYPE_SINGLE_STATEMENT = 'single_statement',
-    ARTICLE_TYPE_FACEBOOK_FACTCHECK = 'facebook_factcheck',
+    ARTICLE_TYPE_DEFAULT = "default",
+    ARTICLE_TYPE_STATIC = "static",
+    ARTICLE_TYPE_SINGLE_STATEMENT = "single_statement",
+    ARTICLE_TYPE_FACEBOOK_FACTCHECK = "facebook_factcheck",
   ].freeze
 
   enum article_type: {

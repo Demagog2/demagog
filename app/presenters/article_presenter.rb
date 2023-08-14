@@ -10,7 +10,7 @@ class ArticlePresenter
   end
 
   def show_factcheck_video
-    @article.article_type.name == "default" && !@article.source.nil? && !@article.source.video_type.nil? && !@article.source.video_id.nil?
+    @article.article_type_default? && !@article.source.nil? && !@article.source.video_type.nil? && !@article.source.video_id.nil?
   end
 
   def factcheck_video_record_name
@@ -18,16 +18,16 @@ class ArticlePresenter
   end
 
   def init_factcheck_source_speakers
-    return [] if @article.article_type.name != ArticleType::DEFAULT
+    return [] unless @article.article_type_default?
 
     source_speakers = @article
       .source
-      .source_speakers
-      .order(last_name: :asc, first_name: :asc)
-      .includes(
-        :body,
-        :speaker
-      )
+                        &.source_speakers
+                        &.order(last_name: :asc, first_name: :asc)
+                        &.includes(
+                          :body,
+                          :speaker
+                        ) || []
 
     # Only source speakers with published statements
     source_speakers = source_speakers.select do |source_speaker|
