@@ -8,11 +8,18 @@ class QueryTypeVeracitiesTest < GraphQLTestCase
       query {
         veracities {
           id
+          name
+          key
         }
       }"
 
     result = execute(query_string)
 
-    assert_equal 4, result.data.veracities.size
+    assert_equal [
+                   { id: "1", name: "Pravda", key: "true" },
+                   { id: "2", name: "Nepravda", key: "untrue" },
+                   { id: "3", name: "Zavádějící", key: "misleading" },
+                   { id: "4", name: "Neověřitelné", key: "unverifiable" },
+                 ], result.data.veracities.map(&:to_h)
   end
 end
