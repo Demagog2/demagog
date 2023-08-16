@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_22_075825) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_16_062021) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -18,6 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_22_075825) do
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "article_type", ["default", "static", "single_statement", "facebook_factcheck"]
+  create_enum "veracity", ["true", "untrue", "misleading", "unverifiable"]
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -123,6 +124,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_22_075825) do
     t.datetime "first_approved_at", precision: nil
     t.datetime "evaluation_started_at", precision: nil
     t.datetime "evaluation_ended_at", precision: nil
+    t.enum "veracity_new", enum_type: "veracity"
     t.index ["assessment_methodology_id"], name: "index_assessments_on_assessment_methodology_id"
     t.index ["promise_rating_id"], name: "index_assessments_on_promise_rating_id"
     t.index ["statement_id"], name: "index_assessments_on_statement_id"
