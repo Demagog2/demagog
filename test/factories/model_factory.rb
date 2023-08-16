@@ -172,7 +172,7 @@ FactoryBot.define do
 
     after(:create) do |statement|
       if statement.statement_type == Statement::TYPE_FACTUAL
-        create(:assessment, statement:)
+        create(:assessment, :with_veracity_true, statement:)
       end
       if statement.statement_type == Statement::TYPE_PROMISE
         create(:assessment, :promise_assessment, statement:)
