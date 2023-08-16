@@ -7,6 +7,13 @@ class AssessmentTest < ActiveSupport::TestCase
     I18n.locale = :en
   end
 
+  test "veracity new aliasing" do
+    assert build(:assessment, :with_veracity_true).veracity_true?
+    assert build(:assessment, :with_veracity_untrue).veracity_untrue?
+    assert build(:assessment, :with_veracity_misleading).veracity_misleading?
+    assert build(:assessment, :with_veracity_unverifiable).veracity_unverifiable?
+  end
+
   test "admin should be authorized to change anything" do
     assessment = create(:assessment, :being_evaluated)
     user = create(:user, :admin)

@@ -66,6 +66,20 @@ class Assessment < ApplicationRecord
 
   before_save :record_evaluation_process_timestamps
 
+  VERACITIES = [
+    VERACITY_TRUE = "true",
+    VERACITY_UNTRUE = "untrue",
+    VERACITY_MISLEADING = "misleading",
+    VERACITY_UNVERIFIABLE = "unverifiable",
+  ].freeze
+
+  enum veracity_new: {
+    true: VERACITY_TRUE,
+    untrue: VERACITY_UNTRUE,
+    misleading: VERACITY_MISLEADING,
+    unverifiable: VERACITY_UNVERIFIABLE
+  }, _prefix: "veracity"
+
   def approved?
     evaluation_status == STATUS_APPROVED
   end
