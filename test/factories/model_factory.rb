@@ -110,7 +110,27 @@ FactoryBot.define do
   factory :assessment do
     statement
     association :evaluator, factory: :user
-    veracity { Veracity.find_by(key: Veracity::TRUE) }
+
+    trait :with_veracity_true do
+      veracity { Veracity.find_by(key: Veracity::TRUE) }
+      veracity_new { Assessment::VERACITY_TRUE }
+    end
+
+    trait :with_veracity_untrue do
+      veracity { Veracity.find_by(key: Veracity::UNTRUE) }
+      veracity_new { Assessment::VERACITY_UNTRUE }
+    end
+
+    trait :with_veracity_misleading do
+      veracity { Veracity.find_by(key: Veracity::MISLEADING) }
+      veracity_new { Assessment::VERACITY_MISLEADING }
+    end
+
+    trait :with_veracity_unverifiable do
+      veracity { Veracity.find_by(key: Veracity::UNVERIFIABLE) }
+      veracity_new { Assessment::VERACITY_UNVERIFIABLE }
+    end
+
     assessment_methodology do
       AssessmentMethodology.find_by(name: "Demagog.cz fact-checking metodika")
     end
