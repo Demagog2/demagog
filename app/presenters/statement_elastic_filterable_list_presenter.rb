@@ -242,6 +242,6 @@ class StatementElasticFilterableListPresenter
     end
 
     def get_available_veracities_keys
-      [Veracity::TRUE, Veracity::UNTRUE, Veracity::MISLEADING, Veracity::UNVERIFIABLE]
+      [Assessment::VERACITY_TRUE, Assessment::VERACITY_UNTRUE, Assessment::VERACITY_MISLEADING, Assessment::VERACITY_UNVERIFIABLE]
     end
 end

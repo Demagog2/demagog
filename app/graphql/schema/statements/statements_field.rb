@@ -29,7 +29,7 @@ module Schema::Statements::StatementsField
 
       statements = statements.where(source:) if source
       statements = statements.joins(:source_speaker).where(source_speaker: { speaker: }) if speaker
-      statements = statements.joins(:veracity).where(veracities: { key: veracity }) if veracity
+      statements = statements.where(veracity_new: veracity) if veracity
 
       if evaluated_by_user_id
         # Public cannot filter by evaluator

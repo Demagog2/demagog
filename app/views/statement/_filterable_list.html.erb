@@ -119,12 +119,12 @@
                 type="checkbox"
                 data-target="components--filter.filterCheckbox"
                 data-action="change->components--filter#toggleFilter"
-                data-filter-value="<%= veracity_with_count.veracity.key.to_sym %>"
+                data-filter-value="<%= veracity_with_count.veracity_key.to_sym %>"
                 data-filter-type="hodnoceni"
 
               >
               <span class="checkmark"></span>
-              <span class="small fw-600 me-2"><%= veracity_with_count.veracity.name %></span>
+              <span class="small fw-600 me-2"><%= veracity_with_count.veracity_name %></span>
               <span class="smallest min-w-40px"><%= veracity_with_count.count %> <%= cs_pluralize(veracity_with_count.count, "výrok", "výroky", "výroků") %></span>
             </div>
             <% end %>
@@ -146,7 +146,7 @@
     <div
       class="d-block"
       data-target="components--overview.item components--filter.filterItem"
-      data-filter-value="<%= statement.approved_assessment.veracity.default_name %>,<%= statement.speaker.id.to_s %>,<% statement.tags.each do |tag|%><%= tag.id %>,<% end %>"
+      data-filter-value="<%= statement.approved_assessment.veracity_new %>,<%= statement.speaker.id.to_s %>,<% statement.tags.each do |tag|%><%= tag.id %>,<% end %>"
     >
       <%=
         render(

@@ -3,10 +3,10 @@
 class SpeakerStat < ApplicationRecord
   def self.normalize
     default_stats = {
-      Veracity::TRUE => 0,
-      Veracity::UNTRUE => 0,
-      Veracity::MISLEADING => 0,
-      Veracity::UNVERIFIABLE => 0,
+      Assessment::VERACITY_TRUE => 0,
+      Assessment::VERACITY_UNTRUE => 0,
+      Assessment::VERACITY_MISLEADING => 0,
+      Assessment::VERACITY_UNVERIFIABLE => 0,
     }
 
     self.all.reduce(default_stats) do |acc, stat|

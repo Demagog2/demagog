@@ -1,5 +1,12 @@
 ---
 cs:
+  veracity:
+    names:
+      true: Pravda
+      untrue: Nepravda
+      misleading: Zavádějící
+      unverifiable: Neověřitelné
+
   activerecord:
     errors:
       messages:
@@ -230,5 +237,3 @@ cs:
           other: "Zobrazeny <b>všechny %{count}</b> %{entry_name}"
       more_pages:
         display_entries: "Zobrazeno %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> z <b>%{total}</b> celkem"
-
-

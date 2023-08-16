@@ -3,6 +3,10 @@
 include ActionDispatch::TestProcess
 
 FactoryBot.define do
+  factory :veracity do
+    key { Veracity::TRUE }
+  end
+
   factory :media_personality do
     sequence(:name) { |n| "John #{n} Doe" }
   end
@@ -44,6 +48,10 @@ FactoryBot.define do
       article_type { Article::ARTICLE_TYPE_STATIC }
     end
 
+    trait :single_stamement do
+      article_type { Article::ARTICLE_TYPE_SINGLE_STATEMENT }
+    end
+
     trait :with_illustration do
       after :create do |account|
         file_path = Rails.root.join("test", "support", "assets", "test-image.png")
@@ -60,6 +68,11 @@ FactoryBot.define do
 
     factory :article_segment_source_statements do
       segment_type { "source_statements" }
+    end
+
+    factory :article_segment_single_statement do
+      segment_type { ArticleSegment::TYPE_SINGLE_STATEMENT }
+      statement
     end
   end
 
@@ -175,6 +188,7 @@ FactoryBot.define do
         create(:assessment, :with_veracity_true, statement:)
       end
       if statement.statement_type == Statement::TYPE_PROMISE
+        # TODO: Add promise rating
         create(:assessment, :promise_assessment, statement:)
       end
     end

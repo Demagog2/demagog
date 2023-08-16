@@ -3,6 +3,10 @@
 require "graphql/graphql_testcase"
 
 class QueryTypeVeracitiesTest < GraphQLTestCase
+  setup do
+    I18n.locale = "cs"
+  end
+
   test "should return all veracities" do
     query_string = "
       query {

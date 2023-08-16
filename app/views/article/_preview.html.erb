@@ -45,8 +45,8 @@
       <% end %>
 
       <% if article.article_type_single_statement? %>
-        <span class="label veracity <%= article.single_statement.approved_assessment.veracity.default_name %>">
-          <%= article.single_statement.approved_assessment.veracity.name %>
+        <span class="label veracity <%= article.single_statement.approved_assessment.veracity_new %>">
+          <%= article.single_statement.approved_assessment.veracity_name %>
         </span>
         <i><%= article.single_statement.source.medium.name %>, <%= raw(l(article.single_statement.source.released_at, format: :long)) %></i>
       <% end %>
