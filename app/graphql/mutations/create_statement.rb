@@ -36,6 +36,10 @@ module Mutations
         assessment_input[:statement] = statement
         assessment_input[:evaluation_status] = Assessment::STATUS_BEING_EVALUATED
 
+        if assessment_input[:veracity_id]
+          assessment_input[:veracity_new] = Veracity.find(assessment_input[:veracity_id]).key
+        end
+
         assessment = Assessment.new(assessment_input)
         # FIXME: We don't want methodology picking hardcoded, do we set it on source level?
         if statement.statement_type == Statement::TYPE_PROMISE
