@@ -74,12 +74,12 @@ class StatementElasticFilterableListPresenter
 
       # Veracity
       if @enable_filters.include?(:veracity_key) && !@params[:hodnoceni].blank?
-        params_veracity_keys = @params[:hodnoceni].kind_of?(Array) ? @params[:hodnoceni] : [@params[:hodnoceni]]
+        params_veracity_keys = Array.wrap(@params[:hodnoceni])
 
-        veracity_keys = get_available_veracities_keys().filter do |veracity_key|
-          veracity = Veracity.find_by(key: veracity_key)
+        veracity_keys = Assessment::VERACITIES.filter do |veracity_key|
+          veracity_name = I18n.t("veracity.names.#{veracity_key}")
 
-          params_veracity_keys.include?(veracity.name.parameterize)
+          params_veracity_keys.include?(veracity_name.parameterize)
         end
 
         unless veracity_keys.empty?
@@ -206,12 +206,12 @@ class StatementElasticFilterableListPresenter
         # Veracity
         if @enable_filters.include?(:veracity_key)
           veracity_key_aggregation = aggregations.fetch("veracity_key", {})
-          veracity_key_filter_options = get_available_veracities_keys().map do |veracity_key|
-            veracity = Veracity.find_by(key: veracity_key)
+          veracity_key_filter_options = Assessment::VERACITIES.map do |veracity_key|
+            veracity_name = I18n.t("veracity.names.#{veracity_key}")
 
             {
-              value: veracity.name.parameterize,
-              label: veracity.name,
+              value: veracity_name.parameterize,
+              label: veracity_name,
               count: veracity_key_aggregation.fetch(veracity_key, 0),
               selected: @parsed_params_filters[:veracity_key] && @parsed_params_filters[:veracity_key].include?(veracity_key.to_s)
             }
@@ -239,9 +239,5 @@ class StatementElasticFilterableListPresenter
       end
 
       filter_options
-    end
-
-    def get_available_veracities_keys
-      [Assessment::VERACITY_TRUE, Assessment::VERACITY_UNTRUE, Assessment::VERACITY_MISLEADING, Assessment::VERACITY_UNVERIFIABLE]
     end
 end
