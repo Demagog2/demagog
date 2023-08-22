@@ -30,6 +30,10 @@ module Mutations
               end
             end
 
+            if assessment_input[:veracity_id]
+              assessment_input[:veracity_new] = Veracity.find(assessment_input[:veracity_id]).key
+            end
+
             statement.assessment.assign_attributes(assessment_input)
 
             unless statement.assessment.is_user_authorized_to_save(context[:current_user])
