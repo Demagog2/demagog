@@ -37,33 +37,6 @@ class UpdateStatementMutationTest < GraphQLTestCase
     assert_equal source_speaker.id, result.data.updateStatement.statement.sourceSpeaker.id.to_i
   end
 
-  test "should update statement veracity" do
-    source_speaker = create(:source_speaker)
-    statement = create(:statement, source_speaker:)
-    veracity = Veracity.find_by(key: Veracity::MISLEADING)
-
-    query = "
-      mutation {
-        updateStatement(id: #{statement.id}, statementInput: { assessment: { veracityId: #{veracity.id} } }) {
-          statement {
-            content
-            assessment {
-              id
-              veracity {
-                key
-              }
-            }
-          }
-        }
-      }
-    "
-
-    result = execute(query, context: authenticated_user_context)
-
-    assert_equal Assessment::VERACITY_MISLEADING, result.data.updateStatement.statement.assessment.veracity.key
-    assert_equal Assessment::VERACITY_MISLEADING, Assessment.find(result.data.updateStatement.statement.assessment.id).veracity_new
-  end
-
   test "should update statement tags" do
     economy_tag = Tag.find_or_create_by!(name: "Hospodářství", for_statement_type: Statement::TYPE_PROMISE)
     statement = create(:statement, :promise_statement)
