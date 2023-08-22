@@ -112,14 +112,7 @@ class Assessment < ApplicationRecord
     # With statements:edit, user can edit anything in assessment
     return true if permissions.include?("statements:edit")
 
-    evaluator_allowed_attributes = [
-      "veracity_id",
-      "promise_rating_id",
-      "explanation_html",
-      "explanation_slatejson",
-      "short_explanation",
-      "evaluation_status"
-    ]
+    evaluator_allowed_attributes = %w[veracity_new veracity_id promise_rating_id explanation_html explanation_slatejson short_explanation evaluation_status]
     evaluator_allowed_changes =
       (
         evaluation_status_was == STATUS_BEING_EVALUATED &&

@@ -83,6 +83,7 @@ class AssessmentTest < ActiveSupport::TestCase
       explanation_slatejson: "{}",
       explanation_html: "<p>html</p>",
       veracity_id: Veracity.find_by(key: Veracity::UNTRUE).id,
+      veracity_new: Assessment::VERACITY_UNVERIFIABLE
     )
 
     assert assessment.is_user_authorized_to_save(user)
