@@ -4,7 +4,7 @@ class ArticleSegmentSourceStatementsPresenter
   attr_accessor :statements, :tags_with_counts, :veracities_with_counts
 
   TagWithCount = Struct.new(:tag, :count)
-  VeracityWithCount = Struct.new(:veracity, :count)
+  VeracityWithCount = Struct.new(:veracity_key, :veracity_name, :count)
 
   def initialize(segment)
     @segment = segment
@@ -47,20 +47,20 @@ class ArticleSegmentSourceStatementsPresenter
 
   def init_veracities_with_counts
     veracity_key_counts = {
-      Veracity::TRUE => 0,
-      Veracity::UNTRUE => 0,
-      Veracity::MISLEADING => 0,
-      Veracity::UNVERIFIABLE => 0,
+      Assessment::VERACITY_TRUE => 0,
+      Assessment::VERACITY_UNTRUE => 0,
+      Assessment::VERACITY_MISLEADING => 0,
+      Assessment::VERACITY_UNVERIFIABLE => 0,
     }
 
     @statements.each do |statement|
-      veracity = statement.assessment.veracity
+      veracity = statement.assessment.veracity_new
 
-      veracity_key_counts[veracity.key] += 1
+      veracity_key_counts[veracity] += 1
     end
 
     veracity_key_counts.map do |veracity_key, count|
-      VeracityWithCount.new(Veracity.find_by(key: veracity_key), count)
+      VeracityWithCount.new(veracity_key, I18n.t("veracity.names.#{veracity_key}"), count)
     end
   end
 end

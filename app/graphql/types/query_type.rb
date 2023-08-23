@@ -85,7 +85,9 @@ class Types::QueryType < GraphQL::Schema::Object
   field :veracities, [Types::VeracityType], null: false
 
   def veracities
-    Veracity.all
+    Assessment::VERACITIES.each_with_index.map do |key, i|
+      { id: i + 1, key:, name: I18n.t("veracity.names.#{key}") }
+    end
   end
 
   field :promise_ratings, [Types::PromiseRatingType], null: false

@@ -15,16 +15,16 @@
   </div>
 
   <div class="veracity-badge">
-    <% if @statement.approved_assessment.veracity.key == Veracity::TRUE %>
+    <% if @statement.approved_assessment.veracity_true? %>
       <img src="<%= asset_path("true-badge.png") %>" alt="Pravda">
     <% end %>
-    <% if @statement.approved_assessment.veracity.key == Veracity::UNTRUE %>
+    <% if @statement.approved_assessment.veracity_untrue? %>
       <img src="<%= asset_path("untrue-badge.png") %>" alt="Nepravda">
     <% end %>
-    <% if @statement.approved_assessment.veracity.key == Veracity::MISLEADING %>
+    <% if @statement.approved_assessment.veracity_misleading? %>
       <img src="<%= asset_path("misleading-badge.png") %>" alt="Zavádějící">
     <% end %>
-    <% if @statement.approved_assessment.veracity.key == Veracity::UNVERIFIABLE %>
+    <% if @statement.approved_assessment.veracity_unverifiable? %>
       <img src="<%= asset_path("unverifiable-badge.png") %>" alt="Neověřitelné">
     <% end %>
   </div>

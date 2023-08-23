@@ -44,7 +44,7 @@ class CreateStatementMutationTest < GraphQLTestCase
     source_speaker = create(:source_speaker)
     source = create(:source, source_speakers: [source_speaker])
     evaluator = create(:user)
-    veracity = Veracity.find_by(key: Veracity::UNTRUE)
+    veracity = create(:veracity, key: Assessment::VERACITY_UNTRUE)
 
     query = "
       mutation {

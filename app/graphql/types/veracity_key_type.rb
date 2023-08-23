@@ -19,10 +19,10 @@ module Types
     description "Assessment veracity – can be either true, untrue, misleading or unverifiable"
 
     VERACITY_KEY_VALUES = [
-      Veracity::TRUE,
-      Veracity::UNTRUE,
-      Veracity::MISLEADING,
-      Veracity::UNVERIFIABLE
+      Assessment::VERACITY_TRUE,
+      Assessment::VERACITY_UNTRUE,
+      Assessment::VERACITY_MISLEADING,
+      Assessment::VERACITY_UNVERIFIABLE,
     ]
 
     def self.coerce_input(value, ctx)

@@ -62,6 +62,7 @@ class Assessment < ApplicationRecord
 
   validates_with AssessmentValidator
   validates :veracity, absence: true, unless: Proc.new { |a| a.assessment_methodology.rating_model == AssessmentMethodology::RATING_MODEL_VERACITY }
+  validates :veracity_new, absence: true, unless: Proc.new { |a| a.assessment_methodology.rating_model == AssessmentMethodology::RATING_MODEL_VERACITY }
   validates :promise_rating, absence: true, unless: Proc.new { |a| a.assessment_methodology.rating_model == AssessmentMethodology::RATING_MODEL_PROMISE_RATING }
 
   before_save :record_evaluation_process_timestamps
@@ -102,6 +103,10 @@ class Assessment < ApplicationRecord
     return 0 if explanation_html.nil?
     fragment = Nokogiri::HTML.fragment(explanation_html)
     fragment.text.length
+  end
+
+  def veracity_name
+    I18n.t("veracity.names.#{veracity_new}")
   end
 
   # Meant to be used after setting new attributes with assign_attributes, just
