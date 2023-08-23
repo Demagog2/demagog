@@ -122,7 +122,7 @@ class Assessment < ApplicationRecord
         changed_attributes.keys == ["evaluation_status"]
       )
 
-    if evaluator_allowed_changes && user.authorized?("statements:edit-as-evaluator") && user_id == user.id
+    if evaluator_allowed_changes && user.authorized?("statements:edit-as-evaluator") && evaluated_by?(user)
       return true
     end
 
@@ -148,7 +148,7 @@ class Assessment < ApplicationRecord
     # Otherwise it is viewable only to authenticated users with proper permissions
     if user
       return true if user.authorized?("statements:view-unapproved-evaluation")
-      return true if user.authorized?("statements:view-evaluation-as-evaluator") && user.id == user_id
+      return true if user.authorized?("statements:view-evaluation-as-evaluator") && evaluated_by?(user)
     end
 
     false
@@ -251,6 +251,10 @@ class Assessment < ApplicationRecord
         SlackNotifier::ProofreadingNotifier.post text: "<!channel> Ahoj, máme tu v diskuzi *#{statement.source.name}* už #{proofreading_needed_count} výroků ke korektuře. Prosíme o projití. Díky!\n#{source_url}"
       end
     end
+  end
+
+  def evaluated_by?(user)
+    user_id == user.id
   end
 
   private

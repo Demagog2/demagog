@@ -180,7 +180,7 @@ class Statement < ApplicationRecord
       assessment.evaluation_status == Assessment::STATUS_BEING_EVALUATED &&
         (changed_attributes.keys - evaluator_allowed_attributes).empty?
 
-    if evaluator_allowed_changes && user.authorized?("statements:edit-as-evaluator") && assessment.user_id == user.id
+    if evaluator_allowed_changes && user.authorized?("statements:edit-as-evaluator") && assessment.evaluated_by?(user)
       return true
     end
 
