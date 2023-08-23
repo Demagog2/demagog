@@ -109,19 +109,6 @@ class Assessment < ApplicationRecord
     I18n.t("veracity.names.#{veracity_new}")
   end
 
-  def is_user_authorized_to_view_evaluation(user)
-    # Evaluation of approved assessment is always viewable
-    return true if approved?
-
-    # Otherwise it is viewable only to authenticated users with proper permissions
-    if user
-      return true if user.authorized?("statements:view-unapproved-evaluation")
-      return true if user.authorized?("statements:view-evaluation-as-evaluator") && evaluated_by?(user)
-    end
-
-    false
-  end
-
   # Meant to be used after setting new attributes with assign_attributes, just
   # before calling save! on the record
   def create_notifications(current_user)

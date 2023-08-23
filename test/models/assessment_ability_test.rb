@@ -151,4 +151,52 @@ class AssessmentAbilityTest < ActiveSupport::TestCase
 
     assert AssessmentAbility.new(user).can?(:update, assessment, changes)
   end
+
+  test "admin should be authorized to view unapproved assessment evaluation" do
+    assessment = create(:assessment, :being_evaluated)
+    user = create(:user, :admin)
+
+    assert AssessmentAbility.new(user).can?(:read, assessment)
+  end
+
+  test "proofreader should be authorized to view unapproved assessment evaluation" do
+    assessment = create(:assessment, :being_evaluated)
+    user = create(:user, :proofreader)
+
+    assert AssessmentAbility.new(user).can?(:read, assessment)
+  end
+
+  test "social media manager should be authorized to view unapproved assessment evaluation" do
+    assessment = create(:assessment, :being_evaluated)
+    user = create(:user, :social_media_manager)
+
+    assert AssessmentAbility.new(user).can?(:read, assessment)
+  end
+
+  test "intern should not be authorized to view unapproved assessment evaluation when NOT evaluator" do
+    assessment = create(:assessment, :being_evaluated)
+    user = create(:user, :intern)
+
+    assert_not AssessmentAbility.new(user).can?(:read, assessment)
+  end
+
+  test "intern should be authorized to view unapproved assessment evaluation when evaluator" do
+    assessment = create(:assessment, :being_evaluated)
+    user = create(:user, :intern)
+    assessment.update(evaluator: user)
+
+    assert AssessmentAbility.new(user).can?(:read, assessment)
+  end
+
+  test "unauthenticated user should be authorized to view approved assessment evaluation" do
+    assessment = create(:assessment)
+
+    assert AssessmentAbility.new(nil).can?(:read, assessment)
+  end
+
+  test "unauthenticated user should not be authorized to view unapproved assessment evaluation" do
+    assessment = create(:assessment, :being_evaluated)
+
+    assert_not AssessmentAbility.new(nil).can?(:read, assessment)
+  end
 end

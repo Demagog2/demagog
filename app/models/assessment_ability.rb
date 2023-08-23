@@ -23,7 +23,17 @@ class AssessmentAbility
   ]).freeze
 
   def initialize(user)
+    unless user.present?
+      return can :read, Assessment, evaluation_status: Assessment::STATUS_APPROVED
+    end
+
+    if user.role? Role::SOCIAL_MEDIA_MANAGER
+      can :read, Assessment
+    end
+
     if user.role? Role::INTERN
+      can :read, Assessment, evaluator: user
+
       can :update, Assessment do |assessment, new_attributes|
         next unless assessment.evaluated_by?(user)
 
@@ -39,6 +49,8 @@ class AssessmentAbility
     end
 
     if user.role? Role::PROOFREADER
+      can :read, Assessment
+
       can :update, Assessment do |assessment, new_attributes|
         case assessment.evaluation_status
         when Assessment::STATUS_APPROVED
