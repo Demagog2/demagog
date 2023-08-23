@@ -172,17 +172,15 @@ class Statement < ApplicationRecord
   # Meant to be used after setting new attributes with assign_attributes, just
   # before calling save! on the record
   def is_user_authorized_to_save(user)
-    permissions = user.role.permissions
-
     # With statements:edit, user can edit anything in statement
-    return true if permissions.include? "statements:edit"
+    return true if user.authorized?("statements:edit")
 
     evaluator_allowed_attributes = ["content", "title", "tags"]
     evaluator_allowed_changes =
       assessment.evaluation_status == Assessment::STATUS_BEING_EVALUATED &&
         (changed_attributes.keys - evaluator_allowed_attributes).empty?
 
-    if evaluator_allowed_changes && permissions.include?("statements:edit-as-evaluator") && assessment.user_id == user.id
+    if evaluator_allowed_changes && user.authorized?("statements:edit-as-evaluator") && assessment.user_id == user.id
       return true
     end
 
@@ -191,7 +189,7 @@ class Statement < ApplicationRecord
       [Assessment::STATUS_BEING_EVALUATED, Assessment::STATUS_APPROVAL_NEEDED, Assessment::STATUS_PROOFREADING_NEEDED].include?(assessment.evaluation_status) &&
         (changed_attributes.keys - texts_allowed_attributes).empty?
 
-    if texts_allowed_changes && permissions.include?("statements:edit-as-proofreader")
+    if texts_allowed_changes && user.authorized?("statements:edit-as-proofreader")
       return true
     end
 

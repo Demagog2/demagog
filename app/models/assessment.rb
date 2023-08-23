@@ -107,10 +107,8 @@ class Assessment < ApplicationRecord
   # Meant to be used after setting new attributes with assign_attributes, just
   # before calling save! on the record
   def is_user_authorized_to_save(user)
-    permissions = user.role.permissions
-
     # With statements:edit, user can edit anything in assessment
-    return true if permissions.include?("statements:edit")
+    return true if user.authorized?("statements:edit")
 
     evaluator_allowed_attributes = %w[veracity_new veracity_id promise_rating_id explanation_html explanation_slatejson short_explanation evaluation_status]
     evaluator_allowed_changes =
@@ -124,7 +122,7 @@ class Assessment < ApplicationRecord
         changed_attributes.keys == ["evaluation_status"]
       )
 
-    if evaluator_allowed_changes && permissions.include?("statements:edit-as-evaluator") && user_id == user.id
+    if evaluator_allowed_changes && user.authorized?("statements:edit-as-evaluator") && user_id == user.id
       return true
     end
 
@@ -136,7 +134,7 @@ class Assessment < ApplicationRecord
     texts_allowed_changes = unapproved? && (changed_attributes.keys - texts_allowed_attributes).empty?
     proofreader_allowed_changes = texts_allowed_changes || (evaluation_status_was == STATUS_PROOFREADING_NEEDED)
 
-    if proofreader_allowed_changes && permissions.include?("statements:edit-as-proofreader")
+    if proofreader_allowed_changes && user.authorized?("statements:edit-as-proofreader")
       return true
     end
 
@@ -149,9 +147,8 @@ class Assessment < ApplicationRecord
 
     # Otherwise it is viewable only to authenticated users with proper permissions
     if user
-      permissions = user.role.permissions
-      return true if permissions.include?("statements:view-unapproved-evaluation")
-      return true if permissions.include?("statements:view-evaluation-as-evaluator") && user.id == user_id
+      return true if user.authorized?("statements:view-unapproved-evaluation")
+      return true if user.authorized?("statements:view-evaluation-as-evaluator") && user.id == user_id
     end
 
     false
