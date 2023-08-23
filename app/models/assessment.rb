@@ -109,43 +109,6 @@ class Assessment < ApplicationRecord
     I18n.t("veracity.names.#{veracity_new}")
   end
 
-  # Meant to be used after setting new attributes with assign_attributes, just
-  # before calling save! on the record
-  def is_user_authorized_to_save(user)
-    # With statements:edit, user can edit anything in assessment
-    return true if user.authorized?("statements:edit")
-
-    evaluator_allowed_attributes = %w[veracity_new veracity_id promise_rating_id explanation_html explanation_slatejson short_explanation evaluation_status]
-    evaluator_allowed_changes =
-      (
-        evaluation_status_was == STATUS_BEING_EVALUATED &&
-        (changed_attributes.keys - evaluator_allowed_attributes).empty?
-      ) ||
-      (
-        evaluation_status_was == STATUS_APPROVAL_NEEDED &&
-        evaluation_status == STATUS_BEING_EVALUATED &&
-        changed_attributes.keys == ["evaluation_status"]
-      )
-
-    if evaluator_allowed_changes && user.authorized?("statements:edit-as-evaluator") && evaluated_by?(user)
-      return true
-    end
-
-    texts_allowed_attributes = [
-      "explanation_html",
-      "explanation_slatejson",
-      "short_explanation"
-    ]
-    texts_allowed_changes = unapproved? && (changed_attributes.keys - texts_allowed_attributes).empty?
-    proofreader_allowed_changes = texts_allowed_changes || (evaluation_status_was == STATUS_PROOFREADING_NEEDED)
-
-    if proofreader_allowed_changes && user.authorized?("statements:edit-as-proofreader")
-      return true
-    end
-
-    changed_attributes.empty?
-  end
-
   def is_user_authorized_to_view_evaluation(user)
     # Evaluation of approved assessment is always viewable
     return true if approved?

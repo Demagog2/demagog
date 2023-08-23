@@ -42,6 +42,10 @@ class User < ApplicationRecord
     Digest::SHA256.hexdigest(email)[0, 29]
   end
 
+  def role?(role_key)
+    role.key == role_key
+  end
+
   # We right now expect exactly one role per user
   def role
     roles.first
