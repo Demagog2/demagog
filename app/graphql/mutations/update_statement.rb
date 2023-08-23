@@ -56,11 +56,11 @@ module Mutations
             end
           end
 
-          statement.assign_attributes(statement_input)
-
-          unless statement.is_user_authorized_to_save(context[:current_user])
+          if StatementAbility.new(context[:current_user]).cannot?(:update, statement, statement_input)
             raise Errors::NotAuthorizedError.new
           end
+
+          statement.assign_attributes(statement_input)
 
           UserNotificationService.new(statement:, current_user: context[:current_user]).run
 

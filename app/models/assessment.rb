@@ -89,6 +89,10 @@ class Assessment < ApplicationRecord
     evaluation_status != STATUS_APPROVED
   end
 
+  def being_evaluated?
+    evaluation_status == STATUS_BEING_EVALUATED
+  end
+
   def short_explanation_characters_length
     return 0 if short_explanation.nil?
     short_explanation.length
