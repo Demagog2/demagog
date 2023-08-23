@@ -16,6 +16,8 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
 
+  delegate :authorized?, to: :role
+
   def full_name
     "#{first_name} #{last_name}"
   end

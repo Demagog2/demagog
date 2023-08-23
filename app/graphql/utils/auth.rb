@@ -12,6 +12,6 @@ module Utils::Auth
   end
 
   def self.is_authorized(ctx, permissions)
-    permissions.all? { |permission| ctx[:current_user].role.authorized?(permission) }
+    permissions.all? { |permission| ctx[:current_user].authorized?(permission) }
   end
 end
