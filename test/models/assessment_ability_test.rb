@@ -6,12 +6,13 @@ class AssessmentAbilityTest < ActiveSupport::TestCase
   test "admin should be authorized to change anything" do
      assessment = create(:assessment, :being_evaluated)
      user = create(:user, :admin)
+     veracity = create(:veracity)
 
      changes = {
        short_explanation: "Just short",
        explanation_slatejson: "{}",
        explanation_html: "<p>html</p>",
-       veracity_id: Veracity.find_by(key: Veracity::UNTRUE).id,
+       veracity_id: veracity.id,
      }
 
      assert AssessmentAbility.new(user).can?(:update, assessment, changes)
@@ -20,12 +21,13 @@ class AssessmentAbilityTest < ActiveSupport::TestCase
   test "expert should be authorized to change anything" do
     assessment = create(:assessment, :being_evaluated)
     user = create(:user, :expert)
+    veracity = create(:veracity, key: Assessment::VERACITY_UNTRUE)
 
     changes = {
       short_explanation: "Just short",
       explanation_slatejson: "{}",
       explanation_html: "<p>html</p>",
-      veracity_id: Veracity.find_by(key: Veracity::UNTRUE).id,
+      veracity_id: veracity.id,
     }
 
     assert AssessmentAbility.new(user).can?(:update, assessment, changes)
@@ -68,12 +70,13 @@ class AssessmentAbilityTest < ActiveSupport::TestCase
     assessment = create(:assessment, :being_evaluated)
     user = create(:user, :intern)
     assessment.update(evaluator: user)
+    veracity = create(:veracity, key: Assessment::VERACITY_UNVERIFIABLE)
 
     changes = {
       short_explanation: "Just short",
       explanation_slatejson: "{}",
       explanation_html: "<p>html</p>",
-      veracity_id: Veracity.find_by(key: Veracity::UNTRUE).id,
+      veracity_id: veracity.id,
       veracity_new: Assessment::VERACITY_UNVERIFIABLE
     }
 
@@ -99,12 +102,13 @@ class AssessmentAbilityTest < ActiveSupport::TestCase
   test "intern should not be authorized to change explanations and veracity in being_evaluated state when NOT evaluator" do
     assessment = create(:assessment, :being_evaluated)
     user = create(:user, :intern)
+    veracity = create(:veracity, key: Assessment::VERACITY_UNTRUE)
 
     changes = {
       short_explanation: "Just short",
       explanation_slatejson: "{}",
       explanation_html: "<p>html</p>",
-      veracity_id: Veracity.find_by(key: Veracity::UNTRUE).id,
+      veracity_id: veracity.id,
     }
 
     assert_not AssessmentAbility.new(user).can?(:update, assessment, changes)
