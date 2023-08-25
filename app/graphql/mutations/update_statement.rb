@@ -36,7 +36,7 @@ module Mutations
 
             statement.assessment.assign_attributes(assessment_input)
 
-            unless statement.assessment.is_user_authorized_to_save(context[:current_user])
+            unless statement.assessment.user_authorized_to_save?(context[:current_user])
               raise Errors::NotAuthorizedError.new
             end
 

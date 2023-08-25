@@ -78,6 +78,9 @@ gem "config", "~> 2.2.1"
 # Authentication
 gem "devise", "~> 4.8.1"
 
+# Authorization
+gem "cancancan"
+
 # Enables devise & omniauth to authenticate against Google OAuth 2
 gem "omniauth-google-oauth2", "~> 1.0.0"
 gem "omniauth-rails_csrf_protection", "~> 1.0.1"
