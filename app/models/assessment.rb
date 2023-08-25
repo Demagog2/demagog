@@ -111,6 +111,12 @@ class Assessment < ApplicationRecord
 
   # Meant to be used after setting new attributes with assign_attributes, just
   # before calling save! on the record
+  def user_authorized_to_save?(user)
+    AssessmentAbility.new(user).can?(:update, self, changed_attributes)
+  end
+
+  # Meant to be used after setting new attributes with assign_attributes, just
+  # before calling save! on the record
   def create_notifications(current_user)
     if user_id_changed?
       notifications = []

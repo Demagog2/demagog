@@ -34,13 +34,11 @@ module Mutations
               assessment_input[:veracity_new] = Veracity.find(assessment_input[:veracity_id]).key
             end
 
-            ability = AssessmentAbility.new(context[:current_user])
+            statement.assessment.assign_attributes(assessment_input)
 
-            if ability.cannot?(:update, statement.assessment, assessment_input)
+            unless statement.assessment.user_authorized_to_save?(context[:current_user])
               raise Errors::NotAuthorizedError.new
             end
-
-            statement.assessment.assign_attributes(assessment_input)
 
             statement.assessment.create_notifications(context[:current_user])
             statement.assessment.save!

@@ -31,11 +31,13 @@ class AssessmentAbility
       can :update, Assessment do |assessment, new_attributes|
         next unless assessment.evaluated_by?(user)
 
+        changed_attributes = new_attributes.symbolize_keys.keys
+
         case assessment.evaluation_status
         when Assessment::STATUS_BEING_EVALUATED
-          EVALUATOR_ALLOWED_ATTRIBUTES >= new_attributes.keys.to_set
+          EVALUATOR_ALLOWED_ATTRIBUTES >= changed_attributes.to_set
         when Assessment::STATUS_APPROVAL_NEEDED
-          new_attributes.keys == %i[evaluation_status]
+          changed_attributes == %i[evaluation_status]
         else
           false
         end
