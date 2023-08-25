@@ -138,12 +138,13 @@ class AssessmentAbilityTest < ActiveSupport::TestCase
     assessment = create(:assessment, :approval_needed)
     user = create(:user, :intern)
     assessment.update(evaluator: user)
+    veracity = create(:veracity, key: Assessment::VERACITY_UNTRUE)
 
     changes = {
       short_explanation: "Just short",
       explanation_slatejson: "{}",
       explanation_html: "<p>html</p>",
-      veracity_id: Veracity.find_by(key: Veracity::UNTRUE).id,
+      veracity_id: veracity.id,
     }
 
     assert_not AssessmentAbility.new(user).can?(:update, assessment, changes)
