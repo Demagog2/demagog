@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
-require "set"
-
 class AssessmentAbility
   include CanCan::Ability
 
-  EVALUATOR_ALLOWED_ATTRIBUTES = Set.new(%i[
+  EVALUATOR_ALLOWED_ATTRIBUTES = %i[
     veracity_new
     veracity_id
     promise_rating_id
@@ -13,25 +11,21 @@ class AssessmentAbility
     explanation_slatejson
     short_explanation
     evaluation_status
-  ]).freeze
-
-  PROOFREADER_ALLOWED_ATTRIBUTES = Set.new(%i[
-    explanation_html
-    explanation_slatejson
-    short_explanation
-    evaluation_status
-  ]).freeze
+  ].to_set.freeze
 
   def initialize(user)
-    unless user.present?
-      return can :read, Assessment, evaluation_status: Assessment::STATUS_APPROVED
-    end
+    can :read, Assessment, evaluation_status: Assessment::STATUS_APPROVED
 
-    if user.role? Role::SOCIAL_MEDIA_MANAGER
+    return unless user.present?
+
+    case user.role.key
+    when Role::SOCIAL_MEDIA_MANAGER
       can :read, Assessment
-    end
-
-    if user.role? Role::INTERN
+    when Role::PROOFREADER
+      can [:read, :update], Assessment
+    when Role::ADMIN, Role::EXPERT
+      can :manage, Assessment
+    else
       can :read, Assessment, evaluator: user
 
       can :update, Assessment do |assessment, new_attributes|
@@ -39,7 +33,7 @@ class AssessmentAbility
 
         case assessment.evaluation_status
         when Assessment::STATUS_BEING_EVALUATED
-          EVALUATOR_ALLOWED_ATTRIBUTES >= Set.new(new_attributes.keys)
+          EVALUATOR_ALLOWED_ATTRIBUTES >= new_attributes.keys.to_set
         when Assessment::STATUS_APPROVAL_NEEDED
           new_attributes.keys == %i[evaluation_status]
         else
@@ -47,22 +41,5 @@ class AssessmentAbility
         end
       end
     end
-
-    if user.role? Role::PROOFREADER
-      can :read, Assessment
-
-      can :update, Assessment do |assessment, new_attributes|
-        case assessment.evaluation_status
-        when Assessment::STATUS_APPROVED
-          false
-        else
-          PROOFREADER_ALLOWED_ATTRIBUTES >= Set.new(new_attributes.keys)
-        end
-      end
-    end
-
-    return unless user.role?(Role::ADMIN) || user.role?(Role::EXPERT)
-
-    can :manage, Assessment
   end
 end

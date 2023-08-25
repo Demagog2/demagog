@@ -151,6 +151,10 @@ FactoryBot.define do
     evaluation_status { Assessment::STATUS_APPROVED }
     explanation_html { "Lorem ipsum <strong>dolor</strong> sit amet" }
 
+    trait :approved do
+      evaluation_status { Assessment::STATUS_APPROVED }
+    end
+
     trait :being_evaluated do
       evaluation_status { Assessment::STATUS_BEING_EVALUATED }
     end

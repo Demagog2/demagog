@@ -44,14 +44,16 @@ class AssessmentAbilityTest < ActiveSupport::TestCase
     assert AssessmentAbility.new(user).can?(:update, assessment, changes)
   end
 
-  # test "proofreader should not be authorized to change non-text fields in unapproved state" do
-  #   assessment = create(:assessment, :being_evaluated)
-  #   user = create(:user, :proofreader)
+  test "proofreader should be authorized to change non-text fields in unapproved state" do
+    assessment = create(:assessment, :being_evaluated)
+    user = create(:user, :proofreader)
 
-  #   assessment.assign_attributes(veracity_id: Veracity.find_by(key: Veracity::UNTRUE).id)
+    changes = {
+      veracity_new: Assessment::VERACITY_UNVERIFIABLE
+    }
 
-  #   assert_not AssessmentAbility.new(user).can?(:update, changes)(user)
-  # end
+    assert AssessmentAbility.new(user).can?(:update, assessment, changes)
+  end
 
   test "social media manager should not be authorized to change anything" do
     assessment = create(:assessment, :being_evaluated)
@@ -189,7 +191,7 @@ class AssessmentAbilityTest < ActiveSupport::TestCase
   end
 
   test "unauthenticated user should be authorized to view approved assessment evaluation" do
-    assessment = create(:assessment)
+    assessment = create(:assessment, :approved)
 
     assert AssessmentAbility.new(nil).can?(:read, assessment)
   end
@@ -198,5 +200,15 @@ class AssessmentAbilityTest < ActiveSupport::TestCase
     assessment = create(:assessment, :being_evaluated)
 
     assert_not AssessmentAbility.new(nil).can?(:read, assessment)
+  end
+
+  test "any authenticated user should be authorized to view approved assessment evaluation" do
+    assessment = create(:assessment, :approved)
+
+    [:intern, :proofreader, :social_media_manager, :expert, :admin].each do |role|
+      user = build(:user, role)
+
+      assert AssessmentAbility.new(user).can?(:read, assessment), "#{role} doesn't have access"
+    end
   end
 end
