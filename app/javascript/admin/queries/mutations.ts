@@ -468,7 +468,7 @@ export const UpdateStatement = gql`
         tags {
           id
           name
-        },
+        }
         articleTags {
           id
         }

@@ -4,9 +4,7 @@ import { Colors } from '@blueprintjs/core';
 import { Query } from 'react-apollo';
 import Select from 'react-select';
 
-import {
-  GetArticleTagsForSelect as GetArticleTagsForSelectQuery
-} from '../../../operation-result-types';
+import { GetArticleTagsForSelect as GetArticleTagsForSelectQuery } from '../../../operation-result-types';
 import { GetArticleTagsForSelect } from '../../../queries/queries';
 
 interface ISelectOption {
@@ -25,9 +23,7 @@ interface IProps {
 export default class ArticleTagsSelect extends React.Component<IProps> {
   public render() {
     return (
-      <Query<GetArticleTagsForSelectQuery>
-        query={GetArticleTagsForSelect}
-      >
+      <Query<GetArticleTagsForSelectQuery> query={GetArticleTagsForSelect}>
         {({ data, loading }) => {
           let options: ISelectOption[] = [];
 

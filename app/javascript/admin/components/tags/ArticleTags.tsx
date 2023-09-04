@@ -10,9 +10,7 @@ import { useModal } from 'react-modal-hook';
 import { DeleteModal } from '../modals/ConfirmDeleteModal';
 import { useFlashMessage } from '../../hooks/use-flash-messages';
 
-import {
-  DeleteArticleTag as DeleteArticleTagMutation,
-} from '../../queries/mutations';
+import { DeleteArticleTag as DeleteArticleTagMutation } from '../../queries/mutations';
 
 import {
   DeleteArticleTag,
@@ -49,28 +47,28 @@ export function ArticleTags(props: IArticleTagsProps) {
 
   const showConfirmDeleteModal = (tag) => {
     setDeleteArticleTagId(tag.id);
-    setDeleteArticleTag(tag)
+    setDeleteArticleTag(tag);
     openModal();
   };
 
-  const [deleteTag, { loading: deleteArticleTagLoading }] = useMutation<DeleteArticleTag, DeleteArticleTagVariables>(
-    DeleteArticleTagMutation,
-    {
-      variables: {
-        id: deleteArticleTagId,
-      },
-      onCompleted() {
-        addFlashMessage('Tag byl úspěšně smazán.', 'success');
-        setDeleteArticleTag(null)
-        setDeleteArticleTagId(null);
-        closeModal();
-      },
-
-      onError() {
-        addFlashMessage('Doško k chybě při mazání tagu', 'error');
-      },
+  const [deleteTag, { loading: deleteArticleTagLoading }] = useMutation<
+    DeleteArticleTag,
+    DeleteArticleTagVariables
+  >(DeleteArticleTagMutation, {
+    variables: {
+      id: deleteArticleTagId,
     },
-  );
+    onCompleted() {
+      addFlashMessage('Tag byl úspěšně smazán.', 'success');
+      setDeleteArticleTag(null);
+      setDeleteArticleTagId(null);
+      closeModal();
+    },
+
+    onError() {
+      addFlashMessage('Doško k chybě při mazání tagu', 'error');
+    },
+  });
 
   const [openModal, closeModal] = useModal(
     () => (
@@ -83,7 +81,6 @@ export function ArticleTags(props: IArticleTagsProps) {
     ),
     [deleteArticleTag, deleteArticleTagLoading],
   );
-
 
   return (
     <div
@@ -106,7 +103,6 @@ export function ArticleTags(props: IArticleTagsProps) {
         >
           Přidat tag
         </Link>
-
       </div>
       <h2 className={Classes.HEADING}>Tagy</h2>
       <table
@@ -138,8 +134,7 @@ export function ArticleTags(props: IArticleTagsProps) {
               <td>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                   <Link
-                    to={`/admin/article-tags/edit/${tag.id}`
-                    }
+                    to={`/admin/article-tags/edit/${tag.id}`}
                     className={cx(Classes.BUTTON, Classes.iconClass(IconNames.EDIT))}
                   >
                     Upravit
@@ -153,7 +148,6 @@ export function ArticleTags(props: IArticleTagsProps) {
                 </div>
               </td>
             </tr>
-
           ))}
         </tbody>
       </table>
