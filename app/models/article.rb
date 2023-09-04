@@ -144,7 +144,9 @@ class Article < ApplicationRecord
     article = article_input.deep_symbolize_keys
 
     # TODO: Optimize code using where, pluck and mapping to original tag_ids
-    article[:article_tags] = article[:article_tags].map { |tag_id| ArticleTag.find(tag_id) }
+    if article_input[:article_tags]
+      article[:article_tags] = article[:article_tags].map { |tag_id| ArticleTag.find(tag_id) }
+    end
 
     if article[:segments]
       article[:segments] =
@@ -180,7 +182,9 @@ class Article < ApplicationRecord
     article = article_input.deep_symbolize_keys
 
     # TODO: Optimize code using where, pluck and mapping to original tag_ids
-    article[:article_tags] = article[:article_tags].map { |tag_id| ArticleTag.find(tag_id) }
+    if article_input[:article_tags]
+      article[:article_tags] = article[:article_tags].map { |tag_id| ArticleTag.find(tag_id) }
+    end
 
     article[:segments] =
       article[:segments].map.with_index(0) do |seg, order|
