@@ -91,8 +91,6 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
             .oneOf([ARTICLE_TYPE_DEFAULT, ARTICLE_TYPE_STATIC, ARTICLE_TYPE_FACEBOOK_FACTCHECK]),
         })}
         onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
-
           const formData: IArticleFormData = {
             articleType: values.article_type,
             illustration: values.illustration,

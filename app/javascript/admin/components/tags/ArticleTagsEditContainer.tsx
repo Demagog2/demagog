@@ -24,7 +24,9 @@ export function ArticleTagsEditContainer() {
   const currentUser = useSelector((state: IState) => state.currentUser.user);
   const articleTagId = parseInt(params.id ?? '', 10);
   const addFlashMessage = useFlashMessage();
-  const [mutate] = useMutation<UpdateArticleTag, UpdateArticleTagVariables>(UpdateArticleTagMutation);
+  const [mutate] = useMutation<UpdateArticleTag, UpdateArticleTagVariables>(
+    UpdateArticleTagMutation,
+  );
   const { data, loading } = useQuery<GetArticleTag, GetArticleTagVariables>(GetArticleTagQuery, {
     variables: {
       id: articleTagId,
@@ -35,20 +37,13 @@ export function ArticleTagsEditContainer() {
     addFlashMessage('Uložení proběhlo v pořádku', 'success');
   }, [addFlashMessage, dispatch, currentUser, articleTagId]);
 
-  const onError = useCallback(
-    (error) => {
-      addFlashMessage('Při ukládání došlo k chybě.', 'error');
-      console.log(error);
-
-    },
-    [addFlashMessage],
-  );
+  const onError = useCallback(() => {
+    addFlashMessage('Při ukládání došlo k chybě.', 'error');
+  }, [addFlashMessage]);
 
   const onSubmit = useCallback(
     async (variables: IArticleTagFormValues) => {
       try {
-        console.log(variables);
-
         await mutate({
           variables: {
             id: articleTagId,
@@ -61,13 +56,13 @@ export function ArticleTagsEditContainer() {
               stats: variables.stats,
               order: variables.order,
               video: variables.video,
-              medium_id: variables.medium_id
+              medium_id: variables.medium_id,
             },
-          }
+          },
         });
         onCompleted();
       } catch (error) {
-        onError(error);
+        onError();
       }
     },
     [mutate, data, articleTagId, onCompleted, onError, addFlashMessage],

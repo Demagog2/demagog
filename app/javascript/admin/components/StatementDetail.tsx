@@ -212,9 +212,6 @@ function StatementDetail(props: IProps) {
                       sourceSpeakerId: values.source_speaker_id,
                     };
 
-                    console.log(statementInput);
-
-
                     updateStatementPromise.current = updateStatement({
                       variables: { id: parseInt(statement.id, 10), statementInput },
                     })

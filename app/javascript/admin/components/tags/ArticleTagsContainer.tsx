@@ -10,9 +10,6 @@ export function ArticleTagsContainer() {
     variables: {},
   });
 
-  console.log(data);
-
-
   const articleTags = useMemo(() => data?.articleTags ?? [], [data]);
   return <ArticleTags loading={loading} tags={articleTags} />;
 }

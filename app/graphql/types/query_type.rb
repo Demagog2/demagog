@@ -127,11 +127,9 @@ class Types::QueryType < GraphQL::Schema::Object
   end
 
   def articleTag(id:)
-    begin
-      ArticleTag.find(id)
-    rescue ActiveRecord::RecordNotFound
-      raise GraphQL::ExecutionError.new("Could not find User with id=#{id}")
-    end
+    ArticleTag.find(id)
+  rescue ActiveRecord::RecordNotFound
+    raise GraphQL::ExecutionError.new("Could not find User with id=#{id}")
   end
 
   field :user, Types::UserType, null: false do

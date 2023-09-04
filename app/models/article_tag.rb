@@ -23,5 +23,4 @@ class ArticleTag < ApplicationRecord
     article_tag = ArticleTag.find(id)
     article_tag.destroy
   end
-
 end

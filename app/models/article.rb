@@ -65,8 +65,7 @@ class Article < ApplicationRecord
   end
 
   def self.for_articles_tag(id)
-    includes(:article_tag_articles).where(article_tag_articles: { article_tag_id: id})
-
+    includes(:article_tag_articles).where(article_tag_articles: { article_tag_id: id })
   end
 
   def as_indexed_json(options = {})
@@ -217,11 +216,11 @@ class Article < ApplicationRecord
         segment
       end
 
-      Article.transaction do
-        article[:segments].each(&:save)
+    Article.transaction do
+    article[:segments].each(&:save)
 
-      Article.update(article_id, article)
-    end
+    Article.update(article_id, article)
+  end
   end
 
   def self.ensure_segment(segment_id, article_id)
