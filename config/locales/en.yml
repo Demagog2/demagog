@@ -31,3 +31,10 @@
 
 en:
   hello: "Hello world"
+
+  veracity:
+    names:
+      true: "True"
+      untrue: "Untrue"
+      misleading: "Misleading"
+      unverifiable: "Unverifiable"

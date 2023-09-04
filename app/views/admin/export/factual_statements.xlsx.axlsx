@@ -35,7 +35,7 @@ wb.add_worksheet(name: "Výroky") do |sheet|
       statement.speaker.first_name,
       statement.speaker.last_name,
 
-      statement.assessment.veracity.name,
+      statement.assessment.veracity_name,
       statement.assessment.short_explanation,
       statement.tags.map { |tag| tag.name }.join(", "),
 

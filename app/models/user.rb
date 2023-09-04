@@ -16,6 +16,8 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
 
+  delegate :authorized?, to: :role
+
   def full_name
     "#{first_name} #{last_name}"
   end
@@ -38,6 +40,10 @@ class User < ApplicationRecord
   # [2] https://github.com/heartcombo/devise/blob/master/lib/devise/models/database_authenticatable.rb#L176-L178
   def authenticatable_salt
     Digest::SHA256.hexdigest(email)[0, 29]
+  end
+
+  def role?(role_key)
+    role.key == role_key
   end
 
   # We right now expect exactly one role per user

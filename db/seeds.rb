@@ -14,11 +14,6 @@ Role.find_or_create_by!(key: "social_media_manager", name: "Síťař")
 Role.find_or_create_by!(key: "proofreader", name: "Korektor")
 Role.find_or_create_by!(key: "intern", name: "Stážista")
 
-Veracity.find_or_create_by!(key: Veracity::TRUE, name: "Pravda")
-Veracity.find_or_create_by!(key: Veracity::UNTRUE, name: "Nepravda")
-Veracity.find_or_create_by!(key: Veracity::MISLEADING, name: "Zavádějící")
-Veracity.find_or_create_by!(key: Veracity::UNVERIFIABLE, name: "Neověřitelné")
-
 PromiseRating.find_or_create_by!(key: PromiseRating::FULFILLED, name: "Splněno")
 PromiseRating.find_or_create_by!(key: PromiseRating::IN_PROGRESS, name: "Průběžně plněno")
 PromiseRating.find_or_create_by!(key: PromiseRating::PARTIALLY_FULFILLED, name: "Částečně splněno")

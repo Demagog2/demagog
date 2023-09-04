@@ -21,7 +21,7 @@ module Types
     field :veracity, Types::VeracityType, null: true
 
     def veracity
-      unless object.is_user_authorized_to_view_evaluation(context[:current_user])
+      if AssessmentAbility.new(context[:current_user]).cannot?(:read, object)
         return nil
       end
 
@@ -31,7 +31,7 @@ module Types
     field :promise_rating, Types::PromiseRatingType, null: true
 
     def promise_rating
-      unless object.is_user_authorized_to_view_evaluation(context[:current_user])
+      if AssessmentAbility.new(context[:current_user]).cannot?(:read, object)
         return nil
       end
 
@@ -41,7 +41,7 @@ module Types
     field :short_explanation, String, null: true
 
     def short_explanation
-      unless object.is_user_authorized_to_view_evaluation(context[:current_user])
+      if AssessmentAbility.new(context[:current_user]).cannot?(:read, object)
         return nil
       end
 
@@ -51,7 +51,7 @@ module Types
     field :explanation_html, String, null: true
 
     def explanation_html
-      unless object.is_user_authorized_to_view_evaluation(context[:current_user])
+      if AssessmentAbility.new(context[:current_user]).cannot?(:read, object)
         return nil
       end
 
@@ -61,7 +61,7 @@ module Types
     field :explanation_slatejson, Types::Scalars::JsonType, null: true
 
     def explanation_slatejson
-      unless object.is_user_authorized_to_view_evaluation(context[:current_user])
+      if AssessmentAbility.new(context[:current_user]).cannot?(:read, object)
         return nil
       end
 

@@ -25,7 +25,7 @@ class StatementTest < ActiveSupport::TestCase
     statements.each do |statement|
       assert_equal Statement::TYPE_FACTUAL, statement.statement_type
       assert statement.published
-      assert_not_nil statement.approved_assessment.veracity
+      assert_not_nil statement.approved_assessment.veracity_new
     end
   end
 

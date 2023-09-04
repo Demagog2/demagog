@@ -1,5 +1,5 @@
 <% content_for(:title, @statement.source_speaker.full_name + (@statement.source_speaker.body ? " (#{@statement.source_speaker.body.short_name})" : "") + ': ' + "„#{@statement.content}“".truncate(45)) %>
-<% content_for(:description, 'Tento výrok byl ověřen jako ' + @statement.approved_assessment.veracity.name) %>
+<% content_for(:description, 'Tento výrok byl ověřen jako ' + @statement.approved_assessment.veracity_name) %>
 <%# TODO: statement preview images need to be updated with new brand graphic %>
 <%# content_for(:image_src, @statement.preview_image.attached? ? polymorphic_url(@statement.preview_image) : nil) %>
 <%# content_for(:twitter_card, 'summary_large_image') %>
@@ -45,8 +45,8 @@
     <div class="d-flex flex-wrap align-items-center mb-10">
       <h1 class="display-5 fw-bold me-3">Tento výrok byl ověřen jako</h1>
       <div class="d-flex align-items-center">
-        <%= render partial: "components/result_icon", locals: { labelClass: 'icon-36 me-2', labelValue:  @statement.approved_assessment.veracity.default_name } %>
-        <%= render partial: "components/result_label", locals: { labelClass: 'fs-2 text-uppercase fw-bold', labelContent: @statement.approved_assessment.veracity.name.downcase, labelValue:  @statement.approved_assessment.veracity.default_name} %>
+        <%= render partial: "components/result_icon", locals: { labelClass: 'icon-36 me-2', labelValue:  @statement.approved_assessment.veracity_new } %>
+        <%= render partial: "components/result_label", locals: { labelClass: 'fs-2 text-uppercase fw-bold', labelContent: @statement.approved_assessment.veracity_name.downcase, labelValue:  @statement.approved_assessment.veracity_new} %>
       </div>
     </div>
     <% unless @statement.approved_assessment.short_explanation.nil? %>

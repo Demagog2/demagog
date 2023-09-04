@@ -62,6 +62,7 @@ class Assessment < ApplicationRecord
 
   validates_with AssessmentValidator
   validates :veracity, absence: true, unless: Proc.new { |a| a.assessment_methodology.rating_model == AssessmentMethodology::RATING_MODEL_VERACITY }
+  validates :veracity_new, absence: true, unless: Proc.new { |a| a.assessment_methodology.rating_model == AssessmentMethodology::RATING_MODEL_VERACITY }
   validates :promise_rating, absence: true, unless: Proc.new { |a| a.assessment_methodology.rating_model == AssessmentMethodology::RATING_MODEL_PROMISE_RATING }
 
   before_save :record_evaluation_process_timestamps
@@ -104,64 +105,14 @@ class Assessment < ApplicationRecord
     fragment.text.length
   end
 
-  # Meant to be used after setting new attributes with assign_attributes, just
-  # before calling save! on the record
-  def is_user_authorized_to_save(user)
-    permissions = user.role.permissions
-
-    # With statements:edit, user can edit anything in assessment
-    return true if permissions.include?("statements:edit")
-
-    evaluator_allowed_attributes = [
-      "veracity_id",
-      "promise_rating_id",
-      "explanation_html",
-      "explanation_slatejson",
-      "short_explanation",
-      "evaluation_status"
-    ]
-    evaluator_allowed_changes =
-      (
-        evaluation_status_was == STATUS_BEING_EVALUATED &&
-        (changed_attributes.keys - evaluator_allowed_attributes).empty?
-      ) ||
-      (
-        evaluation_status_was == STATUS_APPROVAL_NEEDED &&
-        evaluation_status == STATUS_BEING_EVALUATED &&
-        changed_attributes.keys == ["evaluation_status"]
-      )
-
-    if evaluator_allowed_changes && permissions.include?("statements:edit-as-evaluator") && user_id == user.id
-      return true
-    end
-
-    texts_allowed_attributes = [
-      "explanation_html",
-      "explanation_slatejson",
-      "short_explanation"
-    ]
-    texts_allowed_changes = unapproved? && (changed_attributes.keys - texts_allowed_attributes).empty?
-    proofreader_allowed_changes = texts_allowed_changes || (evaluation_status_was == STATUS_PROOFREADING_NEEDED)
-
-    if proofreader_allowed_changes && permissions.include?("statements:edit-as-proofreader")
-      return true
-    end
-
-    changed_attributes.empty?
+  def veracity_name
+    I18n.t("veracity.names.#{veracity_new}")
   end
 
-  def is_user_authorized_to_view_evaluation(user)
-    # Evaluation of approved assessment is always viewable
-    return true if approved?
-
-    # Otherwise it is viewable only to authenticated users with proper permissions
-    if user
-      permissions = user.role.permissions
-      return true if permissions.include?("statements:view-unapproved-evaluation")
-      return true if permissions.include?("statements:view-evaluation-as-evaluator") && user.id == user_id
-    end
-
-    false
+  # Meant to be used after setting new attributes with assign_attributes, just
+  # before calling save! on the record
+  def user_authorized_to_save?(user)
+    AssessmentAbility.new(user).can?(:update, self, changed_attributes)
   end
 
   # Meant to be used after setting new attributes with assign_attributes, just
@@ -261,6 +212,10 @@ class Assessment < ApplicationRecord
         SlackNotifier::ProofreadingNotifier.post text: "<!channel> Ahoj, máme tu v diskuzi *#{statement.source.name}* už #{proofreading_needed_count} výroků ke korektuře. Prosíme o projití. Díky!\n#{source_url}"
       end
     end
+  end
+
+  def evaluated_by?(user)
+    user_id == user.id
   end
 
   private

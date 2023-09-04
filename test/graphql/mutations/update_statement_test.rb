@@ -40,7 +40,7 @@ class UpdateStatementMutationTest < GraphQLTestCase
   test "should update statement veracity" do
     source_speaker = create(:source_speaker)
     statement = create(:statement, source_speaker:)
-    veracity = Veracity.find_by(key: Veracity::MISLEADING)
+    veracity = create(:veracity, key: Assessment::VERACITY_MISLEADING)
 
     query = "
       mutation {

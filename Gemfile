@@ -34,7 +34,7 @@ gem "pg", "~> 1.3.5"
 gem "scenic", "~> 1.5.4"
 
 # Use puma as a web server
-gem "puma", "~> 5.6.5"
+gem "puma", "~> 5.6.7"
 
 # Use SCSS for stylesheets
 gem "sass-rails", "~> 5.1.0"
@@ -77,6 +77,9 @@ gem "config", "~> 2.2.1"
 
 # Authentication
 gem "devise", "~> 4.8.1"
+
+# Authorization
+gem "cancancan"
 
 # Enables devise & omniauth to authenticate against Google OAuth 2
 gem "omniauth-google-oauth2", "~> 1.0.0"
