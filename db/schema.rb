@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_16_143128) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_03_145903) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -62,6 +62,50 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_16_143128) do
     t.index ["article_id"], name: "index_article_segments_on_article_id"
   end
 
+  create_table "article_tag_articles", force: :cascade do |t|
+    t.bigint "article_tag_id"
+    t.bigint "article_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_article_tag_articles_on_article_id"
+    t.index ["article_tag_id"], name: "index_article_tag_articles_on_article_tag_id"
+  end
+
+  create_table "article_tag_speakers", force: :cascade do |t|
+    t.bigint "article_tag_id"
+    t.bigint "speaker_id"
+    t.integer "order", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_tag_id"], name: "index_article_tag_speakers_on_article_tag_id"
+    t.index ["speaker_id"], name: "index_article_tag_speakers_on_speaker_id"
+  end
+
+  create_table "article_tag_statements", force: :cascade do |t|
+    t.bigint "article_tag_id", null: false
+    t.bigint "statement_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_tag_id"], name: "index_article_tag_statements_on_article_tag_id"
+    t.index ["statement_id"], name: "index_article_tag_statements_on_statement_id"
+  end
+
+  create_table "article_tags", force: :cascade do |t|
+    t.string "title"
+    t.string "slug"
+    t.text "description"
+    t.integer "icon", default: 0
+    t.bigint "medium_id"
+    t.string "video"
+    t.integer "stats", default: 0
+    t.boolean "published"
+    t.datetime "published_at"
+    t.integer "order", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["medium_id"], name: "index_article_tags_on_medium_id"
+  end
+
   create_table "article_types", force: :cascade do |t|
     t.string "name"
     t.text "template"
@@ -87,13 +131,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_16_143128) do
     t.index ["document_id"], name: "index_articles_on_document_id"
     t.index ["illustration_id"], name: "index_articles_on_illustration_id"
     t.index ["user_id"], name: "index_articles_on_user_id"
-  end
-
-  create_table "articles_tags", id: false, force: :cascade do |t|
-    t.bigint "tag_id"
-    t.bigint "article_id"
-    t.index ["article_id"], name: "index_articles_tags_on_article_id"
-    t.index ["tag_id"], name: "index_articles_tags_on_tag_id"
   end
 
   create_table "assessment_methodologies", force: :cascade do |t|
@@ -475,6 +512,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_16_143128) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "article_segments", "articles"
+  add_foreign_key "article_tag_statements", "article_tags"
+  add_foreign_key "article_tag_statements", "statements"
 
   create_view "article_stats", sql_definition: <<-SQL
       SELECT count(veracities.key) AS count,

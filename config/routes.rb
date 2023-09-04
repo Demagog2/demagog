@@ -80,12 +80,16 @@ Rails.application.routes.draw do
   get "volba-prezidenta-2023" => "article#presidential_election"
   get "komentare" => "article#editorials"
 
+  get "nocookies" => "nocookies#index"
+
   get "vypis-recniku(/:id)" => "speaker#index", as: "speakers", concerns: :paginatable
   get "politici/:slug" => "speaker#show", as: "speaker", concerns: :paginatable
 
   get "diskuze/:slug" => "article#index", as: "article"
   get "archiv" => "archive#index", as: "archive", concerns: :paginatable
   get "stranka/:slug" => "page#show", as: "page"
+
+  get "tag/:slug" => "tag#show", as: "tag"
 
   get "sliby" => "promises#index"
   get "sliby/:slug" => "promises#overview"
@@ -100,6 +104,8 @@ Rails.application.routes.draw do
   post "cookies/analytics" => "cookies#analytics"
 
   root to: "homepage#index"
+
+
 
   # Shortcut redirect
   get "workshopy", to: redirect("/diskuze/workshopy-demagogcz")

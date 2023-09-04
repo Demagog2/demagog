@@ -17,6 +17,7 @@ import { Field, FieldArray, FieldProps, Form, Formik } from 'formik';
 import { DateTime } from 'luxon';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
+import { css } from 'emotion';
 
 import { ArticleInput, GetArticle as GetArticleQuery } from '../../operation-result-types';
 import { isSameOrAfterToday } from '../../utils';
@@ -29,6 +30,8 @@ import PreviewableArticleIllustration from './PreviewableArticleIllustration';
 import ArticlePromiseSegment from './ArticlePromiseSegment';
 import ArticleSourceStatementsSegment from './ArticleSourceStatementsSegment';
 import ArticleTextSegment from './ArticleTextSegment';
+import ArticleTagsSelect from '../forms/controls/ArticleTagsSelect';
+import SelectComponentField from '../forms/controls/SelectComponentField';
 
 const ARTICLE_TYPE_DEFAULT = 'default';
 const ARTICLE_TYPE_STATIC = 'static';
@@ -75,6 +78,8 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
       illustration: article ? article.illustration : null,
       published: article ? article.published : false,
       published_at: article ? article.publishedAt : DateTime.local().toISODate(),
+      articleTags: article && article.articleTags
+       ? article.articleTags?.map((t) => t.id) : [],
     };
 
     return (
@@ -86,6 +91,8 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
             .oneOf([ARTICLE_TYPE_DEFAULT, ARTICLE_TYPE_STATIC, ARTICLE_TYPE_FACEBOOK_FACTCHECK]),
         })}
         onSubmit={(values, { setSubmitting }) => {
+          console.log(values);
+
           const formData: IArticleFormData = {
             articleType: values.article_type,
             illustration: values.illustration,
@@ -101,6 +108,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
               promiseUrl: s.promise_url,
             })),
             title: values.title,
+            articleTags: values.articleTags ? values.articleTags : [],
           };
 
           this.props
@@ -132,101 +140,123 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
 
             <div style={{ display: 'flex' }}>
               <div
-                style={{
-                  flex: '2 2',
-                  padding: 30,
-                  margin: 6,
-                  backgroundColor: '#f4f9fd',
-                  boxShadow: '0 0 6px #999',
-                }}
+                style={{ flex: '2 2' }}
               >
-                <h2
-                  style={{
-                    marginBottom: '24px 0 12px 0',
-                    // TODO: make sure Lato is loaded
-                    fontFamily: 'Lato, sans-serif',
-                    color: '#3c325c',
-                    fontSize: 24,
-                    fontWeight: 700,
-                  }}
-                >
-                  <EditableText
-                    placeholder="Upravit název…"
-                    onChange={(value) => setFieldValue('title', value)}
-                    value={values.title}
-                  />
-                </h2>
-
                 <div
                   style={{
-                    marginBottom: 20,
-                    fontFamily: 'Lato, sans-serif',
-                    color: '#282828',
-                    fontSize: '16.5px',
-                    lineHeight: '24.75px',
-                    fontWeight: 400,
+                    padding: 30,
+                    margin: 6,
+                    backgroundColor: '#f4f9fd',
+                    boxShadow: '0 0 6px #999',
                   }}
                 >
-                  <EditableText
-                    maxLines={12}
-                    minLines={3}
-                    multiline={true}
-                    placeholder="Zadejte perex..."
-                    value={values.perex || ''}
-                    onChange={(value) => setFieldValue('perex', value)}
+                  <h2
+                    style={{
+                      marginBottom: '24px 0 12px 0',
+                      // TODO: make sure Lato is loaded
+                      fontFamily: 'Lato, sans-serif',
+                      color: '#3c325c',
+                      fontSize: 24,
+                      fontWeight: 700,
+                    }}
+                  >
+                    <EditableText
+                      placeholder="Upravit název…"
+                      onChange={(value) => setFieldValue('title', value)}
+                      value={values.title}
+                    />
+                  </h2>
+
+                  <div
+                    style={{
+                      marginBottom: 20,
+                      fontFamily: 'Lato, sans-serif',
+                      color: '#282828',
+                      fontSize: '16.5px',
+                      lineHeight: '24.75px',
+                      fontWeight: 400,
+                    }}
+                  >
+                    <EditableText
+                      maxLines={12}
+                      minLines={3}
+                      multiline={true}
+                      placeholder="Zadejte perex..."
+                      value={values.perex || ''}
+                      onChange={(value) => setFieldValue('perex', value)}
+                    />
+                  </div>
+
+                  <FieldArray
+                    name="segments"
+                    render={(arrayHelpers) => (
+                      <div>
+                        {values.segments.map((segment, index) => (
+                          <div key={`${segment.id}-${index}`}>
+                            <AddSegmentButton
+                              onAdd={(type) => arrayHelpers.insert(index, createNewSegment(type))}
+                            />
+
+                            <Field
+                              name={`segments.${index}`}
+                              render={({ field, form }: FieldProps) => (
+                                <>
+                                  {segment.segment_type === 'text' && (
+                                    <ArticleTextSegment
+                                      segment={field.value}
+                                      onChange={(value) => form.setFieldValue(field.name, value)}
+                                      onRemove={() => arrayHelpers.remove(index)}
+                                    />
+                                  )}
+
+                                  {segment.segment_type === 'source_statements' && (
+                                    <ArticleSourceStatementsSegment
+                                      segment={field.value}
+                                      onChange={(value) => form.setFieldValue(field.name, value)}
+                                      onRemove={() => arrayHelpers.remove(index)}
+                                    />
+                                  )}
+
+                                  {segment.segment_type === 'promise' && (
+                                    <ArticlePromiseSegment
+                                      segment={field.value}
+                                      onChange={(value) => form.setFieldValue(field.name, value)}
+                                      onRemove={() => arrayHelpers.remove(index)}
+                                    />
+                                  )}
+                                </>
+                              )}
+                            />
+                          </div>
+                        ))}
+                        <AddSegmentButton
+                          onAdd={(type) => arrayHelpers.push(createNewSegment(type))}
+                        />
+                      </div>
+                    )}
                   />
                 </div>
-
-                <FieldArray
-                  name="segments"
-                  render={(arrayHelpers) => (
-                    <div>
-                      {values.segments.map((segment, index) => (
-                        <div key={`${segment.id}-${index}`}>
-                          <AddSegmentButton
-                            onAdd={(type) => arrayHelpers.insert(index, createNewSegment(type))}
-                          />
-
-                          <Field
-                            name={`segments.${index}`}
-                            render={({ field, form }: FieldProps) => (
-                              <>
-                                {segment.segment_type === 'text' && (
-                                  <ArticleTextSegment
-                                    segment={field.value}
-                                    onChange={(value) => form.setFieldValue(field.name, value)}
-                                    onRemove={() => arrayHelpers.remove(index)}
-                                  />
-                                )}
-
-                                {segment.segment_type === 'source_statements' && (
-                                  <ArticleSourceStatementsSegment
-                                    segment={field.value}
-                                    onChange={(value) => form.setFieldValue(field.name, value)}
-                                    onRemove={() => arrayHelpers.remove(index)}
-                                  />
-                                )}
-
-                                {segment.segment_type === 'promise' && (
-                                  <ArticlePromiseSegment
-                                    segment={field.value}
-                                    onChange={(value) => form.setFieldValue(field.name, value)}
-                                    onRemove={() => arrayHelpers.remove(index)}
-                                  />
-                                )}
-                              </>
-                            )}
-                          />
-                        </div>
-                      ))}
-                      <AddSegmentButton
-                        onAdd={(type) => arrayHelpers.push(createNewSegment(type))}
-                      />
-                    </div>
-                  )}
-                />
+                <div style={{ flex: '1 0 0px', margin: 6, marginTop: 30 }}>
+                  <FormGroup
+                    label="Tagy"
+                    name="articleTags"
+                    inline
+                    className={css`
+                      .bp3-form-content {
+                        flex: 1 0 0px;
+                      }
+                    `}
+                  >
+                    <SelectComponentField name="articleTags">
+                      {(renderProps) => (
+                        <ArticleTagsSelect
+                          {...renderProps}
+                        />
+                      )}
+                    </SelectComponentField>
+                  </FormGroup>
+                </div>
               </div>
-
               <div style={{ flex: '1 1', marginLeft: 15 }}>
                 <FormGroup label="Typ článku" name="article_type">
                   <SelectField name="article_type" options={ARTICLE_TYPE_OPTIONS} />

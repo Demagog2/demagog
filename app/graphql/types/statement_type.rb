@@ -16,8 +16,12 @@ module Types
     field :assessment, Types::AssessmentType, null: false
     field :published, Boolean, null: false
     field :tags, [Types::TagType], null: false
-
     field :comments, [Types::CommentType], null: false
+    field :articleTags, [Types::ArticleTagType], null: false
+
+    def articleTags
+      object.article_tags
+    end
 
     def comments
       # Public cannot access comments

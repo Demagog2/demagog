@@ -54,6 +54,7 @@ import Loading from './Loading';
 import RichTextEditor from './RichTextEditor';
 import StatementComments from './StatementComments';
 import { EvaluationStatusInput } from './EvaluationStatusInput';
+import ArticleTagsSelect from './forms/controls/ArticleTagsSelect';
 
 // Little more than 10s so it does not sync with other polls
 const GET_STATEMENT_POLL_INTERVAL = 10150;
@@ -139,6 +140,8 @@ function StatementDetail(props: IProps) {
             explanation_slatejson: statement.assessment.explanationSlatejson,
             evaluator_id: statement.assessment.evaluator ? statement.assessment.evaluator.id : null,
           },
+          articleTags: statement.articleTags ? statement.articleTags.map((t) => t.id) : [],
+
         };
         let enableReinitialize = true;
 
@@ -205,8 +208,12 @@ function StatementDetail(props: IProps) {
                       important: values.important,
                       published: values.published,
                       tags: values.tags,
+                      articleTags: values.articleTags ? values.articleTags : [],
                       sourceSpeakerId: values.source_speaker_id,
                     };
+
+                    console.log(statementInput);
+
 
                     updateStatementPromise.current = updateStatement({
                       variables: { id: parseInt(statement.id, 10), statementInput },
@@ -674,6 +681,38 @@ function StatementDetail(props: IProps) {
                                 schválení
                               </Callout>
                             )}
+
+                            <div style={{
+                              flex: '1 0 0px',
+                              margin: 6,
+                              marginTop: 30
+                            }}>
+                              {canEditStatement ? (
+                                <FormGroup
+                                  label="Tagy"
+                                  name="articleTags"
+                                  inline
+                                  className={css`
+                                    .bp3-form-content {
+                                      flex: 1 0 0px;
+                                    }
+                                  `}
+                                >
+                                  <SelectComponentField name="articleTags">
+                                    {(renderProps) => (
+                                      <ArticleTagsSelect
+                                        {...renderProps}
+                                      />
+                                    )}
+                                  </SelectComponentField>
+                                </FormGroup>
+                              ) : (
+                                <p>
+                                  Tagy: {statement.articleTags.map((t) => t.title).join(', ')}
+                                  {statement.articleTags.length === 0 ? 'Žádné' : null}
+                                </p>
+                              )}
+                            </div>
                         </div>
 
                         <div style={{ flex: '1 0', marginLeft: 30 }}>

@@ -110,6 +110,28 @@ class Types::QueryType < GraphQL::Schema::Object
     tags
   end
 
+  field :articleTags, [Types::ArticleTagType], null: false do
+    argument :limit, Int, required: false, default_value: 10
+    argument :offset, Int, required: false, default_value: 0
+  end
+
+  def articleTags(args)
+    articleTags = ArticleTag.offset(args[:offset]).limit(args[:limit]).order(order: :asc)
+    articleTags
+  end
+
+  field :articleTag, Types::ArticleTagType, null: false do
+    argument :id, Int, required: false
+  end
+
+  def articleTag(id:)
+    begin
+      ArticleTag.find(id)
+    rescue ActiveRecord::RecordNotFound
+      raise GraphQL::ExecutionError.new("Could not find User with id=#{id}")
+    end
+  end
+
   field :user, Types::UserType, null: false do
     argument :id, Int, required: false
   end

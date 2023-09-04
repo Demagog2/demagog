@@ -49,6 +49,10 @@ module Types
 
     field :createTag, mutation: Mutations::CreateTag
 
+    field :createArticleTag, mutation: Mutations::CreateArticleTag
+    field :updateArticleTag, mutation: Mutations::UpdateArticleTag
+    field :deleteArticleTag, mutation: Mutations::DeleteArticleTag
+
     field :createComment, mutation: Mutations::CreateComment
 
     field :deleteContentImage, mutation: Mutations::DeleteContentImage

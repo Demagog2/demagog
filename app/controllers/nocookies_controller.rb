@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-class HomepageController < FrontendController
+class NocookiesController < FrontendController
+  layout "nocookies"
+
   def index_old
     cover_story = Article.kept.published.for_homepage.order(published_at: :desc).first
 

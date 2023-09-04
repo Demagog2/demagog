@@ -25,8 +25,24 @@
       </span>
       <span class="lh-1 m-0 p-0">Facebook fact-check</span>
     </a>
+    <% if @article_tags %>
+      <% @article_tags.each do |tag| %>
+        <%= render partial: "components/tag_item", object: tag, as: :tag, locals: { active: @tag == tag } %>
+      <% end %>
+    <% end %>
   </div>
   <% if active %>
+  <div>
+    <a
+      href="/"
+      class="btn outline mb-2 h-44px me-2 fs-6 px-6"
+    >
+      <span class="me-2">←</span>
+      <span>Zpět</span>
+    </a>
+  </div>
+  <% end %>
+  <% if @tag %>
   <div>
     <a
       href="/"

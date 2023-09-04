@@ -56,6 +56,9 @@ export const ArticleSingleStatementForm = ({
         statement_id: segmentStatementId,
       },
     ],
+    articleTags: article && article.articleTags
+     ? article.articleTags?.map((t) => t.id) : [],
+
   };
 
   return (
@@ -75,6 +78,7 @@ export const ArticleSingleStatementForm = ({
               statementId: values.segments[0].statement_id,
             },
           ],
+          articleTags: values.articleTags ? values.articleTags : [],
         };
 
         onSubmit(formData)

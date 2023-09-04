@@ -49,6 +49,10 @@ export const GetArticle = gql`
       source {
         id
       }
+      articleTags {
+        id
+        title
+      }
     }
   }
 `;
@@ -563,6 +567,10 @@ export const GetStatement = gql`
         id
         name
       }
+      articleTags {
+        id
+        title
+      }
       commentsCount
     }
   }
@@ -684,6 +692,47 @@ export const GetTags = gql`
       forStatementType
       publishedStatementsCount
       allStatementsCount
+    }
+  }
+`;
+
+export const GetArticleTags = gql`
+  query GetArticleTags {
+    articleTags(limit: 10000) {
+      id
+      title
+      slug
+      description
+      icon
+      stats
+      published
+      order
+      video
+    }
+  }
+`;
+
+export const GetArticleTag = gql`
+  query GetArticleTag($id: Int!) {
+    articleTag(id: $id) {
+      id
+      title
+      slug
+      description
+      icon
+      stats
+      published
+      order
+      video
+    }
+  }
+`;
+
+export const GetArticleTagsForSelect = gql`
+  query GetArticleTagsForSelect {
+    articleTags(limit: 10000) {
+      id
+      title
     }
   }
 `;

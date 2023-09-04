@@ -21,6 +21,12 @@ module Types
       article_presenter.factcheck_source_speakers
     end
 
+    field :articleTags, [Types::ArticleTagType], null: false
+
+    def articleTags
+      object.article_tags
+    end
+
     field :debate_stats, [Types::ArticleSpeakerStatsType], null: true
 
     def debate_stats

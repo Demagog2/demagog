@@ -29,6 +29,10 @@ class Article < ApplicationRecord
   belongs_to :document, class_name: "Attachment", optional: true
   has_many :segments, class_name: "ArticleSegment", dependent: :destroy
 
+  has_many :article_tag_articles, class_name: "ArticleTagArticle"
+
+  has_and_belongs_to_many :article_tags, join_table: "article_tag_articles", autosave: false
+
   has_one_attached :illustration
 
   friendly_id :title, use: :slugged
@@ -38,6 +42,8 @@ class Article < ApplicationRecord
   scope :for_homepage, -> {
     where("article_type IN (?)", [ARTICLE_TYPE_DEFAULT, ARTICLE_TYPE_STATIC, ARTICLE_TYPE_SINGLE_STATEMENT])
   }
+
+
 
   mapping do
     indexes :id, type: "long"
@@ -56,6 +62,11 @@ class Article < ApplicationRecord
         ElasticMapping.indexes_name_field self, :name
       end
     end
+  end
+
+  def self.for_articles_tag(id)
+    includes(:article_tag_articles).where(article_tag_articles: { article_tag_id: id})
+
   end
 
   def as_indexed_json(options = {})
@@ -133,6 +144,11 @@ class Article < ApplicationRecord
   def self.create_article(article_input)
     article = article_input.deep_symbolize_keys
 
+    article[:article_tags] = article[:article_tags].map do |tag_id|
+      article_tag = ArticleTag.find(tag_id)
+      article_tag
+    end
+
     if article[:segments]
       article[:segments] =
         article[:segments].map.with_index(0) do |seg, order|
@@ -166,6 +182,11 @@ class Article < ApplicationRecord
   def self.update_article(article_id, article_input)
     article = article_input.deep_symbolize_keys
 
+    article[:article_tags] = article[:article_tags].map do |tag_id|
+      article_tag = ArticleTag.find(tag_id)
+      article_tag
+    end
+
     article[:segments] =
       article[:segments].map.with_index(0) do |seg, order|
         segment = ensure_segment(seg[:id], article_id)
@@ -196,8 +217,8 @@ class Article < ApplicationRecord
         segment
       end
 
-    Article.transaction do
-      article[:segments].each(&:save)
+      Article.transaction do
+        article[:segments].each(&:save)
 
       Article.update(article_id, article)
     end

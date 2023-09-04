@@ -124,6 +124,9 @@ export const CreateArticle = gql`
         source {
           id
         }
+        articleTags {
+          id
+        }
       }
     }
   }
@@ -153,6 +156,9 @@ export const UpdateArticle = gql`
           }
         }
         source {
+          id
+        }
+        articleTags {
           id
         }
       }
@@ -462,6 +468,9 @@ export const UpdateStatement = gql`
         tags {
           id
           name
+        },
+        articleTags {
+          id
         }
       }
     }
@@ -600,6 +609,48 @@ export const CreateTag = gql`
       tag {
         name
       }
+    }
+  }
+`;
+
+export const CreateArticleTag = gql`
+  mutation CreateArticleTag($articleTagInput: ArticleTagInput!) {
+    createArticleTag(articleTagInput: $articleTagInput) {
+      articleTag {
+        title
+        slug
+        description
+        icon
+        published
+        stats
+        order
+        video
+      }
+    }
+  }
+`;
+
+export const UpdateArticleTag = gql`
+  mutation UpdateArticleTag($id: Int!, $articleTagInput: ArticleTagInput!) {
+    updateArticleTag(id: $id, articleTagInput: $articleTagInput) {
+      articleTag {
+        title
+        slug
+        description
+        icon
+        published
+        stats
+        order
+        video
+      }
+    }
+  }
+`;
+
+export const DeleteArticleTag = gql`
+  mutation DeleteArticleTag($id: ID!) {
+    deleteArticleTag(id: $id) {
+      id
     }
   }
 `;

@@ -11,5 +11,6 @@ module Types
     argument :published, Boolean, required: false
     argument :published_at, String, required: false
     argument :source_id, ID, required: false
+    argument :article_tags, [ID], required: false
   end
 end

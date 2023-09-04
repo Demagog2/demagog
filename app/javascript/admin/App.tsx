@@ -68,6 +68,10 @@ import { UsersSortOnAboutUsPageContainer } from './components/users/UsersSortOnA
 import { TagsContainer } from './components/tags/TagsContainer';
 import { TagsNewContainer } from './components/tags/TagsNewContainer';
 
+import { ArticleTagsContainer } from './components/tags/ArticleTagsContainer';
+import { ArticleTagsNewContainer } from './components/tags/ArticleTagsNewContainer';
+import { ArticleTagsEditContainer } from './components/tags/ArticleTagsEditContainer';
+
 import WebContents from './components/webContents/WebContents';
 import WebContentEdit from './components/webContents/WebContentEdit';
 
@@ -187,6 +191,10 @@ class App extends React.Component<IProps> {
 
                   <Route path="/admin/tags" element={<TagsContainer />} />
                   <Route path="/admin/tags/new" element={<TagsNewContainer />} />
+
+                  <Route path="/admin/article-tags" element={<ArticleTagsContainer />} />
+                  <Route path="/admin/article-tags/new" element={<ArticleTagsNewContainer />} />
+                  <Route path="/admin/article-tags/edit/:id" element={<ArticleTagsEditContainer />} />
 
                   <Route path="/admin/notifications/:tab?" element={<Notifications />} />
 

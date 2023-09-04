@@ -27,6 +27,9 @@ class Statement < ApplicationRecord
   has_and_belongs_to_many :tags
   has_one_attached :preview_image
 
+  has_many :article_tag_statements, class_name: "ArticleTagStatement"
+  has_and_belongs_to_many :article_tags, join_table: "article_tag_statements", autosave: false
+
   default_scope {
     # We keep here only soft-delete, ordering cannot be here because
     # of has_many :through relations which use statements

@@ -1,0 +1,161 @@
+<% content_for(:hide_layout_donate_and_subscribe, true) %>
+
+<div class="row g-5 g-lg-10 flex-lg-row-reverse" data-controller="components--modal">
+  <% if @page_number.blank? %>
+  <div class="col col-12 col-lg-4">
+    <% if !@most_searched_speakers.blank? %>
+    <div class="d-flex flex-wrap align-items-center mb-10">
+      <span class="fs-7 fw-bold text-uppercase me-5 my-2">Nejvyhledávanější</span>
+      <div class="symbol-group">
+        <% for speaker in @most_searched_speakers %>
+          <%= link_to speaker_path(speaker), class: 'symbol symbol-45px rounded-circle bg-gray-500 overflow-hidden', title: speaker.full_name do %>
+            <%= render(PortraitComponent.new(speaker: speaker)) %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <% end %>
+    <div
+      class="bg-dark-light text-white p-5 p-lg-8 rounded-l mb-10"
+      data-controller="components--mobile-expander"
+      data-action="resize@window->components--mobile-expander#layout"
+      data-components--mobile-expander-breakpoint="992"
+      data-components--mobile-expander-min-height="100px"
+      data-components--mobile-expander-open-label="Skrýt obsah"
+      data-components--mobile-expander-close-label="Zobrazit více"
+
+    >
+      <div class="expander expander-dark-light" data-target="components--mobile-expander.expander">
+        <div class="w-100 position-relative">
+          <h2 class="display-5 fw-bold mb-4">Co je Demagog.cz?</h2>
+          <div class="fs-6 mb-10 dark-content">
+            <%= raw(get_web_content("homepage", "intro")) %>
+          </div>
+        </div>
+        <div class="w-100 position-relative">
+          <img class="w-100" src="<%= asset_path("homepage-intro-video-thumbnail.png") %>" alt="">
+          <div class="overlay d-flex align-items-center justify-content-center link" data-action="click->components--modal#showIntroVideoModal">
+            <span>
+              <svg width="54" height="55" viewBox="0 0 54 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="27.0161" cy="27.4998" r="26.8884" fill="#111827"/>
+                <path d="M19.3549 13.3048L40.1195 27.4952L19.3549 41.6856L19.3549 13.3048Z" fill="white" stroke="#111827" stroke-width="2"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+        <div class="mt-5">
+          <p class="fs-5 mb-4">Upozorněte nás, když narazíte na nepravdivý obsah na sociálních sítích!</p>
+          <a href="/stranka/kontakty" class="btn bg-secondary w-100">
+            <span class="text-dark">Upozornit</span>
+          </a>
+        </div>
+      </div>
+      <div class="d-flex">
+        <a
+          href="#"
+          class="text-white text-underline mt-3"
+          data-target="components--mobile-expander.link"
+          data-action="click->components--mobile-expander#toggle"
+        >
+          <span class="py-2 fs-5" data-target="components--mobile-expander.label">Zobrazit více</span>
+        </a>
+      </div>
+    </div>
+    <div class="bg-light text-dark p-5 p-lg-8 rounded-l d-none d-lg-flex">
+      <div class="w-100">
+        <div class="mb-4">
+          <h2 class="fs-2">Podpořte Demagog.cz</h2>
+          <p class="fs-6">Fungujeme díky podpoře od&nbsp;čtenářů, jako jste vy.</p>
+        </div>
+        <div class="d-flex justify-content-center">
+          <div data-darujme-widget-token="rfq62o07d045bw95">&nbsp;</div>
+          <script type="text/javascript">
+          	+function(w, d, s, u, a, b) {
+          		w['DarujmeObject'] = u;
+          		w[u] = w[u] || function () { (w[u].q = w[u].q || []).push(arguments) };
+          		a = d.createElement(s); b = d.getElementsByTagName(s)[0];
+          		a.async = 1; a.src = "https:\/\/www.darujme.cz\/assets\/scripts\/widget.js";
+          		b.parentNode.insertBefore(a, b);
+          	}(window, document, 'script', 'Darujme');
+          	Darujme(1, "rfq62o07d045bw95", 'render', "https:\/\/www.darujme.cz\/widget?token=rfq62o07d045bw95", "270px");
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col col-12 col-lg-8 mb-0 mb-lg-10">
+    <div class="mb-5 mb-lg-10">
+      <%= render partial: "components/tags", locals: { active: false } %>
+    </div>
+    <div class="row row-cols-1 g-5 g-lg-10">
+      <% @top_articles.each do |article| %>
+        <%= render partial: "components/article_main", object: article, as: :article, locals: { show_portraits: false, smaller_gaps: true } %>
+      <% end %>
+    </div>
+  </div>
+  <div class="col col-12">
+    <div class="row row-cols-1 row-cols-lg-2 g-5 g-lg-10">
+      <% @bottom_articles.each do |article| %>
+        <%= render partial: "components/article_main", object: article, as: :article, locals: { show_portraits: false, smaller_gaps: true } %>
+      <% end %>
+    </div>
+  </div>
+  <div class="modal" id="intro-video-modal" aria-hidden="true" data-target="components--modal.introVideoModal">
+    <div class="modal-overlay" tabindex="-1" data-micromodal-close>
+      <div class="modal-container" role="dialog" aria-modal="true">
+        <button class="close-button rounded-circle bg-white" data-micromodal-close>
+          <span class="symbol symbol-50px d-flex align-items-center justify-content-center ">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z"/></svg>
+          </span>
+        </button>
+        <div class="container">
+          <div class="youtube-player-wrapper">
+            <iframe data-src="https://www.youtube.com/embed/GvOT6RNDVg8?enablejsapi=1&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% end %>
+  <% if @page_number %>
+  <div class="col col-12">
+    <%= render partial: "components/tags", locals: { active: false } %>
+  </div>
+  <div class="col col-12">
+    <div class="row row-cols-1 row-cols-lg-2 g-10">
+      <% @articles.each do |article| %>
+      <%= render partial: "components/article_main", object: article, as: :article, locals: { show_portraits: false, smaller_gaps: true } %>
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+  <div class="col col-12">
+    <div class="mb-10">
+      <% if path_to_prev_page @articles %>
+        <a href="<%= path_to_prev_page  @articles %>" class="btn h-50px fs-6 me-2 mb-2 px-8">
+          <span>Zobrazit předchozí</span>
+        </a>
+      <% end %>
+      <% if path_to_next_page @articles %>
+        <a href="<%= path_to_next_page  @articles %>" class="btn h-50px fs-6 me-2 mb-2 px-8">
+          <span>Zobrazit další</span>
+        </a>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="bg-light text-dark p-5 p-lg-10 rounded-l mt-10">
+  <div class="row g-10 justify-content-between">
+    <div class="col col-12 col-lg-5">
+      <h2 class="display-5 mb-5 fw-bold">Workshopy</h2>
+      <p class="fs-5 mb-5">V rámci 90 minut interaktivních seminářů pomůžeme nejen studentům středních škol v základní orientaci v mediální oblasti, předáme ale také znalost rozlišovat fakta od názorově zabarvených textů a prohloubíme rovněž kritické myšlení, což je pro dnešní dobu zcela zásadní dovednost.</p>
+      <a href="/stranka/workshopy-demagogcz" class="btn bg-primary h-44px">
+        <span>Zjistit více</span>
+      </a>
+    </div>
+    <div class="col col-12 col-lg-5">
+      <img class="w-100 rounded-m" src="<%= asset_path("workshop_default.jpg") %>" alt="Workshopy">
+    </div>
+  </div>
+</div>

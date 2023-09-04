@@ -9,5 +9,6 @@ module Types
     argument :assessment, Types::UpdateAssessmentInputType, required: false
     argument :tags, [ID], required: false
     argument :source_speaker_id, ID, required: false
+    argument :article_tags, [ID], required: false
   end
 end

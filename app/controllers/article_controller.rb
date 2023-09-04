@@ -94,6 +94,8 @@ class ArticleController < FrontendController
 
       @top_articles = @articles[0..3] || []
       @bottom_articles = @articles[4..9] || []
+
+      @article_tags = ArticleTag.published
     end
 
   private
@@ -112,5 +114,7 @@ class ArticleController < FrontendController
 
       @top_articles = @articles[0..3] || []
       @bottom_articles = @articles[4..9] || []
+
+      @article_tags = ArticleTag.published
     end
 end

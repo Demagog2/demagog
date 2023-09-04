@@ -1100,6 +1100,12 @@ export interface UpdateStatement_updateStatement_statement_tags {
   name: string;
 }
 
+export interface UpdateStatement_updateStatement_statement_article_tags {
+  __typename: "ArticleTag";
+  id: string;
+  title: string;
+}
+
 export interface UpdateStatement_updateStatement_statement {
   __typename: "Statement";
   id: string;
@@ -1113,6 +1119,7 @@ export interface UpdateStatement_updateStatement_statement {
   source: UpdateStatement_updateStatement_statement_source;
   commentsCount: number;
   tags: UpdateStatement_updateStatement_statement_tags[];
+  articleTags: UpdateStatement_updateStatement_statement_article_tags[];
 }
 
 export interface UpdateStatement_updateStatement {
@@ -1489,9 +1496,65 @@ export interface CreateTag {
   createTag: CreateTag_createTag | null;
 }
 
+export interface CreateArticleTag_createTag_tag {
+  __typename: "ArticleTag";
+  id?: string;
+  title: string;
+  slug: string;
+  description?: string;
+  icon?: string;
+  published: boolean;
+  speakers?: boolean;
+  stats?: string;
+  order?: string;
+}
+
+export interface CreateArticleTag_createTag {
+  __typename: "CreateArticleTagPayload";
+  articleTag: CreateArticleTag_createTag_tag;
+}
+
+export interface CreateArticleTag {
+  /**
+   * Add new tag
+   */
+  createArticleTag: CreateTag_createTag | null;
+}
+
 export interface CreateTagVariables {
   tagInput: TagInput;
 }
+
+export interface CreateArticleTagVariables {
+  articleTagInput: ArticleTagInput;
+}
+
+export interface UpdateArticleTag {
+  updateArticleTag: CreateTag_createTag | null;
+}
+
+export interface UpdateArticleTagVariables {
+  id?: number | string | undefined;
+  articleTagInput: ArticleTagInput;
+}
+
+export interface GetArticleTagVariables {
+  id?: number;
+}
+
+export interface DeleteArticleTag_articleTag {
+  __typename: "DeleteArticleTagPayload";
+  id: string | null;
+}
+
+export interface DeleteArticleTag {
+  deleteArticleTag: DeleteArticleTag_articleTag | null;
+}
+
+export interface DeleteArticleTagVariables {
+  id: string | null;
+}
+
 
 /* tslint:disable */
 /* eslint-disable */
@@ -1607,6 +1670,7 @@ export interface GetArticle_article {
   illustration: string | null;
   segments: GetArticle_article_segments[];
   source: GetArticle_article_source | null;
+  articleTags: GetArticleTagsForSelect_tags[];
 }
 
 export interface GetArticle {
@@ -2139,6 +2203,12 @@ export interface GetSourceStatements_statements_tags {
   name: string;
 }
 
+export interface GetSourceStatements_statements_article_tags {
+  __typename: "ArticleTag";
+  id: string;
+  title: string;
+}
+
 export interface GetSourceStatements_statements {
   __typename: "Statement";
   id: string;
@@ -2153,6 +2223,7 @@ export interface GetSourceStatements_statements {
   tags: GetSourceStatements_statements_tags[];
   commentsCount: number;
   sourceOrder: number | null;
+  articleTags:  GetSourceStatements_statements_article_tags[];
 }
 
 export interface GetSourceStatements {
@@ -2547,6 +2618,12 @@ export interface GetStatement_statement_tags {
   name: string;
 }
 
+export interface GetStatement_statement_article_tags {
+  __typename: "ArticleTag";
+  id: string;
+  title: string;
+}
+
 export interface GetStatement_statement {
   __typename: "Statement";
   id: string;
@@ -2562,6 +2639,7 @@ export interface GetStatement_statement {
   statementTranscriptPosition: GetStatement_statement_statementTranscriptPosition | null;
   tags: GetStatement_statement_tags[];
   commentsCount: number;
+  articleTags: GetStatement_statement_article_tags[];
 }
 
 export interface GetStatement {
@@ -2808,6 +2886,28 @@ export interface GetTags {
   tags: GetTags_tags[];
 }
 
+export interface GetArticleTags_tags {
+  __typename: "ArticleTag";
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  icon: string;
+  published: boolean;
+  stats: string;
+  medium_id: string;
+  video: string;
+  order: string;
+}
+
+export interface GetArticleTags {
+  articleTags: GetArticleTags_tags[];
+}
+
+export interface GetArticleTag {
+  articleTag: GetArticleTags_tags;
+}
+
 /* tslint:disable */
 /* eslint-disable */
 // @generated
@@ -2821,6 +2921,7 @@ export interface GetTagsForSelect_tags {
   __typename: "Tag";
   id: string;
   name: string;
+  slug: string;
 }
 
 export interface GetTagsForSelect {
@@ -2829,6 +2930,16 @@ export interface GetTagsForSelect {
 
 export interface GetTagsForSelectVariables {
   forStatementType: StatementType;
+}
+
+export interface GetArticleTagsForSelect_tags {
+  __typename: "ArticleTag";
+  id: string;
+  title: string;
+}
+
+export interface GetArticleTagsForSelect {
+  articleTags: GetArticleTagsForSelect_tags[];
 }
 
 /* tslint:disable */
@@ -3161,6 +3272,12 @@ export interface GetUserStatements_statements_tags {
   name: string;
 }
 
+export interface GetUserStatements_statements_article_tags {
+  __typename: "ArticleTag";
+  id: string;
+  title: string;
+}
+
 export interface GetUserStatements_statements {
   __typename: "Statement";
   id: string;
@@ -3175,6 +3292,7 @@ export interface GetUserStatements_statements {
   tags: GetUserStatements_statements_tags[];
   commentsCount: number;
   sourceOrder: number | null;
+  articleTags: GetUserStatements_statements_article_tags[];
 }
 
 export interface GetUserStatements {
@@ -3217,6 +3335,10 @@ export enum StatementType {
   promise = "promise",
 }
 
+export interface ArticleTagInputSegmentInput {
+  id: number;
+}
+
 export interface ArticleInput {
   articleType: string;
   title: string;
@@ -3226,6 +3348,7 @@ export interface ArticleInput {
   published?: boolean | null;
   publishedAt?: string | null;
   sourceId?: string | null;
+  articleTags?: string[] | null;
 }
 
 export interface ArticleSegmentInput {
@@ -3354,6 +3477,19 @@ export interface TagInput {
   forStatementType: StatementType;
 }
 
+export interface ArticleTagInput {
+  id?: string;
+  title: string;
+  slug: string;
+  description?: string;
+  icon?: string;
+  stats?: string;
+  published: boolean;
+  order?: string;
+  video?: string;
+  medium_id?: string;
+}
+
 export interface UpdateAssessmentInput {
   evaluatorId?: string | null;
   evaluationStatus?: string | null;
@@ -3379,7 +3515,9 @@ export interface UpdateStatementInput {
   published?: boolean | null;
   assessment?: UpdateAssessmentInput | null;
   tags?: string[] | null;
+  articleTags?: string[] | null;
   sourceSpeakerId?: string | null;
+
 }
 
 export interface UserInput {

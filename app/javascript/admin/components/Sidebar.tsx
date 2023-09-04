@@ -23,6 +23,7 @@ const categories = [
         enabled: true,
         permissions: ['stats:view'],
       },
+      { to: '/admin/article-tags', title: 'Tagy', enabled: true, permissions: ['tags:view'] },
     ],
   },
   {
