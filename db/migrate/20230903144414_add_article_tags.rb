@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddArticleTags < ActiveRecord::Migration[7.0]
   def change
     create_table :article_tags do |t|
@@ -28,6 +30,5 @@ class AddArticleTags < ActiveRecord::Migration[7.0]
       t.belongs_to :article, index: true, null: true
       t.timestamps
     end
-
   end
 end

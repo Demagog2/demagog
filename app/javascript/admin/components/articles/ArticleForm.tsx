@@ -78,8 +78,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
       illustration: article ? article.illustration : null,
       published: article ? article.published : false,
       published_at: article ? article.publishedAt : DateTime.local().toISODate(),
-      articleTags: article && article.articleTags
-       ? article.articleTags?.map((t) => t.id) : [],
+      articleTags: article && article.articleTags ? article.articleTags?.map((t) => t.id) : [],
     };
 
     return (
@@ -91,8 +90,6 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
             .oneOf([ARTICLE_TYPE_DEFAULT, ARTICLE_TYPE_STATIC, ARTICLE_TYPE_FACEBOOK_FACTCHECK]),
         })}
         onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
-
           const formData: IArticleFormData = {
             articleType: values.article_type,
             illustration: values.illustration,
@@ -139,9 +136,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
             <h2 className={Classes.HEADING}>{title}</h2>
 
             <div style={{ display: 'flex' }}>
-              <div
-                style={{ flex: '2 2' }}
-              >
+              <div style={{ flex: '2 2' }}>
                 <div
                   style={{
                     padding: 30,
@@ -248,11 +243,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                     `}
                   >
                     <SelectComponentField name="articleTags">
-                      {(renderProps) => (
-                        <ArticleTagsSelect
-                          {...renderProps}
-                        />
-                      )}
+                      {(renderProps) => <ArticleTagsSelect {...renderProps} />}
                     </SelectComponentField>
                   </FormGroup>
                 </div>

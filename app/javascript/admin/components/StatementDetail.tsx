@@ -141,7 +141,6 @@ function StatementDetail(props: IProps) {
             evaluator_id: statement.assessment.evaluator ? statement.assessment.evaluator.id : null,
           },
           articleTags: statement.articleTags ? statement.articleTags.map((t) => t.id) : [],
-
         };
         let enableReinitialize = true;
 
@@ -211,9 +210,6 @@ function StatementDetail(props: IProps) {
                       articleTags: values.articleTags ? values.articleTags : [],
                       sourceSpeakerId: values.source_speaker_id,
                     };
-
-                    console.log(statementInput);
-
 
                     updateStatementPromise.current = updateStatement({
                       variables: { id: parseInt(statement.id, 10), statementInput },
@@ -682,37 +678,35 @@ function StatementDetail(props: IProps) {
                               </Callout>
                             )}
 
-                            <div style={{
+                          <div
+                            style={{
                               flex: '1 0 0px',
                               margin: 6,
-                              marginTop: 30
-                            }}>
-                              {canEditStatement ? (
-                                <FormGroup
-                                  label="Tagy"
-                                  name="articleTags"
-                                  inline
-                                  className={css`
-                                    .bp3-form-content {
-                                      flex: 1 0 0px;
-                                    }
-                                  `}
-                                >
-                                  <SelectComponentField name="articleTags">
-                                    {(renderProps) => (
-                                      <ArticleTagsSelect
-                                        {...renderProps}
-                                      />
-                                    )}
-                                  </SelectComponentField>
-                                </FormGroup>
-                              ) : (
-                                <p>
-                                  Tagy: {statement.articleTags.map((t) => t.title).join(', ')}
-                                  {statement.articleTags.length === 0 ? 'Žádné' : null}
-                                </p>
-                              )}
-                            </div>
+                              marginTop: 30,
+                            }}
+                          >
+                            {canEditStatement ? (
+                              <FormGroup
+                                label="Tagy"
+                                name="articleTags"
+                                inline
+                                className={css`
+                                  .bp3-form-content {
+                                    flex: 1 0 0px;
+                                  }
+                                `}
+                              >
+                                <SelectComponentField name="articleTags">
+                                  {(renderProps) => <ArticleTagsSelect {...renderProps} />}
+                                </SelectComponentField>
+                              </FormGroup>
+                            ) : (
+                              <p>
+                                Tagy: {statement.articleTags.map((t) => t.title).join(', ')}
+                                {statement.articleTags.length === 0 ? 'Žádné' : null}
+                              </p>
+                            )}
+                          </div>
                         </div>
 
                         <div style={{ flex: '1 0', marginLeft: 30 }}>

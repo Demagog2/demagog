@@ -194,7 +194,10 @@ class App extends React.Component<IProps> {
 
                   <Route path="/admin/article-tags" element={<ArticleTagsContainer />} />
                   <Route path="/admin/article-tags/new" element={<ArticleTagsNewContainer />} />
-                  <Route path="/admin/article-tags/edit/:id" element={<ArticleTagsEditContainer />} />
+                  <Route
+                    path="/admin/article-tags/edit/:id"
+                    element={<ArticleTagsEditContainer />}
+                  />
 
                   <Route path="/admin/notifications/:tab?" element={<Notifications />} />
 

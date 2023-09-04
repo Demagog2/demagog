@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ArticleTag < ApplicationRecord
   # has_and_belongs_to_many :statements
   # has_and_belongs_to_many :article_tag_speakers
@@ -23,5 +25,4 @@ class ArticleTag < ApplicationRecord
     article_tag = ArticleTag.find(id)
     article_tag.destroy
   end
-
 end

@@ -7,24 +7,24 @@ import { CreateArticleTag } from '../../queries/mutations';
 import { useFlashMessage } from '../../hooks/use-flash-messages';
 
 export function ArticleTagsNewContainer() {
-
   const navigate = useNavigate();
   const addFlashMessage = useFlashMessage();
 
-  const [mutate] = useMutation<ResultTypes.CreateArticleTag, ResultTypes.CreateArticleTagVariables>(CreateArticleTag, {
-    onCompleted() {
-      addFlashMessage('Tag byl úspešně vytvořen.', 'success');
-      navigate('/admin/article-tags');
+  const [mutate] = useMutation<ResultTypes.CreateArticleTag, ResultTypes.CreateArticleTagVariables>(
+    CreateArticleTag,
+    {
+      onCompleted() {
+        addFlashMessage('Tag byl úspešně vytvořen.', 'success');
+        navigate('/admin/article-tags');
+      },
+      onError() {
+        addFlashMessage('Při ukládání došlo k chybě.', 'error');
+      },
     },
-    onError() {
-      addFlashMessage('Při ukládání došlo k chybě.', 'error');
-    },
-  });
+  );
 
   const onSubmit = useCallback(
     async (variables: IArticleTagFormValues) => {
-      console.log(variables);
-
       await mutate({
         variables: {
           articleTagInput: {
@@ -45,7 +45,7 @@ export function ArticleTagsNewContainer() {
 
   return (
     <div style={{ padding: '15px 0 40px 0' }}>
-      <ArticleTagForm title="Přidat tag" onSubmit={onSubmit}/>
+      <ArticleTagForm title="Přidat tag" onSubmit={onSubmit} />
     </div>
   );
 }

@@ -8,7 +8,7 @@ module Mutations
 
     argument :id, ID, required: true
     argument :article_input, Types::ArticleInputType, required: true
-    
+
     def resolve(id:, article_input:)
       raise Errors::AuthenticationNeededError.new unless context[:current_user]
 

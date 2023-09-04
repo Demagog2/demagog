@@ -56,9 +56,7 @@ export const ArticleSingleStatementForm = ({
         statement_id: segmentStatementId,
       },
     ],
-    articleTags: article && article.articleTags
-     ? article.articleTags?.map((t) => t.id) : [],
-
+    articleTags: article && article.articleTags ? article.articleTags?.map((t) => t.id) : [],
   };
 
   return (

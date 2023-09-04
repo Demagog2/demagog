@@ -51,7 +51,6 @@ module Mutations
             end
           end
           if statement_input.key?(:article_tags)
-            puts 'tag'
             statement_input[:article_tags] = statement_input[:article_tags].map do |article_tag_id|
               ArticleTag.find(article_tag_id)
             end

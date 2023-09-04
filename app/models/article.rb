@@ -65,8 +65,7 @@ class Article < ApplicationRecord
   end
 
   def self.for_articles_tag(id)
-    includes(:article_tag_articles).where(article_tag_articles: { article_tag_id: id})
-
+    includes(:article_tag_articles).where(article_tag_articles: { article_tag_id: id })
   end
 
   def as_indexed_json(options = {})
@@ -144,9 +143,9 @@ class Article < ApplicationRecord
   def self.create_article(article_input)
     article = article_input.deep_symbolize_keys
 
-    article[:article_tags] = article[:article_tags].map do |tag_id|
-      article_tag = ArticleTag.find(tag_id)
-      article_tag
+    # TODO: Optimize code using where, pluck and mapping to original tag_ids
+    if article_input[:article_tags]
+      article[:article_tags] = article[:article_tags].map { |tag_id| ArticleTag.find(tag_id) }
     end
 
     if article[:segments]
@@ -182,9 +181,9 @@ class Article < ApplicationRecord
   def self.update_article(article_id, article_input)
     article = article_input.deep_symbolize_keys
 
-    article[:article_tags] = article[:article_tags].map do |tag_id|
-      article_tag = ArticleTag.find(tag_id)
-      article_tag
+    # TODO: Optimize code using where, pluck and mapping to original tag_ids
+    if article_input[:article_tags]
+      article[:article_tags] = article[:article_tags].map { |tag_id| ArticleTag.find(tag_id) }
     end
 
     article[:segments] =
@@ -217,8 +216,8 @@ class Article < ApplicationRecord
         segment
       end
 
-      Article.transaction do
-        article[:segments].each(&:save)
+    Article.transaction do
+      article[:segments].each(&:save)
 
       Article.update(article_id, article)
     end
