@@ -13,6 +13,8 @@ class ArticleTest < ActiveSupport::TestCase
   end
 
   test "create article" do
+    tag = create(:article_tag)
+
     article_input = {
       title: "My article",
       perex: "Lorem ipsum sit dolor del amet...",
@@ -26,7 +28,8 @@ class ArticleTest < ActiveSupport::TestCase
           segment_type: "source_statements",
           source_id: @source.id
         }
-      ]
+      ],
+      article_tags: [tag.id]
     }
 
     assert_changes -> { Article.count }, "Expected article to be created" do
@@ -45,11 +48,16 @@ class ArticleTest < ActiveSupport::TestCase
       assert_equal @statements.size, segment.all_published_statements.size
       assert_equal 1, segment.order
       assert_equal Article::ARTICLE_TYPE_DEFAULT, article.article_type
+
+      assert_equal tag, article.article_tags.last
     end
   end
 
   test "update article" do
-    original_article = create(:article, article_type: @article_type)
+    tag_1 = create(:article_tag)
+    tag_2 = create(:article_tag)
+
+    original_article = create(:article, article_type: @article_type, article_tags: [tag_1])
 
     article_input = {
       title: "My article",
@@ -64,7 +72,8 @@ class ArticleTest < ActiveSupport::TestCase
           segment_type: "source_statements",
           source_id: @source.id
         }
-      ]
+      ],
+      article_tags: [tag_2.id]
     }
 
     assert_changes -> { Article.find(original_article.id).title }, "Expected article to be updated" do
@@ -82,6 +91,9 @@ class ArticleTest < ActiveSupport::TestCase
       assert_equal @source.id, segment.source.id
       assert_equal @statements.size, segment.all_published_statements.size
       assert_equal 1, segment.order
+
+      assert_equal 1, article.article_tags.count
+      assert_equal tag_2, article.article_tags.last
     end
   end
 
@@ -93,7 +105,8 @@ class ArticleTest < ActiveSupport::TestCase
       title: "My article",
       perex: "Lorem ipsum sit dolor del amet...",
       article_type: "default",
-      segments: []
+      segments: [],
+      article_tags: []
     }
 
     Article.update_article article.id, article_input

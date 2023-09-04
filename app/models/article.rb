@@ -143,10 +143,8 @@ class Article < ApplicationRecord
   def self.create_article(article_input)
     article = article_input.deep_symbolize_keys
 
-    article[:article_tags] = article[:article_tags].map do |tag_id|
-      article_tag = ArticleTag.find(tag_id)
-      article_tag
-    end
+    # TODO: Optimize code using where, pluck and mapping to original tag_ids
+    article[:article_tags] = article[:article_tags].map { |tag_id| ArticleTag.find(tag_id) }
 
     if article[:segments]
       article[:segments] =
@@ -181,10 +179,8 @@ class Article < ApplicationRecord
   def self.update_article(article_id, article_input)
     article = article_input.deep_symbolize_keys
 
-    article[:article_tags] = article[:article_tags].map do |tag_id|
-      article_tag = ArticleTag.find(tag_id)
-      article_tag
-    end
+    # TODO: Optimize code using where, pluck and mapping to original tag_ids
+    article[:article_tags] = article[:article_tags].map { |tag_id| ArticleTag.find(tag_id) }
 
     article[:segments] =
       article[:segments].map.with_index(0) do |seg, order|
@@ -217,10 +213,10 @@ class Article < ApplicationRecord
       end
 
     Article.transaction do
-    article[:segments].each(&:save)
+      article[:segments].each(&:save)
 
-    Article.update(article_id, article)
-  end
+      Article.update(article_id, article)
+    end
   end
 
   def self.ensure_segment(segment_id, article_id)
