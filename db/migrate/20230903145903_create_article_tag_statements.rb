@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateArticleTagStatements < ActiveRecord::Migration[7.0]
   def change
     create_table :article_tag_statements do |t|

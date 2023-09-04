@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ArticleTagSpeaker < ApplicationRecord
   belongs_to :article_tag
   belongs_to :speaker

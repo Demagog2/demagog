@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TagController < FrontendController
   def show
     @page_number = params[:page]
