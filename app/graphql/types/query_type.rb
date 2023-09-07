@@ -190,7 +190,7 @@ class Types::QueryType < GraphQL::Schema::Object
   def roles
     raise Errors::AuthenticationNeededError.new unless context[:current_user]
 
-    Role.all
+    Role.select("DISTINCT ON (roles.key) roles.*")
   end
 
   field :content_images, Types::ContentImagesResultType, null: false do

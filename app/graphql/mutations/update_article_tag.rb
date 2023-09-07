@@ -1,17 +1,20 @@
 # frozen_string_literal: true
 
 module Mutations
-  class UpdateArticleTag < GraphQL::Schema::Mutation
+  class UpdateArticleTag < BaseMutation
     description "Update existing article tag"
 
     argument :id, Int, required: true
-    field :articleTag, Types::ArticleTagType, null: false
-
     argument :article_tag_input, Types::ArticleTagInputType, required: true
 
+    field :article_tag, Types::ArticleTagType, null: false
+
     def resolve(article_tag_input:, id:)
-      Utils::Auth.authenticate(context)
-      { articleTag: ArticleTag.update(id, article_tag_input.to_h) }
+      authorize!(:edit, ArticleTag)
+
+      { article_tag: ArticleTag.update(id, article_tag_input.to_h) }
+    rescue CanCan::AccessDenied
+      raise Errors::AuthenticationNeededError.new
     end
   end
 end

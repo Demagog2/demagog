@@ -104,19 +104,19 @@ FactoryBot.define do
     active { true }
 
     trait :admin do
-      role_id { Role.find_by(key: Role::ADMIN).id }
+      role_id { Role.create_or_find_by(key: Role::ADMIN, name: "Administrátor").id }
     end
     trait :expert do
-      role_id { Role.find_by(key: Role::EXPERT).id }
+      role_id { Role.create_or_find_by(key: Role::EXPERT, name: "Expert").id }
     end
     trait :social_media_manager do
-      roles { build_list(:role, 1, :social_media_manager) }
+      role_id { Role.create_or_find_by(key: Role::SOCIAL_MEDIA_MANAGER, name: "Síťař").id }
     end
     trait :proofreader do
-      role_id { Role.find_by(key: Role::PROOFREADER).id }
+      role_id { Role.create_or_find_by(key: Role::PROOFREADER, name: "Korektor").id }
     end
     trait :intern do
-      role_id { Role.find_by(key: Role::INTERN).id }
+      role_id { Role.create_or_find_by(key: Role::INTERN, name: "Stážista").id }
     end
   end
 
@@ -125,22 +125,22 @@ FactoryBot.define do
     association :evaluator, factory: :user
 
     trait :with_veracity_true do
-      veracity { Veracity.find_by(key: Veracity::TRUE) }
+      veracity { Veracity.create_or_find_by(key: Veracity::TRUE) }
       veracity_new { Assessment::VERACITY_TRUE }
     end
 
     trait :with_veracity_untrue do
-      veracity { Veracity.find_by(key: Veracity::UNTRUE) }
+      veracity { Veracity.create_or_find_by(key: Veracity::UNTRUE) }
       veracity_new { Assessment::VERACITY_UNTRUE }
     end
 
     trait :with_veracity_misleading do
-      veracity { Veracity.find_by(key: Veracity::MISLEADING) }
+      veracity { Veracity.create_or_find_by(key: Veracity::MISLEADING) }
       veracity_new { Assessment::VERACITY_MISLEADING }
     end
 
     trait :with_veracity_unverifiable do
-      veracity { Veracity.find_by(key: Veracity::UNVERIFIABLE) }
+      veracity { Veracity.create_or_find_by(key: Veracity::UNVERIFIABLE) }
       veracity_new { Assessment::VERACITY_UNVERIFIABLE }
     end
 
