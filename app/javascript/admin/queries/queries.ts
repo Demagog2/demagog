@@ -713,7 +713,7 @@ export const GetArticleTags = gql`
 `;
 
 export const GetArticleTag = gql`
-  query GetArticleTag($id: Int!) {
+  query GetArticleTag($id: ID!) {
     articleTag(id: $id) {
       id
       title

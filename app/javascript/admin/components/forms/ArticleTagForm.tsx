@@ -18,7 +18,6 @@ export interface IArticleTagFormValues {
   video: string;
   published: boolean;
   stats: string;
-  medium_id: string;
   order: string;
 }
 
@@ -58,7 +57,6 @@ export class ArticleTagForm extends React.Component<IArticleTagFormProps> {
       video: articleTag ? articleTag.video : '',
       published: articleTag ? articleTag.published : false,
       stats: articleTag ? articleTag.stats : '0',
-      medium_id: articleTag ? articleTag.medium_id : '',
       order: articleTag ? articleTag.order : '0',
     };
 
