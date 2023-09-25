@@ -49,7 +49,6 @@ export function ArticleTagsEditContainer() {
               published: variables.published,
               stats: variables.stats,
               order: variables.order,
-              video: variables.video,
             },
           },
         });

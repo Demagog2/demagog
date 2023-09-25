@@ -15,7 +15,6 @@ export interface IArticleTagFormValues {
   slug: string;
   description: string;
   icon: string;
-  video: string;
   published: boolean;
   stats: string;
   order: string;
@@ -49,15 +48,14 @@ const STATS_OPTIONS = [
 export class ArticleTagForm extends React.Component<IArticleTagFormProps> {
   public render() {
     const { articleTag, title } = this.props;
-    const initialValues = {
-      title: articleTag ? articleTag.title : '',
-      slug: articleTag ? articleTag.slug : '',
-      description: articleTag ? articleTag.description : '',
-      icon: articleTag ? articleTag.icon : '0',
-      video: articleTag ? articleTag.video : '',
-      published: articleTag ? articleTag.published : false,
-      stats: articleTag ? articleTag.stats : '0',
-      order: articleTag ? articleTag.order : '0',
+    const initialValues: IArticleTagFormValues = {
+      title: articleTag?.title ?? '',
+      slug: articleTag?.slug ?? '',
+      description: articleTag?.description ?? '',
+      icon: articleTag?.icon ?? '0',
+      published: articleTag?.published ?? false,
+      stats: articleTag?.stats ?? '0',
+      order: articleTag?.order ?? '0',
     };
 
     return (
