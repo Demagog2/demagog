@@ -27,6 +27,7 @@ class Types::QueryType < GraphQL::Schema::Object
 
   include Schema::Articles::ArticleField
   include Schema::Articles::ArticlesField
+  include Schema::Articles::ArticleTagField
   include Schema::Pages::PageField
   include Schema::Pages::PagesField
 
@@ -120,16 +121,6 @@ class Types::QueryType < GraphQL::Schema::Object
   def articleTags(args)
     articleTags = ArticleTag.offset(args[:offset]).limit(args[:limit]).order(order: :asc)
     articleTags
-  end
-
-  field :articleTag, Types::ArticleTagType, null: false do
-    argument :id, Int, required: false
-  end
-
-  def articleTag(id:)
-    ArticleTag.find(id)
-  rescue ActiveRecord::RecordNotFound
-    raise GraphQL::ExecutionError.new("Could not find User with id=#{id}")
   end
 
   field :user, Types::UserType, null: false do

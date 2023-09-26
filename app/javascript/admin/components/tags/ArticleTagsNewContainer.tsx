@@ -35,7 +35,6 @@ export function ArticleTagsNewContainer() {
             icon: variables.icon,
             stats: variables.stats,
             order: variables.order,
-            video: variables.video,
           },
         },
       });

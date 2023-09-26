@@ -29,7 +29,7 @@ export default class ArticleTagsSelect extends React.Component<IProps> {
 
           if (data && !loading) {
             options = data.articleTags.map((t) => ({
-              label: t.title,
+              label: t.title ?? 'Tag beze jména',
               value: t.id,
             }));
           }

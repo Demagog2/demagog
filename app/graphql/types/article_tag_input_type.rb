@@ -8,7 +8,6 @@ module Types
     argument :icon, String, required: false
     argument :published, Boolean, required: false
     argument :stats, String, required: false
-    argument :medium_id,  String, required: false
     argument :video,  String, required: false
     argument :order,  String, required: false
   end

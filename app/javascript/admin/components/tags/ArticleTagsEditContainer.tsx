@@ -4,9 +4,6 @@ import Loading from '../Loading';
 import { ArticleTagForm, IArticleTagFormValues } from '../forms/ArticleTagForm';
 import { useMutation, useQuery } from 'react-apollo';
 import { useFlashMessage } from '../../hooks/use-flash-messages';
-import { useSelector, useDispatch } from 'react-redux';
-
-import { IState } from '../../reducers';
 
 import {
   UpdateArticleTag,
@@ -20,22 +17,19 @@ import { GetArticleTag as GetArticleTagQuery } from '../../queries/queries';
 
 export function ArticleTagsEditContainer() {
   const params = useParams();
-  const dispatch = useDispatch();
-  const currentUser = useSelector((state: IState) => state.currentUser.user);
-  const articleTagId = parseInt(params.id ?? '', 10);
   const addFlashMessage = useFlashMessage();
   const [mutate] = useMutation<UpdateArticleTag, UpdateArticleTagVariables>(
     UpdateArticleTagMutation,
   );
   const { data, loading } = useQuery<GetArticleTag, GetArticleTagVariables>(GetArticleTagQuery, {
     variables: {
-      id: articleTagId,
+      id: params.id ?? '',
     },
   });
 
   const onCompleted = useCallback(() => {
     addFlashMessage('Uložení proběhlo v pořádku', 'success');
-  }, [addFlashMessage, dispatch, currentUser, articleTagId]);
+  }, [addFlashMessage]);
 
   const onError = useCallback(() => {
     addFlashMessage('Při ukládání došlo k chybě.', 'error');
@@ -46,7 +40,7 @@ export function ArticleTagsEditContainer() {
       try {
         await mutate({
           variables: {
-            id: articleTagId,
+            id: parseInt(params.id ?? '', 10),
             articleTagInput: {
               title: variables.title,
               slug: variables.slug,
@@ -55,8 +49,6 @@ export function ArticleTagsEditContainer() {
               published: variables.published,
               stats: variables.stats,
               order: variables.order,
-              video: variables.video,
-              medium_id: variables.medium_id,
             },
           },
         });
@@ -65,7 +57,7 @@ export function ArticleTagsEditContainer() {
         onError();
       }
     },
-    [mutate, data, articleTagId, onCompleted, onError, addFlashMessage],
+    [mutate, data, params.id, onCompleted, onError, addFlashMessage],
   );
 
   return (

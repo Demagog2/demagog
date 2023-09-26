@@ -15,14 +15,14 @@ import { DeleteArticleTag as DeleteArticleTagMutation } from '../../queries/muta
 import {
   DeleteArticleTag,
   DeleteArticleTagVariables,
-  GetArticleTags_tags,
+  GetArticleTags_articleTags,
 } from '../../operation-result-types';
 
 import Loading from '../Loading';
 
 interface IArticleTagsProps {
   loading: boolean;
-  tags: GetArticleTags_tags[];
+  tags: GetArticleTags_articleTags[];
 }
 
 interface IArticleTags {
@@ -51,12 +51,13 @@ export function ArticleTags(props: IArticleTagsProps) {
     openModal();
   };
 
+  // TODO: Extract to a seperate component
   const [deleteTag, { loading: deleteArticleTagLoading }] = useMutation<
     DeleteArticleTag,
     DeleteArticleTagVariables
   >(DeleteArticleTagMutation, {
     variables: {
-      id: deleteArticleTagId,
+      id: deleteArticleTagId ?? '',
     },
     onCompleted() {
       addFlashMessage('Tag byl úspěšně smazán.', 'success');
