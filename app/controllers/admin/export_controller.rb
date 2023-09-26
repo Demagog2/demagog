@@ -14,8 +14,8 @@ class Admin::ExportController < ApplicationController
   def speakers
     @speakers = Speaker.with_factual_and_published_statements
     @statement_counts_by_speaker_id = Statement.factual_and_published.reduce({}) do |carry, statement|
-      carry[statement.speaker_id] = 0 unless carry.key?(statement.speaker_id)
-      carry[statement.speaker_id] += 1
+      carry[statement.source_speaker_id] = 0 unless carry.key?(statement.source_speaker_id)
+      carry[statement.source_speaker_id] += 1
       carry
     end
 
