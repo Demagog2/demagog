@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Mutations
-  class DeleteArticleTag < GraphQL::Schema::Mutation
+  class DeleteArticleTag < BaseMutation
     description "Delete existing article tag"
 
     field :id, ID, null: true
@@ -9,18 +9,17 @@ module Mutations
     argument :id, ID, required: true
 
     def resolve(id:)
-      Utils::Auth.authenticate(context)
-      Utils::Auth.authorize(context, ["users:edit"])
+      authorize!(:delete, ArticleTag)
 
       id = id.to_i
 
-      begin
-        ArticleTag.delete_article_tag(id)
-        { id: }
+      ArticleTag.destroy(id)
+      { id: }
+    rescue CanCan::AccessDenied
+      raise Errors::AuthenticationNeededError.new
 
-      rescue ActiveRecord::RecordNotFound, ActiveModel::ValidationError => e
-        raise GraphQL::ExecutionError.new(e.to_s)
-      end
+    rescue ActiveRecord::RecordNotFound => e
+      raise GraphQL::ExecutionError.new(e.to_s)
     end
   end
 end

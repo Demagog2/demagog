@@ -15,10 +15,4 @@ class ArticleTag < ApplicationRecord
   def self.matching_title(title)
     where("title ILIKE ? OR UNACCENT(title) ILIKE ?", "%#{title}%", "%#{title}%")
   end
-
-
-  def self.delete_article_tag(id)
-    article_tag = ArticleTag.find(id)
-    article_tag.destroy
-  end
 end
