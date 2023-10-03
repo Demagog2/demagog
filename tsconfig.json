@@ -13,6 +13,7 @@
     "noUnusedParameters": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "react",
+    "skipLibCheck": true
   },
   "exclude": [
     "node_modules",
