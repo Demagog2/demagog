@@ -4,7 +4,7 @@ import {
   UpdateUserActiveness as UpdateUserActivenessMutation,
   DeleteUser as DeleteUserMutation,
 } from '../../queries/mutations';
-import {
+import type {
   UpdateUserActiveness,
   UpdateUserActivenessVariables,
   GetUsers_users,
@@ -24,8 +24,8 @@ interface IUserContainerProps {
 export function UserContainer(props: IUserContainerProps) {
   const addFlashMessage = useFlashMessage();
   const [updateUserActiveness, { loading }] = useMutation<
-    UpdateUserActiveness,
-    UpdateUserActivenessVariables
+  UpdateUserActiveness,
+  UpdateUserActivenessVariables
   >(UpdateUserActivenessMutation, {
     onCompleted() {
       addFlashMessage(
@@ -91,8 +91,8 @@ export function UserContainer(props: IUserContainerProps) {
     <User
       user={props.user}
       loading={loading}
-      onUpdateUserActiveness={(userActive) =>
-        updateUserActiveness({
+      onUpdateUserActiveness={async(userActive) =>
+        await updateUserActiveness({
           variables: {
             id: parseInt(props.user.id, 10),
             userActive,

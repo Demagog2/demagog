@@ -1,6 +1,7 @@
 import * as React from 'react';
 
-import { Field, FieldProps, getIn } from 'formik';
+import type { FieldProps } from 'formik';
+import { Field, getIn } from 'formik';
 
 interface ISelectComponentFieldRenderProps {
   error: object | false;
@@ -27,8 +28,8 @@ const SelectComponentField = (props: ISelectComponentFieldProps) => {
           error: getIn(form.touched, name) && getIn(form.errors, name),
           id: name,
           name,
-          onChange: (value) => form.setFieldValue(name, value),
-          onBlur: () => form.setFieldTouched(name),
+          onChange: (value) => { form.setFieldValue(name, value); },
+          onBlur: () => { form.setFieldTouched(name); },
           value: field.value,
         })
       }

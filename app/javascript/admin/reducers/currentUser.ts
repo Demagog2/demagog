@@ -1,6 +1,8 @@
-import {
+import type {
   Action,
   CurrentUser,
+} from '../actions/currentUser';
+import {
   FETCH_CURRENT_USER,
   FETCH_CURRENT_USER_FAILURE,
   FETCH_CURRENT_USER_SUCCESS,

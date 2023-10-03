@@ -1,6 +1,6 @@
 import { Factory } from 'fishery';
 import { Statement } from './Statement';
-import { SourceSpeaker } from './SourceSpeaker';
+import type { SourceSpeaker } from './SourceSpeaker';
 import {
   ASSESSMENT_STATUS_APPROVAL_NEEDED,
   ASSESSMENT_STATUS_APPROVED,
@@ -11,19 +11,19 @@ import { Evaluator } from './Evaluator';
 import { sourceSpeakerFactory } from './SourceSpeakerFactory';
 
 class StatementFactory extends Factory<
-  Statement,
-  {
-    sourceSpeaker: SourceSpeaker;
-    veracity: string;
-    evaluationStatus: string;
-    published: boolean;
-    evaluator: Evaluator | null;
-    explanationCharactersLength: number;
-    shortExplanationCharactersLength: number;
-    assessmentMethodology: string;
-    promiseRating: string;
-    commentsCount: number;
-  }
+Statement,
+{
+  sourceSpeaker: SourceSpeaker;
+  veracity: string;
+  evaluationStatus: string;
+  published: boolean;
+  evaluator: Evaluator | null;
+  explanationCharactersLength: number;
+  shortExplanationCharactersLength: number;
+  assessmentMethodology: string;
+  promiseRating: string;
+  commentsCount: number;
+}
 > {
   public withSourceSpeaker(sourceSpeaker: SourceSpeaker) {
     return this.transient({ sourceSpeaker });
@@ -95,7 +95,7 @@ export const statementFactory = StatementFactory.define(({ sequence, transientPa
     transientParams.commentsCount || 30,
     typeof transientParams.evaluator !== 'undefined'
       ? transientParams.evaluator
-      : new Evaluator(String(sequence), `John ${sequence}`, `Doe`),
+      : new Evaluator(String(sequence), `John ${sequence}`, 'Doe'),
     transientParams.veracity,
     transientParams.promiseRating,
   );

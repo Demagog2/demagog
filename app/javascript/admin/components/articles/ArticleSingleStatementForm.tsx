@@ -6,9 +6,10 @@ import { DateTime } from 'luxon';
 import { Link } from 'react-router-dom';
 
 import { generateIllustrationImageForTweet } from '../../api';
-import { ArticleInput, GetArticle as GetArticleQuery } from '../../operation-result-types';
+import type { ArticleInput, GetArticle as GetArticleQuery } from '../../operation-result-types';
 import DateField from '../forms/controls/DateField';
-import ImageField, { ImageValueType } from '../forms/controls/ImageField';
+import type { ImageValueType } from '../forms/controls/ImageField';
+import ImageField from '../forms/controls/ImageField';
 import SwitchField from '../forms/controls/SwitchField';
 import TextField from '../forms/controls/TextField';
 import FormGroup from '../forms/FormGroup';
@@ -35,8 +36,7 @@ export const ArticleSingleStatementForm = ({
 }) => {
   let segmentStatementId: string | null = null;
   if (
-    article &&
-    article.segments &&
+    article?.segments &&
     article.segments.length === 1 &&
     article.segments[0].segmentType === 'single_statement'
   ) {
@@ -56,7 +56,7 @@ export const ArticleSingleStatementForm = ({
         statement_id: segmentStatementId,
       },
     ],
-    articleTags: article && article.articleTags ? article.articleTags?.map((t) => t.id) : [],
+    articleTags: article?.articleTags ? article.articleTags?.map((t) => t.id) : [],
   };
 
   return (
@@ -92,7 +92,7 @@ export const ArticleSingleStatementForm = ({
         <Form>
           {showGenerateImageForTweetModal && (
             <GenerateImageForTweetModal
-              onHide={() => setShowGenerateImageForTweetModal(false)}
+              onHide={() => { setShowGenerateImageForTweetModal(false); }}
               onSave={(file) => {
                 setFieldValue('illustration', file);
                 setShowGenerateImageForTweetModal(false);
@@ -137,14 +137,14 @@ export const ArticleSingleStatementForm = ({
               >
                 <EditableText
                   placeholder="Upravit název…"
-                  onChange={(value) => setFieldValue('title', value)}
+                  onChange={(value) => { setFieldValue('title', value); }}
                   value={values.title}
                 />
               </h2>
 
               <ArticleSingleStatementSegment
                 segment={values.segments[0]}
-                onChange={(value) => setFieldValue('segments.0', value)}
+                onChange={(value) => { setFieldValue('segments.0', value); }}
               />
             </div>
 
@@ -153,7 +153,7 @@ export const ArticleSingleStatementForm = ({
                 <ImageField
                   additionalActions={
                     <Button
-                      onClick={() => setShowGenerateImageForTweetModal(true)}
+                      onClick={() => { setShowGenerateImageForTweetModal(true); }}
                       style={{ marginTop: 7 }}
                     >
                       Vygenerovat obrázek pro tweet
@@ -199,7 +199,7 @@ const GenerateImageForTweetModal = ({ onHide, onSave }) => {
               if (response.ok) {
                 response.json().then((payload) => {
                   fetch(payload.data_url)
-                    .then((res) => res.blob())
+                    .then(async(res) => await res.blob())
                     .then((blob) => {
                       const file = new File([blob], payload.name, { type: payload.mime });
                       (file as any).preview = window.URL.createObjectURL(file);
@@ -208,8 +208,8 @@ const GenerateImageForTweetModal = ({ onHide, onSave }) => {
                 });
               }
             })
-            .catch(() => addFlashMessage('Při generování obrázku došlo k chybě.', 'error'))
-            .finally(() => setSubmitting(false));
+            .catch(() => { addFlashMessage('Při generování obrázku došlo k chybě.', 'error'); })
+            .finally(() => { setSubmitting(false); });
         }}
       >
         {({ handleSubmit, isSubmitting }) => (

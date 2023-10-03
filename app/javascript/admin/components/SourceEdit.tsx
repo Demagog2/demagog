@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useMutation, useQuery } from 'react-apollo';
 
 import { useFlashMessage } from '../hooks/use-flash-messages';
-import * as ResultTypes from '../operation-result-types';
+import type * as ResultTypes from '../operation-result-types';
 import { UpdateSource } from '../queries/mutations';
 import { GetSource, GetSources } from '../queries/queries';
 import { SourceForm } from './forms/SourceForm';
@@ -31,7 +31,6 @@ const SourceEdit = () => {
           error.message ? error.message : 'Došlo k chybě při ukládání diskuze',
           'error',
         );
-        // tslint:disable-next-line:no-console
         console.error(error);
       },
       onCompleted() {
@@ -45,8 +44,8 @@ const SourceEdit = () => {
   );
 
   const onSubmitHandler = React.useCallback(
-    (sourceInput: ResultTypes.SourceInput) => {
-      return updateSource({ variables: { id: sourceId.toString(), sourceInput } });
+    async(sourceInput: ResultTypes.SourceInput) => {
+      return await updateSource({ variables: { id: sourceId.toString(), sourceInput } });
     },
     [updateSource, sourceId],
   );

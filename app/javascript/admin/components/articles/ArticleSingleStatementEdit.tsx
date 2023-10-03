@@ -1,11 +1,12 @@
 import * as React from 'react';
 
-import { Mutation, Query, MutationFunction } from 'react-apollo';
+import type { MutationFunction } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import { useDispatch } from 'react-redux';
 
 import { addFlashMessage } from '../../actions/flashMessages';
 import { deleteArticleIllustration, uploadArticleIllustration } from '../../api';
-import {
+import type {
   ArticleInput,
   GetArticle as GetArticleQuery,
   GetArticleVariables as GetArticleQueryVariables,
@@ -19,8 +20,8 @@ import { ArticleSingleStatementForm } from './ArticleSingleStatementForm';
 import { useParams } from 'react-router';
 
 type UpdateArticleMutationFn = MutationFunction<
-  UpdateArticleMutation,
-  UpdateArticleMutationVariables
+UpdateArticleMutation,
+UpdateArticleMutationVariables
 >;
 
 export function ArticleSingleStatementEdit() {
@@ -33,11 +34,10 @@ export function ArticleSingleStatementEdit() {
 
   const onError = (error) => {
     dispatch(addFlashMessage('Došlo k chybě při ukládání článku', 'error'));
-    // tslint:disable-next-line:no-console
     console.error(error);
   };
 
-  const onSubmit = (updateArticle: UpdateArticleMutationFn, oldArticle: GetArticleQuery) => (
+  const onSubmit = (updateArticle: UpdateArticleMutationFn, oldArticle: GetArticleQuery) => async(
     articleFormData: ArticleInput & { illustration: File },
   ) => {
     const { illustration, ...articleInput } = articleFormData;
@@ -51,10 +51,10 @@ export function ArticleSingleStatementEdit() {
       imageUpload = deleteArticleIllustration(id);
     }
 
-    return imageUpload
-      .then(() => updateArticle({ variables: { id, articleInput } }))
-      .then(() => onSuccess())
-      .catch((error) => onError(error));
+    await imageUpload
+      .then(async() => await updateArticle({ variables: { id, articleInput } }))
+      .then(() => { onSuccess(); })
+      .catch((error) => { onError(error); });
   };
 
   return (

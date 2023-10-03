@@ -13,16 +13,18 @@ import {
   Position,
 } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { Field, FieldArray, FieldProps, Form, Formik } from 'formik';
+import type { FieldProps } from 'formik';
+import { Field, FieldArray, Form, Formik } from 'formik';
 import { DateTime } from 'luxon';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 import { css } from 'emotion';
 
-import { ArticleInput, GetArticle as GetArticleQuery } from '../../operation-result-types';
+import type { ArticleInput, GetArticle as GetArticleQuery } from '../../operation-result-types';
 import { isSameOrAfterToday } from '../../utils';
 import DateField from '../forms/controls/DateField';
-import ImageField, { ImageValueType } from '../forms/controls/ImageField';
+import type { ImageValueType } from '../forms/controls/ImageField';
+import ImageField from '../forms/controls/ImageField';
 import SelectField from '../forms/controls/SelectField';
 import SwitchField from '../forms/controls/SwitchField';
 import FormGroup from '../forms/FormGroup';
@@ -63,22 +65,22 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
     const initialValues = {
       article_type: article ? article.articleType : ARTICLE_TYPE_DEFAULT,
       title: article ? article.title : '',
-      perex: article && article.perex ? article.perex : '',
+      perex: article?.perex ? article.perex : '',
       segments:
-        article && article.segments
+        article?.segments
           ? article.segments.map((s) => ({
-              id: s.id,
-              segment_type: s.segmentType as SegmentType,
-              text_html: s.textHtml,
-              text_slatejson: s.textSlatejson,
-              source_id: s.source ? s.source.id : null,
-              promise_url: s.promiseUrl,
-            }))
+            id: s.id,
+            segment_type: s.segmentType as SegmentType,
+            text_html: s.textHtml,
+            text_slatejson: s.textSlatejson,
+            source_id: s.source ? s.source.id : null,
+            promise_url: s.promiseUrl,
+          }))
           : [],
       illustration: article ? article.illustration : null,
       published: article ? article.published : false,
       published_at: article ? article.publishedAt : DateTime.local().toISODate(),
-      articleTags: article && article.articleTags ? article.articleTags?.map((t) => t.id) : [],
+      articleTags: article?.articleTags ? article.articleTags?.map((t) => t.id) : [],
     };
 
     return (
@@ -157,7 +159,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                   >
                     <EditableText
                       placeholder="Upravit název…"
-                      onChange={(value) => setFieldValue('title', value)}
+                      onChange={(value) => { setFieldValue('title', value); }}
                       value={values.title}
                     />
                   </h2>
@@ -178,7 +180,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                       multiline={true}
                       placeholder="Zadejte perex..."
                       value={values.perex || ''}
-                      onChange={(value) => setFieldValue('perex', value)}
+                      onChange={(value) => { setFieldValue('perex', value); }}
                     />
                   </div>
 
@@ -189,7 +191,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                         {values.segments.map((segment, index) => (
                           <div key={`${segment.id}-${index}`}>
                             <AddSegmentButton
-                              onAdd={(type) => arrayHelpers.insert(index, createNewSegment(type))}
+                              onAdd={(type) => { arrayHelpers.insert(index, createNewSegment(type)); }}
                             />
 
                             <Field
@@ -199,7 +201,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                                   {segment.segment_type === 'text' && (
                                     <ArticleTextSegment
                                       segment={field.value}
-                                      onChange={(value) => form.setFieldValue(field.name, value)}
+                                      onChange={(value) => { form.setFieldValue(field.name, value); }}
                                       onRemove={() => arrayHelpers.remove(index)}
                                     />
                                   )}
@@ -207,7 +209,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                                   {segment.segment_type === 'source_statements' && (
                                     <ArticleSourceStatementsSegment
                                       segment={field.value}
-                                      onChange={(value) => form.setFieldValue(field.name, value)}
+                                      onChange={(value) => { form.setFieldValue(field.name, value); }}
                                       onRemove={() => arrayHelpers.remove(index)}
                                     />
                                   )}
@@ -215,7 +217,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                                   {segment.segment_type === 'promise' && (
                                     <ArticlePromiseSegment
                                       segment={field.value}
-                                      onChange={(value) => form.setFieldValue(field.name, value)}
+                                      onChange={(value) => { form.setFieldValue(field.name, value); }}
                                       onRemove={() => arrayHelpers.remove(index)}
                                     />
                                   )}
@@ -225,7 +227,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                           </div>
                         ))}
                         <AddSegmentButton
-                          onAdd={(type) => arrayHelpers.push(createNewSegment(type))}
+                          onAdd={(type) => { arrayHelpers.push(createNewSegment(type)); }}
                         />
                       </div>
                     )}
@@ -277,11 +279,11 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
                   article.publishedAt &&
                   isSameOrAfterToday(article.publishedAt) && (
                     <div>
-                      <a href={`/diskuze/${article.slug}`} target="_blank">
+                      <a href={`/diskuze/${article.slug}`} target="_blank" rel="noreferrer">
                         Veřejný odkaz
                       </a>
                     </div>
-                  )}
+                )}
               </div>
             </div>
           </Form>
@@ -292,7 +294,7 @@ export class ArticleForm extends React.Component<IArticleFormProps> {
 }
 
 interface IAddSegmentButtonProps {
-  onAdd(type: SegmentType): void;
+  onAdd: (type: SegmentType) => void;
 }
 
 function AddSegmentButton(props: IAddSegmentButtonProps) {
@@ -301,9 +303,9 @@ function AddSegmentButton(props: IAddSegmentButtonProps) {
       <Popover
         content={
           <Menu>
-            <MenuItem text="Textový segment" onClick={() => props.onAdd('text')} />
-            <MenuItem text="Výrokový segment" onClick={() => props.onAdd('source_statements')} />
-            <MenuItem text="Slib vlády Andreje Babiše" onClick={() => props.onAdd('promise')} />
+            <MenuItem text="Textový segment" onClick={() => { props.onAdd('text'); }} />
+            <MenuItem text="Výrokový segment" onClick={() => { props.onAdd('source_statements'); }} />
+            <MenuItem text="Slib vlády Andreje Babiše" onClick={() => { props.onAdd('promise'); }} />
           </Menu>
         }
         position={Position.BOTTOM_RIGHT}

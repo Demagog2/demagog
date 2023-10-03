@@ -1,5 +1,5 @@
 export class StatsReportTranslator {
-  private TRANSLATIONS = {
+  private readonly TRANSLATIONS = {
     true: 'pravda {count}',
     untrue: 'nepravda {count}',
     misleading: 'zavádějící {count}',

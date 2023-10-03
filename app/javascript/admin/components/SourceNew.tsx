@@ -3,7 +3,7 @@ import { useMutation } from 'react-apollo';
 import { useNavigate } from 'react-router';
 
 import { useFlashMessage } from '../hooks/use-flash-messages';
-import * as ResultTypes from '../operation-result-types';
+import type * as ResultTypes from '../operation-result-types';
 import { CreateSource } from '../queries/mutations';
 import { GetSources } from '../queries/queries';
 import { SourceForm } from './forms/SourceForm';
@@ -20,7 +20,6 @@ const SourceNew = () => {
           error.message ? error.message : 'Došlo k chybě při ukládání diskuze',
           'error',
         );
-        // tslint:disable-next-line:no-console
         console.error(error);
       },
       onCompleted(source) {
@@ -35,8 +34,8 @@ const SourceNew = () => {
   );
 
   const onSubmitHandler = React.useCallback(
-    (sourceInput: ResultTypes.SourceInput) => {
-      return createSource({ variables: { sourceInput } });
+    async(sourceInput: ResultTypes.SourceInput) => {
+      return await createSource({ variables: { sourceInput } });
     },
     [createSource],
   );

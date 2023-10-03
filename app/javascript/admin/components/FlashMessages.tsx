@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import { Classes, Intent, Overlay, Toast } from '@blueprintjs/core';
-import { connect, DispatchProp } from 'react-redux';
+import type { DispatchProp } from 'react-redux';
+import { connect } from 'react-redux';
 
 import { removeFlashMessage } from '../actions/flashMessages';
 

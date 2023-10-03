@@ -1,9 +1,9 @@
 import * as React from 'react';
 
+import type { IFormGroupProps as IBlueprintFormGroupProps } from '@blueprintjs/core';
 import {
   Classes,
   FormGroup as BlueprintFormGroup,
-  IFormGroupProps as IBlueprintFormGroupProps,
   Intent,
 } from '@blueprintjs/core';
 import { Field, getIn } from 'formik';

@@ -4,7 +4,7 @@ import { Button, Classes, Intent } from '@blueprintjs/core';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Link } from 'react-router-dom';
 
-import { GetUsers as GetUsersQuery } from '../../operation-result-types';
+import type { GetUsers as GetUsersQuery } from '../../operation-result-types';
 import { newlinesToBr } from '../../utils';
 import { reorder } from '../../utils/array';
 import SpeakerAvatar from '../SpeakerAvatar';
@@ -14,13 +14,13 @@ interface IUsersSortOnAboutUsPageProps {
   users: GetUsersQuery['users'];
   isLoading: boolean;
   isSaving: boolean;
-  onSave(users: GetUsersQuery['users']): void;
+  onSave: (users: GetUsersQuery['users']) => void;
 }
 
 export function UsersSortOnAboutUsPage(props: IUsersSortOnAboutUsPageProps) {
   const [users, setUsers] = useState(props.users);
 
-  useEffect(() => setUsers(props.users), [props.users]);
+  useEffect(() => { setUsers(props.users); }, [props.users]);
 
   const onDragEnd = useCallback(
     (result) => {
@@ -44,7 +44,7 @@ export function UsersSortOnAboutUsPage(props: IUsersSortOnAboutUsPageProps) {
           disabled={props.isSaving}
           intent={Intent.PRIMARY}
           style={{ marginLeft: 7 }}
-          onClick={() => props.onSave(users)}
+          onClick={() => { props.onSave(users); }}
           text={props.isSaving ? 'Ukládám …' : 'Uložit'}
         />
       </div>

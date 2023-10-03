@@ -5,7 +5,7 @@ import { IconNames } from '@blueprintjs/icons';
 import { css } from 'emotion';
 import { Query } from 'react-apollo';
 
-import {
+import type {
   GetSourceStatements as GetSourceStatementsQuery,
   GetSourceStatementsVariables as GetSourceStatementsQueryVariables,
 } from '../../operation-result-types';
@@ -22,8 +22,8 @@ interface IPromiseSegment {
 
 interface IProps {
   segment: IPromiseSegment;
-  onRemove(): void;
-  onChange(segment: IPromiseSegment): void;
+  onRemove: () => void;
+  onChange: (segment: IPromiseSegment) => void;
 }
 
 interface IState {
@@ -77,16 +77,15 @@ export default class ArticlePromiseSegment extends React.Component<IProps, IStat
     );
   }
 
-  public toggleDialog = () =>
-    this.setState({ isSelectPromiseDialogOpen: !this.state.isSelectPromiseDialogOpen });
+  public toggleDialog = () => { this.setState({ isSelectPromiseDialogOpen: !this.state.isSelectPromiseDialogOpen }); };
 }
 
 const PROMISES_SOURCE_ID = 562; // Sliby vlady Andreje Babise
 
 class SelectPromiseDialog extends React.Component<{
   isOpen: boolean;
-  onSelect(promiseUrl: string): any;
-  onCancel(): any;
+  onSelect: (promiseUrl: string) => any;
+  onCancel: () => any;
 }> {
   public render() {
     return (

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useMutation } from 'react-apollo';
-import {
+import type {
   UpdateSourceVideoFields,
   UpdateSourceVideoFieldsVariables,
 } from '../../operation-result-types';
@@ -13,13 +13,13 @@ interface IVideoModalContainerProps {
     videoType?: string | null;
     videoId?: string | null;
   };
-  onRequestClose(): void;
+  onRequestClose: () => void;
 }
 
 export function VideoModalContainer(props: IVideoModalContainerProps) {
   const [updateVideoFields] = useMutation<
-    UpdateSourceVideoFields,
-    UpdateSourceVideoFieldsVariables
+  UpdateSourceVideoFields,
+  UpdateSourceVideoFieldsVariables
   >(mutations.UpdateSourceVideoFields, {
     onCompleted() {
       props.onRequestClose();
@@ -33,7 +33,7 @@ export function VideoModalContainer(props: IVideoModalContainerProps) {
         video_type: props.source.videoType || 'youtube',
       }}
       onRequestClose={props.onRequestClose}
-      onSubmit={async (values) => {
+      onSubmit={async(values) => {
         await updateVideoFields({
           variables: {
             id: props.source.id,

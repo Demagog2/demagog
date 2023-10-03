@@ -1,17 +1,16 @@
-/* eslint jsx-a11y/anchor-has-content: 0, jsx-a11y/anchor-is-valid: 0 */
-
 import * as React from 'react';
 
 import { Button, Classes } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { ApolloError } from 'apollo-client';
+import type { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
 import { Query } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
+import type { DispatchProp } from 'react-redux';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../../actions/flashMessages';
-import { GetMediaPersonalities as GetMediaPersonalitiesQuery } from '../../operation-result-types';
+import type { GetMediaPersonalities as GetMediaPersonalitiesQuery } from '../../operation-result-types';
 import { DeleteMediaPersonality } from '../../queries/mutations';
 import { GetMediaPersonalities } from '../../queries/queries';
 import Authorize from '../Authorize';
@@ -32,24 +31,25 @@ class Media extends React.Component<IProps, IState> {
     confirmDeleteModalMediaPersonalityId: null,
   };
 
-  private onSearchChange = (search: string) => {
+  private readonly onSearchChange = (search: string) => {
     this.setState({ search });
   };
 
-  private showConfirmDeleteModal = (confirmDeleteModalMediaPersonalityId: string) => () => {
-    this.setState({ confirmDeleteModalMediaPersonalityId });
-  };
+  private readonly showConfirmDeleteModal =
+    (confirmDeleteModalMediaPersonalityId: string) => () => {
+      this.setState({ confirmDeleteModalMediaPersonalityId });
+    };
 
-  private hideConfirmDeleteModal = () => {
+  private readonly hideConfirmDeleteModal = () => {
     this.setState({ confirmDeleteModalMediaPersonalityId: null });
   };
 
-  private onDeleted = () => {
+  private readonly onDeleted = () => {
     this.props.dispatch(addFlashMessage('Moderátor byl úspěšně smazán.', 'success'));
     this.hideConfirmDeleteModal();
   };
 
-  private onDeleteError = (error: ApolloError) => {
+  private readonly onDeleteError = (error: ApolloError) => {
     if (error.message.match(/cannot be deleted if it is linked to some sources/)) {
       this.props.dispatch(
         addFlashMessage(
@@ -62,10 +62,9 @@ class Media extends React.Component<IProps, IState> {
 
     this.props.dispatch(addFlashMessage('Doško k chybě při mazání moderátora.', 'error'));
 
-    console.error(error); // tslint:disable-line:no-console
+    console.error(error);
   };
 
-  // tslint:disable-next-line:member-ordering
   public render() {
     const { confirmDeleteModalMediaPersonalityId } = this.state;
 

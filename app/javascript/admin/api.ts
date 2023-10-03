@@ -7,18 +7,18 @@
  * @param uri uri to be interpolated
  * @param params params to be included into the uri
  */
-function interpolateParams(uri: string, params: { [name: string]: number | string }): string {
+function interpolateParams(uri: string, params: Record<string, number | string>): string {
   return Object.keys(params).reduce<string>((tmpUri, paramName) => {
     return tmpUri.replace(`:${paramName}`, params[paramName].toString());
   }, uri);
 }
 
 function createImageUploader(uri: string) {
-  return (id: number | string, image: File): Promise<Response> => {
+  return async(id: number | string, image: File): Promise<Response> => {
     const formData = new FormData();
     formData.append('file', image);
 
-    return callApi(interpolateParams(uri, { id }), {
+    return await callApi(interpolateParams(uri, { id }), {
       method: 'POST',
       body: formData,
     });
@@ -26,15 +26,15 @@ function createImageUploader(uri: string) {
 }
 
 function createImageDeleter(uri: string) {
-  return (id: number | string): Promise<Response> => {
-    return callApi(interpolateParams(uri, { id }), { method: 'DELETE' });
+  return async(id: number | string): Promise<Response> => {
+    return await callApi(interpolateParams(uri, { id }), { method: 'DELETE' });
   };
 }
 
-function callApi(url, options) {
+async function callApi(url, options) {
   options.credentials = 'same-origin';
 
-  return fetch(url, options).then((response: Response) => {
+  return await fetch(url, options).then((response: Response) => {
     if (response.status >= 200 && response.status < 300) {
       return response;
     } else {
@@ -55,21 +55,21 @@ export const deleteSpeakerAvatar = createImageDeleter('/admin/profile-picture/:i
 export const uploadBodyLogo = createImageUploader('/admin/body-logo/:id');
 export const deleteBodyLogo = createImageDeleter('/admin/body-logo/:id');
 
-export const uploadContentImage = (image: File): Promise<Response> => {
+export const uploadContentImage = async(image: File): Promise<Response> => {
   const formData = new FormData();
   formData.append('file', image);
 
-  return callApi('/admin/content-image', {
+  return await callApi('/admin/content-image', {
     method: 'POST',
     body: formData,
   });
 };
 
-export const mailFactualStatementsExport = () => {
-  return callApi('/admin/export/mail-factual-statements', { method: 'POST' });
+export const mailFactualStatementsExport = async() => {
+  return await callApi('/admin/export/mail-factual-statements', { method: 'POST' });
 };
 
-export const generateIllustrationImageForTweet = (
+export const generateIllustrationImageForTweet = async(
   tweetUrl: string,
   options: { withAttachment: boolean },
 ) => {
@@ -77,7 +77,7 @@ export const generateIllustrationImageForTweet = (
   formData.append('tweet_url', tweetUrl);
   formData.append('with_attachment', options.withAttachment ? 'true' : 'false');
 
-  return callApi('/admin/article/generate-illustration-image-for-tweet', {
+  return await callApi('/admin/article/generate-illustration-image-for-tweet', {
     method: 'POST',
     body: formData,
   });

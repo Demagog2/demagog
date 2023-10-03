@@ -13,7 +13,7 @@ import { useNavigate, useParams } from 'react-router';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import apolloClient from '../apolloClient';
-import {
+import type {
   GetNotifications as GetNotificationsQuery,
   GetNotificationsVariables as GetNotificationsQueryVariables,
   MarkUnreadNotificationsAsRead as MarkUnreadNotificationsAsReadMutation,
@@ -70,16 +70,16 @@ function Notifications() {
           },
         ],
       })
-      .then(() => navigate(`/admin/statements/${statementId}`));
+      .then(() => { navigate(`/admin/statements/${statementId}`); });
   };
 
-  const markAsRead = (notification) => {
+  const markAsRead = async(notification) => {
     const variables: UpdateNotificationMutationVariables = {
       id: notification.id,
       input: { readAt: DateTime.local().toISOTime() },
     };
 
-    return apolloClient.mutate({
+    return await apolloClient.mutate({
       mutation: UpdateNotification,
       variables,
       refetchQueries: [
@@ -91,13 +91,13 @@ function Notifications() {
     });
   };
 
-  const markAsUnread = (notification) => {
+  const markAsUnread = async(notification) => {
     const variables: UpdateNotificationMutationVariables = {
       id: notification.id,
       input: { readAt: null },
     };
 
-    return apolloClient.mutate({
+    return await apolloClient.mutate({
       mutation: UpdateNotification,
       variables,
       refetchQueries: [
@@ -122,8 +122,8 @@ function Notifications() {
     <div style={{ padding: '15px 0 40px 0' }}>
       <div style={{ float: 'right' }}>
         <Mutation<
-          MarkUnreadNotificationsAsReadMutation,
-          MarkUnreadNotificationsAsReadMutationVariables
+        MarkUnreadNotificationsAsReadMutation,
+        MarkUnreadNotificationsAsReadMutationVariables
         >
           mutation={MarkUnreadNotificationsAsRead}
           variables={{ statementId: null }}
@@ -156,7 +156,7 @@ function Notifications() {
           {(markUnreadNotificationsAsRead, { loading }) => (
             <button
               className={cx(Classes.BUTTON, Classes.iconClass(IconNames.TICK))}
-              onClick={() => markUnreadNotificationsAsRead()}
+              onClick={async() => await markUnreadNotificationsAsRead()}
               disabled={loading}
             >
               {loading ? 'Označuji všechny jako přečtené…' : 'Označit všechny jako přečtené'}
@@ -212,8 +212,7 @@ const UnreadNotificationsPanel = ({ handleUnreadStatementClick }) => {
           }
 
           if (error) {
-            console.error(error); // tslint:disable-line:no-console
-            return null;
+            console.error(error); return null;
           }
 
           if (data.notifications.items.length === 0) {
@@ -330,8 +329,8 @@ interface IAllNotificationsPanelState {
 }
 
 class AllNotificationsPanel extends React.Component<
-  IAllNotificationsPanelProps,
-  IAllNotificationsPanelState
+IAllNotificationsPanelProps,
+IAllNotificationsPanelState
 > {
   public state = {
     isLoadingMore: false,
@@ -347,16 +346,15 @@ class AllNotificationsPanel extends React.Component<
           variables={{ includeRead: true, offset: 0, limit: 20 }}
         >
           {({ data, loading, error, fetchMore }) => {
-            if (loading && (!data || !data.notifications)) {
+            if (loading && (!data?.notifications)) {
               return <Loading />;
             }
 
             if (error) {
-              console.error(error); // tslint:disable-line:no-console
-              return null;
+              console.error(error); return null;
             }
 
-            if (!data || !data.notifications) {
+            if (!data?.notifications) {
               return null;
             }
 
@@ -399,10 +397,11 @@ class AllNotificationsPanel extends React.Component<
                             className={css`
                               white-space: nowrap;
                             `}
-                            onClick={() =>
+                            onClick={() => {
                               notification.readAt
                                 ? markAsUnread(notification)
-                                : markAsRead(notification)
+                                : markAsRead(notification);
+                            }
                             }
                           />
                         </td>

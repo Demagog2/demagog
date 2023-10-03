@@ -5,7 +5,7 @@ import { IconNames } from '@blueprintjs/icons';
 import { css, cx } from 'emotion';
 import { Query } from 'react-apollo';
 
-import {
+import type {
   GetSources as GetSourcesQuery,
   GetSourceStatements as GetSourceStatementsQuery,
   GetSourceStatementsVariables as GetSourceStatementsQueryVariables,
@@ -30,8 +30,8 @@ interface ISourceStatementsSegment {
 
 interface IProps {
   segment: ISourceStatementsSegment;
-  onRemove(): void;
-  onChange(segment: ISourceStatementsSegment): void;
+  onRemove: () => void;
+  onChange: (segment: ISourceStatementsSegment) => void;
 }
 
 interface IState {
@@ -47,8 +47,7 @@ export default class ArticleSourceStatementsSegment extends React.Component<IPro
     };
   }
 
-  public toggleDialog = () =>
-    this.setState({ isSelectSourceDialogOpen: !this.state.isSelectSourceDialogOpen });
+  public toggleDialog = () => { this.setState({ isSelectSourceDialogOpen: !this.state.isSelectSourceDialogOpen }); };
 
   public render() {
     return (
@@ -243,8 +242,8 @@ function StatementsPreview({ sourceId }: IStatementsPreviewProps) {
 
 class SelectSourceDialog extends React.Component<{
   isOpen: boolean;
-  onSelect(sourceId: string): any;
-  onCancel(): any;
+  onSelect: (sourceId: string) => any;
+  onCancel: () => any;
 }> {
   public render() {
     return (

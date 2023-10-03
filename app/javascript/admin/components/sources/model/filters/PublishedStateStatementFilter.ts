@@ -1,8 +1,8 @@
-import { Statement } from '../Statement';
-import { IStatementFilter } from './StatementFilter';
+import type { Statement } from '../Statement';
+import type { IStatementFilter } from './StatementFilter';
 
 export class PublishedStateStatementFilter implements IStatementFilter {
-  constructor(private state: 'published' | 'unpublished') {}
+  constructor(private readonly state: 'published' | 'unpublished') {}
 
   public getKey() {
     return this.state;

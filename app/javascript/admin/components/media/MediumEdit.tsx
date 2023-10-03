@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Mutation, Query, MutationFunction } from 'react-apollo';
+import type { MutationFunction } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import { addFlashMessage } from '../../actions/flashMessages';
-import {
+import type {
   GetMedium as GetMediumQuery,
   GetMediumVariables as GetMediumQueryVariables,
   MediumInput,
@@ -27,14 +28,13 @@ export function MediumEdit() {
 
   const onError = (error) => {
     dispatch(addFlashMessage('Došlo k chybě při ukládání pořadu.', 'error'));
-    // tslint:disable-next-line:no-console
     console.error(error);
   };
 
-  const onSubmit = (updateMedium: UpdateMediumMutationFn) => (mediumInput: MediumInput) => {
-    return updateMedium({ variables: { id: params.id ?? '', mediumInput } })
-      .then(() => onSuccess())
-      .catch((error) => onError(error));
+  const onSubmit = (updateMedium: UpdateMediumMutationFn) => async(mediumInput: MediumInput) => {
+    await updateMedium({ variables: { id: params.id ?? '', mediumInput } })
+      .then(() => { onSuccess(); })
+      .catch((error) => { onError(error); });
   };
 
   return (

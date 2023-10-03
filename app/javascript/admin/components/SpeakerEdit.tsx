@@ -1,6 +1,7 @@
 import * as React from 'react';
 
-import { Mutation, MutationFunction, Query } from 'react-apollo';
+import type { MutationFunction } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 
@@ -9,9 +10,10 @@ import { deleteSpeakerAvatar, uploadSpeakerAvatar } from '../api';
 import Error from './Error';
 import Loading from './Loading';
 
-import { ISpeakerFormData, SpeakerForm } from './forms/SpeakerForm';
+import type { ISpeakerFormData } from './forms/SpeakerForm';
+import { SpeakerForm } from './forms/SpeakerForm';
 
-import {
+import type {
   GetSpeaker as GetSpeakerQuery,
   GetSpeakerVariables as GetSpeakerQueryVariables,
   UpdateSpeaker as UpdateSpeakerMutation,
@@ -29,7 +31,7 @@ export function SpeakerEdit() {
 
   const id = parseInt(params.id ?? '', 10);
 
-  const onFormSubmit = (updateSpeaker: IUpdateSpeakerMutationFn, previousData: GetSpeakerQuery) => (
+  const onFormSubmit = (updateSpeaker: IUpdateSpeakerMutationFn, previousData: GetSpeakerQuery) => async(
     speakerFormData: ISpeakerFormData,
   ) => {
     const { avatar, ...speakerInput } = speakerFormData;
@@ -43,10 +45,10 @@ export function SpeakerEdit() {
       avatarPromise = deleteSpeakerAvatar(id);
     }
 
-    return avatarPromise
-      .then(() => updateSpeaker({ variables: { id: id.toString(), speakerInput } }))
-      .then(() => onCompleted())
-      .catch((error) => onError(error));
+    await avatarPromise
+      .then(async() => await updateSpeaker({ variables: { id: id.toString(), speakerInput } }))
+      .then(() => { onCompleted(); })
+      .catch((error) => { onError(error); });
   };
 
   const onCompleted = () => {
@@ -56,7 +58,7 @@ export function SpeakerEdit() {
   const onError = (error: any) => {
     dispatch(addFlashMessage('Doško k chybě při uložení dat', 'error'));
 
-    console.error(error); // tslint:disable-line:no-console
+    console.error(error);
   };
 
   return (

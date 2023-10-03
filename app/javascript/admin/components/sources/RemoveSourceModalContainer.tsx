@@ -4,13 +4,13 @@ import { GetSource, GetSources } from '../../queries/queries';
 import { useMutation } from 'react-apollo';
 import { useFlashMessage } from '../../hooks/use-flash-messages';
 import { useNavigate } from 'react-router-dom';
-import { DeleteSourceVariables } from '../../operation-result-types';
+import type { DeleteSourceVariables } from '../../operation-result-types';
 import { RemoveSourceModal } from './RemoveSourceModal';
 
 interface ISourceModalContainerProps {
   sourceId: string;
   sourceName: string;
-  onClose(): void;
+  onClose: () => void;
 }
 
 export function RemoveSourceModalContainer(props: ISourceModalContainerProps) {

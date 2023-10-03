@@ -6,7 +6,7 @@ import { Button, Classes, EditableText, Intent } from '@blueprintjs/core';
 import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 
-import { GetPage as GetPageQuery, PageInput } from '../../operation-result-types';
+import type { GetPage as GetPageQuery, PageInput } from '../../operation-result-types';
 import RichTextEditor from '../RichTextEditor';
 import SwitchField from './controls/SwitchField';
 
@@ -39,7 +39,7 @@ export class PageForm extends React.Component<IPageFormProps> {
             published: values.published,
           };
 
-          this.props.onSubmit(formData).finally(() => setSubmitting(false));
+          this.props.onSubmit(formData).finally(() => { setSubmitting(false); });
         }}
       >
         {({ values, isSubmitting, setFieldValue }) => (
@@ -81,7 +81,7 @@ export class PageForm extends React.Component<IPageFormProps> {
                 >
                   <EditableText
                     placeholder="Upravit název…"
-                    onChange={(value) => setFieldValue('title', value)}
+                    onChange={(value) => { setFieldValue('title', value); }}
                     value={values.title}
                   />
                 </h2>

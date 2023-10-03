@@ -1,14 +1,15 @@
 import * as React from 'react';
 
 import { css, cx } from 'emotion';
-import { connect, DispatchProp } from 'react-redux';
+import type { DispatchProp } from 'react-redux';
+import { connect } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { Route, Routes, Navigate } from 'react-router';
 import { ModalProvider } from 'react-modal-hook';
 
 import { fetchCurrentUser } from './actions/currentUser';
 import hoffImg from './images/hoff.png';
-import { IState } from './reducers';
+import type { IState } from './reducers';
 
 import { ArticleEdit } from './components/articles/ArticleEdit';
 import { ArticleNew } from './components/articles/ArticleNew';

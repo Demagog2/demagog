@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import {
+import type {
   GetSourceDetail as GetSourceDetailQuery,
   GetSourceDetailVariables,
 } from '../../operation-result-types';
@@ -12,7 +12,8 @@ import { RemoveSourceModalContainer } from './RemoveSourceModalContainer';
 import { useStatementFilters } from './hooks/statement-filters';
 import { SourceDetail } from './SourceDetail';
 import { createSourceFromQuery } from './data-mappers/SourceDataMapper';
-import { EMPTY_SOURCE, ISource } from './model/Source';
+import type { ISource } from './model/Source';
+import { EMPTY_SOURCE } from './model/Source';
 import { SourceDetailPresenter } from './presenters/SourceDetailPresenter';
 import { ASSESSMENT_STATUS_APPROVED } from '../../constants';
 

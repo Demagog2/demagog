@@ -1,17 +1,16 @@
-/* eslint jsx-a11y/anchor-has-content: 0, jsx-a11y/anchor-is-valid: 0 */
-
 import * as React from 'react';
 
 import { Button, Card, Classes } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { ApolloError } from 'apollo-client';
+import type { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
 import { Query } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
+import type { DispatchProp } from 'react-redux';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
-import {
+import type {
   GetSpeakers as GetSpeakersQuery,
   GetSpeakersVariables as GetSpeakersQueryVariables,
 } from '../operation-result-types';
@@ -37,30 +36,29 @@ class Speakers extends React.Component<IProps, IState> {
     confirmDeleteModalSpeakerId: null,
   };
 
-  private onSearchChange = (search: string) => {
+  private readonly onSearchChange = (search: string) => {
     this.setState({ search });
   };
 
-  private showConfirmDeleteModal = (confirmDeleteModalSpeakerId: string) => () => {
+  private readonly showConfirmDeleteModal = (confirmDeleteModalSpeakerId: string) => () => {
     this.setState({ confirmDeleteModalSpeakerId });
   };
 
-  private hideConfirmDeleteModal = () => {
+  private readonly hideConfirmDeleteModal = () => {
     this.setState({ confirmDeleteModalSpeakerId: null });
   };
 
-  private onDeleted = () => {
+  private readonly onDeleted = () => {
     this.props.dispatch(addFlashMessage('Osoba byla úspěšně smazána.', 'success'));
     this.hideConfirmDeleteModal();
   };
 
-  private onDeleteError = (error: ApolloError) => {
+  private readonly onDeleteError = (error: ApolloError) => {
     this.props.dispatch(addFlashMessage('Doško k chybě při mazání osoby', 'error'));
 
-    console.error(error); // tslint:disable-line:no-console
+    console.error(error);
   };
 
-  // tslint:disable-next-line:member-ordering
   public render() {
     const { confirmDeleteModalSpeakerId } = this.state;
 
@@ -169,43 +167,51 @@ class Speakers extends React.Component<IProps, IState> {
                           <li>
                             <span className={Classes.TEXT_MUTED}>Wikidata ID: </span>
                             <p>
-                              {speaker.wikidataId ? (
+                              {speaker.wikidataId
+                                ? (
                                 <a
                                   href={`https://www.wikidata.org/wiki/${speaker.wikidataId}`}
                                   target="_blank"
+                                  rel="noreferrer"
                                 >
                                   {speaker.wikidataId}
                                 </a>
-                              ) : (
-                                '–'
-                              )}
+                                  )
+                                : (
+                                    '–'
+                                  )}
                             </p>
                           </li>
                           <li>
                             <span className={Classes.TEXT_MUTED}>Hlídač státu OsobaID: </span>
                             <p>
-                              {speaker.osobaId ? (
+                              {speaker.osobaId
+                                ? (
                                 <a
                                   href={`https://www.hlidacstatu.cz/osoba/${speaker.osobaId}`}
                                   target="_blank"
+                                  rel="noreferrer"
                                 >
                                   {speaker.osobaId}
                                 </a>
-                              ) : (
-                                '–'
-                              )}
+                                  )
+                                : (
+                                    '–'
+                                  )}
                             </p>
                           </li>
                           <li>
                             <span className={Classes.TEXT_MUTED}>Respektovaný odkaz: </span>
                             <p>
-                              {speaker.websiteUrl ? (
-                                <a href={speaker.websiteUrl} target="_blank">
+                              {speaker.websiteUrl
+                                ? (
+                                <a href={speaker.websiteUrl} target="_blank" rel="noreferrer">
                                   {speaker.websiteUrl}
                                 </a>
-                              ) : (
-                                '–'
-                              )}
+                                  )
+                                : (
+                                    '–'
+                                  )}
                             </p>
                           </li>
                           <li>
@@ -238,8 +244,8 @@ class Speakers extends React.Component<IProps, IState> {
 
                 {props.data.speakers.length > 0 && (
                   <Button
-                    onClick={() =>
-                      props.fetchMore({
+                    onClick={async() =>
+                      await props.fetchMore({
                         variables: {
                           offset: props.data ? props.data.speakers.length : 0,
                         },

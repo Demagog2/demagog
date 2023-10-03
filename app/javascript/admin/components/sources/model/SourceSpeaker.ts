@@ -1,5 +1,5 @@
 export class SourceSpeaker {
-  constructor(private id: string, private firstName: string, private lastName: string) {}
+  constructor(private readonly id: string, private readonly firstName: string, private readonly lastName: string) {}
 
   public getId() {
     return this.id;

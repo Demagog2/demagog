@@ -149,7 +149,6 @@ const codeIcon =
   '" />' +
   '</svg>';
 
-// tslint:disable-next-line:no-unused-expression
 injectGlobal`
   /* Allow interaction in the embed only when the embed is selected */
   .ck-editor__editable:not(.ck-read-only) .ck-widget:not(.ck-widget_selected) .ck-media__wrapper > * {

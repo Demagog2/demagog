@@ -6,11 +6,11 @@ import { PublishedStateStatementFilter } from './PublishedStateStatementFilter';
 import { UnpublishedVerifiedStatementFilter } from './UnpublishedVerifiedStatementFilter';
 import { EvaluatorStatementFilter } from './EvaluatorStatementFilter';
 import { UnassignedEvaluatorStatementFilter } from './UnassignedEvaluatorStatementFilter';
-import { ISource } from '../Source';
-import { Evaluator } from '../Evaluator';
+import type { ISource } from '../Source';
+import type { Evaluator } from '../Evaluator';
 
 export class FiltersFactory {
-  constructor(private source: ISource) {}
+  constructor(private readonly source: ISource) {}
 
   public createFilters() {
     return [
@@ -43,7 +43,7 @@ export class FiltersFactory {
   }
 
   private getEvaluators(): Evaluator[] {
-    const evaluators: Map<string, Evaluator> = new Map();
+    const evaluators = new Map<string, Evaluator>();
     for (const statement of this.source.statements) {
       const evaluator = statement.getEvaluator();
       if (evaluator) {

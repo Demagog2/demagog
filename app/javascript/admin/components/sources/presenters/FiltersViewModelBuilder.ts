@@ -1,5 +1,5 @@
-import { IStatementFilter } from '../model/filters/StatementFilter';
-import { Statement } from '../model/Statement';
+import type { IStatementFilter } from '../model/filters/StatementFilter';
+import type { Statement } from '../model/Statement';
 
 export interface IFilterGroup {
   type: 'filter-group';
@@ -16,9 +16,9 @@ export interface IFilterViewModel {
 
 export class FiltersViewModelBuilder {
   constructor(
-    private filters: IStatementFilter[],
-    private activeFilterKeys: string[],
-    private statements: Statement[],
+    private readonly filters: IStatementFilter[],
+    private readonly activeFilterKeys: string[],
+    private readonly statements: Statement[],
   ) {}
 
   public buildViewModel(): Array<IFilterGroup | IFilterViewModel> {

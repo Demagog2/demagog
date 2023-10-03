@@ -4,7 +4,7 @@ import { Colors } from '@blueprintjs/core';
 import { Query } from 'react-apollo';
 import Select from 'react-select';
 
-import { GetRoles as GetRolesQuery } from '../../../operation-result-types';
+import type { GetRoles as GetRolesQuery } from '../../../operation-result-types';
 import { GetRoles } from '../../../queries/queries';
 
 interface ISelectOption {
@@ -17,8 +17,8 @@ interface IProps {
   error?: object | false;
   id?: string;
   value: string | null;
-  onChange(value: string): void;
-  onBlur(): void;
+  onChange: (value: string) => void;
+  onBlur: () => void;
 }
 
 export default class RoleSelect extends React.Component<IProps> {

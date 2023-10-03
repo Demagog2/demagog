@@ -6,7 +6,7 @@ import { useQuery } from 'react-apollo';
 import { Link } from 'react-router-dom';
 
 import Breadcrumbs from '../Breadcrumbs';
-import * as ResultTypes from '../../operation-result-types';
+import type * as ResultTypes from '../../operation-result-types';
 import { GetWebContents } from '../../queries/queries';
 
 const WebContents = () => {
@@ -41,7 +41,7 @@ const WebContents = () => {
                 <td>{webContent.name}</td>
                 <td>
                   {webContent.urlPath && (
-                    <a href={`https://demagog.cz${webContent.urlPath}`} target="_blank">
+                    <a href={`https://demagog.cz${webContent.urlPath}`} target="_blank" rel="noreferrer">
                       https://demagog.cz{webContent.urlPath}
                     </a>
                   )}

@@ -1,15 +1,17 @@
 import * as React from 'react';
 
-import { Mutation, MutationFunction } from 'react-apollo';
+import type { MutationFunction } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import { uploadSpeakerAvatar } from '../api';
 
-import { ISpeakerFormData, SpeakerForm } from './forms/SpeakerForm';
+import type { ISpeakerFormData } from './forms/SpeakerForm';
+import { SpeakerForm } from './forms/SpeakerForm';
 
-import {
+import type {
   CreateSpeaker as CreateSpeakerMutation,
   CreateSpeakerVariables as CreateSpeakerMutationVariables,
 } from '../operation-result-types';
@@ -31,16 +33,16 @@ export function SpeakerNew() {
   const onError = (error: any) => {
     dispatch(addFlashMessage('Při ukládání došlo k chybě.', 'error'));
 
-    console.error(error); // tslint:disable-line:no-console
+    console.error(error);
   };
 
   const onFormSubmit = (createSpeaker: ICreateSpeakerMutationFn) => {
-    return (speakerFormData: ISpeakerFormData) => {
+    return async(speakerFormData: ISpeakerFormData) => {
       const { avatar, ...speakerInput } = speakerFormData;
 
-      return createSpeaker({ variables: { speakerInput } })
+      await createSpeaker({ variables: { speakerInput } })
         .then((mutationResult) => {
-          if (!mutationResult || !mutationResult.data || !mutationResult.data.createSpeaker) {
+          if (!mutationResult || !mutationResult.data?.createSpeaker) {
             return;
           }
 
@@ -51,9 +53,9 @@ export function SpeakerNew() {
             uploadPromise = uploadSpeakerAvatar(speakerId, avatar);
           }
 
-          uploadPromise.then(() => onCompleted(speakerId));
+          uploadPromise.then(() => { onCompleted(speakerId); });
         })
-        .catch((error) => onError(error));
+        .catch((error) => { onError(error); });
     };
   };
 

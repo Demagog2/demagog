@@ -3,7 +3,7 @@ import * as React from 'react';
 import { sortBy } from 'lodash';
 import { useQuery, useMutation } from 'react-apollo';
 import { captureException } from '@sentry/browser';
-import {
+import type {
   GetUsers as GetUsersQuery,
   GetUsersVariables,
   UpdateUsersRank as UpdateUsersRankMutation,
@@ -19,8 +19,8 @@ export function UsersSortOnAboutUsPageContainer() {
   const { data, loading } = useQuery<GetUsersQuery, GetUsersVariables>(GetUsers);
 
   const [mutate, { loading: saving }] = useMutation<
-    UpdateUsersRankMutation,
-    UpdateUsersRankMutationVariables
+  UpdateUsersRankMutation,
+  UpdateUsersRankMutationVariables
   >(UpdateUsersRank, {
     onCompleted() {
       addFlashMessage('Řazení členů týmu na stránce „O nás“ úspěšně uloženo.', 'success');
@@ -37,7 +37,7 @@ export function UsersSortOnAboutUsPageContainer() {
       isLoading={loading}
       isSaving={saving}
       users={sortBy(data?.users.filter((u) => u.userPublic) ?? [], 'rank')}
-      onSave={(users) => mutate({ variables: { orderedUserIds: users.map((user) => user.id) } })}
+      onSave={async(users) => await mutate({ variables: { orderedUserIds: users.map((user) => user.id) } })}
     />
   );
 }

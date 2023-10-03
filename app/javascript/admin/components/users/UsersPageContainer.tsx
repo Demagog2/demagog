@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery } from 'react-apollo';
 
 import { GetUsers } from '../../queries/queries';
-import { GetUsers as GetUsersQuery, GetUsersVariables } from '../../operation-result-types';
+import type { GetUsers as GetUsersQuery, GetUsersVariables } from '../../operation-result-types';
 import { UsersPage } from './UsersPage';
 
 export function UsersPageContainer() {

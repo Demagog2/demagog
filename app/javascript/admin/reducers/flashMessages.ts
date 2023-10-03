@@ -1,4 +1,4 @@
-import { Action } from '../actions/flashMessages';
+import type { Action } from '../actions/flashMessages';
 
 type IFlashMessagesState = Array<{
   id: string;

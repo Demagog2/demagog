@@ -7,10 +7,11 @@ import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
-import { BodyInput, GetBody as GetBodyQuery } from '../../operation-result-types';
+import type { BodyInput, GetBody as GetBodyQuery } from '../../operation-result-types';
 import BodyLogo from '../BodyLogo';
 import DateField from './controls/DateField';
-import ImageField, { ImageValueType } from './controls/ImageField';
+import type { ImageValueType } from './controls/ImageField';
+import ImageField from './controls/ImageField';
 import SwitchField from './controls/SwitchField';
 import TextField from './controls/TextField';
 import FormGroup from './FormGroup';
@@ -29,18 +30,16 @@ export class BodyForm extends React.Component<IBodyProps> {
   public render() {
     const { body, title } = this.props;
 
-    const initialValues = body
-      ? body
-      : {
-          name: '',
-          shortName: '',
-          link: '',
-          logo: null,
-          isParty: true,
-          foundedAt: null,
-          isInactive: false,
-          terminatedAt: null,
-        };
+    const initialValues = body || {
+      name: '',
+      shortName: '',
+      link: '',
+      logo: null,
+      isParty: true,
+      foundedAt: null,
+      isInactive: false,
+      terminatedAt: null,
+    };
 
     return (
       <Formik

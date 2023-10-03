@@ -1,8 +1,8 @@
 import { Factory } from 'fishery';
 
 class VeracityStatsFactory extends Factory<
-  Array<{ key: string; count: number }>,
-  { true: number; untrue: number; beingEvaluated: number }
+Array<{ key: string; count: number }>,
+{ true: number; untrue: number; beingEvaluated: number }
 > {
   public true(count: number) {
     return this.transient({ true: count });

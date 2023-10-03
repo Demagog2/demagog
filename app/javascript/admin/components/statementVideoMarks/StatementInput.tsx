@@ -1,9 +1,9 @@
 import { Button, Position, Tooltip } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { css } from 'emotion';
-import { FieldProps } from 'formik';
+import type { FieldProps } from 'formik';
 import * as React from 'react';
-import * as ResultTypes from '../../operation-result-types';
+import type * as ResultTypes from '../../operation-result-types';
 import { newlinesToBr } from '../../utils';
 import { VideoMarkInput } from './VideoMarkInput';
 

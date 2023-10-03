@@ -1,8 +1,9 @@
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router';
-import { UserForm, IUserFormData } from '../forms/UserForm';
+import type { IUserFormData } from '../forms/UserForm';
+import { UserForm } from '../forms/UserForm';
 import { useMutation } from 'react-apollo';
-import { CreateUser, CreateUserVariables } from '../../operation-result-types';
+import type { CreateUser, CreateUserVariables } from '../../operation-result-types';
 import { CreateUser as CreateUserMutation } from '../../queries/mutations';
 import { uploadUserAvatar } from '../../api';
 import { useFlashMessage } from '../../hooks/use-flash-messages';
@@ -31,7 +32,7 @@ export function UserNew() {
   const [mutate] = useMutation<CreateUser, CreateUserVariables>(CreateUserMutation);
 
   const onSubmit = useCallback(
-    async (formData: IUserFormData) => {
+    async(formData: IUserFormData) => {
       const { avatar, ...userInput } = formData;
 
       try {

@@ -4,7 +4,7 @@ import { Mutation } from 'react-apollo';
 import { useDispatch } from 'react-redux';
 
 import { addFlashMessage } from '../../actions/flashMessages';
-import {
+import type {
   CreatePage as CreatePageMutation,
   CreatePageVariables as CreatePageMutationVariables,
 } from '../../operation-result-types';
@@ -29,7 +29,6 @@ export function PageNew() {
   const onError = useCallback(
     (error) => {
       dispatch(addFlashMessage('Došlo k chybě při ukládání stránky.', 'error'));
-      // tslint:disable-next-line:no-console
       console.error(error);
     },
     [dispatch],
@@ -41,13 +40,13 @@ export function PageNew() {
         mutation={CreatePage}
         // TODO: is there a nicer way of updating apollo cache after creating?
         refetchQueries={[{ query: GetPages, variables: { title: '', offset: 0, limit: 50 } }]}
-        onCompleted={(data) => data.createPage && onSuccess(data.createPage.page.id)}
+        onCompleted={(data) => { data.createPage && onSuccess(data.createPage.page.id); }}
         onError={onError}
       >
         {(createPage) => {
           return (
             <PageForm
-              onSubmit={(pageInput) => createPage({ variables: { pageInput } })}
+              onSubmit={async(pageInput) => await createPage({ variables: { pageInput } })}
               title="Přidat novou stránku"
               backPath="/admin/pages"
             />

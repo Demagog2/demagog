@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react';
 import { useParams } from 'react-router';
 import Loading from '../Loading';
-import { ArticleTagForm, IArticleTagFormValues } from '../forms/ArticleTagForm';
+import type { IArticleTagFormValues } from '../forms/ArticleTagForm';
+import { ArticleTagForm } from '../forms/ArticleTagForm';
 import { useMutation, useQuery } from 'react-apollo';
 import { useFlashMessage } from '../../hooks/use-flash-messages';
 
-import {
+import type {
   UpdateArticleTag,
   UpdateArticleTagVariables,
   GetArticleTag,
@@ -36,7 +37,7 @@ export function ArticleTagsEditContainer() {
   }, [addFlashMessage]);
 
   const onSubmit = useCallback(
-    async (variables: IArticleTagFormValues) => {
+    async(variables: IArticleTagFormValues) => {
       try {
         await mutate({
           variables: {
@@ -62,11 +63,13 @@ export function ArticleTagsEditContainer() {
 
   return (
     <div style={{ padding: '15px 0 40px 0' }}>
-      {loading ? (
+      {loading
+        ? (
         <Loading />
-      ) : (
+          )
+        : (
         <ArticleTagForm onSubmit={onSubmit} title="Upravit tag" articleTag={data?.articleTag} />
-      )}
+          )}
     </div>
   );
 }

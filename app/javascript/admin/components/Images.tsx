@@ -2,17 +2,19 @@ import * as React from 'react';
 
 import { AnchorButton, Button, Classes, Dialog, Intent } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { ApolloError } from 'apollo-client';
+import type { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
 import * as copy from 'copy-to-clipboard';
 import { Query } from 'react-apollo';
-import Dropzone, { ImageFile } from 'react-dropzone';
-import { connect, DispatchProp } from 'react-redux';
+import type { ImageFile } from 'react-dropzone';
+import Dropzone from 'react-dropzone';
+import type { DispatchProp } from 'react-redux';
+import { connect } from 'react-redux';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import { uploadContentImage } from '../api';
 import apolloClient from '../apolloClient';
-import {
+import type {
   GetContentImages as GetContentImagesQuery,
   GetContentImagesVariables as GetContentImagesQueryVariables,
 } from '../operation-result-types';
@@ -66,7 +68,7 @@ class Images extends React.Component<IProps, IState> {
   public onDeleteError = (error: ApolloError) => {
     this.props.dispatch(addFlashMessage('Doško k chybě při mazání obrázku', 'error'));
 
-    console.error(error); // tslint:disable-line:no-console
+    console.error(error);
   };
 
   public showZoomed = (id: string) => {
@@ -84,8 +86,8 @@ class Images extends React.Component<IProps, IState> {
       this.setState({ isAdding: true });
 
       uploadContentImage(imageFile)
-        .then(() =>
-          apolloClient.query({
+        .then(async() =>
+          await apolloClient.query({
             query: GetContentImages,
             variables: { name: '', offset: 0, limit: IMAGES_PER_PAGE },
             fetchPolicy: 'network-only',
@@ -112,7 +114,7 @@ class Images extends React.Component<IProps, IState> {
 
           this.setState({ isAdding: false });
 
-          console.error(error); // tslint:disable-line:no-console
+          console.error(error);
         });
     }
   };
@@ -179,8 +181,7 @@ class Images extends React.Component<IProps, IState> {
               }
 
               if (error) {
-                console.error(error); // tslint:disable-line:no-console
-
+                console.error(error);
                 return null;
               }
 
@@ -236,7 +237,7 @@ class Images extends React.Component<IProps, IState> {
                       <a
                         href={zoomedContentImage.image}
                         target="_blank"
-                        style={{ alignSelf: 'center', marginTop: 20 }}
+                        style={{ alignSelf: 'center', marginTop: 20 }} rel="noreferrer"
                       >
                         Veřejný odkaz
                       </a>
@@ -245,7 +246,8 @@ class Images extends React.Component<IProps, IState> {
 
                   <p>
                     Zobrazuji
-                    {data.contentImages.totalCount > data.contentImages.items.length ? (
+                    {data.contentImages.totalCount > data.contentImages.items.length
+                      ? (
                       <>
                         {' '}
                         <strong>
@@ -255,12 +257,13 @@ class Images extends React.Component<IProps, IState> {
                         </strong>{' '}
                         z <strong>celkových {data.contentImages.totalCount}</strong>
                       </>
-                    ) : (
+                        )
+                      : (
                       <>
                         {' '}
                         <strong>všech {data.contentImages.totalCount} obrázků</strong>
                       </>
-                    )}
+                        )}
                     {this.state.search && <> vyhovujících hledání</>}
                   </p>
 
@@ -292,7 +295,7 @@ class Images extends React.Component<IProps, IState> {
                                 justifyContent: 'center',
                                 cursor: 'zoom-in',
                               }}
-                              onClick={() => this.showZoomed(contentImage.id)}
+                              onClick={() => { this.showZoomed(contentImage.id); }}
                             >
                               <img src={contentImage.image50x50} style={{ alignSelf: 'center' }} />
                             </div>
@@ -300,14 +303,16 @@ class Images extends React.Component<IProps, IState> {
                           <td style={{ wordBreak: 'break-word' }}>{contentImage.name}</td>
                           <td>{displayDateTime(contentImage.createdAt)}</td>
                           <td>
-                            {contentImage.user ? (
+                            {contentImage.user
+                              ? (
                               `${contentImage.user.firstName} ${contentImage.user.lastName}`
-                            ) : (
+                                )
+                              : (
                               <span className={Classes.TEXT_MUTED}>Chybí</span>
-                            )}
+                                )}
                           </td>
                           <td>
-                            <a href={contentImage.image} target="_blank">
+                            <a href={contentImage.image} target="_blank" rel="noreferrer">
                               Veřejný odkaz
                             </a>
                           </td>

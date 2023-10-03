@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from 'emotion';
 import { Colors } from '@blueprintjs/core';
-import { IStatsReportViewModel } from './IStatsReportViewModel';
+import type { IStatsReportViewModel } from './IStatsReportViewModel';
 
 export function SpeakersStats(props: { statsReports: IStatsReportViewModel[] }) {
   return (

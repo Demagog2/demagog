@@ -1,6 +1,6 @@
 import { SpeakerStatsReportBuilder } from './SpeakerStatsReportBuilder';
-import { SourceSpeaker } from '../model/SourceSpeaker';
-import { Statement } from '../model/Statement';
+import { type SourceSpeaker } from '../model/SourceSpeaker';
+import { type Statement } from '../model/Statement';
 import { statementFactory } from '../model/StatementFactory';
 import { veracityStatsFactory } from './model/VeracityStatsFactory';
 import { promiseRatingStatsFactory } from './model/PromiseRatingStatsFactory';

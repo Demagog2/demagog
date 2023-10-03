@@ -12,7 +12,7 @@ import {
 } from '@blueprintjs/core';
 import { useParams } from 'react-router';
 import { IconNames } from '@blueprintjs/icons';
-import { ApolloError } from 'apollo-client';
+import type { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
 import { css } from 'emotion';
 import { Formik } from 'formik';
@@ -29,17 +29,19 @@ import {
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
   STATEMENT_TYPES,
 } from '../constants';
-import {
-  AssessmentMethodologyRatingModel,
+import type {
   GetStatement as GetStatementQuery,
-  StatementType,
   UpdateStatement as UpdateStatementMutation,
   UpdateStatementInput,
   UpdateStatementVariables as UpdateStatementMutationVariables,
 } from '../operation-result-types';
+import {
+  AssessmentMethodologyRatingModel,
+  StatementType,
+} from '../operation-result-types';
 import { UpdateStatement } from '../queries/mutations';
 import { GetStatement } from '../queries/queries';
-import { IState as ReduxState } from '../reducers';
+import type { IState as ReduxState } from '../reducers';
 import { displayDate, newlinesToBr } from '../utils';
 import PromiseRatingSelect from './forms/controls/PromiseRatingSelect';
 import SelectComponentField from './forms/controls/SelectComponentField';
@@ -108,14 +110,14 @@ function StatementDetail(props: IProps) {
     <Query<GetStatementQuery> query={GetStatement} variables={{ id: parseInt(statementId, 10) }}>
       {({ data, loading, error, stopPolling, startPolling }) => {
         if (error) {
-          console.error(error); // tslint:disable-line:no-console
+          console.error(error);
         }
 
-        if (loading && (!data || !data.statement)) {
+        if (loading && (!data?.statement)) {
           return <Loading />;
         }
 
-        if (!data || !data.statement) {
+        if (!data?.statement) {
           return null;
         }
 
@@ -227,7 +229,7 @@ function StatementDetail(props: IProps) {
                             'error',
                           ),
                         );
-                        console.error(mutationError); // tslint:disable-line:no-console
+                        console.error(mutationError);
                       })
                       .finally(() => {
                         updateStatementPromise.current = null;
@@ -381,7 +383,8 @@ function StatementDetail(props: IProps) {
                         <div style={{ flex: '2 0' }}>
                           <div style={{ display: 'flex' }}>
                             <div style={{ flex: '0 0 auto', marginRight: 50 }}>
-                              {canEditStatement ? (
+                              {canEditStatement
+                                ? (
                                 <BlueprintFormGroup
                                   label="Řečník"
                                   labelFor="source_speaker_id"
@@ -397,29 +400,33 @@ function StatementDetail(props: IProps) {
                                     }
                                   />
                                 </BlueprintFormGroup>
-                              ) : (
+                                  )
+                                : (
                                 <h5 className={Classes.HEADING}>
                                   {statement.sourceSpeaker.firstName}{' '}
                                   {statement.sourceSpeaker.lastName}
                                 </h5>
-                              )}
+                                  )}
                             </div>
                             {[StatementType.promise].includes(statement.statementType) && (
                               <div style={{ flex: '1 1 0', marginRight: 15 }}>
-                                {canEditStatement ? (
+                                {canEditStatement
+                                  ? (
                                   <FormGroup label="Titulek" name="title" inline>
                                     <TextField name="title" />
                                   </FormGroup>
-                                ) : (
+                                    )
+                                  : (
                                   <p>Titulek: {values.title}</p>
-                                )}
+                                    )}
                               </div>
                             )}
                             {[StatementType.promise, StatementType.factual].includes(
                               statement.statementType,
                             ) && (
                               <div style={{ flex: '1 0 0px' }}>
-                                {canEditStatement ? (
+                                {canEditStatement
+                                  ? (
                                   <FormGroup
                                     label="Štítky"
                                     name="tags"
@@ -439,16 +446,18 @@ function StatementDetail(props: IProps) {
                                       )}
                                     </SelectComponentField>
                                   </FormGroup>
-                                ) : (
+                                    )
+                                  : (
                                   <p>
                                     Štítky: {statement.tags.map((t) => t.name).join(', ')}
                                     {statement.tags.length === 0 ? 'Žádné' : null}
                                   </p>
-                                )}
+                                    )}
                               </div>
                             )}
                           </div>
-                          {canEditStatement ? (
+                          {canEditStatement
+                            ? (
                             <textarea
                               className={classNames(Classes.INPUT, Classes.FILL)}
                               style={{ marginBottom: 5 }}
@@ -458,9 +467,10 @@ function StatementDetail(props: IProps) {
                               onBlur={handleBlur}
                               value={values.content || ''}
                             />
-                          ) : (
+                              )
+                            : (
                             <p>{newlinesToBr(values.content)}</p>
-                          )}
+                              )}
                           <p className={Classes.TEXT_MUTED}>
                             Diskuze: {statement.source.name}, {statement.source.medium?.name} ze dne{' '}
                             {statement.source.releasedAt
@@ -474,27 +484,28 @@ function StatementDetail(props: IProps) {
                                     .map((p) => p.name)
                                     .join(' & ')}
                                 </>
-                              )}
+                            )}
                             {statement.source.sourceUrl && (
                               <>
                                 ,{' '}
-                                <a href={statement.source.sourceUrl} target="_blank">
+                                <a href={statement.source.sourceUrl} target="_blank" rel="noreferrer">
                                   odkaz
                                 </a>
                               </>
                             )}
                             {' — '}
-                            {statement.statementTranscriptPosition ? (
+                            {statement.statementTranscriptPosition
+                              ? (
                               <a
-                                // tslint:disable-next-line:max-line-length
-                                href={`/admin/sources/${statement.source.id}/statements-from-transcript?highlightStatementId=${statement.id}`}
-                                target="_blank"
+                                                               href={`/admin/sources/${statement.source.id}/statements-from-transcript?highlightStatementId=${statement.id}`}
+                                target="_blank" rel="noreferrer"
                               >
                                 Ukázat výrok v kontextu přepisu
                               </a>
-                            ) : (
+                                )
+                              : (
                               <>Výrok nelze ukázat v kontextu přepisu, je vytvořený ručně</>
-                            )}
+                                )}
                           </p>
 
                           <hr
@@ -513,7 +524,8 @@ function StatementDetail(props: IProps) {
                               {statement.assessment.assessmentMethodology.ratingModel ===
                                 AssessmentMethodologyRatingModel.veracity && (
                                 <>
-                                  {canEditVeracity ? (
+                                  {canEditVeracity
+                                    ? (
                                     <BlueprintFormGroup label="Hodnocení" labelFor="veracity">
                                       <VeracitySelect
                                         id="veracity"
@@ -521,14 +533,14 @@ function StatementDetail(props: IProps) {
                                           values.assessment.evaluation_status ===
                                           ASSESSMENT_STATUS_APPROVED
                                         }
-                                        onChange={(value) =>
-                                          setFieldValue('assessment.veracity_id', value)
+                                        onChange={(value) => { setFieldValue('assessment.veracity_id', value); }
                                         }
-                                        onBlur={() => setFieldTouched('assessment.veracity_id')}
+                                        onBlur={() => { setFieldTouched('assessment.veracity_id'); }}
                                         value={values.assessment.veracity_id}
                                       />
                                     </BlueprintFormGroup>
-                                  ) : (
+                                      )
+                                    : (
                                     <p>
                                       {!statement.assessment.veracity && 'Zatím nehodnoceno'}
 
@@ -545,14 +557,15 @@ function StatementDetail(props: IProps) {
                                         </span>
                                       )}
                                     </p>
-                                  )}
+                                      )}
                                 </>
                               )}
 
                               {statement.assessment.assessmentMethodology.ratingModel ===
                                 AssessmentMethodologyRatingModel.promise_rating && (
                                 <>
-                                  {canEditPromiseRating ? (
+                                  {canEditPromiseRating
+                                    ? (
                                     <BlueprintFormGroup
                                       label="Hodnocení slibu"
                                       labelFor="promise-rating"
@@ -563,11 +576,9 @@ function StatementDetail(props: IProps) {
                                           values.assessment.evaluation_status ===
                                           ASSESSMENT_STATUS_APPROVED
                                         }
-                                        onChange={(value) =>
-                                          setFieldValue('assessment.promise_rating_id', value)
+                                        onChange={(value) => { setFieldValue('assessment.promise_rating_id', value); }
                                         }
-                                        onBlur={() =>
-                                          setFieldTouched('assessment.promise_rating_id')
+                                        onBlur={() => { setFieldTouched('assessment.promise_rating_id'); }
                                         }
                                         value={values.assessment.promise_rating_id}
                                         allowedKeys={
@@ -575,7 +586,8 @@ function StatementDetail(props: IProps) {
                                         }
                                       />
                                     </BlueprintFormGroup>
-                                  ) : (
+                                      )
+                                    : (
                                     <p>
                                       {!statement.assessment.promiseRating && 'Zatím nehodnoceno'}
 
@@ -594,11 +606,12 @@ function StatementDetail(props: IProps) {
                                         </span>
                                       )}
                                     </p>
-                                  )}
+                                      )}
                                 </>
                               )}
 
-                              {canEditExplanations ? (
+                              {canEditExplanations
+                                ? (
                                 <BlueprintFormGroup
                                   label="Odůvodnění zkráceně"
                                   labelFor="assessment-short-explanation"
@@ -620,14 +633,16 @@ function StatementDetail(props: IProps) {
                                     maxLength={280}
                                   />
                                 </BlueprintFormGroup>
-                              ) : (
+                                  )
+                                : (
                                 <>
                                   <h6 className={Classes.HEADING}>Odůvodnění zkráceně</h6>
                                   <p>{values.assessment.short_explanation}</p>
                                 </>
-                              )}
+                                  )}
 
-                              {canEditExplanations ? (
+                              {canEditExplanations
+                                ? (
                                 <BlueprintFormGroup
                                   label="Odůvodnění"
                                   labelFor="assessment-explanation"
@@ -641,7 +656,8 @@ function StatementDetail(props: IProps) {
                                     headings={false}
                                   />
                                 </BlueprintFormGroup>
-                              ) : (
+                                  )
+                                : (
                                 <>
                                   <h6 className={Classes.HEADING}>Odůvodnění</h6>
                                   <div
@@ -665,7 +681,7 @@ function StatementDetail(props: IProps) {
                                     `}
                                   />
                                 </>
-                              )}
+                                  )}
                             </>
                           )}
                           {!canEditVeracity &&
@@ -676,7 +692,7 @@ function StatementDetail(props: IProps) {
                                 Hodnocení a odůvodnění tohoto výroku můžete vidět teprve až po
                                 schválení
                               </Callout>
-                            )}
+                          )}
 
                           <div
                             style={{
@@ -685,7 +701,8 @@ function StatementDetail(props: IProps) {
                               marginTop: 30,
                             }}
                           >
-                            {canEditStatement ? (
+                            {canEditStatement
+                              ? (
                               <FormGroup
                                 label="Tagy"
                                 name="articleTags"
@@ -700,12 +717,13 @@ function StatementDetail(props: IProps) {
                                   {(renderProps) => <ArticleTagsSelect {...renderProps} />}
                                 </SelectComponentField>
                               </FormGroup>
-                            ) : (
+                                )
+                              : (
                               <p>
                                 Tagy: {statement.articleTags.map((t) => t.title).join(', ')}
                                 {statement.articleTags.length === 0 ? 'Žádné' : null}
                               </p>
-                            )}
+                                )}
                           </div>
                         </div>
 
@@ -729,8 +747,7 @@ function StatementDetail(props: IProps) {
                                 enabledChanges={canEditStatusTo}
                                 tooltipContent={statusTooltipContent}
                                 value={values.assessment.evaluation_status}
-                                onChange={(value) =>
-                                  setFieldValue('assessment.evaluation_status', value)
+                                onChange={(value) => { setFieldValue('assessment.evaluation_status', value); }
                                 }
                               />
                             </div>
@@ -758,10 +775,9 @@ function StatementDetail(props: IProps) {
                               {/* TODO: add tooltip to explain when the user select is disabled? */}
                               <UserSelect
                                 disabled={!canEditEvaluator}
-                                onChange={(value) =>
-                                  setFieldValue('assessment.evaluator_id', value)
+                                onChange={(value) => { setFieldValue('assessment.evaluator_id', value); }
                                 }
-                                onBlur={() => setFieldTouched('assessment.evaluator_id')}
+                                onBlur={() => { setFieldTouched('assessment.evaluator_id'); }}
                                 value={values.assessment.evaluator_id}
                               />
                             </div>
@@ -811,7 +827,7 @@ function StatementDetail(props: IProps) {
                                   >
                                     Veřejný odkaz
                                   </a>
-                                )}
+                              )}
                             </div>
                           </div>
 

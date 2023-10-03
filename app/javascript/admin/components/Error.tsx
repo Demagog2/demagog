@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ApolloError } from 'apollo-client';
+import type { ApolloError } from 'apollo-client';
 
 interface IErrorProps {
   error: ApolloError;

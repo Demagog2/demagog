@@ -1,12 +1,13 @@
 import * as React from 'react';
 
-import { Mutation, MutationFunction } from 'react-apollo';
+import type { MutationFunction } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { addFlashMessage } from '../../actions/flashMessages';
 import { uploadArticleIllustration } from '../../api';
-import {
+import type {
   ArticleInput,
   CreateArticle as CreateArticleMutation,
   CreateArticleVariables as CreateArticleMutationVariables,
@@ -16,8 +17,8 @@ import { GetArticles } from '../../queries/queries';
 import { ArticleForm } from './ArticleForm';
 
 type CreateArticleMutationFn = MutationFunction<
-  CreateArticleMutation,
-  CreateArticleMutationVariables
+CreateArticleMutation,
+CreateArticleMutationVariables
 >;
 
 export function ArticleNew() {
@@ -32,18 +33,17 @@ export function ArticleNew() {
 
   const onError = (error) => {
     dispatch(addFlashMessage('Došlo k chybě při ukládání článku', 'error'));
-    // tslint:disable-next-line:no-console
     console.error(error);
   };
 
-  const onSubmit = (createArticle: CreateArticleMutationFn) => (
+  const onSubmit = (createArticle: CreateArticleMutationFn) => async(
     articleFormData: ArticleInput & { illustration?: File },
   ) => {
     const { illustration, ...articleInput } = articleFormData;
 
-    return createArticle({ variables: { articleInput } })
-      .then((mutationResult) => {
-        if (!mutationResult || !mutationResult.data || !mutationResult.data.createArticle) {
+    await createArticle({ variables: { articleInput } })
+      .then(async(mutationResult) => {
+        if (!mutationResult || !mutationResult.data?.createArticle) {
           return;
         }
 
@@ -55,9 +55,9 @@ export function ArticleNew() {
           uploadPromise = uploadArticleIllustration(articleId, illustration);
         }
 
-        return uploadPromise.then(() => onSuccess(articleId));
+        await uploadPromise.then(() => { onSuccess(articleId); });
       })
-      .catch((error) => onError(error));
+      .catch((error) => { onError(error); });
   };
 
   return (

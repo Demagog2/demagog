@@ -4,7 +4,7 @@ import { Colors } from '@blueprintjs/core';
 import { Query } from 'react-apollo';
 import Select from 'react-select';
 
-import { GetSpeakerBodies as GetSpeakerBodiesQuery } from '../../../operation-result-types';
+import type { GetSpeakerBodies as GetSpeakerBodiesQuery } from '../../../operation-result-types';
 import { GetSpeakerBodies } from '../../../queries/queries';
 
 interface ISelectOption {
@@ -18,8 +18,8 @@ interface IProps {
   id?: string;
   isClearable?: boolean;
   value: string | null;
-  onChange(value: string | null): void;
-  onBlur(): void;
+  onChange: (value: string | null) => void;
+  onBlur: () => void;
 }
 
 export default class BodySelect extends React.Component<IProps> {

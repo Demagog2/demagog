@@ -1,4 +1,4 @@
-import { GetSourceDetail_statements } from '../../../operation-result-types';
+import type { GetSourceDetail_statements } from '../../../operation-result-types';
 import { Statement } from '../model/Statement';
 import { Evaluator } from '../model/Evaluator';
 import { SourceSpeaker } from '../model/SourceSpeaker';
@@ -20,10 +20,10 @@ export function createStatementFromQuery(statement: GetSourceDetail_statements) 
     statement.commentsCount,
     statement.assessment.evaluator
       ? new Evaluator(
-          statement.assessment.evaluator?.id,
-          statement.assessment.evaluator?.firstName,
-          statement.assessment.evaluator?.lastName,
-        )
+        statement.assessment.evaluator?.id,
+        statement.assessment.evaluator?.firstName,
+        statement.assessment.evaluator?.lastName,
+      )
       : null,
     statement.assessment.veracity?.key,
     statement.assessment.promiseRating?.key,

@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
-import { ArticleTagForm, IArticleTagFormValues } from '../forms/ArticleTagForm';
-import * as ResultTypes from '../../operation-result-types';
+import type { IArticleTagFormValues } from '../forms/ArticleTagForm';
+import { ArticleTagForm } from '../forms/ArticleTagForm';
+import type * as ResultTypes from '../../operation-result-types';
 import { useMutation } from 'react-apollo';
 import { useNavigate } from 'react-router-dom';
 import { CreateArticleTag } from '../../queries/mutations';
@@ -24,7 +25,7 @@ export function ArticleTagsNewContainer() {
   );
 
   const onSubmit = useCallback(
-    async (variables: IArticleTagFormValues) => {
+    async(variables: IArticleTagFormValues) => {
       await mutate({
         variables: {
           articleTagInput: {

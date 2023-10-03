@@ -165,8 +165,7 @@ const createEditorConfiguration = ({ headings }: { headings: boolean }) => ({
         },
         // Czech single quotes
         {
-          from: buildQuotesRegExp("'"), // tslint:disable-line:quotemark
-          to: [null, '‚', null, '‘'],
+          from: buildQuotesRegExp("'"), to: [null, '‚', null, '‘'],
         },
       ],
     },
@@ -186,7 +185,6 @@ const createEditorConfiguration = ({ headings }: { headings: boolean }) => ({
   // },
 });
 
-// tslint:disable-next-line:max-line-length
 // From https://github.com/ckeditor/ckeditor5-typing/blob/cd4fa3ea2dcd5789e91fae92d7f220ef850cc7b6/src/texttransformation.js
 function buildQuotesRegExp(quoteCharacter) {
   return new RegExp(`(^|\\s)(${quoteCharacter})([^${quoteCharacter}]*)(${quoteCharacter})$`);
@@ -209,7 +207,6 @@ function NonBreakableSpaceKeystrokes(editor) {
   // TODO: Add also for alt+0160 on Windows
 }
 
-// tslint:disable-next-line:no-unused-expression
 injectGlobal`
   .ck-content .image {
     margin-left: 0;

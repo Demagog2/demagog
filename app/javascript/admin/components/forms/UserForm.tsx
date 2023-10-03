@@ -7,9 +7,10 @@ import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
-import { GetUser as GetUserQuery, UserInput } from '../../operation-result-types';
+import type { GetUser as GetUserQuery, UserInput } from '../../operation-result-types';
 import SpeakerAvatar from '../SpeakerAvatar';
-import ImageField, { ImageValueType } from './controls/ImageField';
+import type { ImageValueType } from './controls/ImageField';
+import ImageField from './controls/ImageField';
 import RoleSelect from './controls/RoleSelect';
 import SelectComponentField from './controls/SelectComponentField';
 import SwitchField from './controls/SwitchField';

@@ -1,10 +1,11 @@
 import * as React from 'react';
 
-import { Mutation, Query, MutationFunction } from 'react-apollo';
+import type { MutationFunction } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import { useDispatch } from 'react-redux';
 
 import { addFlashMessage } from '../../actions/flashMessages';
-import {
+import type {
   GetPage as GetPageQuery,
   GetPageVariables as GetPageQueryVariables,
   PageInput,
@@ -31,19 +32,18 @@ export function PageEdit() {
   const onError = useCallback(
     (error) => {
       dispatch(addFlashMessage('Došlo k chybě při ukládání stránky.', 'error'));
-      // tslint:disable-next-line:no-console
       console.error(error);
     },
     [dispatch],
   );
 
   const onSubmit = useCallback(
-    (updatePage: UpdatePageMutationFn) => (pageInput: PageInput) => {
+    (updatePage: UpdatePageMutationFn) => async(pageInput: PageInput) => {
       const id = params.id ?? '';
 
-      return updatePage({ variables: { id, pageInput } })
-        .then(() => onSuccess())
-        .catch((error) => onError(error));
+      await updatePage({ variables: { id, pageInput } })
+        .then(() => { onSuccess(); })
+        .catch((error) => { onError(error); });
     },
     [],
   );

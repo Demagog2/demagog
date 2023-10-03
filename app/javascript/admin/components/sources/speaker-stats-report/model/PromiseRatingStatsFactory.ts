@@ -1,8 +1,8 @@
 import { Factory } from 'fishery';
 
 class PromiseRatingStatsFactory extends Factory<
-  Array<{ key: string; count: number }>,
-  { broken: number; fulfilled: number; inProgress: number }
+Array<{ key: string; count: number }>,
+{ broken: number; fulfilled: number; inProgress: number }
 > {
   public broken(count: number) {
     return this.transient({ broken: count });

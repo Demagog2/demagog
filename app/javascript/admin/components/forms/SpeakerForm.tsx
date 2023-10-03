@@ -8,11 +8,12 @@ import { FieldArray, Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
-import { GetSpeaker as GetSpeakerQuery, SpeakerInput } from '../../operation-result-types';
+import type { GetSpeaker as GetSpeakerQuery, SpeakerInput } from '../../operation-result-types';
 import SpeakerAvatar from '../SpeakerAvatar';
 import BodySelect from './controls/BodySelect';
 import DateField from './controls/DateField';
-import ImageField, { ImageValueType } from './controls/ImageField';
+import type { ImageValueType } from './controls/ImageField';
+import ImageField from './controls/ImageField';
 import SelectComponentField from './controls/SelectComponentField';
 import TextField from './controls/TextField';
 import FormGroup from './FormGroup';
@@ -214,8 +215,7 @@ export class SpeakerForm extends React.Component<ISpeakerFormProps> {
                         </div>
                       ))}
                       <Button
-                        onClick={() =>
-                          arrayHelpers.push({ body_id: null, since: null, until: null })
+                        onClick={() => { arrayHelpers.push({ body_id: null, since: null, until: null }); }
                         }
                         icon={IconNames.PLUS}
                         text="Přidat příslušnost ke straně nebo skupině"

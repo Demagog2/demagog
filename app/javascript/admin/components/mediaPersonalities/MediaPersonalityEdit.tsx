@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Mutation, MutationFunction, Query } from 'react-apollo';
+import type { MutationFunction } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import { addFlashMessage } from '../../actions/flashMessages';
-import {
+import type {
   GetMediaPersonality as GetMediaPersonalityQuery,
   GetMediaPersonalityVariables as GetMediaPersonalityQueryVariables,
   MediaPersonalityInput,
@@ -20,8 +21,8 @@ import { MediaPersonalityForm } from '../forms/MediaPersonalityForm';
 import Loading from '../Loading';
 
 type UpdateMediaPersonalityMutationFn = MutationFunction<
-  UpdateMediaPersonalityMutation,
-  UpdateMediaPersonalityMutationVariables
+UpdateMediaPersonalityMutation,
+UpdateMediaPersonalityMutationVariables
 >;
 
 export function MediaPersonalityEdit() {
@@ -34,18 +35,17 @@ export function MediaPersonalityEdit() {
 
   const onError = (error) => {
     dispatch(addFlashMessage('Došlo k chybě při ukládání moderátora.', 'error'));
-    // tslint:disable-next-line:no-console
     console.error(error);
   };
 
-  const onSubmit = (updateMediaPersonality: UpdateMediaPersonalityMutationFn) => (
+  const onSubmit = (updateMediaPersonality: UpdateMediaPersonalityMutationFn) => async(
     mediaPersonalityInput: MediaPersonalityInput,
   ) => {
     const id = params.id ?? '';
 
-    return updateMediaPersonality({ variables: { id, mediaPersonalityInput } })
-      .then(() => onSuccess())
-      .catch((error) => onError(error));
+    await updateMediaPersonality({ variables: { id, mediaPersonalityInput } })
+      .then(() => { onSuccess(); })
+      .catch((error) => { onError(error); });
   };
 
   return (

@@ -6,7 +6,7 @@ import TextField from './controls/TextField';
 import TextareaField from './controls/TextareaField';
 import SwitchField from './controls/SwitchField';
 import SelectField from '../forms/controls/SelectField';
-import { GetArticleTag as GetArticleTagQuery } from '../../operation-result-types';
+import type { GetArticleTag as GetArticleTagQuery } from '../../operation-result-types';
 import FormGroup from './FormGroup';
 import * as yup from 'yup';
 
@@ -63,7 +63,7 @@ export class ArticleTagForm extends React.Component<IArticleTagFormProps> {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting }) => {
-          this.props.onSubmit(values).finally(() => setSubmitting(false));
+          this.props.onSubmit(values).finally(() => { setSubmitting(false); });
         }}
       >
         {({ isSubmitting }) => (

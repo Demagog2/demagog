@@ -7,7 +7,7 @@ import bodyLogoPlaceholder from 'admin/images/body_logo_placeholder.png';
 interface IArticleIllustrationProps {
   illustration: string | null;
   title: string;
-  onClick?(): void;
+  onClick?: () => void;
 }
 
 export default function ArticleIllustration(props: IArticleIllustrationProps) {

@@ -1,7 +1,9 @@
-import { ActionsObservable, ofType } from 'redux-observable';
+import type { ActionsObservable } from 'redux-observable';
+import { ofType } from 'redux-observable';
 import { delay, map } from 'rxjs/operators';
 
-import { Action, removeFlashMessage } from '../actions/flashMessages';
+import type { Action } from '../actions/flashMessages';
+import { removeFlashMessage } from '../actions/flashMessages';
 
 export default (action$: ActionsObservable<Action>) =>
   action$.pipe(

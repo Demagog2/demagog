@@ -6,7 +6,7 @@ import { css } from 'emotion';
 import { Formik } from 'formik';
 import { Query } from 'react-apollo';
 
-import {
+import type {
   GetStatement as GetStatementQuery,
   GetStatementVariables as GetStatementQueryVariables,
 } from '../../operation-result-types';
@@ -30,7 +30,7 @@ interface ISingleStatementSegment {
 
 interface IProps {
   segment: ISingleStatementSegment;
-  onChange(segment: ISingleStatementSegment): void;
+  onChange: (segment: ISingleStatementSegment) => void;
 }
 
 interface IState {
@@ -46,7 +46,7 @@ export default class ArticleSingleStatementSegment extends React.Component<IProp
     };
   }
 
-  public toggleDialog = () => this.setState({ isDialogOpen: !this.state.isDialogOpen });
+  public toggleDialog = () => { this.setState({ isDialogOpen: !this.state.isDialogOpen }); };
 
   public render() {
     return (
@@ -106,7 +106,7 @@ function StatementPreview({ statementId }: IStatementPreviewProps) {
           return <Loading />;
         }
 
-        if (!props.data || !props.data.statement) {
+        if (!props.data?.statement) {
           return <div>Výrok s ID {statementId} nenalezen. Je ID správné? Je výrok zveřejněný?</div>;
         }
 
@@ -233,8 +233,8 @@ function StatementPreview({ statementId }: IStatementPreviewProps) {
 class SelectStatementDialog extends React.Component<{
   statementId: string | null;
   isOpen: boolean;
-  onSelect(statementId: string): any;
-  onCancel(): any;
+  onSelect: (statementId: string) => any;
+  onCancel: () => any;
 }> {
   public render() {
     return (

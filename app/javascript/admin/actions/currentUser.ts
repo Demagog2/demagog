@@ -1,4 +1,4 @@
-import { GetCurrentUser_currentUser } from '../operation-result-types';
+import type { GetCurrentUser_currentUser } from '../operation-result-types';
 
 export type CurrentUser = GetCurrentUser_currentUser;
 

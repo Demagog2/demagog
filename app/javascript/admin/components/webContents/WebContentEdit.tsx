@@ -12,7 +12,7 @@ import TextField from '../forms/controls/TextField';
 import RichTextEditorField from '../forms/controls/RichTextEditorField';
 import FormGroup from '../forms/FormGroup';
 import Breadcrumbs from '../Breadcrumbs';
-import * as ResultTypes from '../../operation-result-types';
+import type * as ResultTypes from '../../operation-result-types';
 import { GetWebContent } from '../../queries/queries';
 import { UpdateWebContent } from '../../queries/mutations';
 
@@ -23,16 +23,16 @@ const WebContentEdit = () => {
   const webContentId = params.id;
 
   const { data: dataGetWebContent } = useQuery<
-    ResultTypes.GetWebContent,
-    ResultTypes.GetWebContentVariables
+  ResultTypes.GetWebContent,
+  ResultTypes.GetWebContentVariables
   >(GetWebContent, {
     fetchPolicy: 'cache-and-network',
     variables: { id: webContentId || '' },
   });
 
   const [mutateUpdateWebContent] = useMutation<
-    ResultTypes.UpdateWebContent,
-    ResultTypes.UpdateWebContentVariables
+  ResultTypes.UpdateWebContent,
+  ResultTypes.UpdateWebContentVariables
   >(UpdateWebContent);
 
   if (!dataGetWebContent) {
@@ -65,7 +65,7 @@ const WebContentEdit = () => {
                 },
               },
             }).then(() => {
-              dispatch(addFlashMessage(`Obsah úspěšně uložen`, 'success'));
+              dispatch(addFlashMessage('Obsah úspěšně uložen', 'success'));
               setSubmitting(false);
             });
           }}
@@ -92,7 +92,7 @@ const WebContentEdit = () => {
                     <h4 className={Classes.HEADING}>URL obsahu</h4>
                   </FormSectionTitleDiv>
                   <FormSectionContentDiv>
-                    <a href={`https://demagog.cz${webContent.urlPath}`} target="_blank">
+                    <a href={`https://demagog.cz${webContent.urlPath}`} target="_blank" rel="noreferrer">
                       https://demagog.cz{webContent.urlPath}
                     </a>
                   </FormSectionContentDiv>

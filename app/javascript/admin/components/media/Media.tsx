@@ -1,17 +1,16 @@
-/* eslint jsx-a11y/anchor-has-content: 0, jsx-a11y/anchor-is-valid: 0 */
-
 import * as React from 'react';
 
 import { Button, Classes } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { ApolloError } from 'apollo-client';
+import type { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
 import { Query } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
+import type { DispatchProp } from 'react-redux';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../../actions/flashMessages';
-import {
+import type {
   GetMedia as GetMediaQueryResult,
   GetMediaVariables as GetMediaQueryVariables,
 } from '../../operation-result-types';
@@ -35,24 +34,24 @@ class Media extends React.Component<IProps, IState> {
     confirmDeleteModalMediumId: null,
   };
 
-  private onSearchChange = (search: string) => {
+  private readonly onSearchChange = (search: string) => {
     this.setState({ search });
   };
 
-  private showConfirmDeleteModal = (confirmDeleteModalMediumId: string) => () => {
+  private readonly showConfirmDeleteModal = (confirmDeleteModalMediumId: string) => () => {
     this.setState({ confirmDeleteModalMediumId });
   };
 
-  private hideConfirmDeleteModal = () => {
+  private readonly hideConfirmDeleteModal = () => {
     this.setState({ confirmDeleteModalMediumId: null });
   };
 
-  private onDeleted = () => {
+  private readonly onDeleted = () => {
     this.props.dispatch(addFlashMessage('Pořad byl úspěšně smazán.', 'success'));
     this.hideConfirmDeleteModal();
   };
 
-  private onDeleteError = (error: ApolloError) => {
+  private readonly onDeleteError = (error: ApolloError) => {
     if (error.message.match(/cannot be deleted if it is linked to some sources/)) {
       this.props.dispatch(
         addFlashMessage(
@@ -65,10 +64,9 @@ class Media extends React.Component<IProps, IState> {
 
     this.props.dispatch(addFlashMessage('Doško k chybě při mazání pořadu.', 'error'));
 
-    console.error(error); // tslint:disable-line:no-console
+    console.error(error);
   };
 
-  // tslint:disable-next-line:member-ordering
   public render() {
     const { confirmDeleteModalMediumId } = this.state;
 

@@ -3,17 +3,18 @@ import { IconNames } from '@blueprintjs/icons';
 import * as classNames from 'classnames';
 import * as React from 'react';
 import { Query } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
+import type { DispatchProp } from 'react-redux';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import {
+import type {
   GetPages as GetPagesQuery,
   GetPagesVariables as GetPagesQueryVariables,
 } from '../../operation-result-types';
 import { GetPages } from '../../queries/queries';
 import { SearchInput } from '../forms/controls/SearchInput';
 
-import { ApolloError } from 'apollo-client';
+import type { ApolloError } from 'apollo-client';
 import { addFlashMessage } from '../../actions/flashMessages';
 import { DeletePage } from '../../queries/mutations';
 import Authorize from '../Authorize';
@@ -35,28 +36,27 @@ class Pages extends React.Component<DispatchProp, IState> {
     confirmDeleteModalPageId: null,
   };
 
-  public onSearchChange = (search: string) => this.setState({ search });
+  public onSearchChange = (search: string) => { this.setState({ search }); };
 
-  private showConfirmDeleteModal = (confirmDeleteModalPageId: string) => () => {
+  private readonly showConfirmDeleteModal = (confirmDeleteModalPageId: string) => () => {
     this.setState({ confirmDeleteModalPageId });
   };
 
-  private hideConfirmDeleteModal = () => {
+  private readonly hideConfirmDeleteModal = () => {
     this.setState({ confirmDeleteModalPageId: null });
   };
 
-  private onDeleted = () => {
+  private readonly onDeleted = () => {
     this.props.dispatch(addFlashMessage('Stránka byl úspěšně smazána.', 'success'));
     this.hideConfirmDeleteModal();
   };
 
-  private onDeleteError = (error: ApolloError) => {
+  private readonly onDeleteError = (error: ApolloError) => {
     this.props.dispatch(addFlashMessage('Doško k chybě při mazání stránky.', 'error'));
 
-    console.error(error); // tslint:disable-line:no-console
+    console.error(error);
   };
 
-  // tslint:disable-next-line:member-ordering
   public render() {
     const { confirmDeleteModalPageId } = this.state;
 
@@ -151,11 +151,13 @@ class Pages extends React.Component<DispatchProp, IState> {
                         <tr key={page.id}>
                           <td>{page.title}</td>
                           <td>
-                            {page.published ? (
-                              'Zveřejněná'
-                            ) : (
+                            {page.published
+                              ? (
+                                  'Zveřejněná'
+                                )
+                              : (
                               <span className={Classes.TEXT_MUTED}>Nezveřejněná</span>
-                            )}
+                                )}
                           </td>
                           <td>
                             <a href={`/${page.slug}`}>Odkaz</a>

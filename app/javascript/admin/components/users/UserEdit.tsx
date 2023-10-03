@@ -1,8 +1,9 @@
 import React, { useCallback } from 'react';
 import { useParams } from 'react-router';
-import { UserForm, IUserFormData } from '../forms/UserForm';
+import type { IUserFormData } from '../forms/UserForm';
+import { UserForm } from '../forms/UserForm';
 import { useMutation, useQuery } from 'react-apollo';
-import {
+import type {
   UpdateUser,
   UpdateUserVariables,
   GetUser,
@@ -15,7 +16,7 @@ import { useFlashMessage } from '../../hooks/use-flash-messages';
 import { captureException } from '@sentry/browser';
 import Loading from '../Loading';
 import { useSelector, useDispatch } from 'react-redux';
-import { IState } from '../../reducers';
+import type { IState } from '../../reducers';
 import { fetchCurrentUser } from '../../actions/currentUser';
 
 export function UserEdit() {
@@ -51,7 +52,7 @@ export function UserEdit() {
   );
 
   const onSubmit = useCallback(
-    async (formData: IUserFormData) => {
+    async(formData: IUserFormData) => {
       const { avatar, ...userInput } = formData;
 
       try {
@@ -86,11 +87,13 @@ export function UserEdit() {
 
   return (
     <div style={{ padding: '15px 0 40px 0' }}>
-      {loading ? (
+      {loading
+        ? (
         <Loading />
-      ) : (
+          )
+        : (
         <UserForm onSubmit={onSubmit} title="Upravit člena týmu" user={data?.user} />
-      )}
+          )}
     </div>
   );
 }
