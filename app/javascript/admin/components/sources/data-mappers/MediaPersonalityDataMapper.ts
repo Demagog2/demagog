@@ -1,4 +1,4 @@
-import { GetSource_source_mediaPersonalities } from '../../../operation-result-types';
+import type { GetSource_source_mediaPersonalities } from '../../../operation-result-types';
 import { MediaPersonality } from '../model/MediaPersonality';
 
 export function createMediaPersonalityFromQuery(

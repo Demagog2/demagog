@@ -2,23 +2,23 @@ import {
   ASSESSMENT_STATUS_APPROVED,
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
 } from '../../../constants';
-import { Evaluator } from './Evaluator';
-import { SourceSpeaker } from './SourceSpeaker';
+import type { Evaluator } from './Evaluator';
+import type { SourceSpeaker } from './SourceSpeaker';
 
 export class Statement {
   constructor(
-    private id: string,
-    private content: string,
-    private sourceSpeaker: SourceSpeaker,
-    private published: boolean,
-    private evaluationStatus: string,
-    private assessmentMethodology: string,
-    private explanationCharactersLength: number,
-    private shortExplanationCharactersLength: number,
-    private commentsCount: number,
-    private evaluator: Evaluator | null,
-    private veracity?: string,
-    private promiseRating?: string,
+    private readonly id: string,
+    private readonly content: string,
+    private readonly sourceSpeaker: SourceSpeaker,
+    private readonly published: boolean,
+    private readonly evaluationStatus: string,
+    private readonly assessmentMethodology: string,
+    private readonly explanationCharactersLength: number,
+    private readonly shortExplanationCharactersLength: number,
+    private readonly commentsCount: number,
+    private readonly evaluator: Evaluator | null,
+    private readonly veracity?: string,
+    private readonly promiseRating?: string,
   ) {}
 
   public getId() {

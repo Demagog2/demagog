@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { addFlashMessage } from '../../actions/flashMessages';
 import { uploadArticleIllustration } from '../../api';
-import {
+import type {
   ArticleInput,
   CreateArticle as CreateArticleMutation,
   CreateArticleVariables as CreateArticleMutationVariables,
@@ -32,7 +32,6 @@ export default function ArticleSingleStatementNew() {
     (error) => {
       dispatch(addFlashMessage('Došlo k chybě při ukládání článku', 'error'));
 
-      // tslint:disable-next-line:no-console
       console.error(error);
     },
     [dispatch],
@@ -45,12 +44,12 @@ export default function ArticleSingleStatementNew() {
     },
   );
 
-  const onSubmit = useCallback((articleFormData: ArticleInput & { illustration?: File }) => {
+  const onSubmit = useCallback(async(articleFormData: ArticleInput & { illustration?: File }) => {
     const { illustration, ...articleInput } = articleFormData;
 
-    return mutation({ variables: { articleInput } })
-      .then((mutationResult) => {
-        if (!mutationResult || !mutationResult.data || !mutationResult.data.createArticle) {
+    await mutation({ variables: { articleInput } })
+      .then(async(mutationResult) => {
+        if (!mutationResult?.data?.createArticle) {
           return;
         }
 
@@ -62,9 +61,9 @@ export default function ArticleSingleStatementNew() {
           uploadPromise = uploadArticleIllustration(articleId, illustration);
         }
 
-        return uploadPromise.then(() => onSuccess(articleId));
+        await uploadPromise.then(() => { onSuccess(articleId); });
       })
-      .catch((error) => onError(error));
+      .catch((error) => { onError(error); });
   }, []);
 
   return (

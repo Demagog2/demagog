@@ -1,5 +1,3 @@
-/* eslint jsx-a11y/anchor-is-valid: 0 */
-
 import * as React from 'react';
 
 import { Classes, Colors } from '@blueprintjs/core';
@@ -134,7 +132,8 @@ export default function Sidebar() {
               {category.links.map((link) => (
                 <Authorize key={link.to} permissions={link.permissions || []}>
                   <li>
-                    {link.enabled ? (
+                    {link.enabled
+                      ? (
                       <NavLink
                         to={link.to}
                         className={({ isActive }) =>
@@ -143,15 +142,18 @@ export default function Sidebar() {
                       >
                         <span>{link.title}</span>
                       </NavLink>
-                    ) : (
+                        )
+                      : (
                       <a
                         href=""
                         className={cx(Classes.MENU_ITEM, Classes.DISABLED)}
-                        onClick={(e) => e.preventDefault()}
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
                       >
                         <span>{link.title}</span>
                       </a>
-                    )}
+                        )}
                   </li>
                 </Authorize>
               ))}

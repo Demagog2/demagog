@@ -1,6 +1,6 @@
 import React from 'react';
-import { ApolloError } from 'apollo-client';
-import { GetUsers } from '../../operation-result-types';
+import type { ApolloError } from 'apollo-client';
+import type { GetUsers } from '../../operation-result-types';
 import { Classes, Switch, NonIdealState } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import * as classNames from 'classnames';
@@ -82,7 +82,7 @@ export function UsersPage(props: IUsersPageProps) {
         <Switch
           checked={props.includeInactive}
           label="Zobrazit i deaktivované členy"
-          onChange={(evt) => props.onIncludeInactiveChange(evt.currentTarget.checked)}
+          onChange={(evt) => { props.onIncludeInactiveChange(evt.currentTarget.checked); }}
         />
         <SearchInput
           placeholder="Hledat dle jména…"

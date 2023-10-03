@@ -9,12 +9,14 @@ import { Formik } from 'formik';
 import { Mutation, Query, useQuery } from 'react-apollo';
 import { Mention, MentionsInput } from 'react-mentions';
 
-import {
-  CommentInput,
+import type {
   CreateComment as CreateCommentMutation,
   CreateCommentVariables as CreateCommentMutationVariables,
   GetUsers as GetUsersQuery,
   GetUsersVariables as GetUsersQueryVariables,
+} from '../operation-result-types';
+import {
+  CommentInput,
 } from '../operation-result-types';
 import { CreateComment } from '../queries/mutations';
 import { GetStatementComments, GetUsers } from '../queries/queries';
@@ -73,14 +75,14 @@ export default function StatementComments(props: IProps) {
   }
 
   if (error) {
-    console.error(error); // tslint:disable-line:no-console
+    console.error(error);
   }
 
-  if (loading && (!data || !data.statement)) {
+  if (loading && (!data?.statement)) {
     return <Loading />;
   }
 
-  if (!data || !data.statement) {
+  if (!data?.statement) {
     return null;
   }
 
@@ -204,7 +206,7 @@ const AddCommentForm = (props: IAddCommentFormProps) => {
                 setSubmitting(false);
                 // TODO setErrors();
 
-                console.error(error); // tslint:disable-line:no-console
+                console.error(error);
               });
           }}
         >
@@ -219,7 +221,7 @@ const AddCommentForm = (props: IAddCommentFormProps) => {
                 )}
               >
                 <CommentInput
-                  onChange={(value) => setFieldValue('content', value)}
+                  onChange={(value) => { setFieldValue('content', value); }}
                   value={values.content}
                 />
                 {values.content.trim() !== '' && (
@@ -255,7 +257,7 @@ const CommentInput = (props: ICommentInputProps) => {
     <Query<GetUsersQuery, GetUsersQueryVariables> query={GetUsers}>
       {({ data, loading, error }) => {
         if (error) {
-          console.error(error); // tslint:disable-line:no-console
+          console.error(error);
         }
 
         if (loading || !data) {
@@ -282,7 +284,7 @@ const CommentInput = (props: ICommentInputProps) => {
         return (
           <MentionsInput
             value={props.value}
-            onChange={(_, value) => props.onChange(value)}
+            onChange={(_, value) => { props.onChange(value); }}
             allowSpaceInQuery
             style={{
               '&multiLine': {
@@ -306,7 +308,6 @@ const CommentInput = (props: ICommentInputProps) => {
                   wordBreak: 'break-word',
                 },
               },
-              // tslint:disable-next-line:object-literal-key-quotes
               suggestions: {
                 list: {
                   backgroundColor: 'white',
@@ -317,7 +318,6 @@ const CommentInput = (props: ICommentInputProps) => {
                 },
 
                 item: {
-                  // tslint:disable-next-line:object-literal-key-quotes
                   padding: '5px 10px',
                   '&focused': {
                     backgroundColor: 'rgb(206, 230, 249)',

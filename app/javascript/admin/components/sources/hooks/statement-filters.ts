@@ -10,7 +10,7 @@ export function useStatementFilters() {
 
   useEffect(() => {
     if (!location.search) {
-      return setState(null);
+      setState(null); return;
     }
 
     const queryParams = queryString.parse(location.search);

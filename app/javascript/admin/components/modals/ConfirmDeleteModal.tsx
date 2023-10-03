@@ -9,8 +9,8 @@ interface IDeleteModalProps {
   message?: string;
   loading: boolean;
 
-  onCancel(): void;
-  onConfirm(): void;
+  onCancel: () => void;
+  onConfirm: () => void;
 }
 
 export function DeleteModal(props: IDeleteModalProps) {

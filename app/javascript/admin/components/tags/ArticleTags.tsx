@@ -12,7 +12,7 @@ import { useFlashMessage } from '../../hooks/use-flash-messages';
 
 import { DeleteArticleTag as DeleteArticleTagMutation } from '../../queries/mutations';
 
-import {
+import type {
   DeleteArticleTag,
   DeleteArticleTagVariables,
   GetArticleTags_articleTags,
@@ -53,8 +53,8 @@ export function ArticleTags(props: IArticleTagsProps) {
 
   // TODO: Extract to a seperate component
   const [deleteTag, { loading: deleteArticleTagLoading }] = useMutation<
-    DeleteArticleTag,
-    DeleteArticleTagVariables
+  DeleteArticleTag,
+  DeleteArticleTagVariables
   >(DeleteArticleTagMutation, {
     variables: {
       id: deleteArticleTagId ?? '',
@@ -125,11 +125,13 @@ export function ArticleTags(props: IArticleTagsProps) {
               <td>{tag.title}</td>
               <td>/tag/{tag.slug}</td>
               <td>
-                {tag.published ? (
+                {tag.published
+                  ? (
                   <span className={Classes.TEXT_MUTED}>Zveřejněný</span>
-                ) : (
+                    )
+                  : (
                   <span className={Classes.TEXT_MUTED}>Nezveřejněný</span>
-                )}
+                    )}
               </td>
               <td>{tag.order}</td>
               <td>
@@ -144,7 +146,7 @@ export function ArticleTags(props: IArticleTagsProps) {
                     icon={IconNames.TRASH}
                     style={{ marginLeft: 7 }}
                     title="Smazat"
-                    onClick={() => showConfirmDeleteModal(tag)}
+                    onClick={() => { showConfirmDeleteModal(tag); }}
                   />
                 </div>
               </td>

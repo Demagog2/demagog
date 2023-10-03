@@ -1,7 +1,9 @@
 import * as React from 'react';
 
-import { Colors, ISwitchProps, Switch } from '@blueprintjs/core';
-import { Field, FieldProps, getIn } from 'formik';
+import type { ISwitchProps } from '@blueprintjs/core';
+import { Colors, Switch } from '@blueprintjs/core';
+import type { FieldProps } from 'formik';
+import { Field, getIn } from 'formik';
 
 interface ISwitchFieldProps extends ISwitchProps {
   label: string;

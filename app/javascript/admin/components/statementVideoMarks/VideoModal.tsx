@@ -12,8 +12,8 @@ interface IVideoFormValues {
 
 interface IVideoModalProps {
   source: IVideoFormValues;
-  onRequestClose(): void;
-  onSubmit(values: IVideoFormValues): void;
+  onRequestClose: () => void;
+  onSubmit: (values: IVideoFormValues) => void;
 }
 
 export function VideoModal(props: IVideoModalProps) {

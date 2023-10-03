@@ -8,7 +8,7 @@ import { debounce } from 'lodash';
 interface IProps {
   placeholder: string;
   value: string;
-  onChange(value: string): void;
+  onChange: (value: string) => void;
 }
 
 interface IState {

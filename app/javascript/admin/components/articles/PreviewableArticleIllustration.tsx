@@ -20,7 +20,7 @@ export default function PreviewableArticleIllustration(props: IArticleIllustrati
       <Dialog
         title={props.title}
         isOpen={isPreviewOpen}
-        onClose={() => setPreviewOpen(false)}
+        onClose={() => { setPreviewOpen(false); }}
         isCloseButtonShown
         style={{ width: PREVIEW_WIDTH_SIZE }}
       >
@@ -31,7 +31,7 @@ export default function PreviewableArticleIllustration(props: IArticleIllustrati
         />
       </Dialog>
 
-      <ArticleIllustration {...props} onClick={() => setPreviewOpen(true)} />
+      <ArticleIllustration {...props} onClick={() => { setPreviewOpen(true); }} />
     </>
   );
 }

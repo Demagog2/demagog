@@ -1,6 +1,6 @@
 import { useFlashMessage } from '../../hooks/use-flash-messages';
 import { useMutation } from 'react-apollo';
-import {
+import type {
   PublishApprovedSourceStatements as MutationReturnType,
   PublishApprovedSourceStatementsVariables,
 } from '../../operation-result-types';
@@ -11,12 +11,12 @@ import { MassStatementsPublishModal } from './MassStatementsPublishModal';
 export function MassStatementsPublishModalContainer(props: {
   sourceId: string;
   readyToPublishStatementsCount: number;
-  onClose(): void;
+  onClose: () => void;
 }) {
   const addFlashMessage = useFlashMessage();
   const [mutate, { loading }] = useMutation<
-    MutationReturnType,
-    PublishApprovedSourceStatementsVariables
+  MutationReturnType,
+  PublishApprovedSourceStatementsVariables
   >(PublishApprovedSourceStatements, {
     onError() {
       addFlashMessage('Došlo k chybě při zveřejňování výroků', 'error');
@@ -32,7 +32,7 @@ export function MassStatementsPublishModalContainer(props: {
   return (
     <MassStatementsPublishModal
       readyToPublishStatementsCount={props.readyToPublishStatementsCount}
-      onConfirm={() => mutate({ variables: { id: props.sourceId } })}
+      onConfirm={async() => await mutate({ variables: { id: props.sourceId } })}
       isSaving={loading}
       onClose={props.onClose}
     />

@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
-import currentUser, { ICurrentUserState } from './currentUser';
+import type { ICurrentUserState } from './currentUser';
+import currentUser from './currentUser';
 import flashMessages from './flashMessages';
 
 export interface IState {

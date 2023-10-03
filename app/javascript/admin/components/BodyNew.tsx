@@ -1,18 +1,20 @@
 import * as React from 'react';
 
-import { Mutation, MutationFunction } from 'react-apollo';
+import type { MutationFunction } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import { uploadBodyLogo } from '../api';
-import {
+import type {
   CreateBody as CreateBodyMutation,
   CreateBodyVariables as CreateBodyMutationVariables,
 } from '../operation-result-types';
 import { CreateBody } from '../queries/mutations';
 import { GetBodies, GetSpeakerBodies } from '../queries/queries';
-import { BodyForm, IBodyFormData } from './forms/BodyForm';
+import type { IBodyFormData } from './forms/BodyForm';
+import { BodyForm } from './forms/BodyForm';
 
 interface ICreateBodyMutationFn
   extends MutationFunction<CreateBodyMutation, CreateBodyMutationVariables> {}
@@ -21,12 +23,12 @@ export function BodyNew() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onFormSubmit = (createBody: ICreateBodyMutationFn) => (bodyFormData: IBodyFormData) => {
+  const onFormSubmit = (createBody: ICreateBodyMutationFn) => async(bodyFormData: IBodyFormData) => {
     const { logo, ...bodyInput } = bodyFormData;
 
-    return createBody({ variables: { bodyInput } })
+    await createBody({ variables: { bodyInput } })
       .then((mutationResult) => {
-        if (!mutationResult || !mutationResult.data || !mutationResult.data.createBody) {
+        if (!mutationResult || !mutationResult.data?.createBody) {
           return;
         }
 
@@ -54,7 +56,7 @@ export function BodyNew() {
   const onError = (error: any) => {
     dispatch(addFlashMessage('Při ukládání došlo k chybě.', 'error'));
 
-    console.error(error); // tslint:disable-line:no-console
+    console.error(error);
   };
 
   return (

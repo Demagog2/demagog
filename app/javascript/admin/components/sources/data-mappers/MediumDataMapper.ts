@@ -1,4 +1,4 @@
-import { GetSourceDetail_source_medium } from '../../../operation-result-types';
+import type { GetSourceDetail_source_medium } from '../../../operation-result-types';
 import { Medium } from '../model/Medium';
 
 export function createMediumFromQuery(medium: GetSourceDetail_source_medium | null) {

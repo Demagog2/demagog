@@ -12,12 +12,14 @@ import * as yup from 'yup';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import { STATEMENT_TYPES } from '../constants';
-import {
+import type {
   CreateStatement as CreateStatementMutation,
   CreateStatementInput,
   CreateStatementVariables as CreateStatementMutationVariables,
   GetSource as GetSourceQuery,
   GetSourceVariables as GetSourceQueryVariables,
+} from '../operation-result-types';
+import {
   StatementType,
 } from '../operation-result-types';
 import { CreateStatement } from '../queries/mutations';
@@ -47,7 +49,7 @@ export function StatementNew() {
   const onError = (error: any) => {
     dispatch(addFlashMessage('Při ukládání došlo k chybě.', 'error'));
 
-    console.error(error); // tslint:disable-line:no-console
+    console.error(error);
   };
 
   return (

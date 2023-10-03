@@ -1,9 +1,9 @@
-import { Evaluator } from '../Evaluator';
-import { Statement } from '../Statement';
-import { IStatementFilter } from './StatementFilter';
+import type { Evaluator } from '../Evaluator';
+import type { Statement } from '../Statement';
+import type { IStatementFilter } from './StatementFilter';
 
 export class EvaluatorStatementFilter implements IStatementFilter {
-  constructor(private evaluator: Evaluator) {}
+  constructor(private readonly evaluator: Evaluator) {}
 
   public getKey() {
     return `evaluator-${this.evaluator.getId()}`;

@@ -7,7 +7,7 @@ import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
-import {
+import type {
   GetMediaPersonality as GetMediaPersonalityQuery,
   MediaPersonalityInput,
 } from '../../operation-result-types';
@@ -39,8 +39,8 @@ export class MediaPersonalityForm extends React.Component<IMediaPersonalityFormP
 
           this.props
             .onSubmit(formData)
-            .then(() => setSubmitting(false))
-            .catch(() => setSubmitting(false));
+            .then(() => { setSubmitting(false); })
+            .catch(() => { setSubmitting(false); });
         }}
       >
         {({ isSubmitting }) => (

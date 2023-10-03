@@ -1,17 +1,16 @@
-/* eslint jsx-a11y/anchor-has-content: 0, jsx-a11y/anchor-is-valid: 0 */
-
 import * as React from 'react';
 
 import { Button, Classes, Icon, Intent, Tag } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { ApolloError } from 'apollo-client';
+import type { ApolloError } from 'apollo-client';
 import { css, cx } from 'emotion';
 import { Query } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
+import type { DispatchProp } from 'react-redux';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../../actions/flashMessages';
-import {
+import type {
   GetArticles as GetArticlesQueryResult,
   GetArticlesVariables as GetArticlesQueryVariables,
 } from '../../operation-result-types';
@@ -52,30 +51,29 @@ class Articles extends React.Component<IProps, IState> {
     confirmDeleteModalArticleId: null,
   };
 
-  private onSearchChange = (search: string) => {
+  private readonly onSearchChange = (search: string) => {
     this.setState({ search });
   };
 
-  private showConfirmDeleteModal = (confirmDeleteModalArticleId: string) => () => {
+  private readonly showConfirmDeleteModal = (confirmDeleteModalArticleId: string) => () => {
     this.setState({ confirmDeleteModalArticleId });
   };
 
-  private hideConfirmDeleteModal = () => {
+  private readonly hideConfirmDeleteModal = () => {
     this.setState({ confirmDeleteModalArticleId: null });
   };
 
-  private onDeleted = () => {
+  private readonly onDeleted = () => {
     this.props.dispatch(addFlashMessage('Článek byl úspěšně smazán.', 'success'));
     this.hideConfirmDeleteModal();
   };
 
-  private onDeleteError = (error: ApolloError) => {
+  private readonly onDeleteError = (error: ApolloError) => {
     this.props.dispatch(addFlashMessage('Doško k chybě při mazání článku.', 'error'));
 
-    console.error(error); // tslint:disable-line:no-console
+    console.error(error);
   };
 
-  // tslint:disable-next-line:member-ordering
   public render() {
     const { confirmDeleteModalArticleId } = this.state;
 
@@ -196,7 +194,7 @@ class Articles extends React.Component<IProps, IState> {
                                 article.publishedAt &&
                                 isSameOrAfterToday(article.publishedAt) && (
                                   <>Zveřejněný od {displayDate(article.publishedAt)}</>
-                                )}
+                              )}
                               {article.published &&
                                 article.publishedAt &&
                                 !isSameOrAfterToday(article.publishedAt) && (
@@ -204,7 +202,7 @@ class Articles extends React.Component<IProps, IState> {
                                     <Icon icon={IconNames.TIME} /> Bude zveřejněný{' '}
                                     {displayDate(article.publishedAt)}
                                   </>
-                                )}
+                              )}
                               {!article.published && (
                                 <span className={Classes.TEXT_MUTED}>Nezveřejněný</span>
                               )}
@@ -213,10 +211,14 @@ class Articles extends React.Component<IProps, IState> {
                               {article.published &&
                                 article.publishedAt &&
                                 isSameOrAfterToday(article.publishedAt) && (
-                                  <a href={`/diskuze/${article.slug}`} target="_blank">
+                                  <a
+                                    href={`/diskuze/${article.slug}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                  >
                                     Veřejný odkaz
                                   </a>
-                                )}
+                              )}
                             </td>
                             <td>
                               <div style={{ display: 'flex' }}>
@@ -244,8 +246,8 @@ class Articles extends React.Component<IProps, IState> {
                     </table>
 
                     <Button
-                      onClick={() =>
-                        props.fetchMore({
+                      onClick={async() =>
+                        await props.fetchMore({
                           variables: {
                             offset: articlesLength,
                           },

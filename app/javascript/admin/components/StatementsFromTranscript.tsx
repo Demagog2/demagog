@@ -1,5 +1,3 @@
-/* eslint jsx-a11y/anchor-has-content: 0, jsx-a11y/anchor-is-valid: 0 */
-
 import React, { useState } from 'react';
 
 import { Button, Card, Classes, Intent } from '@blueprintjs/core';
@@ -16,22 +14,23 @@ import { useLocation, useParams } from 'react-router';
 
 import * as Slate from 'slate';
 import SlatePlainSerializer from 'slate-plain-serializer';
-import { Editor, RenderMarkProps } from 'slate-react';
+import type { RenderMarkProps } from 'slate-react';
+import { Editor } from 'slate-react';
 
 import { isAuthorized } from '../authorization';
 import { STATEMENT_TYPES } from '../constants';
-import {
+import type {
   CreateStatement as CreateStatementMutation,
   CreateStatementInput,
   CreateStatementVariables as CreateStatementMutationVariables,
   GetSource as GetSourceQuery,
   GetSourceStatements as GetSourceStatementsQuery,
   GetSourceStatementsVariables as GetSourceStatementsQueryVariables,
-  StatementType,
 } from '../operation-result-types';
+import { StatementType } from '../operation-result-types';
 import { CreateStatement } from '../queries/mutations';
 import { GetSource, GetSourceStatements } from '../queries/queries';
-import { IState as ReduxState } from '../reducers';
+import type { IState as ReduxState } from '../reducers';
 import { displayDate, pluralize } from '../utils';
 import Authorize from './Authorize';
 import SelectComponentField from './forms/controls/SelectComponentField';
@@ -61,10 +60,8 @@ function StatementsFromTranscript(props: IProps) {
   const [transcriptSelection, setTranscriptionSelection] = useState<ITranscriptSelection | null>(
     null,
   );
-  const [
-    newStatementSelection,
-    setNewTranscriptionSelection,
-  ] = useState<ITranscriptSelection | null>(null);
+  const [newStatementSelection, setNewTranscriptionSelection] =
+    useState<ITranscriptSelection | null>(null);
   const [selectedStatements, setSelectedStatements] = useState<string[]>([]);
 
   const onCreateStatementMouseDown = () => {
@@ -75,7 +72,9 @@ function StatementsFromTranscript(props: IProps) {
     setNewTranscriptionSelection(transcriptSelection);
   };
 
-  const closeNewStatementForm = () => setNewTranscriptionSelection(null);
+  const closeNewStatementForm = () => {
+    setNewTranscriptionSelection(null);
+  };
 
   const renderTranscriptWithStatements = (source) => {
     const canAddStatements = props.isAuthorized(['statements:add']);
@@ -86,7 +85,7 @@ function StatementsFromTranscript(props: IProps) {
         variables={{ sourceId: parseInt(source.id, 10), includeUnpublished: true }}
       >
         {({ data, loading, refetch }) => {
-          if (!data || !data.statements) {
+          if (!data?.statements) {
             if (loading) {
               return <Loading />;
             }
@@ -114,7 +113,7 @@ function StatementsFromTranscript(props: IProps) {
               (s) => s.id === queryParams.highlightStatementId,
             );
 
-            if (highlightStatement && highlightStatement.statementTranscriptPosition) {
+            if (highlightStatement?.statementTranscriptPosition) {
               startCursor = {
                 line: highlightStatement.statementTranscriptPosition.startLine,
                 offset: highlightStatement.statementTranscriptPosition.startOffset,
@@ -210,7 +209,7 @@ function StatementsFromTranscript(props: IProps) {
                       onMouseDown={onCreateStatementMouseDown}
                       text="Vytvořit výrok z označené části přepisu"
                     />
-                  )}
+                )}
 
                 {canAddStatements && newStatementSelection !== null && (
                   <NewStatementForm
@@ -357,7 +356,7 @@ class NewStatementForm extends React.Component<INewStatementFormProps> {
                   setSubmitting(false);
                   // TODO setErrors();
 
-                  console.error(error); // tslint:disable-line:no-console
+                  console.error(error);
                 });
             }}
           >
@@ -583,7 +582,7 @@ class TranscriptText extends React.Component<ITranscriptTextProps, ITranscriptTe
   public renderMark = (props: RenderMarkProps) => {
     const { children, mark, attributes } = props;
 
-    if ((mark.type as string).startsWith('statement-')) {
+    if (mark.type.startsWith('statement-')) {
       let backgroundColor = 'rgba(255, 217, 20, 0.38)';
 
       if (mark.data.get('selected')) {
@@ -728,7 +727,7 @@ const removeDecorationsWithMarkType = (
   markTypeStartsWith: string,
 ): Immutable.List<Slate.Decoration> => {
   return decorations.filter((decoration) => {
-    if (!decoration || !decoration.mark) {
+    if (!decoration?.mark) {
       return false;
     }
 

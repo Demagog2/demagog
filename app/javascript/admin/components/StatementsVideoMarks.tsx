@@ -7,9 +7,9 @@ import { useParams } from 'react-router';
 
 import AudioOnlyVideo from '../../article-factcheck-video/video/AudioOnlyVideo';
 import FacebookVideo from '../../article-factcheck-video/video/FacebookVideo';
-import { IVideo } from '../../article-factcheck-video/video/shared';
+import type { IVideo } from '../../article-factcheck-video/video/shared';
 import YoutubeVideo from '../../article-factcheck-video/video/YoutubeVideo';
-import * as ResultTypes from '../operation-result-types';
+import type * as ResultTypes from '../operation-result-types';
 import { GetSourceWithStatementsAndVideoMarks } from '../queries/queries';
 import { UpdateStatementsVideoMarks } from '../queries/mutations';
 import Breadcrumbs from './Breadcrumbs';
@@ -20,16 +20,16 @@ import { VideoModalContainer } from './statementVideoMarks/VideoModalContainer';
 export default function StatementsVideoMarks() {
   const params = useParams();
   const { data, loading } = useQuery<
-    ResultTypes.GetSourceWithStatementsAndVideoMarks,
-    ResultTypes.GetSourceWithStatementsAndVideoMarksVariables
+  ResultTypes.GetSourceWithStatementsAndVideoMarks,
+  ResultTypes.GetSourceWithStatementsAndVideoMarksVariables
   >(GetSourceWithStatementsAndVideoMarks, {
     fetchPolicy: 'cache-and-network',
     variables: { id: parseInt(params.sourceId ?? '', 10), includeUnpublished: true },
   });
 
   const [mutate, { loading: saving }] = useMutation<
-    ResultTypes.UpdateStatementsVideoMarks,
-    ResultTypes.UpdateStatementsVideoMarksVariables
+  ResultTypes.UpdateStatementsVideoMarks,
+  ResultTypes.UpdateStatementsVideoMarksVariables
   >(UpdateStatementsVideoMarks);
 
   if (loading) {
@@ -71,7 +71,7 @@ function StatementsVideoMarksInner({
   source: ResultTypes.GetSourceWithStatementsAndVideoMarks['source'];
   statements: ResultTypes.GetSourceWithStatementsAndVideoMarks['source']['statements'];
   onStatementsVideoMarksSave: (values: {
-    marks: { [id: number]: { start: number; stop: number } };
+    marks: Record<number, { start: number; stop: number }>;
   }) => void;
 }) {
   const [showVideoModal, setShowVideoModal] = React.useState(false);
@@ -124,7 +124,7 @@ function StatementsVideoMarksInner({
   return (
     <>
       {showVideoModal && (
-        <VideoModalContainer source={source} onRequestClose={() => setShowVideoModal(false)} />
+        <VideoModalContainer source={source} onRequestClose={() => { setShowVideoModal(false); }} />
       )}
       <Breadcrumbs items={breadcrumbs} />
       <Formik initialValues={initialValues} onSubmit={onStatementsVideoMarksSave}>
@@ -164,7 +164,7 @@ function StatementsVideoMarksInner({
                     <p>Diskuze zatím nemá přiřazený videozáznam</p>
                     <Button
                       intent={Intent.PRIMARY}
-                      onClick={() => setShowVideoModal(true)}
+                      onClick={() => { setShowVideoModal(true); }}
                       text="Přiřadit videozáznam"
                     />
                   </div>
@@ -191,7 +191,7 @@ function StatementsVideoMarksInner({
                         Videozáznam {videoType}:{videoId}
                       </p>
                       <Button
-                        onClick={() => setShowVideoModal(true)}
+                        onClick={() => { setShowVideoModal(true); }}
                         text="Přiřadit jiný videozáznam"
                       />
                     </div>

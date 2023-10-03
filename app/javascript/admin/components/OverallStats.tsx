@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import { mailFactualStatementsExport } from '../api';
-import * as ResultTypes from '../operation-result-types';
+import type * as ResultTypes from '../operation-result-types';
 import { GetInternalOverallStats } from '../queries/queries';
-import { IState as ReduxState } from '../reducers';
+import type { IState as ReduxState } from '../reducers';
 import Breadcrumbs from './Breadcrumbs';
 
 const OverallStats = () => {

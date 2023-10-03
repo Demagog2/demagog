@@ -1,9 +1,10 @@
 import * as React from 'react';
 
-import { Mutation, MutationFunction } from 'react-apollo';
+import type { MutationFunction } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 
 import { addFlashMessage } from '../../actions/flashMessages';
-import {
+import type {
   CreateMedium as CreateMediumMutation,
   CreateMediumVariables as CreateMediumMutationVariables,
   MediumInput,
@@ -28,14 +29,13 @@ export function MediumNew() {
 
   const onError = (error) => {
     dispatch(addFlashMessage('Došlo k chybě při ukládání pořadu.', 'error'));
-    // tslint:disable-next-line:no-console
     console.error(error);
   };
 
-  const onSubmit = (createMedium: CreateMediumMutationFn) => (mediumInput: MediumInput) => {
-    return createMedium({ variables: { mediumInput } })
+  const onSubmit = (createMedium: CreateMediumMutationFn) => async(mediumInput: MediumInput) => {
+    await createMedium({ variables: { mediumInput } })
       .then((mutationResult) => {
-        if (!mutationResult || !mutationResult.data || !mutationResult.data.createMedium) {
+        if (!mutationResult || !mutationResult.data?.createMedium) {
           return;
         }
 
@@ -43,7 +43,7 @@ export function MediumNew() {
 
         onSuccess(mediumId);
       })
-      .catch((error) => onError(error));
+      .catch((error) => { onError(error); });
   };
 
   return (

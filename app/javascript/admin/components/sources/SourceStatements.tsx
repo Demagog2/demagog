@@ -1,4 +1,4 @@
-import { ISourceViewModel } from './presenters/SourceDetailPresenter';
+import type { ISourceViewModel } from './presenters/SourceDetailPresenter';
 import { EmptySourceDetail } from './EmptySourceDetail';
 import Authorize from '../Authorize';
 import { Button, Classes, Menu, MenuDivider, MenuItem, Popover, Position } from '@blueprintjs/core';
@@ -11,9 +11,9 @@ import * as React from 'react';
 
 export function SourceStatements(props: {
   source: ISourceViewModel;
-  applyStatementFilter(key: string): void;
-  onMassStatementsPublish(): void;
-  onRemoveStatementsFilter(event: React.MouseEvent<HTMLAnchorElement>): void;
+  applyStatementFilter: (key: string) => void;
+  onMassStatementsPublish: () => void;
+  onRemoveStatementsFilter: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 }) {
   if (props.source.statementsTotalCount === 0) {
     return (
@@ -97,7 +97,8 @@ export function SourceStatements(props: {
             />
 
             {props.source.filters.map((filterOrGroup) =>
-              filterOrGroup.type === 'filter-group' ? (
+              filterOrGroup.type === 'filter-group'
+                ? (
                 <>
                   <MenuDivider title={filterOrGroup.label} />
                   {filterOrGroup.filters.map((filter) => (
@@ -105,18 +106,19 @@ export function SourceStatements(props: {
                       key={filter.key}
                       active={filter.active}
                       text={filter.label}
-                      onClick={() => props.applyStatementFilter(filter.key)}
+                      onClick={() => { props.applyStatementFilter(filter.key); }}
                     />
                   ))}
                 </>
-              ) : (
+                  )
+                : (
                 <MenuItem
                   key={filterOrGroup.key}
                   active={filterOrGroup.active}
                   text={filterOrGroup.label}
-                  onClick={() => props.applyStatementFilter(filterOrGroup.key)}
+                  onClick={() => { props.applyStatementFilter(filterOrGroup.key); }}
                 />
-              ),
+                  ),
             )}
           </div>
           <SpeakersStats statsReports={props.source.speakerStats} />

@@ -1,5 +1,5 @@
 import { SourceDetailPresenter } from './SourceDetailPresenter';
-import { ISource } from '../model/Source';
+import { type ISource } from '../model/Source';
 import { Factory } from 'fishery';
 import { statementFactory } from '../model/StatementFactory';
 import {

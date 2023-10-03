@@ -7,7 +7,7 @@ import * as React from 'react';
 import { useQuery } from 'react-apollo';
 import 'whatwg-fetch';
 import playIcon from './play-icon.svg';
-import { IArticleStatementsQueryResult } from './types';
+import type { IArticleStatementsQueryResult } from './types';
 import { Player } from './Player';
 
 const articleStatementsQuery = gql`

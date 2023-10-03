@@ -1,10 +1,13 @@
 import * as React from 'react';
 
-import { Button, Colors, IInputGroupProps, Intent } from '@blueprintjs/core';
-import { DateInput as BlueprintDateInput, IDatePickerLocaleUtils } from '@blueprintjs/datetime';
+import type { IInputGroupProps } from '@blueprintjs/core';
+import { Button, Colors, Intent } from '@blueprintjs/core';
+import type { IDatePickerLocaleUtils } from '@blueprintjs/datetime';
+import { DateInput as BlueprintDateInput } from '@blueprintjs/datetime';
 import { IconNames } from '@blueprintjs/icons';
 import { css } from 'emotion';
-import { Field, FieldProps, getIn } from 'formik';
+import type { FieldProps } from 'formik';
+import { Field, getIn } from 'formik';
 import { isKeyHotkey } from 'is-hotkey';
 import { DateTime } from 'luxon';
 
@@ -44,7 +47,7 @@ const DateInput = (props: IDateInputProps) => (
           e.preventDefault();
         }
       },
-      onBlur: () => props.onBlur && props.onBlur(),
+      onBlur: () => props.onBlur?.(),
       intent: props.error ? Intent.DANGER : Intent.NONE,
     }}
     value={props.value !== null ? DateTime.fromISO(props.value).toJSDate() : null}
@@ -188,8 +191,8 @@ const DateField = (props: IDateFieldProps) => {
         <DateInput
           id={name}
           error={getIn(form.touched, name) && getIn(form.errors, name)}
-          onChange={(value) => form.setFieldValue(name, value)}
-          onBlur={() => form.setFieldTouched(name)}
+          onChange={(value) => { form.setFieldValue(name, value); }}
+          onBlur={() => { form.setFieldTouched(name); }}
           value={field.value || null}
           {...restProps}
         />

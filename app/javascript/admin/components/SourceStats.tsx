@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useQuery } from 'react-apollo';
 import { useParams } from 'react-router';
 
-import * as ResultTypes from '../operation-result-types';
+import type * as ResultTypes from '../operation-result-types';
 import { GetSource, GetSourceInternalStats } from '../queries/queries';
 import Breadcrumbs from './Breadcrumbs';
 
@@ -21,8 +21,8 @@ const SourceStats = () => {
   );
 
   const { data: dataGetSourceInternalStats } = useQuery<
-    ResultTypes.GetSourceInternalStats,
-    ResultTypes.GetSourceInternalStatsVariables
+  ResultTypes.GetSourceInternalStats,
+  ResultTypes.GetSourceInternalStatsVariables
   >(GetSourceInternalStats, {
     fetchPolicy: 'cache-and-network',
     variables: { id: sourceId },

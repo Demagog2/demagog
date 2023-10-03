@@ -6,14 +6,14 @@ import { Card, Colors, Classes, Button, Callout } from '@blueprintjs/core';
 import SpeakerAvatar from '../SpeakerAvatar';
 import Authorize from '../Authorize';
 import { newlinesToBr } from '../../utils';
-import { GetUsers_users } from '../../operation-result-types';
+import type { GetUsers_users } from '../../operation-result-types';
 
 interface IUserContainerProps {
   user: GetUsers_users;
 
   loading: boolean;
-  onUpdateUserActiveness(userActive: boolean): void;
-  onDeleteUser(): void;
+  onUpdateUserActiveness: (userActive: boolean) => void;
+  onDeleteUser: () => void;
 }
 
 export function User(props: IUserContainerProps) {
@@ -48,23 +48,25 @@ export function User(props: IUserContainerProps) {
               >
                 Upravit
               </Link>
-              {props.user.active ? (
+              {props.user.active
+                ? (
                 <Button
                   icon={IconNames.CROSS}
                   style={{ marginLeft: 7 }}
                   text="Deaktivovat"
                   disabled={props.loading}
-                  onClick={() => props.onUpdateUserActiveness(false)}
+                  onClick={() => { props.onUpdateUserActiveness(false); }}
                 />
-              ) : (
+                  )
+                : (
                 <Button
                   icon={IconNames.TICK}
                   style={{ marginLeft: 7 }}
                   text="Aktivovat"
                   disabled={props.loading}
-                  onClick={() => props.onUpdateUserActiveness(true)}
+                  onClick={() => { props.onUpdateUserActiveness(true); }}
                 />
-              )}
+                  )}
               <Button
                 type="button"
                 icon={IconNames.TRASH}

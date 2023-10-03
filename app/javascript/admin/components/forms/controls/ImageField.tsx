@@ -3,8 +3,10 @@ import * as React from 'react';
 import { Classes } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import * as classNames from 'classnames';
-import { Field, FieldProps } from 'formik';
-import Dropzone, { ImageFile } from 'react-dropzone';
+import type { FieldProps } from 'formik';
+import { Field } from 'formik';
+import type { ImageFile } from 'react-dropzone';
+import Dropzone from 'react-dropzone';
 
 export type ImageValueType = string | ImageFile | null;
 
@@ -12,7 +14,7 @@ interface IImageInputProps {
   additionalActions?: any;
   renderImage: (src: string | null) => React.ReactNode;
   value: ImageValueType;
-  onChange(file: ImageValueType);
+  onChange: (file: ImageValueType) => any;
 }
 
 interface IImageInputState {
@@ -93,7 +95,7 @@ const ImageField = (props: IImageFieldProps) => {
       name={name}
       render={({ field, form }: FieldProps) => (
         <ImageInput
-          onChange={(value) => form.setFieldValue(name, value)}
+          onChange={(value) => { form.setFieldValue(name, value); }}
           value={field.value}
           {...restProps}
         />

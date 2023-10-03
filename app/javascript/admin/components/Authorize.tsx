@@ -3,7 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { isAuthorized } from '../authorization';
-import { IState } from '../reducers';
+import type { IState } from '../reducers';
 
 interface IProps {
   isAuthorized: (permissions: string[]) => boolean;

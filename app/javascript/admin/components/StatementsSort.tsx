@@ -1,15 +1,16 @@
 import * as React from 'react';
 
 import { Button, Classes, Intent } from '@blueprintjs/core';
-import { ApolloError } from 'apollo-client';
+import type { ApolloError } from 'apollo-client';
 import { Mutation, Query } from 'react-apollo';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { connect, DispatchProp } from 'react-redux';
+import type { DispatchProp } from 'react-redux';
+import { connect } from 'react-redux';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
-import {
+import type {
   GetSource as GetSourceQuery,
   GetSourceStatements as GetSourceStatementsQuery,
   GetSourceStatementsVariables as GetSourceStatementsQueryVariables,
@@ -93,7 +94,7 @@ class StatementsSort extends React.Component<IProps, IState> {
         this.setState({ isSubmitting: false });
         this.props.dispatch(addFlashMessage('Při ukládání došlo k chybě.', 'error'));
 
-        console.error(error); // tslint:disable-line:no-console
+        console.error(error);
       });
   };
 
@@ -105,8 +106,8 @@ class StatementsSort extends React.Component<IProps, IState> {
             Zpět na diskuzi
           </Link>
           <Mutation<
-            UpdateSourceStatementsOrderMutation,
-            UpdateSourceStatementsOrderMutationVariables
+          UpdateSourceStatementsOrderMutation,
+          UpdateSourceStatementsOrderMutationVariables
           >
             mutation={UpdateSourceStatementsOrder}
           >

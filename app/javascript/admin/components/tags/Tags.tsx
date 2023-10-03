@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 import { STATEMENT_TYPES } from '../../constants';
 import Loading from '../Loading';
-import { GetTags_tags } from '../../operation-result-types';
+import type { GetTags_tags } from '../../operation-result-types';
 
 interface ITagsProps {
   loading: boolean;

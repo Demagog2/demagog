@@ -4,7 +4,7 @@ import { Colors } from '@blueprintjs/core';
 import { Query } from 'react-apollo';
 import Select from 'react-select';
 
-import * as ResultTypes from '../../../operation-result-types';
+import type * as ResultTypes from '../../../operation-result-types';
 import { GetSpeakersForSelect } from '../../../queries/queries';
 
 interface ISelectOption {
@@ -16,8 +16,8 @@ interface IProps {
   id?: string;
   value: string | null;
   error?: object | false;
-  onChange(value: string | null, speaker: ResultTypes.GetSpeakersForSelect_speakers | null): void;
-  onBlur?(): void;
+  onChange: (value: string | null, speaker: ResultTypes.GetSpeakersForSelect_speakers | null) => void;
+  onBlur?: () => void;
 }
 
 export default class SpeakerSelect extends React.Component<IProps> {

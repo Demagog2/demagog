@@ -14,7 +14,7 @@ export interface ITagFormValues {
 }
 
 interface ITagFormProps {
-  onSubmit(values: ITagFormValues): Promise<void>;
+  onSubmit: (values: ITagFormValues) => Promise<void>;
 }
 
 const initialValues: ITagFormValues = {
@@ -36,7 +36,7 @@ export function TagForm(props: ITagFormProps) {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting }) => {
-        props.onSubmit(values).finally(() => setSubmitting(false));
+        props.onSubmit(values).finally(() => { setSubmitting(false); });
       }}
     >
       {({ values, handleChange, isSubmitting }) => (

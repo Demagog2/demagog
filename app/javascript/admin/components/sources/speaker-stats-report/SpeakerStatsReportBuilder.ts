@@ -1,6 +1,6 @@
-import { SourceSpeaker } from '../model/SourceSpeaker';
-import { IStatsReport } from './model/StatsReport';
-import { Statement } from '../model/Statement';
+import type { SourceSpeaker } from '../model/SourceSpeaker';
+import type { IStatsReport } from './model/StatsReport';
+import type { Statement } from '../model/Statement';
 
 export class SpeakerStatsReportBuilder {
   public static readonly BEING_EVALUATED_STATS_KEY = 'evaluated';

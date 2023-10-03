@@ -1,6 +1,7 @@
 import * as React from 'react';
 
-import { Field, FieldProps } from 'formik';
+import type { FieldProps } from 'formik';
+import { Field } from 'formik';
 
 import RichTextEditor from '../../RichTextEditor';
 
@@ -23,7 +24,7 @@ const RichTextEditorField = (props: IRichTextEditorField) => {
       render={({ field, form }: FieldProps) => (
         <RichTextEditorInput
           value={field.value}
-          onChange={(value) => form.setFieldValue(name, value)}
+          onChange={(value) => { form.setFieldValue(name, value); }}
           {...restProps}
         />
       )}

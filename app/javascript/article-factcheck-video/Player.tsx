@@ -3,8 +3,8 @@ import { css } from 'emotion';
 import { orderBy, padStart } from 'lodash';
 import * as React from 'react';
 import ReactTooltip from 'react-tooltip';
-import { IArticleStatementsQueryResult } from './types';
-import { IVideo } from './video/shared';
+import type { IArticleStatementsQueryResult } from './types';
+import type { IVideo } from './video/shared';
 import AudioOnlyVideo from './video/AudioOnlyVideo';
 import FacebookVideo from './video/FacebookVideo';
 import YoutubeVideo from './video/YoutubeVideo';
@@ -28,7 +28,7 @@ export class Player extends React.Component<IPlayerProps, IPlayerState> {
   public video: IVideo | null = null;
   public getVideoTimeIntervalHandle: number | null = null;
   public statementsColumn: HTMLDivElement | null = null;
-  public statementContainers: { [statementId: string]: HTMLDivElement } = {};
+  public statementContainers: Record<string, HTMLDivElement> = {};
   public headMetaViewport: HTMLMetaElement | null = null;
   public headMetaViewportContentBefore: string | null = null;
   public state: IPlayerState = {
@@ -165,7 +165,7 @@ export class Player extends React.Component<IPlayerProps, IPlayerState> {
                 <TimeContainer>
                   <TimeButton
                     type="button"
-                    onClick={() => this.goToTimeOfStatement(statement)}
+                    onClick={() => { this.goToTimeOfStatement(statement); }}
                     data-tip={`Kliknutím skočte na čas ${formattedStartTime}`}
                     data-for={`statement-${statement.id}`}
                   >

@@ -1,5 +1,5 @@
-import { GetSourceDetail } from '../../../operation-result-types';
-import { ISource } from '../model/Source';
+import type { GetSourceDetail } from '../../../operation-result-types';
+import type { ISource } from '../model/Source';
 import { createSpeakerFromQuery } from './SpeakerDataMapper';
 import { createStatementFromQuery } from './StatementDataMapper';
 import { createExpertFromQuery } from './ExpertDataMapper';

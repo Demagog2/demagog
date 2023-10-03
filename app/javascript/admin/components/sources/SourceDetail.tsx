@@ -7,16 +7,16 @@ import { Link } from 'react-router-dom';
 import { displayDate } from '../../utils';
 import Authorize from '../Authorize';
 import Loading from '../Loading';
-import { ISourceViewModel } from './presenters/SourceDetailPresenter';
+import type { ISourceViewModel } from './presenters/SourceDetailPresenter';
 import { SourceStatements } from './SourceStatements';
 
 interface ISourceDetailProps {
   source: ISourceViewModel;
   loading: boolean;
-  onDeleteSource(): void;
-  onMassStatementsPublish(): void;
-  onStatementFiltersUpdate(field: string): void;
-  onRemoveStatementsFilter(event: React.MouseEvent<HTMLAnchorElement>): void;
+  onDeleteSource: () => void;
+  onMassStatementsPublish: () => void;
+  onStatementFiltersUpdate: (field: string) => void;
+  onRemoveStatementsFilter: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
 export function SourceDetail(props: ISourceDetailProps) {

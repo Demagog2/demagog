@@ -2,9 +2,10 @@ import React, { useCallback } from 'react';
 import { useMutation } from 'react-apollo';
 import { useNavigate } from 'react-router-dom';
 import { captureException } from '@sentry/browser';
-import * as ResultTypes from '../../operation-result-types';
+import type * as ResultTypes from '../../operation-result-types';
 import { CreateTag } from '../../queries/mutations';
-import { TagForm, ITagFormValues } from '../forms/TagForm';
+import type { ITagFormValues } from '../forms/TagForm';
+import { TagForm } from '../forms/TagForm';
 import { useFlashMessage } from '../../hooks/use-flash-messages';
 
 export function TagsNewContainer() {
@@ -22,7 +23,7 @@ export function TagsNewContainer() {
   });
 
   const onSubmit = useCallback(
-    async (variables: ITagFormValues) => {
+    async(variables: ITagFormValues) => {
       await mutate({
         variables: {
           tagInput: {

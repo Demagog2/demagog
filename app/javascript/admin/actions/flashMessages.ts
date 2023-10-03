@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 
-import { FlashMessageType } from '../components/FlashMessages';
+import type { FlashMessageType } from '../components/FlashMessages';
 
 interface IAddFlashMessageAction {
   type: 'ADD_FLASH_MESSAGE_ACTION';

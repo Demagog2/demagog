@@ -16,12 +16,12 @@ import { Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import {
+import type {
   GetNotifications as GetNotificationsQuery,
   GetNotificationsVariables as GetNotificationsQueryVariables,
 } from '../operation-result-types';
 import { GetNotifications } from '../queries/queries';
-import { IState as ReduxState } from '../reducers';
+import type { IState as ReduxState } from '../reducers';
 import Authorize from './Authorize';
 import UserSelect from './forms/controls/UserSelect';
 
@@ -77,13 +77,12 @@ class Header extends React.Component<IProps, IState> {
               pollInterval={20100} // Little more than 20s so it does not sync with other polls
             >
               {({ data, error }) => {
-                if (!data || !data.notifications) {
+                if (!data?.notifications) {
                   return null;
                 }
 
                 if (error) {
-                  console.error(error); // tslint:disable-line:no-console
-                  return null;
+                  console.error(error); return null;
                 }
 
                 return (
@@ -134,8 +133,8 @@ interface IBecomeAnotherUserDialogState {
 }
 
 class BecomeAnotherUserDialog extends React.Component<
-  IBecomeAnotherUserDialogProps,
-  IBecomeAnotherUserDialogState
+IBecomeAnotherUserDialogProps,
+IBecomeAnotherUserDialogState
 > {
   public state = {
     userId: null,
@@ -149,7 +148,7 @@ class BecomeAnotherUserDialog extends React.Component<
     return (
       <Dialog isOpen onClose={onCancel} title="Přihlásit se jako někdo jiný">
         <div className={Classes.DIALOG_BODY}>
-          <UserSelect value={userId} onChange={(value) => this.setState({ userId: value })} />
+          <UserSelect value={userId} onChange={(value) => { this.setState({ userId: value }); }} />
         </div>
         <div className={Classes.DIALOG_FOOTER}>
           <div className={Classes.DIALOG_FOOTER_ACTIONS}>

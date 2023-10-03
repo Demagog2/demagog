@@ -1,10 +1,11 @@
-import { ISource } from '../model/Source';
-import { IStatementFilter } from '../model/filters/StatementFilter';
-import { IStatsReportViewModel } from '../speaker-stats-report/view/IStatsReportViewModel';
+import type { ISource } from '../model/Source';
+import type { IStatementFilter } from '../model/filters/StatementFilter';
+import type { IStatsReportViewModel } from '../speaker-stats-report/view/IStatsReportViewModel';
 import { SpeakerStatsReportBuilder } from '../speaker-stats-report/SpeakerStatsReportBuilder';
 import { StatsReportTranslator } from '../speaker-stats-report/translator/StatsReportTranslator';
-import { Statement } from '../model/Statement';
-import { FiltersViewModelBuilder, IFilterGroup, IFilterViewModel } from './FiltersViewModelBuilder';
+import type { Statement } from '../model/Statement';
+import type { IFilterGroup, IFilterViewModel } from './FiltersViewModelBuilder';
+import { FiltersViewModelBuilder } from './FiltersViewModelBuilder';
 import { FiltersFactory } from '../model/filters/FiltersFactory';
 
 interface IStatementViewModel {
@@ -43,7 +44,7 @@ export interface ISourceViewModel {
 }
 
 export class SourceDetailPresenter {
-  constructor(private source: ISource, private activeFilterKeys: string[]) {
+  constructor(private readonly source: ISource, private readonly activeFilterKeys: string[]) {
     this.filters = new FiltersFactory(this.source).createFilters();
   }
 
@@ -71,7 +72,7 @@ export class SourceDetailPresenter {
   }
 
   private getFilteredStatements(): Statement[] {
-    if (this.activeFilterKeys.length) {
+    if (this.activeFilterKeys.length > 0) {
       const activeFilters = this.filters.filter((filter) =>
         this.activeFilterKeys.includes(filter.getKey()),
       );
@@ -84,6 +85,7 @@ export class SourceDetailPresenter {
 
     return this.source.statements;
   }
+
   private buildStatementsViewModels(statements: Statement[]): IStatementViewModel[] {
     return statements.map((s) => {
       const evaluator = s.getEvaluator();

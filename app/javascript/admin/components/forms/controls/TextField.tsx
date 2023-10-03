@@ -2,7 +2,8 @@ import * as React from 'react';
 
 import { Classes } from '@blueprintjs/core';
 import * as classNames from 'classnames';
-import { Field, FieldProps, getIn } from 'formik';
+import type { FieldProps } from 'formik';
+import { Field, getIn } from 'formik';
 
 interface ITextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: object | false;

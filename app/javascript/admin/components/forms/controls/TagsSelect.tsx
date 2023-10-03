@@ -4,7 +4,7 @@ import { Colors } from '@blueprintjs/core';
 import { Query } from 'react-apollo';
 import Select from 'react-select';
 
-import {
+import type {
   GetTagsForSelect as GetTagsForSelectQuery,
   GetTagsForSelectVariables as GetTagsForSelectQueryVariables,
   StatementType,
@@ -21,8 +21,8 @@ interface IProps {
   value: string[];
   error?: object | false;
   forStatementType: StatementType;
-  onChange(value: string[]): void;
-  onBlur?(): void;
+  onChange: (value: string[]) => void;
+  onBlur?: () => void;
 }
 
 export default class TagsSelect extends React.Component<IProps> {
@@ -51,8 +51,7 @@ export default class TagsSelect extends React.Component<IProps> {
               value={options.filter(({ value }) => this.props.value.includes(value))}
               isLoading={loading}
               options={options}
-              onChange={(selectedOptions: ISelectOption[]) =>
-                this.props.onChange(selectedOptions.map((o) => o.value))
+              onChange={(selectedOptions: ISelectOption[]) => { this.props.onChange(selectedOptions.map((o) => o.value)); }
               }
               isClearable
               onBlur={this.props.onBlur}

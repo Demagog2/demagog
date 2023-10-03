@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { css } from 'emotion';
 
-import { IVideo } from './shared';
+import type { IVideo } from './shared';
 import audioOnlyEmptyPoster from './audio-only-empty-poster.svg';
 
 interface IProps {

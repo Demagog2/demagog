@@ -11,8 +11,8 @@ import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 import { cx } from 'emotion';
 
-import * as ResultTypes from '../../operation-result-types';
-import { IState as ReduxState } from '../../reducers';
+import type * as ResultTypes from '../../operation-result-types';
+import type { IState as ReduxState } from '../../reducers';
 import DateField from './controls/DateField';
 import MediaPersonalitiesSelect from './controls/MediaPersonalitySelect';
 import MediumSelect from './controls/MediumSelect';
@@ -258,7 +258,7 @@ export const SourceForm = (props: ISourceFormProps) => {
                       <tr>
                         <td colSpan={3}>
                           <AddSourceSpeakerControls
-                            onAdd={(speaker: ResultTypes.GetSpeakersForSelect_speakers) =>
+                            onAdd={(speaker: ResultTypes.GetSpeakersForSelect_speakers) => {
                               arrayHelpers.push({
                                 id: null,
                                 speaker_id: speaker.id,
@@ -267,7 +267,8 @@ export const SourceForm = (props: ISourceFormProps) => {
                                 last_name: speaker.lastName,
                                 role: speaker.role,
                                 body_id: speaker.body ? speaker.body.id : null,
-                              })
+                              });
+                            }
                             }
                           />
                         </td>
@@ -341,7 +342,7 @@ const AddSourceSpeakerControls = ({ onAdd }) => {
         />
       </div>
       <div style={{ flex: '0 0 auto', marginLeft: 15 }}>
-        <Button onClick={() => handleAddClick()} icon={IconNames.PLUS} text="Přidat" />
+        <Button onClick={() => { handleAddClick(); }} icon={IconNames.PLUS} text="Přidat" />
       </div>
     </div>
   );

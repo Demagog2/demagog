@@ -1,5 +1,5 @@
-import { Statement } from '../Statement';
-import { IStatementFilter } from './StatementFilter';
+import type { Statement } from '../Statement';
+import type { IStatementFilter } from './StatementFilter';
 import {
   ASSESSMENT_STATUS_APPROVAL_NEEDED,
   ASSESSMENT_STATUS_APPROVED,
@@ -15,7 +15,7 @@ export const STATUS_FILTER_LABELS = {
 };
 
 export class EvaluationStatusStatementFilter implements IStatementFilter {
-  constructor(private evaluationStatus: string) {}
+  constructor(private readonly evaluationStatus: string) {}
 
   public getKey() {
     return this.evaluationStatus;

@@ -1,17 +1,16 @@
-/* eslint jsx-a11y/anchor-has-content: 0, jsx-a11y/anchor-is-valid: 0 */
-
 import * as React from 'react';
 
 import { Button, Card, Classes, Intent, Tag } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { ApolloError } from 'apollo-client';
+import type { ApolloError } from 'apollo-client';
 import * as classNames from 'classnames';
 import { Query } from 'react-apollo';
-import { connect, DispatchProp } from 'react-redux';
+import type { DispatchProp } from 'react-redux';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
-import {
+import type {
   GetBodies as GetBodiesQuery,
   GetBodiesVariables as GetBodiesQueryVariables,
 } from '../operation-result-types';
@@ -37,30 +36,29 @@ class Bodies extends React.Component<IProps, IState> {
     confirmDeleteModalBodyId: null,
   };
 
-  private onSearchChange = (search: string) => {
+  private readonly onSearchChange = (search: string) => {
     this.setState({ search });
   };
 
-  private showConfirmDeleteModal = (confirmDeleteModalBodyId: string) => () => {
+  private readonly showConfirmDeleteModal = (confirmDeleteModalBodyId: string) => () => {
     this.setState({ confirmDeleteModalBodyId });
   };
 
-  private hideConfirmDeleteModal = () => {
+  private readonly hideConfirmDeleteModal = () => {
     this.setState({ confirmDeleteModalBodyId: null });
   };
 
-  private onDeleted = () => {
+  private readonly onDeleted = () => {
     this.props.dispatch(addFlashMessage('Skupina/strana byla úspěšně smazána.', 'success'));
     this.hideConfirmDeleteModal();
   };
 
-  private onDeleteError = (error: ApolloError) => {
+  private readonly onDeleteError = (error: ApolloError) => {
     this.props.dispatch(addFlashMessage('Doško k chybě při mazání skupiny/strany', 'error'));
 
-    console.error(error); // tslint:disable-line:no-console
+    console.error(error);
   };
 
-  // tslint:disable-next-line:member-ordering
   public render() {
     const { confirmDeleteModalBodyId } = this.state;
 
@@ -162,11 +160,13 @@ class Bodies extends React.Component<IProps, IState> {
                           {body.name} ({body.shortName})
                         </h5>
 
-                        {body.isParty ? (
+                        {body.isParty
+                          ? (
                           <Tag intent={Intent.PRIMARY}>Politická strana</Tag>
-                        ) : (
+                            )
+                          : (
                           <Tag>Skupina</Tag>
-                        )}
+                            )}
 
                         <ul className={Classes.LIST_UNSTYLED} style={{ marginTop: 15 }}>
                           <li>

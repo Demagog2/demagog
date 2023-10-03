@@ -1,8 +1,8 @@
-import { SourceSpeaker } from './SourceSpeaker';
-import { Statement } from './Statement';
-import { Expert } from './Expert';
-import { Medium } from './Medium';
-import { MediaPersonality } from './MediaPersonality';
+import type { SourceSpeaker } from './SourceSpeaker';
+import type { Statement } from './Statement';
+import type { Expert } from './Expert';
+import type { Medium } from './Medium';
+import type { MediaPersonality } from './MediaPersonality';
 
 export interface ISource {
   id: string;

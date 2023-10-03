@@ -1,5 +1,3 @@
-/* eslint jsx-a11y/anchor-has-content: 0, jsx-a11y/anchor-is-valid: 0 */
-
 import * as React from 'react';
 
 import { Button, Classes, NonIdealState } from '@blueprintjs/core';
@@ -15,7 +13,7 @@ import {
   ASSESSMENT_STATUS_BEING_EVALUATED,
   ASSESSMENT_STATUS_PROOFREADING_NEEDED,
 } from '../constants';
-import {
+import type {
   GetSources as GetSourcesQuery,
   GetSourcesVariables as GetSourcesQueryVariables,
 } from '../operation-result-types';
@@ -128,17 +126,18 @@ class Sources extends React.Component<{}, IState> {
                     </thead>
                     <tbody>
                       {props.data.sources.map((source) => {
-                        const statementsCountsMap = source.statementsCountsByEvaluationStatus.reduce(
-                          (carry, item) => {
-                            return { ...carry, [item.evaluationStatus]: item.statementsCount };
-                          },
-                          {
-                            [ASSESSMENT_STATUS_BEING_EVALUATED]: 0,
-                            [ASSESSMENT_STATUS_APPROVAL_NEEDED]: 0,
-                            [ASSESSMENT_STATUS_PROOFREADING_NEEDED]: 0,
-                            [ASSESSMENT_STATUS_APPROVED]: 0,
-                          },
-                        );
+                        const statementsCountsMap =
+                          source.statementsCountsByEvaluationStatus.reduce(
+                            (carry, item) => {
+                              return { ...carry, [item.evaluationStatus]: item.statementsCount };
+                            },
+                            {
+                              [ASSESSMENT_STATUS_BEING_EVALUATED]: 0,
+                              [ASSESSMENT_STATUS_APPROVAL_NEEDED]: 0,
+                              [ASSESSMENT_STATUS_PROOFREADING_NEEDED]: 0,
+                              [ASSESSMENT_STATUS_APPROVED]: 0,
+                            },
+                          );
 
                         return (
                           <tr key={source.id}>
@@ -152,7 +151,7 @@ class Sources extends React.Component<{}, IState> {
                                     <>
                                       , {source.mediaPersonalities?.map((p) => p.name).join(' & ')}
                                     </>
-                                  )}
+                                )}
                                 {source.sourceUrl && (
                                   <>
                                     , <a href={source.sourceUrl}>odkaz</a>
@@ -203,10 +202,10 @@ class Sources extends React.Component<{}, IState> {
 
                   <Button
                     style={{ marginTop: 10 }}
-                    onClick={() =>
-                      props.fetchMore({
+                    onClick={async() =>
+                      await props.fetchMore({
                         variables: {
-                          offset: props.data && props.data.sources.length,
+                          offset: props.data?.sources.length,
                         },
 
                         updateQuery: (prev, { fetchMoreResult }) => {

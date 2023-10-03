@@ -14,8 +14,8 @@ interface ITextSegment {
 
 interface IProps {
   segment: ITextSegment;
-  onRemove(): void;
-  onChange(segment: ITextSegment): void;
+  onRemove: () => void;
+  onChange: (segment: ITextSegment) => void;
 }
 
 export default function ArticleTextSegment(props: IProps) {

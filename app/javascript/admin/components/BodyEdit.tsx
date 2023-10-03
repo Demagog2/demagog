@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { Mutation, Query, MutationFunction } from 'react-apollo';
+import type { MutationFunction } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import { connect, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 
 import { addFlashMessage } from '../actions/flashMessages';
 import { deleteBodyLogo, uploadBodyLogo } from '../api';
-import {
+import type {
   GetBody as GetBodyQuery,
   GetBodyVariables as GetBodyQueryVariables,
   UpdateBody as UpdateBodyMutation,
@@ -14,7 +15,8 @@ import {
 import { UpdateBody } from '../queries/mutations';
 import { GetBodies, GetBody, GetSpeakerBodies } from '../queries/queries';
 import Error from './Error';
-import { BodyForm, IBodyFormData } from './forms/BodyForm';
+import type { IBodyFormData } from './forms/BodyForm';
+import { BodyForm } from './forms/BodyForm';
 import Loading from './Loading';
 
 interface IUpdateBodyMutationFn
@@ -26,7 +28,7 @@ function BodyEdit() {
 
   const id = parseInt(params.id ?? '', 10);
 
-  const onFormSubmit = (updateBody: IUpdateBodyMutationFn, previousData: GetBodyQuery) => (
+  const onFormSubmit = (updateBody: IUpdateBodyMutationFn, previousData: GetBodyQuery) => async(
     speakerFormData: IBodyFormData,
   ) => {
     const { logo, ...bodyInput } = speakerFormData;
@@ -40,10 +42,10 @@ function BodyEdit() {
       logoPromise = deleteBodyLogo(id);
     }
 
-    return logoPromise
-      .then(() => updateBody({ variables: { id, bodyInput } }))
-      .then(() => onCompleted())
-      .catch((error) => onError(error));
+    await logoPromise
+      .then(async() => await updateBody({ variables: { id, bodyInput } }))
+      .then(() => { onCompleted(); })
+      .catch((error) => { onError(error); });
   };
 
   const onCompleted = () => {
@@ -53,7 +55,7 @@ function BodyEdit() {
   const onError = (error: any) => {
     dispatch(addFlashMessage('Doško k chybě při uložení dat', 'error'));
 
-    console.error(error); // tslint:disable-line:no-console
+    console.error(error);
   };
 
   return (

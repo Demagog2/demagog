@@ -1,9 +1,9 @@
-import { Statement } from '../Statement';
-import { IStatementFilter } from './StatementFilter';
+import type { Statement } from '../Statement';
+import type { IStatementFilter } from './StatementFilter';
 
 export class UnassignedEvaluatorStatementFilter implements IStatementFilter {
   public getKey() {
-    return `unassigned-evaluator`;
+    return 'unassigned-evaluator';
   }
 
   public getLabel(statements: Statement[]): string {

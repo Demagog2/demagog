@@ -5,22 +5,24 @@ interface IMassStatementsPublishModalProps {
   readyToPublishStatementsCount: number;
   isSaving: boolean;
 
-  onConfirm(): void;
-  onClose(): void;
+  onConfirm: () => void;
+  onClose: () => void;
 }
 
 export function MassStatementsPublishModal(props: IMassStatementsPublishModalProps) {
   return (
     <Dialog isOpen onClose={props.onClose} title="Opravdu zveřejnit?">
       <div className={Classes.DIALOG_BODY}>
-        {props.readyToPublishStatementsCount > 0 ? (
+        {props.readyToPublishStatementsCount > 0
+          ? (
           <>
             Opravdu chceš zveřejnit všech {props.readyToPublishStatementsCount} schválených a
             nezveřejněných výroků v rámci této diskuze?
           </>
-        ) : (
+            )
+          : (
           <>V rámci diskuze teď nemáš žádné schválené a nezveřejněné výroky.</>
-        )}
+            )}
       </div>
       <div className={Classes.DIALOG_FOOTER}>
         <div className={Classes.DIALOG_FOOTER_ACTIONS}>

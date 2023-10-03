@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Query } from 'react-apollo';
 import Select from 'react-select';
 
-import { GetVeracitiesForSelect as GetVeracitiesForSelectQuery } from '../../../operation-result-types';
+import type { GetVeracitiesForSelect as GetVeracitiesForSelectQuery } from '../../../operation-result-types';
 import { GetVeracitiesForSelect } from '../../../queries/queries';
 
 interface ISelectOption {

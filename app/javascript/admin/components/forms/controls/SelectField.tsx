@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import { Classes, Colors } from '@blueprintjs/core';
-import { Field, FieldProps, getIn } from 'formik';
+import type { FieldProps } from 'formik';
+import { Field, getIn } from 'formik';
 
 interface ISelectInputProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   error?: object | false;

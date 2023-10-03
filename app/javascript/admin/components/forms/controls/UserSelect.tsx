@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Query } from 'react-apollo';
 import Select from 'react-select';
 
-import {
+import type {
   GetUsersForSelect as GetUsersForSelectQuery,
   GetUsersForSelectVariables as GetUsersForSelectQueryVariables,
 } from '../../../operation-result-types';
@@ -34,7 +34,7 @@ interface IMultiValueProps {
 }
 
 export default class UserSelect extends React.Component<
-  IBaseProps & (ISingleValueProps | IMultiValueProps)
+IBaseProps & (ISingleValueProps | IMultiValueProps)
 > {
   public static defaultProps = {
     isMulti: false,

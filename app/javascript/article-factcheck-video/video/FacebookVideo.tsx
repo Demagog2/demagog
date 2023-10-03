@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { default as ReactFacebookPlayer } from 'react-facebook-player';
 
-import { IVideo } from './shared';
+import type { IVideo } from './shared';
 
 interface IProps {
   onReady: (video: IVideo) => void;

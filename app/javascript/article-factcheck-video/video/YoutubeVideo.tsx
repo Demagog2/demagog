@@ -3,7 +3,7 @@ import * as React from 'react';
 import { css } from 'emotion';
 import YouTube from 'react-youtube';
 
-import { IVideo } from './shared';
+import type { IVideo } from './shared';
 
 interface IProps {
   onReady: (video: IVideo) => void;

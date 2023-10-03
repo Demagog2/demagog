@@ -2,10 +2,11 @@ import * as React from 'react';
 
 import { Card, Classes } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { ApolloError } from 'apollo-client';
+import type { ApolloError } from 'apollo-client';
 import { cx } from 'emotion';
 import { truncate } from 'lodash';
-import { connect, DispatchProp } from 'react-redux';
+import type { DispatchProp } from 'react-redux';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addFlashMessage } from '../actions/flashMessages';
@@ -65,7 +66,7 @@ class StatementCard extends React.Component<IProps, IState> {
   public onDeleteError = (error: ApolloError) => {
     this.props.dispatch(addFlashMessage('Došlo k chybě při mazání výroku.', 'error'));
 
-    console.error(error); // tslint:disable-line:no-console
+    console.error(error);
   };
 
   public render() {
@@ -124,15 +125,17 @@ class StatementCard extends React.Component<IProps, IState> {
             {assessment.evaluationStatus === ASSESSMENT_STATUS_BEING_EVALUATED && (
               <>
                 {assessment.shortExplanationCharactersLength === 0 &&
-                assessment.explanationCharactersLength === 0 ? (
+                assessment.explanationCharactersLength === 0
+                  ? (
                   <> (odůvodnění zatím prázdné)</>
-                ) : (
+                    )
+                  : (
                   <>
                     {' '}
                     (odůvodnění zkrácené: {assessment.shortExplanationCharactersLength} znaků, celé:{' '}
                     {assessment.explanationCharactersLength} znaků)
                   </>
-                )}
+                    )}
               </>
             )}
             {assessment.evaluator && (

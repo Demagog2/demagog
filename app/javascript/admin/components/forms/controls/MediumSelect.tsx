@@ -5,7 +5,7 @@ import { isEmpty } from 'lodash';
 import { Query } from 'react-apollo';
 import Select from 'react-select';
 
-import { GetMedia as GetMediaQuery } from '../../../operation-result-types';
+import type { GetMedia as GetMediaQuery } from '../../../operation-result-types';
 import { GetMedia } from '../../../queries/queries';
 
 interface ISelectOption {
@@ -18,7 +18,7 @@ interface IMediaSelectProps {
   value?: string | null;
   error?: object | false;
 
-  onChange(value: string | null): void;
+  onChange: (value: string | null) => void;
 }
 
 export default class MediumSelect extends React.Component<IMediaSelectProps> {
