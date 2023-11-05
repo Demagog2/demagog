@@ -21,7 +21,7 @@ jobs:
       - run:
             name: "Update Node.js"
             command: |
-              curl -sSL "https://nodejs.org/dist/v16.16.0/node-v16.16.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v16.16.0-linux-x64/bin/node
+              curl -sSL "https://nodejs.org/dist/v16.20.2/node-v16.20.2-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v16.20.2-linux-x64/bin/node
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
@@ -50,7 +50,7 @@ jobs:
       - run:
           name: "Update Node.js"
           command: |
-            curl -sSL "https://nodejs.org/dist/v16.16.0/node-v16.16.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v16.16.0-linux-x64/bin/node
+            curl -sSL "https://nodejs.org/dist/v16.20.2/node-v16.20.2-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v16.20.2-linux-x64/bin/node
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
