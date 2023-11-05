@@ -6,7 +6,8 @@ class QueryTypeSourcesTest < GraphQLTestCase
   test "sources should not return ones without published statements" do
     source = create(:source)
     speaker = create(:speaker, statement_count: 0)
-    create_list(:statement, 10, source:, speaker:, published: false)
+    source_speaker = create(:source_speaker, source:, speaker:)
+    create_list(:statement, 10, source:, source_speaker:, published: false)
 
     query_string = "
       query {
@@ -23,7 +24,8 @@ class QueryTypeSourcesTest < GraphQLTestCase
   test "sources including the ones without published statements should not be accessible to unauthenticated" do
     source = create(:source)
     speaker = create(:speaker, statement_count: 0)
-    create_list(:statement, 10, source:, speaker:, published: true)
+    source_speaker = create(:source_speaker, source:, speaker:)
+    create_list(:statement, 10, source:, source_speaker:, published: true)
 
     query_string = "
       query {
@@ -40,7 +42,8 @@ class QueryTypeSourcesTest < GraphQLTestCase
   test "sources including the ones without published statements should be accessible to authenticated" do
     source = create(:source)
     speaker = create(:speaker, statement_count: 0)
-    create_list(:statement, 10, source:, speaker:, published: true)
+    source_speaker = create(:source_speaker, source:, speaker:)
+    create_list(:statement, 10, source:, source_speaker:, published: true)
 
     query_string = "
       query {
@@ -57,7 +60,8 @@ class QueryTypeSourcesTest < GraphQLTestCase
   test "sources should not be searchable by name by unauthenticated" do
     source = create(:source, name: "Test source")
     speaker = create(:speaker, statement_count: 0)
-    create_list(:statement, 10, source:, speaker:, published: true)
+    source_speaker = create(:source_speaker, source:, speaker:)
+    create_list(:statement, 10, source:, source_speaker:, published: true)
 
     query_string = "
       query {
@@ -74,7 +78,8 @@ class QueryTypeSourcesTest < GraphQLTestCase
   test "sources should be searchable by name by authenticated" do
     source = create(:source, name: "Test source")
     speaker = create(:speaker, statement_count: 0)
-    create_list(:statement, 10, source:, speaker:, published: true)
+    source_speaker = create(:source_speaker, source:, speaker:)
+    create_list(:statement, 10, source:, source_speaker:, published: true)
 
     query_string = "
       query {

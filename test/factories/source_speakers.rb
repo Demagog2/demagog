@@ -6,5 +6,6 @@ FactoryBot.define do
     last_name { "Doe" }
     role { "Member of Parliament" }
     speaker
+    source
   end
 end
