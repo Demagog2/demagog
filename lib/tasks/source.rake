@@ -13,14 +13,26 @@ namespace :source do
       new_source = source.dup
       new_source.name = "#{source.name} (copy)"
       new_source.media_personalities = source.media_personalities
-      new_source.speakers = source.speakers
       new_source.created_at = source.created_at
       new_source.save!
       p "Creating source #{new_source.inspect}"
 
+      new_source_speaker_id_map = {}
+
+      source.source_speakers.each do |source_speaker|
+        new_source_speaker = source_speaker.dup
+        new_source_speaker.source = new_source
+        new_source_speaker.created_at = source_speaker.created_at
+        new_source_speaker.save!
+        p "Creating source speaker #{new_source_speaker.inspect}"
+
+        new_source_speaker_id_map[source_speaker.id] = new_source_speaker.id
+      end
+
       source.statements.each do |statement|
         new_statement = statement.dup
         new_statement.source = new_source
+        new_statement.source_speaker_id = new_source_speaker_id_map[statement.source_speaker_id]
         new_statement.tags = statement.tags
         new_statement.published = false
         new_statement.created_at = statement.created_at

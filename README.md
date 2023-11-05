@@ -4,11 +4,11 @@ Political fact checking website. For more information see http://demagog.cz/o-na
 
 ### Ruby version
 
-3.1.3
+3.1.4
 
 ### Node version
 
-16.16.0
+16.20.2
 
 ## Setup
 

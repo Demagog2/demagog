@@ -6,6 +6,7 @@
 # can change based on the discussion context (eg. politician can be part of one party on
 # national level, but different one on municipal level).
 class SourceSpeaker < ApplicationRecord
+  belongs_to :source
   belongs_to :speaker
   belongs_to :body, optional: true
   has_many :statements
