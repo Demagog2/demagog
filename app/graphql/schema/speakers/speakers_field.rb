@@ -4,6 +4,8 @@ module Schema::Speakers::SpeakersField
   extend ActiveSupport::Concern
 
   included do
+    field :get_most_searched_speakers, [Types::SpeakerType], null: false
+
     field :speakers, [Types::SpeakerType], null: false do
       argument :limit, GraphQL::Types::Int, required: false, default_value: 10
       argument :offset, GraphQL::Types::Int, required: false, default_value: 0
@@ -30,6 +32,10 @@ module Schema::Speakers::SpeakersField
       speakers = speakers.where(wikidata_id:) if wikidata_id.present?
 
       speakers
+    end
+
+    def get_most_searched_speakers
+      Speaker.where(id: Speaker.get_most_searched_speaker_ids)
     end
   end
 end
