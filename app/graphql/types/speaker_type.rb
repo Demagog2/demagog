@@ -6,6 +6,7 @@ module Types
     field :osoba_id, String, null: true, description: "Temporary IDs from Hlidac statu, please use Wikidata ID instead"
     field :wikidata_id, String, null: true
     field :before_name, String, null: false
+    field :full_name, String, null: false
     field :first_name, String, null: false
     field :first_name, String, null: false, camelize: false, deprecation_reason: "switch to camelCase version"
     field :last_name, String, null: false

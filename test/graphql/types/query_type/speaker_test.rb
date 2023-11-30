@@ -12,6 +12,7 @@ class QueryTypeSpeakerTest < GraphQLTestCase
           id
           firstName
           lastName
+          fullName
         }
       }
     "
@@ -20,5 +21,6 @@ class QueryTypeSpeakerTest < GraphQLTestCase
 
     assert_equal speaker.first_name, result.data.speaker.firstName
     assert_equal speaker.last_name, result.data.speaker.lastName
+    assert_equal speaker.full_name, result.data.speaker.fullName
   end
 end
