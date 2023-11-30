@@ -42,8 +42,8 @@ class Speaker < ApplicationRecord
     )
   end
 
-  def self.query_search(query)
-    search(
+  def self.query_search(query, **extra_params)
+    search_params = {
       query: {
         bool: {
           must: { simple_query_string: simple_query_string_defaults.merge(query:) }
@@ -51,8 +51,10 @@ class Speaker < ApplicationRecord
       },
       sort: [
         { factual_and_published_statements_count: { order: "desc" } }
-      ]
-    )
+      ],
+    }.merge(extra_params)
+
+    search(search_params)
   end
 
   def self.active_members_of_body(body_id)
