@@ -15,6 +15,7 @@ module Types
     field :bio, String, null: false
     field :website_url, String, null: false
     field :role, String, null: true
+    field :verified_statements_count, Int, null: false
 
     field :avatar, String, null: true
 
@@ -87,6 +88,10 @@ module Types
 
     def stats
       SpeakerStat.where(speaker_id: object.id).normalize
+    end
+
+    def verified_statements_count
+      object.factual_and_published_statements_count
     end
   end
 end
