@@ -31,6 +31,8 @@ class Types::QueryType < GraphQL::Schema::Object
   include Schema::Pages::PageField
   include Schema::Pages::PagesField
 
+  include Schema::Search::SearchField
+
   field :party,
         Types::PartyType,
         null: false,
