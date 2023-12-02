@@ -3,6 +3,16 @@
 class Speaker < ApplicationRecord
   include Searchable
 
+  MOST_SEARCHED_SPEAKER_IDS = [
+    711, # Petr Pavel
+    183, # Andrej Babis
+    67, # Petr Fiala
+    180, # Tomio Okamura
+    502, # Marketa Pekarova Adamova
+  ].freeze
+
+  scope :most_searched_speakers, -> { where(id: MOST_SEARCHED_SPEAKER_IDS).in_order_of(:id, MOST_SEARCHED_SPEAKER_IDS) }
+
   after_create  { ElasticsearchWorker.perform_async(:speaker, :index,  self.id) }
   after_update  { ElasticsearchWorker.perform_async(:speaker, :update,  self.id) }
   after_destroy { ElasticsearchWorker.perform_async(:speaker, :destroy,  self.id) }
@@ -143,16 +153,6 @@ class Speaker < ApplicationRecord
       183, # ANO, Andrej Babis
       180, # SPD, Tomio Okamura
       502 # TOP-09, Marketa Pekarova Adamova
-    ]
-  end
-
-  def self.get_most_searched_speaker_ids
-    [
-      711, # Petr Pavel
-      183, # Andrej Babis
-      67, # Petr Fiala
-      180, # Tomio Okamura
-      502, # Marketa Pekarova Adamova
     ]
   end
 end
