@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 class StatementsElasticQueryService
-  def self.search_published_factual(filters)
-    Statement.search(
+  def self.search_published_factual(filters, **extra_params)
+    Statement.search({
       query: build_published_factual_elastic_query(filters),
       sort: [
         { 'source.released_at': { order: "desc" } }
       ],
       # Important as we have more than 10k statements (10k is the default size of elastic result window)
       track_total_hits: true
-    )
+    }.merge(extra_params))
   end
 
   def self.aggregate_published_factual(filters)
