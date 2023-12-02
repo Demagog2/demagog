@@ -83,8 +83,8 @@ class Article < ApplicationRecord
     )
   end
 
-  def self.query_search_published(query)
-    search(
+  def self.query_search_published(query, **extra_params)
+    search({
       query: {
         bool: {
           must: { simple_query_string: simple_query_string_defaults.merge(query:) },
@@ -92,7 +92,7 @@ class Article < ApplicationRecord
         }
       },
       sort: [{ published_at: { order: "desc" } }]
-    )
+    }.merge(extra_params))
   end
 
   def segments_text
