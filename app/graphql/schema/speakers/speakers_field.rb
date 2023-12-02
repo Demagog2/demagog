@@ -35,7 +35,7 @@ module Schema::Speakers::SpeakersField
     end
 
     def get_most_searched_speakers
-      Speaker.where(id: Speaker.get_most_searched_speaker_ids)
+      Speaker.most_searched_speakers
     end
   end
 end

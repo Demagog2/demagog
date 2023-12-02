@@ -34,9 +34,7 @@ class HomepageController < FrontendController
 
     @article_tags = ArticleTag.published
 
-    @most_searched_speakers = Speaker.get_most_searched_speaker_ids.map do |speaker_id|
-      Speaker.find_by(id: speaker_id)
-    end
+    @most_searched_speakers = Speaker.most_searched_speakers
 
     # In case the speakers are not found, like in tests
     @most_searched_speakers = @most_searched_speakers.filter { |speaker| speaker }

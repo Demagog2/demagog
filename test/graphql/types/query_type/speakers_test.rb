@@ -52,7 +52,7 @@ class QueryTypeSpeakersTest < GraphQLTestCase
 
   test "get most searched speakers" do
     # TODO: Add mocking library?
-    Speaker.get_most_searched_speaker_ids.each do |id|
+    Speaker::MOST_SEARCHED_SPEAKER_IDS.each do |id|
       create(:speaker, id:)
     end
 
@@ -68,6 +68,6 @@ class QueryTypeSpeakersTest < GraphQLTestCase
 
     ids = result["data"]["getMostSearchedSpeakers"].pluck(:id).map(&:to_i)
 
-    assert_equal Speaker.get_most_searched_speaker_ids, ids
+    assert_equal Speaker::MOST_SEARCHED_SPEAKER_IDS, ids
   end
 end
