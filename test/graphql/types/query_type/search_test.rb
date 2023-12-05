@@ -78,6 +78,37 @@ class QueryTypeSearchTest < GraphQLTestCase
     assert_equal 1, result["data"]["searchStatements"]["totalCount"]
   end
 
+  test "search statements with aggregates" do
+    tag = create(:tag, name: "Foo")
+    statement_one = create(:statement, content: "Something he said and loads more", tags: [tag])
+
+    statement_one.__elasticsearch__.index_document
+    statement_one.__elasticsearch__.client.indices.refresh index: statement_one.__elasticsearch__.index_name
+
+    query_string = <<~GRAPHQL
+      query {
+        searchStatements(term: "Something he said", includeAggregations: true) {
+          statements {
+            id
+          }
+          tags {
+            tag {
+              id
+              name
+            }#{' '}
+            count
+          }#{' '}
+          totalCount
+        }
+      }
+    GRAPHQL
+
+    result = execute(query_string)
+
+    assert_equal 1, result["data"]["searchStatements"]["tags"][0]["count"]
+    assert_equal tag.name, result["data"]["searchStatements"]["tags"][0]["tag"]["name"]
+  end
+
   def teardown
     elasticsearch_cleanup [Speaker, Article, Statement]
   end
