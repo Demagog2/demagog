@@ -178,6 +178,11 @@ FactoryBot.define do
     end
   end
 
+  factory :tag do
+    sequence(:name) { |n| "Tag ##{n}" }
+    for_statement_type { Statement::TYPE_FACTUAL }
+  end
+
   factory :statement do
     statement_type { Statement::TYPE_FACTUAL }
     source_speaker

@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class StatementsElasticQueryService
+  # Elastic defaults only to 10
+  AGGREGATION_SIZE = 10000
+
   def self.search_published_factual(filters, **extra_params)
     Statement.search({
       query: build_published_factual_elastic_query(filters),
@@ -13,38 +16,51 @@ class StatementsElasticQueryService
   end
 
   def self.aggregate_published_factual(filters)
-    # Elastic defaults only to 10
-    aggregation_size = 10000
-
     response = Statement.search(
       # We want only aggregations, no actual results
       size: 0,
       from: 0,
       query: build_published_factual_elastic_query(filters),
-      aggs: {
-        body_id: { terms: { field: "source_speaker.body.id", size: aggregation_size, missing: -1 } },
-        speaker_id: { terms: { field: "source_speaker.speaker.id", size: aggregation_size, missing: -1 } },
-        tag_id: { terms: { field: "tags.id", size: aggregation_size, missing: -1 } },
-        veracity_key: { terms: { field: "assessment.veracity.key", size: aggregation_size } },
-        released_year: { terms: { field: "source.released_year", size: aggregation_size } },
-        editor_picked: { terms: { field: "important", size: aggregation_size } }
-      }
+      aggs: build_aggregations
     )
 
-    aggregations = {}
+    process_aggregations(response)
+  end
 
-    response.aggregations.keys.each do |aggregation_key|
-      aggregations[aggregation_key] = {}
+  def self.search_with_aggregations(filters, **extra_params)
+    response = search_published_factual(filters, **{
+      aggs: build_aggregations
+    }.merge(extra_params))
 
-      response.aggregations[aggregation_key].buckets.each do |bucket|
-        aggregations[aggregation_key][bucket["key"]] = bucket["doc_count"]
-      end
-    end
-
-    aggregations
+    [response, process_aggregations(response)]
   end
 
   private
+    def self.build_aggregations
+      {
+        body_id: { terms: { field: "source_speaker.body.id", size: AGGREGATION_SIZE, missing: -1 } },
+        speaker_id: { terms: { field: "source_speaker.speaker.id", size: AGGREGATION_SIZE, missing: -1 } },
+        tag_id: { terms: { field: "tags.id", size: AGGREGATION_SIZE, missing: -1 } },
+        veracity_key: { terms: { field: "assessment.veracity.key", size: AGGREGATION_SIZE } },
+        released_year: { terms: { field: "source.released_year", size: AGGREGATION_SIZE } },
+        editor_picked: { terms: { field: "important", size: AGGREGATION_SIZE } }
+      }
+    end
+
+    def self.process_aggregations(response)
+      aggregations = {}
+
+      response.aggregations.keys.each do |aggregation_key|
+        aggregations[aggregation_key] = {}
+
+        response.aggregations[aggregation_key].buckets.each do |bucket|
+          aggregations[aggregation_key][bucket["key"]] = bucket["doc_count"]
+        end
+      end
+
+      aggregations
+    end
+
     def self.build_published_factual_elastic_query(filters)
       elastic_query = {
         bool: {
