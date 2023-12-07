@@ -152,7 +152,7 @@ class QueryTypeSearchTest < GraphQLTestCase
 
     query_string = <<~GRAPHQL
       query {
-        searchStatements(term: "Something he said", includeAggregations: true, filters: { veracities: [#{veracity_true.id}] }) {
+        searchStatements(term: "Something he said", includeAggregations: true, filters: { veracities: ["#{veracity_true.key}"] }) {
           statements {
             id
           }
