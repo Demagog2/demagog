@@ -79,10 +79,13 @@ class QueryTypeSearchTest < GraphQLTestCase
   end
 
   test "search statements with aggregates" do
-    tag = create(:tag, name: "Foo")
-    statement_one = create(:statement, content: "Something he said and loads more", tags: [tag])
+    tag_bar = create(:tag, name: "Bar")
+    tag_foo = create(:tag, name: "Foo")
+    statement_one = create(:statement, content: "Something he said and loads more", tags: [tag_foo, tag_bar])
+    statement_two = create(:statement, content: "Something he said and loads more", tags: [tag_foo])
 
     statement_one.__elasticsearch__.index_document
+    statement_two.__elasticsearch__.index_document
     statement_one.__elasticsearch__.client.indices.refresh index: statement_one.__elasticsearch__.index_name
 
     query_string = <<~GRAPHQL
@@ -105,8 +108,11 @@ class QueryTypeSearchTest < GraphQLTestCase
 
     result = execute(query_string)
 
-    assert_equal 1, result["data"]["searchStatements"]["tags"][0]["count"]
-    assert_equal tag.name, result["data"]["searchStatements"]["tags"][0]["tag"]["name"]
+    assert_equal tag_foo.name, result["data"]["searchStatements"]["tags"][0]["tag"]["name"]
+    assert_equal 2, result["data"]["searchStatements"]["tags"][0]["count"]
+
+    assert_equal tag_bar.name, result["data"]["searchStatements"]["tags"][1]["tag"]["name"]
+    assert_equal 1, result["data"]["searchStatements"]["tags"][1]["count"]
   end
 
   test "search statements - filter by tags" do
