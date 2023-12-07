@@ -27,15 +27,18 @@ class QueryTypeArticleTest < GraphQLTestCase
               true
             }
           }
+          source {
+            sourceSpeakers {
+              fullName
+            }
+          }
         }
       }"
 
     result = execute(query_string)
 
-    expected = article.title
-    actual = result.data.article.title
-
-    assert_equal expected, actual
+    assert_equal article.title, result.data.article.title
+    assert_equal source_speaker.full_name, result.data.article.source.sourceSpeakers[0].fullName
   end
 
   test "article should return given published article by slug" do

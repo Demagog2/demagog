@@ -6,6 +6,7 @@ module Types
     field :speaker, Types::SpeakerType, null: false
     field :first_name, String, null: false
     field :last_name, String, null: false
+    field :full_name, String, null: false
     field :body, Types::BodyType, null: true
     field :role, String, null: true
   end
