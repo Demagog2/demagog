@@ -47,6 +47,10 @@ module Schema::Search::Resolvers
           query[:tag_id] = tags unless tags.empty?
         end
 
+        filters[:veracities]&.tap do |veracities|
+          query[:veracity_key] = veracities unless veracities.empty?
+        end
+
         query
       end
 
