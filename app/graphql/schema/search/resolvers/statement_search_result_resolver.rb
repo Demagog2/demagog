@@ -35,7 +35,7 @@ module Schema::Search::Resolvers
 
         tags = Tag.where(id: tag_aggregation.keys.select { |tag_id| tag_id != -1 }).map do |tag|
           { tag:, count: tag_aggregation[tag.id] }
-        end
+        end.sort_by { |tag| [-tag[:count], tag[:tag][:name]] }
 
         { statements: statement_search.records.to_a, total_count: statement_search.total_count, tags: }
       end
