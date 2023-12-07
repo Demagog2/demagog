@@ -109,7 +109,7 @@ class QueryTypeSearchTest < GraphQLTestCase
     assert_equal tag.name, result["data"]["searchStatements"]["tags"][0]["tag"]["name"]
   end
 
-  test "search statements filter by tags" do
+  test "search statements - filter by tags" do
     tag = create(:tag, name: "Foo")
     statement_one = create(:statement, content: "Something he said and loads more", tags: [tag])
     statement_two = create(:statement, content: "Something he said and loads more", tags: [])
@@ -122,6 +122,37 @@ class QueryTypeSearchTest < GraphQLTestCase
     query_string = <<~GRAPHQL
       query {
         searchStatements(term: "Something he said", includeAggregations: true, filters: { tags: [#{tag.id}] }) {
+          statements {
+            id
+          }
+          totalCount
+        }
+      }
+    GRAPHQL
+
+    result = execute(query_string)
+
+    assert_equal 1, result["data"]["searchStatements"]["totalCount"]
+    assert_equal statement_one.id, result["data"]["searchStatements"]["statements"][0]["id"].to_i
+  end
+
+  test "search statements - filter by veracity" do
+    veracity_true = create(:veracity)
+    veracity_untrue = create(:veracity, key: Veracity::UNTRUE)
+
+    statement_one = create(:statement, content: "Something he said and loads more")
+    statement_two = create(:statement, content: "Something he said and loads more")
+
+    statement_two.assessment.update!(veracity: veracity_untrue)
+
+    statement_one.__elasticsearch__.index_document
+    statement_two.__elasticsearch__.index_document
+
+    statement_one.__elasticsearch__.client.indices.refresh index: statement_one.__elasticsearch__.index_name
+
+    query_string = <<~GRAPHQL
+      query {
+        searchStatements(term: "Something he said", includeAggregations: true, filters: { veracities: [#{veracity_true.id}] }) {
           statements {
             id
           }
