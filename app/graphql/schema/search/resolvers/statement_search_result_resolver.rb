@@ -64,6 +64,10 @@ module Schema::Search::Resolvers
           query[:veracity_key] = veracities unless veracities.empty?
         end
 
+        filters[:years]&.tap do |years|
+          query[:released_year] = years unless years.empty?
+        end
+
         query
       end
 
