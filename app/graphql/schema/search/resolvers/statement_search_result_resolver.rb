@@ -44,7 +44,13 @@ module Schema::Search::Resolvers
           { veracity:, count: veracity_key_aggregation.fetch(key, 0) }
         end
 
-        { statements: statement_search.records.to_a, total_count: statement_search.total_count, tags:, veracities: }
+        released_year_aggregation = aggregations.fetch("released_year", {})
+
+        years = released_year_aggregation.keys.map do |year|
+          { year:, count: released_year_aggregation[year] }
+        end.sort_by { |option| -option[:year] }
+
+        { statements: statement_search.records.to_a, total_count: statement_search.total_count, tags:, veracities:, years: }
       end
 
       def build_query(term, filters)
