@@ -101,6 +101,13 @@ class QueryTypeSearchTest < GraphQLTestCase
             }
             count
           }
+          veracities {
+            veracity {
+              id
+              key
+            }
+            count
+          }
           totalCount
         }
       }
@@ -113,6 +120,9 @@ class QueryTypeSearchTest < GraphQLTestCase
 
     assert_equal tag_bar.name, result["data"]["searchStatements"]["tags"][1]["tag"]["name"]
     assert_equal 1, result["data"]["searchStatements"]["tags"][1]["count"]
+
+    assert_equal Veracity::TRUE, result["data"]["searchStatements"]["veracities"][0]["veracity"]["key"]
+    assert_equal 2, result["data"]["searchStatements"]["veracities"][0]["count"]
   end
 
   test "search statements - filter by tags" do
