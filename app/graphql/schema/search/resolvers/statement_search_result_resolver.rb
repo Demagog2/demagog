@@ -37,7 +37,14 @@ module Schema::Search::Resolvers
           { tag:, count: tag_aggregation[tag.id] }
         end.sort_by { |tag| [-tag[:count], tag[:tag][:name]] }
 
-        { statements: statement_search.records.to_a, total_count: statement_search.total_count, tags: }
+        veracity_key_aggregation = aggregations.fetch("veracity_key", {})
+
+        veracities = Assessment::VERACITIES.each_with_index.map do |key, i|
+          veracity = { id: i + 1, key:, name: I18n.t("veracity.names.#{key}") }
+          { veracity:, count: veracity_key_aggregation.fetch(key, 0) }
+        end
+
+        { statements: statement_search.records.to_a, total_count: statement_search.total_count, tags:, veracities: }
       end
 
       def build_query(term, filters)
