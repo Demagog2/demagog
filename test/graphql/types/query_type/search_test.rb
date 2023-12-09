@@ -82,7 +82,9 @@ class QueryTypeSearchTest < GraphQLTestCase
     tag_bar = create(:tag, name: "Bar")
     tag_foo = create(:tag, name: "Foo")
     statement_one = create(:statement, content: "Something he said and loads more", tags: [tag_foo, tag_bar])
+    statement_one.source.update!(released_at: "2022-01-01")
     statement_two = create(:statement, content: "Something he said and loads more", tags: [tag_foo])
+    statement_two.source.update!(released_at: "2021-01-01")
 
     statement_one.__elasticsearch__.index_document
     statement_two.__elasticsearch__.index_document
@@ -108,6 +110,10 @@ class QueryTypeSearchTest < GraphQLTestCase
             }
             count
           }
+          years {
+            year
+            count
+          }
           totalCount
         }
       }
@@ -123,6 +129,12 @@ class QueryTypeSearchTest < GraphQLTestCase
 
     assert_equal Veracity::TRUE, result["data"]["searchStatements"]["veracities"][0]["veracity"]["key"]
     assert_equal 2, result["data"]["searchStatements"]["veracities"][0]["count"]
+
+    assert_equal 2022, result["data"]["searchStatements"]["years"][0]["year"]
+    assert_equal 1, result["data"]["searchStatements"]["years"][0]["count"]
+
+    assert_equal 2021, result["data"]["searchStatements"]["years"][1]["year"]
+    assert_equal 1, result["data"]["searchStatements"]["years"][1]["count"]
   end
 
   test "search statements - filter by tags" do
