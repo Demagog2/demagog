@@ -195,6 +195,33 @@ class QueryTypeSearchTest < GraphQLTestCase
     assert_equal statement_one.id, result["data"]["searchStatements"]["statements"][0]["id"].to_i
   end
 
+  test "search statements - filter by year" do
+    statement_one = create(:statement, content: "Something he said and loads more")
+    statement_one.source.update!(released_at: "1990-01-01")
+    statement_two = create(:statement, content: "Something he said and loads more")
+
+    statement_one.__elasticsearch__.index_document
+    statement_two.__elasticsearch__.index_document
+
+    statement_one.__elasticsearch__.client.indices.refresh index: statement_one.__elasticsearch__.index_name
+
+    query_string = <<~GRAPHQL
+      query {
+        searchStatements(term: "Something he said", includeAggregations: true, filters: { years: [1990] }) {
+          statements {
+            id
+          }
+          totalCount
+        }
+      }
+    GRAPHQL
+
+    result = execute(query_string)
+
+    assert_equal 1, result["data"]["searchStatements"]["totalCount"]
+    assert_equal statement_one.id, result["data"]["searchStatements"]["statements"][0]["id"].to_i
+  end
+
   def teardown
     elasticsearch_cleanup [Speaker, Article, Statement]
   end
