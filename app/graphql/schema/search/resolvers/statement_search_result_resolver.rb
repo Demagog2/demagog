@@ -15,7 +15,7 @@ module Schema::Search::Resolvers
       pagination = build_pagination(limit, offset)
 
       if include_aggregations
-        search_with_aggregations(query, pagination)
+        search(query, pagination).merge(aggregations)
       else
         search(query, pagination)
       end
@@ -28,8 +28,8 @@ module Schema::Search::Resolvers
         { statements: statement_search.records.to_a, total_count: statement_search.total_count }
       end
 
-      def search_with_aggregations(query, pagination)
-        statement_search, aggregations = StatementsElasticQueryService.search_with_aggregations(query, **pagination)
+      def aggregations
+        aggregations = StatementsElasticQueryService.aggregate_published_factual({})
 
         tag_aggregation = aggregations.fetch("tag_id", {})
 
@@ -50,7 +50,7 @@ module Schema::Search::Resolvers
           { year:, count: released_year_aggregation[year] }
         end.sort_by { |option| -option[:year] }
 
-        { statements: statement_search.records.to_a, total_count: statement_search.total_count, tags:, veracities:, years: }
+        { tags:, veracities:, years: }
       end
 
       def build_query(term, filters)
