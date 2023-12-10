@@ -92,7 +92,7 @@ class QueryTypeSearchTest < GraphQLTestCase
 
     query_string = <<~GRAPHQL
       query {
-        searchStatements(term: "Something he said", includeAggregations: true) {
+        searchStatements(term: "Something he said", includeAggregations: true, filters: { tags: [#{tag_bar.id}] }) {
           statements {
             id
           }

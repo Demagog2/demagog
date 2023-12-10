@@ -27,14 +27,6 @@ class StatementsElasticQueryService
     process_aggregations(response)
   end
 
-  def self.search_with_aggregations(filters, **extra_params)
-    response = search_published_factual(filters, **{
-      aggs: build_aggregations
-    }.merge(extra_params))
-
-    [response, process_aggregations(response)]
-  end
-
   private
     def self.build_aggregations
       {
