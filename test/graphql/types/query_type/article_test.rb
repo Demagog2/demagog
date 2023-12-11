@@ -3,6 +3,10 @@
 require "graphql/graphql_testcase"
 
 class QueryTypeArticleTest < GraphQLTestCase
+  setup do
+    ActiveStorage::Current.url_options = "https://example.com"
+  end
+
   test "article should return given published article by id" do
     source_speaker = create(:source_speaker)
     source =
@@ -12,7 +16,7 @@ class QueryTypeArticleTest < GraphQLTestCase
         statements: [create(:statement, source_speaker:), create(:statement, source_speaker:)]
       )
     segment = create(:article_segment_source_statements, source:)
-    article = create(:fact_check, title: "Lorem ipsum", published: true, segments: [segment])
+    article = create(:fact_check, :with_illustration, title: "Lorem ipsum", published: true, segments: [segment])
 
     query_string =
       "
@@ -32,6 +36,7 @@ class QueryTypeArticleTest < GraphQLTestCase
               fullName
             }
           }
+          illustration(size: #{Article::ILLUSTRATION_SIZE_MEDIUM})
         }
       }"
 
@@ -39,6 +44,7 @@ class QueryTypeArticleTest < GraphQLTestCase
 
     assert_equal article.title, result.data.article.title
     assert_equal source_speaker.full_name, result.data.article.source.sourceSpeakers[0].fullName
+    assert_match(/speaker\.png/, result.data.article.illustration)
   end
 
   test "article should return given published article by slug" do
