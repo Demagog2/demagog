@@ -53,10 +53,9 @@ FactoryBot.define do
     end
 
     trait :with_illustration do
-      after :create do |account|
-        file_path = Rails.root.join("test", "support", "assets", "test-image.png")
-        file = fixture_file_upload(file_path, "image/png")
-        account.avatar.attach(file)
+      after :create do |article|
+        file_path = Rails.root.join("test", "fixtures", "files", "speaker.png")
+        article.illustration.attach(Rack::Test::UploadedFile.new(file_path, "image/png"))
       end
     end
   end

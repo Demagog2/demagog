@@ -12,6 +12,10 @@ class Article < ApplicationRecord
     ARTICLE_TYPE_FACEBOOK_FACTCHECK = "facebook_factcheck",
   ].freeze
 
+  ILLUSTRATION_SIZES = [
+    ILLUSTRATION_SIZE_MEDIUM = "medium"
+  ].freeze
+
   enum article_type: {
     default: ARTICLE_TYPE_DEFAULT,
     static: ARTICLE_TYPE_STATIC,
@@ -33,7 +37,9 @@ class Article < ApplicationRecord
 
   has_and_belongs_to_many :article_tags, join_table: "article_tag_articles", autosave: false
 
-  has_one_attached :illustration
+  has_one_attached :illustration do |attachable|
+    attachable.variant :medium, resize: "357x238"
+  end
 
   friendly_id :title, use: :slugged
 
