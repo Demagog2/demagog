@@ -3,6 +3,21 @@
 require "graphql/graphql_testcase"
 
 class QueryTypeArticlesTest < GraphQLTestCase
+  test "should return homepage articles" do
+    create_list(:fact_check, 5, published: true)
+
+    query_string = "
+      query {
+        homepageArticles {
+          id
+        }
+      }"
+
+    result = execute(query_string)
+
+    assert_equal 5, result.data.homepageArticles.size
+  end
+
   test "articles should return published articles by default" do
     create_list(:fact_check, 5, published: true)
 
