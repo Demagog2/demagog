@@ -58,7 +58,7 @@ module Types
       argument :size, Schema::Articles::Types::ArticleImageSizeType, required: false, description: "Experimental"
     end
 
-    def illustration(size:)
+    def illustration(size: nil)
       return nil unless object.illustration.attached?
 
       if size == Article::ILLUSTRATION_SIZE_MEDIUM
