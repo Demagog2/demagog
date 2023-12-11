@@ -86,8 +86,12 @@ class QueryTypeSearchTest < GraphQLTestCase
     statement_two = create(:statement, content: "Something he said and loads more", tags: [tag_foo])
     statement_two.source.update!(released_at: "2021-01-01")
 
+    # Statement without tags
+    statements_without_tags = create_list(:statement, 5, source: create(:source, released_at: "2020-01-01"), tags: [])
+
     statement_one.__elasticsearch__.index_document
     statement_two.__elasticsearch__.index_document
+    statements_without_tags.each { |statement| statement.__elasticsearch__.index_document }
     statement_one.__elasticsearch__.client.indices.refresh index: statement_one.__elasticsearch__.index_name
 
     query_string = <<~GRAPHQL
@@ -121,14 +125,17 @@ class QueryTypeSearchTest < GraphQLTestCase
 
     result = execute(query_string)
 
-    assert_equal tag_foo.name, result["data"]["searchStatements"]["tags"][0]["tag"]["name"]
-    assert_equal 2, result["data"]["searchStatements"]["tags"][0]["count"]
+    assert_equal "Bez tématu", result["data"]["searchStatements"]["tags"][0]["tag"]["name"]
+    assert_equal 5, result["data"]["searchStatements"]["tags"][0]["count"]
 
-    assert_equal tag_bar.name, result["data"]["searchStatements"]["tags"][1]["tag"]["name"]
-    assert_equal 1, result["data"]["searchStatements"]["tags"][1]["count"]
+    assert_equal tag_foo.name, result["data"]["searchStatements"]["tags"][1]["tag"]["name"]
+    assert_equal 2, result["data"]["searchStatements"]["tags"][1]["count"]
+
+    assert_equal tag_bar.name, result["data"]["searchStatements"]["tags"][2]["tag"]["name"]
+    assert_equal 1, result["data"]["searchStatements"]["tags"][2]["count"]
 
     assert_equal Veracity::TRUE, result["data"]["searchStatements"]["veracities"][0]["veracity"]["key"]
-    assert_equal 2, result["data"]["searchStatements"]["veracities"][0]["count"]
+    assert_equal 7, result["data"]["searchStatements"]["veracities"][0]["count"]
 
     assert_equal 2022, result["data"]["searchStatements"]["years"][0]["year"]
     assert_equal 1, result["data"]["searchStatements"]["years"][0]["count"]

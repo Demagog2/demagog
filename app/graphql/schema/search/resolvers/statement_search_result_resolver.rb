@@ -31,26 +31,11 @@ module Schema::Search::Resolvers
       def aggregations
         aggregations = StatementsElasticQueryService.aggregate_published_factual({})
 
-        tag_aggregation = aggregations.fetch("tag_id", {})
-
-        tags = Tag.where(id: tag_aggregation.keys.select { |tag_id| tag_id != -1 }).map do |tag|
-          { tag:, count: tag_aggregation[tag.id] }
-        end.sort_by { |tag| [-tag[:count], tag[:tag][:name]] }
-
-        veracity_key_aggregation = aggregations.fetch("veracity_key", {})
-
-        veracities = Assessment::VERACITIES.each_with_index.map do |key, i|
-          veracity = { id: i + 1, key:, name: I18n.t("veracity.names.#{key}") }
-          { veracity:, count: veracity_key_aggregation.fetch(key, 0) }
-        end
-
-        released_year_aggregation = aggregations.fetch("released_year", {})
-
-        years = released_year_aggregation.keys.map do |year|
-          { year:, count: released_year_aggregation[year] }
-        end.sort_by { |option| -option[:year] }
-
-        { tags:, veracities:, years: }
+        {
+          tags: tag_aggregations(aggregations),
+          years: released_year_aggregations(aggregations),
+          veracities: veracity_aggregations(aggregations)
+        }
       end
 
       def build_query(term, filters)
@@ -69,6 +54,35 @@ module Schema::Search::Resolvers
         end
 
         query
+      end
+
+      def tag_aggregations(aggregations)
+        tag_aggregation = aggregations.fetch("tag_id", {})
+
+        tags = Tag.where(id: tag_aggregation.keys.select { |tag_id| tag_id != -1 }).map do |tag|
+          { tag:, count: tag_aggregation[tag.id] }
+        end
+
+        tags.push({ tag: { id: -1, name: "Bez tématu" }, count: tag_aggregation[-1] }) if tag_aggregation.key?(-1)
+
+        tags.sort_by { |tag| [-tag[:count], tag[:tag][:name]] }
+      end
+
+      def released_year_aggregations(aggregations)
+        released_year_aggregation = aggregations.fetch("released_year", {})
+
+        released_year_aggregation.keys.map do |year|
+          { year:, count: released_year_aggregation[year] }
+        end.sort_by { |option| -option[:year] }
+      end
+
+      def veracity_aggregations(aggregations)
+        veracity_key_aggregation = aggregations.fetch("veracity_key", {})
+
+        Assessment::VERACITIES.each_with_index.map do |key, i|
+          veracity = { id: i + 1, key:, name: I18n.t("veracity.names.#{key}") }
+          { veracity:, count: veracity_key_aggregation.fetch(key, 0) }
+        end
       end
 
       def build_pagination(limit, offset)
