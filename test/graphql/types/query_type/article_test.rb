@@ -58,6 +58,7 @@ class QueryTypeArticleTest < GraphQLTestCase
       }\") {
           id
           title
+          illustration
         }
       }"
 
