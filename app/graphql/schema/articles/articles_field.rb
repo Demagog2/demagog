@@ -11,6 +11,10 @@ module Schema::Articles::ArticlesField
       argument :include_unpublished, GraphQL::Types::Boolean, default_value: false, required: false
     end
 
+    field :homepage_articles, [Types::ArticleType], null: false do
+      argument :page, GraphQL::Types::Int, default_value: 1, required: false
+    end
+
     def articles(args)
       if args[:include_unpublished]
         # Public cannot access unpublished articles
@@ -29,6 +33,10 @@ module Schema::Articles::ArticlesField
       articles = articles.matching_title(args[:title]) if args[:title].present?
 
       articles
+    end
+
+    def homepage_articles(page:)
+      Article.kept.published.for_homepage.order(published_at: :desc).page(page).per(10)
     end
   end
 end
