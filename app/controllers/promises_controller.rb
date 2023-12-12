@@ -38,7 +38,7 @@ class PromisesController < FrontendController
       },
       promise_rating: {
         PromiseRating::FULFILLED => "splnene",
-        PromiseRating::IN_PROGRESS => "prubezne-plnene",
+        PromiseRating::IN_PROGRESS => "rozpracovane",
         PromiseRating::PARTIALLY_FULFILLED => "castecne-splnene",
         PromiseRating::BROKEN => "porusene",
         PromiseRating::STALLED => "nerealizovane"
@@ -192,7 +192,7 @@ class PromisesController < FrontendController
 
     @promises_list_rating_labels = {
       PromiseRating::FULFILLED => "Splněný",
-      PromiseRating::IN_PROGRESS => "Průběžně plněný",
+      PromiseRating::IN_PROGRESS => "Rozpracovaný",
       PromiseRating::PARTIALLY_FULFILLED => "Část. splněný",
       PromiseRating::BROKEN => "Porušený",
       PromiseRating::STALLED => "Nerealizovaný",
@@ -229,7 +229,7 @@ class PromisesController < FrontendController
 
     @promises_list_rating_labels = {
       PromiseRating::FULFILLED => "Splněný slib",
-      PromiseRating::IN_PROGRESS => "Průběžně plněný slib",
+      PromiseRating::IN_PROGRESS => "Rozpracovaný slib",
       PromiseRating::PARTIALLY_FULFILLED => "Část. splněný slib",
       PromiseRating::BROKEN => "Porušený slib",
       PromiseRating::STALLED => "Nerealizovaný slib",

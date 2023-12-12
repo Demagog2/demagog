@@ -212,7 +212,7 @@ export default class PromisesDocumentApp extends React.Component<IProps, IState>
               >
                 <img
                   src={
-                                       'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAYAAAB24g05AAAAAXNSR0IArs4c6QAAAJxJREFUKBWFkMsNgzAQRH0kjVEAR3IByklJaYgmCOaN5ZUcsuuMNFrj+dg4pQ5yzqPYscQSwQV+KpfY6SiE1hpkFKhoday/WzJCBe74X0IiCltZXIJjg/eT3+yJLU4+vn+HDYUltFBwgA/olWzlARDDsL1QtwRxhy3KyRa2icG7yZ4QnvCoDW44KFFmLhqLCb7gYOZo4tFN5J3kuQD0ymxIgTo9VgAAAABJRU5ErkJggg=='
+                    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAYAAAB24g05AAAAAXNSR0IArs4c6QAAAJxJREFUKBWFkMsNgzAQRH0kjVEAR3IByklJaYgmCOaN5ZUcsuuMNFrj+dg4pQ5yzqPYscQSwQV+KpfY6SiE1hpkFKhoday/WzJCBe74X0IiCltZXIJjg/eT3+yJLU4+vn+HDYUltFBwgA/olWzlARDDsL1QtwRxhy3KyRa2icG7yZ4QnvCoDW44KFFmLhqLCb7gYOZo4tFN5J3kuQD0ymxIgTo9VgAAAABJRU5ErkJggg=='
                   }
                   alt={'O stránku zpět'}
                 />
@@ -248,7 +248,7 @@ export default class PromisesDocumentApp extends React.Component<IProps, IState>
               >
                 <img
                   src={
-                                       'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAYAAAB24g05AAAAAXNSR0IArs4c6QAAAI5JREFUKBWVUEEOgCAMI/zAT3jBBxve5Y27iX4CW0MjmqG4pHRja4e6nLMHZmABRvcRnCmz1HiHIwKKFUnThD2AM4pIg6SqsGmC3lPM8USDCdhZVXEzwb0lpmY6v5gJYJp8ivXPXkz4mjquzRKLMWW9pE/cYdLeLLEYKwOwVauZB/W7uDL5L9YGmAyEaosPBztySJwi3hIAAAAASUVORK5CYII='
+                    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAYAAAB24g05AAAAAXNSR0IArs4c6QAAAI5JREFUKBWVUEEOgCAMI/zAT3jBBxve5Y27iX4CW0MjmqG4pHRja4e6nLMHZmABRvcRnCmz1HiHIwKKFUnThD2AM4pIg6SqsGmC3lPM8USDCdhZVXEzwb0lpmY6v5gJYJp8ivXPXkz4mjquzRKLMWW9pE/cYdLeLLEYKwOwVauZB/W7uDL5L9YGmAyEaosPBztySJwi3hIAAAAASUVORK5CYII='
                   }
                   alt={'O stránku dál'}
                 />
@@ -531,7 +531,9 @@ class StatementsList extends React.Component<any> {
           return (
             <div
               key={statement.id}
-              ref={(el) => { this.saveRef(statement, el); }}
+              ref={(el) => {
+                this.saveRef(statement, el);
+              }}
               className={css`
                 display: flex;
                 background-color: ${isSelected ? '#FAE4DD' : 'transparent'};
@@ -606,7 +608,7 @@ class StatementsList extends React.Component<any> {
                     {
                       {
                         fulfilled: 'splněný slib',
-                        in_progress: 'průběžně plněný slib',
+                        in_progress: 'rozpracovaný slib',
                         broken: 'porušený slib',
                         stalled: 'nerealizovaný slib',
                       }[statement.promise_rating_key]
@@ -661,7 +663,7 @@ const HeaderBar = () => {
       >
         <img
           src={
-                       'data:image/png;base64,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'
+            'data:image/png;base64,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'
           }
           alt="Demagog.cz"
         />
@@ -692,9 +694,10 @@ const HeaderBar = () => {
           Programové prohlášení druhé vlády Andreje Babiše (
           <a
             href={
-                           'https://www.vlada.cz/assets/jednani-vlady/programove-prohlaseni/Programove-prohlaseni-vlady-cerven-2018.pdf'
+              'https://www.vlada.cz/assets/jednani-vlady/programove-prohlaseni/Programove-prohlaseni-vlady-cerven-2018.pdf'
             }
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             zdroj
           </a>

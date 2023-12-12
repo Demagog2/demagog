@@ -15,7 +15,7 @@ Role.find_or_create_by!(key: "proofreader", name: "Korektor")
 Role.find_or_create_by!(key: "intern", name: "Stážista")
 
 PromiseRating.find_or_create_by!(key: PromiseRating::FULFILLED, name: "Splněno")
-PromiseRating.find_or_create_by!(key: PromiseRating::IN_PROGRESS, name: "Průběžně plněno")
+PromiseRating.find_or_create_by!(key: PromiseRating::IN_PROGRESS, name: "Rozpracováno")
 PromiseRating.find_or_create_by!(key: PromiseRating::PARTIALLY_FULFILLED, name: "Částečně splněno")
 PromiseRating.find_or_create_by!(key: PromiseRating::BROKEN, name: "Porušeno")
 PromiseRating.find_or_create_by!(key: PromiseRating::STALLED, name: "Nerealizováno")

@@ -30,7 +30,7 @@
             </span>
             <span class="fs-4 fw-600 text-uppercase text-primary-light">
               <%= @promise_rating_counts[promise_rating_key] %>
-              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "průběžně plněný", "průběžně plněné", "průběžně plněno") %>
+              <%= cs_pluralize(@promise_rating_counts[promise_rating_key], "rozpracovaný", "rozpracované", "rozpracováno") %>
             </span>
           <% end %>
           <% if promise_rating_key == "partially_fulfilled" %>
@@ -204,7 +204,7 @@
                   <%= (
                     {
                       PromiseRating::FULFILLED => "splněné",
-                      PromiseRating::IN_PROGRESS => "průběžně plněné",
+                      PromiseRating::IN_PROGRESS => "rozpracované",
                       PromiseRating::PARTIALLY_FULFILLED =>  "částečně splněné",
                       PromiseRating::BROKEN => "porušené",
                       PromiseRating::STALLED => "nerealizované",
