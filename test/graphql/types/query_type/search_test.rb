@@ -81,7 +81,7 @@ class QueryTypeSearchTest < GraphQLTestCase
   test "search statements with aggregates" do
     tag_bar = create(:tag, name: "Bar")
     tag_foo = create(:tag, name: "Foo")
-    statement_one = create(:statement, content: "Something he said and loads more", tags: [tag_foo, tag_bar])
+    statement_one = create(:statement, :important, content: "Something he said and loads more", tags: [tag_foo, tag_bar])
     statement_one.source.update!(released_at: "2022-01-01")
     statement_two = create(:statement, content: "Something he said and loads more", tags: [tag_foo])
     statement_two.source.update!(released_at: "2021-01-01")
@@ -118,6 +118,9 @@ class QueryTypeSearchTest < GraphQLTestCase
             year
             count
           }
+          editorPicked {
+            count
+          }
           totalCount
         }
       }
@@ -142,6 +145,8 @@ class QueryTypeSearchTest < GraphQLTestCase
 
     assert_equal 2021, result["data"]["searchStatements"]["years"][1]["year"]
     assert_equal 1, result["data"]["searchStatements"]["years"][1]["count"]
+
+    assert_equal 1, result["data"]["searchStatements"]["editorPicked"]["count"]
   end
 
   test "search statements - filter by tags" do
@@ -215,6 +220,32 @@ class QueryTypeSearchTest < GraphQLTestCase
     query_string = <<~GRAPHQL
       query {
         searchStatements(term: "Something he said", includeAggregations: true, filters: { years: [1990] }) {
+          statements {
+            id
+          }
+          totalCount
+        }
+      }
+    GRAPHQL
+
+    result = execute(query_string)
+
+    assert_equal 1, result["data"]["searchStatements"]["totalCount"]
+    assert_equal statement_one.id, result["data"]["searchStatements"]["statements"][0]["id"].to_i
+  end
+
+  test "search statements - filter by editor picked" do
+    statement_one = create(:statement, :important, content: "Something he said and loads more")
+    statement_two = create(:statement, content: "Something he said and loads more")
+
+    statement_one.__elasticsearch__.index_document
+    statement_two.__elasticsearch__.index_document
+
+    statement_one.__elasticsearch__.client.indices.refresh index: statement_one.__elasticsearch__.index_name
+
+    query_string = <<~GRAPHQL
+      query {
+        searchStatements(term: "Something he said", includeAggregations: true, filters: { editorPicked: true }) {
           statements {
             id
           }
