@@ -75,11 +75,15 @@ namespace :source do
       to_source = Source.find(args.to_source_id)
 
       from_source.statements.each do |from_statement|
-        to_statement = Statement.find_by!(
+        from_speaker_id = from_statement.source_speaker.speaker_id
+
+        to_statement = Statement.joins(:source_speaker).find_by!(
           # Using title, because content of one of promise statements has been changed
           title: from_statement.title,
-          speaker_id: from_statement.speaker_id,
-          source_id: to_source.id
+          source_id: to_source.id,
+          source_speaker: {
+            speaker_id: from_speaker_id
+          }
         )
 
         from_assessment = from_statement.assessment
