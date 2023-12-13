@@ -7,7 +7,7 @@ export class StatsReportTranslator {
     evaluated: '{count} se ještě ověřuje',
 
     fulfilled: 'splněno {count}',
-    in_progress: 'průběžně plněno {count}',
+    in_progress: 'rozpracováno {count}',
     partially_fulfilled: 'částečně splněno {count}',
     broken: 'porušeno {count}',
     stalled: 'nerealizováno {count}',
