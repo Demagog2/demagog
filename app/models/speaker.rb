@@ -152,7 +152,10 @@ class Speaker < ApplicationRecord
       # leaders of parties in lower house of parliament, sorted by number of MPs
       183, # ANO, Andrej Babis
       180, # SPD, Tomio Okamura
-      502 # TOP-09, Marketa Pekarova Adamova
+      502, # TOP-09, Marketa Pekarova Adamova
+
+      # leader of upper house of the parliament
+      244,
     ]
   end
 end
