@@ -5,6 +5,7 @@ module Schema::Speakers::SpeakersField
 
   included do
     field :get_most_searched_speakers, [Types::SpeakerType], null: false
+    field :get_president_and_goverment_speakers, [Types::SpeakerType], null: false
 
     field :speakers, [Types::SpeakerType], null: false do
       argument :limit, GraphQL::Types::Int, required: false, default_value: 10
@@ -36,6 +37,10 @@ module Schema::Speakers::SpeakersField
 
     def get_most_searched_speakers
       Speaker.most_searched_speakers
+    end
+
+    def get_president_and_goverment_speakers
+      Speaker.president_and_government_speakers
     end
   end
 end

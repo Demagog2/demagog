@@ -11,7 +11,41 @@ class Speaker < ApplicationRecord
     502, # Marketa Pekarova Adamova
   ].freeze
 
+  MOST_IMPORTANT_SPEAKER_IDS = [
+    # president
+    711, # Petr Pavel
+
+    # government
+    67, # ODS, Petr Fiala
+    506, # STAN, Vit Rakusan
+    133, # KDU-CSL, Marian Jurecka
+    461, # TOP-09, Vlastimil Valek
+    76, # Pirati, Ivan Bartos
+    13, # ODS, Zbynek Stanjura
+    78, # ODS, Pavel Blazek
+    615, # STAN, Jozef Sikela
+    354, # ODS, Jana Cernochova
+    480, # Pirati, Jan Lipavsky
+    443, # ODS, Martin Kupka
+    548, # STAN, Mikulas Bek
+    488, # KDU-CSL, Marek Vyborny
+    311, # ODS, Martin Baxa
+    454, # KDU-CSL, Petr Hladik
+    722, # STAN, Martin Dvorak
+    156, # TOP-09, Helena Langsadlova
+    616, # Michal Salomoun
+
+    # leaders of parties in lower house of parliament, sorted by number of MPs
+    183, # ANO, Andrej Babis
+    180, # SPD, Tomio Okamura
+    502, # TOP-09, Marketa Pekarova Adamova
+
+    # leader of upper house of the parliament
+    244, # ODS, Milos Vystrcil
+  ].freeze
+
   scope :most_searched_speakers, -> { where(id: MOST_SEARCHED_SPEAKER_IDS).in_order_of(:id, MOST_SEARCHED_SPEAKER_IDS) }
+  scope :president_and_government_speakers, -> { where(id: MOST_IMPORTANT_SPEAKER_IDS).in_order_of(:id, MOST_IMPORTANT_SPEAKER_IDS) }
 
   after_create  { ElasticsearchWorker.perform_async(:speaker, :index,  self.id) }
   after_update  { ElasticsearchWorker.perform_async(:speaker, :update,  self.id) }
@@ -121,41 +155,5 @@ class Speaker < ApplicationRecord
 
   def stats
     SpeakerStat.where(speaker_id: id).normalize
-  end
-
-  # TODO: Remove hardcoded values and add to database with editable admin ui
-  def self.get_most_important_speaker_ids
-    [
-      # president
-      711, # Petr Pavel
-
-      # government
-      67, # ODS, Petr Fiala
-      506, # STAN, Vit Rakusan
-      133, # KDU-CSL, Marian Jurecka
-      461, # TOP-09, Vlastimil Valek
-      76, # Pirati, Ivan Bartos
-      13, # ODS, Zbynek Stanjura
-      78, # ODS, Pavel Blazek
-      615, # STAN, Jozef Sikela
-      354, # ODS, Jana Cernochova
-      480, # Pirati, Jan Lipavsky
-      443, # ODS, Martin Kupka
-      548, # STAN, Mikulas Bek
-      488, # KDU-CSL, Marek Vyborny
-      311, # ODS, Martin Baxa
-      454, # KDU-CSL, Petr Hladik
-      722, # STAN, Martin Dvorak
-      156, # TOP-09, Helena Langsadlova
-      616, # Michal Salomoun
-
-      # leaders of parties in lower house of parliament, sorted by number of MPs
-      183, # ANO, Andrej Babis
-      180, # SPD, Tomio Okamura
-      502, # TOP-09, Marketa Pekarova Adamova
-
-      # leader of upper house of the parliament
-      244,
-    ]
   end
 end

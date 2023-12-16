@@ -70,4 +70,25 @@ class QueryTypeSpeakersTest < GraphQLTestCase
 
     assert_equal Speaker::MOST_SEARCHED_SPEAKER_IDS, ids
   end
+
+  test "get president and govermental speakers" do
+    # TODO: Add mocking library?
+    Speaker::MOST_IMPORTANT_SPEAKER_IDS.each do |id|
+      create(:speaker, id:)
+    end
+
+    query_string = <<~GRAPHQL
+      query {
+        getPresidentAndGovermentSpeakers {
+          id
+        }
+      }
+    GRAPHQL
+
+    result = execute(query_string)
+
+    ids = result["data"]["getPresidentAndGovermentSpeakers"].pluck(:id).map(&:to_i)
+
+    assert_equal Speaker::MOST_IMPORTANT_SPEAKER_IDS, ids
+  end
 end
