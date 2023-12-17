@@ -239,6 +239,11 @@ FactoryBot.define do
   factory :membership do
     speaker
     body
+
+    trait :current do
+      # Needs to be defined this way cause until is reserved word in Ruby
+      sequence(:until) { nil }
+    end
   end
 
   factory :speaker do

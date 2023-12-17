@@ -38,3 +38,8 @@ en:
       untrue: "Untrue"
       misleading: "Misleading"
       unverifiable: "Unverifiable"
+
+  aggregations:
+    body_groups:
+      parliamentary: Parties and movements part of the Parliament of Czech Republic
+      others: Other parties and movements

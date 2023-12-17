@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Schema::Search::Resolvers
-  class StatementSearchResultResolver < GraphQL::Schema::Resolver
+  class StatementSearchResultResolver < BaseSearchResultResolver
     type Schema::Search::Types::SearchResultStatementType, null: false
 
     argument :term, GraphQL::Types::String, required: true
@@ -94,10 +94,6 @@ module Schema::Search::Resolvers
         editor_picked_aggreations = aggregations.fetch("editor_picked", {})
 
         { count: editor_picked_aggreations.fetch(1, 0).to_int }
-      end
-
-      def build_pagination(limit, offset)
-        { from: offset, size: limit }
       end
   end
 end

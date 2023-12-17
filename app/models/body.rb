@@ -19,6 +19,14 @@ class Body < ApplicationRecord
     "#{name.parameterize}-#{id}"
   end
 
+  def display_name
+    if name == short_name
+      name
+    else
+      "#{name} (#{short_name})"
+    end
+  end
+
   def self.matching_name(name)
     where(
       "name ILIKE ? OR UNACCENT(name) ILIKE ? OR short_name ILIKE ? OR UNACCENT(short_name) ILIKE ?",
