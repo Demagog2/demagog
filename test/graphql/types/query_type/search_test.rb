@@ -68,7 +68,7 @@ class QueryTypeSearchTest < GraphQLTestCase
   end
 
   test "search speakers with aggregations" do
-    # skip("CircleCI collate compatibility issue")
+    skip("CircleCI collate compatibility issue")
     source = create(:source)
 
     party_one = create(:party, id: Body.get_lower_parliament_body_ids.first, name: "Party 1", short_name: "P1")
