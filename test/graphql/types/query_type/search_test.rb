@@ -8,9 +8,13 @@ class QueryTypeSearchTest < GraphQLTestCase
   end
 
   test "search speakers" do
+    source = create(:source)
+
     speaker_one = create(:speaker, first_name: "John", last_name: "Doe")
+    create_list(:statement, 5, source:, source_speaker: create(:source_speaker, source:, speaker: speaker_one))
     speaker_one.__elasticsearch__.index_document
     speaker_two = create(:speaker, first_name: "John", last_name: "Brown")
+    create_list(:statement, 5, source:, source_speaker: create(:source_speaker, source:, speaker: speaker_two))
     speaker_two.__elasticsearch__.index_document
 
     speaker_one.__elasticsearch__.client.indices.refresh index: speaker_one.__elasticsearch__.index_name
@@ -18,6 +22,37 @@ class QueryTypeSearchTest < GraphQLTestCase
     query_string = <<~GRAPHQL
       query {
         searchSpeakers(term: "Doe") {
+          speakers {
+            id
+          }
+          totalCount
+        }
+      }
+    GRAPHQL
+
+    result = execute(query_string)
+
+    assert_equal [speaker_one.id.to_s], result["data"]["searchSpeakers"]["speakers"].pluck("id")
+    assert_equal 1, result["data"]["searchSpeakers"]["totalCount"]
+  end
+
+  test "search speakers with bodies filter" do
+    source = create(:source)
+
+    party_one = create(:party, id: Body.get_lower_parliament_body_ids.first, name: "Party 1", short_name: "P1")
+    speaker_one = create(:speaker, first_name: "John", last_name: "Doe")
+    create(:membership, :current, speaker: speaker_one, body: party_one)
+    create_list(:statement, 5, source:, source_speaker: create(:source_speaker, source:, speaker: speaker_one))
+    speaker_one.__elasticsearch__.index_document
+    speaker_two = create(:speaker, first_name: "Jane", last_name: "Doe")
+    create_list(:statement, 5, source:, source_speaker: create(:source_speaker, source:, speaker: speaker_two))
+    speaker_two.__elasticsearch__.index_document
+
+    speaker_one.__elasticsearch__.client.indices.refresh index: speaker_one.__elasticsearch__.index_name
+
+    query_string = <<~GRAPHQL
+      query {
+        searchSpeakers(term: "Doe", filters: { bodies: ["#{party_one.id}"] }) {
           speakers {
             id
           }
@@ -52,7 +87,7 @@ class QueryTypeSearchTest < GraphQLTestCase
 
     query_string = <<~GRAPHQL
       query {
-        searchSpeakers(term: "Doe", includeAggregations: true) {
+        searchSpeakers(term: "Doe", includeAggregations: true, filters: { bodies: ["#{party_one.id}"] }) {
           speakers {
             id
           }
@@ -62,6 +97,7 @@ class QueryTypeSearchTest < GraphQLTestCase
               body {
                 id
               }
+              isSelected
               count
             }
           }
@@ -76,6 +112,7 @@ class QueryTypeSearchTest < GraphQLTestCase
     assert_equal I18n.t("aggregations.body_groups.parliamentary"), result["data"]["searchSpeakers"]["bodyGroups"][0]["name"]
     assert_equal 1, result["data"]["searchSpeakers"]["bodyGroups"][0]["bodies"].size
     assert_equal party_one.id.to_s, result["data"]["searchSpeakers"]["bodyGroups"][0]["bodies"][0]["body"]["id"]
+    assert_equal true, result["data"]["searchSpeakers"]["bodyGroups"][0]["bodies"][0]["isSelected"]
     assert_equal 1, result["data"]["searchSpeakers"]["bodyGroups"][0]["bodies"][0]["count"]
 
     assert_equal I18n.t("aggregations.body_groups.others"), result["data"]["searchSpeakers"]["bodyGroups"][1]["name"]
