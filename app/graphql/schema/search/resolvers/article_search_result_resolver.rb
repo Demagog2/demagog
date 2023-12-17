@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Schema::Search::Resolvers
-  class ArticleSearchResultResolver < GraphQL::Schema::Resolver
+  class ArticleSearchResultResolver < BaseSearchResultResolver
     type Schema::Search::Types::SearchResultArticleType, null: false
 
     argument :term, GraphQL::Types::String, required: true

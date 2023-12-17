@@ -77,7 +77,7 @@ class SpeakerElasticFilterableListPresenter
       body_id_filter_options = Body.where(id: body_id_aggregation.keys).order(Arel.sql("name COLLATE \"cs_CZ\" ASC")).map do |body|
         {
           value: "#{body.short_name.parameterize}-#{body.id}",
-          label: "#{body.name}" + (body.name != body.short_name ? " (#{body.short_name})" : ""),
+          label: body.display_name,
           count: body_id_aggregation[body.id],
           selected: @parsed_params_filters[:body_id] && @parsed_params_filters[:body_id].include?(body.id),
           group_name: lower_parliament_body_ids.include?(body.id) ? "Strany a hnutí v Poslanecké sněmovně Parlamentu ČR" : "Další strany a hnutí"

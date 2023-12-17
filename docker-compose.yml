@@ -21,7 +21,11 @@ services:
         hard: -1
 
   db:
-    image: postgres:11.2
+    build:
+      context: ./postgresql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
     ports:
       - 5432:5432
     restart: always
