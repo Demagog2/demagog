@@ -1,22 +1,17 @@
 <div class="d-flex flex-wrap align-items-center justify-content-between">
   <div class="d-flex flex-wrap align-items-center">
-    <a
-      href="/<%= 'volba-prezidenta-2023' if active != "presidential_election" %>"
-      class="btn outline mb-2 h-44px me-2 fs-6 px-4 <%= 'active' if active && active == "presidential_election" %>"
-    >
+    <%= link_to(presidential_election_2023_path, class: "btn outline mb-2 h-44px me-2 fs-6 px-4 #{current_page?(presidential_election_2023_path) ? 'active' : ''}") do %>
       <span class="m-0 p-0 lh-1 me-2">
         <svg width="16" height="24" viewBox="0 0 16 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M16 10.4657C14.4776 8.06271 11.7585 6.45508 8.64732 6.45508C3.86953 6.45508 0 10.2268 0 14.8811C0 19.5354 3.86953 23.3099 8.64732 23.3099C11.7527 23.3099 14.466 21.7107 15.9913 19.3161L7.84285 14.9176L16 10.4657Z"/>
         <path d="M10.4409 2.22314L8.27835 0L6.17058 2.15007L3.15454 0V4.67675H13.5348V0L10.4409 2.22314Z"/>
         </svg>
-
       </span>
+
       <span class="lh-1 m-0 p-0">Volba prezidenta 2023</span>
-    </a>
-    <a
-      href="/<%= 'spoluprace-s-facebookem' if active != "collaboration_with_facebook" %>"
-      class="btn outline mb-2 h-44px me-2 fs-6 px-4 <%= 'active' if active && active == "collaboration_with_facebook" %>"
-    >
+    <% end %>
+
+    <%= link_to(facebook_collab_path, class: "btn outline mb-2 h-44px me-2 fs-6 px-4 #{current_page?(facebook_collab_path) ? 'active' : ''}") do %>
       <span class="h-20px me-2">
         <svg width="43" height="20" viewBox="0 0 43 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M19.5167 4.75904C17.6585 1.90762 14.3434 0 10.5486 0C4.7208 0 0 4.4759 0 10.0014C0 15.527 4.7208 20.0029 10.5486 20.0029C14.3343 20.0029 17.6464 18.1038 19.5076 15.2638L9.56527 10.0415L19.5167 4.75904Z"/>
@@ -24,34 +19,20 @@
         </svg>
       </span>
       <span class="lh-1 m-0 p-0">Facebook fact-check</span>
-    </a>
+    <% end %>
+
     <% if @article_tags %>
       <% @article_tags.each do |tag| %>
         <%= render partial: "components/tag_item", object: tag, as: :tag, locals: { active: @tag == tag } %>
       <% end %>
     <% end %>
   </div>
-  <% if active %>
-  <div>
-    <a
-      href="/"
-      class="btn outline mb-2 h-44px me-2 fs-6 px-6"
-    >
-      <span class="me-2">←</span>
-      <span>Zpět</span>
-    </a>
-  </div>
+  <% if active || @tag %>
+    <div>
+      <%= link_to(root_path, class: 'btn outline mb-2 h-44px me-2 fs-6 px-6') do %>
+        <span class="me-2">←</span>
+        <span>Zpět</span>
+      <% end %>
+    </div>
   <% end %>
-  <% if @tag %>
-  <div>
-    <a
-      href="/"
-      class="btn outline mb-2 h-44px me-2 fs-6 px-6"
-    >
-      <span class="me-2">←</span>
-      <span>Zpět</span>
-    </a>
-  </div>
-  <% end %>
-
 </div>
