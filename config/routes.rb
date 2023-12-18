@@ -76,8 +76,8 @@ Rails.application.routes.draw do
 
   get "diskuze" => "article#discussions"
   get "socialni-site" => "article#social_media"
-  get "spoluprace-s-facebookem" => "article#collaboration_with_facebook"
-  get "volba-prezidenta-2023" => "article#presidential_election"
+  get "spoluprace-s-facebookem" => "article#collaboration_with_facebook", as: "facebook_collab"
+  get "volba-prezidenta-2023" => "article#presidential_election", as: "presidential_election_2023"
   get "komentare" => "article#editorials"
 
   get "nocookies" => "nocookies#index"

@@ -133,19 +133,6 @@ class Statement < ApplicationRecord
     )
   end
 
-  def self.interesting_statements
-    order(excerpted_at: :desc)
-      .where(statement_type: Statement::TYPE_FACTUAL)
-      .where(published: true)
-      .joins(:assessment)
-      .where(assessments: {
-        evaluation_status: Assessment::STATUS_APPROVED
-      })
-      .limit(4)
-      .includes(:speaker)
-      .where(important: true)
-  end
-
   def self.sort_statements_query(query, sources_chronologically = true)
     query
       .joins(:source)

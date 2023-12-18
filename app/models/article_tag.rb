@@ -6,11 +6,9 @@ class ArticleTag < ApplicationRecord
 
   extend FriendlyId
 
-  friendly_id :title, use: :slugged
+  scope :published, -> { where(published: true) }
 
-  def self.published
-    where(published: true)
-  end
+  friendly_id :title, use: :slugged
 
   def self.matching_title(title)
     where("title ILIKE ? OR UNACCENT(title) ILIKE ?", "%#{title}%", "%#{title}%")
