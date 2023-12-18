@@ -41,4 +41,40 @@ class QueryTypeArticleTagTest < GraphQLTestCase
 
     assert_graphql_error("Could not find ArticleTag with id=#{article_tag.id}", result)
   end
+
+  test "article tag should return given tag by slug" do
+    article_tag = create(:article_tag, published: true)
+    article_tag.articles << create(:article)
+
+    query_string = <<~GRAPHQL
+      query {
+        articleTagBySlug(slug: "#{article_tag.slug}") {
+          title
+          articles {
+            title
+          }
+        }
+      }
+    GRAPHQL
+
+    result = execute(query_string)
+
+    assert_equal article_tag.title, result.data.articleTagBySlug.title
+  end
+
+  test "article tag should not return unpublished tag by slug" do
+    article_tag = create(:article_tag, published: false)
+
+    query_string = <<~GRAPHQL
+      query {
+        articleTagBySlug(slug: "#{article_tag.slug}") {
+          title
+        }
+      }
+    GRAPHQL
+
+    result = execute(query_string)
+
+    assert_nil result.data.articleTagBySlug
+  end
 end
