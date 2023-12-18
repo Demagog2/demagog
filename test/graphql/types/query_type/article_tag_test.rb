@@ -62,7 +62,7 @@ class QueryTypeArticleTagTest < GraphQLTestCase
     assert_equal article_tag.title, result.data.articleTagBySlug.title
   end
 
-  test "article tag should not return unpulished tag by slug" do
+  test "article tag should not return unpublished tag by slug" do
     article_tag = create(:article_tag, published: false)
 
     query_string = <<~GRAPHQL
