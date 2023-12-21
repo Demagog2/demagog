@@ -4,11 +4,30 @@ module Schema::Search::Resolvers
   class StatementSearchResultResolver < BaseSearchResultResolver
     type Schema::Search::Types::SearchResultStatementType, null: false
 
+    class << self
+      attr_accessor :model_context
+    end
+
     argument :term, GraphQL::Types::String, required: true
     argument :limit, GraphQL::Types::Int, required: false, default_value: 10
     argument :offset, GraphQL::Types::Int, required: false, default_value: 0
     argument :include_aggregations, GraphQL::Types::Boolean, required: false, default_value: false
     argument :filters, Schema::Search::Inputs::StatementFilterInput, required: false
+
+    def self.within_context(model_context)
+      Class.new(self) do
+        self.model_context = model_context
+      end
+    end
+
+    def model_context
+      case self.class.model_context
+      when :speaker
+        { speaker_id: object.id }
+      else
+        {}
+      end
+    end
 
     def resolve(term:, limit:, offset:, include_aggregations:, filters: nil)
       query = build_query(term, filters ? filters.to_hash : {})
@@ -23,13 +42,13 @@ module Schema::Search::Resolvers
 
     private
       def search(query, pagination)
-        statement_search = StatementsElasticQueryService.search_published_factual(query, **pagination)
+        statement_search = StatementsElasticQueryService.search_published_factual(model_context.merge(query), **pagination)
 
         { statements: statement_search.records.to_a, total_count: statement_search.total_count }
       end
 
       def aggregations
-        aggregations = StatementsElasticQueryService.aggregate_published_factual({})
+        aggregations = StatementsElasticQueryService.aggregate_published_factual(model_context)
 
         {
           tags: tag_aggregations(aggregations),
