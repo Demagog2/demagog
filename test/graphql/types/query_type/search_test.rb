@@ -207,6 +207,7 @@ class QueryTypeSearchTest < GraphQLTestCase
           }
           editorPicked {
             count
+            isSelected
           }
           totalCount
         }
@@ -234,12 +235,14 @@ class QueryTypeSearchTest < GraphQLTestCase
     assert_equal 1, result["data"]["searchStatements"]["years"][1]["count"]
 
     assert_equal 1, result["data"]["searchStatements"]["editorPicked"]["count"]
+    assert_equal false, result["data"]["searchStatements"]["editorPicked"]["isSelected"]
   end
 
   test "search statements - filter by tags" do
     tag = create(:tag, name: "Foo")
+    tag_other = create(:tag, name: "Bar")
     statement_one = create(:statement, content: "Something he said and loads more", tags: [tag])
-    statement_two = create(:statement, content: "Something he said and loads more", tags: [])
+    statement_two = create(:statement, content: "Something he said and loads more", tags: [tag_other])
 
     statement_one.__elasticsearch__.index_document
     statement_two.__elasticsearch__.index_document
@@ -252,6 +255,12 @@ class QueryTypeSearchTest < GraphQLTestCase
           statements {
             id
           }
+          tags {
+            tag {
+              id
+            }
+            isSelected
+          }
           totalCount
         }
       }
@@ -261,6 +270,13 @@ class QueryTypeSearchTest < GraphQLTestCase
 
     assert_equal 1, result["data"]["searchStatements"]["totalCount"]
     assert_equal statement_one.id, result["data"]["searchStatements"]["statements"][0]["id"].to_i
+
+
+    assert_equal tag_other.id, result["data"]["searchStatements"]["tags"][0]["tag"]["id"].to_i
+    assert_equal false, result["data"]["searchStatements"]["tags"][0]["isSelected"]
+
+    assert_equal tag.id, result["data"]["searchStatements"]["tags"][1]["tag"]["id"].to_i
+    assert_equal true, result["data"]["searchStatements"]["tags"][1]["isSelected"]
   end
 
   test "search statements - filter by veracity" do
@@ -283,6 +299,12 @@ class QueryTypeSearchTest < GraphQLTestCase
           statements {
             id
           }
+          veracities {
+            veracity {
+              key
+            }
+            isSelected
+          }
           totalCount
         }
       }
@@ -292,12 +314,16 @@ class QueryTypeSearchTest < GraphQLTestCase
 
     assert_equal 1, result["data"]["searchStatements"]["totalCount"]
     assert_equal statement_one.id, result["data"]["searchStatements"]["statements"][0]["id"].to_i
+
+    assert_equal true, result["data"]["searchStatements"]["veracities"][0]["isSelected"]
+    assert_equal false, result["data"]["searchStatements"]["veracities"][1]["isSelected"]
   end
 
   test "search statements - filter by year" do
     statement_one = create(:statement, content: "Something he said and loads more")
     statement_one.source.update!(released_at: "1990-01-01")
     statement_two = create(:statement, content: "Something he said and loads more")
+    statement_two.source.update!(released_at: "2010-01-01")
 
     statement_one.__elasticsearch__.index_document
     statement_two.__elasticsearch__.index_document
@@ -310,6 +336,10 @@ class QueryTypeSearchTest < GraphQLTestCase
           statements {
             id
           }
+          years {
+            year
+            isSelected
+          }
           totalCount
         }
       }
@@ -319,6 +349,12 @@ class QueryTypeSearchTest < GraphQLTestCase
 
     assert_equal 1, result["data"]["searchStatements"]["totalCount"]
     assert_equal statement_one.id, result["data"]["searchStatements"]["statements"][0]["id"].to_i
+
+    assert_equal 2010, result["data"]["searchStatements"]["years"][0]["year"]
+    assert_equal false, result["data"]["searchStatements"]["years"][0]["isSelected"]
+
+    assert_equal 1990, result["data"]["searchStatements"]["years"][1]["year"]
+    assert_equal true, result["data"]["searchStatements"]["years"][1]["isSelected"]
   end
 
   test "search statements - filter by editor picked" do
@@ -336,6 +372,9 @@ class QueryTypeSearchTest < GraphQLTestCase
           statements {
             id
           }
+          editorPicked {
+            isSelected
+          }
           totalCount
         }
       }
@@ -345,6 +384,7 @@ class QueryTypeSearchTest < GraphQLTestCase
 
     assert_equal 1, result["data"]["searchStatements"]["totalCount"]
     assert_equal statement_one.id, result["data"]["searchStatements"]["statements"][0]["id"].to_i
+    assert_equal true, result["data"]["searchStatements"]["editorPicked"]["isSelected"]
   end
 
   def teardown

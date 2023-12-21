@@ -32,11 +32,13 @@ module Schema::Search::Resolvers
     end
 
     def resolve(term:, limit:, offset:, include_aggregations:, filters: nil)
-      query = build_query(term, filters ? filters.to_hash : {})
+      filters = filters ? filters.to_hash : {}
+
+      query = build_query(term, filters)
       pagination = build_pagination(limit, offset)
 
       if include_aggregations
-        search(query, pagination).merge(aggregations)
+        search(query, pagination).merge(aggregations(filters))
       else
         search(query, pagination)
       end
@@ -49,14 +51,14 @@ module Schema::Search::Resolvers
         { statements: statement_search.records.to_a, total_count: statement_search.total_count }
       end
 
-      def aggregations
+      def aggregations(filters)
         aggregations = StatementsElasticQueryService.aggregate_published_factual(model_context)
 
         {
-          tags: tag_aggregations(aggregations),
-          years: released_year_aggregations(aggregations),
-          veracities: veracity_aggregations(aggregations),
-          editor_picked: editor_picked_aggregation(aggregations)
+          tags: tag_aggregations(aggregations, filters),
+          years: released_year_aggregations(aggregations, filters),
+          veracities: veracity_aggregations(aggregations, filters),
+          editor_picked: editor_picked_aggregation(aggregations, filters)
         }
       end
 
@@ -82,11 +84,11 @@ module Schema::Search::Resolvers
         query
       end
 
-      def tag_aggregations(aggregations)
+      def tag_aggregations(aggregations, filters)
         tag_aggregation = aggregations.fetch("tag_id", {})
 
         tags = Tag.where(id: tag_aggregation.keys.select { |tag_id| tag_id != -1 }).map do |tag|
-          { tag:, count: tag_aggregation[tag.id] }
+          { tag:, count: tag_aggregation[tag.id], is_selected: filters.fetch(:tags, []).include?(tag.id) }
         end
 
         tags.push({ tag: { id: -1, name: "Bez tématu" }, count: tag_aggregation[-1] }) if tag_aggregation.key?(-1)
@@ -94,27 +96,27 @@ module Schema::Search::Resolvers
         tags.sort_by { |tag| [-tag[:count], tag[:tag][:name]] }
       end
 
-      def released_year_aggregations(aggregations)
+      def released_year_aggregations(aggregations, filters)
         released_year_aggregation = aggregations.fetch("released_year", {})
 
         released_year_aggregation.keys.map do |year|
-          { year:, count: released_year_aggregation[year] }
+          { year:, count: released_year_aggregation[year], is_selected: filters.fetch(:years, []).include?(year.to_i) }
         end.sort_by { |option| -option[:year] }
       end
 
-      def veracity_aggregations(aggregations)
+      def veracity_aggregations(aggregations, filters)
         veracity_key_aggregation = aggregations.fetch("veracity_key", {})
 
         Assessment::VERACITIES.each_with_index.map do |key, i|
           veracity = { id: i + 1, key:, name: I18n.t("veracity.names.#{key}") }
-          { veracity:, count: veracity_key_aggregation.fetch(key, 0) }
+          { veracity:, count: veracity_key_aggregation.fetch(key, 0), is_selected: filters.fetch(:veracities, []).include?(key) }
         end
       end
 
-      def editor_picked_aggregation(aggregations)
+      def editor_picked_aggregation(aggregations, filters)
         editor_picked_aggreations = aggregations.fetch("editor_picked", {})
 
-        { count: editor_picked_aggreations.fetch(1, 0).to_int }
+        { count: editor_picked_aggreations.fetch(1, 0).to_int, is_selected: filters.fetch(:editor_picked, false) }
       end
   end
 end
