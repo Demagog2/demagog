@@ -4,6 +4,10 @@ module Schema::Search::Resolvers
   class StatementSearchResultResolver < BaseSearchResultResolver
     type Schema::Search::Types::SearchResultStatementType, null: false
 
+    class << self
+      attr_accessor :model_context
+    end
+
     argument :term, GraphQL::Types::String, required: true
     argument :limit, GraphQL::Types::Int, required: false, default_value: 10
     argument :offset, GraphQL::Types::Int, required: false, default_value: 0
@@ -12,10 +16,6 @@ module Schema::Search::Resolvers
 
     def self.within_context(model_context)
       Class.new(self) do
-        class << self
-          attr_accessor :model_context
-        end
-
         self.model_context = model_context
       end
     end
