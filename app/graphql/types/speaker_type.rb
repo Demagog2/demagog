@@ -16,6 +16,7 @@ module Types
     field :website_url, String, null: false
     field :role, String, null: true
     field :verified_statements_count, Int, null: false
+    field :search_statements, Schema::Search::Types::SearchResultStatementType, null: false, resolver: Schema::Search::Resolvers::StatementSearchResultResolver.within_context(:speaker)
 
     field :avatar, String, null: true
 
@@ -27,7 +28,7 @@ module Types
 
     # Seznam uses portrait of speaker, we need to keep it till they update it
     field :portrait, String, null: true,
-          deprecation_reason: "Replaced by 'body', as not all speakers must be members of a political party"
+          deprecation_reason: "Replaced by 'avatar'"
 
     def portrait
       return nil unless object.avatar.attached?
