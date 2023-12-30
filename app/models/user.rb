@@ -8,13 +8,18 @@ class User < ApplicationRecord
   default_scope { kept }
   scope :active, -> { where(active: true) }
 
+  scope :public_members, -> { where(active: true, user_public: true) }
+  scope :ordered, -> { order(rank: :asc, last_name: :asc) }
+
   has_and_belongs_to_many :roles, join_table: :users_roles
   has_many :comments
   has_many :assessments
   has_many :notifications, foreign_key: "recipient_id"
   has_and_belongs_to_many :sources, join_table: "sources_experts"
 
-  has_one_attached :avatar
+  has_one_attached :avatar do |attachable|
+    attachable.variant :thumbnail, resize: "114x114"
+  end
 
   delegate :authorized?, to: :role
 
