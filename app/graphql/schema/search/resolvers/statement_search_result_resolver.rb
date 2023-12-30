@@ -91,7 +91,7 @@ module Schema::Search::Resolvers
           { tag:, count: tag_aggregation[tag.id], is_selected: filters.fetch(:tags, []).include?(tag.id) }
         end
 
-        tags.push({ tag: { id: -1, name: "Bez tématu" }, count: tag_aggregation[-1] }) if tag_aggregation.key?(-1)
+        tags.push({ tag: { id: -1, name: "Bez tématu" }, count: tag_aggregation[-1], is_selected: filters.fetch(:tags, []).include?(-1) }) if tag_aggregation.key?(-1)
 
         tags.sort_by { |tag| [-tag[:count], tag[:tag][:name]] }
       end

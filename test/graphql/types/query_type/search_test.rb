@@ -192,6 +192,7 @@ class QueryTypeSearchTest < GraphQLTestCase
               id
               name
             }
+            isSelected
             count
           }
           veracities {
@@ -217,6 +218,7 @@ class QueryTypeSearchTest < GraphQLTestCase
     result = execute(query_string)
 
     assert_equal "Bez tématu", result["data"]["searchStatements"]["tags"][0]["tag"]["name"]
+    assert_equal false, result["data"]["searchStatements"]["tags"][0]["isSelected"]
     assert_equal 5, result["data"]["searchStatements"]["tags"][0]["count"]
 
     assert_equal tag_foo.name, result["data"]["searchStatements"]["tags"][1]["tag"]["name"]
