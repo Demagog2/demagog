@@ -13,6 +13,8 @@ class Types::QueryType < GraphQL::Schema::Object
   include Schema::Sources::SourceField
   include Schema::Sources::SourcesField
 
+  include Schema::Members::MembersField
+
   include Schema::Media::MediumField
   include Schema::Media::MediaField
   include Schema::Media::MediaPersonalityField

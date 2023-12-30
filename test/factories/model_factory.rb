@@ -117,6 +117,13 @@ FactoryBot.define do
     trait :intern do
       role_id { Role.create_or_find_by(key: Role::INTERN, name: "Stážista").id }
     end
+
+    trait :with_avatar do
+      after :create do |user|
+        file_path = Rails.root.join("test", "fixtures", "files", "speaker.png")
+        user.avatar.attach(Rack::Test::UploadedFile.new(file_path, "image/png"))
+      end
+    end
   end
 
   factory :assessment do
