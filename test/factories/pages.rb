@@ -2,10 +2,14 @@
 
 FactoryBot.define do
   factory :page do
-    title { "MyString" }
-    slug { "MyString" }
+    sequence(:title) { |n| "Page title #{n}" }
     published { false }
+
     text_html { "MyString" }
     text_slatejson { "MyString" }
+
+    trait :published do
+      published { true }
+    end
   end
 end

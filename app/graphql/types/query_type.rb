@@ -14,6 +14,7 @@ class Types::QueryType < GraphQL::Schema::Object
   include Schema::Sources::SourcesField
 
   include Schema::Members::MembersField
+  include Schema::MenuItems::MenuItemsField
 
   include Schema::Media::MediumField
   include Schema::Media::MediaField
