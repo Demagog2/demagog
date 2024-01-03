@@ -6,6 +6,8 @@ class MenuItem < ApplicationRecord
 
   belongs_to :page, optional: true
 
+  scope :ordered, -> { order(order: :asc) }
+
   def is_page?
     kind == KIND_PAGE
   end
