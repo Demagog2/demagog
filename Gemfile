@@ -180,4 +180,4 @@ gem "tzinfo-data", "~> 1.2022.6", platforms: [:mingw, :mswin, :x64_mingw, :jruby
 # https://github.com/rmosolgo/graphiql-rails/issues/58
 gem "graphiql-rails", "~> 1.4.11"
 
-gem "view_component", "~> 2.75.0"
+gem "view_component", "~> 3.9.0"
