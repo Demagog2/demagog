@@ -24,7 +24,7 @@ module Schema::Search::Resolvers
 
     private
       def search(query, pagination)
-        speaker_search = SpeakersElasticQueryService.search_all(query.merge(pagination))
+        speaker_search = SpeakersElasticQueryService.search_all(query, **pagination)
 
         { speakers: speaker_search.records.to_a, total_count: speaker_search.total_count }
       end

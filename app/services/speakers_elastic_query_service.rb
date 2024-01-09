@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class SpeakersElasticQueryService
-  def self.search_all(filters)
-    Speaker.search(
+  def self.search_all(filters, **extra_params)
+    Speaker.search({
       query: build_all_elastic_query(filters),
       sort: [
         { sort_name: { order: "asc" } }
       ]
-    )
+    }.merge(extra_params))
   end
 
   def self.aggregate_all(filters)
