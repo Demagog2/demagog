@@ -71,7 +71,7 @@ class QueryTypeSpeakersTest < GraphQLTestCase
     assert_equal Speaker::MOST_SEARCHED_SPEAKER_IDS, ids
   end
 
-  test "get president and govermental speakers" do
+  test "get president and government speakers" do
     # TODO: Add mocking library?
     Speaker::MOST_IMPORTANT_SPEAKER_IDS.each do |id|
       create(:speaker, id:)
@@ -79,7 +79,7 @@ class QueryTypeSpeakersTest < GraphQLTestCase
 
     query_string = <<~GRAPHQL
       query {
-        getPresidentAndGovermentSpeakers {
+        getPresidentAndGovernmentSpeakers {
           id
         }
       }
@@ -87,7 +87,7 @@ class QueryTypeSpeakersTest < GraphQLTestCase
 
     result = execute(query_string)
 
-    ids = result["data"]["getPresidentAndGovermentSpeakers"].pluck(:id).map(&:to_i)
+    ids = result["data"]["getPresidentAndGovernmentSpeakers"].pluck(:id).map(&:to_i)
 
     assert_equal Speaker::MOST_IMPORTANT_SPEAKER_IDS, ids
   end
