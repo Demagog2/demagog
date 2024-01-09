@@ -14,6 +14,7 @@ class MenuItemsFieldTest < GraphQLTestCase
               __typename
               ... on MenuItemPage {
                 id
+                title
                 page {
                   id
                   title
@@ -29,8 +30,10 @@ class MenuItemsFieldTest < GraphQLTestCase
     result = execute(query_string)
     assert_equal 3, result["data"]["menuItems"].size
 
+    assert_equal menu_item_page_one.title, result["data"]["menuItems"][0]["title"]
     assert_equal menu_item_page_one.page.title, result["data"]["menuItems"][0]["page"]["title"]
     assert_equal menu_item_divider.id, result["data"]["menuItems"][1]["id"].to_i
+    assert_equal menu_item_page_two.title, result["data"]["menuItems"][2]["title"]
     assert_equal menu_item_page_two.page.title, result["data"]["menuItems"][2]["page"]["title"]
   end
 end

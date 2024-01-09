@@ -10,6 +10,7 @@ FactoryBot.define do
 
     trait :page do
       kind { MenuItem::KIND_PAGE }
+      sequence(:title) { |n| "Menu item #{n}" }
       page
     end
   end
