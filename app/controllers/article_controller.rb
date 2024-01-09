@@ -41,10 +41,6 @@ class ArticleController < FrontendController
     presidential_articles
   end
 
-  def editorials
-    articles_of_type(Article::ARTICLE_TYPE_STATIC)
-  end
-
   helper_method :replace_segment_text_html_special_strings
   def replace_segment_text_html_special_strings(text_html)
     playbuzz_quiz_html = <<-HEREDOC
