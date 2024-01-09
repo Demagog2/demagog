@@ -4,6 +4,7 @@
   <div class="col col-12">
     <%= render partial: "components/tags", locals: { active: false } %>
   </div>
+  <% if @page_number.blank? %>
   <div class="col col-12 col-lg-4">
     <div
       class="bg-dark-light text-white p-5 p-lg-8 rounded-l mb-10"
@@ -35,6 +36,7 @@
       </div>
     </div>
   </div>
+  <% end %>
   <% if @page_number.blank? %>
   <div class="col col-12 col-lg-8 mb-0 mb-lg-10">
     <div class="row row-cols-1 g-5 g-lg-10">
