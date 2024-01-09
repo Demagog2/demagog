@@ -36,6 +36,36 @@ class QueryTypeSearchTest < GraphQLTestCase
     assert_equal 1, result["data"]["searchSpeakers"]["totalCount"]
   end
 
+  test "search speakers - limit & offset" do
+    source = create(:source)
+
+    5.times do
+      speaker = create(:speaker, first_name: "John", last_name: "Doe")
+      create_list(:statement, 5, source:, source_speaker: create(:source_speaker, source:, speaker:))
+      speaker.__elasticsearch__.index_document
+    end
+
+    last_speaker = Speaker.last
+
+    last_speaker.__elasticsearch__.client.indices.refresh index: last_speaker.__elasticsearch__.index_name
+
+    query_string = <<~GRAPHQL
+      query {
+        searchSpeakers(term: "Doe", limit: 1, offset: 4) {
+          speakers {
+            id
+          }
+          totalCount
+        }
+      }
+    GRAPHQL
+
+    result = execute(query_string)
+
+    assert_equal [last_speaker.id.to_s], result["data"]["searchSpeakers"]["speakers"].pluck("id")
+    assert_equal 5, result["data"]["searchSpeakers"]["totalCount"]
+  end
+
   test "search speakers with bodies filter" do
     source = create(:source)
 
