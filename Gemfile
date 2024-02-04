@@ -34,7 +34,7 @@ gem "pg", "~> 1.3.5"
 gem "scenic", "~> 1.5.4"
 
 # Use puma as a web server
-gem "puma", "~> 5.6.7"
+gem "puma", "~> 5.6.8"
 
 # Use SCSS for stylesheets
 gem "sass-rails", "~> 5.1.0"
