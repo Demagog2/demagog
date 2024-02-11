@@ -25,7 +25,7 @@ end
 gem "dotenv-rails", "~> 2.7.6"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~> 7.0.6"
+gem "rails", "~> 7.1.0"
 # Add possibility for bulk insert to Active Record models
 # gem "bulk_insert"
 # Use Postgresql as the database for Active Record
@@ -94,9 +94,6 @@ gem "sidekiq", "~> 5.2.9"
 
 # Use Amazon S3 for active storage for production environment
 gem "aws-sdk-s3", "~> 1.106.0", require: false
-
-# Patches security vulnerability CVE-2018-8048
-gem "loofah", "~> 2.19.1"
 
 # Patches security vulnerability CVE-2018-3760
 gem "sprockets", "~> 3.7.2"
