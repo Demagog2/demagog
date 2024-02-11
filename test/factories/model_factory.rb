@@ -29,8 +29,6 @@ FactoryBot.define do
     end
   end
 
-  # factory :article_type
-
   factory :article do
     sequence :title do |n|
       "Article title #{n}"
