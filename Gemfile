@@ -114,9 +114,9 @@ gem "htmlbeautifier", "~> 1.4.2"
 # Add skylight profiler
 # gem "skylight"
 
-gem "sentry-ruby", "~> 5.7.0"
-gem "sentry-rails", "~> 5.7.0"
-gem "sentry-sidekiq", "~> 5.7.0"
+gem "sentry-ruby", "~> 5.16.1"
+gem "sentry-rails", "~> 5.16.1"
+gem "sentry-sidekiq", "~> 5.16.1"
 
 # Add elasticsearch integration
 gem "elasticsearch-model", "~> 7.2.1"
