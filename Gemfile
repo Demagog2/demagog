@@ -73,7 +73,7 @@ gem "friendly_id", "~> 5.1.0"
 gem "meta-tags", "~> 2.20.0"
 
 # Enables env. specific configuration
-gem "config", "~> 2.2.1"
+gem "config"
 
 # Authentication
 gem "devise", "~> 4.8.1"
