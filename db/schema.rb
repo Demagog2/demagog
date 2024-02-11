@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_03_145903) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_11_122115) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -120,14 +120,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_03_145903) do
     t.datetime "published_at", precision: nil
     t.boolean "published"
     t.bigint "user_id"
-    t.bigint "article_type_id"
     t.integer "illustration_id"
     t.integer "document_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.datetime "deleted_at", precision: nil
     t.enum "article_type", default: "default", enum_type: "article_type"
-    t.index ["article_type_id"], name: "index_articles_on_article_type_id"
     t.index ["document_id"], name: "index_articles_on_document_id"
     t.index ["illustration_id"], name: "index_articles_on_illustration_id"
     t.index ["user_id"], name: "index_articles_on_user_id"
