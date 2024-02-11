@@ -29,7 +29,7 @@ gem "rails", "~> 7.0.6"
 # Add possibility for bulk insert to Active Record models
 # gem "bulk_insert"
 # Use Postgresql as the database for Active Record
-gem "pg", "~> 1.3.5"
+gem "pg", "~> 1.5.4"
 # Use scenic for materilized views
 gem "scenic", "~> 1.5.4"
 
@@ -70,7 +70,7 @@ gem "paper_trail", "~> 12.2.0"
 gem "friendly_id", "~> 5.1.0"
 
 # Use meta tags to add SEO tags to the head
-gem "meta-tags", "~> 2.16.0"
+gem "meta-tags", "~> 2.20.0"
 
 # Enables env. specific configuration
 gem "config", "~> 2.2.1"
