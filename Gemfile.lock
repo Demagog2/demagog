@@ -615,7 +615,7 @@ DEPENDENCIES
   devise (~> 4.8.1)
   discard (~> 1.2.1)
   dotenv-rails (~> 2.7.6)
-  elasticsearch (~> 7.17.10)
+  elasticsearch (~> 7.17.7)
   elasticsearch-model (~> 7.2.1)
   elasticsearch-rails (~> 7.2.1)
   factory_bot_rails (~> 5.1.0)

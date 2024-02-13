@@ -121,7 +121,7 @@ gem "sentry-sidekiq", "~> 5.16.1"
 # Add elasticsearch integration
 gem "elasticsearch-model", "~> 7.2.1"
 gem "elasticsearch-rails", "~> 7.2.1"
-gem "elasticsearch", "~> 7.17.10"
+gem "elasticsearch", "~> 7.17.7"
 
 # Posting to Slack
 gem "slack-notifier", "~> 2.4.0"
