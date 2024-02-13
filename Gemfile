@@ -53,7 +53,7 @@ gem "rack-cors", "~> 1.1.1", require: "rack/cors"
 # Unified model soft delete API
 gem "discard", "~> 1.2.1"
 # Active record versioning
-gem "paper_trail", "~> 12.2.0"
+gem "paper_trail"
 
 # Use CoffeeScript for .coffee assets and views
 # gem "coffee-rails", "~> 4.2"
