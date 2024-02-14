@@ -10,6 +10,7 @@ class Article < ApplicationRecord
     ARTICLE_TYPE_STATIC = "static",
     ARTICLE_TYPE_SINGLE_STATEMENT = "single_statement",
     ARTICLE_TYPE_FACEBOOK_FACTCHECK = "facebook_factcheck",
+    ARTICLE_TYPE_GOVERNMENT_PROMISES_EVALUATION = "government_promises_evaluation",
   ].freeze
 
   ILLUSTRATION_SIZES = [
@@ -20,7 +21,8 @@ class Article < ApplicationRecord
     default: ARTICLE_TYPE_DEFAULT,
     static: ARTICLE_TYPE_STATIC,
     single_statement: ARTICLE_TYPE_SINGLE_STATEMENT,
-    facebook_factcheck: ARTICLE_TYPE_FACEBOOK_FACTCHECK
+    facebook_factcheck: ARTICLE_TYPE_FACEBOOK_FACTCHECK,
+    government_promises_evaluation: ARTICLE_TYPE_GOVERNMENT_PROMISES_EVALUATION
   }, _prefix: true
 
   after_create { ElasticsearchWorker.perform_async(:article, :index, self.id) }
@@ -48,8 +50,6 @@ class Article < ApplicationRecord
   scope :for_homepage, -> {
     where("article_type IN (?)", [ARTICLE_TYPE_DEFAULT, ARTICLE_TYPE_STATIC, ARTICLE_TYPE_SINGLE_STATEMENT])
   }
-
-
 
   mapping do
     indexes :id, type: "long"
