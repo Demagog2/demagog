@@ -25,11 +25,11 @@ end
 gem "dotenv-rails", "~> 2.7.6"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~> 7.0.6"
+gem "rails", "~> 7.1.0"
 # Add possibility for bulk insert to Active Record models
 # gem "bulk_insert"
 # Use Postgresql as the database for Active Record
-gem "pg", "~> 1.3.5"
+gem "pg", "~> 1.5.4"
 # Use scenic for materilized views
 gem "scenic", "~> 1.5.4"
 
@@ -53,7 +53,7 @@ gem "rack-cors", "~> 1.1.1", require: "rack/cors"
 # Unified model soft delete API
 gem "discard", "~> 1.2.1"
 # Active record versioning
-gem "paper_trail", "~> 12.2.0"
+gem "paper_trail"
 
 # Use CoffeeScript for .coffee assets and views
 # gem "coffee-rails", "~> 4.2"
@@ -70,10 +70,10 @@ gem "paper_trail", "~> 12.2.0"
 gem "friendly_id", "~> 5.1.0"
 
 # Use meta tags to add SEO tags to the head
-gem "meta-tags", "~> 2.16.0"
+gem "meta-tags", "~> 2.20.0"
 
 # Enables env. specific configuration
-gem "config", "~> 2.2.1"
+gem "config"
 
 # Authentication
 gem "devise", "~> 4.8.1"
@@ -95,9 +95,6 @@ gem "sidekiq", "~> 5.2.9"
 # Use Amazon S3 for active storage for production environment
 gem "aws-sdk-s3", "~> 1.106.0", require: false
 
-# Patches security vulnerability CVE-2018-8048
-gem "loofah", "~> 2.19.1"
-
 # Patches security vulnerability CVE-2018-3760
 gem "sprockets", "~> 3.7.2"
 
@@ -117,9 +114,9 @@ gem "htmlbeautifier", "~> 1.4.2"
 # Add skylight profiler
 # gem "skylight"
 
-gem "sentry-ruby", "~> 5.7.0"
-gem "sentry-rails", "~> 5.7.0"
-gem "sentry-sidekiq", "~> 5.7.0"
+gem "sentry-ruby", "~> 5.16.1"
+gem "sentry-rails", "~> 5.16.1"
+gem "sentry-sidekiq", "~> 5.16.1"
 
 # Add elasticsearch integration
 gem "elasticsearch-model", "~> 7.2.1"
