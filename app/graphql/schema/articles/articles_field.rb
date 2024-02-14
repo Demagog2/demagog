@@ -15,6 +15,8 @@ module Schema::Articles::ArticlesField
       argument :page, GraphQL::Types::Int, default_value: 1, required: false
     end
 
+    field :government_promises_evaluations, [Schema::Articles::Types::GovernmentPromisesEvaluationArticleType], null: false
+
     def articles(args)
       if args[:include_unpublished]
         # Public cannot access unpublished articles
@@ -26,7 +28,12 @@ module Schema::Articles::ArticlesField
       end
 
       articles =
-        articles.offset(args[:offset]).limit(args[:limit]).order(
+        articles.where(article_type: [
+          Article::ARTICLE_TYPE_DEFAULT,
+          Article::ARTICLE_TYPE_STATIC,
+          Article::ARTICLE_TYPE_SINGLE_STATEMENT,
+          Article::ARTICLE_TYPE_FACEBOOK_FACTCHECK,
+        ]).offset(args[:offset]).limit(args[:limit]).order(
           Arel.sql("COALESCE(published_at, created_at) DESC")
         )
 
@@ -37,6 +44,12 @@ module Schema::Articles::ArticlesField
 
     def homepage_articles(page:)
       Article.kept.published.for_homepage.order(published_at: :desc).page(page).per(10)
+    end
+
+    def government_promises_evaluations
+      Article.published.where(article_type: Article::ARTICLE_TYPE_GOVERNMENT_PROMISES_EVALUATION).order(published_at: :desc).map do |article|
+        GovernmentPromisesEvaluation.new(article:)
+      end
     end
   end
 end

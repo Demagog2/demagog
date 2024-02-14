@@ -39,6 +39,10 @@ FactoryBot.define do
     published_at { 1.day.ago }
     assessment_methodology { nil }
 
+    trait :unpublished do
+      published { false }
+    end
+
     factory :fact_check do
       article_type { Article::ARTICLE_TYPE_DEFAULT }
     end
@@ -53,6 +57,7 @@ FactoryBot.define do
 
     trait :government_promises_evaluation do
       article_type { Article::ARTICLE_TYPE_GOVERNMENT_PROMISES_EVALUATION }
+      assessment_methodology { create(:assessment_methodology, :promises_legacy) }
     end
 
     trait :with_illustration do
