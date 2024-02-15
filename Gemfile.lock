@@ -257,7 +257,7 @@ GEM
       guard-compat (~> 1.2)
       minitest (>= 3.0)
     hashie (5.0.0)
-    htmlbeautifier (1.4.2)
+    htmlbeautifier (1.4.3)
     htmlentities (4.3.4)
     http_parser.rb (0.8.0)
     i18n (1.14.1)
