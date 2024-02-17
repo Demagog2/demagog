@@ -37,6 +37,7 @@ FactoryBot.define do
     perex { "Lorem ipsum" }
     published { true }
     published_at { 1.day.ago }
+    assessment_methodology { nil }
 
     factory :fact_check do
       article_type { Article::ARTICLE_TYPE_DEFAULT }
@@ -48,6 +49,10 @@ FactoryBot.define do
 
     trait :single_stamement do
       article_type { Article::ARTICLE_TYPE_SINGLE_STATEMENT }
+    end
+
+    trait :government_promises_evaluation do
+      article_type { Article::ARTICLE_TYPE_GOVERNMENT_PROMISES_EVALUATION }
     end
 
     trait :with_illustration do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_14_202242) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_17_124409) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -119,6 +119,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_14_202242) do
     t.datetime "updated_at", precision: nil, null: false
     t.datetime "deleted_at", precision: nil
     t.enum "article_type", default: "default", enum_type: "article_type"
+    t.bigint "assessment_methodology_id"
+    t.index ["assessment_methodology_id"], name: "index_articles_on_assessment_methodology_id"
     t.index ["document_id"], name: "index_articles_on_document_id"
     t.index ["illustration_id"], name: "index_articles_on_illustration_id"
     t.index ["user_id"], name: "index_articles_on_user_id"
@@ -512,6 +514,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_14_202242) do
   add_foreign_key "article_segments", "articles"
   add_foreign_key "article_tag_statements", "article_tags"
   add_foreign_key "article_tag_statements", "statements"
+  add_foreign_key "articles", "assessment_methodologies"
 
   create_view "speaker_stats", sql_definition: <<-SQL
       SELECT count(assessments.veracity_new) AS count,
