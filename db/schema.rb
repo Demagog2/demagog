@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_11_124044) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_14_202242) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
-  create_enum "article_type", ["default", "static", "single_statement", "facebook_factcheck"]
+  create_enum "article_type", ["default", "static", "single_statement", "facebook_factcheck", "government_promises_evaluation"]
   create_enum "veracity", ["true", "untrue", "misleading", "unverifiable"]
 
   create_table "active_storage_attachments", force: :cascade do |t|
