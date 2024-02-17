@@ -12,6 +12,13 @@ class ArticleTest < ActiveSupport::TestCase
     assert_discardable create(:static)
   end
 
+  test "promise based assessment methodology is required for the government promises evaluation" do
+    assert_equal false, build(:article, :government_promises_evaluation, assessment_methodology: nil).valid?
+    assert_equal false, build(:article, :government_promises_evaluation, assessment_methodology: build(:assessment_methodology)).valid?
+    assert_equal true, build(:article, :government_promises_evaluation, assessment_methodology: build(:assessment_methodology, :promises_latest)).valid?
+    assert_equal true, build(:article, :government_promises_evaluation, assessment_methodology: build(:assessment_methodology, :promises_legacy)).valid?
+  end
+
   test "create article" do
     tag = create(:article_tag)
 

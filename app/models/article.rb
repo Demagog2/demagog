@@ -33,6 +33,13 @@ class Article < ApplicationRecord
 
   belongs_to :user, optional: true
   belongs_to :document, class_name: "Attachment", optional: true
+
+  # Assessment methodology of the government promises evaluation
+  belongs_to :assessment_methodology, optional: true
+
+  validates_presence_of :assessment_methodology, if: -> { article_type_government_promises_evaluation? }
+  validate :assessment_methodology_must_have_promise_rating_model, if: -> { article_type_government_promises_evaluation? }
+
   has_many :segments, class_name: "ArticleSegment", dependent: :destroy
 
   has_many :article_tag_articles, class_name: "ArticleTagArticle"
@@ -238,4 +245,11 @@ class Article < ApplicationRecord
       ArticleSegment.new
     end
   end
+
+  private
+    def assessment_methodology_must_have_promise_rating_model
+      if assessment_methodology&.rating_model != AssessmentMethodology::RATING_MODEL_PROMISE_RATING
+        errors.add(:assessment_methodology, "Assessment methodology must be promise based.")
+      end
+    end
 end
