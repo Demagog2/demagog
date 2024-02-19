@@ -27,13 +27,22 @@ module Schema::Articles::ArticlesField
         articles = Article.kept.published
       end
 
+      article_type = Flipper.enabled?("government_promises_evaluations", context[:current_user]) ?
+                        [
+                         Article::ARTICLE_TYPE_DEFAULT,
+                         Article::ARTICLE_TYPE_STATIC,
+                         Article::ARTICLE_TYPE_SINGLE_STATEMENT,
+                         Article::ARTICLE_TYPE_FACEBOOK_FACTCHECK,
+                         Article::ARTICLE_TYPE_GOVERNMENT_PROMISES_EVALUATION,
+                        ] : [
+                          Article::ARTICLE_TYPE_DEFAULT,
+                          Article::ARTICLE_TYPE_STATIC,
+                          Article::ARTICLE_TYPE_SINGLE_STATEMENT,
+                          Article::ARTICLE_TYPE_FACEBOOK_FACTCHECK,
+                        ]
+
       articles =
-        articles.where(article_type: [
-          Article::ARTICLE_TYPE_DEFAULT,
-          Article::ARTICLE_TYPE_STATIC,
-          Article::ARTICLE_TYPE_SINGLE_STATEMENT,
-          Article::ARTICLE_TYPE_FACEBOOK_FACTCHECK,
-        ]).offset(args[:offset]).limit(args[:limit]).order(
+        articles.where(article_type:).offset(args[:offset]).limit(args[:limit]).order(
           Arel.sql("COALESCE(published_at, created_at) DESC")
         )
 
