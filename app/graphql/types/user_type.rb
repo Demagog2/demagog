@@ -23,10 +23,16 @@ module Types
 
     field :avatar, String, null: true
 
+    field :government_promises_evaluations_enabled, Boolean, null: false
+
     def avatar
       return nil unless object.avatar.attached?
 
       Rails.application.routes.url_helpers.polymorphic_url(object.avatar, only_path: true)
+    end
+
+    def government_promises_evaluations_enabled
+      Flipper.enabled?("government_promises_evaluations", object)
     end
   end
 end

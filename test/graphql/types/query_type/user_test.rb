@@ -57,4 +57,38 @@ class QueryTypeUserTest < GraphQLTestCase
 
     assert_graphql_error("Could not find User with id=#{user.id}", result)
   end
+
+  test "user should have flag disabled by default" do
+    user = create(:user)
+
+    query_string = "
+      query {
+        user(id: #{user.id}) {
+          id
+          governmentPromisesEvaluationsEnabled
+        }
+      }"
+
+    result = execute(query_string, context: authenticated_user_context(user:))
+
+    assert_equal false, result.data.user.governmentPromisesEvaluationsEnabled
+  end
+
+  test "user should have flag enabled" do
+    user = create(:user)
+
+    Flipper.enable("government_promises_evaluations", user)
+
+    query_string = "
+      query {
+        user(id: #{user.id}) {
+          id
+          governmentPromisesEvaluationsEnabled
+        }
+      }"
+
+    result = execute(query_string, context: authenticated_user_context(user:))
+
+    assert_equal true, result.data.user.governmentPromisesEvaluationsEnabled
+  end
 end
