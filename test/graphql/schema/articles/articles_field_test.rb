@@ -82,6 +82,26 @@ module Schema::Articles
       assert_equal expected, result.data.articles.map { |p| p.title }
     end
 
+    test "returns government promeiss evaluation articles among articles if enabled" do
+      article_statement = create(:article, :single_stamement)
+      article_promises = create(:article, :government_promises_evaluation)
+
+      Flipper.enable("government_promises_evaluations", authenticated_user_context[:current_user])
+
+      query_string = <<~GRAPHQL
+      query {
+        articles {
+          id
+          title
+        }
+      }
+      GRAPHQL
+
+      result = execute(query_string, context: authenticated_user_context)
+
+      assert_equal [article_statement.id.to_s, article_promises.id.to_s].sort, result.data.articles.pluck(:id).sort
+    end
+
     test "returns government promises evaluation articles" do
       create(:article, :single_stamement)
       create_list(:article, 5, :government_promises_evaluation)
