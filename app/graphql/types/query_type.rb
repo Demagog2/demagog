@@ -31,6 +31,7 @@ class Types::QueryType < GraphQL::Schema::Object
   include Schema::Articles::ArticleField
   include Schema::Articles::ArticlesField
   include Schema::Articles::ArticleTagField
+  include Schema::Articles::GovernmentPromisesEvaluationField
   include Schema::Pages::PageField
   include Schema::Pages::PagesField
 

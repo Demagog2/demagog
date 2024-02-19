@@ -54,6 +54,11 @@ class Statement < ApplicationRecord
       .where(statement_type: Statement::TYPE_FACTUAL)
   }
 
+  scope :promise_and_published, -> {
+    published
+      .where(statement_type: Statement::TYPE_PROMISE)
+  }
+
   scope :published_important_first, -> {
     # We first call order and then the published scope so the important DESC
     # order rule is used first and then the ones from scope ordered
