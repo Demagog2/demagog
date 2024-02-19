@@ -222,6 +222,11 @@ GEM
     ffi (1.15.5-x64-mingw-ucrt)
     ffi (1.15.5-x64-mingw32)
     ffi (1.15.5-x86-mingw32)
+    flipper (1.2.2)
+      concurrent-ruby (< 2)
+    flipper-active_record (1.2.2)
+      activerecord (>= 4.2, < 8)
+      flipper (~> 1.2.2)
     formatador (1.1.0)
     friendly_id (5.1.0)
       activerecord (>= 4.0.0)
@@ -585,6 +590,8 @@ DEPENDENCIES
   elasticsearch-rails (~> 7.2.1)
   factory_bot_rails (~> 5.1.0)
   ferrum (~> 0.13)
+  flipper
+  flipper-active_record
   friendly_id (~> 5.1.0)
   graphiql-rails (~> 1.4.11)
   graphlient (~> 0.5.0)
