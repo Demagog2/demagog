@@ -32,6 +32,9 @@ gem "rails", "~> 7.0.6"
 gem "pg", "~> 1.3.5"
 # Use scenic for materilized views
 gem "scenic", "~> 1.5.4"
+# Feature flags
+gem "flipper"
+gem "flipper-active_record"
 
 # Use puma as a web server
 gem "puma", "~> 5.6.8"
