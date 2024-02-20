@@ -232,7 +232,7 @@ class Article < ApplicationRecord
     Article.transaction do
       article[:segments].each(&:save)
 
-      Article.update(article_id, article)
+      Article.update!(article_id, article)
     end
   end
 
