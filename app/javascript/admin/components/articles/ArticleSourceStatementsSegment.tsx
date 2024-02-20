@@ -1,19 +1,17 @@
 import * as React from 'react';
 
-import { Button, Classes, Dialog, Intent } from '@blueprintjs/core';
+import { Button } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { css, cx } from 'emotion';
+import { css } from 'emotion';
 import { Query } from 'react-apollo';
 
 import type {
-  GetSources as GetSourcesQuery,
   GetSourceStatements as GetSourceStatementsQuery,
   GetSourceStatementsVariables as GetSourceStatementsQueryVariables,
-  GetSourcesVariables as GetSourcesQueryVariables,
 } from '../../operation-result-types';
-import { GetSources, GetSourceStatements } from '../../queries/queries';
-import Error from '../Error';
+import { GetSourceStatements } from '../../queries/queries';
 import Loading from '../Loading';
+import { SelectSourceDialog } from './dialogs/SelectSourceDialog';
 
 const VERACITY_COLORS = {
   true: '#0060ff',
@@ -238,76 +236,4 @@ function StatementsPreview({ sourceId }: IStatementsPreviewProps) {
       }}
     </Query>
   );
-}
-
-class SelectSourceDialog extends React.Component<{
-  isOpen: boolean;
-  onSelect: (sourceId: string) => any;
-  onCancel: () => any;
-}> {
-  public render() {
-    return (
-      <Dialog
-        icon="inbox"
-        isOpen={this.props.isOpen}
-        onClose={this.props.onCancel}
-        title="Vyberte diskuzi s výroky"
-      >
-        <div className={Classes.DIALOG_BODY}>
-          <Query<GetSourcesQuery, GetSourcesQueryVariables> query={GetSources}>
-            {({ data, loading, error }) => {
-              if (loading) {
-                return <Loading />;
-              }
-
-              if (error) {
-                return <Error error={error} />;
-              }
-
-              if (!data) {
-                return null;
-              }
-
-              return (
-                <div>
-                  Posledních 10 diskuzí
-                  <table className={cx(Classes.HTML_TABLE, Classes.INTERACTIVE)}>
-                    <thead>
-                      <tr>
-                        <th>Diskuze</th>
-                        <th>Pořad</th>
-                        <th />
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {data.sources.map((source) => {
-                        return (
-                          <tr key={source.id}>
-                            <td>{source.name}</td>
-                            <td>{source.medium && source.medium.name}</td>
-                            <td>
-                              <Button
-                                intent={Intent.PRIMARY}
-                                onClick={() => this.props.onSelect(source.id)}
-                                text="Vybrat"
-                              />
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              );
-            }}
-          </Query>
-        </div>
-        <div className={Classes.DIALOG_FOOTER}>
-          <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-            <Button intent={Intent.NONE} onClick={this.props.onCancel} text="Zavřít" />
-          </div>
-        </div>
-      </Dialog>
-    );
-  }
 }
