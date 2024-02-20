@@ -5,6 +5,7 @@ module Schema::Articles::Types
     field :id, ID, null: false
     field :slug, String, null: false
     field :title, String, null: false
+    field :perex, String, null: true
     field :promise_count, Integer, null: false
     field :promises, [Types::StatementType], null: false
   end

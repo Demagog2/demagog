@@ -5,7 +5,7 @@ class GovernmentPromisesEvaluation
 
   attr_accessor :article
 
-  delegate :id, :slug, :title, to: :article
+  delegate :id, :slug, :title, :perex, to: :article
 
   def promise_count
     promises.count
