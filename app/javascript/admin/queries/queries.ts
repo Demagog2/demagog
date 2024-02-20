@@ -53,6 +53,9 @@ export const GetArticle = gql`
         id
         title
       }
+      assessmentMethodology {
+        id
+      }
     }
   }
 `;

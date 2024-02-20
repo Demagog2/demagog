@@ -36,6 +36,7 @@ const ARTICLE_TYPE_LABEL = {
   static: 'Komentář',
   single_statement: 'Jednotlivý výrok',
   facebook_factcheck: 'Facebook factcheck',
+  government_promises_evaluation: 'Sliby',
 };
 
 interface IProps extends DispatchProp<any> {}
