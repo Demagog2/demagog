@@ -10,6 +10,8 @@ class Types::QueryType < GraphQL::Schema::Object
 
   include Schema::Bootstrap::BootstrapField
 
+  include Schema::AssessmentMethodologies::AssessmentMethodologiesField
+
   include Schema::Sources::SourceField
   include Schema::Sources::SourcesField
 

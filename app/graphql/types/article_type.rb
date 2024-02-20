@@ -14,6 +14,8 @@ module Types
 
     field :article_type, String, null: false
 
+    field :assessment_methodology, Types::AssessmentMethodologyType, null: true
+
     field :speakers, [Types::SourceSpeakerType], null: true
 
     def speakers

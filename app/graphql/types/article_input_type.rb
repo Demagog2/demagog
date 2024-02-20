@@ -12,5 +12,7 @@ module Types
     argument :published_at, String, required: false
     argument :source_id, ID, required: false
     argument :article_tags, [ID], required: false
+
+    argument :assessment_methodology_id, ID, required: false
   end
 end

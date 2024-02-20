@@ -26,4 +26,24 @@ class CreateArticleMutationTest < GraphQLTestCase
 
     assert_equal "Breaking News", result.data.createArticle.article.title
   end
+
+  test "create government promises evaluation article" do
+    assessment_methodology = create(:assessment_methodology, :promises_legacy)
+
+    mutation = <<~GRAPHQL
+      mutation {
+        createArticle(articleInput: { articleType: \"default\", title: \"Breaking News\", perex: \"Lorem ipsum...\", segments: [], assessmentMethodologyId: "#{assessment_methodology.id}" }) {
+          article {
+            assessmentMethodology {
+              id
+            }
+          }
+        }
+      }
+    GRAPHQL
+
+    result = execute(mutation, context: authenticated_user_context)
+
+    assert_equal assessment_methodology.id.to_s, result.data.createArticle.article.assessmentMethodology.id
+  end
 end
