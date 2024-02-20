@@ -8,6 +8,7 @@ import { debounce } from 'lodash';
 interface IProps {
   placeholder: string;
   value: string;
+  autoFocus?: boolean;
   onChange: (value: string) => void;
 }
 
@@ -41,7 +42,7 @@ export class SearchInput extends React.Component<IProps, IState> {
   };
 
   public render() {
-    const { placeholder } = this.props;
+    const { placeholder, autoFocus } = this.props;
     const { value } = this.state;
 
     return (
@@ -54,6 +55,7 @@ export class SearchInput extends React.Component<IProps, IState> {
           dir="auto"
           value={value}
           onChange={this.onInputChange}
+          autoFocus={autoFocus}
         />
       </div>
     );
