@@ -1718,6 +1718,11 @@ export interface GetArticle_article_articleTags {
   title: string | null;
 }
 
+export interface GetArticle_article_assessmentMethodology {
+  __typename: "AssessmentMethodology";
+  id: string;
+}
+
 export interface GetArticle_article {
   __typename: "Article";
   id: string;
@@ -1731,6 +1736,7 @@ export interface GetArticle_article {
   segments: GetArticle_article_segments[];
   source: GetArticle_article_source | null;
   articleTags: GetArticle_article_articleTags[];
+  assessmentMethodology: GetArticle_article_assessmentMethodology | null;
 }
 
 export interface GetArticle {
@@ -3434,6 +3440,7 @@ export interface ArticleInput {
   publishedAt?: string | null;
   sourceId?: string | null;
   articleTags?: string[] | null;
+  assessmentMethodologyId?: string | null;
 }
 
 export interface ArticleSegmentInput {
