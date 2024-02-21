@@ -37,8 +37,8 @@ class GovernmentPromisesEvaluationTest < ActiveSupport::TestCase
   end
 
   test "returns stats based on the assessment methodology" do
-    assert_equal({ "fulfilled" => 0, "partially_fulfilled" => 0, "broken" => 0 }, subject(source_ids: [], assessment_methodology: build(:assessment_methodology, :promises_legacy)).stats)
-    assert_equal({ "fulfilled" => 0, "in_progress" => 0, "broken" => 0, "stalled" => 0 }, subject(source_ids: [], assessment_methodology: build(:assessment_methodology, :promises_latest)).stats)
+    assert_equal([{ key: "fulfilled", count: 0, percentage: 0 }, { key: "partially_fulfilled", count: 0, percentage: 0 }, { key: "broken", count: 0, percentage: 0 }], subject(source_ids: [], assessment_methodology: build(:assessment_methodology, :promises_legacy)).stats)
+    assert_equal([{ key: "fulfilled", count: 0, percentage: 0 }, { key: "in_progress", count: 0, percentage: 0 }, { key: "broken", count: 0, percentage: 0 }, { key: "stalled", count: 0, percentage: 0 }], subject(source_ids: [], assessment_methodology: build(:assessment_methodology, :promises_latest)).stats)
   end
 
   test "returns number of fulfilled promises" do
@@ -46,6 +46,9 @@ class GovernmentPromisesEvaluationTest < ActiveSupport::TestCase
     create_list(:statement, 10, :promise_statement, source:)
     create_list(:statement, 3, :promise_statement, :unpublished, source:)
 
-    assert_equal 10, subject(source_ids: [source.id]).stats["fulfilled"]
+    stats = subject(source_ids: [source.id]).stats[0]
+
+    assert_equal 10, stats[:count]
+    assert_equal 100, stats[:percentage]
   end
 end

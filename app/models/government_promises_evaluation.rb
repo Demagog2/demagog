@@ -8,7 +8,7 @@ class GovernmentPromisesEvaluation
   delegate :id, :slug, :title, :perex, to: :article
 
   def promise_count
-    promises.count
+    @promise_count ||= promises.count
   end
 
   def promises
@@ -25,6 +25,8 @@ class GovernmentPromisesEvaluation
       stats[promise.assessment.promise_rating.key] += 1
     end
 
-    stats
+    stats.map do |(key, count)|
+      { key:, count:, percentage: count > 0 ? (count.to_f / promise_count.to_f) * 100 : 0 }
+    end
   end
 end
