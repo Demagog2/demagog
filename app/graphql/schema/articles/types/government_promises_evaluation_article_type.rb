@@ -8,5 +8,6 @@ module Schema::Articles::Types
     field :perex, String, null: true
     field :promise_count, Integer, null: false
     field :promises, [Types::StatementType], null: false
+    field :stats, [PromiseStatsType], null: true
   end
 end

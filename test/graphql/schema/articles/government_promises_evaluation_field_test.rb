@@ -35,6 +35,11 @@ module Schema::Articles
           promises {
             id
           }
+          stats {
+            key
+            count
+            percentage
+          }
         }
       }
       GRAPHQL
@@ -46,6 +51,7 @@ module Schema::Articles
       assert_equal article.perex, result.data.governmentPromisesEvaluationBySlug.perex
       assert_equal 1, result.data.governmentPromisesEvaluationBySlug.promiseCount
       assert_equal statement.id.to_s, result.data.governmentPromisesEvaluationBySlug.promises.first.id
+      assert_equal({ key: "fulfilled", count: 1, percentage: 100 }, result.data.governmentPromisesEvaluationBySlug.stats[0].to_h)
     end
   end
 end
