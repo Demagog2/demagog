@@ -34,6 +34,12 @@ module Schema::Articles
           promiseCount
           promises {
             id
+            title
+            content
+            source {
+              url
+              label
+            }
           }
           stats {
             key

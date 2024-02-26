@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_19_170140) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_26_115411) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -444,6 +444,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_19_170140) do
     t.string "statement_type", null: false
     t.string "title"
     t.integer "source_speaker_id"
+    t.string "promise_source_url"
+    t.string "promise_source_label"
     t.index ["source_id"], name: "index_statements_on_source_id"
     t.index ["source_speaker_id"], name: "index_statements_on_source_speaker_id"
   end
@@ -527,21 +529,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_19_170140) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "article_segments", "articles"
   add_foreign_key "article_tag_statements", "article_tags"
   add_foreign_key "article_tag_statements", "statements"
   add_foreign_key "articles", "assessment_methodologies"
 
-  create_view "speaker_stats", sql_definition: <<-SQL
-      SELECT count(assessments.veracity_new) AS count,
-      assessments.veracity_new AS key,
-      source_speakers.speaker_id
-     FROM ((statements
-       JOIN source_speakers ON ((source_speakers.id = statements.source_speaker_id)))
-       JOIN assessments ON ((statements.id = assessments.statement_id)))
-    WHERE (((assessments.evaluation_status)::text = 'approved'::text) AND (statements.published = true) AND ((statements.statement_type)::text = 'factual'::text))
-    GROUP BY assessments.veracity_new, source_speakers.speaker_id;
-  SQL
   create_view "article_stats", sql_definition: <<-SQL
       SELECT count(assessments.veracity_new) AS count,
       assessments.veracity_new AS key,
@@ -555,5 +546,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_19_170140) do
        JOIN articles ON ((articles.id = article_segments.article_id)))
     WHERE (((assessments.evaluation_status)::text = 'approved'::text) AND ((article_segments.segment_type)::text = 'source_statements'::text) AND (statements.published = true))
     GROUP BY assessments.veracity_new, source_speakers.speaker_id, article_segments.article_id;
+  SQL
+  create_view "speaker_stats", sql_definition: <<-SQL
+      SELECT count(assessments.veracity_new) AS count,
+      assessments.veracity_new AS key,
+      source_speakers.speaker_id
+     FROM ((statements
+       JOIN source_speakers ON ((source_speakers.id = statements.source_speaker_id)))
+       JOIN assessments ON ((statements.id = assessments.statement_id)))
+    WHERE (((assessments.evaluation_status)::text = 'approved'::text) AND (statements.published = true) AND ((statements.statement_type)::text = 'factual'::text))
+    GROUP BY assessments.veracity_new, source_speakers.speaker_id;
   SQL
 end
