@@ -315,10 +315,12 @@
               <div class="col col-12 col-lg-5">
                 <blockquote class="p-3 fs-6 bg-dark text-white rounded-m mb-2 position-relative min-h-50px" data-target="statement--detail.blockquote">
                   <span class="fs-6 position-relative"><%= content_to_html(statement.content) %></span>
-                  <% if @get_statement_source_label %>
-                  <div>
-                    <a class="text-white fs-7" href="<%= @get_statement_source_url.call(statement) %>" target="_blank"><%= @get_statement_source_label.call(statement) %></a>
-                  </div>
+                  <% if statement.promise_source_label? %>
+                    <div>
+                      <%= link_to(statement.promise_source_url, class: 'text-white fs-7', target: "_blank") do %>
+                        <%= statement.promise_source_label %>
+                      <% end %>
+                    </div>
                   <% end %>
                 </blockquote>
               </div>
