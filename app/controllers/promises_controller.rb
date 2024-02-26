@@ -62,12 +62,6 @@ class PromisesController < FrontendController
               Arel.sql("title COLLATE \"#{collation}\" ASC")
             )
         },
-        get_statement_source_url: lambda { |statement|
-          sprintf("https://www.vlada.cz/assets/media-centrum/dulezite-dokumenty/programove_prohlaseni_unor_2014.pdf#page=%d", sobotkova_vlada_get_promise_source_page(statement))
-        },
-        get_statement_source_label: lambda { |statement|
-          sprintf("Programové prohlášení vlády, únor 2014, str. %d", sobotkova_vlada_get_promise_source_page(statement))
-        },
         intro_partial: "promises/sobotkova_vlada_intro",
         methodology_partial: "promises/sobotkova_vlada_methodology"
       },
@@ -89,12 +83,6 @@ class PromisesController < FrontendController
             .order(
               Arel.sql("title COLLATE \"#{collation}\" ASC")
             )
-        },
-        get_statement_source_url: lambda { |statement|
-          sprintf("https://www.vlada.cz/assets/jednani-vlady/programove-prohlaseni/Programove-prohlaseni-vlady-cerven-2018.pdf#page=%d", druha_vlada_andreje_babise_get_promise_source_page(statement) + 4)
-        },
-        get_statement_source_label: lambda { |statement|
-          sprintf("Programové prohlášení vlády, str. %d", druha_vlada_andreje_babise_get_promise_source_page(statement))
         },
         intro_partial: "promises/druha_vlada_andreje_babise_intro",
         methodology_partial: "promises/druha_vlada_andreje_babise_methodology"
@@ -118,8 +106,6 @@ class PromisesController < FrontendController
               Arel.sql("title COLLATE \"#{collation}\" ASC")
             )
         },
-        get_statement_source_url: false,
-        get_statement_source_label: false,
         intro_partial: "promises/100_dni_prezidenta_petra_pavla_intro",
         methodology_partial: "promises/druha_vlada_andreje_babise_methodology"
       },
@@ -143,8 +129,6 @@ class PromisesController < FrontendController
               Arel.sql("title COLLATE \"#{collation}\" ASC")
             )
         },
-        get_statement_source_url: false,
-        get_statement_source_label: false,
         intro_partial: "promises/sliby_vlady_petra_fialy_intro",
         methodology_partial: "promises/druha_vlada_andreje_babise_methodology"
       }
@@ -163,8 +147,6 @@ class PromisesController < FrontendController
 
     @slug = params[:slug]
     @all = definition[:get_statements].call
-    @get_statement_source_url = definition[:get_statement_source_url]
-    @get_statement_source_label = definition[:get_statement_source_label]
     @intro_partial = definition[:intro_partial]
 
     @promise_rating_keys = @all.first.assessment.assessment_methodology.rating_keys
@@ -221,9 +203,6 @@ class PromisesController < FrontendController
 
     @display = params[:display] == "short" ? "short" : "full"
     @logo = params[:logo] == "hide" ? "hide" : "show"
-
-    @get_statement_source_url = definition[:get_statement_source_url]
-    @get_statement_source_label = definition[:get_statement_source_label]
 
     @promises_list_rating_labels = {
       PromiseRating::FULFILLED => "Splněný slib",
@@ -377,241 +356,6 @@ class PromisesController < FrontendController
         17559 => [7, 0, 8, 55], # financovani sportu
         17560 => [9, 0, 12, 6], # financovani sportu ii.
       }.fetch(statement.id, nil)
-    end
-
-    def sobotkova_vlada_get_promise_source_page(statement)
-      {
-        15038 => 5,
-        15039 => 5,
-        15040 => 5,
-        15041 => 5,
-
-        15043 => 5,
-        15044 => 5,
-        15045 => 6,
-        15046 => 6,
-
-        15048 => 25,
-        15049 => 25,
-        15050 => 26,
-        15051 => 26,
-        15052 => 11,
-        15053 => 26,
-
-        15055 => 11,
-        15056 => 26,
-        15057 => 27,
-        15058 => 28,
-        15059 => 28,
-
-        15062 => 29,
-        15063 => 29,
-        15064 => 29,
-        15065 => 29,
-        15066 => 29,
-        15067 => 29,
-        15068 => 29,
-        15069 => 29,
-        15070 => 30,
-        15071 => 30,
-        15072 => 30,
-        15073 => 30,
-        15074 => 30,
-        15075 => 30,
-        15076 => 5,
-        15077 => 8,
-
-        15079 => 9,
-        15080 => 14,
-        15081 => 4,
-
-        15083 => 48,
-        15084 => 48,
-        15085 => 48,
-        15086 => 48,
-        15087 => 49,
-        15088 => 49,
-        15089 => 49,
-        15090 => 50,
-        15091 => 50,
-        15092 => 15,
-        15093 => 16,
-        15094 => 16,
-
-        15096 => 18,
-        15097 => 15,
-        15098 => 18,
-        15099 => 44,
-        15100 => 44,
-        15101 => 44,
-        15102 => 44,
-        15103 => 44,
-        15104 => 13,
-
-        15106 => 45,
-        15107 => 45,
-        15108 => 45,
-        15109 => 45,
-        15110 => 45,
-        15111 => 45,
-        15112 => 46,
-        15113 => 46,
-        15114 => 46,
-        15115 => 46,
-        15116 => 46,
-        15117 => 46,
-        15118 => 46,
-        15119 => 46,
-
-        15121 => 47,
-
-        15123 => 47,
-        15124 => 4,
-        15125 => 15,
-        15126 => 9,
-        15127 => 40,
-        15128 => 40,
-        15129 => 40,
-        15130 => 41,
-        15131 => 41,
-        15132 => 41,
-        15133 => 42,
-        15134 => 42,
-        15135 => 42,
-        15136 => 42,
-        15137 => 42,
-
-        15139 => 43,
-        15140 => 43,
-        15141 => 43,
-        15142 => 12,
-        15143 => 43,
-        15144 => 43,
-        15145 => 43,
-        15146 => 43,
-        15147 => 43,
-        15148 => 43,
-        15149 => 43,
-        15150 => 44,
-        15151 => 44,
-        15152 => 10,
-        15153 => 6,
-        15154 => 36,
-        15155 => 36,
-        15156 => 36,
-        15157 => 6,
-        15158 => 6,
-        15159 => 36,
-        15160 => 14,
-        15161 => 6,
-        15162 => 7,
-        15163 => 37,
-        15164 => 37,
-        15165 => 37,
-        15166 => 37,
-        15167 => 37,
-        15168 => 37,
-        15169 => 38,
-        15170 => 7,
-        15171 => 38,
-        15172 => 39,
-
-        15174 => 39,
-        15175 => 39,
-        15176 => 39,
-        15177 => 40,
-        15178 => 40,
-        15179 => 31,
-        15180 => 32,
-
-        15182 => 32,
-
-        15184 => 32,
-        15185 => 32,
-        15186 => 32,
-
-        15188 => 32,
-        15189 => 33,
-        15190 => 8,
-        15191 => 33,
-        15192 => 8,
-        15193 => 33,
-        15194 => 12,
-        15195 => 34,
-        15196 => 8,
-        15197 => 34,
-        15198 => 34,
-        15199 => 8,
-        15200 => 35,
-        15201 => 35,
-        15202 => 35,
-
-        15204 => 35,
-
-        15206 => 35,
-        15207 => 35,
-        15208 => 14,
-        15209 => 10,
-
-        15211 => 25,
-
-        15214 => 8
-      }.fetch(statement.id, 0)
-    end
-
-    def druha_vlada_andreje_babise_get_promise_source_page(statement)
-      {
-        17518 => 3,
-        17565 => 4,
-        17516 => 5,
-        17517 => 5,
-        17519 => 7,
-        17520 => 8,
-        17523 => 9,
-        17521 => 10,
-        17522 => 10,
-        17525 => 12,
-        17524 => 12,
-        17526 => 13,
-        17527 => 14,
-        17529 => 14,
-        17528 => 14,
-        17530 => 16,
-        17531 => 17,
-        17532 => 17,
-        17533 => 18,
-        17852 => 18,
-        17534 => 19,
-        17535 => 20,
-        17536 => 23,
-        17537 => 23,
-        17540 => 24,
-        17538 => 24,
-        17539 => 24,
-        17563 => 25,
-        17549 => 28,
-        17541 => 29,
-        17542 => 29,
-        17543 => 30,
-        17544 => 32,
-        17545 => 33,
-        17546 => 33,
-        17561 => 33,
-        17562 => 33,
-        17548 => 34,
-        17550 => 35,
-        17547 => 35,
-        17551 => 35,
-        17552 => 36,
-        17553 => 37,
-        17554 => 37,
-        17558 => 38,
-        17555 => 38,
-        17556 => 38,
-        17557 => 39,
-        17559 => 40,
-        17560 => 40
-      }.fetch(statement.id, 0)
     end
 
     def filters_from_params

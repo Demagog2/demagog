@@ -6,7 +6,11 @@
 >
   <blockquote>
     <p>„<%= content_to_html(@statement.content) %>“</p>
-    <cite><a href="<%= @get_statement_source_url.call(@statement) %>" target="_blank"><%= @get_statement_source_label.call(@statement) %></a></cite>
+    <cite>
+      <%= link_to(@statement.promise_source_url, target: "_blank") do %>
+        <%= @statement.promise_source_label %>
+      <% end %>
+    </cite>
   </blockquote>
   <div class="assessment">
     <span class="promise-evaluation <%= @statement.assessment.promise_rating.key.dasherize %>"> <%= @promises_list_rating_labels[@statement.assessment.promise_rating.key] %></span>
