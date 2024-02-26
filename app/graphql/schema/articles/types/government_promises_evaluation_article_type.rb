@@ -7,7 +7,7 @@ module Schema::Articles::Types
     field :title, String, null: false
     field :perex, String, null: true
     field :promise_count, Integer, null: false
-    field :promises, [Types::StatementType], null: false
+    field :promises, [GovernmentPromiseType], null: false
     field :stats, [PromiseStatsType], null: true
   end
 end

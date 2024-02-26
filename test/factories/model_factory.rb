@@ -243,6 +243,8 @@ FactoryBot.define do
     trait :promise_statement do
       statement_type { Statement::TYPE_PROMISE }
       title { "Promise title" }
+      promise_source_url { "https://example.com" }
+      promise_source_label { "Government promises 101" }
     end
 
     factory :important_statement, traits: %i[important]
