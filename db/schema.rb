@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_26_115411) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_28_094929) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -120,6 +120,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_26_115411) do
     t.datetime "deleted_at", precision: nil
     t.enum "article_type", default: "default", enum_type: "article_type"
     t.bigint "assessment_methodology_id"
+    t.string "title_en"
     t.index ["assessment_methodology_id"], name: "index_articles_on_assessment_methodology_id"
     t.index ["document_id"], name: "index_articles_on_document_id"
     t.index ["illustration_id"], name: "index_articles_on_illustration_id"

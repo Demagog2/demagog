@@ -30,9 +30,8 @@ FactoryBot.define do
   end
 
   factory :article do
-    sequence :title do |n|
-      "Article title #{n}"
-    end
+    sequence(:title) { |n| "Article title #{n}" }
+    sequence(:title_en) { |n| "Article title in english #{n}" }
 
     perex { "Lorem ipsum" }
     published { true }
