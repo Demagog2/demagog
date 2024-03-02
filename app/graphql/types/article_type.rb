@@ -6,6 +6,7 @@ module Types
   class ArticleType < BaseObject
     field :id, ID, null: false
     field :title, String, null: false
+    field :title_en, String, null: true
     field :slug, String, null: false
     field :perex, String, null: true
     field :published_at, Types::Scalars::DateTimeType, null: true
