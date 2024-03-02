@@ -30,6 +30,7 @@ export const GetArticle = gql`
       id
       articleType
       title
+      titleEn
       slug
       perex
       published
@@ -66,6 +67,7 @@ export const GetArticles = gql`
       id
       articleType
       title
+      titleEn
       slug
       published
       publishedAt
