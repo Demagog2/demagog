@@ -6,9 +6,10 @@ class CreateArticleMutationTest < GraphQLTestCase
   def mutation
     "
       mutation {
-        createArticle(articleInput: { articleType: \"default\", title: \"Breaking News\", perex: \"Lorem ipsum...\", segments: [] }) {
+        createArticle(articleInput: { articleType: \"default\", title: \"Breaking News\", titleEn: \"Breaking News in English\", perex: \"Lorem ipsum...\", segments: [] }) {
           article {
             title
+            titleEn
           }
         }
       }
@@ -25,6 +26,7 @@ class CreateArticleMutationTest < GraphQLTestCase
     result = execute(mutation, context: authenticated_user_context)
 
     assert_equal "Breaking News", result.data.createArticle.article.title
+    assert_equal "Breaking News in English", result.data.createArticle.article.titleEn
   end
 
   test "create government promises evaluation article" do

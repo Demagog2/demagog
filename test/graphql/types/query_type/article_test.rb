@@ -16,7 +16,7 @@ class QueryTypeArticleTest < GraphQLTestCase
         statements: [create(:statement, source_speaker:), create(:statement, source_speaker:)]
       )
     segment = create(:article_segment_source_statements, source:)
-    article = create(:fact_check, :with_illustration, title: "Lorem ipsum", published: true, segments: [segment])
+    article = create(:fact_check, :with_illustration, title: "Lorem ipsum", title_en: "Lorem ipsum in English", published: true, segments: [segment])
 
     query_string =
       "
@@ -26,6 +26,7 @@ class QueryTypeArticleTest < GraphQLTestCase
       }) {
           id
           title
+          titleEn
           debateStats {
             stats {
               true
@@ -43,6 +44,7 @@ class QueryTypeArticleTest < GraphQLTestCase
     result = execute(query_string)
 
     assert_equal article.title, result.data.article.title
+    assert_equal article.title_en, result.data.article.titleEn
     assert_equal source_speaker.full_name, result.data.article.source.sourceSpeakers[0].fullName
     assert_match(/speaker\.png/, result.data.article.illustration)
   end
