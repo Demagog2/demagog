@@ -66,6 +66,23 @@ interface IArticleFormProps {
   backPath: string;
 }
 
+function ArticleTitle(props: { children: React.ReactChild }) {
+  return (
+    <h2
+      style={{
+        marginBottom: '24px 0 12px 0',
+        // TODO: make sure Lato is loaded
+        fontFamily: 'Lato, sans-serif',
+        color: '#3c325c',
+        fontSize: 24,
+        fontWeight: 700,
+      }}
+    >
+      {props.children}
+    </h2>
+  );
+}
+
 export function ArticleForm(props: IArticleFormProps) {
   const { article, backPath, title } = props;
 
@@ -94,23 +111,23 @@ export function ArticleForm(props: IArticleFormProps) {
     : ARTICLE_TYPE_OPTIONS;
 
   const initialValues = {
-    article_type: article ? article.articleType : ARTICLE_TYPE_DEFAULT,
-    title: article ? article.title : '',
-    perex: article?.perex ? article.perex : '',
-    segments: article?.segments
-      ? article.segments.map((s) => ({
+    article_type: article?.articleType ?? ARTICLE_TYPE_DEFAULT,
+    title: article?.title ?? '',
+    titleEn: article?.titleEn ?? '',
+    perex: article?.perex ?? '',
+    segments:
+      article?.segments.map((s) => ({
         id: s.id,
         segment_type: s.segmentType as SegmentType,
         text_html: s.textHtml,
         text_slatejson: s.textSlatejson,
-        source_id: s.source ? s.source.id : null,
+        source_id: s.source?.id ?? null,
         promise_url: s.promiseUrl,
-      }))
-      : [],
-    illustration: article ? article.illustration : null,
-    published: article ? article.published : false,
-    published_at: article ? article.publishedAt : DateTime.local().toISODate(),
-    articleTags: article?.articleTags ? article.articleTags?.map((t) => t.id) : [],
+      })) ?? [],
+    illustration: article?.illustration ?? null,
+    published: article?.published ?? false,
+    published_at: article?.publishedAt ?? DateTime.local().toISODate(),
+    articleTags: article?.articleTags?.map((t) => t.id) ?? [],
     assessmentMethodologyId: article?.assessmentMethodology?.id ?? null,
   };
 
@@ -136,7 +153,8 @@ export function ArticleForm(props: IArticleFormProps) {
             promiseUrl: s.promise_url,
           })),
           title: values.title,
-          articleTags: values.articleTags ? values.articleTags : [],
+          titleEn: values.titleEn,
+          articleTags: values?.articleTags ?? [],
           assessmentMethodologyId: values.assessmentMethodologyId,
         };
 
@@ -177,16 +195,7 @@ export function ArticleForm(props: IArticleFormProps) {
                   boxShadow: '0 0 6px #999',
                 }}
               >
-                <h2
-                  style={{
-                    marginBottom: '24px 0 12px 0',
-                    // TODO: make sure Lato is loaded
-                    fontFamily: 'Lato, sans-serif',
-                    color: '#3c325c',
-                    fontSize: 24,
-                    fontWeight: 700,
-                  }}
-                >
+                <ArticleTitle>
                   <EditableText
                     placeholder="Upravit název…"
                     onChange={(value) => {
@@ -194,7 +203,19 @@ export function ArticleForm(props: IArticleFormProps) {
                     }}
                     value={values.title}
                   />
-                </h2>
+                </ArticleTitle>
+
+                {values.article_type === ARTICLE_TYPE_FACEBOOK_FACTCHECK && (
+                  <ArticleTitle>
+                    <EditableText
+                      placeholder="Upravit anglický název…"
+                      onChange={(value) => {
+                        setFieldValue('titleEn', value);
+                      }}
+                      value={values.titleEn ?? ''}
+                    />
+                  </ArticleTitle>
+                )}
 
                 <div
                   style={{
@@ -303,7 +324,10 @@ export function ArticleForm(props: IArticleFormProps) {
                 <FormGroup label="Metoda overovani" name="assessmentMethodologyId">
                   <SelectField
                     name="assessmentMethodologyId"
-                    options={data.assessmentMethodologies.map(({ id, name }) => ({ label: name, value: id }))}
+                    options={data.assessmentMethodologies.map(({ id, name }) => ({
+                      label: name,
+                      value: id,
+                    }))}
                   />
                 </FormGroup>
               )}

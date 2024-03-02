@@ -105,6 +105,7 @@ export const CreateArticle = gql`
         id
         articleType
         title
+        titleEn
         slug
         perex
         published
@@ -139,6 +140,7 @@ export const UpdateArticle = gql`
         id
         articleType
         title
+        titleEn
         slug
         perex
         published
