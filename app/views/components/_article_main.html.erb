@@ -6,7 +6,7 @@
       <div class="w-100">
         <a title="<%= article.title %>" href="<%= article_path(article) %>" class="illustration">
           <% if article.illustration.attached? %>
-            <img loading="lazy" class="w-100 rounded-m" src="<%= url_for(article.illustration) %>" alt="Ilustrační obrázek k výstupu <%= article.title %>">
+            <img loading="lazy" class="w-100 rounded-m" src="<%= url_for(article.illustration.variant(:medium)) %>" alt="Ilustrační obrázek k výstupu <%= article.title %>">
           <% else %>
             <img class="w-100 rounded-m" src="<%= asset_path("article-illustration-default-preview.svg") %>" alt="Ilustrační obrázek k výstupu <%= article.title %>">
           <% end %>
