@@ -5,7 +5,14 @@ require "test_helper"
 class SearchControllerTest < ActionDispatch::IntegrationTest
   MODELS = [Article, Page, Statement, Speaker, Body]
 
-  teardown { elasticsearch_cleanup MODELS }
+  def setup
+    allow_net_connect!
+  end
+
+  def teardown
+    elasticsearch_cleanup MODELS
+    disable_net_connect!
+  end
 
   test "should find speakers" do
     create(:speaker, first_name: "John", last_name: "Doe")

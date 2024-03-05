@@ -8,11 +8,13 @@ class ElasticsearchWorkerTest < ActiveSupport::TestCase
   MODELS = [Speaker]
 
   setup do
+    allow_net_connect!
     elasticsearch_index MODELS
   end
 
   teardown do
     elasticsearch_cleanup MODELS
+    disable_net_connect!
   end
 
   test "indexing new models" do

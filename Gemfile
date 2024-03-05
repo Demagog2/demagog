@@ -166,6 +166,9 @@ group :development, :test do
 
   # For intellisense in editors
   gem "solargraph", "~> 0.45.0"
+
+  # For mocking HTTP responses
+  gem "webmock"
 end
 
 group :development do
