@@ -39,6 +39,9 @@ gem "flipper-active_record"
 # Use puma as a web server
 gem "puma", "~> 5.6.8"
 
+# HTTP communication with external services
+gem "faraday"
+
 # Use SCSS for stylesheets
 gem "sass-rails", "~> 5.1.0"
 # Use Uglifier as compressor for JavaScript assets
