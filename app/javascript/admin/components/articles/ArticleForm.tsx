@@ -36,6 +36,7 @@ import ArticleTagsSelect from '../forms/controls/ArticleTagsSelect';
 import SelectComponentField from '../forms/controls/SelectComponentField';
 import { useQuery } from 'react-apollo';
 import gql from 'graphql-tag';
+import { PublishEfcsnArticle } from './PublishEfcsnArticle';
 
 const ARTICLE_TYPE_DEFAULT = 'default';
 const ARTICLE_TYPE_STATIC = 'static';
@@ -360,6 +361,10 @@ export function ArticleForm(props: IArticleFormProps) {
                       Veřejný odkaz
                     </a>
                   </div>
+              )}
+
+              {!(article == null) && (
+                <PublishEfcsnArticle article={article} />
               )}
             </div>
           </div>
