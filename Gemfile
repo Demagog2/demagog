@@ -96,7 +96,7 @@ gem "redis", "~> 4.1.4"
 
 # Use sidekiq for background jobs
 # sidekiq v6 needs redis v4, but we have redis v3 on production, so we need to stick to v5 for now
-gem "sidekiq", "~> 5.2.9"
+gem "sidekiq", "~> 7.1.5"
 
 # Use Amazon S3 for active storage for production environment
 gem "aws-sdk-s3", "~> 1.106.0", require: false
