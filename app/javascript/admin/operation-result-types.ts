@@ -1,3 +1,4 @@
+/* tslint:disable */
 /* eslint-disable */
 // @generated
 // This file was automatically generated and should not be edited.
@@ -1728,6 +1729,8 @@ export interface GetArticle_article_assessmentMethodology {
 export interface GetArticle_article {
   __typename: "Article";
   id: string;
+  efcsnExternalId: string | null;
+  efcsnCreatedAt: GraphQLCustomScalar_DateTime | null;
   articleType: string;
   title: string;
   titleEn: string | null;
@@ -3403,6 +3406,22 @@ export interface GetUserStatementsVariables {
   includeUnpublished?: boolean | null;
   evaluatedByUserId?: string | null;
   sortSourcesInReverseChronologicalOrder?: boolean | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: PublishEfcsnArticle
+// ====================================================
+
+export interface PublishEfcsnArticle {
+  __typename: "Article";
+  id: string;
+  efcsnExternalId: string | null;
+  efcsnCreatedAt: GraphQLCustomScalar_DateTime | null;
 }
 
 /* tslint:disable */

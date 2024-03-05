@@ -1,5 +1,13 @@
 import gql from 'graphql-tag';
 
+export const PublishEfcsnArticleFragment = gql`
+  fragment PublishEfcsnArticle on Article {
+    id
+    efcsnExternalId
+    efcsnCreatedAt
+  }
+`;
+
 export const GetPages = gql`
   query GetPages($title: String, $offset: Int, $limit: Int) {
     pages(includeUnpublished: true, offset: $offset, limit: $limit, title: $title) {
@@ -27,6 +35,7 @@ export const GetPage = gql`
 export const GetArticle = gql`
   query GetArticle($id: ID!) {
     article(id: $id, includeUnpublished: true) {
+      ...PublishEfcsnArticle
       id
       articleType
       title
@@ -59,6 +68,7 @@ export const GetArticle = gql`
       }
     }
   }
+  ${PublishEfcsnArticleFragment}
 `;
 
 export const GetArticles = gql`
