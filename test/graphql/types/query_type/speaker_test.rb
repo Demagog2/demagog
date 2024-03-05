@@ -4,6 +4,7 @@ require "graphql/graphql_testcase"
 
 class QueryTypeSpeakerTest < GraphQLTestCase
   def setup
+    allow_net_connect!
     elasticsearch_index [Speaker, Statement]
   end
 
@@ -61,5 +62,6 @@ class QueryTypeSpeakerTest < GraphQLTestCase
 
   def teardown
     elasticsearch_cleanup [Speaker, Statement]
+    disable_net_connect!
   end
 end

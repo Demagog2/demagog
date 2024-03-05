@@ -9,10 +9,13 @@ module Integrations::Efcsn
     end
 
     def post_article(article)
-      response = @connection.post("articles", build_request(article).to_json)
+      response = @connection.post("articles") do |req|
+        req.headers[:content_type] = "application/json"
+        req.body = JSON.generate(build_request(article))
+      end
 
       case response.status
-      when 200
+      when 200, 201
         article_raw = JSON.parse(response.body)
 
         EfcsnArticle.new(
@@ -27,13 +30,13 @@ module Integrations::Efcsn
 
     def build_request(article)
       {
-        type: "Debunk",
+        type: "Narrative",
         url: article_url(article),
         headline: article.title_en,
         headlineNative: article.title,
         topics: ["Others"],
         countryOfOrigin: "CZ",
-        contentLocation: "CZ"
+        contentLocation: ["CZ"]
       }
     end
   end

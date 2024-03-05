@@ -59,5 +59,7 @@ module Types
 
     field :updateNotification, mutation: Mutations::UpdateNotification
     field :markUnreadNotificationsAsRead, mutation: Mutations::MarkUnreadNotificationsAsRead
+
+    field :publish_efcsn_article, mutation: Schema::Articles::Mutations::PublishEfcsnArticleMutation
   end
 end

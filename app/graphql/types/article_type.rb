@@ -13,6 +13,28 @@ module Types
     field :published, Boolean, null: false
     field :source, Types::SourceType, null: true
 
+    field :efcsn_external_id, String, null: true
+    field :efcsn_created_at, Types::Scalars::DateTimeType, null: true
+    field :efcsn_updated_at, Types::Scalars::DateTimeType, null: true
+
+    def efcsn_external_id
+      return nil unless context[:current_user]
+
+      object.efcsn_external_id
+    end
+
+    def efcsn_created_at
+      return nil unless context[:current_user]
+
+      object.efcsn_created_at
+    end
+
+    def efcsn_updated_at
+      return nil unless context[:current_user]
+
+      object.efcsn_updated_at
+    end
+
     field :article_type, String, null: false
 
     field :assessment_methodology, Types::AssessmentMethodologyType, null: true

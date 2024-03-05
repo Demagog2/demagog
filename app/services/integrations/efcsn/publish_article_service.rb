@@ -31,7 +31,7 @@ module Integrations::Efcsn
       @logger.info("service=efcsn_publish_article action=publish_article user_id=#{current_user.id} article_id=#{article.id} efcsn_article_id=#{created_article.id} step=finished")
 
       PublishingSuccess.new(article)
-    rescue => e
+    rescue ApiClientError => e
       @logger.error("service=efcsn_publish_article action=publish_article user_id=#{current_user.id} article_id=#{article.id} step=error message=#{e.message}")
 
       PublishingFailed.new("Publishing failed because of #{e.message}")
@@ -40,10 +40,10 @@ module Integrations::Efcsn
     # TODO: Move to the ApiClient or create factory
     def self.create
       options = {
-        url: ENV.fetch("EFCSN_SERVICE_URL"),
+        url: ENV.fetch("EFCSN_SERVICE_URL") { "https://example.com" },
         headers: {
-          "X-DOMAIN" => "demagog.cz",
-          "X-API-KEY" => ENV.fetch("EFCSN_API_KEY")
+          "X-DOMAIN" => ENV.fetch("EFCSN_DOMAIN") { "demagog.cz" },
+          "X-API-KEY" => ENV.fetch("EFCSN_API_KEY") { "randomly-generated-key" }
         }
       }
 

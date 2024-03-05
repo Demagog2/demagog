@@ -7,8 +7,13 @@ module Integrations
   module Efcsn
     class PublishArticleServiceTest < ActiveSupport::TestCase
       def setup
+        allow_net_connect!
         @article = create(:article)
         @user = create(:user, :expert)
+      end
+
+      def teardown
+        disable_net_connect!
       end
 
       test "fails for anyone but expert and admin" do
@@ -54,7 +59,7 @@ module Integrations
       test "returns message in case of a failure" do
         api_client = Minitest::Mock.new
         api_client.expect(:post_article, nil) do
-          raise "Don't know what's going on!"
+          raise ApiClientError.new("Don't know what's going on!", 500, {})
         end
 
         result = PublishArticleService.new(api_client).publish_article(@article, @user)

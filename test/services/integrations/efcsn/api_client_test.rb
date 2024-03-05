@@ -42,13 +42,13 @@ module Integrations::Efcsn
 
     def expected_request(article)
       {
-        type: "Debunk",
+        type: "Narrative",
         url: article_url(article),
         headline: article.title_en,
         headlineNative: article.title,
         topics: ["Others"],
         countryOfOrigin: "CZ",
-        contentLocation: "CZ"
+        contentLocation: ["CZ"]
       }
     end
 

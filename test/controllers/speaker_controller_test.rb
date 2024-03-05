@@ -3,6 +3,14 @@
 require "test_helper"
 
 class SpeakerControllerTest < ActionDispatch::IntegrationTest
+  def setup
+    allow_net_connect!
+  end
+
+  def teardown
+    disable_net_connect!
+  end
+
   test "should get index" do
     elasticsearch_index [Speaker]
 
