@@ -16,11 +16,10 @@ module Integrations
         disable_net_connect!
       end
 
-      test "fails for anyone but expert and admin" do
+      test "fails for intern and proof reader" do
         roles = [
           :intern,
           :proofreader,
-          :social_media_manager,
         ]
 
         roles.each do |role|
@@ -42,18 +41,28 @@ module Integrations
       end
 
       test "returns success with updated article" do
-        api_client = Minitest::Mock.new
-        api_client.expect :post_article, created_efcsn_article, [@article]
+        roles = [
+          :admin,
+          :expert,
+          :social_media_manager
+        ]
 
-        result = PublishArticleService.new(api_client).publish_article(@article, @user)
+        roles.each do |role|
+          user = create(:user, role)
 
-        assert_instance_of PublishArticleService::PublishingSuccess, result
+          api_client = Minitest::Mock.new
+          api_client.expect :post_article, created_efcsn_article, [@article]
 
-        assert_equal created_efcsn_article.id, result.article.efcsn_external_id
-        assert_equal created_efcsn_article.created_at, result.article.efcsn_created_at
-        assert_equal created_efcsn_article.updated_at, result.article.efcsn_updated_at
+          result = PublishArticleService.new(api_client).publish_article(@article, user)
 
-        assert_mock api_client
+          assert_instance_of PublishArticleService::PublishingSuccess, result
+
+          assert_equal created_efcsn_article.id, result.article.efcsn_external_id
+          assert_equal created_efcsn_article.created_at, result.article.efcsn_created_at
+          assert_equal created_efcsn_article.updated_at, result.article.efcsn_updated_at
+
+          assert_mock api_client
+        end
       end
 
       test "returns message in case of a failure" do
