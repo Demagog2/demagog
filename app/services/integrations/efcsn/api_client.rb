@@ -29,7 +29,7 @@ module Integrations::Efcsn
     end
 
     def build_request(article)
-      {
+      request = {
         type: "Narrative",
         url: article_url(article),
         headline: article.title_en,
@@ -38,6 +38,12 @@ module Integrations::Efcsn
         countryOfOrigin: "CZ",
         contentLocation: ["CZ"]
       }
+
+      if article.illustration.attached?
+        request[:image] = rails_representation_url(article.illustration.variant(:medium).processed)
+      end
+
+      request
     end
   end
 end

@@ -14,6 +14,14 @@ module Integrations::Efcsn
       assert_equal expected_request(@article), ApiClient.new(Faraday.new).build_request(@article)
     end
 
+    test "creates payload with image if article has illustration" do
+      article = create(:article, :with_illustration)
+
+      request = ApiClient.new(Faraday.new).build_request(article)
+
+      assert_match "/active_storage/", request[:image]
+    end
+
     test "sends POST request to create article API" do
       connection = Faraday.new do |builder|
         builder.adapter :test do |stub|
