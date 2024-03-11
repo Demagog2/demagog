@@ -11,7 +11,7 @@ class SpeakerPresenter
   end
 
   def portrait_url
-    (@source_speaker ? @source_speaker.speaker : @speaker).avatar.url
+    (@source_speaker ? @source_speaker.speaker : @speaker).avatar.variant(:small).processed.url
   end
 
   def portrait_speaker

@@ -59,7 +59,10 @@ class Speaker < ApplicationRecord
   has_many :statements, through: :source_speakers
   has_many :assessments, through: :statements
 
-  has_one_attached :avatar
+  has_one_attached :avatar do |attachable|
+    attachable.variant :small, resize: "41x41"
+    attachable.variant :detail, resize: "344x344"
+  end
 
   mapping do
     indexes :id, type: "long"
