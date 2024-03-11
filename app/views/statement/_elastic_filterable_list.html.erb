@@ -144,25 +144,6 @@ wide_display = true if local_assigns[:wide_display].nil?
         </div>
       <% end %>
 
-      <% if enable_filters.include?(:editor_picked) %>
-        <div class="mt-5">
-          <div class="check-btn py-2 <% if statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:count] == 0 %>disabled<% end %>">
-            <input
-              type="checkbox"
-              data-target="components--filter.filterCheckbox"
-              data-action="change->components--filter#toggleFilter"
-              data-filter-value="ano"
-              data-filter-type="vyber"
-              <% if statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:selected] %>checked<% end %>
-              <% if statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:count] == 0 %>disabled<% end %>
-            >
-            <span class="checkmark"></span>
-            <span class="small fw-600 me-2"><%= statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:label] %></span>
-            <span class="smallest min-w-40px"><%= number_with_delimiter(statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:count], delimiter: " ") %> <%= cs_pluralize(statement_elastic_filterable_list_presenter.filter_options[:editor_picked][:count], "výrok", "výroky", "výroků") %></span>
-          </div>
-        </div>
-      <% end %>
-
       <div class="w-100 mt-5">
         <a class="btn w-100" data-action="click->components--filter#clearFilter">
           <span class="text-white">Zrušit filtry</span>

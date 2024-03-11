@@ -237,10 +237,6 @@ class QueryTypeSearchTest < GraphQLTestCase
             year
             count
           }
-          editorPicked {
-            count
-            isSelected
-          }
           totalCount
         }
       }
@@ -266,9 +262,6 @@ class QueryTypeSearchTest < GraphQLTestCase
 
     assert_equal 2021, result["data"]["searchStatements"]["years"][1]["year"]
     assert_equal 1, result["data"]["searchStatements"]["years"][1]["count"]
-
-    assert_equal 1, result["data"]["searchStatements"]["editorPicked"]["count"]
-    assert_equal false, result["data"]["searchStatements"]["editorPicked"]["isSelected"]
   end
 
   test "search statements - filter by tags" do
@@ -388,36 +381,6 @@ class QueryTypeSearchTest < GraphQLTestCase
 
     assert_equal 1990, result["data"]["searchStatements"]["years"][1]["year"]
     assert_equal true, result["data"]["searchStatements"]["years"][1]["isSelected"]
-  end
-
-  test "search statements - filter by editor picked" do
-    statement_one = create(:statement, :important, content: "Something he said and loads more")
-    statement_two = create(:statement, content: "Something he said and loads more")
-
-    statement_one.__elasticsearch__.index_document
-    statement_two.__elasticsearch__.index_document
-
-    statement_one.__elasticsearch__.client.indices.refresh index: statement_one.__elasticsearch__.index_name
-
-    query_string = <<~GRAPHQL
-      query {
-        searchStatements(term: "Something he said", includeAggregations: true, filters: { editorPicked: true }) {
-          statements {
-            id
-          }
-          editorPicked {
-            isSelected
-          }
-          totalCount
-        }
-      }
-    GRAPHQL
-
-    result = execute(query_string)
-
-    assert_equal 1, result["data"]["searchStatements"]["totalCount"]
-    assert_equal statement_one.id, result["data"]["searchStatements"]["statements"][0]["id"].to_i
-    assert_equal true, result["data"]["searchStatements"]["editorPicked"]["isSelected"]
   end
 
   def teardown
