@@ -50,10 +50,6 @@ class StatementElasticFilterableListPresenter
         end
       end
 
-      # Editor picked
-      if @enable_filters.include?(:editor_picked) && !@params[:vyber].blank?
-        params_filters[:editor_picked] = @params[:vyber] == "ano"
-      end
 
       # Fulltext
       if @enable_filters.include?(:fulltext) && !@params[:q].blank?
@@ -116,7 +112,7 @@ class StatementElasticFilterableListPresenter
     def get_filter_options
       filter_options = {}
 
-      if @enable_filters.include?(:editor_picked) || @enable_filters.include?(:tag_id) || @enable_filters.include?(:veracity_key) || @enable_filters.include?(:released_year)
+      if @enable_filters.include?(:tag_id) || @enable_filters.include?(:veracity_key) || @enable_filters.include?(:released_year)
         aggregations = StatementsElasticQueryService.aggregate_published_factual(@context)
 
         # Body
@@ -163,18 +159,6 @@ class StatementElasticFilterableListPresenter
           end
 
           filter_options[:speaker_id] = speaker_id_filter_options
-        end
-
-        # Editor picked
-        if @enable_filters.include?(:editor_picked)
-          editor_picked_aggregation = aggregations.fetch("editor_picked", {})
-
-          filter_options[:editor_picked] = {
-            value: "ano",
-            label: "Pouze ve výběru Demagog.cz",
-            count: editor_picked_aggregation.fetch(1, 0),
-            selected: @parsed_params_filters[:editor_picked] == true
-          }
         end
 
         # Tags

@@ -58,7 +58,6 @@ module Schema::Search::Resolvers
           tags: tag_aggregations(aggregations, filters),
           years: released_year_aggregations(aggregations, filters),
           veracities: veracity_aggregations(aggregations, filters),
-          editor_picked: editor_picked_aggregation(aggregations, filters)
         }
       end
 
@@ -75,10 +74,6 @@ module Schema::Search::Resolvers
 
         filters[:years]&.tap do |years|
           query[:released_year] = years unless years.empty?
-        end
-
-        filters[:editor_picked]&.tap do |editor_picked|
-          query[:editor_picked] = true if editor_picked
         end
 
         query
@@ -111,12 +106,6 @@ module Schema::Search::Resolvers
           veracity = { id: i + 1, key:, name: I18n.t("veracity.names.#{key}") }
           { veracity:, count: veracity_key_aggregation.fetch(key, 0), is_selected: filters.fetch(:veracities, []).include?(key) }
         end
-      end
-
-      def editor_picked_aggregation(aggregations, filters)
-        editor_picked_aggreations = aggregations.fetch("editor_picked", {})
-
-        { count: editor_picked_aggreations.fetch(1, 0).to_int, is_selected: filters.fetch(:editor_picked, false) }
       end
   end
 end

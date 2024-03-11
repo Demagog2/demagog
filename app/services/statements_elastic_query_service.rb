@@ -35,7 +35,6 @@ class StatementsElasticQueryService
         tag_id: { terms: { field: "tags.id", size: AGGREGATION_SIZE, missing: -1 } },
         veracity_key: { terms: { field: "assessment.veracity.key", size: AGGREGATION_SIZE } },
         released_year: { terms: { field: "source.released_year", size: AGGREGATION_SIZE } },
-        editor_picked: { terms: { field: "important", size: AGGREGATION_SIZE } }
       }
     end
 
@@ -120,11 +119,6 @@ class StatementsElasticQueryService
         else
           elastic_query[:bool][:filter].push({ term: { 'assessment.veracity.key': veracity_key } })
         end
-      end
-
-      editor_picked = filters.fetch(:editor_picked, nil)
-      unless editor_picked.blank?
-        elastic_query[:bool][:filter].push({ term: { 'important': editor_picked } })
       end
 
       released_year = filters.fetch(:released_year, nil)

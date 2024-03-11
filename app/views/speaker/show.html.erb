@@ -110,7 +110,7 @@ content_for(
         context: {
           speaker_id: @speaker.id
         },
-        enable_filters: [:editor_picked, :tag_id, :veracity_key, :released_year, :fulltext],
+        enable_filters: [:tag_id, :veracity_key, :released_year, :fulltext],
         params: @params,
         no_filters_url: speaker_path(@speaker),
         show_speaker_role: false
