@@ -3,17 +3,17 @@
 <div class="row g-5 g-lg-10 flex-lg-row-reverse" data-controller="components--modal">
   <% if @page_number.blank? %>
   <div class="col col-12 col-lg-4">
-    <% if !@most_searched_speakers.blank? %>
-    <div class="d-flex flex-wrap align-items-center mb-10">
-      <span class="fs-7 fw-bold text-uppercase me-5 my-2">Nejvyhledávanější</span>
-      <div class="symbol-group">
-        <% for speaker in @most_searched_speakers %>
-          <%= link_to speaker_path(speaker), class: 'symbol symbol-45px rounded-circle bg-gray-500 overflow-hidden', title: speaker.full_name do %>
-            <%= render(PortraitComponent.new(speaker: speaker)) %>
+    <% unless @most_searched_speakers.blank? %>
+      <div class="d-flex flex-wrap align-items-center mb-10">
+        <span class="fs-7 fw-bold text-uppercase me-5 my-2">Nejvyhledávanější</span>
+        <div class="symbol-group">
+          <% @most_searched_speakers.each do |speaker| %>
+            <%= link_to speaker_path(speaker), class: 'symbol symbol-45px rounded-circle bg-gray-500 overflow-hidden', title: speaker.full_name do %>
+              <%= render(PortraitComponent.new(speaker: speaker, size: :small)) %>
+            <% end %>
           <% end %>
-        <% end %>
+        </div>
       </div>
-    </div>
     <% end %>
     <div
       class="bg-dark-light text-white p-5 p-lg-8 rounded-l mb-10"
