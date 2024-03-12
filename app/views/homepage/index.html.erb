@@ -9,7 +9,7 @@
         <div class="symbol-group">
           <% @most_searched_speakers.each do |speaker| %>
             <%= link_to speaker_path(speaker), class: 'symbol symbol-45px rounded-circle bg-gray-500 overflow-hidden', title: speaker.full_name do %>
-              <%= render(PortraitComponent.new(speaker: speaker, size: :small)) %>
+              <%= render(PortraitComponent.new(speaker: speaker)) %>
             <% end %>
           <% end %>
         </div>

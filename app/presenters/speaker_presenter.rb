@@ -11,14 +11,7 @@ class SpeakerPresenter
   end
 
   def portrait_url(size: nil)
-    avatar = (@source_speaker ? @source_speaker.speaker : @speaker).avatar
-
-    case size
-    when :small, :detail
-      avatar.variant(size).processed.url
-    else
-      avatar
-    end
+    (@source_speaker ? @source_speaker.speaker : @speaker).avatar.variant(:detail).processed.url
   end
 
   def portrait_speaker
