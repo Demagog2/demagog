@@ -18,12 +18,18 @@ module Types
     field :verified_statements_count, Int, null: false
     field :search_statements, Schema::Search::Types::SearchResultStatementType, null: false, resolver: Schema::Search::Resolvers::StatementSearchResultResolver.within_context(:speaker)
 
-    field :avatar, String, null: true
+    field :avatar, String, null: true do
+      argument :size, Schema::Speakers::Types::SpeakerImageSizeType, required: false, description: "Experimental"
+    end
 
-    def avatar
+    def avatar(size: nil)
       return nil unless object.avatar.attached?
 
-      Rails.application.routes.url_helpers.polymorphic_url(object.avatar, only_path: true)
+      if size.present?
+        Rails.application.routes.url_helpers.rails_representation_url(object.avatar.variant(size.to_sym).processed, only_path: true)
+      else
+        Rails.application.routes.url_helpers.polymorphic_url(object.avatar, only_path: true)
+      end
     end
 
     # Seznam uses portrait of speaker, we need to keep it till they update it

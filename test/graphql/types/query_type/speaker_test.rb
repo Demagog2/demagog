@@ -32,6 +32,40 @@ class QueryTypeSpeakerTest < GraphQLTestCase
     assert_equal 1, result.data.speaker.verifiedStatementsCount
   end
 
+  test "should return speaker with avatar" do
+    speaker = create(:speaker, :with_avatar)
+
+    query_string = "
+      query {
+        speaker(id: #{speaker.id}) {
+          id
+          avatar
+        }
+      }
+    "
+
+    result = execute(query_string)
+
+    assert_match(/active_storage/, result.data.speaker.avatar)
+  end
+
+  test "should return speaker with small avatar" do
+    speaker = create(:speaker, :with_avatar)
+
+    query_string = "
+      query {
+        speaker(id: #{speaker.id}) {
+          id
+          avatar(size: small)
+        }
+      }
+    "
+
+    result = execute(query_string)
+
+    assert_match(/active_storage/, result.data.speaker.avatar)
+  end
+
   test "should search statements in context of given speaker" do
     statement_one = create(:statement, :important, content: "Something he said and loads more")
     statement_two = create(:statement, content: "Something he said and loads more")

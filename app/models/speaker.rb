@@ -59,9 +59,14 @@ class Speaker < ApplicationRecord
   has_many :statements, through: :source_speakers
   has_many :assessments, through: :statements
 
+  AVATAR_SIZES = [
+    AVATAR_SIZE_SMALL = "small",
+    AVATAR_SIZE_DETAIL = "detail",
+  ].freeze
+
   has_one_attached :avatar do |attachable|
-    attachable.variant :small, resize: "41x41"
-    attachable.variant :detail, resize: "344x344"
+    attachable.variant :small, resize: "41x41", quality: 95
+    attachable.variant :detail, resize: "344x344", quality: 95
   end
 
   mapping do

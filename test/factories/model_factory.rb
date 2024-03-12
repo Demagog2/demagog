@@ -271,6 +271,13 @@ FactoryBot.define do
       statement_source { nil }
     end
 
+    trait :with_avatar do
+      after :create do |user|
+        file_path = Rails.root.join("test", "fixtures", "files", "speaker.png")
+        user.avatar.attach(Rack::Test::UploadedFile.new(file_path, "image/png"))
+      end
+    end
+
     factory :speaker_with_party do
       transient { memberships_count { 1 } }
 
