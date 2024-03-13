@@ -1,5 +1,5 @@
-<%= display_meta_tags site:  content_for?(:title) ? 'Ověřujeme pro Vás &mdash; Demagog.cz' : nil,
-  title: content_for?(:title) ? yield(:title) : 'Ověřujeme pro Vás &mdash; Demagog.cz',
+<%= display_meta_tags site:  content_for?(:title) ? 'Demagog.cz' : nil,
+  title: content_for?(:title) ? yield(:title) : 'Demagog.cz',
   separator: "&mdash;".html_safe,
   reverse: true,
   description: content_for?(:description) ? yield(:description) : 'Nezávislý fact-checkingový projekt, který se zaměřuje na ověřování faktických tvrzení českých politiků. Usilujeme o kultivaci veřejné diskuse a klademe důraz na transparentní zdroje informací, kritické myšlení a mediální gramotnost.',
