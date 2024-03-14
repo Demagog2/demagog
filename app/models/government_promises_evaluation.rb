@@ -14,8 +14,8 @@ class GovernmentPromisesEvaluation
   def promises
     Statement.promise_and_published
              .joins(source: { article_segments: :article })
-             # .includes(assessment: :promise_rating)
              .where(articles: { id: article })
+             .reorder(title: :asc)
   end
 
   def stats
@@ -26,7 +26,7 @@ class GovernmentPromisesEvaluation
     end
 
     stats.map do |(key, count)|
-      { key:, count:, percentage: count > 0 ? (count.to_f / promise_count.to_f) * 100 : 0 }
+      { key:, count:, percentage: count > 0 ? ((count.to_f / promise_count.to_f) * 100).round : 0 }
     end
   end
 end

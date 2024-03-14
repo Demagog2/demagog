@@ -40,6 +40,16 @@ module Schema::Articles
               url
               label
             }
+            promiseRating {
+              key
+              name
+            }
+            shortExplanation
+            explanationHtml
+            area {
+              id
+              name
+            }
           }
           stats {
             key
@@ -57,6 +67,9 @@ module Schema::Articles
       assert_equal article.perex, result.data.governmentPromisesEvaluationBySlug.perex
       assert_equal 1, result.data.governmentPromisesEvaluationBySlug.promiseCount
       assert_equal statement.id.to_s, result.data.governmentPromisesEvaluationBySlug.promises.first.id
+      assert_equal PromiseRating::FULFILLED, result.data.governmentPromisesEvaluationBySlug.promises.first.promiseRating.key
+      assert_equal statement.assessment.short_explanation, result.data.governmentPromisesEvaluationBySlug.promises.first.shortExplanation
+      assert_equal statement.assessment.explanation_html, result.data.governmentPromisesEvaluationBySlug.promises.first.explanationHtml
       assert_equal({ key: "fulfilled", count: 1, percentage: 100 }, result.data.governmentPromisesEvaluationBySlug.stats[0].to_h)
     end
   end
