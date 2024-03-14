@@ -9,7 +9,7 @@ module Schema::Articles::GovernmentPromisesEvaluationField
     end
 
     def government_promises_evaluation_by_slug(slug:)
-      article = Article.find_by(slug:)
+      article = Article.published.find_by(slug:)
 
       return nil unless article
 
