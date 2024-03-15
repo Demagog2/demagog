@@ -17,6 +17,8 @@ module Schema::Articles::ArticlesField
 
     field :government_promises_evaluations, [Schema::Articles::Types::GovernmentPromisesEvaluationArticleType], null: false
 
+    field :facebook_factchecks, Types::ArticleType.connection_type, null: false
+
     def articles(args)
       if args[:include_unpublished]
         # Public cannot access unpublished articles
@@ -59,6 +61,10 @@ module Schema::Articles::ArticlesField
       Article.published.where(article_type: Article::ARTICLE_TYPE_GOVERNMENT_PROMISES_EVALUATION).order(published_at: :desc).map do |article|
         GovernmentPromisesEvaluation.new(article:)
       end
+    end
+
+    def facebook_factchecks
+      Article.published.where(article_type: Article::ARTICLE_TYPE_FACEBOOK_FACTCHECK).order(published_at: :desc)
     end
   end
 end

@@ -120,5 +120,23 @@ module Schema::Articles
 
       assert_equal 5, result.data.governmentPromisesEvaluations.count
     end
+
+    test "returns facebook factchecks articles" do
+      create_list(:article, 10, :facebook_factcheck)
+
+      query_string = <<~GRAPHQL
+      query {
+        facebookFactchecks(first: 5) {
+          nodes {
+            id
+          }
+        }
+      }
+      GRAPHQL
+
+      result = execute(query_string)
+
+      assert_equal 5, result.data.facebookFactchecks.nodes.count
+    end
   end
 end

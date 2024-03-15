@@ -5,4 +5,6 @@ class DemagogSchema < GraphQL::Schema
   mutation Types::MutationType
 
   use GraphQL::Dataloader
+
+  default_max_page_size 50
 end

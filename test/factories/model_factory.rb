@@ -59,6 +59,10 @@ FactoryBot.define do
       assessment_methodology { create(:assessment_methodology, :promises_legacy) }
     end
 
+    trait :facebook_factcheck do
+      article_type { Article::ARTICLE_TYPE_FACEBOOK_FACTCHECK }
+    end
+
     trait :with_illustration do
       after :create do |article|
         file_path = Rails.root.join("test", "fixtures", "files", "speaker.png")
