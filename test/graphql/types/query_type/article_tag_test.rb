@@ -43,8 +43,9 @@ class QueryTypeArticleTagTest < GraphQLTestCase
   end
 
   test "article tag should return given tag by slug" do
+    article = create(:article)
     article_tag = create(:article_tag, published: true)
-    article_tag.articles << create(:article)
+    article_tag.articles << article
 
     query_string = <<~GRAPHQL
       query {
@@ -53,6 +54,11 @@ class QueryTypeArticleTagTest < GraphQLTestCase
           articles {
             title
           }
+          articlesV2 {
+            nodes {
+              title
+            }
+          }
         }
       }
     GRAPHQL
@@ -60,6 +66,7 @@ class QueryTypeArticleTagTest < GraphQLTestCase
     result = execute(query_string)
 
     assert_equal article_tag.title, result.data.articleTagBySlug.title
+    assert_equal article.title, result.data.articleTagBySlug.articlesV2.nodes.first.title
   end
 
   test "article tag should not return unpublished tag by slug" do

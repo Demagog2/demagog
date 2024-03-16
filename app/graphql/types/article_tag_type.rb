@@ -12,13 +12,19 @@ module Types
     field :stats, String, null: true
     field :order, String, null: false
 
-    field :articles, [Types::ArticleType], null: true do
+    field :articles, [Types::ArticleType], null: true, deprecation_reason: "Deprecated field. Use v2 version instead."  do
       argument :limit, Int, required: false, default_value: 10
       argument :offset, Int, required: false, default_value: 0
     end
 
+    field :articles_v2, Types::ArticleType.connection_type, null: false
+
     def articles(limit:, offset:)
-      object.articles.published.order(published_at: :desc).limit(limit).offset(offset)
+      articles_v2.limit(limit).offset(offset)
+    end
+
+    def articles_v2
+      object.articles.published.order(published_at: :desc)
     end
   end
 end
