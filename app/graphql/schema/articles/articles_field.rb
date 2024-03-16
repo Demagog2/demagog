@@ -11,7 +11,7 @@ module Schema::Articles::ArticlesField
       argument :include_unpublished, GraphQL::Types::Boolean, default_value: false, required: false
     end
 
-    field :homepage_articles, [Types::ArticleType], null: false do
+    field :homepage_articles, [Types::ArticleType], null: false, deprecation_reason: "Deprecated field. Use v2 version instead." do
       argument :page, GraphQL::Types::Int, default_value: 1, required: false
     end
 
