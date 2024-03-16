@@ -50,7 +50,7 @@ FactoryBot.define do
       article_type { Article::ARTICLE_TYPE_STATIC }
     end
 
-    trait :single_stamement do
+    trait :single_statement do
       article_type { Article::ARTICLE_TYPE_SINGLE_STATEMENT }
     end
 

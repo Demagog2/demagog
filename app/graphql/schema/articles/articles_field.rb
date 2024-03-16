@@ -14,8 +14,9 @@ module Schema::Articles::ArticlesField
     field :homepage_articles, [Types::ArticleType], null: false, deprecation_reason: "Deprecated field. Use v2 version instead." do
       argument :page, GraphQL::Types::Int, default_value: 1, required: false
     end
+    field :homepage_articles_v2, Types::ArticleType.connection_type, null: false, deprecation_reason: "Deprecated field. Use v3 version instead."
 
-    field :homepage_articles_v2, Types::ArticleType.connection_type, null: false
+    field :homepage_articles_v3, Schema::Articles::Types::ArticleV2Type.connection_type, null: false
 
     field :government_promises_evaluations, [Schema::Articles::Types::GovernmentPromisesEvaluationArticleType], null: false
 
@@ -60,6 +61,10 @@ module Schema::Articles::ArticlesField
     end
 
     def homepage_articles_v2
+      homepage_articles_v3
+    end
+
+    def homepage_articles_v3
       Article.kept.published.for_homepage.order(published_at: :desc)
     end
 

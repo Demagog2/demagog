@@ -14,7 +14,7 @@ class HomepageControllerTest < ActionDispatch::IntegrationTest
     segment = create(:article_segment_source_statements, source:)
     create(:fact_check, segments: [segment])
 
-    article = create(:article, :single_stamement)
+    article = create(:article, :single_statement)
     create(:article_segment_single_statement, article:)
 
     get root_url
