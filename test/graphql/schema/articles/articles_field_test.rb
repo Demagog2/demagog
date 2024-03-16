@@ -5,7 +5,9 @@ require "graphql/graphql_testcase"
 module Schema::Articles
   class ArticlesFieldTest < GraphQLTestCase
     test "should return homepage articles" do
-      create_list(:fact_check, 5, published: true)
+      create_list(:fact_check, 4, published: true)
+      article = create(:article, :single_statement, published: true)
+      article.segments << create(:article_segment_single_statement)
 
       query_string = "
       query {
@@ -17,12 +19,27 @@ module Schema::Articles
             id
           }
         }
+        homepageArticlesV3 {
+          nodes {
+            ... on Article {
+              id
+            }
+            ... on SingleStatementArticle {
+              id
+              statement {
+                id
+                content
+              }
+            }
+          }
+        }
       }"
 
       result = execute(query_string)
 
       assert_equal 5, result.data.homepageArticles.size
       assert_equal 5, result.data.homepageArticlesV2.nodes.size
+      assert_equal 5, result.data.homepageArticlesV3.nodes.size
     end
 
     test "articles should return published articles by default" do
@@ -89,7 +106,7 @@ module Schema::Articles
     end
 
     test "returns government promeiss evaluation articles among articles if enabled" do
-      article_statement = create(:article, :single_stamement)
+      article_statement = create(:article, :single_statement)
       article_promises = create(:article, :government_promises_evaluation)
 
       Flipper.enable("government_promises_evaluations", authenticated_user_context[:current_user])
@@ -109,7 +126,7 @@ module Schema::Articles
     end
 
     test "returns government promises evaluation articles" do
-      create(:article, :single_stamement)
+      create(:article, :single_statement)
       create_list(:article, 5, :government_promises_evaluation)
       create(:article, :government_promises_evaluation, :unpublished)
 
