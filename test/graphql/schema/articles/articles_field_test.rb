@@ -40,6 +40,8 @@ module Schema::Articles
       assert_equal 5, result.data.homepageArticles.size
       assert_equal 5, result.data.homepageArticlesV2.nodes.size
       assert_equal 5, result.data.homepageArticlesV3.nodes.size
+
+      assert_not_nil result.data.homepageArticlesV3.nodes.first.statement
     end
 
     test "articles should return published articles by default" do
