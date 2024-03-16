@@ -12,11 +12,17 @@ module Schema::Articles
         homepageArticles {
           id
         }
+        homepageArticlesV2 {
+          nodes {
+            id
+          }
+        }
       }"
 
       result = execute(query_string)
 
       assert_equal 5, result.data.homepageArticles.size
+      assert_equal 5, result.data.homepageArticlesV2.nodes.size
     end
 
     test "articles should return published articles by default" do

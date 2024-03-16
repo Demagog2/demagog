@@ -15,6 +15,8 @@ module Schema::Articles::ArticlesField
       argument :page, GraphQL::Types::Int, default_value: 1, required: false
     end
 
+    field :homepage_articles_v2, Types::ArticleType.connection_type, null: false
+
     field :government_promises_evaluations, [Schema::Articles::Types::GovernmentPromisesEvaluationArticleType], null: false
 
     field :facebook_factchecks, Types::ArticleType.connection_type, null: false
@@ -55,6 +57,10 @@ module Schema::Articles::ArticlesField
 
     def homepage_articles(page:)
       Article.kept.published.for_homepage.order(published_at: :desc).page(page).per(10)
+    end
+
+    def homepage_articles_v2
+      Article.kept.published.for_homepage.order(published_at: :desc)
     end
 
     def government_promises_evaluations
