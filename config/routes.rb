@@ -104,7 +104,8 @@ Rails.application.routes.draw do
 
   root to: "homepage#index"
 
-
+  # Campaign website
+  get "kampan" => "campaign#index", as: "campaign_index"
 
   # Shortcut redirect
   get "workshopy", to: redirect("/diskuze/workshopy-demagogcz")

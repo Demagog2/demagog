@@ -15,4 +15,4 @@ Rails.application.config.assets.paths << Rails.root.join("node_modules")
 # folder are already added.
 
 # prism.css & prism.js are needed for the api docs page
-Rails.application.config.assets.precompile += %w[admin.css prism.css prism.js]
+Rails.application.config.assets.precompile += %w[admin.css prism.css prism.js campaign.css]
