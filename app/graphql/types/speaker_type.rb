@@ -85,6 +85,12 @@ module Types
 
     field :body, Types::BodyType, null: true
 
+    def body
+      dataloader
+        .with(Schema::Speakers::DataLoaders::Body)
+        .load(object.id)
+    end
+
     field :party, Types::PartyType, null: true,
           deprecation_reason: "Replaced by 'body', as not all speakers must be members of a political party"
 

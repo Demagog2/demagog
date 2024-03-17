@@ -89,6 +89,8 @@ FactoryBot.define do
   factory :body do
     transient { member_count { 5 } }
 
+    sequence(:name) { |n| "Body name #{n}" }
+
     after(:create) do |party, evaluator|
       create_list(:membership, evaluator.member_count, body: party)
     end

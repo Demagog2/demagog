@@ -21,6 +21,9 @@ class QueryTypeSpeakerTest < GraphQLTestCase
           lastName
           fullName
           verifiedStatementsCount
+          body {
+            name
+          }
         }
       }
     "
@@ -32,6 +35,25 @@ class QueryTypeSpeakerTest < GraphQLTestCase
     assert_equal speaker.last_name, result.data.speaker.lastName
     assert_equal speaker.full_name, result.data.speaker.fullName
     assert_equal 1, result.data.speaker.verifiedStatementsCount
+    assert_nil result.data.speaker.body
+  end
+
+  test "should return speaker with body" do
+    speaker = create(:speaker_with_party)
+
+    query_string = "
+      query {
+        speaker(id: #{speaker.id}) {
+          body {
+            name
+          }
+        }
+      }
+    "
+
+    result = execute(query_string)
+
+    assert_equal speaker.body.name, result.data.speaker.body.name
   end
 
   test "should return speaker with avatar" do

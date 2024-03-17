@@ -9,5 +9,17 @@ module Types
     field :full_name, String, null: false
     field :body, Types::BodyType, null: true
     field :role, String, null: true
+
+    def speaker
+      dataloader
+        .with(::DataLoaders::ActiveRecordDataLoader, Speaker)
+        .load(object.speaker_id)
+    end
+
+    def body
+      dataloader
+        .with(::DataLoaders::ActiveRecordDataLoader, Body)
+        .load(object.body_id)
+    end
   end
 end

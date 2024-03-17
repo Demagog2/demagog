@@ -7,5 +7,9 @@ FactoryBot.define do
     role { "Member of Parliament" }
     speaker
     source
+
+    trait :with_body do
+      body
+    end
   end
 end

@@ -19,6 +19,12 @@ module Types
     field :comments, [Types::CommentType], null: false
     field :articleTags, [Types::ArticleTagType], null: false
 
+    def source_speaker
+      dataloader
+        .with(::DataLoaders::ActiveRecordDataLoader, SourceSpeaker)
+        .load(object.source_speaker_id)
+    end
+
     def articleTags
       object.article_tags
     end

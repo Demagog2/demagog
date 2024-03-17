@@ -8,7 +8,8 @@ class QueryTypeArticleTest < GraphQLTestCase
   end
 
   test "article should return given published article by id" do
-    source_speaker = create(:source_speaker)
+    speaker = create(:speaker_with_party)
+    source_speaker = create(:source_speaker, :with_body, speaker:)
     source =
       create(
         :source,
@@ -35,6 +36,12 @@ class QueryTypeArticleTest < GraphQLTestCase
           source {
             sourceSpeakers {
               fullName
+              speaker {
+                id
+              }
+              body {
+                id
+              }
             }
           }
           illustration(size: #{Article::ILLUSTRATION_SIZE_MEDIUM})
@@ -46,6 +53,8 @@ class QueryTypeArticleTest < GraphQLTestCase
     assert_equal article.title, result.data.article.title
     assert_equal article.title_en, result.data.article.titleEn
     assert_equal source_speaker.full_name, result.data.article.source.sourceSpeakers[0].fullName
+    assert_equal speaker.id.to_s, result.data.article.source.sourceSpeakers[0].speaker.id
+    assert_equal source_speaker.body.id.to_s, result.data.article.source.sourceSpeakers[0].body.id
     assert_match(/speaker\.png/, result.data.article.illustration)
   end
 
