@@ -15,6 +15,7 @@ module Types
     field :bio, String, null: false
     field :website_url, String, null: false
     field :role, String, null: true
+    field :slug, String, null: false
     field :verified_statements_count, Int, null: false
     field :search_statements, Schema::Search::Types::SearchResultStatementType, null: false, resolver: Schema::Search::Resolvers::StatementSearchResultResolver.within_context(:speaker)
 

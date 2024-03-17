@@ -13,4 +13,10 @@ class SpeakerTest < ActiveSupport::TestCase
 
     assert_equal(speaker.body, body)
   end
+
+  test "generating slugs" do
+    speaker = create(:speaker)
+
+    assert_equal "#{speaker.first_name.downcase}-#{speaker.last_name.downcase}-#{speaker.id}", speaker.slug
+  end
 end

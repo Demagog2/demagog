@@ -16,6 +16,7 @@ class QueryTypeSpeakerTest < GraphQLTestCase
       query {
         speaker(id: #{speaker.id}) {
           id
+          slug
           firstName
           lastName
           fullName
@@ -26,6 +27,7 @@ class QueryTypeSpeakerTest < GraphQLTestCase
 
     result = execute(query_string)
 
+    assert_equal speaker.slug, result.data.speaker.slug
     assert_equal speaker.first_name, result.data.speaker.firstName
     assert_equal speaker.last_name, result.data.speaker.lastName
     assert_equal speaker.full_name, result.data.speaker.fullName
