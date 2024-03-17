@@ -1,0 +1,129 @@
+<%= render(PageComponent.new(page: 1)) do %>
+  <%= render(CampaignHeaderComponent.new) %>
+
+  <div class="headerContainerPage1">
+    <h1 class="headerWhite">
+      <span class="headerOrange">Dezinformace</span>
+      <br/>
+      nás mohou zasáhnout...
+    </h1>
+  </div>
+
+  <div
+    class="partnersContainer1 partnersContainer1Page1"
+  >
+    <div class="partnersContainer2">
+      <%= render(PartnersContainerComponent.new) %>
+    </div>
+  </div>
+
+  <%= render(ArrowsHeaderComponent.new) do %>
+    <%= render(ButtonBackComponent.new(hidden: true)) %>
+    <%= render(ButtonNextComponent.new) %>
+  <% end %>
+<% end %>
+
+<%= render(PageComponent.new(page: 2, hidden: true)) do %>
+  <%= render(CampaignHeaderComponent.new) %>
+
+  <div class="headerContainerPage2">
+    <h1 class="headerWhitePage2">...více, než si myslíte</h1>
+  </div>
+
+  <div class="blurBgPage2">
+    <div class="textContainerPage2">
+      <div class="textSection1Page2">
+        <%= render(AnimatedChartComponent.new(value: 65)) %>
+
+        <p class="textWhite">
+          *65% lidí považuje šíření
+          <span class="textOrange">
+                  dezinformací na internetu
+                </span>
+          za závažný problém
+        </p>
+      </div>
+      <div class="textSection2Page2">
+        <%= render(AnimatedChartComponent.new(value: 61)) %>
+
+        <p class="textWhite">
+          *61% lidí si myslí, že&nbsp;
+          <span class="textOrange">
+                  šíření dezinformací ohrožuje bezpečnost
+                </span>
+          &nbsp; České republiky
+        </p>
+      </div>
+      <p class="additionalInfo">
+        *Tady vysvětlení hvězdicky, může být takto dlouhé, možná víc
+      </p>
+    </div>
+  </div>
+
+  <div class="partnersContainer1 partnersContainer1Page2">
+    <div class="partnersContainer2">
+      <%= render(PartnersContainerComponent.new) %>
+    </div>
+  </div>
+
+  <%= render(ArrowsHeaderComponent.new) do %>
+    <%= render(ButtonBackComponent.new) %>
+    <%= render(ButtonNextComponent.new) %>
+  <% end %>
+
+<% end %>
+
+<%= render(PageComponent.new(page: 3, hidden: true)) do %>
+  <%= render(CampaignHeaderComponent.new) %>
+
+  <div class="headerContainerPage3">
+    <h1 class="headerPage3">
+      <span class="headerOrangePage3">Ověřujeme</span> pro Vás
+    </h1>
+  </div>
+
+  <div class="blurBg">
+    <p class="textPage3">
+      <%= link_to('Demagog.cz', root_path, class: 'linkOrange') %>
+      je unikátní český projekt zaměřený na ověřování politických výroků a
+      obsahu na sociálních sítích.
+    </p>
+    <ul class="ulPage3">
+      <li class="listPage3">
+        <p class="liText">více, než deset let zkušeností</p>
+      </li>
+      <li class="listPage3">
+        <p class="liText">
+          součástí mezinárodních fact-checkingových organizací
+        </p>
+      </li>
+      <li class="listPage3">
+        <p class="liText">partneři Facebooku pro ČR</p>
+      </li>
+    </ul>
+  </div>
+
+  <div class="buttonsContainer1Page3">
+    <div class="buttonsContainer2Page3">
+      <%= link_to("Co říkají politici", speakers_path, class: 'buttonsPage3 btnTop') %>
+
+      <%= link_to("Jaké dezinformace se šíří aktuálně na sítích", facebook_collab_path, class: 'buttonsPage3') %>
+    </div>
+
+    <div class="videoContainerPage3">
+      <%= button_tag('', class: 'playVideoIconDesktop', title: 'Přehrát video') %>
+      <%= button_tag('Přehrát video', class: 'playVideoText', title: 'Přehrát video') %>
+    </div>
+  </div>
+
+  <div class="partnersContainer1 partnersContainer1Page3">
+    <div class="partnersContainer2Page3">
+      <%= render(PartnersContainerComponent.new) %>
+    </div>
+  </div>
+
+  <%= render(ArrowsHeaderComponent.new) do %>
+    <%= render(ButtonBackComponent.new) %>
+    <%= render(ButtonNextComponent.new(hidden: true)) %>
+  <% end %>
+<% end %>
