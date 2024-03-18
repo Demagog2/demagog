@@ -18,7 +18,7 @@ class User < ApplicationRecord
   has_and_belongs_to_many :sources, join_table: "sources_experts"
 
   has_one_attached :avatar do |attachable|
-    attachable.variant :thumbnail, resize: "114x114"
+    attachable.variant :thumbnail, resize: "228x228"
   end
 
   delegate :authorized?, to: :role
