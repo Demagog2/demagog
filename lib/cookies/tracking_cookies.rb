@@ -16,11 +16,11 @@ module Cookies
     end
 
     def cookies_accepted?
-      @cookies.fetch(:demagogcz_analytics_cookies) == COOKIES_ACCEPTED
+      @cookies.fetch(:demagogcz_analytics_cookies, nil) == COOKIES_ACCEPTED
     end
 
     def cookies_rejected?
-      @cookies.fetch(:demagogcz_analytics_cookies) == COOKIES_REJECTED
+      @cookies.fetch(:demagogcz_analytics_cookies, nil) == COOKIES_REJECTED
     end
   end
 end
