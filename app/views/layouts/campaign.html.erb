@@ -32,6 +32,8 @@
 
   <%= yield %>
 
-  <%= javascript_pack_tag 'campaign' %>
+  <% unless Rails.env.test?  %>
+    <%= javascript_pack_tag 'campaign' %>
+  <% end %>
 </body>
 </html>
