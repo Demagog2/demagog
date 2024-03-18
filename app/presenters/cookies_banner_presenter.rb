@@ -5,6 +5,6 @@ class CookiesBannerPresenter
 
   def initialize(cookies)
     # TODO: Refactor further
-    @show_cookies_banner = Cookies::TrackingCookies.new(cookies:).show_cookies_config?
+    @show_cookies_banner = !Cookies::TrackingCookies.new(cookies:).show_cookies_config?
   end
 end
