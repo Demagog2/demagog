@@ -7,27 +7,22 @@
     <%= render partial: "shared/meta" %>
     <meta name="color-scheme" content="light only">
     <meta name="format-detection" content="telephone=no">
+
+    <%= render(GoogleTagManagerComponent.new(cookies: @cookies)) %>
   </head>
 
   <body>
-    <%= render partial: "shared/facebook" %>
+    <%= render(GoogleTagManagerComponent.new(cookies: @cookies, iframe: true)) %>
+    <%= render "shared/facebook" %>
+
     <%= render "components/header" %>
     <main class="main" >
       <div class="container">
-
         <%= yield %>
-        <% if false %>
-          <% unless content_for?(:hide_layout_donate_and_subscribe) %>
-            <%= render partial: "shared/donate_and_subscribe" %>
-          <% end %>
-
-        <% end %>
-
       </div>
     </main>
     <%= render(FooterComponent.new(cookies: @cookies)) %>
     <%= render "components/cookies" %>
-
 
     <div class="modal" id="modalDanate" data-controller="components--modal" data-target="components--modal.modal">
       <div class="modal-overlay"></div>
@@ -62,9 +57,7 @@
     <% unless Rails.env.test? %>
       <%= javascript_pack_tag 'application'  %>
       <%= javascript_pack_tag 'widget'  %>
-      <%= render partial: "shared/google_analytics" %>
       <%= render partial: "shared/matomo_analytics" %>
-
     <% end %>
   </body>
 </html>

@@ -4,6 +4,7 @@ class CookiesBannerPresenter
   attr_accessor :show_cookies_banner
 
   def initialize(cookies)
-    @show_cookies_banner = !["accept", "reject"].include?(cookies[:demagogcz_analytics_cookies])
+    # TODO: Refactor further
+    @show_cookies_banner = Cookies::TrackingCookies.new(cookies:).show_cookies_config?
   end
 end

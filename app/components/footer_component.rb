@@ -1,24 +1,10 @@
 # frozen_string_literal: true
 
 class FooterComponent < ViewComponent::Base
-  COOKIES_RESPONSES = [
-    COOKIES_ACCEPTED = "accept",
-    COOKIES_REJECTED = "reject"
-  ].freeze
+  attr_reader :tracking_cookies
+  delegate :show_cookies_config?, :cookies_accepted?, :cookies_rejected?, to: :tracking_cookies
 
   def initialize(cookies:)
-    @cookies = cookies
-  end
-
-  def show_cookies_config?
-    COOKIES_RESPONSES.include?(@cookies[:demagogcz_analytics_cookies])
-  end
-
-  def cookies_accepted?
-    @cookies.fetch(:demagogcz_analytics_cookies) == COOKIES_ACCEPTED
-  end
-
-  def cookies_rejected?
-    @cookies.fetch(:demagogcz_analytics_cookies) == COOKIES_REJECTED
+    @tracking_cookies = Cookies::TrackingCookies.new(cookies:)
   end
 end

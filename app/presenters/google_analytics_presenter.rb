@@ -4,7 +4,7 @@ class GoogleAnalyticsPresenter
   attr_accessor :tracking_id
 
   def initialize
-    @tracking_id = ENV.fetch("GOOGLE_ANALYTICS_TRACKING_ID", nil)
+    @tracking_id = ENV.fetch("GOOGLE_TAG_MANAGER_ID", nil)
   end
 
   def enabled_tracking_code
