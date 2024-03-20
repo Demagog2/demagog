@@ -1,3 +1,5 @@
+import MicroModal from 'micromodal';
+
 (() => {
   let active = 0;
 
@@ -60,4 +62,21 @@
       animateCakeCharts();
     }
   });
+
+  // document.querySelectorAll('.playVideo').forEach((button) => {
+  //   button.addEventListener('click', () => {
+  //     MicroModal.show('campaignVideo', {
+  //       onShow: (modal) => {
+  //         const iframeEl = modal.querySelector('iframe');
+
+  //         iframeEl.setAttribute('src', iframeEl.dataset.src);
+  //       },
+  //       onClose: (modal) => {
+  //         const iframeEl = modal.querySelector('iframe');
+
+  //         iframeEl.removeAttribute('src');
+  //       },
+  //     });
+  //   });
+  // });
 })();

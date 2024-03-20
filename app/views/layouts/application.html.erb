@@ -24,35 +24,9 @@
     <%= render(FooterComponent.new(cookies: @cookies)) %>
     <%= render "components/cookies" %>
 
-    <div class="modal" id="modalDonate" data-controller="components--modal" data-components--modal-target="modal">
-      <div class="modal-overlay"></div>
-      <div class="modal-container px-5">
-        <div class="w-100 mw-500px bg-light p-5 p-lg-8 rounded-l shadow">
-          <div class="mb-4">
-            <h2 class="fs-2">Podpořte Demagog.cz</h2>
-            <p class="fs-6">Fungujeme díky podpoře od&nbsp;čtenářů, jako jste vy.</p>
-          </div>
-          <div class="donate d-flex justify-content-center">
-            <div data-darujme-widget-token="2lxybp84z777gdff">&nbsp;</div>
-            <script type="text/javascript">
-            	+function(w, d, s, u, a, b) {
-            		w['DarujmeObject'] = u;
-            		w[u] = w[u] || function () { (w[u].q = w[u].q || []).push(arguments) };
-            		a = d.createElement(s); b = d.getElementsByTagName(s)[0];
-            		a.async = 1; a.src = "https:\/\/www.darujme.cz\/assets\/scripts\/widget.js";
-            		b.parentNode.insertBefore(a, b);
-            	}(window, document, 'script', 'Darujme');
-            	Darujme(1, "2lxybp84z777gdff", 'render', "https:\/\/www.darujme.cz\/widget?token=2lxybp84z777gdff", "270px");
-            </script>
-          </div>
-        </div>
-      </div>
-      <a class="close-button rounded-circle bg-white" data-action="click->components--modal#closeModal">
-        <span class="symbol symbol-50px d-flex align-items-center justify-content-center ">
-          <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z"/></svg>
-        </span>
-      </a>
-    </div>
+    <%= render(ModalComponent.new(id: 'modalDonate')) do %>
+      <%= render(DonationWidgetComponent.new(class: 'w-100 mw-500px bg-light p-5 p-lg-8 rounded-l shadow', token: '2lxybp84z777gdff')) %>
+    <% end %>
 
     <% unless Rails.env.test? %>
       <%= javascript_pack_tag 'application'  %>

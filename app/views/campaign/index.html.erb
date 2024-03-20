@@ -109,10 +109,12 @@
       <%= link_to("Jaké dezinformace se šíří aktuálně na sítích", facebook_collab_path, class: 'buttonsPage3') %>
     </div>
 
-    <div class="videoContainerPage3">
-      <%= button_tag('', class: 'playVideoIconDesktop', title: 'Přehrát video') %>
-      <%= button_tag('Přehrát video', class: 'playVideoText', title: 'Přehrát video') %>
-    </div>
+    <%= render(YouTubeVideoModalComponent.new(video_code: 'V9QM6XogqvU', modal_id: 'campaignVideo')) do %>
+      <div class="videoContainerPage3">
+        <%= button_tag('', class: 'playVideoIconDesktop playVideo', title: 'Přehrát video', data: { action: 'click->components--youtube-modal#openModal' }) %>
+        <%= button_tag('Přehrát video', class: 'playVideoText playVideo', title: 'Přehrát video', data: { action: 'click->components--youtube-modal#openModal' }) %>
+      </div>
+    <% end %>
   </div>
 
   <div class="partnersContainer1 partnersContainer1Page3">

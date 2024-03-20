@@ -6,6 +6,7 @@
 
   <%= render partial: "shared/meta" %>
 
+  <%= stylesheet_link_tag 'application', media: 'all' %>
   <%= stylesheet_link_tag 'campaign', media: 'all' %>
   <meta name="color-scheme" content="light" />
 
@@ -32,8 +33,7 @@
 
   <%= yield %>
 
-  <% unless Rails.env.test?  %>
-    <%= javascript_pack_tag 'campaign' %>
-  <% end %>
+  <%= javascript_pack_tag 'application' %>
+  <%= javascript_pack_tag 'campaign' %>
 </body>
 </html>

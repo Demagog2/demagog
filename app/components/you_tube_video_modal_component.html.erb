@@ -1,0 +1,20 @@
+<div data-controller="components--youtube-modal">
+  <div class="modal" id="<%= @modal_id %>" aria-hidden="true" data-components--youtube-modal-target="modal" >
+    <div class="modal-overlay" tabindex="-1" data-micromodal-close>
+      <div class="modal-container" role="dialog" aria-modal="true">
+        <button class="close-button rounded-circle bg-white" data-micromodal-close>
+          <span class="symbol symbol-50px d-flex align-items-center justify-content-center ">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z"/></svg>
+          </span>
+        </button>
+        <div class="container">
+          <div class="youtube-player-wrapper">
+            <iframe width="560" height="315" data-src="https://www.youtube.com/embed/<%= @video_code %>?autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%= content %>
+</div>

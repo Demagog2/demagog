@@ -34,15 +34,17 @@
           </div>
         </div>
         <div class="w-100 position-relative">
-          <img class="w-100" src="<%= asset_path("homepage-intro-video-thumbnail.png") %>" alt="">
-          <div class="overlay d-flex align-items-center justify-content-center link" data-action="click->components--modal#showIntroVideoModal">
-            <span>
-              <svg width="54" height="55" viewBox="0 0 54 55" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="27.0161" cy="27.4998" r="26.8884" fill="#111827"/>
-                <path d="M19.3549 13.3048L40.1195 27.4952L19.3549 41.6856L19.3549 13.3048Z" fill="white" stroke="#111827" stroke-width="2"/>
-              </svg>
-            </span>
-          </div>
+          <%= render(YouTubeVideoModalComponent.new(video_code: 'GvOT6RNDVg8', modal_id: 'campaignVideo')) do %>
+            <img class="w-100" src="<%= asset_path("homepage-intro-video-thumbnail.png") %>" alt="">
+            <div class="overlay d-flex align-items-center justify-content-center link" data-action="click->components--youtube-modal#openModal">
+              <span>
+                <svg width="54" height="55" viewBox="0 0 54 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="27.0161" cy="27.4998" r="26.8884" fill="#111827"/>
+                  <path d="M19.3549 13.3048L40.1195 27.4952L19.3549 41.6856L19.3549 13.3048Z" fill="white" stroke="#111827" stroke-width="2"/>
+                </svg>
+              </span>
+            </div>
+          <% end %>
         </div>
         <div class="mt-5">
           <p class="fs-5 mb-4">Upozorněte nás, když narazíte na nepravdivý obsah na sociálních sítích!</p>
@@ -62,27 +64,8 @@
         </a>
       </div>
     </div>
-    <div class="bg-light text-dark p-5 p-lg-8 rounded-l d-none d-lg-flex">
-      <div class="w-100">
-        <div class="mb-4">
-          <h2 class="fs-2">Podpořte Demagog.cz</h2>
-          <p class="fs-6">Fungujeme díky podpoře od&nbsp;čtenářů, jako jste vy.</p>
-        </div>
-        <div class="d-flex justify-content-center">
-          <div data-darujme-widget-token="rfq62o07d045bw95">&nbsp;</div>
-          <script type="text/javascript">
-          	+function(w, d, s, u, a, b) {
-          		w['DarujmeObject'] = u;
-          		w[u] = w[u] || function () { (w[u].q = w[u].q || []).push(arguments) };
-          		a = d.createElement(s); b = d.getElementsByTagName(s)[0];
-          		a.async = 1; a.src = "https:\/\/www.darujme.cz\/assets\/scripts\/widget.js";
-          		b.parentNode.insertBefore(a, b);
-          	}(window, document, 'script', 'Darujme');
-          	Darujme(1, "rfq62o07d045bw95", 'render', "https:\/\/www.darujme.cz\/widget?token=rfq62o07d045bw95", "270px");
-          </script>
-        </div>
-      </div>
-    </div>
+
+    <%= render(DonationWidgetComponent.new(class: 'w-100 bg-light text-dark p-5 p-lg-8 rounded-l d-none d-lg-flex', token: 'rfq62o07d045bw95')) %>
   </div>
   <div class="col col-12 col-lg-8 mb-0 mb-lg-10">
     <div class="mb-5 mb-lg-10">
@@ -99,22 +82,6 @@
       <% @bottom_articles.each do |article| %>
         <%= render partial: "components/article_main", object: article, as: :article, locals: { show_portraits: false, smaller_gaps: true } %>
       <% end %>
-    </div>
-  </div>
-  <div class="modal" id="intro-video-modal" aria-hidden="true" data-target="components--modal.introVideoModal">
-    <div class="modal-overlay" tabindex="-1" data-micromodal-close>
-      <div class="modal-container" role="dialog" aria-modal="true">
-        <button class="close-button rounded-circle bg-white" data-micromodal-close>
-          <span class="symbol symbol-50px d-flex align-items-center justify-content-center ">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z"/></svg>
-          </span>
-        </button>
-        <div class="container">
-          <div class="youtube-player-wrapper">
-            <iframe data-src="https://www.youtube.com/embed/GvOT6RNDVg8?enablejsapi=1&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
   <% end %>
