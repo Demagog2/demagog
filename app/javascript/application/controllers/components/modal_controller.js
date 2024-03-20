@@ -1,4 +1,4 @@
-import { Controller } from "stimulus"
+import { Controller } from 'stimulus';
 import MicroModal from 'micromodal';
 
 export default class extends Controller {
@@ -22,13 +22,13 @@ export default class extends Controller {
   }
 
   initialize() {
-    this.setUpModal()
+    this.setUpModal();
   }
 
   setUpModal() {
     const modalId = this.modalId;
     if (modalId) {
-      const modal = document.getElementById(modalId);4
+      const modal = document.getElementById(modalId);
       if (modal) {
         modal.classList.add('is-open');
       }
@@ -51,8 +51,9 @@ export default class extends Controller {
 
   get modalId() {
     const match = window.location.hash;
-    return match ? match.replace(/#/, "") : null;
+    return match ? match.replace(/#/, '') : null;
   }
+
   set modalId(id) {
     const anchor = id !== null ? `#${id}` : '';
 
