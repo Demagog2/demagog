@@ -80,17 +80,17 @@ html {
 }
 
 .headerContainerPage1 {
-  margin-top: 60vh;
+  margin-top: 50vh;
   padding-left: 20px;
   padding-right: 5px;
 }
 
 .headerContainerPage2 {
-  margin-top: 40vh;
+  margin-top: 30vh;
 }
 
 .headerContainerPage3 {
-  margin-top: 34vh;
+  margin-top: 30vh;
 }
 
 .headerWhitePage2 {
@@ -347,22 +347,32 @@ html {
   margin-top: 0px;
 }
 
-.partnersContainer1 {
+.footer {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.partnersContainer1Page1 {
-  composes: partnersContainer1;
-  margin-top: 56px;
+.page1 {
+  .footer {
+    margin-top: 55px;
+  }
 }
 
-.partnersContainer1Page2 {
-  margin-top: 30px;
+.page2 {
+  .footer {
+    margin-top: 30px;
+  }
 }
 
-.partnersContainer2 {
+.page3 {
+  ul {
+    margin: 20px;
+  }
+}
+
+
+.footer > div {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -373,7 +383,6 @@ html {
   justify-content: center;
   align-items: center;
 }
-
 
 .logoCedmo {
   width: 90px;
@@ -664,16 +673,6 @@ html {
     height: 23px;
   }
 
-  .partnersContainer1 {
-    align-items: flex-end;
-    padding-right: 73px;
-    padding-bottom: 65px;
-  }
-
-  .partnersContainer1Page1 {
-    margin-top: 47px;
-  }
-
   .logoCedmo {
     width: 162px;
     height: 90px;
@@ -718,25 +717,47 @@ html {
     left: 125px;
     bottom: 28px;
   }
+
+  .footer {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: right;
+    align-items: end;
+    padding: 50px 50px 40px;
+  }
+
+  .page1, .page2 {
+    .footer {
+      margin-top: 0;
+    }
+  }
+
+  .page3 .footer  {
+    padding-top: 0;
+  }
 }
 
 
-@media screen and (min-width: 1390px) {
-  .partnersContainer1Page3 {
-    padding-bottom: 0;
+@media screen and (min-height: 1029px) {
+  .page {
+    height: 100vh;
   }
 
-  .videoContainerPage3 {
-    margin-bottom: 115px;
-  }
-
-  .partnersContainer1Page3 {
+  html {
     position: relative;
+    min-height: 100%;
   }
 
-  .partnersContainer2Page3 {
+  .footer {
     position: absolute;
-    bottom: 65px;
-    right: 73px;
+    bottom: 0;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .page3 .footer  {
+    padding-top: 0;
+    margin-top: -90px;
   }
 }

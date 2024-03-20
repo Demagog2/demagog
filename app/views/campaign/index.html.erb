@@ -11,13 +11,7 @@
     </h1>
   </div>
 
-  <div
-    class="partnersContainer1 partnersContainer1Page1"
-  >
-    <div class="partnersContainer2">
-      <%= render(PartnersContainerComponent.new) %>
-    </div>
-  </div>
+  <%= render(PartnersContainerComponent.new) %>
 
   <%= render(ArrowsHeaderComponent.new) do %>
     <%= render(ButtonBackComponent.new(hidden: true)) %>
@@ -62,17 +56,12 @@
     </div>
   </div>
 
-  <div class="partnersContainer1 partnersContainer1Page2">
-    <div class="partnersContainer2">
-      <%= render(PartnersContainerComponent.new) %>
-    </div>
-  </div>
+  <%= render(PartnersContainerComponent.new) %>
 
   <%= render(ArrowsHeaderComponent.new) do %>
     <%= render(ButtonBackComponent.new) %>
     <%= render(ButtonNextComponent.new) %>
   <% end %>
-
 <% end %>
 
 <%= render(PageComponent.new(page: 3, hidden: true)) do %>
@@ -117,11 +106,7 @@
     <% end %>
   </div>
 
-  <div class="partnersContainer1 partnersContainer1Page3">
-    <div class="partnersContainer2Page3">
-      <%= render(PartnersContainerComponent.new) %>
-    </div>
-  </div>
+  <%= render(PartnersContainerComponent.new) %>
 
   <%= render(ArrowsHeaderComponent.new) do %>
     <%= render(ButtonBackComponent.new) %>
