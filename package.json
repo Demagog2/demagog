@@ -116,7 +116,7 @@
     "slate": "^0.44.13",
     "slate-plain-serializer": "^0.7.1",
     "slate-react": "^0.21.24",
-    "stimulus": "^1.1.1",
+    "stimulus": "^3.2.2",
     "style-loader": "^1.0.0",
     "tippy.js": "^4.3.5",
     "ts-jest": "^29.0.5",
