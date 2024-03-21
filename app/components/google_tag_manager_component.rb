@@ -6,8 +6,12 @@ class GoogleTagManagerComponent < ViewComponent::Base
     @iframe = iframe
   end
 
-  def include_tracking_on_the_page?
-    google_tag_manager_id.present? && @tracking_cookies.cookies_accepted?
+  def google_tag_manager_enabled?
+    google_tag_manager_id.present?
+  end
+
+  def cookie_consent_given?
+    @tracking_cookies.cookies_accepted?
   end
 
   def google_tag_manager_id

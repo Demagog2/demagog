@@ -59,8 +59,6 @@
     <% unless Rails.env.test? %>
       <%= javascript_pack_tag 'application'  %>
       <%= javascript_pack_tag 'widget'  %>
-      <%= render partial: "shared/matomo_analytics" %>
-
     <% end %>
   </body>
 </html>
