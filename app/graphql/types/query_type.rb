@@ -39,6 +39,8 @@ class Types::QueryType < GraphQL::Schema::Object
 
   include Schema::Search::SearchField
 
+  include Schema::Workshops::WorkshopsField
+
   field :party,
         Types::PartyType,
         null: false,

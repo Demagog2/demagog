@@ -5,6 +5,6 @@ FactoryBot.define do
     name { "MyString" }
     description { "MyString" }
     image { nil }
-    price { 1 }
+    price { 1500 }
   end
 end
