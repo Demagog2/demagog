@@ -14,17 +14,17 @@
 
     <% if cookie_consent_given? %>
      gtag('consent', 'default', {
-       'ad_storage': 'denied',
-       'ad_user_data': 'denied',
-       'ad_personalization': 'denied',
-       'analytics_storage': 'denied'
-     });
-    <% else %>
-     gtag('consent', 'default', {
        'ad_storage': 'granted',
        'ad_user_data': 'granted',
        'ad_personalization': 'granted',
        'analytics_storage': 'granted'
+     });
+    <% else %>
+     gtag('consent', 'default', {
+       'ad_storage': 'denied',
+       'ad_user_data': 'denied',
+       'ad_personalization': 'denied',
+       'analytics_storage': 'denied'
      });
     <% end %>
    </script>
