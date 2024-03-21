@@ -1,0 +1,17 @@
+<div class="col col-12 col-lg-6">
+  <% if @workshop.image.present? %>
+    <%= image_tag(@image, alt: "Obrázek k workshopu #{@workshop.name}", class: 'rounded-l mb-10') %>
+  <% else %>
+    <%= image_tag(asset_path("article-illustration-default-preview.svg"), alt: "Ilustrační obrázek k workshop #{@workshop.name}", class: 'rounded-l mb-10') %>
+  <% end %>
+
+  <h3 class="fs-3 mb-5"><%= @workshop.name %></h3>
+
+  <p class="fs-5 mb-5">
+    <%= @workshop.description %>
+  </p>
+
+  <span class="price fs-3 text-primary fw-600">
+    od <%= number_to_currency(@workshop.price, unit: 'Kč', precision: 0, separator: ',', delimiter: '.') %>
+  </span>
+</div>

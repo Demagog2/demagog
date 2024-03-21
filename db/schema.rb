@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_05_082449) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_21_102820) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -527,6 +527,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_05_082449) do
     t.boolean "dynamic_page_published", default: false
     t.json "structure", default: "[]", null: false
     t.json "data", default: "{}", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "workshops", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.integer "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -107,6 +107,9 @@ Rails.application.routes.draw do
   # Campaign website
   get "kampan" => "campaign#index", as: "campaign_index"
 
+  # New workshop page (remove once its GA)
+  get "workshopy-beta" => "workshops#index", as: "workshops_index"
+
   # Shortcut redirect
   get "workshopy", to: redirect("/diskuze/workshopy-demagogcz")
   get "tips", to: redirect("/diskuze/3-kroky-pro-rozpoznani-fake-news")
