@@ -21,9 +21,17 @@
     padding: 0;
   }
 
+  &:hover {
+    color: $white;
+  }
+
   &.white {
     color: $dark;
     background-color: $white;
+
+    &:hover {
+      color: $dark;
+    }
   }
 
   &.outline {

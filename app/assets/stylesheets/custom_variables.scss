@@ -20,6 +20,28 @@ $headings-margin-bottom: 0;
 
 $font-size-base: 1rem !default;
 
+$font-weight-normal: normal !default;
+$font-weight-bold: bold !default;
+$font-weight-bolder: 600 !default;
+$font-weight-boldest: 700 !default;
+
+$h1-font-size: $font-size-base * 1.75 !default;
+$h2-font-size: $font-size-base * 1.5 !default;
+$h3-font-size: $font-size-base * 1.35 !default;
+$h4-font-size: $font-size-base * 1.25 !default;
+$h5-font-size: $font-size-base * 1.15 !default;
+$h6-font-size: $font-size-base * 1.075 !default;
+
+$font-sizes: (
+  1: $h1-font-size,
+  2: $h2-font-size,
+  3: $h3-font-size,
+  4: $h4-font-size,
+  5: $h5-font-size,
+  6: $h6-font-size,
+  7: ($h6-font-size * 0.8),
+);
+
 $small-font-size: $font-size-base *.95 !default;
 
 // Border radius
@@ -72,25 +94,103 @@ $container-max-widths: (
 ) !default;
 
 $symbol-sizes: (
-    20px: 20px,
-    25px: 25px,
-    30px: 30px,
-    35px: 35px,
-    40px: 40px,
-    45px: 45px,
-    default: 50px,
-    50px: 50px,
-    55px: 55px,
-    60px: 60px,
-    65px: 65px,
-    70px: 70px,
-    75px: 75px,
-    100px:100px,
-	  125px:125px,
-    150px:150px,
-    160px:160px,
-    175px:175px,
+  20px: 20px,
+  25px: 25px,
+  30px: 30px,
+  35px: 35px,
+  40px: 40px,
+  45px: 45px,
+  default: 50px,
+  50px: 50px,
+  55px: 55px,
+  60px: 60px,
+  65px: 65px,
+  70px: 70px,
+  75px: 75px,
+  100px:100px,
+  125px:125px,
+  150px:150px,
+  160px:160px,
+  175px:175px,
     200px:200px
+) !default;
+
+$custom-widths: (
+  25vw: 25vw,
+  50vw: 50vw,
+  75vw: 75vw,
+  100vw: 100vw,
+) !default;
+
+$custom-heights: (
+  25vh: 25vh,
+  50vh: 50vh,
+  75vh: 75vh,
+  100vh: 100vh,
+) !default;
+
+$custom-sizes: (
+  unset: unset,
+  25: 25%,
+  50: 50%,
+  75: 75%,
+  100: 100%,
+  auto: auto,
+  1px: 1px,
+  2px: 2px,
+  3px: 3px,
+  4px: 4px,
+  5px: 5px,
+  6px: 6px,
+  7px: 7px,
+  8px: 8px,
+  9px: 9px,
+  10px: 10px,
+  15px: 15px,
+  20px: 20px,
+  25px: 25px,
+  30px: 30px,
+  35px: 35px,
+  40px: 40px,
+  44px: 44px,
+  45px: 45px,
+  50px: 50px,
+  55px: 55px,
+  60px: 60px,
+  65px: 65px,
+  70px: 70px,
+  75px: 75px,
+  80px: 80px,
+  85px: 85px,
+  90px: 90px,
+  95px: 95px,
+  100px: 100px,
+  125px: 125px,
+  150px: 150px,
+  175px: 175px,
+  200px: 200px,
+  225px: 225px,
+  250px: 250px,
+  275px: 275px,
+  300px: 300px,
+  325px: 325px,
+  350px: 350px,
+  375px: 375px,
+  400px: 400px,
+  425px: 425px,
+  450px: 450px,
+  475px: 475px,
+  500px: 500px,
+  550px: 550px,
+  600px: 600px,
+  650px: 650px,
+  700px: 700px,
+  750px: 750px,
+  800px: 800px,
+  850px: 850px,
+  900px: 900px,
+  950px: 950px,
+  1000px: 1000px
 ) !default;
 
 $icon-sizes: (
@@ -100,3 +200,64 @@ $icon-sizes: (
   44: 44px,
   50: 50px,
 ) !default;
+
+
+$utilities: (
+  "width": (
+    responsive: true,
+    property: width,
+    class: w,
+    values: $custom-sizes
+  ),
+  "max-width": (
+      responsive: true,
+      property: max-width,
+      class: mw,
+      values: map-merge($custom-sizes, $custom-widths)
+  ),
+  "min-width": (
+      responsive: true,
+      property: min-width,
+      class: min-w,
+      values: map-merge($custom-sizes, $custom-widths)
+  ),
+  "height": (
+      responsive: true,
+      property: height,
+      class: h,
+      values: map-merge($custom-sizes, $custom-heights)
+  ),
+  "max-height": (
+      responsive: true,
+      property: max-height,
+      class: mh,
+      values: map-merge($custom-sizes, $custom-heights)
+  ),
+  "min-height": (
+      responsive: true,
+      property: min-height,
+      class: min-h,
+      values: map-merge($custom-sizes, $custom-heights)
+  ),
+  "font-size": (
+    rfs: true,
+    property: font-size,
+    class: fs,
+    values: $font-sizes
+  ),
+  "font-weight": (
+    property: font-weight,
+    class: fw,
+    values: (
+      normal: $font-weight-normal,
+      bold: $font-weight-bold,
+      300: 300,
+      400: 400,
+      500: 500,
+      600: 600,
+      700: 700,
+      800: 800,
+      900: 900,
+    )
+  ),
+)
