@@ -6,7 +6,7 @@
   <div class="col col-12 col-lg-4">
     <% unless @most_searched_speakers.blank? %>
       <div class="d-flex flex-wrap align-items-center mb-10">
-        <span class="fs-7 fw-bold text-uppercase me-5 my-2">Nejvyhledávanější</span>
+        <span class="fs-7 fw-bold text-uppercase mr-5 my-2">Nejvyhledávanější</span>
         <div class="symbol-group">
           <% @most_searched_speakers.each do |speaker| %>
             <%= link_to speaker_path(speaker), class: 'symbol symbol-45px rounded-circle bg-gray-500 overflow-hidden', title: speaker.full_name do %>
@@ -17,7 +17,7 @@
       </div>
     <% end %>
     <div
-      class="bg-dark-light text-white p-5 p-lg-8 rounded-l mb-10"
+      class="bg-dark-light text-white p-5 p-lg-8 rounded mb-10"
       data-controller="components--mobile-expander"
       data-action="resize@window->components--mobile-expander#layout"
       data-components--mobile-expander-breakpoint="992"
@@ -113,7 +113,7 @@
   </div>
 </div>
 
-<div class="bg-light text-dark p-5 p-lg-10 rounded-l mt-10">
+<div class="bg-light text-dark p-5 p-lg-10 rounded mt-10">
   <div class="row g-10 justify-content-between">
     <div class="col col-12 col-lg-5">
       <h2 class="display-5 mb-5 fw-bold">Workshopy</h2>

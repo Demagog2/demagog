@@ -25,7 +25,7 @@
     <%= render "components/cookies" %>
 
     <%= render(ModalComponent.new(id: 'modalDonate')) do %>
-      <%= render(DonationWidgetComponent.new(class: 'w-100 mw-500px bg-light p-5 p-lg-8 rounded-l shadow', token: '2lxybp84z777gdff')) %>
+      <%= render(DonationWidgetComponent.new(class: 'w-100 mw-500px bg-light p-5 p-lg-8 rounded shadow', token: '2lxybp84z777gdff')) %>
     <% end %>
 
     <% unless Rails.env.test? %>

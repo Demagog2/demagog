@@ -26,7 +26,7 @@ body {
   line-height: $line-height-base;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: $font-family;
+  font-family: $font-family-base;
   color: $dark;
   background-color: $body-bg;
   width: 100%;
@@ -39,12 +39,6 @@ main {
     color: $primary;
     text-decoration: none;
   }
-  /*
-  a:hover {
-    text-decoration: underline;
-    color: inherit !important;
-  }
-  */
 
   ul, ol {
     padding: 0 0 0 1rem;
@@ -55,40 +49,16 @@ main {
     vertical-align: bottom;
     max-width: 100%;
   }
-  /*
-  .section {
-    p {
-      @include font-size($font-size-base);
-      margin-bottom: $font-margin-base;
-    }
-
-    h2 {
-      @include font-size($h2-font-size);
-      margin-bottom: $font-margin-base;
-    }
-
-    a {
-      text-decoration: underline;
-      color: $dark;
-
-      &:hover {
-        color: $primary;
-      }
-    }
-  }
-  */
 }
 
-
-
-
 .content {
-  p {
-    margin-bottom: $font-margin-base;
+  p, h2 {
+    margin-bottom: 0.5rem;
   }
 
   h2 {
-    margin-bottom: $font-margin-base;
+    font-size: 1.5rem !important;
+    line-height: 1.5;
   }
 
   a {
@@ -103,7 +73,7 @@ main {
 
   img {
     width: 100%;
-    margin-bottom: $font-margin-base;
+    margin-bottom: 0.5rem;
   }
 }
 
@@ -227,7 +197,7 @@ main {
   span {
     text-transform: uppercase;
     color: $dark;
-    @include font-size(1.2rem);
+    // @include font-size(1.2rem);
 
     &.current {
       padding: 0.5rem;
@@ -255,7 +225,7 @@ main {
 @include media-breakpoint-down(md) {
   .pagination {
     span {
-      @include font-size(1rem);
+      // @include font-size(1rem);
     }
 
     .next {

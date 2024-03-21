@@ -28,7 +28,7 @@
       border-color: $white;
     }
     @each $name, $value in $theme-colors {
-      transition: border-color $base-transition;
+      transition: border-color $transition-base;
       &.focus-#{$name} {
         &:focus {
           border-color: $value;

@@ -1,0 +1,160 @@
+// All these classes should be eventually replaced and removed.
+
+.rounded-l {
+  border-radius: 1rem;
+}
+
+.text-underline {
+  text-decoration: underline !important;
+}
+
+.cursor-pointer, .link {
+  cursor: pointer;
+}
+
+.small {
+  font-size: $small-font-size;
+  font-weight: $font-weight-normal;
+}
+
+.smallest {
+  font-size: 0.6rem;
+}
+
+.fs-1 {
+  font-size: 1.75rem !important;
+}
+
+.fs-2 {
+  font-size: 1.5rem !important;
+}
+
+.fs-5 {
+  font-size: 1.15rem !important;
+}
+
+.fs-6 {
+  font-size: 1.075rem !important;
+}
+
+.fs-7 {
+  font-size: 0.86rem !important;
+}
+
+.fw-bold {
+  font-weight: bold !important;
+}
+
+.fw-600 {
+  font-weight: 600 !important;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+.ps-2 {
+  padding-left: 0.5rem !important;
+}
+
+.mh-80px {
+  max-height: 80px;
+}
+
+.min-h-100 {
+  min-height: 100% !important;
+}
+
+.min-w-100px {
+  min-width: 100px !important;
+}
+
+.w-30px {
+  width: 30px !important;
+}
+
+.w-35px {
+  width: 35px !important;
+}
+
+.w-45px {
+  width: 45px !important;
+}
+
+.w-100px {
+  width: 100px !important;
+}
+
+.mw-100px {
+  max-width: 100px;
+}
+
+.h-30px {
+  height: 30px !important;
+}
+
+.h-35px {
+  height: 35px !important;
+}
+
+.h-40px {
+  height: 40px !important;
+}
+
+.h-45px {
+  height: 45px !important;
+}
+
+.h-50px {
+  height: 50px !important;
+}
+
+.h-100px {
+  height: 100px !important;
+}
+
+.rounded-m {
+  border-radius: $border-radius / 2;
+}
+
+.bg-dark-light {
+  background-color: $dark-light;
+}
+
+.bg-primary-light {
+  background-color: $primary-light;
+}
+
+.bg-gray {
+  background-color: $gray-500;
+}
+
+.bg-red {
+  background-color: $red;
+}
+
+.text-gray {
+  color: $gray-500;
+}
+
+.text-dark-light {
+  color: $dark-light;
+}
+
+.text-primary-light {
+  color: $primary-light;
+}
+
+.text-red {
+  color: $red;
+}
+
+.display-5 {
+  font-size: calc(1.305rem + 0.66vw);
+}
+
+@media (min-width: 1200px) {
+  .display-5 {
+    font-size: 1.8rem;
+  }
+}

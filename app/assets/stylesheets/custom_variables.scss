@@ -1,0 +1,102 @@
+// This file is maintained by demagog team to keep consistency between
+// versions of bootstrap.
+
+
+// Colors
+$dark: #111827 !default;
+$dark-light: #172032 !default;
+$red: #E32219 !default;
+
+$primary: #25AD23 !default;
+$primary-light: #77CC76 !default;
+$secondary: #FFBF00 !default;
+
+// Font
+$font-family-base: 'Inter', sans-serif;
+$font-weight-normal: normal !default;
+$headings-font-weight: 800;
+$font-margin-base: 0;
+$headings-margin-bottom: 0;
+
+$font-size-base: 1rem !default;
+
+$small-font-size: $font-size-base *.95 !default;
+
+// Border radius
+$border-radius: 1rem;
+
+// Spacing
+$spacer: 1rem !default;
+
+$spacers: (
+  0: 0,
+  1: ($spacer * .25),
+  2: ($spacer * .5),
+	3: ($spacer * .75),
+	4: ($spacer * 1),
+	5: ($spacer * 1.25),
+	6: ($spacer * 1.5),
+	7: ($spacer * 1.75),
+	8: ($spacer * 2),
+	9: ($spacer * 2.25),
+	10: ($spacer * 2.5),
+	11: ($spacer * 2.75),
+	12: ($spacer * 3),
+	13: ($spacer * 3.25),
+	14: ($spacer * 3.5),
+	15: ($spacer * 3.75),
+	16: ($spacer * 4),
+	17: ($spacer * 4.25),
+	18: ($spacer * 4.5),
+	19: ($spacer * 4.75),
+	20: ($spacer * 5),
+);
+
+// Container
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+) !default;
+
+$container-max-widths: (
+  sm: 100%,
+  md: 100%,
+  lg: 100%,
+  xl: 1180px,
+  xxl: 1380px
+) !default;
+
+$symbol-sizes: (
+    20px: 20px,
+    25px: 25px,
+    30px: 30px,
+    35px: 35px,
+    40px: 40px,
+    45px: 45px,
+    default: 50px,
+    50px: 50px,
+    55px: 55px,
+    60px: 60px,
+    65px: 65px,
+    70px: 70px,
+    75px: 75px,
+    100px:100px,
+	  125px:125px,
+    150px:150px,
+    160px:160px,
+    175px:175px,
+    200px:200px
+) !default;
+
+$icon-sizes: (
+  28: 28px,
+  36: 36px,
+  40: 40px,
+  44: 44px,
+  50: 50px,
+) !default;
