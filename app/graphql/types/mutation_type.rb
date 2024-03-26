@@ -62,6 +62,7 @@ module Types
 
     field :publish_efcsn_article, mutation: Schema::Articles::Mutations::PublishEfcsnArticleMutation
 
+    field :create_workshop, mutation: Schema::Workshops::Mutations::CreateWorkshopMutation
     field :update_workshop, mutation: Schema::Workshops::Mutations::UpdateWorkshopMutation
   end
 end
