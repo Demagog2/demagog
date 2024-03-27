@@ -9,7 +9,7 @@ class WorkshopAbility
     return unless user.present?
 
     if user.role?(Role::EXPERT) || user.role?(Role::ADMIN) || user.role?(Role::SOCIAL_MEDIA_MANAGER)
-      can [:create, :update], Workshop
+      can :manage, Workshop
     end
   end
 end

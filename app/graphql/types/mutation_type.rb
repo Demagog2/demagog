@@ -64,5 +64,6 @@ module Types
 
     field :create_workshop, mutation: Schema::Workshops::Mutations::CreateWorkshopMutation
     field :update_workshop, mutation: Schema::Workshops::Mutations::UpdateWorkshopMutation
+    field :delete_workshop, mutation: Schema::Workshops::Mutations::DeleteWorkshopMutation
   end
 end
