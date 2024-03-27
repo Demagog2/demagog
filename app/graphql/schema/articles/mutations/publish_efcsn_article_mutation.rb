@@ -22,9 +22,9 @@ module Schema::Articles::Mutations
       in Integrations::Efcsn::PublishArticleService::NotAuthorized
         raise Errors::AuthenticationNeededError.new
       in Integrations::Efcsn::PublishArticleService::PublishingFailed
-        return { message: "Error when publishing article to the EFCSN. Try again or contact administrator." }
+        { message: "Error when publishing article to the EFCSN. Try again or contact administrator." }
       else
-        return { article: result.article }
+        { article: result.article }
       end
     end
   end

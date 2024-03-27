@@ -21,9 +21,9 @@ module Schema::Workshops::Mutations
       in Workshops::CreateWorkshopService::NotAuthorized
         raise Errors::NotAuthorizedError.new
       in Workshops::CreateWorkshopService::NotFound, Workshops::CreateWorkshopService::CreatingFailed
-        return { message: "Error when creating workshop. Try again or contact administrator." }
+        { message: "Error when creating workshop. Try again or contact administrator." }
       else
-        return { workshop: result.workshop }
+        { workshop: result.workshop }
       end
     end
   end

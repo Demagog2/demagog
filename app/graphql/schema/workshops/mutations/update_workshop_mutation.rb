@@ -22,9 +22,9 @@ module Schema::Workshops::Mutations
       in Workshops::UpdateWorkshopService::NotAuthorized
         raise Errors::AuthenticationNeededError.new
       in Workshops::UpdateWorkshopService::NotFound, Workshops::UpdateWorkshopService::UpdatingFailed
-        return { message: "Error when updating workshop. Try again or contact administrator." }
+        { message: "Error when updating workshop. Try again or contact administrator." }
       else
-        return { workshop: result.workshop }
+        { workshop: result.workshop }
       end
     end
   end
